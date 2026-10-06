@@ -230,6 +230,19 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .gmore{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-size:12px;font-weight:600;padding:8px;cursor:pointer}
 .gmore:hover{background:var(--accent-soft)}
 @media (max-width:440px){.gteams{grid-template-columns:minmax(0,1fr)}.gteam+.gteam{border-left:0;border-top:1px solid var(--line)}}
+.books{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.books th{background:transparent;border-top:0;padding:6px 8px}
+.books td{padding:8px}
+.books tr.bk{cursor:pointer}
+.books tr.bk:hover{background:var(--accent-soft)}
+.books tr.on td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.bkname{font:700 13px var(--f-display);letter-spacing:.06em}
+.odds{font:600 12.5px var(--f-mono)}
+.edge{font:600 11.5px var(--f-mono);padding:2px 6px;border-radius:5px}
+.edge.pos{color:var(--hit);background:var(--hit-soft)}
+.edge.neg{color:var(--miss);background:var(--miss-soft)}
+.lbl.book{color:var(--hit)}
+.bknote{font-size:11.5px;color:var(--muted);margin:0}
 .upempty{background:var(--panel);border:1px dashed var(--line2);border-radius:10px;padding:28px;text-align:center;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
 </style>
@@ -271,7 +284,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
     <section class="board">
       <div class="bhead">
         <h2 id="btitle">Props board</h2>
-        <p><span class="lbl" style="margin:0">est.</span> line = his season median until you enter the real one</p>
+        <p><span class="lbl book" style="margin:0">DK</span>/<span class="lbl book">MGM</span> = sportsbook line &#xb7; <span class="lbl">est.</span> = his season median</p>
       </div>
       <div class="bwrap">
         <table id="boardT">
@@ -320,7 +333,11 @@ const MK={
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let DATA=null, shown=PAGE;
+let DATA=null, ODDS=null, shown=PAGE;
+const normName=n=>n.toLowerCase().replace(/-/g," ").replace(/[^a-z ]/g,"").trim().replace(/\b(jr|sr|ii|iii|iv|v)$/,"").replace(/\s+/g," ").trim();
+const amer=v=>v==null?"\u2013":(v>0?"+":"")+v;
+const impl=p=>p==null?null:p>0?100/(p+100):-p/(-p+100);
+function bookLines(p){if(!ODDS||!ODDS[S.league])return null;const e=ODDS[S.league][normName(p.name)];return e&&e[S.market]||null}
 let S={view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
 function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,pos:S.pos,active:S.active,lines:S.lines}))}catch(e){}}
@@ -355,11 +372,13 @@ function compute(p,m){
   const base=curVals.length>=8?curVals:vals.slice(S.league==="NFL"?-17:-40);
   const est=m.fixed??half(median(base));
   const mine=S.lines[lineKey(p)];
-  const line=mine??est;
+  const books=bookLines(p);
+  const bk=books?(books.DK?"DK":books.MGM?"MGM":null):null;
+  const line=mine??(bk&&!m.fixed?books[bk].line:est);
   const rate=a=>a.length?a.filter(v=>v>line).length/a.length:null;
   let streak=0;for(let i=vals.length-1;i>=0;i--){const o=vals[i]>line;if(i===vals.length-1)streak=o?1:-1;else if(o===(streak>0))streak+=o?1:-1;else break}
   const l10=vals.slice(-10);
-  return{p,vals,line,est,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
+  return{p,vals,line,est,books,bk:mine==null?bk:null,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
     avg10:l10.reduce((a,b)=>a+b,0)/l10.length,streak,name:p.name};
 }
 
@@ -424,7 +443,7 @@ function render(){
   document.getElementById("board").innerHTML=vis.length?vis.map(r=>`
     <tr class="row ${r.p.id===S.sel?"sel":""}" tabindex="0" data-id="${esc(r.p.id)}" aria-expanded="${r.p.id===S.sel}">
       <td><div class="pl"><span class="av">${initials(r.name)}</span><div><div class="pname">${esc(r.name)} <span class="chev">\u25b6</span></div><div class="pteam">${r.p.team} \u00b7 ${r.p.pos||""}</div></div></div></td>
-      <td class="num mono">${fmt(r.line)}${r.mine?'<span class="lbl mine">yours</span>':m.fixed?"":'<span class="lbl">est.</span>'}</td>
+      <td class="num mono">${fmt(r.line)}${r.mine?'<span class="lbl mine">yours</span>':r.bk?`<span class="lbl book">${r.bk}</span>`:m.fixed?"":'<span class="lbl">est.</span>'}</td>
       <td class="num mono hide-sm">${r.avg10.toFixed(1)}</td>
       <td class="num hide-sm"><span class="heat ${heat(r.l5)}">${pct(r.l5)}</span></td>
       <td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td>
@@ -437,6 +456,23 @@ function render(){
   document.getElementById("moreBtn").textContent=`Show more players (${rows.length-shown} left)`;
   const r=rows.find(x=>x.p.id===S.sel);
   if(r)renderDetail(r);
+}
+
+function booksHtml(r,m){
+  if(!ODDS)return"";
+  const b=r.books;
+  if(!b)return`<p class="bknote">No DraftKings or BetMGM line posted for this prop yet. Lines show up about a day and a half before the game.</p>`;
+  const rate=(L,a)=>a.length?a.filter(v=>v>L).length/a.length:null;
+  const rows=[["DK","DraftKings"],["MGM","BetMGM"]].map(([k,nm])=>{
+    const o=b[k];
+    if(!o)return`<tr><td class="bkname">${nm}</td><td colspan="5" class="pteam">Not offered</td></tr>`;
+    const L=o.line,l10=rate(L,r.vals.slice(-10)),all=rate(L,r.vals),ip=impl(o.over);
+    const ed=l10!=null&&ip!=null?l10-ip:null;
+    return`<tr class="bk ${L===r.line?"on":""}" data-line="${L}" tabindex="0" title="Use this line"><td class="bkname">${nm}</td><td class="num mono">${m.fixed?"Anytime":fmt(L)}</td>
+      <td class="num odds">${amer(o.over)}</td><td class="num odds hide-sm">${m.fixed?"":amer(o.under)}</td>
+      <td class="num mono">${pct(ip)}</td><td class="num"><span class="heat ${heat(l10)}">${pct(l10)}</span>${ed!=null?` <span class="edge ${ed>=0?"pos":"neg"}">${ed>=0?"+":""}${Math.round(ed*100)}</span>`:""}</td></tr>`}).join("");
+  return`<div><h4>Sportsbook lines</h4><div class="log"><table class="books"><thead><tr><th>Book</th><th class="num">Line</th><th class="num">${m.fixed?"Yes":"Over"}</th><th class="num hide-sm">${m.fixed?"":"Under"}</th><th class="num">Implied</th><th class="num">L10 hit \u00b7 edge</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="bknote">Implied = the over's break-even win rate at those odds. Edge = his L10 hit rate minus that, in points. Tap a book to use its line.</p></div>`;
 }
 
 function renderDetail(r){
@@ -465,10 +501,11 @@ function renderDetail(r){
         ${m.fixed?`<span class="k">Line</span><div class="stepper"><input value="0.5" readonly aria-label="Line"></div>`:`
         <span class="k">Line</span>
         <div class="stepper"><button id="ldn" aria-label="Lower line">\u2212</button><input id="lin" type="number" step="0.5" min="0" value="${line}" aria-label="Prop line"><button id="lup" aria-label="Raise line">+</button></div>
-        ${r.mine?`<button class="linkbtn" id="lreset">Reset to est. ${fmt(r.est)}</button>`:`<span class="pteam">est. \u00b7 enter the book's line</span>`}`}
+        ${r.mine?`<button class="linkbtn" id="lreset">Reset to ${r.books?(r.books.DK?"DraftKings":"BetMGM")+" line":"est. "+fmt(r.est)}</button>`:r.bk?`<span class="pteam">${r.bk==="DK"?"DraftKings":"BetMGM"} line</span>`:`<span class="pteam">est. \u00b7 enter the book's line</span>`}`}
       </div>
     </div>
     <div class="tiles">${tiles}</div>
+    ${booksHtml(r,m)}
     <div class="dgrid">
       <div>
         <h4>Last ${Math.min(20,n)} games</h4>
@@ -499,6 +536,7 @@ function renderDetail(r){
         <td class="num mono" style="font-weight:600">${m.f(x)}</td><td class="num">${ou(m.f(x),line)}</td></tr>`).join("")+"</tbody>";
   };
   drawLog("");
+  el.querySelectorAll("tr.bk").forEach(tr=>{const go=()=>{if(m.fixed)return;S.lines[lineKey(p)]=parseFloat(tr.dataset.line);save();render()};tr.onclick=go;tr.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
   document.getElementById("vsopp").onchange=e=>drawLog(e.target.value);
   more.onclick=()=>{showAll=!showAll;drawLog(curOpp)};
   if(!m.fixed){
@@ -609,13 +647,15 @@ function wire(){
   document.getElementById("movers").addEventListener("click",e=>{const btn=e.target.closest(".mover");if(btn){S.sel=null;open(btn.dataset.id,true)}});
 }
 
-fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(raw=>{
+const oddsLoad=fetch("odds.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
+  ODDS=await oddsLoad;
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
-  document.getElementById("chips").innerHTML=`<span class="chip">NFL <b>${nflTxt}</b></span><span class="chip">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
-  document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. Player prop lines aren't available for free, so each line starts as an estimate until you enter the sportsbook's number. Not betting advice.";
+  document.getElementById("chips").innerHTML=`<span class="chip">NFL <b>${nflTxt}</b></span><span class="chip">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${ODDS&&ODDS.fetched?`<span class="chip">Odds <b>${new Date(ODDS.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
+  document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. Prop lines and odds from DraftKings and BetMGM come from The Odds API when available; otherwise the line is an estimate until you enter the sportsbook's number. Odds can move after they're pulled, so check the book before betting. Not betting advice.";
   setupControls();wire();render();
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";

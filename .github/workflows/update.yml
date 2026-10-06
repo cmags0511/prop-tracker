@@ -20,10 +20,19 @@ jobs:
       - run: pip install pandas
       - name: Build data
         run: python build_data.py props_data.json
+      - name: Sportsbook odds (DraftKings + BetMGM)
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          ODDS_WINDOW_HOURS: ${{ vars.ODDS_WINDOW_HOURS || '36' }}
+          ODDS_EVERY_HOURS: ${{ vars.ODDS_EVERY_HOURS || '6' }}
+          ODDS_MARKETS_NFL: ${{ vars.ODDS_MARKETS_NFL }}
+          ODDS_MARKETS_NBA: ${{ vars.ODDS_MARKETS_NBA }}
+        run: python fetch_odds.py odds.json
+        continue-on-error: true
       - name: Commit if changed
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add props_data.json
+          git add props_data.json $(test -f odds.json && echo odds.json)
           git diff --cached --quiet || git commit -m "Update prop data $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
