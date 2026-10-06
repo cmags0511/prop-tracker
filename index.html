@@ -151,7 +151,8 @@ tr.sel .chev{transform:rotate(90deg);color:var(--accent)}
 
 /* drawer */
 tr.drawer>td{white-space:normal;padding:4px 16px 20px;background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
-.dcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:16px}
+.dcard>*{flex-shrink:0}
+.dcard{max-height:min(72vh,680px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:16px}
 .dtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .dtop h3{font:700 1.2rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.05em;margin:0}
 .dtop p{margin:4px 0 0;color:var(--muted);font-size:12px}
@@ -389,7 +390,7 @@ const MK={
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
+let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
 function dkLine(p){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[S.market]||null}
 let S={dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
@@ -463,38 +464,31 @@ function boardRows(){
   const q=S.q.trim().toLowerCase(); if(q)ps=ps.filter(p=>p.name.toLowerCase().includes(q));
   let rows=ps.map(p=>compute(p,m)).filter(r=>eligible(r,m));
   const k=S.sort;
+  if(FROZEN){const ix=new Map(FROZEN.map((id,i)=>[id,i]));rows.sort((a,b)=>(ix.get(a.p.id)??1e9)-(ix.get(b.p.id)??1e9));return rows}
   rows.sort((a,b)=>{const va=a[k],vb=b[k];if(va==null)return 1;if(vb==null)return -1;const d=(typeof va==="string"?va.localeCompare(vb):va-vb)*S.dir;return d||b.avg10-a.avg10});
   return rows;
 }
 
 function renderTop(){
   const el=document.getElementById("top");
-  if(!PICKS||!PICKS.picks){el.innerHTML="";return}
-  const now=Date.now();
+  if(!PICKS){el.innerHTML="";return}
+  const now=Date.now(),m=mkt();
   const notesOk=NOTES&&NOTES.notes&&(now-new Date(NOTES.updated||0).getTime())<36*3600e3;
   const noteFor=k=>notesOk?NOTES.notes[k]:null;
   const outP=new Set(notesOk?Object.entries(NOTES.notes).filter(([k,v])=>v.flag==="out").map(([k])=>k.split("|").slice(0,2).join("|")):[]);
   const live=c=>new Date(c.t).getTime()>now-2*3600e3&&!outP.has(c.lg+"|"+c.id);
-  const by=PICKS.byMarket||{};
-  const cats=[["all","Best overall",PICKS.picks]].concat(Object.entries(by).map(([k,v])=>{const[lg,mid]=k.split("|");const m=MK[lg].find(x=>x.id===mid);return[k,m?m.label:mid,v,lg]}).filter(c=>c[2].some(live)));
-  const both=new Set(cats.slice(1).map(c=>c[3])).size>1;
-  if(!cats.some(c=>c[0]===S.topCat))S.topCat="all";
-  const cur=cats.find(c=>c[0]===S.topCat);
-  const list=cur[2].filter(live).slice(0,10);
-  const chips=`<div class="cats" role="group" aria-label="Pick category">${cats.map(c=>`<button class="cat" data-cat="${c[0]}" aria-pressed="${c[0]===S.topCat}">${both&&c[3]?c[3]+" ":""}${esc(c[1])}${c[0]==="all"?"":`<small>${Math.min(10,c[2].filter(live).length)}</small>`}</button>`).join("")}</div>`;
-  if(!list.length){el.innerHTML=`<div class="tophead"><h2>Top <span>10</span> plays</h2></div>${chips}<p class="topnote">No DraftKings player lines are posted for upcoming games yet. Picks appear here as soon as lines go up.</p>`;return}
+  const list=((PICKS.byMarket||{})[S.league+"|"+S.market]||[]).filter(live).slice(0,10);
+  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${esc(m.label)}</h2>`;
+  if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
-  const ruled=notesOk?PICKS.picks.filter(c=>outP.has(c.lg+"|"+c.id)).length:0;
-  const title=S.topCat==="all"?`Top <span>10</span> plays`:`Top <span>${list.length}</span> · ${esc(cur[1])}`;
-  el.innerHTML=`<div class="tophead"><h2>${title}</h2><p>${range} · ranked by hit rate against the DraftKings line${notesOk?` · news checked ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p></div>
-  ${chips}
-  ${notesOk&&NOTES.summary&&S.topCat==="all"?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}${ruled?` ${ruled} pick${ruled>1?"s were":" was"} dropped for injury or role news.`:""}</p>`:""}
+  el.innerHTML=`${head}<p>${S.league} · ${range} · ranked by hit rate against the DraftKings line${notesOk?` · news checked ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p></div>
+  ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
   <div class="picks">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
     return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id)}"><span class="rank">${i+1}</span>
-      <div class="pk1"><span class="who"><span class="lgtag">${c.lg}</span>${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(c.label)}</span></div>
+      <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
@@ -617,14 +611,14 @@ function renderDetail(r){
   };
   draw();
   el.querySelector(".dtabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(b){S.dtab=b.dataset.tab;draw()}};
-  const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p)]=v;save();render()};
+  const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p)]=v;save();rerenderInPlace()};
   el.addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(t)setLine(parseFloat(t.dataset.set))});
   el.addEventListener("keydown",e=>{const t=e.target.closest("tr[data-set]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();setLine(parseFloat(t.dataset.set))}});
   if(!m.fixed){
     document.getElementById("ldn").onclick=()=>setLine(line-step);
     document.getElementById("lup").onclick=()=>setLine(line+step);
     document.getElementById("lin").onchange=e=>{const v=parseFloat(e.target.value);if(!isNaN(v))setLine(v)};
-    const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p)];save();render()};
+    const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p)];save();rerenderInPlace()};
   }
 }
 
@@ -700,25 +694,35 @@ function drawChart(g,m,line){
   });
 }
 
+function rerenderInPlace(){
+  // change the line without the board reshuffling or the page jumping
+  const ids=[...document.querySelectorAll("#board tr.row")].map(r=>r.dataset.id);
+  if(ids.length)FROZEN=ids;
+  const row=document.querySelector("#board tr.sel"),top=row?row.getBoundingClientRect().top:null;
+  const card=document.querySelector("#detail .dcard"),inner=card?card.scrollTop:0;
+  render();
+  const row2=document.querySelector("#board tr.sel");
+  if(row2&&top!=null)window.scrollBy(0,row2.getBoundingClientRect().top-top);
+  const card2=document.querySelector("#detail .dcard");if(card2)card2.scrollTop=inner;
+}
 function open(id,jump){
-  S.sel=S.sel===id?null:id;render();
+  FROZEN=null;S.sel=S.sel===id?null:id;render();
   const row=document.querySelector(`#board tr[data-id="${CSS.escape(id)}"]`);
   if(row){row.focus({preventScroll:true});row.scrollIntoView({block:jump?"start":"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
 }
 function wire(){
   document.getElementById("top").addEventListener("click",e=>{
-    const cb=e.target.closest(".cat");if(cb){S.topCat=cb.dataset.cat;renderTop();return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;S.market=b.dataset.m;S.pos="";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
-  const reset=()=>{S.sel=null;shown=PAGE};
+  const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.pos="";S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onchange=e=>{S.market=e.target.value;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.pos=e.target.value;reset();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
-  document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;render()};
+  document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;FROZEN=null;render()};
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
   document.getElementById("moreBtn").onclick=()=>{shown+=PAGE;render()};
-  document.querySelector("#boardT thead").onclick=e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;S.dir=S.sort===k?-S.dir:(k==="name"?1:-1);S.sort=k;render()};
+  document.querySelector("#boardT thead").onclick=e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;FROZEN=null;S.dir=S.sort===k?-S.dir:(k==="name"?1:-1);S.sort=k;render()};
   const b=document.getElementById("board");
   b.addEventListener("click",e=>{const tr=e.target.closest("tr.row");if(tr)open(tr.dataset.id)});
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});

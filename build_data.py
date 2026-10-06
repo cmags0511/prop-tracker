@@ -78,7 +78,7 @@ for pid, d in n[n.athlete_id.isin(keep)].groupby("athlete_id"):
     games = [[r.game_date.strftime("%Y-%m-%d"), r.opponent_team_abbreviation, 1 if r.home_away == "home" else 0,
               int(round(r.minutes)), int(r.points), int(r.rebounds), int(r.assists),
               int(r.three_point_field_goals_made), int(r.season_type == 3)] for r in d.itertuples()]
-    nba.append({"id": str(pid), "n": last.athlete_display_name, "t": last.team_abbreviation,
+    nba.append({"id": str(int(pid)), "n": last.athlete_display_name, "t": last.team_abbreviation,
                 "p": last.athlete_position_abbreviation, "g": games})
 nba_label = lambda end: f"{end-1}-{str(end)[2:]}"
 cur_start = n[n.season == cur_nba].game_date.min().strftime("%Y-%m-%d")
