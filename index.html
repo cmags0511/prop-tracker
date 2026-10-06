@@ -443,14 +443,16 @@ function compute(p,m){
 
 function setupControls(){
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
-  if(!MK[S.league].some(m=>m.id===S.market))S.market=MK[S.league][0].id;
-  const mrow=document.getElementById("market");
-  mrow.innerHTML=MK[S.league].map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.label}</button>`).join("");
-  const on=mrow.querySelector('[aria-pressed="true"]');if(on)mrow.scrollLeft=Math.max(0,on.offsetLeft-mrow.clientWidth/2+on.offsetWidth/2);
-  const m=mkt(),players=DATA[S.league];
-  const posList=S.league==="NFL"?m.pos:[...new Set(players.map(p=>p.pos))].filter(Boolean).sort();
+  const players=DATA[S.league];
+  const posList=S.league==="NFL"?["QB","RB","WR","TE"]:[...new Set(players.map(p=>p.pos))].filter(Boolean).sort();
   if(S.pos&&!posList.includes(S.pos))S.pos="";
   document.getElementById("pos").innerHTML=`<option value="">All positions</option>`+posList.map(x=>`<option ${x===S.pos?"selected":""}>${x}</option>`).join("");
+  // only show the props that apply to the chosen position
+  const props=MK[S.league].filter(m=>!S.pos||!m.pos||m.pos.includes(S.pos));
+  if(!props.some(m=>m.id===S.market))S.market=props[0].id;
+  const mrow=document.getElementById("market");
+  mrow.innerHTML=props.map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.label}</button>`).join("");
+  const on=mrow.querySelector('[aria-pressed="true"]');if(on)mrow.scrollLeft=Math.max(0,on.offsetLeft-mrow.clientWidth/2+on.offsetWidth/2);
   const teams=[...new Set(players.map(p=>p.team))].sort();
   if(S.team&&!teams.includes(S.team))S.team="";
   document.getElementById("team").innerHTML=`<option value="">All teams</option>`+teams.map(t=>`<option ${t===S.team?"selected":""}>${t}</option>`).join("");
@@ -725,7 +727,7 @@ function wire(){
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.pos="";S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
-  document.getElementById("pos").onchange=e=>{S.pos=e.target.value;reset();save();render()};
+  document.getElementById("pos").onchange=e=>{S.pos=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
   document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;FROZEN=null;render()};
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
