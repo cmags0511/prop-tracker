@@ -85,10 +85,15 @@ def main():
     any_ok = False
     for lg, (sport, league, days) in LEAGUES.items():
         start = now.astimezone(dt.timezone(dt.timedelta(hours=-5))).date()
-        end = start + dt.timedelta(days=days)
         try:
-            sb = get(f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
-                     f"?dates={start:%Y%m%d}-{end:%Y%m%d}&limit=200")
+            sb = {"events": []}
+            seen = set()
+            for k in range(days + 1):  # one request per day; ESPN rejects some date ranges
+                day = get(f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
+                          f"?dates={start + dt.timedelta(days=k):%Y%m%d}")
+                for e in day.get("events", []):
+                    if e["id"] not in seen:
+                        seen.add(e["id"]); sb["events"].append(e)
         except Exception as e:
             print(f"{lg}: scoreboard failed ({e}); keeping previous {lg} lines"); log(f"{lg} scoreboard: {e}")
             out[lg] = old.get(lg, {})
