@@ -109,6 +109,10 @@ f = f[f.attempts + f.carries + f.targets >= 3]
 sch = get_csv(f"{NFLV}/schedules/games.csv")
 f = f.merge(sch[["game_id", "gameday", "home_team", "spread_line", "total_line"]], on="game_id", how="left")
 f = f.sort_values(["season", "week"])
+pl = get_csv(f"{NFLV}/players/players.csv", required=False)
+espn = {}
+if pl is not None:
+    espn = {g: str(int(e)) for g, e in zip(pl.gsis_id, pl.espn_id) if e == e}
 nfl = []
 for pid, d in f.groupby("player_id"):
     pos = d.position.iloc[-1]
@@ -127,7 +131,7 @@ for pid, d in f.groupby("player_id"):
                       int(r.completions), int(r.attempts), int(r.passing_yards), int(r.passing_tds),
                       int(r.carries), int(r.rushing_yards), int(r.receptions), int(r.receiving_yards),
                       int(r.rushing_tds + r.receiving_tds)])
-    nfl.append({"id": pid, "n": d.player_display_name.iloc[-1], "t": d.team.iloc[-1], "p": pos, "g": games})
+    nfl.append({"id": pid, "e": espn.get(pid), "n": d.player_display_name.iloc[-1], "t": d.team.iloc[-1], "p": pos, "g": games})
 
 up = sch[(sch.season == nfl_cur) & sch.result.isna()].copy()
 up = up[pd.to_datetime(up.gameday).dt.date >= TODAY - dt.timedelta(days=1)]
