@@ -76,7 +76,7 @@ def main():
                 z = (avg - line) / sd
                 over = p_over >= .5
                 score = (p_over - .5 if over else .5 - p_over) * 2 + .25 * (z if over else -z)
-                if score <= .12:
+                if score <= 0:
                     continue
                 home = game["home"] == p["t"]
                 opp = game["away"] if home else game["home"]
@@ -120,14 +120,22 @@ def main():
                     break
             return res
 
-        chosen = []
-        for hours in (18, 42, 96, 168):
-            pool = [c for c in cands if dt.datetime.fromisoformat(c["t"]) <= first + dt.timedelta(hours=hours)]
-            chosen = pick_from(pool)
-            if len(chosen) >= 14:  # 10 to show plus room for players the news check rules out
-                break
-        out["picks"] = chosen
-    json.dump(out, open(OUT, "w"), indent=1)
+        def slate(pool, need):
+            # start with the next day's games and widen until there are enough picks
+            start = min(dt.datetime.fromisoformat(c["t"]) for c in pool)
+            chosen = []
+            for hours in (18, 42, 96, 168):
+                chosen = pick_from([c for c in pool if dt.datetime.fromisoformat(c["t"]) <= start + dt.timedelta(hours=hours)])
+                if len(chosen) >= need:
+                    break
+            return chosen
+
+        out["picks"] = slate([c for c in cands if c["score"] > .12], 14)  # 10 shown + spares for ruled-out players
+        out["byMarket"] = {}
+        for k in sorted({(c["lg"], c["market"]) for c in cands}):
+            pool = [c for c in cands if (c["lg"], c["market"]) == k]
+            out["byMarket"][f"{k[0]}|{k[1]}"] = slate(pool, 12)[:12]
+    json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: {len(out['picks'])} candidates")
 
 
