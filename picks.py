@@ -14,16 +14,20 @@ KEEP = 20
 UNIT = {"pyd": "passing yards", "cmp": "completions", "att": "pass attempts", "ptd": "passing TDs",
         "ryd": "rushing yards", "car": "carries", "rec": "receptions", "recyd": "receiving yards",
         "rry": "rush + rec yards", "pts": "points", "reb": "rebounds", "ast": "assists", "3pm": "threes",
-        "pra": "pts + reb + ast", "pr": "pts + reb", "pa": "pts + ast", "ra": "reb + ast"}
+        "pra": "pts + reb + ast", "pr": "pts + reb", "pa": "pts + ast", "ra": "reb + ast",
+        "fgm": "field goals", "pat": "extra points", "kpts": "kicking points", "tkl": "tackles + assists",
+        "sck": "sacks"}
 LABEL = {"pyd": "Passing yards", "cmp": "Completions", "att": "Pass attempts", "ptd": "Passing TDs",
          "ryd": "Rushing yards", "car": "Rush attempts", "rec": "Receptions", "recyd": "Receiving yards",
          "rry": "Rush + Rec yards", "pts": "Points", "reb": "Rebounds", "ast": "Assists",
          "3pm": "3-pointers made", "pra": "Pts + Reb + Ast", "pr": "Pts + Reb", "pa": "Pts + Ast",
-         "ra": "Reb + Ast"}
+         "ra": "Reb + Ast", "fgm": "Field goals made", "pat": "Extra points made", "kpts": "Kicking points",
+         "tkl": "Tackles + assists", "sck": "Sacks"}
 
 
 def stat(g, m):
     if m == "rry": return g["ryd"] + g["recyd"]
+    if m == "kpts": return 3 * g["fgm"] + g["pat"]
     if m == "pra": return g["pts"] + g["reb"] + g["ast"]
     if m == "pr": return g["pts"] + g["reb"]
     if m == "pa": return g["pts"] + g["ast"]

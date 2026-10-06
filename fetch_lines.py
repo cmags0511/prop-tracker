@@ -33,6 +33,16 @@ def market(lg, name):
     if lg == "NFL":
         if "rushing" in n and "receiving" in n and "yards" in n:
             return "rry"
+        if "kicking points" in n:
+            return "kpts"
+        if "field goal" in n and "made" in n:
+            return "fgm"
+        if "extra point" in n or re.search(r"\bpat\b", n):
+            return "pat"
+        if "tackle" in n and ("assist" in n or "combined" in n):
+            return "tkl"
+        if "sack" in n and "taken" not in n:
+            return "sck"
         if "plus" in n or "+" in n:
             return None
         for key, prop in [("passing yards", "pyd"), ("pass completions", "cmp"), ("completions", "cmp"),

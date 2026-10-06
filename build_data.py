@@ -101,11 +101,20 @@ w = get_csv(f"{NFLV}/stats_player/stats_player_week_{nfl_cur}.csv", required=Fal
 if w is not None:
     weeks.append(w)
 f = pd.concat(weeks)
-f = f[f.position.isin(["QB", "RB", "WR", "TE"]) & f.season_type.isin(["REG", "POST"])].copy()
+OFF = ["QB", "RB", "WR", "TE"]
+DEF = ["DB", "LB", "DL"]
+f = f[(f.position.isin(OFF + ["K"]) | f.position_group.isin(DEF)) & f.season_type.isin(["REG", "POST"])].copy()
 for c in ["attempts", "carries", "targets", "completions", "passing_yards", "passing_tds", "rushing_yards",
-          "receptions", "receiving_yards", "rushing_tds", "receiving_tds"]:
-    f[c] = f[c].fillna(0)
-f = f[f.attempts + f.carries + f.targets >= 3]
+          "receptions", "receiving_yards", "rushing_tds", "receiving_tds", "fg_made", "fg_att", "pat_made", "pat_att",
+          "def_tackles_solo", "def_tackle_assists", "def_sacks", "def_interceptions"]:
+    if c not in f:
+        f[c] = 0
+    f[c] = pd.to_numeric(f[c], errors="coerce").fillna(0)
+f["tkl"] = f.def_tackles_solo + f.def_tackle_assists
+# keep games where the player actually did something in his role
+f = f[(f.position.isin(OFF) & (f.attempts + f.carries + f.targets >= 3))
+      | ((f.position == "K") & (f.fg_att + f.pat_att > 0))
+      | (f.position_group.isin(DEF) & (f.tkl + f.def_sacks + f.def_interceptions > 0))]
 sch = get_csv(f"{NFLV}/schedules/games.csv")
 f = f.merge(sch[["game_id", "gameday", "home_team", "spread_line", "total_line"]], on="game_id", how="left")
 f = f.sort_values(["season", "week"])
@@ -116,12 +125,15 @@ if pl is not None:
 nfl = []
 for pid, d in f.groupby("player_id"):
     pos = d.position.iloc[-1]
+    if d.position_group.iloc[-1] in DEF:
+        pos = d.position_group.iloc[-1]
     cur = d[d.season == nfl_cur]
     if len(d) < 5 and len(cur) < 2:
         continue
     if pos == "QB" and d.attempts.mean() < 20: continue
     if pos == "RB" and (d.carries + d.targets).mean() < 8: continue
     if pos in ("WR", "TE") and d.targets.mean() < 4: continue
+    if pos in DEF and d.tkl.mean() < 3.5 and d.def_sacks.mean() < .4: continue
     games = []
     for r in d.itertuples():
         sp = None if r.spread_line != r.spread_line else (-float(r.spread_line) if r.home_team == r.team else float(r.spread_line))
@@ -130,7 +142,8 @@ for pid, d in f.groupby("player_id"):
                       1 if r.home_team == r.team else 0, sp, tot,
                       int(r.completions), int(r.attempts), int(r.passing_yards), int(r.passing_tds),
                       int(r.carries), int(r.rushing_yards), int(r.receptions), int(r.receiving_yards),
-                      int(r.rushing_tds + r.receiving_tds)])
+                      int(r.rushing_tds + r.receiving_tds), int(r.fg_made), int(r.pat_made), int(r.tkl),
+                      float(r.def_sacks), int(r.def_interceptions)])
     nfl.append({"id": pid, "e": espn.get(pid), "n": d.player_display_name.iloc[-1], "t": d.team.iloc[-1], "p": pos, "g": games})
 
 up = sch[(sch.season == nfl_cur) & sch.result.isna()].copy()
@@ -147,7 +160,7 @@ for r in up.itertuples():
     nfl_up.append([t, r.away_team, r.home_team, home_sp, tot, int(r.week)])
 out["NFL"] = {"season": str(nfl_cur), "curStart": f"{nfl_cur}-08-01",
               "cols": ["date", "week", "po", "opp", "home", "spread", "total", "cmp", "att", "pyd", "ptd",
-                       "car", "ryd", "rec", "recyd", "td"],
+                       "car", "ryd", "rec", "recyd", "td", "fgm", "pat", "tkl", "sck", "dint"],
               "players": nfl, "upcoming": nfl_up}
 
 json.dump(out, open(OUT, "w"), separators=(",", ":"))

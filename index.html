@@ -327,7 +327,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
         <button id="lg-NFL" aria-pressed="true">NFL</button>
         <button id="lg-NBA" aria-pressed="false">NBA</button>
       </div>
-      <select id="pos" aria-label="Position"></select>
+      <select id="pos" aria-label="Category"></select>
       <select id="team" aria-label="Team"></select>
       <input id="search" class="grow" type="search" placeholder="Search player" aria-label="Search player">
       <label class="chk" id="activeWrap"><input type="checkbox" id="active" checked> <span id="activeLbl">Played this season</span></label>
@@ -393,15 +393,21 @@ const MK={
   {id:"rec",label:"Receptions",f:g=>g.rec,pos:["WR","TE","RB"]},
   {id:"recyd",label:"Receiving yards",f:g=>g.recyd,pos:["WR","TE","RB"],step:5},
   {id:"rry",label:"Rush + Rec yards",f:g=>g.ryd+g.recyd,pos:["RB","WR","TE"],step:5},
-  {id:"td",label:"Anytime TD",f:g=>g.td,pos:["RB","WR","TE","QB"],fixed:.5}]
+  {id:"td",label:"Anytime TD",f:g=>g.td,pos:["RB","WR","TE","QB"],fixed:.5},
+  {id:"fgm",label:"Field goals made",f:g=>g.fgm,pos:["K"],min:.8},
+  {id:"pat",label:"Extra points made",f:g=>g.pat,pos:["K"],min:.8},
+  {id:"kpts",label:"Kicking points",f:g=>3*g.fgm+g.pat,pos:["K"],min:3},
+  {id:"tkl",label:"Tackles + assists",f:g=>g.tkl,pos:["LB","DB","DL"],min:3},
+  {id:"sck",label:"Sacks",f:g=>g.sck,pos:["DL","LB","DB"],min:.25},
+  {id:"dint",label:"Interceptions",f:g=>g.dint,pos:["DB","LB"],min:.1}]
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
 function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[m.id]||null}
-let S={dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
+let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
-function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,pos:S.pos,active:S.active,lines:S.lines}))}catch(e){}}
+function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,cat:S.cat,active:S.active,lines:S.lines}))}catch(e){}}
 
 const pct=v=>v==null?"\u2013":Math.round(v*100)+"%";
 const fmt=v=>Number.isInteger(v)?String(v):v.toFixed(1);
@@ -412,10 +418,13 @@ const heat=v=>v==null?"":v>=.7?"h2":v>=.6?"h1":v<=.3?"c2":v<=.4?"c1":"";
 const ALL={id:"all",label:"All props"};
 const isAll=()=>S.market==="all";
 const mkt=()=>isAll()?ALL:MK[S.league].find(m=>m.id===S.market);
-const SHORT={pyd:"Pass yds",cmp:"Completions",att:"Pass att",ptd:"Pass TDs",ryd:"Rush yds",car:"Rush att",rec:"Receptions",recyd:"Rec yds",rry:"Rush+Rec yds",td:"Anytime TD",pts:"Points",reb:"Rebounds",ast:"Assists","3pm":"Threes",pra:"PRA",pr:"Pts+Reb",pa:"Pts+Ast",ra:"Reb+Ast"};
+const SHORT={pyd:"Pass yds",cmp:"Completions",att:"Pass att",ptd:"Pass TDs",ryd:"Rush yds",car:"Rush att",rec:"Receptions",recyd:"Rec yds",rry:"Rush+Rec yds",td:"Anytime TD",pts:"Points",reb:"Rebounds",ast:"Assists","3pm":"Threes",pra:"PRA",pr:"Pts+Reb",pa:"Pts+Ast",ra:"Reb+Ast",fgm:"FG made",pat:"XP made",kpts:"Kick pts",tkl:"Tkl+Ast",sck:"Sacks",dint:"INTs"};
 const lineKey=(p,m)=>S.league+"|"+m.id+"|"+p.id;
 // which props apply right now: the selected one, or every prop for the position when "All" is picked
-const activeMarkets=()=>isAll()?MK[S.league].filter(m=>!S.pos||!m.pos||m.pos.includes(S.pos)):[mkt()];
+// NFL prop groups (replace positions)
+const CATS={Passing:["pyd","cmp","att","ptd"],Rushing:["ryd","car","rry","td"],Receiving:["rec","recyd","rry","td"],Kicking:["fgm","pat","kpts"],Defense:["tkl","sck","dint"]};
+const inCat=id=>S.league!=="NFL"||!S.cat||CATS[S.cat].includes(id);
+const activeMarkets=()=>isAll()?MK[S.league].filter(m=>inCat(m.id)):[mkt()];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const initials=n=>n.replace(/\b(Jr|Sr|II|III|IV)\.?$/,"").trim().split(/\s+/).map(w=>w[0]).filter(c=>/[A-Za-z]/.test(c)).slice(0,2).join("").toUpperCase();
 const dfmt=(d,o)=>d.toLocaleDateString("en-US",o);
@@ -450,11 +459,12 @@ function compute(p,m){
 function setupControls(){
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
   const players=DATA[S.league];
-  const posList=S.league==="NFL"?["QB","RB","WR","TE"]:[...new Set(players.map(p=>p.pos))].filter(Boolean).sort();
-  if(S.pos&&!posList.includes(S.pos))S.pos="";
-  document.getElementById("pos").innerHTML=`<option value="">All positions</option>`+posList.map(x=>`<option ${x===S.pos?"selected":""}>${x}</option>`).join("");
-  // only show the props that apply to the chosen position
-  const props=MK[S.league].filter(m=>!S.pos||!m.pos||m.pos.includes(S.pos));
+  if(S.cat&&!CATS[S.cat])S.cat="";
+  const catSel=document.getElementById("pos");
+  catSel.hidden=S.league!=="NFL";
+  catSel.innerHTML=`<option value="">All categories</option>`+Object.keys(CATS).map(x=>`<option ${x===S.cat?"selected":""}>${x}</option>`).join("");
+  // only show the props in the chosen category
+  const props=MK[S.league].filter(m=>inCat(m.id));
   if(!isAll()&&!props.some(m=>m.id===S.market))S.market=props[0].id;
   const mrow=document.getElementById("market");
   mrow.innerHTML=[ALL,...props].map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.id==="all"?"All":m.label}</button>`).join("");
@@ -470,11 +480,10 @@ function setupControls(){
   document.getElementById("active").checked=S.active;
 }
 
-function eligible(r,m){return m.fixed||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.step?15:1))}
+function eligible(r,m){return m.fixed||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.min??(m.step?15:1)))}
 function propRows(){
   let ps=DATA[S.league];
   if(S.league==="NFL"&&S.active)ps=ps.filter(p=>p.cur>0);
-  if(S.pos)ps=ps.filter(p=>p.pos===S.pos);
   if(S.team)ps=ps.filter(p=>p.team===S.team);
   const q=S.q.trim().toLowerCase(); if(q)ps=ps.filter(p=>p.name.toLowerCase().includes(q));
   const rows=[];
@@ -506,10 +515,10 @@ function renderTop(){
     const pool=new Map();
     for(const c of [...(PICKS.picks||[]),...Object.entries(PICKS.byMarket||{}).filter(([k])=>k.startsWith(S.league+"|")).flatMap(([,v])=>v)])if(c.lg===S.league)pool.set(c.key,c);
     const seen=new Set();src=[];
-    for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||(S.pos&&c.pos!==S.pos)||seen.has(c.id))continue;seen.add(c.id);src.push(c)}
+    for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||!inCat(c.market)||seen.has(c.id))continue;seen.add(c.id);src.push(c)}
   }else src=(PICKS.byMarket||{})[S.league+"|"+S.market]||[];
-  const list=src.filter(c=>live(c)&&(!S.pos||c.pos===S.pos)).slice(0,10);
-  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${S.pos?S.pos+" ":""}${isAll()?"Best overall":esc(m.label)}</h2>`;
+  const list=src.filter(c=>live(c)&&inCat(c.market)).slice(0,10);
+  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${isAll()?(S.league==="NFL"&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}</h2>`;
   if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
@@ -743,11 +752,11 @@ function open(id,jump){
 function wire(){
   document.getElementById("top").addEventListener("click",e=>{
     const b=e.target.closest(".pick");if(!b)return;
-    S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.pos="";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
+    S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
-  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.pos="";S.team="";reset();setupControls();save();render()});
+  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
-  document.getElementById("pos").onchange=e=>{S.pos=e.target.value;reset();setupControls();save();render()};
+  document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
   document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;FROZEN=null;render()};
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
