@@ -11,6 +11,18 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prop Tracker">
+<meta property="og:title" content="Prop Tracker: NFL &amp; NBA player props">
+<meta property="og:description" content="Hit rates against DraftKings lines, a daily Top 10, and upcoming games for every NFL and NBA player prop. Free, installs on any phone.">
+<meta property="og:url" content="https://cmags0511.github.io/prop-tracker/">
+<meta property="og:image" content="https://cmags0511.github.io/prop-tracker/icons/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prop Tracker: NFL &amp; NBA player props">
+<meta name="twitter:image" content="https://cmags0511.github.io/prop-tracker/icons/share-card.png">
+<link rel="canonical" href="https://cmags0511.github.io/prop-tracker/">
 <meta name="description" content="Free NBA and NFL player prop tracker: hit rates, alt lines, splits and upcoming games, updated automatically.">
 <title>Prop Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +60,18 @@ html{-webkit-text-size-adjust:100%}
 body{-webkit-tap-highlight-color:transparent}
 .band{padding-top:env(safe-area-inset-top,0px)}
 .install{flex:none;border:1px solid var(--band-line);background:var(--band-field);color:var(--band-ink);font:600 12.5px var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.hbtns{display:flex;gap:8px;flex:none}
+.sharebox{position:fixed;inset:0;z-index:40;background:rgb(5 10 18 / .55);display:grid;place-items:center;padding:16px}
+.sharecard{background:var(--panel);color:var(--ink);border-radius:14px;padding:20px;max-width:360px;width:100%;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;box-shadow:0 20px 60px rgb(0 0 0 / .35)}
+.sharecard h3{font:700 1.3rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.05em;margin:0}
+.sharecard p{margin:0;font-size:13px;color:var(--ink2)}
+.qr{background:#fff;padding:10px;border-radius:10px;line-height:0;min-height:200px;min-width:200px;display:grid;place-items:center}
+.urlrow{display:flex;gap:6px;width:100%}
+.urlrow input{flex:1;min-width:0;font:500 13px var(--f-mono);border:1px solid var(--line2);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)}
+.urlrow button,.sharecard .close{border:0;border-radius:8px;padding:8px 12px;font:600 13px var(--f-body);cursor:pointer}
+.urlrow button{background:var(--accent);color:var(--on-accent)}
+.sharecard .close{background:var(--bg);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;z-index:50}
 .install:hover{border-color:var(--accent)}
 .iostip{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 40px 12px 14px;font-size:13.5px;z-index:30;box-shadow:0 8px 30px rgb(0 0 0 / .3)}
 .iostip button{position:absolute;top:6px;right:6px;border:0;background:none;color:inherit;font-size:20px;line-height:1;padding:6px;cursor:pointer}
@@ -318,6 +342,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .upempty{background:var(--panel);border:1px dashed var(--line2);border-radius:10px;padding:28px;text-align:center;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
 /* phone layout (kept last so it wins) */
+@media (max-width:600px){.install{padding:6px 11px;font-size:12.5px}.hbtns{gap:6px}h1{font-size:1.5rem!important}}
 @media (max-width:600px){
   h1{font-size:1.6rem}
   .band .in{gap:10px}
@@ -351,7 +376,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
     <div class="brand">
       <div class="titlerow">
         <h1>Prop<span>/</span>Tracker</h1>
-        <button class="install" id="installBtn" hidden>&#x2b07;<span class="hide-sm"> Install app</span><span class="show-sm"> Install</span></button>
+        <div class="hbtns"><button class="install" id="shareBtn" type="button">&#x21aa;<span class="hide-sm"> Share app</span><span class="show-sm"> Share</span></button><button class="install" id="installBtn" hidden aria-label="Install app">&#x2b07;<span class="hide-sm"> Install app</span></button></div>
       </div>
       <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
       <div class="chips" id="chips"><span class="chip">Loading game logs&#x2026;</span></div>
@@ -848,6 +873,30 @@ if(isIos&&!standalone){document.getElementById("installBtn").hidden=false;let se
 // reopening the app after a while pulls fresh numbers
 let loadedAt=Date.now();
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&Date.now()-loadedAt>30*60e3)location.reload()});
+
+// ---- sharing ----
+const SITE="https://cmags0511.github.io/prop-tracker/";
+function toast(msg){const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+async function copyLink(input){try{await navigator.clipboard.writeText(SITE);toast("Link copied")}catch(e){if(input){input.select();toast("Press and hold to copy")}}}
+function shareBox(){
+  if(document.getElementById("sharebox"))return;
+  const d=document.createElement("div");d.className="sharebox";d.id="sharebox";
+  d.innerHTML=`<div class="sharecard" role="dialog" aria-label="Share Prop Tracker"><h3>Share Prop Tracker</h3>
+    <div class="qr" id="qr" aria-label="QR code for the app link"></div>
+    <p>Scan with a phone camera to open it. On iPhone, tap Share then <b>Add to Home Screen</b>. On Android, tap <b>Install app</b>.</p>
+    <div class="urlrow"><input id="shareurl" readonly value="${SITE}" aria-label="App link"><button id="copyurl">Copy</button></div>
+    <button class="close" id="closeshare">Close</button></div>`;
+  document.body.appendChild(d);
+  d.addEventListener("click",e=>{if(e.target===d||e.target.id==="closeshare")d.remove();if(e.target.id==="copyurl")copyLink(document.getElementById("shareurl"))});
+  const draw=()=>{try{new QRCode(document.getElementById("qr"),{text:SITE,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){document.getElementById("qr").textContent=""}};
+  if(window.QRCode)draw();else{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";sc.onload=draw;sc.onerror=()=>{document.getElementById("qr").style.display="none"};document.head.appendChild(sc)}
+}
+document.getElementById("shareBtn").onclick=async()=>{
+  const data={title:"Prop Tracker",text:"NFL & NBA player prop hit rates vs DraftKings lines, plus a daily Top 10. Free, and it installs like an app:",url:SITE};
+  if(navigator.share&&matchMedia("(pointer:coarse)").matches){try{await navigator.share(data);return}catch(e){if(e&&e.name==="AbortError")return}}
+  shareBox();
+};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("sharebox")?.remove()});
 </script>
 
 </body>
