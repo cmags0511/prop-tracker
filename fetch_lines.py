@@ -130,7 +130,7 @@ def main():
                 prev = rec.get(prop)
                 upd = it.get("lastUpdated", "")
                 if prev is None or upd > prev.get("u", ""):
-                    rec[prop] = {"line": cur, "open": opn, "u": upd, "g": ev.get("shortName", "")}
+                    rec[prop] = {"line": cur, "open": opn, "u": upd, "g": ev.get("shortName", ""), "d": ev.get("date", "")}
                     got += prev is None
             time.sleep(0.2)
         print(f"{lg}: {len(events)} upcoming games, {got} player lines"); log(f"{lg}: {len(sb.get('events', []))} games on scoreboard, {len(events)} upcoming, {got} lines")
