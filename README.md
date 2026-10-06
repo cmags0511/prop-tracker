@@ -47,3 +47,9 @@ Notes:
 - ESPN's feed includes lines but not the odds (prices) for player props.
 - It isn't an official ESPN API, so it can change without warning. If a pull fails, the app keeps the last good lines.
 - By default it looks 7 days ahead for NFL games and 2 days ahead for NBA games. Change that with repository variables `LINES_DAYS_NFL` and `LINES_DAYS_NBA` if you like.
+
+## Top 10 plays and the daily news check
+
+- `picks.py` ranks the next slate's props against the DraftKings lines on every update and writes `picks.json` (top 20 candidates).
+- Every morning a scheduled Claude task reads injury reports, news, and bettor discussion for those players and writes `notes.json`: a short summary, a one-line note per pick, and a flag (`out` hides the pick, `caution` marks it).
+- The app shows the first 10 picks that aren't flagged `out`.

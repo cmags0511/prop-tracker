@@ -21,7 +21,7 @@
   --bg:#eef1f6; --panel:#ffffff; --ink:#132033; --ink2:#46566e; --muted:#7a889e;
   --line:#e1e6ee; --line2:#cfd7e3; --accent:#2563eb; --accent-soft:#e7eefd; --on-accent:#ffffff;
   --band:#0f1a2b; --band-ink:#eef3fb; --band-muted:#8fa0ba; --band-line:#22314a; --band-field:#18253a;
-  --hit:#178a4f; --hit-soft:#dcf2e5; --hit-strong:#b6e5c9; --miss:#c23838; --miss-soft:#fbe3e3; --miss-strong:#f4c0c0; --push:#8a8f99;
+  --hit:#178a4f; --hit-soft:#dcf2e5; --hit-strong:#b6e5c9; --miss:#c23838; --miss-soft:#fbe3e3; --miss-strong:#f4c0c0; --push:#8a8f99; --warn:#9a5b00; --warn-soft:#fcefd8;
   --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
   --f-body:"IBM Plex Sans",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -30,12 +30,12 @@
   --bg:#0b111b; --panel:#131b28; --ink:#e7ecf4; --ink2:#a9b5c8; --muted:#76849a;
   --line:#1f2a3c; --line2:#2b3a52; --accent:#6c9cf5; --accent-soft:#1a2842; --on-accent:#0b111b;
   --band:#070c14; --band-ink:#eef3fb; --band-muted:#7f90a9; --band-line:#1c2940; --band-field:#111b2b;
-  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; color-scheme:dark}}
+  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; --warn:#f0b45a; --warn-soft:#3a2a12; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0b111b; --panel:#131b28; --ink:#e7ecf4; --ink2:#a9b5c8; --muted:#76849a;
   --line:#1f2a3c; --line2:#2b3a52; --accent:#6c9cf5; --accent-soft:#1a2842; --on-accent:#0b111b;
   --band:#070c14; --band-ink:#eef3fb; --band-muted:#7f90a9; --band-line:#1c2940; --band-field:#111b2b;
-  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; color-scheme:dark}
+  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; --warn:#f0b45a; --warn-soft:#3a2a12; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
@@ -264,6 +264,13 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .pkmeta{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 .pkmeta span{font:500 11px var(--f-mono);color:var(--ink2);background:var(--bg);border-radius:5px;padding:2px 6px}
 .lgtag{font:700 10px var(--f-body);letter-spacing:.06em;color:var(--accent);margin-right:4px}
+.news{grid-column:2;font-size:12.5px;color:var(--ink);background:var(--bg);border-radius:6px;padding:6px 8px;margin-top:4px;display:flex;gap:6px;align-items:flex-start}
+.news b{font:700 10px var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;flex:none;margin-top:1px}
+.news b.caution{color:var(--warn);background:var(--warn-soft)}
+.news b.support{color:var(--hit);background:var(--hit-soft)}
+.news b.neutral{color:var(--ink2);background:var(--line)}
+.slate{font-size:13px;color:var(--ink2);margin:0;background:var(--bg);border-radius:8px;padding:8px 10px}
+.slate b{color:var(--ink)}
 .topnote{font-size:11.5px;color:var(--muted);margin:0}
 .upempty{background:var(--panel);border:1px dashed var(--line2);border-radius:10px;padding:28px;text-align:center;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
@@ -356,7 +363,7 @@ const MK={
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let DATA=null, LINES=null, shown=PAGE;
+let DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
 function dkLine(p){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[S.market]||null}
 let S={view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
@@ -434,86 +441,28 @@ function boardRows(){
   return rows;
 }
 
-const MK_BY=lg=>Object.fromEntries(MK[lg].map(m=>[m.id,m]));
-function topPicks(){
-  if(!LINES)return null;
-  const now=Date.now(),cands=[];
-  for(const lg of ["NFL","NBA"]){
-    const L=LINES[lg]||{},mks=MK_BY(lg),meta=DATA[lg+"meta"];
-    for(const p of DATA[lg]){
-      const e=L[p.espn];if(!e)continue;
-      const game=meta.upcoming.find(g=>(g.away===p.team||g.home===p.team)&&g.t.getTime()>=now-3*3600e3);
-      if(!game)continue;
-      for(const[mid,dk]of Object.entries(e)){
-        const m=mks[mid];if(!m||m.fixed)continue;
-        const vals=p.games.map(m.f);if(vals.length<8)continue;
-        const line=dk.line,cur=p.games.filter(g=>g.date>=meta.curStart).map(m.f);
-        const l10=vals.slice(-10),l5=vals.slice(-5);
-        const hits=a=>a.filter(v=>v>line).length;
-        const sh=a=>(hits(a)+1)/(a.length+2);
-        const curRate=cur.length>=3?sh(cur):sh(vals);
-        const pOver=.45*sh(l10)+.35*curRate+.2*sh(l5);
-        const avg=l10.reduce((a,b)=>a+b,0)/l10.length;
-        const sd=Math.max(Math.sqrt(l10.reduce((a,b)=>a+(b-avg)**2,0)/l10.length),line*.12,1);
-        const z=(avg-line)/sd;
-        const over=pOver>=.5;
-        const score=(over?pOver-.5:.5-pOver)*2+.25*(over?z:-z);
-        if(score<=.12)continue;
-        cands.push({lg,p,m,dk,line,game,over,score,vals,cur,l10,l5,avg,hits});
-      }
-    }
-  }
-  if(!cands.length)return{list:[],from:null};
-  cands.sort((a,b)=>a.game.t-b.game.t);
-  const first=cands[0].game.t.getTime();
-  // one pick per player, at most 3 per game; widen from today's games to the next few days until there are 10
-  const pickFrom=pool=>{
-    pool=[...pool].sort((a,b)=>b.score-a.score);
-    const out=[],seenP=new Set(),perGame={};
-    for(const c of pool){
-      const gk=c.game.away+c.game.home+c.game.t.getTime();
-      if(seenP.has(c.lg+c.p.id)||(perGame[gk]||0)>=3)continue;
-      seenP.add(c.lg+c.p.id);perGame[gk]=(perGame[gk]||0)+1;out.push(c);if(out.length===10)break;
-    }
-    return out;
-  };
-  let list=[];
-  for(const w of [18,42,96,168]){list=pickFrom(cands.filter(c=>c.game.t.getTime()<=first+w*3600e3));if(list.length>=10)break}
-  const last=Math.max(...list.map(c=>c.game.t.getTime()));
-  return{list,from:new Date(first),to:new Date(last)};
-}
-function why(c){
-  const side=c.over?"over":"under",n10=c.l10.length,h10=c.over?c.hits(c.l10):n10-c.hits(c.l10);
-  const UNIT={pyd:"passing yards",cmp:"completions",att:"pass attempts",ptd:"passing TDs",ryd:"rushing yards",car:"carries",rec:"receptions",recyd:"receiving yards",rry:"rush + rec yards",pts:"points",reb:"rebounds",ast:"assists","3pm":"threes",pra:"pts + reb + ast",pr:"pts + reb",pa:"pts + ast",ra:"reb + ast"};
-  const unit=UNIT[c.m.id]||c.m.label.toLowerCase();
-  const last=c.p.name.replace(/\s+(Jr|Sr|II|III|IV|V)\.?$/,"").split(" ").slice(-1)[0];
-  let s=`${last} has gone ${side} ${fmt(c.line)} in ${h10} of his last ${n10}`;
-  if(c.cur.length>=2){const hc=c.over?c.hits(c.cur):c.cur.length-c.hits(c.cur);s+=` and ${hc} of ${c.cur.length} this season`}
-  s+=`, averaging ${c.avg.toFixed(1)} ${unit} over the last 10.`;
-  const opp=c.game.home===c.p.team?c.game.away:c.game.home;
-  const vs=c.p.games.filter(g=>g.opp===opp).map(c.m.f);
-  if(vs.length)s+=` Against ${opp}: ${vs.join(", ")}.`;
-  if(c.dk.open!=null&&c.dk.open!==c.line)s+=` The line has moved ${c.line>c.dk.open?"up":"down"} ${fmt(Math.abs(c.line-c.dk.open))} since it opened at ${fmt(c.dk.open)}.`;
-  if(c.lg==="NFL"&&c.game.total!=null){
-    const tsp=c.game.home===c.p.team?c.game.spread:(c.game.spread==null?null:-c.game.spread);
-    s+=` Game total ${fmt(c.game.total)}${tsp!=null?`, ${c.p.team} ${tsp>0?"+":""}${fmt(tsp)}`:""}.`;
-  }
-  return s;
-}
 function renderTop(){
-  const el=document.getElementById("top"),r=topPicks();
-  if(!r){el.innerHTML="";return}
-  const dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-  if(!r.list.length){el.innerHTML=`<div class="tophead"><h2>Top <span>10</span> plays</h2></div><p class="topnote">No DraftKings player lines are posted for upcoming games yet. Picks appear here as soon as lines go up.</p>`;return}
-  const range=dfm(r.from)===dfm(r.to)?dfm(r.from):`${dfm(r.from)} – ${dfm(r.to)}`;
-  el.innerHTML=`<div class="tophead"><h2>Top <span>10</span> plays</h2><p>${range} · ranked by hit rate against the DraftKings line</p></div>
-  <div class="picks">${r.list.map((c,i)=>{const opp=c.game.home===c.p.team?"vs "+c.game.away:"@ "+c.game.home;
-    const h10=c.over?c.hits(c.l10):c.l10.length-c.hits(c.l10);
-    return`<button class="pick" data-lg="${c.lg}" data-m="${c.m.id}" data-id="${esc(c.p.id)}"><span class="rank">${i+1}</span>
-      <div class="pk1"><span class="who"><span class="lgtag">${c.lg}</span>${esc(c.p.name)}<small>${c.p.team} ${opp} · ${c.game.t.toLocaleDateString("en-US",{weekday:"short"})} ${c.game.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.over?"over":"under"}">${c.over?"Over":"Under"} ${fmt(c.line)} ${c.m.label}</span></div>
-      <div class="why">${esc(why(c))}</div>
-      <div class="pkmeta"><span>L10 ${h10}/${c.l10.length}</span><span>Avg ${c.avg.toFixed(1)}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
-  <p class="topnote">Picks are generated from each player's game logs against the current DraftKings line and refresh with every update. They're a statistical starting point, not a guarantee or betting advice; check injury news and the live line before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
+  const el=document.getElementById("top");
+  if(!PICKS||!PICKS.picks){el.innerHTML="";return}
+  const now=Date.now();
+  const notesOk=NOTES&&NOTES.notes&&(now-new Date(NOTES.updated||0).getTime())<36*3600e3;
+  const noteFor=k=>notesOk?NOTES.notes[k]:null;
+  const list=PICKS.picks.filter(c=>new Date(c.t).getTime()>now-2*3600e3&&(noteFor(c.key)||{}).flag!=="out").slice(0,10);
+  if(!list.length){el.innerHTML=`<div class="tophead"><h2>Top <span>10</span> plays</h2></div><p class="topnote">No DraftKings player lines are posted for upcoming games yet. Picks appear here as soon as lines go up.</p>`;return}
+  const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
+  const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
+  const ruled=notesOk?PICKS.picks.filter(c=>(noteFor(c.key)||{}).flag==="out").length:0;
+  el.innerHTML=`<div class="tophead"><h2>Top <span>10</span> plays</h2><p>${range} · ranked by hit rate against the DraftKings line${notesOk?` · news checked ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p></div>
+  ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}${ruled?` ${ruled} pick${ruled>1?"s were":" was"} dropped for injury or role news.`:""}</p>`:""}
+  <div class="picks">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
+    const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
+    return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id)}"><span class="rank">${i+1}</span>
+      <div class="pk1"><span class="who"><span class="lgtag">${c.lg}</span>${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(c.label)}</span></div>
+      <div class="why">${esc(c.why)}</div>
+      ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
+  <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
 
 function renderMovers(rows){
@@ -747,10 +696,11 @@ function wire(){
   document.getElementById("movers").addEventListener("click",e=>{const btn=e.target.closest(".mover");if(btn){S.sel=null;open(btn.dataset.id,true)}});
 }
 
-const linesLoad=fetch("lines.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
