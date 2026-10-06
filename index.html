@@ -38,11 +38,16 @@
   --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; --warn:#f0b45a; --warn-soft:#3a2a12; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+/* no double-tap zoom on controls; 16px fields so iOS doesn't zoom on focus */
+html,button,input,select,label,a,.pick,tr.row,.mover,.gp{touch-action:manipulation}
+@media (max-width:600px){input,select{font-size:16px!important}}
+.show-sm{display:none}
+@media (max-width:600px){.show-sm{display:inline}}
 select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238896ab' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px!important;cursor:pointer}
 html{-webkit-text-size-adjust:100%}
 body{-webkit-tap-highlight-color:transparent}
 .band{padding-top:env(safe-area-inset-top,0px)}
-.install{border:1px solid var(--band-line);background:var(--band-field);color:var(--band-ink);font:600 12.5px var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.install{flex:none;border:1px solid var(--band-line);background:var(--band-field);color:var(--band-ink);font:600 12.5px var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .install:hover{border-color:var(--accent)}
 .iostip{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 40px 12px 14px;font-size:13.5px;z-index:30;box-shadow:0 8px 30px rgb(0 0 0 / .3)}
 .iostip button{position:absolute;top:6px;right:6px;border:0;background:none;color:inherit;font-size:20px;line-height:1;padding:6px;cursor:pointer}
@@ -64,7 +69,11 @@ button:focus-visible,select:focus-visible,input:focus-visible,tr:focus-visible,.
 /* band */
 .band{background:var(--band);color:var(--band-ink);padding:0 16px;border-bottom:3px solid var(--accent)}
 .band .in{padding-block:22px 18px;display:flex;flex-direction:column;gap:16px}
-.brand{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 24px}
+.brand{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:6px 24px}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.brand .tag{grid-column:1;margin:0}
+.brand .chips{grid-column:2;grid-row:1 / span 2;justify-content:flex-end;align-self:center}
+@media (max-width:760px){.brand{grid-template-columns:minmax(0,1fr)}.brand .chips{grid-column:1;grid-row:auto;justify-content:flex-start}}
 h1{font:700 2.4rem/.95 var(--f-display);letter-spacing:.03em;margin:0;text-transform:uppercase}
 h1 span{color:var(--accent)}
 .tag{color:var(--band-muted);margin:6px 0 0;font-size:13.5px}
@@ -260,7 +269,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .tophead p{margin:0;color:var(--muted);font-size:12px}
 .picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;counter-reset:pick}
 @media (max-width:760px){.picks{grid-template-columns:minmax(0,1fr)}}
-.pick{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px;cursor:pointer;color:var(--ink);font:inherit}
+.pick{display:grid;-webkit-tap-highlight-color:transparent;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px;cursor:pointer;color:var(--ink);font:inherit}
 .pick:hover{border-color:var(--accent)}
 .rank{font:700 1.6rem/1 var(--f-display);color:var(--muted);min-width:28px;text-align:center;padding-top:2px}
 .pk1{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
@@ -308,6 +317,30 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .topnote{font-size:11.5px;color:var(--muted);margin:0}
 .upempty{background:var(--panel);border:1px dashed var(--line2);border-radius:10px;padding:28px;text-align:center;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
+/* phone layout (kept last so it wins) */
+@media (max-width:600px){
+  h1{font-size:1.6rem}
+  .band .in{gap:10px}
+  .tag{display:none}
+  .chips .chip.minor{display:none}
+  .toolbar{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .toolbar .seg button{padding:5px 12px}
+  .toolbar select{width:100%;padding:8px 22px 8px 10px!important;background-position:right 8px center}
+  .toolbar .seg button{padding:5px 10px}
+  .toolbar #search{grid-column:1 / span 2}
+  .toolbar label.chk{justify-self:end;font-size:12px;white-space:nowrap}
+  .pk1 .who small{display:block;margin:2px 0 0}
+  .props button{padding:7px 12px;font-size:13px}
+  .tophead h2{font-size:1.2rem}
+  .tophead p{font-size:11.5px}
+  .pick{padding:10px;gap:3px 10px}
+  .rank{font-size:1.3rem;min-width:20px}
+  .why{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .picks.short .pick:nth-child(n+6){display:none}
+  .mcard h2{font-size:.85rem}
+}
+.morepicks{align-self:center;border:1px solid var(--line2);background:var(--panel);color:var(--ink);font:600 13px var(--f-body);padding:8px 16px;border-radius:999px;cursor:pointer;display:none}
+@media (max-width:600px){.morepicks{display:inline-block}}
 </style>
 </head>
 <body>
@@ -316,11 +349,12 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 <div class="band">
   <div class="in">
     <div class="brand">
-      <div>
+      <div class="titlerow">
         <h1>Prop<span>/</span>Tracker</h1>
-        <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
+        <button class="install" id="installBtn" hidden>&#x2b07;<span class="hide-sm"> Install app</span><span class="show-sm"> Install</span></button>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start"><button class="install" id="installBtn" hidden>&#x2b07; Install app</button><div class="chips" id="chips"><span class="chip">Loading game logs&#x2026;</span></div></div>
+      <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
+      <div class="chips" id="chips"><span class="chip">Loading game logs&#x2026;</span></div>
     </div>
     <div class="toolbar">
       <div class="seg" role="group" aria-label="League">
@@ -462,7 +496,7 @@ function setupControls(){
   if(S.cat&&!CATS[S.cat])S.cat="";
   const catSel=document.getElementById("pos");
   catSel.hidden=S.league!=="NFL";
-  catSel.innerHTML=`<option value="">All categories</option>`+Object.keys(CATS).map(x=>`<option ${x===S.cat?"selected":""}>${x}</option>`).join("");
+  catSel.innerHTML=`<option value="">Category</option>`+Object.keys(CATS).map(x=>`<option ${x===S.cat?"selected":""}>${x}</option>`).join("");
   // only show the props in the chosen category
   const props=MK[S.league].filter(m=>inCat(m.id));
   if(!isAll()&&!props.some(m=>m.id===S.market))S.market=props[0].id;
@@ -471,7 +505,7 @@ function setupControls(){
   const on=mrow.querySelector('[aria-pressed="true"]');if(on)mrow.scrollLeft=Math.max(0,on.offsetLeft-mrow.clientWidth/2+on.offsetWidth/2);
   const teams=[...new Set(players.map(p=>p.team))].sort();
   if(S.team&&!teams.includes(S.team))S.team="";
-  document.getElementById("team").innerHTML=`<option value="">All teams</option>`+teams.map(t=>`<option ${t===S.team?"selected":""}>${t}</option>`).join("");
+  document.getElementById("team").innerHTML=`<option value="">Team</option>`+teams.map(t=>`<option ${t===S.team?"selected":""}>${t}</option>`).join("");
   document.getElementById("allHead").textContent=DATA[S.league+"meta"].season;
   document.getElementById("activeWrap").hidden=S.league!=="NFL"||S.view!=="board";
   document.getElementById("search").hidden=S.view!=="board";
@@ -525,13 +559,14 @@ function renderTop(){
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
   el.innerHTML=`${head}<p>${S.league} · ${range} · ranked by hit rate against the DraftKings line${notesOk?` · news checked ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p></div>
   ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
-  <div class="picks">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
+  <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
     return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
+  ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
 
@@ -724,6 +759,7 @@ function drawChart(g,m,line){
   s+=`</svg><div class="tip" hidden></div>`;
   box.innerHTML=s;
   const tip=box.querySelector(".tip"),svg=box.querySelector("svg");
+  let tipT;box.addEventListener("touchend",()=>{clearTimeout(tipT);tipT=setTimeout(()=>{tip.hidden=true;box.querySelectorAll("rect.hz").forEach(r=>r.setAttribute("fill","transparent"))},1800)},{passive:true});
   box.querySelectorAll("rect.hz").forEach(rc=>{
     rc.addEventListener("mouseenter",()=>{const i=+rc.dataset.i,x=g[i],v=vals[i],bb=svg.getBoundingClientRect(),sc=bb.width/W;
       tip.innerHTML=`<b>${dfmt(x.d,{month:"short",day:"numeric",year:"numeric"})} ${x.home?"vs":"@"} ${x.opp}</b><br>${m.label}: ${v} \u00b7 ${v>line?"Over":v<line?"Under":"Push"} ${fmt(line)}`;
@@ -751,6 +787,7 @@ function open(id,jump){
 }
 function wire(){
   document.getElementById("top").addEventListener("click",e=>{
+    if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
@@ -782,7 +819,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
-  document.getElementById("chips").innerHTML=`<span class="chip">NFL <b>${nflTxt}</b></span><span class="chip">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
+  document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   setupControls();wire();render();
 }).catch(err=>{
