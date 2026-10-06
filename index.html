@@ -125,6 +125,7 @@ tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .av{width:30px;height:30px;border-radius:50%;background:var(--line);color:var(--ink2);font:700 12px var(--f-display);letter-spacing:.04em;display:grid;place-items:center;flex:none}
 tr.sel .av{background:var(--accent);color:var(--on-accent)}
 .pname{font-weight:600;line-height:1.2}
+.ptype{color:var(--accent);font-weight:600}
 .pteam{color:var(--muted);font-size:11.5px}
 .chev{color:var(--muted);font-size:9px;transition:transform .15s;display:inline-block;margin-left:2px}
 tr.sel .chev{transform:rotate(90deg);color:var(--accent)}
@@ -397,7 +398,7 @@ const MK={
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
-function dkLine(p){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[S.market]||null}
+function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[m.id]||null}
 let S={dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
 function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,pos:S.pos,active:S.active,lines:S.lines}))}catch(e){}}
@@ -408,8 +409,13 @@ const half=v=>Math.floor(v)+.5;
 function median(a){const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2}
 const ou=(v,l)=>v>l?'<span class="pill o">O</span>':v<l?'<span class="pill u">U</span>':'<span class="pill p">P</span>';
 const heat=v=>v==null?"":v>=.7?"h2":v>=.6?"h1":v<=.3?"c2":v<=.4?"c1":"";
-const mkt=()=>MK[S.league].find(m=>m.id===S.market);
-const lineKey=p=>S.league+"|"+S.market+"|"+p.id;
+const ALL={id:"all",label:"All props"};
+const isAll=()=>S.market==="all";
+const mkt=()=>isAll()?ALL:MK[S.league].find(m=>m.id===S.market);
+const SHORT={pyd:"Pass yds",cmp:"Completions",att:"Pass att",ptd:"Pass TDs",ryd:"Rush yds",car:"Rush att",rec:"Receptions",recyd:"Rec yds",rry:"Rush+Rec yds",td:"Anytime TD",pts:"Points",reb:"Rebounds",ast:"Assists","3pm":"Threes",pra:"PRA",pr:"Pts+Reb",pa:"Pts+Ast",ra:"Reb+Ast"};
+const lineKey=(p,m)=>S.league+"|"+m.id+"|"+p.id;
+// which props apply right now: the selected one, or every prop for the position when "All" is picked
+const activeMarkets=()=>isAll()?MK[S.league].filter(m=>!S.pos||!m.pos||m.pos.includes(S.pos)):[mkt()];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const initials=n=>n.replace(/\b(Jr|Sr|II|III|IV)\.?$/,"").trim().split(/\s+/).map(w=>w[0]).filter(c=>/[A-Za-z]/.test(c)).slice(0,2).join("").toUpperCase();
 const dfmt=(d,o)=>d.toLocaleDateString("en-US",o);
@@ -431,13 +437,13 @@ function compute(p,m){
   const curVals=p.games.filter(g=>g.date>=CUR()).map(m.f);
   const base=curVals.length>=8?curVals:vals.slice(S.league==="NFL"?-17:-40);
   const est=m.fixed??half(median(base));
-  const mine=S.lines[lineKey(p)];
-  const dk=m.fixed?null:dkLine(p);
+  const mine=S.lines[lineKey(p,m)];
+  const dk=m.fixed?null:dkLine(p,m);
   const line=mine??(dk?dk.line:est);
   const rate=a=>a.length?a.filter(v=>v>line).length/a.length:null;
   let streak=0;for(let i=vals.length-1;i>=0;i--){const o=vals[i]>line;if(i===vals.length-1)streak=o?1:-1;else if(o===(streak>0))streak+=o?1:-1;else break}
   const l10=vals.slice(-10);
-  return{p,vals,line,est,dk,bk:mine==null&&dk?"DK":null,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
+  return{p,m,key:p.id+"|"+m.id,vals,line,est,dk,bk:mine==null&&dk?"DK":null,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
     avg10:l10.reduce((a,b)=>a+b,0)/l10.length,streak,name:p.name};
 }
 
@@ -449,9 +455,9 @@ function setupControls(){
   document.getElementById("pos").innerHTML=`<option value="">All positions</option>`+posList.map(x=>`<option ${x===S.pos?"selected":""}>${x}</option>`).join("");
   // only show the props that apply to the chosen position
   const props=MK[S.league].filter(m=>!S.pos||!m.pos||m.pos.includes(S.pos));
-  if(!props.some(m=>m.id===S.market))S.market=props[0].id;
+  if(!isAll()&&!props.some(m=>m.id===S.market))S.market=props[0].id;
   const mrow=document.getElementById("market");
-  mrow.innerHTML=props.map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.label}</button>`).join("");
+  mrow.innerHTML=[ALL,...props].map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.id==="all"?"All":m.label}</button>`).join("");
   const on=mrow.querySelector('[aria-pressed="true"]');if(on)mrow.scrollLeft=Math.max(0,on.offsetLeft-mrow.clientWidth/2+on.offsetWidth/2);
   const teams=[...new Set(players.map(p=>p.team))].sort();
   if(S.team&&!teams.includes(S.team))S.team="";
@@ -465,17 +471,24 @@ function setupControls(){
 }
 
 function eligible(r,m){return m.fixed||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.step?15:1))}
-function boardRows(){
-  const m=mkt();
+function propRows(){
   let ps=DATA[S.league];
-  if(S.league==="NFL"){ps=ps.filter(p=>m.pos.includes(p.pos));if(S.active)ps=ps.filter(p=>p.cur>0)}
+  if(S.league==="NFL"&&S.active)ps=ps.filter(p=>p.cur>0);
   if(S.pos)ps=ps.filter(p=>p.pos===S.pos);
   if(S.team)ps=ps.filter(p=>p.team===S.team);
   const q=S.q.trim().toLowerCase(); if(q)ps=ps.filter(p=>p.name.toLowerCase().includes(q));
-  let rows=ps.map(p=>compute(p,m)).filter(r=>eligible(r,m));
+  const rows=[];
+  for(const m of activeMarkets())for(const p of ps){
+    if(S.league==="NFL"&&!m.pos.includes(p.pos))continue;
+    const r=compute(p,m);if(eligible(r,m))rows.push(r);
+  }
+  return rows;
+}
+function boardRows(){
+  let rows=propRows();
   const k=S.sort;
-  if(FROZEN){const ix=new Map(FROZEN.map((id,i)=>[id,i]));rows.sort((a,b)=>(ix.get(a.p.id)??1e9)-(ix.get(b.p.id)??1e9));return rows}
-  rows.sort((a,b)=>{const va=a[k],vb=b[k];if(va==null)return 1;if(vb==null)return -1;const d=(typeof va==="string"?va.localeCompare(vb):va-vb)*S.dir;return d||b.avg10-a.avg10});
+  if(FROZEN){const ix=new Map(FROZEN.map((id,i)=>[id,i]));rows.sort((a,b)=>(ix.get(a.key)??1e9)-(ix.get(b.key)??1e9));return rows}
+  rows.sort((a,b)=>{if(isAll()&&k!=="name"&&!!a.dk!==!!b.dk)return a.dk?-1:1;const va=a[k],vb=b[k];if(va==null)return 1;if(vb==null)return -1;const d=(typeof va==="string"?va.localeCompare(vb):va-vb)*S.dir;return d||b.avg10-a.avg10});
   return rows;
 }
 
@@ -487,8 +500,16 @@ function renderTop(){
   const noteFor=k=>notesOk?NOTES.notes[k]:null;
   const outP=new Set(notesOk?Object.entries(NOTES.notes).filter(([k,v])=>v.flag==="out").map(([k])=>k.split("|").slice(0,2).join("|")):[]);
   const live=c=>new Date(c.t).getTime()>now-2*3600e3&&!outP.has(c.lg+"|"+c.id);
-  const list=((PICKS.byMarket||{})[S.league+"|"+S.market]||[]).filter(c=>live(c)&&(!S.pos||c.pos===S.pos)).slice(0,10);
-  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${S.pos?S.pos+" ":""}${esc(m.label)}</h2>`;
+  let src;
+  if(isAll()){
+    // best play per player across every prop type
+    const pool=new Map();
+    for(const c of [...(PICKS.picks||[]),...Object.entries(PICKS.byMarket||{}).filter(([k])=>k.startsWith(S.league+"|")).flatMap(([,v])=>v)])if(c.lg===S.league)pool.set(c.key,c);
+    const seen=new Set();src=[];
+    for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||(S.pos&&c.pos!==S.pos)||seen.has(c.id))continue;seen.add(c.id);src.push(c)}
+  }else src=(PICKS.byMarket||{})[S.league+"|"+S.market]||[];
+  const list=src.filter(c=>live(c)&&(!S.pos||c.pos===S.pos)).slice(0,10);
+  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${S.pos?S.pos+" ":""}${isAll()?"Best overall":esc(m.label)}</h2>`;
   if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
@@ -497,8 +518,8 @@ function renderTop(){
   ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
   <div class="picks">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
-    return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id)}"><span class="rank">${i+1}</span>
-      <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span></div>
+    return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
+      <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
@@ -507,11 +528,11 @@ function renderTop(){
 
 function renderMovers(rows){
   const el=document.getElementById("movers");
-  const pool=rows.filter(r=>r.vals.length>=8);
+  const pool=rows.filter(r=>r.vals.length>=8&&!(isAll()&&r.m.fixed));
   const hot=[...pool].sort((a,b)=>b.l10-a.l10||b.streak-a.streak).slice(0,3);
   const cold=[...pool].sort((a,b)=>a.l10-b.l10||a.streak-b.streak).slice(0,3);
   const streak=[...pool].sort((a,b)=>Math.abs(b.streak)-Math.abs(a.streak)).slice(0,3);
-  const item=(r,right)=>`<button class="mover" data-id="${esc(r.p.id)}"><span class="mn">${esc(r.name)} <span class="ms">${r.p.team} \u00b7 ${fmt(r.line)}</span></span>${right}</button>`;
+  const item=(r,right)=>`<button class="mover" data-id="${esc(r.key)}"><span class="mn">${esc(r.name)} <span class="ms">${r.p.team} \u00b7 ${isAll()?(SHORT[r.m.id]||"")+" ":""}${fmt(r.line)}</span></span>${right}</button>`;
   const card=(title,color,list,f)=>`<div class="mcard"><h2><i class="dot" style="background:${color}"></i>${title}</h2>${list.length?list.map(r=>item(r,f(r))).join(""):'<p class="ms" style="margin:0">Not enough games yet</p>'}</div>`;
   el.innerHTML=pool.length<3?"":card("Running hot \u00b7 L10","var(--hit)",hot,r=>`<span class="heat ${heat(r.l10)}">${pct(r.l10)}</span>`)
     +card("Running cold \u00b7 L10","var(--miss)",cold,r=>`<span class="heat ${heat(r.l10)}">${pct(r.l10)}</span>`)
@@ -527,31 +548,31 @@ function render(){
   renderTop();
   renderMovers(rows);
   document.getElementById("btitle").textContent=`${S.league} \u00b7 ${m.label}`;
-  if(!rows.some(r=>r.p.id===S.sel))S.sel=null;
-  const selIdx=rows.findIndex(r=>r.p.id===S.sel);
+  if(!rows.some(r=>r.key===S.sel))S.sel=null;
+  const selIdx=rows.findIndex(r=>r.key===S.sel);
   if(selIdx>=shown)shown=Math.ceil((selIdx+1)/PAGE)*PAGE;
   const vis=rows.slice(0,shown);
   document.getElementById("board").innerHTML=vis.length?vis.map(r=>`
-    <tr class="row ${r.p.id===S.sel?"sel":""}" tabindex="0" data-id="${esc(r.p.id)}" aria-expanded="${r.p.id===S.sel}">
-      <td><div class="pl"><span class="av">${initials(r.name)}</span><div><div class="pname">${esc(r.name)} <span class="chev">\u25b6</span></div><div class="pteam">${r.p.team} \u00b7 ${r.p.pos||""}</div></div></div></td>
-      <td class="num mono">${fmt(r.line)}${r.mine?'<span class="lbl mine">yours</span>':r.bk?`<span class="lbl book">${r.bk}</span>`:m.fixed?"":'<span class="lbl">est.</span>'}</td>
+    <tr class="row ${r.key===S.sel?"sel":""}" tabindex="0" data-id="${esc(r.key)}" aria-expanded="${r.key===S.sel}">
+      <td><div class="pl"><span class="av">${initials(r.name)}</span><div><div class="pname">${esc(r.name)} <span class="chev">\u25b6</span></div><div class="pteam">${r.p.team} \u00b7 ${r.p.pos||""}${isAll()?` \u00b7 <b class="ptype">${SHORT[r.m.id]||r.m.label}</b>`:""}</div></div></div></td>
+      <td class="num mono">${fmt(r.line)}${r.mine?'<span class="lbl mine">yours</span>':r.bk?`<span class="lbl book">${r.bk}</span>`:r.m.fixed?"":'<span class="lbl">est.</span>'}</td>
       <td class="num mono hide-sm">${r.avg10.toFixed(1)}</td>
       <td class="num hide-sm"><span class="heat ${heat(r.l5)}">${pct(r.l5)}</span></td>
       <td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td>
       <td class="num"><span class="heat ${heat(r.all)}">${pct(r.all)}</span><span class="sub">${r.allN}g</span></td>
       <td class="num hide-sm">${r.streak>0?`<span class="pill o">O${r.streak}</span>`:`<span class="pill u">U${-r.streak}</span>`}</td>
-    </tr>${r.p.id===S.sel?'<tr class="drawer"><td colspan="7" id="detail"></td></tr>':""}`).join(""):`<tr><td colspan="7" class="empty">No players match these filters.</td></tr>`;
+    </tr>${r.key===S.sel?'<tr class="drawer"><td colspan="7" id="detail"></td></tr>':""}`).join(""):`<tr><td colspan="7" class="empty">No players match these filters.</td></tr>`;
   document.querySelectorAll("#boardT th").forEach(th=>{th.textContent=th.textContent.replace(/ [\u25b2\u25bc]$/,"")+(th.dataset.k===S.sort?(S.dir<0?" \u25bc":" \u25b2"):"");th.setAttribute("aria-sort",th.dataset.k===S.sort?(S.dir<0?"descending":"ascending"):"none")});
   const foot=document.getElementById("bfoot");
   foot.hidden=rows.length<=shown;
-  document.getElementById("moreBtn").textContent=`Show more players (${rows.length-shown} left)`;
-  const r=rows.find(x=>x.p.id===S.sel);
+  document.getElementById("moreBtn").textContent=`Show more ${isAll()?"props":"players"} (${rows.length-shown} left)`;
+  const r=rows.find(x=>x.key===S.sel);
   if(r)renderDetail(r);
 }
 
 function renderDetail(r){
   const el=document.getElementById("detail");
-  const m=mkt(),p=r.p,g=p.games,line=r.line,step=m.step||1,nfl=S.league==="NFL";
+  const m=r.m,p=r.p,g=p.games,line=r.line,step=m.step||1,nfl=S.league==="NFL";
   const vals=r.vals,n=vals.length,edge=r.avg10-line;
   const over=a=>a.filter(v=>v>line).length;
   const cur=g.filter(x=>x.date>=CUR()).map(m.f);
@@ -621,14 +642,14 @@ function renderDetail(r){
   };
   draw();
   el.querySelector(".dtabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(b){S.dtab=b.dataset.tab;draw()}};
-  const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p)]=v;save();rerenderInPlace()};
+  const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p,m)]=v;save();rerenderInPlace()};
   el.addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(t)setLine(parseFloat(t.dataset.set))});
   el.addEventListener("keydown",e=>{const t=e.target.closest("tr[data-set]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();setLine(parseFloat(t.dataset.set))}});
   if(!m.fixed){
     document.getElementById("ldn").onclick=()=>setLine(line-step);
     document.getElementById("lup").onclick=()=>setLine(line+step);
     document.getElementById("lin").onchange=e=>{const v=parseFloat(e.target.value);if(!isNaN(v))setLine(v)};
-    const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p)];save();rerenderInPlace()};
+    const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p,m)];save();rerenderInPlace()};
   }
 }
 
@@ -645,11 +666,10 @@ function renderUpcoming(){
   const el=document.getElementById("view-up"),m=mkt(),meta=DATA[S.league+"meta"];
   const games=upcomingGames();
   const byTeam={};
-  let ps=DATA[S.league];
-  if(S.league==="NFL")ps=ps.filter(p=>m.pos.includes(p.pos)&&p.cur>0);
-  if(S.pos)ps=ps.filter(p=>p.pos===S.pos);
-  ps.map(p=>compute(p,m)).filter(r=>eligible(r,m)).forEach(r=>(byTeam[r.p.team]=byTeam[r.p.team]||[]).push(r));
-  Object.values(byTeam).forEach(a=>a.sort((x,y)=>y.avg10-x.avg10));
+  const keepTeam=S.team;S.team="";const qs=S.q;S.q="";const act=S.active;if(S.league==="NFL")S.active=true;
+  const urows=propRows();S.team=keepTeam;S.q=qs;S.active=act;
+  urows.forEach(r=>(byTeam[r.p.team]=byTeam[r.p.team]||[]).push(r));
+  Object.values(byTeam).forEach(a=>a.sort(isAll()?(x,y)=>(!!y.dk-!!x.dk)||((y.l10??0)-(x.l10??0)):(x,y)=>y.avg10-x.avg10));
   const first=games[0];
   let html=`<div class="uphead"><h2>${S.league} \u00b7 ${m.label}</h2><p>${S.league==="NFL"?"Spreads and totals from the nflverse schedule \u00b7 ":""}Click a player for his full prop card</p></div>`;
   if(!games.length){el.innerHTML=html+`<div class="upempty">No ${S.league} games on the schedule${S.team?" for "+S.team:""} in the next few weeks.</div>`;return}
@@ -658,7 +678,7 @@ function renderUpcoming(){
   games.forEach(x=>{const k=x.t.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(x)});
   const side=(team,gid)=>{
     const list=byTeam[team]||[],open=gExpanded.has(gid),lim=open?list.length:4;
-    return`<div class="gteam"><h5><span>${team}</span><span>Line \u00b7 L10</span></h5>${list.length?list.slice(0,lim).map(r=>`<button class="gp" data-id="${esc(r.p.id)}"><span class="nm">${esc(r.name)} <span class="ln">${r.p.pos||""}</span></span><span class="r"><span class="ln">${fmt(r.line)}</span><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></span></button>`).join(""):`<div class="gnone">No tracked players for this prop</div>`}</div>`;
+    return`<div class="gteam"><h5><span>${team}</span><span>Line \u00b7 L10</span></h5>${list.length?list.slice(0,lim).map(r=>`<button class="gp" data-id="${esc(r.key)}"><span class="nm">${esc(r.name)} <span class="ln">${isAll()?SHORT[r.m.id]||"":r.p.pos||""}</span></span><span class="r"><span class="ln">${fmt(r.line)}</span><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></span></button>`).join(""):`<div class="gnone">No tracked players for this prop</div>`}</div>`;
   };
   for(const[day,list]of Object.entries(days)){
     html+=`<section class="day"><h3>${day}</h3><div class="games">`+list.map(x=>{
@@ -723,7 +743,7 @@ function open(id,jump){
 function wire(){
   document.getElementById("top").addEventListener("click",e=>{
     const b=e.target.closest(".pick");if(!b)return;
-    S.league=b.dataset.lg;S.market=b.dataset.m;S.pos="";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
+    S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.pos="";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.pos="";S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
