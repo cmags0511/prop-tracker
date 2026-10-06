@@ -78,6 +78,12 @@ h1 span{color:var(--accent)}
 .toolbar select,.toolbar input{font:500 13px var(--f-body);color:var(--band-ink);background:var(--band-field);border:1px solid var(--band-line);border-radius:8px;padding:8px 10px;min-width:0}
 .toolbar input::placeholder{color:var(--band-muted)}
 .toolbar .grow{flex:1 1 160px}
+.props{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-inline:-16px;padding:2px 16px;scroll-behavior:smooth;mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 28px),transparent)}
+.props::-webkit-scrollbar{display:none}
+.props button{flex:none;border:1px solid var(--band-line);background:var(--band-field);color:var(--band-muted);font:600 13px var(--f-body);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.props button:hover{color:var(--band-ink);border-color:var(--accent)}
+.props button[aria-pressed="true"]{background:var(--band-ink);border-color:var(--band-ink);color:var(--band)}
+@media (prefers-reduced-motion:reduce){.props{scroll-behavior:auto}}
 .toolbar label.chk{display:inline-flex;align-items:center;gap:6px;color:var(--band-muted);font-size:12.5px;cursor:pointer}
 
 main{padding:0 16px}
@@ -320,12 +326,12 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
         <button id="lg-NFL" aria-pressed="true">NFL</button>
         <button id="lg-NBA" aria-pressed="false">NBA</button>
       </div>
-      <select id="market" aria-label="Prop type"></select>
       <select id="pos" aria-label="Position"></select>
       <select id="team" aria-label="Team"></select>
       <input id="search" class="grow" type="search" placeholder="Search player" aria-label="Search player">
       <label class="chk" id="activeWrap"><input type="checkbox" id="active" checked> <span id="activeLbl">Played this season</span></label>
     </div>
+    <div class="props" id="market" role="group" aria-label="Prop type"></div>
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
@@ -438,7 +444,9 @@ function compute(p,m){
 function setupControls(){
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
   if(!MK[S.league].some(m=>m.id===S.market))S.market=MK[S.league][0].id;
-  document.getElementById("market").innerHTML=MK[S.league].map(m=>`<option value="${m.id}" ${m.id===S.market?"selected":""}>${m.label}</option>`).join("");
+  const mrow=document.getElementById("market");
+  mrow.innerHTML=MK[S.league].map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${m.id===S.market}">${m.label}</button>`).join("");
+  const on=mrow.querySelector('[aria-pressed="true"]');if(on)mrow.scrollLeft=Math.max(0,on.offsetLeft-mrow.clientWidth/2+on.offsetWidth/2);
   const m=mkt(),players=DATA[S.league];
   const posList=S.league==="NFL"?m.pos:[...new Set(players.map(p=>p.pos))].filter(Boolean).sort();
   if(S.pos&&!posList.includes(S.pos))S.pos="";
@@ -716,7 +724,7 @@ function wire(){
     S.league=b.dataset.lg;S.market=b.dataset.m;S.pos="";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.pos="";S.team="";reset();setupControls();save();render()});
-  document.getElementById("market").onchange=e=>{S.market=e.target.value;reset();setupControls();save();render()};
+  document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.pos=e.target.value;reset();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
   document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;FROZEN=null;render()};
