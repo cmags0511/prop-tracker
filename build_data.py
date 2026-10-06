@@ -112,7 +112,8 @@ for c in ["attempts", "carries", "targets", "completions", "passing_yards", "pas
     f[c] = pd.to_numeric(f[c], errors="coerce").fillna(0)
 f["tkl"] = f.def_tackles_solo + f.def_tackle_assists
 # keep games where the player actually did something in his role
-f = f[(f.position.isin(OFF) & (f.attempts + f.carries + f.targets >= 3))
+# any game where he touched the ball or was targeted counts (dropping low-usage games inflated hit rates)
+f = f[(f.position.isin(OFF) & (f.attempts + f.carries + f.targets >= 1))
       | ((f.position == "K") & (f.fg_att + f.pat_att > 0))
       | (f.position_group.isin(DEF) & (f.tkl + f.def_sacks + f.def_interceptions > 0))]
 sch = get_csv(f"{NFLV}/schedules/games.csv")
@@ -131,8 +132,8 @@ for pid, d in f.groupby("player_id"):
     if len(d) < 5 and len(cur) < 2:
         continue
     if pos == "QB" and d.attempts.mean() < 20: continue
-    if pos == "RB" and (d.carries + d.targets).mean() < 8: continue
-    if pos in ("WR", "TE") and d.targets.mean() < 4: continue
+    if pos == "RB" and (d.carries + d.targets).mean() < 6: continue
+    if pos in ("WR", "TE") and d.targets.mean() < 3: continue
     if pos in DEF and d.tkl.mean() < 3.5 and d.def_sacks.mean() < .4: continue
     games = []
     for r in d.itertuples():
