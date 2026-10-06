@@ -8,7 +8,7 @@ Downloads (all public GitHub releases):
 
 Usage: python3 build_data.py [output_path]
 """
-import io, json, sys, datetime as dt
+import io, json, sys, time, datetime as dt
 import urllib.request
 import pandas as pd
 
@@ -19,15 +19,31 @@ NOW = dt.datetime.now(dt.timezone.utc)
 TODAY = NOW.astimezone(dt.timezone(dt.timedelta(hours=-4))).date()
 
 
+def _read(url):
+    with urllib.request.urlopen(url, timeout=120) as r:
+        raw = io.BytesIO(r.read())
+    if url.endswith(".parquet"):
+        return pd.read_parquet(raw)
+    return pd.read_csv(raw, low_memory=False, compression="gzip" if url.endswith(".gz") else None)
+
+
 def get_csv(url, required=True):
-    try:
-        with urllib.request.urlopen(url, timeout=120) as r:
-            return pd.read_csv(io.BytesIO(r.read()), low_memory=False)
-    except Exception as e:
-        if required:
-            raise
-        print(f"skip {url}: {e}")
-        return None
+    """Download a data file. Data publishers sometimes switch formats or briefly remove a file
+    while re-uploading it, so try the .csv, .csv.gz and .parquet versions and retry once."""
+    base = url[:-4] if url.endswith(".csv") else url
+    tries = [url] + ([base + ".csv.gz", base + ".parquet"] if url.endswith(".csv") else [])
+    last = None
+    for attempt in range(2):
+        for u in tries:
+            try:
+                return _read(u)
+            except Exception as e:
+                last = e
+        time.sleep(20)
+    if required:
+        raise RuntimeError(f"could not download {url}: {last}")
+    print(f"skip {url}: {last}")
+    return None
 
 
 # ---------------- seasons ----------------
