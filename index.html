@@ -463,7 +463,9 @@ const MK={
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
-function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];return e&&e[m.id]||null}
+function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
+  // ignore a line whose game has already been played (e.g. if a refresh failed)
+  if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
 let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{}};
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
 function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,cat:S.cat,active:S.active,lines:S.lines}))}catch(e){}}

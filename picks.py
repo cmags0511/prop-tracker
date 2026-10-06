@@ -66,6 +66,8 @@ def main():
             for mid, dk in e.items():
                 if mid not in UNIT:
                     continue
+                if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
+                    continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
                 if len(vals) < 8:
                     continue
