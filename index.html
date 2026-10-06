@@ -487,8 +487,8 @@ function renderTop(){
   const noteFor=k=>notesOk?NOTES.notes[k]:null;
   const outP=new Set(notesOk?Object.entries(NOTES.notes).filter(([k,v])=>v.flag==="out").map(([k])=>k.split("|").slice(0,2).join("|")):[]);
   const live=c=>new Date(c.t).getTime()>now-2*3600e3&&!outP.has(c.lg+"|"+c.id);
-  const list=((PICKS.byMarket||{})[S.league+"|"+S.market]||[]).filter(live).slice(0,10);
-  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${esc(m.label)}</h2>`;
+  const list=((PICKS.byMarket||{})[S.league+"|"+S.market]||[]).filter(c=>live(c)&&(!S.pos||c.pos===S.pos)).slice(0,10);
+  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${S.pos?S.pos+" ":""}${esc(m.label)}</h2>`;
   if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
