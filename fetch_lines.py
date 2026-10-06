@@ -80,7 +80,8 @@ def main():
         old = json.load(open(OUT))
     except Exception:
         old = {}
-    out = {"fetched": now.isoformat(timespec="minutes"), "book": "DraftKings", "NFL": {}, "NBA": {}}
+    out = {"fetched": now.isoformat(timespec="minutes"), "book": "DraftKings", "NFL": {}, "NBA": {}, "log": []}
+    log = out["log"].append
     any_ok = False
     for lg, (sport, league, days) in LEAGUES.items():
         start = now.astimezone(dt.timezone(dt.timedelta(hours=-5))).date()
@@ -89,7 +90,7 @@ def main():
             sb = get(f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
                      f"?dates={start:%Y%m%d}-{end:%Y%m%d}&limit=200")
         except Exception as e:
-            print(f"{lg}: scoreboard failed ({e}); keeping previous {lg} lines")
+            print(f"{lg}: scoreboard failed ({e}); keeping previous {lg} lines"); log(f"{lg} scoreboard: {e}")
             out[lg] = old.get(lg, {})
             continue
         any_ok = True
@@ -107,10 +108,10 @@ def main():
                     page += 1
             except urllib.error.HTTPError as e:
                 if e.code != 404:  # 404 = no props posted yet for this game
-                    print(f"{lg} {ev.get('shortName')}: props failed ({e.code})")
+                    print(f"{lg} {ev.get('shortName')}: props failed ({e.code})"); log(f"{lg} {ev.get('shortName')}: {e.code}")
                 continue
             except Exception as e:
-                print(f"{lg} {ev.get('shortName')}: props failed ({e})")
+                print(f"{lg} {ev.get('shortName')}: props failed ({e})"); log(f"{lg} {ev.get('shortName')}: {e}")
                 continue
             for it in items:
                 ref = (it.get("athlete") or {}).get("$ref", "")
@@ -127,10 +128,12 @@ def main():
                     rec[prop] = {"line": cur, "open": opn, "u": upd, "g": ev.get("shortName", "")}
                     got += prev is None
             time.sleep(0.2)
-        print(f"{lg}: {len(events)} upcoming games, {got} player lines")
+        print(f"{lg}: {len(events)} upcoming games, {got} player lines"); log(f"{lg}: {len(sb.get('events', []))} games on scoreboard, {len(events)} upcoming, {got} lines")
     if not any_ok:
         print("ESPN unreachable; keeping previous lines.json")
-        return
+        old["log"] = out["log"]
+        old.setdefault("NFL", {}); old.setdefault("NBA", {})
+        out = old
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}")
 
