@@ -1,5 +1,5 @@
 // Prop Tracker service worker: app works offline, data is always fetched fresh when online.
-const VERSION = "pt-v24";
+const VERSION = "pt-v25";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", e => {

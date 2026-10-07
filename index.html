@@ -409,6 +409,18 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 .pcard .bhead p{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pcard.win{box-shadow:inset 3px 0 0 var(--hit)}
 .pcard.loss{box-shadow:inset 3px 0 0 var(--miss)}
+.mu{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--panel)}
+.mu.good{border-left:3px solid var(--hit)}.mu.tough{border-left:3px solid var(--miss)}
+.mutop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.mutop b{font:700 13px var(--f-display);letter-spacing:.08em;text-transform:uppercase}
+.mupill{font:600 11.5px var(--f-body);padding:2px 9px;border-radius:999px;background:var(--bg);color:var(--ink2)}
+.mupill.good{background:var(--hit-soft);color:var(--hit)}.mupill.tough{background:var(--miss-soft);color:var(--miss)}
+.mu p{margin:0;font-size:13px;color:var(--ink2);line-height:1.45}
+.mu p b{color:var(--ink)}
+.murecent .mono{font-weight:600;padding:1px 5px;border-radius:4px;margin-right:2px}
+.murecent .o{color:var(--hit);background:var(--hit-soft)}.murecent .u{color:var(--miss);background:var(--miss-soft)}
+.muchip{font:500 11px var(--f-mono);color:var(--ink2);background:var(--bg);border-radius:5px;padding:2px 6px}
+.muchip.good{color:var(--hit);background:var(--hit-soft)}.muchip.tough{color:var(--miss);background:var(--miss-soft)}
 .trk:hover{border-color:var(--accent);color:var(--accent)}
 .trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .trk.sm{padding:2px 9px;font-size:11.5px;margin-left:auto}
@@ -701,7 +713,7 @@ function renderTop(){
       <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span><button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span>${(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
@@ -785,6 +797,7 @@ function renderDetail(r){
     ${outNote(S.league,p.id)?`<p class="slate" style="border-left:3px solid var(--miss)"><b>Ruled out:</b> ${esc(outNote(S.league,p.id))}</p>`:""}
     <div class="strip">${strip}</div>
     ${dkbar}
+    ${matchupHtml(S.league,p,m,line,ng)}
     ${trackbar}
     <div class="dtabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" aria-selected="${S.dtab===t[0]}">${t[1]}</button>`).join("")}</div>
     <div class="dpanel" id="dpanel"></div>
@@ -1046,6 +1059,69 @@ function gradeMy(e){
     if(g){const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v}}
   }
   return{status:now-start>3*864e5?"void":"live"};
+}
+
+// ---- Matchups: what each opponent allows (or does), from every team's last 10 games ----
+const posGroup=(lg,pos)=>{pos=pos||"";if(lg==="NBA")return pos.includes("C")?"C":pos.includes("G")?"G":"F";return["LB","DB","DL","DEF"].includes(pos)?"DEF":pos};
+const GROUPNAME={QB:"QBs",RB:"RBs",WR:"WRs",TE:"TEs",DEF:"defenders",K:"kickers",G:"guards",F:"forwards",C:"centers",ALL:"all players"};
+const ordinal=n=>n+(n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
+const MU=new WeakMap();
+function muCache(){if(!MU.has(DATA))MU.set(DATA,{});return MU.get(DATA)}
+// average per game that players in `grp` produced in `f` against each team, over that team's last 10 games
+function allowedTable(lg,key,f,grp){
+  const C=muCache(),ck=[lg,key,grp].join("|");if(C[ck])return C[ck];
+  const tg={};
+  for(const p of DATA[lg]||[]){
+    if(grp!=="ALL"&&posGroup(lg,p.pos)!==grp)continue;
+    for(const g of p.games){const k=g.opp,v=f(g),t=(tg[k]=tg[k]||{}),o=(t[g.date]=t[g.date]||{sum:0,top:-1,who:""});o.sum+=v;if(v>o.top){o.top=v;o.who=p.name}}
+  }
+  const rows=[];
+  for(const[team,byDate]of Object.entries(tg)){
+    const ds=Object.keys(byDate).sort().slice(-10);if(ds.length<3)continue;
+    rows.push({team,avg:ds.reduce((a,d)=>a+byDate[d].sum,0)/ds.length,n:ds.length,recent:ds.slice(-4).reverse().map(d=>byDate[d])});
+  }
+  rows.sort((a,b)=>b.avg-a.avg);rows.forEach((r,i)=>r.rank=i+1);
+  const lgAvg=rows.reduce((a,r)=>a+r.avg,0)/(rows.length||1);
+  const out={by:Object.fromEntries(rows.map(r=>[r.team,r])),n:rows.length,lgAvg};C[ck]=out;return out;
+}
+// how a team's offense plays (football): plays per game and pass rate, from its own players
+function offenseTable(lg){
+  const C=muCache(),ck=lg+"|off";if(C[ck])return C[ck];
+  const tg={};
+  for(const p of DATA[lg]||[])for(const g of p.games){const t=(tg[p.team]=tg[p.team]||{}),o=(t[g.date]=t[g.date]||{att:0,car:0});o.att+=g.att||0;o.car+=g.car||0}
+  const rows=[];
+  for(const[team,byDate]of Object.entries(tg)){const ds=Object.keys(byDate).sort().slice(-10).filter(d=>byDate[d].att+byDate[d].car>20);if(ds.length<3)continue;
+    const att=ds.reduce((a,d)=>a+byDate[d].att,0),car=ds.reduce((a,d)=>a+byDate[d].car,0);rows.push({team,plays:(att+car)/ds.length,pass:att/(att+car)})}
+  rows.sort((a,b)=>b.plays-a.plays);rows.forEach((r,i)=>r.rank=i+1);
+  const out={by:Object.fromEntries(rows.map(r=>[r.team,r])),n:rows.length};C[ck]=out;return out;
+}
+function rankWords(rank,n){return rank<=n/2?`${ordinal(rank)}-most`:`${ordinal(n-rank+1)}-fewest`}
+// matchup for a player's prop against his next opponent; tone is from the over's point of view
+function matchup(lg,p,m,opp){
+  if(!opp||!DATA[lg])return null;
+  const grp=posGroup(lg,p.pos),T=allowedTable(lg,m.id,m.f,grp),r=T.by[opp];
+  if(!r)return null;
+  const third=T.n/3,tone=r.rank<=third?"good":r.rank>T.n-third?"tough":"neutral";
+  return{opp,grp,r,n:T.n,lgAvg:T.lgAvg,tone,diff:T.lgAvg?(r.avg-T.lgAvg)/T.lgAvg:0};
+}
+function matchupHtml(lg,p,m,line,g){
+  if(!g)return"";const opp=g.home===p.team?g.away:g.home,mu=matchup(lg,p,m,opp);if(!mu)return"";
+  const u=(SHORT[m.id]||m.label).toLowerCase(),d=mu.diff;
+  const word={good:"Good matchup for the over",tough:"Tough matchup for the over",neutral:"Average matchup"}[mu.tone];
+  const isDef=mu.grp==="DEF",football=FB(lg);
+  let ctx="";
+  if(football&&!isDef&&mu.grp!=="K"){
+    const pa=allowedTable(lg,"pyd",x=>x.pyd||0,"QB").by[opp],ru=allowedTable(lg,"ryd",x=>x.ryd||0,"ALL").by[opp],N1=allowedTable(lg,"pyd",x=>x.pyd||0,"QB").n,N2=allowedTable(lg,"ryd",x=>x.ryd||0,"ALL").n;
+    if(pa&&ru)ctx=`Overall, ${opp}'s defense gives up the ${rankWords(pa.rank,N1)} passing yards and the ${rankWords(ru.rank,N2)} rushing yards.`;
+  }
+  if(football&&(isDef||mu.grp==="K")){
+    const o=offenseTable(lg).by[opp],N=offenseTable(lg).n;
+    if(o)ctx=`${opp}'s offense runs the ${rankWords(o.rank,N)} plays and throws on about ${Math.round(o.pass*100)}% of them.`;
+  }
+  const who=isDef?`defenders facing ${opp}'s offense`:`${GROUPNAME[mu.grp]||"players"} against ${opp}`;
+  return`<div class="mu ${mu.tone}"><div class="mutop"><b>Matchup vs ${opp}</b><span class="mupill ${mu.tone}">${word}</span></div>
+    <p>${who[0].toUpperCase()+who.slice(1)} have put up the <b>${rankWords(mu.r.rank,mu.n)} ${u}</b> of ${mu.n} teams${Math.abs(d)>=.03?`, <b>${Math.abs(Math.round(d*100))}% ${d>0?"above":"below"}</b> league average`:", right at league average"}.${ctx?" "+ctx:""}</p>
+    <p class="murecent">Best ${(GROUPNAME[mu.grp]||"player").replace(/s$/,"")} game vs ${opp}, last ${mu.r.recent.length}: ${mu.r.recent.map(x=>`<span title="${esc(x.who)}"><span class="mono ${x.top>line?"o":"u"}">${fmt(Math.round(x.top*10)/10)}</span> <span class="pteam">${esc(x.who.split(" ").slice(-1)[0])}</span></span>`).join(" \u00b7 ")}</p></div>`;
 }
 
 function upcomingGames(){
