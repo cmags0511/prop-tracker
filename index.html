@@ -272,6 +272,32 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .gmore{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-size:12px;font-weight:600;padding:8px;cursor:pointer}
 .gmore:hover{background:var(--accent-soft)}
 @media (max-width:440px){.gteams{grid-template-columns:minmax(0,1fr)}.gteam+.gteam{border-left:0;border-top:1px solid var(--line)}}
+.gtop.go{cursor:pointer}
+.gtop.go:hover{background:var(--accent-soft)}
+.gall{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:10px;cursor:pointer}
+.gall:hover{background:var(--accent-soft)}
+.gall[disabled]{color:var(--muted);cursor:default;background:none;font-weight:600}
+.gback{font:600 13px var(--f-body);color:var(--accent);background:none;border:0;cursor:pointer;padding:4px 0;align-self:flex-start}
+.ghero{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ghero .gm{font-size:1.9rem}
+.gchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.gchips::-webkit-scrollbar{display:none}
+.gchips button{flex:none;border:1px solid var(--line2);background:var(--panel);color:var(--ink2);font:600 12px var(--f-body);border-radius:999px;padding:6px 12px;cursor:pointer}
+.gchips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.gbets{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.gbets h4{margin:0;padding:10px 14px;font:700 .95rem/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--line);background:var(--bg)}
+.gbets table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.gbets td,.gbets th{padding:7px 10px;font-size:13px;text-align:left;white-space:nowrap}
+.gbets th{font:600 10px var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.gbets .num{text-align:right}
+.gbets tr.gpl td{padding-top:12px;font-weight:700;border-top:1px solid var(--line)}
+.gbets tr.gpl:first-child td{border-top:0}
+.gbets tr.gpl small{font:500 11px var(--f-mono);color:var(--muted);margin-left:6px}
+.gbets tr.gbet{cursor:pointer}
+.gbets tr.gbet:hover{background:var(--accent-soft)}
+.gbets tr.gbet td:first-child{padding-left:20px;color:var(--ink2);white-space:normal;line-height:1.35}
+.tp{font:700 9.5px var(--f-body);letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-left:6px}
+@media (max-width:440px){.gbets td,.gbets th{padding:7px 6px;font-size:12.5px}.gbets .hide-xs{display:none}}
 .books{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .books th{background:transparent;border-top:0;padding:6px 8px}
 .books td{padding:8px}
@@ -551,7 +577,7 @@ function setupControls(){
   document.getElementById("active").checked=S.active;
 }
 
-function eligible(r,m){return m.fixed||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.min??(m.step?15:1)))}
+function eligible(r,m){return m.fixed||!!r.dk||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.min??(m.step?15:1)))}
 function propRows(){
   let ps=DATA[S.league];
   if(S.league==="NFL"&&S.active)ps=ps.filter(p=>p.cur>0);
@@ -823,8 +849,66 @@ function upcomingGames(){
   return g.filter(x=>x.t.getTime()<=end);
 }
 const gExpanded=new Set();
+const gameId=x=>x.away+"@"+x.home+x.t.getTime();
+// every prop for the two teams in a game; DraftKings lines only unless est is set
+function gameBets(x,est){
+  const lg=S.league,out=[],t=x.t.getTime();
+  for(const p of DATA[lg]){
+    if(p.team!==x.away&&p.team!==x.home)continue;
+    for(const m of MK[lg]){
+      if(m.fixed)continue;
+      const r=compute(p,m);
+      if(r.dk){if(r.dk.d&&Math.abs(new Date(r.dk.d).getTime()-t)>12*3600e3)continue;out.push(r)}
+      else if(est&&(lg!=="NFL"||m.pos.includes(p.pos))&&p.cur>0&&eligible(r,m))out.push(r);
+    }
+  }
+  return out;
+}
+const POSORD={QB:0,RB:1,WR:2,TE:3,K:4,DL:5,LB:6,DB:7};
+function renderGame(x){
+  const el=document.getElementById("view-up"),lg=S.league;
+  let bets=gameBets(x);const est=!bets.length;if(est)bets=gameBets(x,true);
+  const mks=MK[lg].filter(m=>bets.some(r=>r.m.id===m.id));
+  if(S.gmk&&!mks.some(m=>m.id===S.gmk))S.gmk="";
+  const shownB=S.gmk?bets.filter(r=>r.m.id===S.gmk):bets;
+  const notesOk=NOTES&&NOTES.notes&&(Date.now()-new Date(NOTES.updated||0).getTime())<36*3600e3;
+  const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat()].map(c=>[c.key,c]));
+  const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"");
+  let html=`<button class="gback" data-gback>\u2039 All games</button>
+    <div class="ghero"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"})} \u00b7 ${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}</div></div>
+    <div class="uphead"><h2>${est?"Player props":`${bets.length} DraftKings bets`}</h2><p>${est?"DraftKings hasn't posted props for this game yet \u00b7 lines below are estimates from each player's median":"L10 and season = how often he's gone over the line"} \u00b7 tap a bet for the full prop card</p></div>`;
+  if(!bets.length){el.innerHTML=html+`<div class="upempty">No tracked players for this game yet.</div>`;return}
+  if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
+  for(const team of [x.away,x.home]){
+    const mine=shownB.filter(r=>r.p.team===team);
+    const byP=new Map();mine.forEach(r=>{if(!byP.has(r.p.id))byP.set(r.p.id,[]);byP.get(r.p.id).push(r)});
+    const players=[...byP.values()].sort((a,b)=>((POSORD[a[0].p.pos]??9)-(POSORD[b[0].p.pos]??9))||(b.length-a.length)||(b[0].avg10-a[0].avg10));
+    html+=`<section class="gbets"><h4>${team}${team===x.home?" \u00b7 home":""}</h4>`;
+    if(!players.length){html+=`<div class="gnone" style="padding:12px 14px">No ${S.gmk?esc((SHORT[S.gmk]||"").toLowerCase())+" ":""}lines posted for ${team} yet.</div></section>`;continue}
+    html+=`<table><thead><tr><th>Prop</th><th class="num">Line</th><th class="num">L10</th><th class="num hide-xs">Season</th><th class="num">Avg</th></tr></thead><tbody>`;
+    for(const rs of players){
+      const p=rs[0].p,out=outNote(lg,p.id);
+      html+=`<tr class="gpl"><td colspan="5">${esc(p.name)}<small>${p.pos||""}</small>${out?" "+OUTPILL:""}</td></tr>`;
+      rs.sort((a,b)=>MK[lg].indexOf(a.m)-MK[lg].indexOf(b.m));
+      for(const r of rs){
+        const k=lg+"|"+p.id+"|"+r.m.id,c=pickKeys.get(k),n=notesOk?NOTES.notes[k]:null;
+        html+=`<tr class="gbet" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}"><td>${esc(SHORT[r.m.id]||r.m.label)}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
+          <td class="num mono">${fmt(r.line)}${r.mine?"*":""}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>`;
+      }
+    }
+    html+=`</tbody></table></section>`;
+  }
+  el.innerHTML=html;
+}
+// jump from the Upcoming tab to a player's prop card on the board
+function openFromUp(id,mid){
+  S.view="board";S.game=null;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;
+  if(mid&&!isAll()){S.market=mid;if(!inCat(mid))S.cat=""}else if(mid&&!inCat(mid))S.cat="";
+  setupControls();open(id,true);
+}
 function renderUpcoming(){
   const el=document.getElementById("view-up"),m=mkt(),meta=DATA[S.league+"meta"];
+  if(S.game){const g=(meta.upcoming||[]).find(x=>gameId(x)===S.game);if(g){renderGame(g);return}S.game=null}
   const games=upcomingGames();
   const byTeam={};
   const keepTeam=S.team;S.team="";const qs=S.q;S.q="";const act=S.active;if(S.league==="NFL")S.active=true;
@@ -843,11 +927,12 @@ function renderUpcoming(){
   };
   for(const[day,list]of Object.entries(days)){
     html+=`<section class="day"><h3>${day}</h3><div class="games">`+list.map(x=>{
-      const gid=x.away+"@"+x.home+x.t.getTime();
+      const gid=gameId(x);
       const more=Math.max((byTeam[x.away]||[]).length,(byTeam[x.home]||[]).length)>4;
       const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"");
-      return`<article class="gcard"><div class="gtop"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}</div></div>
-        <div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}</article>`}).join("")+`</div></section>`;
+      const nb=gameBets(x).length;
+      return`<article class="gcard"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-label="All bets for ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}</div></div>
+        <div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}<button class="gall" data-game="${esc(gid)}">${nb?`See all ${nb} DraftKings bets for this game \u203a`:"See every player prop for this game \u203a"}</button></article>`}).join("")+`</div></section>`;
   }
   el.innerHTML=html;
 }
@@ -913,7 +998,7 @@ function wire(){
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("top").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
-  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.team="";reset();setupControls();save();render()});
+  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.game=null;S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
@@ -924,7 +1009,7 @@ function wire(){
   const b=document.getElementById("board");
   b.addEventListener("click",e=>{const tr=e.target.closest("tr.row");if(tr)open(tr.dataset.id)});
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
-  const setView=v=>{S.view=v;setupControls();render();window.scrollTo({top:0})};
+  const setView=v=>{S.view=v;S.game=null;setupControls();render();window.scrollTo({top:0})};
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
@@ -932,7 +1017,12 @@ function wire(){
     const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();renderRecord();toast("Removed from My picks")}});
   document.getElementById("view-up").addEventListener("click",e=>{
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
-    const gp=e.target.closest(".gp");if(gp){S.view="board";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;setupControls();open(gp.dataset.id,true)}});
+    const gb=e.target.closest("[data-gback]");if(gb){S.game=null;renderUpcoming();window.scrollTo({top:0});return}
+    const gc=e.target.closest("[data-gmk]");if(gc){S.gmk=gc.dataset.gmk;renderUpcoming();return}
+    const gg=e.target.closest("[data-game]");if(gg){S.game=gg.dataset.game;S.gmk="";renderUpcoming();window.scrollTo({top:0});return}
+    const bt=e.target.closest("tr.gbet");if(bt){openFromUp(bt.dataset.id,bt.dataset.m);return}
+    const gp=e.target.closest(".gp");if(gp){openFromUp(gp.dataset.id,gp.dataset.id.split("|").pop())}});
+  document.getElementById("view-up").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&(e.target.matches(".gtop.go")||e.target.matches("tr.gbet"))){e.preventDefault();e.target.click()}});
   document.getElementById("movers").addEventListener("click",e=>{const btn=e.target.closest(".mover");if(btn){S.sel=null;open(btn.dataset.id,true)}});
 }
 

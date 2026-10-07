@@ -53,6 +53,14 @@ nba_end = TODAY.year + 1 if TODAY.month >= 8 else TODAY.year  # season that is c
 
 out = {"built": NOW.isoformat(timespec="minutes")}
 
+# players DraftKings has posted a line for are always kept, even if their usage is below the
+# cutoffs (e.g. a backup QB who's starting, or a low-target WR with a receptions line)
+try:
+    _lines = json.load(open("lines.json"))
+    POSTED = {lg: set(_lines.get(lg) or {}) for lg in ("NFL", "NBA")}
+except Exception:
+    POSTED = {"NFL": set(), "NBA": set()}
+
 # ---------------- NBA ----------------
 frames = []
 for yr in (nba_end - 1, nba_end):
@@ -72,6 +80,7 @@ cur_gp = n[n.season == cur_nba].groupby("athlete_id").size()
 keep = set(stats[(stats.gp >= 15) & (stats.mpg >= 16)].index)
 if has_cur:
     keep |= set(cur_gp[cur_gp >= 3].index)
+keep |= {a for a in n.athlete_id.unique() if str(int(a)) in POSTED["NBA"]}
 nba = []
 for pid, d in n[n.athlete_id.isin(keep)].groupby("athlete_id"):
     last = d.iloc[-1]
@@ -129,12 +138,14 @@ for pid, d in f.groupby("player_id"):
     if d.position_group.iloc[-1] in DEF:
         pos = d.position_group.iloc[-1]
     cur = d[d.season == nfl_cur]
-    if len(d) < 5 and len(cur) < 2:
+    if espn.get(pid) in POSTED["NFL"]:
+        pass
+    elif len(d) < 5 and len(cur) < 2:
         continue
-    if pos == "QB" and d.attempts.mean() < 20: continue
-    if pos == "RB" and (d.carries + d.targets).mean() < 6: continue
-    if pos in ("WR", "TE") and d.targets.mean() < 3: continue
-    if pos in DEF and d.tkl.mean() < 3.5 and d.def_sacks.mean() < .4: continue
+    elif pos == "QB" and d.attempts.mean() < 20: continue
+    elif pos == "RB" and (d.carries + d.targets).mean() < 6: continue
+    elif pos in ("WR", "TE") and d.targets.mean() < 3: continue
+    elif pos in DEF and d.tkl.mean() < 3.5 and d.def_sacks.mean() < .4: continue
     games = []
     for r in d.itertuples():
         sp = None if r.spread_line != r.spread_line else (-float(r.spread_line) if r.home_team == r.team else float(r.spread_line))

@@ -18,11 +18,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pandas pyarrow
-      - name: Build data
-        run: python build_data.py props_data.json
+      # lines first: build_data keeps every player who has a DraftKings line posted
       - name: DraftKings lines from ESPN
         run: python fetch_lines.py lines.json
         continue-on-error: true
+      - name: Build data
+        run: python build_data.py props_data.json
       - name: Rank top picks
         run: python picks.py picks.json
         continue-on-error: true
