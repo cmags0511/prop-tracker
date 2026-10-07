@@ -338,7 +338,9 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .dtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .dpanel{display:flex;flex-direction:column;gap:10px;min-height:120px}
 .dpanel .ptitle{font-size:12px;color:var(--muted);margin:0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.trackbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trackbar{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;align-items:center}
+.trackbar .pteam{grid-column:1 / -1}
+.trackbar .trk{width:100%;padding:8px 10px}
 .trk{border:1px solid var(--line2);background:var(--panel);color:var(--ink);font:600 12.5px var(--f-body);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
 .trk:hover{border-color:var(--accent);color:var(--accent)}
 .trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
@@ -608,7 +610,7 @@ function renderTop(){
 
 function renderMovers(rows){
   const el=document.getElementById("movers");
-  const pool=rows.filter(r=>r.vals.length>=8&&!(isAll()&&r.m.fixed));
+  const pool=rows.filter(r=>r.vals.length>=8&&!(isAll()&&r.m.fixed)&&!outNote(S.league,r.p.id));
   const hot=[...pool].sort((a,b)=>b.l10-a.l10||b.streak-a.streak).slice(0,3);
   const cold=[...pool].sort((a,b)=>a.l10-b.l10||a.streak-b.streak).slice(0,3);
   const streak=[...pool].sort((a,b)=>Math.abs(b.streak)-Math.abs(a.streak)).slice(0,3);
@@ -638,7 +640,7 @@ function render(){
   const vis=rows.slice(0,shown);
   document.getElementById("board").innerHTML=vis.length?vis.map(r=>`
     <tr class="row ${r.key===S.sel?"sel":""}" tabindex="0" data-id="${esc(r.key)}" aria-expanded="${r.key===S.sel}">
-      <td><div class="pl"><span class="av">${initials(r.name)}</span><div><div class="pname">${esc(r.name)} <span class="chev">\u25b6</span></div><div class="pteam">${r.p.team} \u00b7 ${r.p.pos||""}${isAll()?` \u00b7 <b class="ptype">${SHORT[r.m.id]||r.m.label}</b>`:""}</div></div></div></td>
+      <td><div class="pl"><span class="av">${initials(r.name)}</span><div><div class="pname">${esc(r.name)} <span class="chev">\u25b6</span></div><div class="pteam">${outNote(S.league,r.p.id)?OUTPILL+" ":""}${r.p.team} \u00b7 ${r.p.pos||""}${isAll()?` \u00b7 <b class="ptype">${SHORT[r.m.id]||r.m.label}</b>`:""}</div></div></div></td>
       <td class="num mono">${fmt(r.line)}${r.mine?'<span class="lbl mine">yours</span>':r.bk?`<span class="lbl book">${r.bk}</span>`:r.m.fixed?"":'<span class="lbl">est.</span>'}</td>
       <td class="num mono hide-sm">${r.avg10.toFixed(1)}</td>
       <td class="num hide-sm"><span class="heat ${heat(r.l5)}">${pct(r.l5)}</span></td>
@@ -682,6 +684,7 @@ function renderDetail(r){
         ${r.mine?`<button class="linkbtn" id="lreset">Reset</button>`:""}`}
       </div>
     </div>
+    ${outNote(S.league,p.id)?`<p class="slate" style="border-left:3px solid var(--miss)"><b>Ruled out:</b> ${esc(outNote(S.league,p.id))}</p>`:""}
     <div class="strip">${strip}</div>
     ${dkbar}
     ${trackbar}
@@ -783,6 +786,12 @@ function renderRecord(){
 let MY=[];try{MY=JSON.parse(localStorage.getItem("ptMyPicks")||"[]")}catch(e){MY=[]}
 function updMyCount(){const n=MY.filter(e=>new Date(e.t)>Date.now()).length,c=document.getElementById("mycnt");if(c){c.textContent=n;c.hidden=!n}}
 function saveMy(){try{localStorage.setItem("ptMyPicks",JSON.stringify(MY))}catch(e){toast("Couldn't save on this device")}}
+function outNote(lg,pid){
+  if(!NOTES||!NOTES.notes||Date.now()-new Date(NOTES.updated||0).getTime()>36*3600e3)return null;
+  for(const[k,v]of Object.entries(NOTES.notes))if(v.flag==="out"&&k.startsWith(lg+"|"+pid+"|"))return v.note||"Ruled out";
+  return null;
+}
+const OUTPILL='<span class="pill u" title="Ruled out by the daily news check">OUT</span>';
 function nextGame(p,lg){const now=Date.now();return(DATA[lg+"meta"].upcoming||[]).filter(g=>(g.away===p.team||g.home===p.team)&&g.t.getTime()>now).sort((a,b)=>a.t-b.t)[0]||null}
 function myFor(lg,pid,mid,t){return MY.find(e=>e.lg===lg&&e.pid===pid&&e.market===mid&&e.t===t)}
 function addMy(lg,p,m,side,line){
@@ -823,14 +832,14 @@ function renderUpcoming(){
   urows.forEach(r=>(byTeam[r.p.team]=byTeam[r.p.team]||[]).push(r));
   Object.values(byTeam).forEach(a=>a.sort(isAll()?(x,y)=>(!!y.dk-!!x.dk)||((y.l10??0)-(x.l10??0)):(x,y)=>y.avg10-x.avg10));
   const first=games[0];
-  let html=`<div class="uphead"><h2>${S.league} \u00b7 ${m.label}</h2><p>${S.league==="NFL"?"Spreads and totals from the nflverse schedule \u00b7 ":""}Click a player for his full prop card</p></div>`;
+  let html=`<div class="uphead"><h2>${S.league} \u00b7 ${m.label}</h2><p>${S.league==="NFL"?"Game spreads and totals shown on each card \u00b7 ":""}Tap a player for his full prop card</p></div>`;
   if(!games.length){el.innerHTML=html+`<div class="upempty">No ${S.league} games on the schedule${S.team?" for "+S.team:""} in the next few weeks.</div>`;return}
   if(S.league==="NBA"&&first.t-Date.now()>2*864e5)html+=`<div class="upempty" style="padding:14px;text-align:left">The ${meta.season==="2025-26"?"2026-27 ":""}season tips off ${first.t.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}. Player numbers and teams below are from ${meta.season} until new games are played.</div>`;
   const days={};
   games.forEach(x=>{const k=x.t.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(x)});
   const side=(team,gid)=>{
     const list=byTeam[team]||[],open=gExpanded.has(gid),lim=open?list.length:4;
-    return`<div class="gteam"><h5><span>${team}</span><span>Line \u00b7 L10</span></h5>${list.length?list.slice(0,lim).map(r=>`<button class="gp" data-id="${esc(r.key)}"><span class="nm">${esc(r.name)} <span class="ln">${isAll()?SHORT[r.m.id]||"":r.p.pos||""}</span></span><span class="r"><span class="ln">${fmt(r.line)}</span><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></span></button>`).join(""):`<div class="gnone">No tracked players for this prop</div>`}</div>`;
+    return`<div class="gteam"><h5><span>${team}</span><span>Line \u00b7 L10</span></h5>${list.length?list.slice(0,lim).map(r=>`<button class="gp" data-id="${esc(r.key)}"><span class="nm">${esc(r.name)} <span class="ln">${isAll()?SHORT[r.m.id]||"":r.p.pos||""}</span></span><span class="r"><span class="ln">${fmt(r.line)}</span>${outNote(S.league,r.p.id)?OUTPILL:`<span class="heat ${heat(r.l10)}">${pct(r.l10)}</span>`}</span></button>`).join(""):`<div class="gnone">No tracked players for this prop</div>`}</div>`;
   };
   for(const[day,list]of Object.entries(days)){
     html+=`<section class="day"><h3>${day}</h3><div class="games">`+list.map(x=>{
