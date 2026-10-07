@@ -347,8 +347,9 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .cat small{font:600 10px var(--f-mono);opacity:.7;margin-left:4px}
 .rlog td{vertical-align:middle}
 .rlog .st{display:flex;align-items:center;justify-content:flex-end;gap:2px}
-.rlog .rm{font-size:15px;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 4px 6px 8px}
-.rlog .rm:hover{color:var(--miss)}
+.rm{font-size:15px;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 4px 6px 8px;flex:none}
+.rm:hover{color:var(--miss)}
+.pcard .bhead .rm{margin-left:auto}
 .rlog .dayrow td{background:var(--bg);font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);padding-block:7px}
 .rlog .dayrow b{color:var(--muted);font-weight:600;margin-left:6px}
 .rempty{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:4px 0 2px}
@@ -380,6 +381,35 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .trackbar .pteam{grid-column:1 / -1}
 .trackbar .trk{width:100%;padding:8px 10px}
 .trk{border:1px solid var(--line2);background:var(--panel);color:var(--ink);font:600 12.5px var(--f-body);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.seg2{display:inline-flex;border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px;background:var(--bg);align-self:flex-start}
+.seg2 button{border:0;background:none;color:var(--ink2);font:600 13px var(--f-body);padding:7px 14px;border-radius:7px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.seg2 button small{font:600 10.5px var(--f-mono);background:var(--line);color:var(--ink2);border-radius:999px;padding:1px 6px}
+.seg2 button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+.sheetcard{align-items:stretch;text-align:left;gap:10px;max-width:400px}
+.sheetcard h3{text-align:center}
+.sheethead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding-bottom:4px}
+.sheethead b{font-size:15px}
+.choice{display:flex;flex-direction:column;gap:2px;text-align:left;border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:10px;padding:12px 14px;cursor:pointer;font:inherit}
+.choice:hover{border-color:var(--accent)}
+.choice b{font-size:14.5px}
+.choice span{font-size:12.5px;color:var(--muted)}
+.slegs{display:flex;flex-direction:column;gap:6px;max-height:42vh;overflow:auto}
+.sleg{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.oddsrow{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;font-weight:600}
+.oddsrow small{font-weight:400;color:var(--muted)}
+.oddsrow input{width:120px;font:600 15px var(--f-mono);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;background:var(--bg);color:var(--ink);text-align:right}
+.sheetbtns{display:grid;grid-template-columns:1fr 1.4fr;gap:8px}
+.sheetbtns button{width:100%}
+.savebtn{border:0;border-radius:8px;padding:10px 12px;font:700 13.5px var(--f-body);cursor:pointer;background:var(--accent);color:var(--on-accent)}
+.slipbar{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:10px 12px 10px 16px;background:var(--accent);color:var(--on-accent);font:600 13px var(--f-body);cursor:pointer;box-shadow:0 8px 24px rgb(0 0 0 / .25)}
+.slipbar .sl1{font:700 13px var(--f-display);letter-spacing:.08em;text-transform:uppercase}
+.slipbar .sl2{font-family:var(--f-mono);opacity:.9}
+.slipbar .sl3{background:var(--on-accent);color:var(--accent);border-radius:999px;padding:3px 10px;font-weight:700}
+body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
+@media (max-width:600px){.slipbar{left:12px;right:12px;bottom:calc(58px + env(safe-area-inset-bottom,0px));justify-content:space-between;border-radius:12px}body.hasslip main .in{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))}}
+.pcard .bhead p{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pcard.win{box-shadow:inset 3px 0 0 var(--hit)}
+.pcard.loss{box-shadow:inset 3px 0 0 var(--miss)}
 .trk:hover{border-color:var(--accent);color:var(--accent)}
 .trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .trk.sm{padding:2px 9px;font-size:11.5px;margin-left:auto}
@@ -636,12 +666,13 @@ function renderTop(){
   ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
+    const inSlip=slipHas(c.lg,c.id,c.market,c.side,c.line);
     const tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market===c.market&&x.t===new Date(c.t).toISOString()&&x.side===c.side&&x.line===c.line);
     return`<div class="pick" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span><button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"✓ Tracking":"+ Track"}</button></div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span><button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
@@ -708,8 +739,7 @@ function renderDetail(r){
   const dk=r.dk;
   const ng=nextGame(p,S.league),mine=ng?myFor(S.league,p.id,m.id,ng.t.toISOString()):null;
   const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
-    <button class="trk ${mine&&mine.side==="over"&&mine.line===line?"on":""}" data-track="over">${mine&&mine.side==="over"&&mine.line===line?"✓ Tracking":"+ Track"} over ${fmt(line)}</button>
-    <button class="trk ${mine&&mine.side==="under"&&mine.line===line?"on":""}" data-track="under">${mine&&mine.side==="under"&&mine.line===line?"✓ Tracking":"+ Track"} under ${fmt(line)}</button></div>`:"";
+    ${["over","under"].map(sd=>{const on=mine&&mine.side===sd&&mine.line===line,sl=slipHas(S.league,p.id,m.id,sd,line);return`<button class="trk ${on||sl?"on":""}" data-track="${sd}">${on&&sl?"\u2713 Straight + parlay":on?"\u2713 Tracking":sl?"\u2713 In parlay":"+ Track"} ${sd} ${fmt(line)}</button>`}).join("")}</div>`:"";
   const dkbar=dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
   const tabs=[["chart","Chart"],["alt","Alt lines"],["splits","Splits"],["log","Game log"]];
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
@@ -775,7 +805,7 @@ function renderDetail(r){
   el.querySelector(".dtabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(b){S.dtab=b.dataset.tab;draw()}};
   const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p,m)]=v;save();rerenderInPlace()};
   el.addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(t)setLine(parseFloat(t.dataset.set));
-    const k=e.target.closest("[data-track]");if(k){addMy(S.league,p,m,k.dataset.track,line);updMyCount();rerenderInPlace()}});
+    const k=e.target.closest("[data-track]");if(k)chooseTrack(S.league,p,m,k.dataset.track,line,()=>rerenderInPlace())});
   el.addEventListener("keydown",e=>{const t=e.target.closest("tr[data-set]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();setLine(parseFloat(t.dataset.set))}});
   if(!m.fixed){
     document.getElementById("ldn").onclick=()=>setLine(line-step);
@@ -785,8 +815,13 @@ function renderDetail(r){
   }
 }
 
+function recTypeSwitch(){
+  const openP=PARLAYS.length,st=MY.length;
+  return`<div class="seg2" role="group" aria-label="Bet type"><button data-rtype="straight" aria-pressed="${S.recType!=="parlay"}">Straight bets${st?`<small>${st}</small>`:""}</button><button data-rtype="parlay" aria-pressed="${S.recType==="parlay"}">Parlays${openP?`<small>${openP}</small>`:""}</button></div>`;
+}
 function renderRecord(){
   const el=document.getElementById("view-rec");
+  if(S.recType==="parlay"){renderParlayRecord();return}
   const lgf=S.recLg||"all";
   const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
@@ -796,9 +831,9 @@ function renderRecord(){
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const chips=MY.some(e=>e.lg==="NBA")&&MY.some(e=>e.lg==="NFL")?`<div class="cats" style="margin:0">${[["all","All"],["NFL","NFL"],["NBA","NBA"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`:"";
-  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${chips}`;
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}`;
   if(!MY.length){
-    html+=`<div class="rempty"><p>You're not tracking any picks yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
+    html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
     el.innerHTML=html;return;
   }
   html+=`<div class="strip">
@@ -825,9 +860,43 @@ function renderRecord(){
   el.innerHTML=html;
 }
 
+function renderParlayRecord(){
+  const el=document.getElementById("view-rec");
+  const G=PARLAYS.map(pl=>Object.assign({pl},gradeParlay(pl))).sort((a,b)=>new Date(b.pl.legs[0].t)-new Date(a.pl.legs[0].t));
+  const done=G.filter(g=>["win","loss","push"].includes(g.status)),open=G.filter(g=>g.status==="pending"||g.status==="live");
+  const w=done.filter(g=>g.status==="win").length,l=done.filter(g=>g.status==="loss").length,p=done.filter(g=>g.status==="push").length;
+  const units=done.reduce((a,g)=>a+g.units,0);
+  const legsDone=G.flatMap(g=>g.legs).filter(x=>x.status==="win"||x.status==="loss");
+  const legHit=legsDone.length?legsDone.filter(x=>x.status==="win").length/legsDone.length:null;
+  const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Parlays win only if every leg hits; pushed or void legs drop out</p></div>${recTypeSwitch()}`;
+  if(!G.length){
+    html+=`<div class="rempty"><p>No parlays yet. Tap <b>+ Track</b> on any pick and choose <b>Add to parlay</b>. Legs collect in the parlay slip at the bottom of the screen; open it to enter your book's odds and save the parlay.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
+    el.innerHTML=html;return;
+  }
+  html+=`<div class="strip">
+      <div><div class="k">Record</div><div class="v">${w}-${l}${p?`-${p}`:""}</div><div class="s">${done.length} graded</div></div>
+      <div><div class="k">Parlays hit</div><div class="v">${pct(w+l?w/(w+l):null)}</div><div class="s">legs hit ${pct(legHit)}</div></div>
+      <div><div class="k">Units</div><div class="v" style="color:${done.length?units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${done.length?u(units):"–"}</div><div class="s">1u per parlay</div></div>
+      <div><div class="k">Open</div><div class="v">${open.length}</div><div class="s">awaiting results</div></div>
+    </div>`;
+  if(done.length>=2){
+    const grp={};done.forEach(g=>{const k=g.legs.length>=5?"5+ legs":g.legs.length+" legs";(grp[k]=grp[k]||[]).push(g)});
+    html+=`<div class="rsplit"><div><h4>By size</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Units</th></tr></thead><tbody>${Object.entries(grp).sort().map(([k,a])=>{const W=a.filter(g=>g.status==="win").length,L=a.filter(g=>g.status==="loss").length,U=a.reduce((x,g)=>x+g.units,0);return`<tr><td>${k}</td><td class="num mono">${W}-${L}</td><td class="num mono">${u(U)}</td></tr>`}).join("")}</tbody></table></div></div></div>`;
+  }
+  html+=`</section>`;
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill p" title="Some legs still waiting">Live</span>'};
+  html+=G.map(g=>{const d=new Date(g.pl.legs[0].t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    const price=g.pl.odds!=null?(g.pl.odds>0?"+":"")+g.pl.odds:decToAm(Math.pow(LEGDEC,g.legs.length))+" est.";
+    return`<section class="board pcard ${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
+      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div></td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
+  html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
+  el.innerHTML=html;
+}
+
 // ---- My picks: saved on this device, graded in the browser against the box scores ----
 let MY=[];try{MY=JSON.parse(localStorage.getItem("ptMyPicks")||"[]")}catch(e){MY=[]}
-function updMyCount(){const n=MY.filter(e=>new Date(e.t)>Date.now()).length,c=document.getElementById("mycnt");if(c){c.textContent=n;c.hidden=!n}}
+function updMyCount(){const n=MY.filter(e=>new Date(e.t)>Date.now()).length+PARLAYS.filter(p=>p.legs.some(l=>new Date(l.t)>Date.now())).length,c=document.getElementById("mycnt");if(c){c.textContent=n;c.hidden=!n}}
 function saveMy(){try{localStorage.setItem("ptMyPicks",JSON.stringify(MY))}catch(e){toast("Couldn't save on this device")}}
 function outNote(lg,pid){
   if(!NOTES||!NOTES.notes||Date.now()-new Date(NOTES.updated||0).getTime()>36*3600e3)return null;
@@ -837,6 +906,97 @@ function outNote(lg,pid){
 const OUTPILL='<span class="pill u" title="Ruled out by the daily news check">OUT</span>';
 function nextGame(p,lg){const now=Date.now();return(DATA[lg+"meta"].upcoming||[]).filter(g=>(g.away===p.team||g.home===p.team)&&g.t.getTime()>now).sort((a,b)=>a.t-b.t)[0]||null}
 function myFor(lg,pid,mid,t){return MY.find(e=>e.lg===lg&&e.pid===pid&&e.market===mid&&e.t===t)}
+// ---- Parlays: legs collect in a slip, then get saved as one bet ----
+let SLIP=[],PARLAYS=[];
+try{SLIP=JSON.parse(localStorage.getItem("ptSlip")||"[]")}catch(e){SLIP=[]}
+try{PARLAYS=JSON.parse(localStorage.getItem("ptParlays")||"[]")}catch(e){PARLAYS=[]}
+function saveSlip(){try{localStorage.setItem("ptSlip",JSON.stringify(SLIP))}catch(e){}}
+function saveParlays(){try{localStorage.setItem("ptParlays",JSON.stringify(PARLAYS))}catch(e){toast("Couldn't save on this device")}}
+const LEGDEC=1+100/110; // each leg priced at -110 when no odds are entered
+const amToDec=a=>a>0?1+a/100:1+100/-a;
+const decToAm=d=>d>=2?"+"+Math.round((d-1)*100):"-"+Math.round(100/(d-1));
+function makeLeg(lg,p,m,side,line){
+  const g=nextGame(p,lg);if(!g){toast("No upcoming game to track yet");return null}
+  return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t:g.t.toISOString(),market:m.id,label:m.label,side,line};
+}
+const sameLeg=(a,b)=>a.lg===b.lg&&a.pid===b.pid&&a.market===b.market&&a.t===b.t;
+function slipHas(lg,pid,mid,side,line){return SLIP.some(l=>l.lg===lg&&l.pid===pid&&l.market===mid&&l.side===side&&l.line===line)}
+function addLeg(leg){
+  const i=SLIP.findIndex(l=>sameLeg(l,leg));
+  if(i>=0){if(SLIP[i].side===leg.side&&SLIP[i].line===leg.line){SLIP.splice(i,1);saveSlip();renderSlip();toast("Removed from parlay");return}SLIP[i]=leg;saveSlip();renderSlip();toast("Parlay leg updated");return}
+  if(SLIP.length>=12){toast("Parlays are capped at 12 legs");return}
+  SLIP.push(leg);saveSlip();renderSlip();toast(`Added to parlay \u00b7 ${SLIP.length} leg${SLIP.length>1?"s":""}`);
+}
+function legText(l){return`${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${SHORT[l.market]||l.label}`}
+// tap "Track" -> choose straight bet or parlay
+function chooseTrack(lg,p,m,side,line,after){
+  const g=nextGame(p,lg);if(!g){toast("No upcoming game to track yet");return}
+  const t=g.t.toISOString(),st=MY.find(e=>e.lg===lg&&e.pid===p.id&&e.market===m.id&&e.t===t&&e.side===side&&e.line===line);
+  const inSlip=slipHas(lg,p.id,m.id,side,line);
+  document.getElementById("sheet")?.remove();
+  const d=document.createElement("div");d.className="sharebox";d.id="sheet";
+  d.innerHTML=`<div class="sharecard sheetcard" role="dialog" aria-label="Track this pick">
+    <div class="sheethead"><span class="lgtag">${lg}</span><b>${esc(p.name)}</b><span class="bet ${side}" style="font-size:12px">${side==="over"?"Over":"Under"} ${fmt(line)} ${SHORT[m.id]||m.label}</span></div>
+    <button class="choice" data-c="straight"><b>${st?"\u2713 Tracking as a straight bet":"Straight bet"}</b><span>${st?"Tap to stop tracking it":"Track this pick on its own"}</span></button>
+    <button class="choice" data-c="parlay"><b>${inSlip?"\u2713 In your parlay":"Add to parlay"}</b><span>${inSlip?"Tap to take it out of the parlay":SLIP.length?`Your parlay has ${SLIP.length} leg${SLIP.length>1?"s":""} so far`:"Start a parlay with this leg"}</span></button>
+    <button class="close" data-c="x">Cancel</button></div>`;
+  document.body.appendChild(d);
+  d.addEventListener("click",e=>{
+    const c=e.target.closest("[data-c]");if(!c&&e.target!==d)return;d.remove();
+    if(!c||c.dataset.c==="x")return;
+    if(c.dataset.c==="straight")addMy(lg,p,m,side,line);
+    else{const leg=makeLeg(lg,p,m,side,line);if(leg)addLeg(leg)}
+    updMyCount();after&&after();
+  });
+}
+function renderSlip(){
+  let bar=document.getElementById("slipbar");
+  if(!SLIP.length){bar&&bar.remove();document.body.classList.remove("hasslip");return}
+  if(!bar){bar=document.createElement("button");bar.id="slipbar";bar.className="slipbar";bar.onclick=openSlip;document.body.appendChild(bar)}
+  document.body.classList.add("hasslip");
+  bar.innerHTML=`<span class="sl1">Parlay slip</span><span class="sl2">${SLIP.length} leg${SLIP.length>1?"s":""}${SLIP.length>1?` \u00b7 ~${decToAm(Math.pow(LEGDEC,SLIP.length))}`:""}</span><span class="sl3">Review</span>`;
+}
+function openSlip(){
+  document.getElementById("sheet")?.remove();
+  const now=Date.now();
+  SLIP=SLIP.filter(l=>new Date(l.t).getTime()>now);saveSlip();renderSlip();
+  if(!SLIP.length){toast("Those games have already started");return}
+  const est=decToAm(Math.pow(LEGDEC,SLIP.length));
+  const d=document.createElement("div");d.className="sharebox";d.id="sheet";
+  d.innerHTML=`<div class="sharecard sheetcard" role="dialog" aria-label="Parlay slip">
+    <h3>Parlay slip</h3>
+    <div class="slegs">${SLIP.map(l=>`<div class="sleg"><div><b>${esc(l.name)}</b> <span class="lgtag">${l.lg}</span><div class="pteam">${legText(l)} \u00b7 ${l.team} ${l.home?"vs":"@"} ${l.opp} ${new Date(l.t).toLocaleDateString("en-US",{weekday:"short"})}</div></div><button class="rm" data-rmleg="${l.id}" aria-label="Remove leg">\u2715</button></div>`).join("")}</div>
+    ${SLIP.length<2?`<p>Add at least one more leg to save a parlay. Tap <b>+ Track</b> on another pick and choose <b>Add to parlay</b>.</p>`:`
+    <label class="oddsrow" for="podds"><span>Parlay odds <small>(optional)</small></span><input id="podds" inputmode="text" placeholder="${est} est." autocomplete="off"></label>
+    <p class="hint" style="margin:0">Enter the odds your book gave you, like +650. Leave blank to estimate at -110 per leg (${est}).</p>`}
+    <div class="sheetbtns"><button class="close" data-sc="clear">Clear slip</button>${SLIP.length>=2?`<button class="savebtn" data-sc="save">Save ${SLIP.length}-leg parlay</button>`:`<button class="close" data-sc="x">Keep adding</button>`}</div></div>`;
+  document.body.appendChild(d);
+  d.addEventListener("click",e=>{
+    if(e.target===d){d.remove();return}
+    const r=e.target.closest("[data-rmleg]");if(r){SLIP=SLIP.filter(l=>l.id!==r.dataset.rmleg);saveSlip();renderSlip();d.remove();if(SLIP.length)openSlip();refreshTracked();return}
+    const c=e.target.closest("[data-sc]");if(!c)return;
+    if(c.dataset.sc==="x"){d.remove();return}
+    if(c.dataset.sc==="clear"){SLIP=[];saveSlip();renderSlip();d.remove();refreshTracked();toast("Slip cleared");return}
+    if(c.dataset.sc==="save"){
+      const raw=(document.getElementById("podds").value||"").replace(/\s/g,"");let odds=null;
+      if(raw){const v=parseInt(raw.replace(/^\+/,""),10);if(isNaN(v)||Math.abs(v)<100){toast("Enter odds like +650 or -120");return}odds=v}
+      PARLAYS.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),legs:SLIP,odds,added:new Date().toISOString()});
+      saveParlays();SLIP=[];saveSlip();renderSlip();d.remove();updMyCount();refreshTracked();toast("Parlay saved to My picks");
+    }
+  });
+}
+function refreshTracked(){if(S.view==="rec")renderRecord();else if(S.view==="board"){renderTop();if(S.sel)rerenderInPlace()}}
+function gradeParlay(pl){
+  const legs=pl.legs.map(l=>Object.assign({},l,gradeMy(l)));
+  const st=s=>legs.filter(l=>l.status===s).length;
+  const wins=st("win"),losses=st("loss"),open=st("pending")+st("live"),dropped=st("push")+st("void");
+  let status;
+  if(losses)status="loss";else if(open)status=st("pending")===legs.length?"pending":"live";else if(!wins)status="push";else status="win";
+  // payout for a 1-unit stake; pushed or void legs drop out
+  let dec=pl.odds!=null?amToDec(pl.odds)/Math.pow(LEGDEC,dropped):Math.pow(LEGDEC,legs.length-dropped);
+  if(status==="push")dec=1;
+  return{legs,status,dec,units:status==="win"?dec-1:status==="loss"?-1:0,started:legs.some(l=>new Date(l.t).getTime()<=Date.now())};
+}
 function addMy(lg,p,m,side,line){
   const g=nextGame(p,lg);if(!g){toast("No upcoming game to track yet");return}
   const t=g.t.toISOString();
@@ -1010,7 +1170,7 @@ function wire(){
     const tk=e.target.closest("[data-tk]");
     if(tk){const c=(PICKS.picks||[]).concat(...Object.values(PICKS.byMarket||{})).find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
-      if(p&&m){addMy(c.lg,p,m,c.side,c.line);updMyCount();renderTop()}return}
+      if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>renderTop());return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("top").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
@@ -1031,6 +1191,8 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
+    const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
+    const xp=e.target.closest("[data-unparlay]");if(xp){PARLAYS=PARLAYS.filter(p=>p.id!==xp.dataset.unparlay);saveParlays();updMyCount();renderRecord();toast("Parlay deleted");return}
     const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();renderRecord();toast("Removed from My picks")}});
   document.getElementById("view-up").addEventListener("click",e=>{
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
@@ -1053,7 +1215,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   const built=DATA.built?new Date(DATA.built):null;
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
-  setupControls();wire();updMyCount();render();
+  setupControls();wire();updMyCount();renderSlip();render();
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";
   document.getElementById("board").innerHTML=`<tr><td colspan="7" class="empty">Couldn't load the game logs (${esc(err.message)}). Reload the page to try again.</td></tr>`;
@@ -1083,7 +1245,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 
 // ---- sharing ----
 const SITE="https://cmags0511.github.io/prop-tracker/";
-function toast(msg){const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
 async function copyLink(input){try{await navigator.clipboard.writeText(SITE);toast("Link copied")}catch(e){if(input){input.select();toast("Press and hold to copy")}}}
 function shareBox(){
   if(document.getElementById("sharebox"))return;
