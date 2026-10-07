@@ -338,6 +338,12 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .dtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .dpanel{display:flex;flex-direction:column;gap:10px;min-height:120px}
 .dpanel .ptitle{font-size:12px;color:var(--muted);margin:0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.trackbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trk{border:1px solid var(--line2);background:var(--panel);color:var(--ink);font:600 12.5px var(--f-body);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.trk:hover{border-color:var(--accent);color:var(--accent)}
+.trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.trk.sm{padding:2px 9px;font-size:11.5px;margin-left:auto}
+.pkmeta{align-items:center}
 .topnote{font-size:11.5px;color:var(--muted);margin:0}
 .upempty{background:var(--panel);border:1px dashed var(--line2);border-radius:10px;padding:28px;text-align:center;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
@@ -395,7 +401,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
-      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">Record</button>
+      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">My picks<span class="cnt" id="mycnt" hidden></span></button>
     </div>
   </div>
 </div>
@@ -464,7 +470,7 @@ const MK={
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let RECORD=null, FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
+let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
 function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
@@ -590,11 +596,12 @@ function renderTop(){
   ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
-    return`<button class="pick" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
+    const tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market===c.market&&x.t===new Date(c.t).toISOString()&&x.side===c.side&&x.line===c.line);
+    return`<div class="pick" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span></div></button>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span><button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"✓ Tracking":"+ Track"}</button></div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
@@ -658,6 +665,10 @@ function renderDetail(r){
     +cell(DATA[S.league+"meta"].season,pct(r.all),`${over(cur)} of ${cur.length} over`)
     +cell("Avg vs line",(edge>=0?"+":"")+edge.toFixed(1),`L10 avg ${r.avg10.toFixed(1)}`,`color:${edge>=0?"var(--hit)":"var(--miss)"}`);
   const dk=r.dk;
+  const ng=nextGame(p,S.league),mine=ng?myFor(S.league,p.id,m.id,ng.t.toISOString()):null;
+  const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
+    <button class="trk ${mine&&mine.side==="over"&&mine.line===line?"on":""}" data-track="over">${mine&&mine.side==="over"&&mine.line===line?"✓ Tracking":"+ Track"} over ${fmt(line)}</button>
+    <button class="trk ${mine&&mine.side==="under"&&mine.line===line?"on":""}" data-track="under">${mine&&mine.side==="under"&&mine.line===line?"✓ Tracking":"+ Track"} under ${fmt(line)}</button></div>`:"";
   const dkbar=dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
   const tabs=[["chart","Chart"],["alt","Alt lines"],["splits","Splits"],["log","Game log"]];
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
@@ -673,6 +684,7 @@ function renderDetail(r){
     </div>
     <div class="strip">${strip}</div>
     ${dkbar}
+    ${trackbar}
     <div class="dtabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" aria-selected="${S.dtab===t[0]}">${t[1]}</button>`).join("")}</div>
     <div class="dpanel" id="dpanel"></div>
   </div>`;
@@ -720,7 +732,8 @@ function renderDetail(r){
   draw();
   el.querySelector(".dtabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(b){S.dtab=b.dataset.tab;draw()}};
   const setLine=v=>{if(m.fixed)return;v=Math.max(.5,Math.round(v*2)/2);S.lines[lineKey(p,m)]=v;save();rerenderInPlace()};
-  el.addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(t)setLine(parseFloat(t.dataset.set))});
+  el.addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(t)setLine(parseFloat(t.dataset.set));
+    const k=e.target.closest("[data-track]");if(k){addMy(S.league,p,m,k.dataset.track,line);updMyCount();rerenderInPlace()}});
   el.addEventListener("keydown",e=>{const t=e.target.closest("tr[data-set]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();setLine(parseFloat(t.dataset.set))}});
   if(!m.fixed){
     document.getElementById("ldn").onclick=()=>setLine(line-step);
@@ -732,44 +745,64 @@ function renderDetail(r){
 
 function renderRecord(){
   const el=document.getElementById("view-rec");
-  const all=(RECORD&&RECORD.picks)||[];
   const lgf=S.recLg||"all";
-  const P=all.filter(e=>lgf==="all"||e.lg===lgf);
-  const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
+  const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
+  const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
   const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
     return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}};
   const T=tally(done);
   const u=v=>(v>=0?"+":"")+v.toFixed(1)+"u";
   const chips=`<div class="cats" style="margin:0">${[["all","All"],["NFL","NFL"],["NBA","NBA"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`;
-  const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
-  let html=`<section class="top"><div class="tophead"><h2>Pick <span>record</span></h2><p>Every Top 10 play, locked at kickoff and graded against the box score${since?` · tracking since ${since}`:""}</p></div>${chips}
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>The picks you track, graded against the box score after each game · saved on this device</p></div>${chips}
     <div class="strip" style="margin-top:4px">
       <div><div class="k">Record</div><div class="v">${T.w}-${T.l}${T.p?`-${T.p}`:""}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
       <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">52.4% breaks even at -110</div></div>
       <div><div class="k">Units at -110</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?u(T.units):"–"}</div><div class="s">1 unit per pick</div></div>
-      <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked or waiting on kickoff</div></div>
+      <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">waiting on results</div></div>
     </div>`;
-  if(!done.length)html+=`<p class="topnote">No graded picks yet. Picks are locked in when each game starts and graded once the box score is posted, usually by the next morning. The first results will show up after this week's games.</p>`;
-  else{
+  if(!MY.length)html+=`<p class="topnote">You're not tracking any picks yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player and tap <b>Track over</b> or <b>Track under</b>. Each pick is graded automatically once the box score is posted, usually by the next morning.</p>`;
+  else if(done.length){
     const table=(title,groups)=>`<div><h4 style="margin:6px 0">${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${groups.filter(g=>g[1].length).map(([lab,a])=>{const t=tally(a);return`<tr><td>${lab}</td><td class="num mono">${t.w}-${t.l}${t.p?`-${t.p}`:""}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?u(t.units):"–"}</td></tr>`}).join("")}</tbody></table></div></div>`;
-    const by=(f)=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
-    const bucket=e=>e.score>=.8?"0.8+":e.score>=.5?"0.5–0.8":e.score>=.3?"0.3–0.5":"Under 0.3";
-    const bk=by(bucket);
-    const props=Object.entries(by(e=>e.lg+" "+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length);
-    html+=`<div class="dgrid">${table("By pick strength",["0.8+","0.5–0.8","0.3–0.5","Under 0.3"].map(k=>[k,bk[k]||[]]))}${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}</div>
-      ${table("By prop",props)}`;
+    const by=f=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
+    html+=`<div class="dgrid">${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${table("By league",[["NFL",done.filter(e=>e.lg==="NFL")],["NBA",done.filter(e=>e.lg==="NBA")]])}</div>
+      ${table("By prop",Object.entries(by(e=>e.lg+" "+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length))}`;
   }
   html+=`</section>`;
-  // pick log, newest first
   const days={};
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">P</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">•••</span>'};
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">P</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">•••</span>',live:'<span class="pill p">•••</span>'};
   if(P.length){
-    html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>W/L graded · ••• pending · Void = didn't play</p></div><div class="bwrap"><table><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num"></th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr><td colspan="4" style="background:var(--bg);font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">${d}${t.n?` · ${t.w}-${t.l}`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.side==="over"?"Over":"Under"} ${SHORT[e.market]||e.label}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num">${badge[e.status]||""}</td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+    html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>W/L graded · ••• waiting · Void = didn't play</p></div><div class="bwrap"><table><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num"></th></tr></thead><tbody>${
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr><td colspan="4" style="background:var(--bg);font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">${d}${t.n?` · ${t.w}-${t.l}`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.side==="over"?"Over":"Under"} ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num">${badge[e.status]||""}${e.status==="pending"?` <button class="linkbtn" data-unmy="${e.id}" aria-label="Remove this pick" style="margin-left:6px">✕</button>`:""}</td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   }
-  html+=`<p class="note">The record only counts the "Best overall" Top 10 for each league, as it stood when each game kicked off. Units assume a 1-unit bet on every pick at standard -110 odds; real prices vary. Not betting advice.</p>`;
+  html+=`<p class="note">Your picks are stored in this browser on this device (or in the installed app). Picks can be removed until kickoff. Units assume a 1-unit bet at standard -110 odds; real prices vary. Not betting advice.</p>`;
   el.innerHTML=html;
+}
+
+// ---- My picks: saved on this device, graded in the browser against the box scores ----
+let MY=[];try{MY=JSON.parse(localStorage.getItem("ptMyPicks")||"[]")}catch(e){MY=[]}
+function updMyCount(){const n=MY.filter(e=>new Date(e.t)>Date.now()).length,c=document.getElementById("mycnt");if(c){c.textContent=n;c.hidden=!n}}
+function saveMy(){try{localStorage.setItem("ptMyPicks",JSON.stringify(MY))}catch(e){toast("Couldn't save on this device")}}
+function nextGame(p,lg){const now=Date.now();return(DATA[lg+"meta"].upcoming||[]).filter(g=>(g.away===p.team||g.home===p.team)&&g.t.getTime()>now).sort((a,b)=>a.t-b.t)[0]||null}
+function myFor(lg,pid,mid,t){return MY.find(e=>e.lg===lg&&e.pid===pid&&e.market===mid&&e.t===t)}
+function addMy(lg,p,m,side,line){
+  const g=nextGame(p,lg);if(!g){toast("No upcoming game to track yet");return}
+  const t=g.t.toISOString();
+  const ex=myFor(lg,p.id,m.id,t);
+  if(ex){if(ex.side===side&&ex.line===line){MY=MY.filter(e=>e!==ex);saveMy();toast("Removed from My picks");return}ex.side=side;ex.line=line;saveMy();toast("Updated in My picks");return}
+  MY.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t,market:m.id,label:m.label,side,line,added:new Date().toISOString()});
+  saveMy();toast(`Tracking ${side==="over"?"Over":"Under"} ${fmt(line)} ${SHORT[m.id]||m.label}`);
+}
+function gradeMy(e){
+  const start=new Date(e.t).getTime(),now=Date.now();
+  if(start>now)return{status:"pending"};
+  const p=(DATA[e.lg]||[]).find(x=>x.id===e.pid),m=MK[e.lg].find(x=>x.id===e.market);
+  if(p&&m){
+    const day=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
+    const g=p.games.find(x=>x.opp===e.opp&&Math.abs((new Date(x.date)-new Date(day))/864e5)<=1);
+    if(g){const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v}}
+  }
+  return{status:now-start>3*864e5?"void":"live"};
 }
 
 function upcomingGames(){
@@ -863,8 +896,13 @@ function open(id,jump){
 function wire(){
   document.getElementById("top").addEventListener("click",e=>{
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
+    const tk=e.target.closest("[data-tk]");
+    if(tk){const c=(PICKS.picks||[]).concat(...Object.values(PICKS.byMarket||{})).find(x=>x.key===tk.dataset.tk);
+      const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
+      if(p&&m){addMy(c.lg,p,m,c.side,c.line);updMyCount();renderTop()}return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
+  document.getElementById("top").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.team="";reset();setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
@@ -881,7 +919,8 @@ function wire(){
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
-  document.getElementById("view-rec").addEventListener("click",e=>{const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord()}});
+  document.getElementById("view-rec").addEventListener("click",e=>{const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
+    const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();renderRecord();toast("Removed from My picks")}});
   document.getElementById("view-up").addEventListener("click",e=>{
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
     const gp=e.target.closest(".gp");if(gp){S.view="board";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;setupControls();open(gp.dataset.id,true)}});
@@ -889,16 +928,16 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
-  setupControls();wire();render();
+  setupControls();wire();updMyCount();render();
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";
   document.getElementById("board").innerHTML=`<tr><td colspan="7" class="empty">Couldn't load the game logs (${esc(err.message)}). Reload the page to try again.</td></tr>`;
