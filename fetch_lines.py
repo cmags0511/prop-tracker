@@ -79,6 +79,9 @@ def get(url, tries=3):
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (prop-tracker)"})
             with urllib.request.urlopen(req, timeout=30) as r:
                 return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            if e.code == 404 or i == tries - 1:  # 404 = no props for this game; don't retry
+                raise
         except Exception as e:
             if i == tries - 1:
                 raise
