@@ -1,5 +1,5 @@
 // Prop Tracker service worker: app works offline, data is always fetched fresh when online.
-const VERSION = "pt-v16";
+const VERSION = "pt-v17";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -14,7 +14,7 @@ self.addEventListener("fetch", e => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   // Data and the page itself: network first so updates show immediately, cache as a fallback offline.
-  if (url.pathname.endsWith("props_data.json") || url.pathname.endsWith("lines.json") || url.pathname.endsWith("picks.json") || url.pathname.endsWith("notes.json") || req.mode === "navigate") {
+  if (url.pathname.endsWith("props_data.json") || url.pathname.endsWith("lines.json") || url.pathname.endsWith("picks.json") || url.pathname.endsWith("notes.json") || url.pathname.endsWith("record.json") || req.mode === "navigate") {
     e.respondWith(fetch(req, { cache: "no-store" }).then(res => {
       const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); return res;
     }).catch(() => caches.match(req).then(r => r || caches.match("./index.html"))));

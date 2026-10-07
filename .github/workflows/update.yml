@@ -26,11 +26,14 @@ jobs:
       - name: Rank top picks
         run: python picks.py picks.json
         continue-on-error: true
+      - name: Lock and grade Top 10 picks
+        run: python record.py record.json
+        continue-on-error: true
       - name: Commit if changed
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add props_data.json $(ls lines.json picks.json 2>/dev/null)
+          git add props_data.json $(ls lines.json picks.json record.json 2>/dev/null)
           git diff --cached --quiet || git commit -m "Update prop data $(date -u +'%Y-%m-%d %H:%M UTC')"
           git pull --rebase -X theirs origin main || true
           git push

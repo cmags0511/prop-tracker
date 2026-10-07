@@ -395,6 +395,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
+      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">Record</button>
     </div>
   </div>
 </div>
@@ -427,6 +428,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
     </section>
     </div>
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
   </div>
 </main>
@@ -462,7 +464,7 @@ const MK={
 };
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
+let RECORD=null, FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
 function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
@@ -613,8 +615,12 @@ function renderMovers(rows){
 function render(){
   document.getElementById("view-board").style.display=S.view==="board"?"flex":"none";
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
-  ["board","up"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",S.view===v));
+  const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
+  ["board","up","rec"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",S.view===v));
+  document.getElementById("market").hidden=S.view==="rec";
+  document.querySelector(".toolbar").hidden=S.view==="rec";
   if(S.view==="up"){renderUpcoming();return}
+  if(S.view==="rec"){renderRecord();return}
   const rows=boardRows(), m=mkt();
   renderTop();
   renderMovers(rows);
@@ -722,6 +728,48 @@ function renderDetail(r){
     document.getElementById("lin").onchange=e=>{const v=parseFloat(e.target.value);if(!isNaN(v))setLine(v)};
     const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p,m)];save();rerenderInPlace()};
   }
+}
+
+function renderRecord(){
+  const el=document.getElementById("view-rec");
+  const all=(RECORD&&RECORD.picks)||[];
+  const lgf=S.recLg||"all";
+  const P=all.filter(e=>lgf==="all"||e.lg===lgf);
+  const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
+  const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
+    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}};
+  const T=tally(done);
+  const u=v=>(v>=0?"+":"")+v.toFixed(1)+"u";
+  const chips=`<div class="cats" style="margin:0">${[["all","All"],["NFL","NFL"],["NBA","NBA"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`;
+  const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
+  let html=`<section class="top"><div class="tophead"><h2>Pick <span>record</span></h2><p>Every Top 10 play, locked at kickoff and graded against the box score${since?` · tracking since ${since}`:""}</p></div>${chips}
+    <div class="strip" style="margin-top:4px">
+      <div><div class="k">Record</div><div class="v">${T.w}-${T.l}${T.p?`-${T.p}`:""}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
+      <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">52.4% breaks even at -110</div></div>
+      <div><div class="k">Units at -110</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?u(T.units):"–"}</div><div class="s">1 unit per pick</div></div>
+      <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked or waiting on kickoff</div></div>
+    </div>`;
+  if(!done.length)html+=`<p class="topnote">No graded picks yet. Picks are locked in when each game starts and graded once the box score is posted, usually by the next morning. The first results will show up after this week's games.</p>`;
+  else{
+    const table=(title,groups)=>`<div><h4 style="margin:6px 0">${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${groups.filter(g=>g[1].length).map(([lab,a])=>{const t=tally(a);return`<tr><td>${lab}</td><td class="num mono">${t.w}-${t.l}${t.p?`-${t.p}`:""}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?u(t.units):"–"}</td></tr>`}).join("")}</tbody></table></div></div>`;
+    const by=(f)=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
+    const bucket=e=>e.score>=.8?"0.8+":e.score>=.5?"0.5–0.8":e.score>=.3?"0.3–0.5":"Under 0.3";
+    const bk=by(bucket);
+    const props=Object.entries(by(e=>e.lg+" "+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length);
+    html+=`<div class="dgrid">${table("By pick strength",["0.8+","0.5–0.8","0.3–0.5","Under 0.3"].map(k=>[k,bk[k]||[]]))}${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}</div>
+      ${table("By prop",props)}`;
+  }
+  html+=`</section>`;
+  // pick log, newest first
+  const days={};
+  [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">P</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">•••</span>'};
+  if(P.length){
+    html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>W/L graded · ••• pending · Void = didn't play</p></div><div class="bwrap"><table><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num"></th></tr></thead><tbody>${
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr><td colspan="4" style="background:var(--bg);font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">${d}${t.n?` · ${t.w}-${t.l}`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.side==="over"?"Over":"Under"} ${SHORT[e.market]||e.label}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num">${badge[e.status]||""}</td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+  }
+  html+=`<p class="note">The record only counts the "Best overall" Top 10 for each league, as it stood when each game kicked off. Units assume a 1-unit bet on every pick at standard -110 odds; real prices vary. Not betting advice.</p>`;
+  el.innerHTML=html;
 }
 
 function upcomingGames(){
@@ -832,6 +880,8 @@ function wire(){
   const setView=v=>{S.view=v;setupControls();render();window.scrollTo({top:0})};
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
+  document.getElementById("tab-rec").onclick=()=>setView("rec");
+  document.getElementById("view-rec").addEventListener("click",e=>{const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord()}});
   document.getElementById("view-up").addEventListener("click",e=>{
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
     const gp=e.target.closest(".gp");if(gp){S.view="board";S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;setupControls();open(gp.dataset.id,true)}});
@@ -839,10 +889,10 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
