@@ -21,6 +21,7 @@ DK = "100"  # ESPN's provider id for DraftKings
 LEAGUES = {
     "NFL": ("football", "nfl", int(os.environ.get("LINES_DAYS_NFL") or 7)),
     "NBA": ("basketball", "nba", int(os.environ.get("LINES_DAYS_NBA") or 2)),
+    "CFB": ("football", "college-football", int(os.environ.get("LINES_DAYS_CFB") or 3)),
 }
 SKIP = re.compile(r"half|quarter|\b1st\b|\b2nd\b|first|longest|double|triple|steal|block|turnover|interception|scorer|or more|milestone")
 
@@ -30,7 +31,7 @@ def market(lg, name):
     n = name.lower()
     if SKIP.search(n):
         return None
-    if lg == "NFL":
+    if lg in ("NFL", "CFB"):
         if "rushing" in n and "receiving" in n and "yards" in n:
             return "rry"
         if "kicking points" in n:
@@ -90,7 +91,7 @@ def main():
         old = json.load(open(OUT))
     except Exception:
         old = {}
-    out = {"fetched": now.isoformat(timespec="minutes"), "book": "DraftKings", "NFL": {}, "NBA": {}, "log": []}
+    out = {"fetched": now.isoformat(timespec="minutes"), "book": "DraftKings", "NFL": {}, "NBA": {}, "CFB": {}, "log": []}
     log = out["log"].append
     any_ok = False
     for lg, (sport, league, days) in LEAGUES.items():
@@ -100,7 +101,7 @@ def main():
             seen = set()
             for k in range(days + 1):  # one request per day; ESPN rejects some date ranges
                 day = get(f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
-                          f"?dates={start + dt.timedelta(days=k):%Y%m%d}")
+                          f"?dates={start + dt.timedelta(days=k):%Y%m%d}" + ("&groups=80&limit=400" if lg == "CFB" else ""))
                 for e in day.get("events", []):
                     if e["id"] not in seen:
                         seen.add(e["id"]); sb["events"].append(e)
@@ -147,7 +148,7 @@ def main():
     if not any_ok:
         print("ESPN unreachable; keeping previous lines.json")
         old["log"] = out["log"]
-        old.setdefault("NFL", {}); old.setdefault("NBA", {})
+        old.setdefault("NFL", {}); old.setdefault("NBA", {}); old.setdefault("CFB", {})
         out = old
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}")

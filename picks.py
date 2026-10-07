@@ -42,12 +42,18 @@ def fmt(v):
 def main():
     data = json.load(open("props_data.json"))
     try:
+        data["CFB"] = json.load(open("cfb_data.json"))
+    except Exception:
+        pass
+    try:
         lines = json.load(open("lines.json"))
     except Exception:
         lines = {}
     now = dt.datetime.now(dt.timezone.utc)
     cands = []
-    for lg in ("NFL", "NBA"):
+    for lg in ("NFL", "NBA", "CFB"):
+        if lg not in data:
+            continue
         L = lines.get(lg) or {}
         meta = data[lg]
         cols = meta["cols"]
@@ -69,7 +75,7 @@ def main():
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
-                if len(vals) < 8:
+                if len(vals) < (5 if lg == "CFB" else 8):
                     continue
                 line = dk["line"]
                 cur = [stat(g, mid) for g in games if g["date"] >= meta["curStart"]]
@@ -99,7 +105,7 @@ def main():
                 if dk.get("open") is not None and dk["open"] != line:
                     why += (f" The line has moved {'up' if line > dk['open'] else 'down'} "
                             f"{fmt(abs(line - dk['open']))} since it opened at {fmt(dk['open'])}.")
-                if lg == "NFL" and game["total"] is not None:
+                if lg in ("NFL", "CFB") and game["total"] is not None:
                     sp = game["spread"] if home else (None if game["spread"] is None else -game["spread"])
                     why += f" Game total {fmt(game['total'])}"
                     why += f", {p['t']} {'+' if sp > 0 else ''}{fmt(sp)}." if sp is not None else "."

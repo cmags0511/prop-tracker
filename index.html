@@ -424,11 +424,13 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
   .band .in{gap:10px}
   .tag{display:none}
   .chips .chip.minor{display:none}
-  .toolbar{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .toolbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .toolbar .seg{grid-column:1 / -1;display:flex}
+  .toolbar .seg button{flex:1}
   .toolbar .seg button{padding:5px 12px}
   .toolbar select{width:100%;padding:8px 22px 8px 10px!important;background-position:right 8px center}
   .toolbar .seg button{padding:5px 10px}
-  .toolbar #search{grid-column:1 / span 2}
+  .toolbar #search{grid-column:1}
   .toolbar label.chk{justify-self:end;font-size:12px;white-space:nowrap}
   .pk1 .who small{display:block;margin:2px 0 0}
   .props button{padding:7px 12px;font-size:13px}
@@ -461,6 +463,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
       <div class="seg" role="group" aria-label="League">
         <button id="lg-NFL" aria-pressed="true">NFL</button>
         <button id="lg-NBA" aria-pressed="false">NBA</button>
+        <button id="lg-CFB" aria-pressed="false" title="College football (FBS)">CFB</button>
       </div>
       <select id="pos" aria-label="Category"></select>
       <select id="team" aria-label="Team"></select>
@@ -534,10 +537,13 @@ const MK={
   {id:"fgm",label:"Field goals made",f:g=>g.fgm,pos:["K"],min:.8},
   {id:"pat",label:"Extra points made",f:g=>g.pat,pos:["K"],min:.8},
   {id:"kpts",label:"Kicking points",f:g=>3*g.fgm+g.pat,pos:["K"],min:3},
-  {id:"tkl",label:"Tackles + assists",f:g=>g.tkl,pos:["LB","DB","DL"],min:3},
-  {id:"sck",label:"Sacks",f:g=>g.sck,pos:["DL","LB","DB"],min:.25},
-  {id:"dint",label:"Interceptions",f:g=>g.dint,pos:["DB","LB"],min:.1}]
+  {id:"tkl",label:"Tackles + assists",f:g=>g.tkl,pos:["LB","DB","DL","DEF"],min:3},
+  {id:"sck",label:"Sacks",f:g=>g.sck,pos:["DL","LB","DB","DEF"],min:.25},
+  {id:"dint",label:"Interceptions",f:g=>g.dint,pos:["DB","LB","DEF"],min:.1}]
 };
+MK.CFB=MK.NFL; // college football uses the same props as the NFL
+const LEAGUES=["NFL","NBA","CFB"];
+const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, shown=PAGE;
@@ -562,28 +568,51 @@ const lineKey=(p,m)=>S.league+"|"+m.id+"|"+p.id;
 // which props apply right now: the selected one, or every prop for the position when "All" is picked
 // NFL prop groups (replace positions)
 const CATS={Passing:["pyd","cmp","att","ptd"],Rushing:["ryd","car","rry","td"],Receiving:["rec","recyd","rry","td"],Kicking:["fgm","pat","kpts"],Defense:["tkl","sck","dint"]};
-const inCat=id=>S.league!=="NFL"||!S.cat||CATS[S.cat].includes(id);
+const inCat=id=>!FB(S.league)||!S.cat||CATS[S.cat].includes(id);
 const activeMarkets=()=>isAll()?MK[S.league].filter(m=>inCat(m.id)):[mkt()];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const initials=n=>n.replace(/\b(Jr|Sr|II|III|IV)\.?$/,"").trim().split(/\s+/).map(w=>w[0]).filter(c=>/[A-Za-z]/.test(c)).slice(0,2).join("").toUpperCase();
 const dfmt=(d,o)=>d.toLocaleDateString("en-US",o);
 
+function hydrateLg(out,lg,r){
+  const cols=r.cols;
+  out[lg]=r.players.map(p=>({id:p.id,espn:p.e||p.id,name:p.n,team:p.t,pos:p.p,
+    games:p.g.map(row=>{const o={};cols.forEach((c,i)=>o[c]=row[i]);o.d=new Date(o.date+"T12:00:00");return o})}));
+  out[lg+"meta"]={season:r.season,curStart:r.curStart,upcoming:(r.upcoming||[]).map(u=>({t:new Date(u[0]),away:u[1],home:u[2],spread:u[3],total:u[4],week:u[5]}))};
+  out[lg].forEach(p=>p.cur=p.games.filter(g=>g.date>=r.curStart).length);
+}
 function hydrate(raw){
   const out={};
-  for(const lg of ["NBA","NFL"]){
-    const cols=raw[lg].cols;
-    out[lg]=raw[lg].players.map(p=>({id:p.id,espn:p.e||p.id,name:p.n,team:p.t,pos:p.p,
-      games:p.g.map(r=>{const o={};cols.forEach((c,i)=>o[c]=r[i]);o.d=new Date(o.date+"T12:00:00");return o})}));
-    out[lg+"meta"]={season:raw[lg].season,curStart:raw[lg].curStart,upcoming:(raw[lg].upcoming||[]).map(u=>({t:new Date(u[0]),away:u[1],home:u[2],spread:u[3],total:u[4],week:u[5]}))};
-    out[lg].forEach(p=>p.cur=p.games.filter(g=>g.date>=raw[lg].curStart).length);
-  }
+  for(const lg of ["NBA","NFL"])hydrateLg(out,lg,raw[lg]);
   out.built=raw.built; out.nbaSeason=raw.NBA.season; return out;
+}
+// college football is big, so it only downloads the first time someone opens it
+let cfbLoading=null;
+function ensureLeague(lg){
+  if(DATA[lg])return Promise.resolve(true);
+  if(lg!=="CFB")return Promise.resolve(false);
+  if(!cfbLoading)cfbLoading=fetch("cfb_data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})
+    .then(r=>{hydrateLg(DATA,"CFB",r);return true}).catch(()=>{cfbLoading=null;return false});
+  return cfbLoading;
+}
+function switchLeague(lg){
+  if(lg==="CFB"&&!DATA.CFB){
+    document.getElementById("board").innerHTML=`<tr><td colspan="7" class="empty">Loading college football\u2026</td></tr>`;
+    document.getElementById("top").innerHTML="";
+    ensureLeague("CFB").then(ok=>{
+      if(!ok){toast("Couldn't load college football. Check your connection and try again.");S.league="NFL"}
+      setupControls();save();render();
+    });
+    LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",l===lg));
+    return false;
+  }
+  return true;
 }
 
 function compute(p,m){
   const vals=p.games.map(m.f);
   const curVals=p.games.filter(g=>g.date>=CUR()).map(m.f);
-  const base=curVals.length>=8?curVals:vals.slice(S.league==="NFL"?-17:-40);
+  const base=curVals.length>=8?curVals:vals.slice(S.league==="NFL"?-17:S.league==="CFB"?-13:-40);
   const est=m.fixed??half(median(base));
   const mine=S.lines[lineKey(p,m)];
   const dk=m.fixed?null:dkLine(p,m);
@@ -596,11 +625,12 @@ function compute(p,m){
 }
 
 function setupControls(){
-  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
+  if(!DATA[S.league])S.league="NFL";
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
   const players=DATA[S.league];
   if(S.cat&&!CATS[S.cat])S.cat="";
   const catSel=document.getElementById("pos");
-  catSel.hidden=S.league!=="NFL";
+  catSel.hidden=!FB(S.league);
   catSel.innerHTML=`<option value="">Category</option>`+Object.keys(CATS).map(x=>`<option ${x===S.cat?"selected":""}>${x}</option>`).join("");
   // only show the props in the chosen category
   const props=MK[S.league].filter(m=>inCat(m.id));
@@ -612,7 +642,7 @@ function setupControls(){
   if(S.team&&!teams.includes(S.team))S.team="";
   document.getElementById("team").innerHTML=`<option value="">Team</option>`+teams.map(t=>`<option ${t===S.team?"selected":""}>${t}</option>`).join("");
   document.getElementById("allHead").textContent=DATA[S.league+"meta"].season;
-  document.getElementById("activeWrap").hidden=S.league!=="NFL"||S.view!=="board";
+  document.getElementById("activeWrap").hidden=!FB(S.league)||S.view!=="board";
   document.getElementById("search").hidden=S.view!=="board";
   document.getElementById("activeLbl").textContent="Played in "+DATA[S.league+"meta"].season;
   const up=upcomingGames();document.getElementById("upcnt").textContent=up.length;
@@ -622,12 +652,12 @@ function setupControls(){
 function eligible(r,m){return m.fixed||!!r.dk||(r.vals.slice(-10).some(v=>v>0)&&r.avg10>=(m.min??(m.step?15:1)))}
 function propRows(){
   let ps=DATA[S.league];
-  if(S.league==="NFL"&&S.active)ps=ps.filter(p=>p.cur>0);
+  if(FB(S.league)&&S.active)ps=ps.filter(p=>p.cur>0);
   if(S.team)ps=ps.filter(p=>p.team===S.team);
   const q=S.q.trim().toLowerCase(); if(q)ps=ps.filter(p=>p.name.toLowerCase().includes(q));
   const rows=[];
   for(const m of activeMarkets())for(const p of ps){
-    if(S.league==="NFL"&&!m.pos.includes(p.pos))continue;
+    if(FB(S.league)&&!m.pos.includes(p.pos))continue;
     const r=compute(p,m);if(eligible(r,m))rows.push(r);
   }
   return rows;
@@ -657,8 +687,8 @@ function renderTop(){
     for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||!inCat(c.market)||seen.has(c.id))continue;seen.add(c.id);src.push(c)}
   }else src=(PICKS.byMarket||{})[S.league+"|"+S.market]||[];
   const list=src.filter(c=>live(c)&&inCat(c.market)).slice(0,10);
-  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${isAll()?(S.league==="NFL"&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}</h2>`;
-  if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
+  const head=`<div class="tophead"><h2>Top <span>${list.length||10}</span> · ${isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}</h2>`;
+  if(!list.length){el.innerHTML=`${head}<p>${S.league}</p></div><p class="topnote">${S.league==="CFB"&&!m.fixed?`DraftKings doesn't publish college player prop lines through ESPN, so the college Top 10 fills in only when lines are available. You can still type any sportsbook's line on a player to see how often he clears it.`:m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
@@ -728,7 +758,7 @@ function render(){
 
 function renderDetail(r){
   const el=document.getElementById("detail");
-  const m=r.m,p=r.p,g=p.games,line=r.line,step=m.step||1,nfl=S.league==="NFL";
+  const m=r.m,p=r.p,g=p.games,line=r.line,step=m.step||1,nfl=FB(S.league);
   const vals=r.vals,n=vals.length,edge=r.avg10-line;
   const over=a=>a.filter(v=>v>line).length;
   const cur=g.filter(x=>x.date>=CUR()).map(m.f);
@@ -830,7 +860,8 @@ function renderRecord(){
   const T=tally(done);
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
-  const chips=MY.some(e=>e.lg==="NBA")&&MY.some(e=>e.lg==="NFL")?`<div class="cats" style="margin:0">${[["all","All"],["NFL","NFL"],["NBA","NBA"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`:"";
+  const usedLg=LEAGUES.filter(l=>MY.some(e=>e.lg===l));
+  const chips=usedLg.length>1?`<div class="cats" style="margin:0">${[["all","All"],...usedLg.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`:"";
   let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}`;
   if(!MY.length){
     html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
@@ -846,7 +877,7 @@ function renderRecord(){
     const table=(title,groups)=>{groups=groups.filter(g=>g[1].length);if(!groups.length)return"";return`<div><h4>${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${groups.map(([lab,a])=>{const t=tally(a);return`<tr><td>${lab}</td><td class="num mono">${wl(t)}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?u(t.units):"–"}</td></tr>`}).join("")}</tbody></table></div></div>`};
     const by=f=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
     const lgs=new Set(done.map(e=>e.lg)).size>1;
-    html+=`<div class="rsplit">${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${lgs?table("By league",[["NFL",done.filter(e=>e.lg==="NFL")],["NBA",done.filter(e=>e.lg==="NBA")]]):""}${table("By prop",Object.entries(by(e=>(lgs?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
+    html+=`<div class="rsplit">${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${lgs?table("By league",LEAGUES.map(l=>[l,done.filter(e=>e.lg===l)])):""}${table("By prop",Object.entries(by(e=>(lgs?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
   }
   html+=`</section>`;
   const days={};
@@ -1008,7 +1039,8 @@ function addMy(lg,p,m,side,line){
 function gradeMy(e){
   const start=new Date(e.t).getTime(),now=Date.now();
   if(start>now)return{status:"pending"};
-  const p=(DATA[e.lg]||[]).find(x=>x.id===e.pid),m=MK[e.lg].find(x=>x.id===e.market);
+  if(!DATA[e.lg]){ensureLeague(e.lg).then(ok=>{if(ok&&S.view==="rec")renderRecord()});return{status:"live"}}
+  const p=DATA[e.lg].find(x=>x.id===e.pid),m=MK[e.lg].find(x=>x.id===e.market);
   if(p&&m){
     const day=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
     const g=p.games.find(x=>x.opp===e.opp&&Math.abs((new Date(x.date)-new Date(day))/864e5)<=1);
@@ -1022,7 +1054,7 @@ function upcomingGames(){
   let g=DATA[S.league+"meta"].upcoming.filter(x=>x.t.getTime()>=now);
   if(S.team)g=g.filter(x=>x.away===S.team||x.home===S.team);
   if(!g.length)return[];
-  const end=g[0].t.getTime()+(S.league==="NFL"?9:4)*864e5;
+  const end=g[0].t.getTime()+(S.league==="NFL"?9:S.league==="CFB"?5:4)*864e5;
   return g.filter(x=>x.t.getTime()<=end);
 }
 const gExpanded=new Set();
@@ -1079,7 +1111,7 @@ function renderGame(x){
 }
 // jump from the Upcoming tab to a player's prop card on the board
 function openFromUp(id,mid){
-  S.view="board";S.game=null;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;
+  S.view="board";S.game=null;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;
   if(mid&&!isAll()){S.market=mid;if(!inCat(mid))S.cat=""}else if(mid&&!inCat(mid))S.cat="";
   setupControls();open(id,true);
 }
@@ -1088,12 +1120,12 @@ function renderUpcoming(){
   if(S.game){const g=(meta.upcoming||[]).find(x=>gameId(x)===S.game);if(g){renderGame(g);return}S.game=null}
   const games=upcomingGames();
   const byTeam={};
-  const keepTeam=S.team;S.team="";const qs=S.q;S.q="";const act=S.active;if(S.league==="NFL")S.active=true;
+  const keepTeam=S.team;S.team="";const qs=S.q;S.q="";const act=S.active;if(FB(S.league))S.active=true;
   const urows=propRows();S.team=keepTeam;S.q=qs;S.active=act;
   urows.forEach(r=>(byTeam[r.p.team]=byTeam[r.p.team]||[]).push(r));
   Object.values(byTeam).forEach(a=>a.sort(isAll()?(x,y)=>(!!y.dk-!!x.dk)||((y.l10??0)-(x.l10??0)):(x,y)=>y.avg10-x.avg10));
   const first=games[0];
-  let html=`<div class="uphead"><h2>${S.league} \u00b7 ${m.label}</h2><p>${S.league==="NFL"?"Game spreads and totals shown on each card \u00b7 ":""}Tap a player for his full prop card</p></div>`;
+  let html=`<div class="uphead"><h2>${S.league} \u00b7 ${m.label}</h2><p>${FB(S.league)?"Game spreads and totals shown on each card \u00b7 ":""}Tap a player for his full prop card</p></div>`;
   if(!games.length){el.innerHTML=html+`<div class="upempty">No ${S.league} games on the schedule${S.team?" for "+S.team:""} in the next few weeks.</div>`;return}
   if(S.league==="NBA"&&first.t-Date.now()>2*864e5)html+=`<div class="upempty" style="padding:14px;text-align:left">The ${meta.season==="2025-26"?"2026-27 ":""}season tips off ${first.t.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}. Player numbers and teams below are from ${meta.season} until new games are played.</div>`;
   const days={};
@@ -1172,10 +1204,10 @@ function wire(){
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
       if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>renderTop());return}
     const b=e.target.closest(".pick");if(!b)return;
-    S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(S.league==="NFL")S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
+    S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("top").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
-  ["NFL","NBA"].forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.game=null;S.team="";reset();setupControls();save();render()});
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
@@ -1215,7 +1247,9 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   const built=DATA.built?new Date(DATA.built):null;
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
+  const startLg=S.league;if(startLg==="CFB")S.league="NFL";
   setupControls();wire();updMyCount();renderSlip();render();
+  if(startLg==="CFB"){S.league="CFB";if(switchLeague("CFB")){setupControls();render()}}
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";
   document.getElementById("board").innerHTML=`<tr><td colspan="7" class="empty">Couldn't load the game logs (${esc(err.message)}). Reload the page to try again.</td></tr>`;
