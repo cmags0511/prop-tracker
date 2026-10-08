@@ -432,6 +432,8 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 .arlast .pteam{margin-right:4px}
 .arlast i{width:12px;height:12px;border-radius:3px;background:var(--line)}
 .arlast i.win{background:var(--hit)}.arlast i.loss{background:var(--miss)}.arlast i.push{background:var(--push)}
+.fx{font:600 10.5px var(--f-body);border-radius:5px;padding:2px 6px;letter-spacing:.02em}
+.fx.up{color:var(--hit);background:var(--hit-soft)}.fx.dn{color:var(--miss);background:var(--miss-soft)}
 .trk:hover{border-color:var(--accent);color:var(--accent)}
 .trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .trk.sm{padding:2px 9px;font-size:11.5px;margin-left:auto}
@@ -725,9 +727,9 @@ function renderTop(){
       <div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span>${(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${c.avg10}</span><span>DK ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  <p class="topnote">Picks are ranked from each player's game logs against the current DraftKings line${notesOk?", then checked each morning against injury reports, news, and bettor discussion":""}. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
+  <p class="topnote">Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA) and whether he's been playing${notesOk?", then adjusted twice a day by research on injuries, news, game plans and the opposing team":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
 
 function renderMovers(rows){
@@ -873,6 +875,11 @@ function renderDetail(r){
 // ---- The app's own Top 10 record (locked at kickoff, graded on the server) ----
 function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}}
 const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
+// what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
+const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",research:"News"};
+function fxChips(c){
+  return Object.entries(c.factors).filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"");
+}
 function renderAppBox(){
   const el=document.getElementById("apprec");
   const P=(RECORD&&RECORD.picks)||[];
