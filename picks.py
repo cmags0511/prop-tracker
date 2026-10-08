@@ -8,9 +8,12 @@ Each prop gets a probability-style score from:
   matchup   what players at his position have done against this opponent (its last 10 games)
   game      the team's implied points from the spread and total (football)
   minutes   minutes trend, last 3 vs last 15 games (NBA)
+  news      injury reports (context.json, every 3 hours): his own status, and for NBA the share of the
+            team's production held by regulars who are ruled out (backtested: overs hit more often)
+  weather   wind at kickoff for outdoor football (backtested: passing overs suffer above ~15 mph)
   research  injuries, role, game plan and news from the daily research check (notes.json)
 Weights come from a walk-forward backtest on 2025 NFL / 2025-26 NBA games (see README).
-Players ruled out by the research check are dropped.
+Players ruled out by the injury report or the research check are dropped.
 
 Usage: python picks.py [picks.json]
 """
@@ -22,6 +25,13 @@ KEEP = 30  # the daily research check reviews these, then the app shows the best
 W = {"NFL": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0), "CFB": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0),
      "NBA": dict(p=2.33, z=.65, mu=.046, tot=0, mtr=.86)}
 RESEARCH = {"support": .25, "caution": -.35, "neutral": 0}
+OUT_STATUS = {"Out", "Doubtful", "Injured Reserve", "Suspension", "Physically Unable to Perform", "Not Active"}
+SHAKY = {"Questionable", "Day-To-Day"}
+VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
+WIND_W = -.2    # NFL/CFB passing props: log-odds per 5 mph of wind above 10 mph (backtest coef ~-.2), capped
+PASS_M = {"pyd", "cmp", "att", "ptd", "rec", "recyd"}
+VAC_KEY = {"pts": "pts", "3pm": "pts", "reb": "reb", "ast": "ast", "pra": "min", "pr": "min", "pa": "min", "ra": "min",
+           "rec": "rec", "recyd": "rec", "car": "car", "ryd": "car", "rry": "car"}
 
 UNIT = {"pyd": "passing yards", "cmp": "completions", "att": "pass attempts", "ptd": "passing TDs",
         "ryd": "rushing yards", "car": "carries", "rec": "receptions", "recyd": "receiving yards",
@@ -114,6 +124,12 @@ def main():
     except Exception:
         lines = {}
     now = dt.datetime.now(dt.timezone.utc)
+    try:
+        ctx = json.load(open("context.json"))
+        if now - dt.datetime.fromisoformat(ctx["built"]) > dt.timedelta(hours=30):
+            ctx = {}
+    except Exception:
+        ctx = {}
     cands, slate = [], []
     for lg in ("NFL", "NBA", "CFB"):
         if lg not in data:
@@ -129,6 +145,35 @@ def main():
                 if d > team_last.get(pl["t"], ""):
                     team_last[pl["t"]] = d
         w = W[lg]
+        INJ = (ctx.get("injuries") or {}).get(lg, {})
+        inj_of = lambda pl: INJ.get(str(pl.get("e") or pl["id"]))
+        # each team's recent games, to see which regulars an injury report takes away
+        by_team = {}
+        for pl in meta["players"]:
+            by_team.setdefault(pl["t"], []).append(pl)
+        team_recent = {}
+        for tm, pls in by_team.items():
+            ds = sorted({dict(zip(cols, g))["date"] for pl in pls for g in pl["g"][-6:]})[-4:]
+            team_recent[tm] = ds
+
+        def vacated(pl, key):
+            """share of his team's usual `key` production (last 4 games) held by regulars now ruled out"""
+            ds = team_recent.get(pl["t"]) or []
+            if len(ds) < 3 or key is None:
+                return 0.0, []
+            tot, gone, who = 0.0, 0.0, []
+            for mate in by_team[pl["t"]]:
+                gs = [dict(zip(cols, g)) for g in mate["g"][-6:]]
+                gs = [g for g in gs if g["date"] in ds]
+                v = sum(g[key] for g in gs) / len(ds)
+                tot += v
+                st = inj_of(mate)
+                if mate is not pl and len(gs) >= 3 and st and st["s"] in OUT_STATUS and v > 0:
+                    gone += v
+                    who.append((v, mate["n"]))
+            if tot <= 0:
+                return 0.0, []
+            return gone / tot, [n for v, n in sorted(who, reverse=True)]
         ups = [{"t": dt.datetime.fromisoformat(u[0]), "away": u[1], "home": u[2], "spread": u[3], "total": u[4]}
                for u in meta.get("upcoming", [])]
         ups = [u for u in ups if u["t"] >= now - dt.timedelta(hours=3)]
@@ -142,6 +187,10 @@ def main():
                 continue
             if f"{lg}|{p['id']}" in out_players:
                 continue
+            me_inj = inj_of(p)
+            if me_inj and me_inj["s"] in OUT_STATUS:
+                continue  # on the injury report as out
+            wx = (ctx.get("weather") or {}).get(f"{lg}|{game['away']}@{game['home']}|{game['t'].astimezone(dt.timezone.utc):%Y-%m-%d}")
             games = [dict(zip(cols, g)) for g in p["g"]]
             for mid, dk in e.items():
                 if mid not in UNIT:
@@ -189,8 +238,12 @@ def main():
                 if missed:
                     trust *= .5
                 zc = max(-1.0, min(1.0, z))
+                vac, vac_who = vacated(p, VAC_KEY.get(mid))
+                news = (VAC_W * min(vac, .6) if lg == "NBA" else 0.0) - (.1 if me_inj and me_inj["s"] in SHAKY else 0.0)
+                wind = (wx or {}).get("wind")
+                weather = max(-.6, WIND_W * max(0.0, (wind - 10) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
-                         "game": w["tot"] * tot, "minutes": w["mtr"] * mtr}
+                         "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
                 lin = sum(parts.values())
                 stats_over = lin >= 0
                 adj = RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0)))
@@ -206,7 +259,9 @@ def main():
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
                               "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
-                              "missed_last": missed, "lean": "over" if stats_over else "under", "score": round(score, 3)})
+                              "missed_last": missed, "lean": "over" if stats_over else "under", "score": round(score, 3),
+                              "status": me_inj["s"] if me_inj else None, "teammates_out": vac_who[:3], "vacated": round(vac, 2),
+                              "wind": wind, "rain": (wx or {}).get("rain"), "indoor": (wx or {}).get("indoor")})
                 if score <= .05 and not note.get("side"):
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
@@ -230,6 +285,14 @@ def main():
                 if mu:
                     why += (f" {opp} has allowed the {ordinal(mu['rank']) if mu['rank'] <= mu['n'] / 2 else ordinal(mu['n'] - mu['rank'] + 1)}-"
                             f"{'most' if mu['rank'] <= mu['n'] / 2 else 'fewest'} {UNIT[mid]} to {GROUPNAME.get(grp(lg, p.get('p')), 'players')} over its last 10.")
+                if vac_who and vac >= .05:
+                    names = [re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", n).split()[-1] for n in vac_who[:2]]
+                    why += (f" With {' and '.join(names)} ruled out, about {vac * 100:.0f}% of {p['t']}'s recent "
+                            f"{ {'pts': 'scoring', 'reb': 'rebounding', 'ast': 'assists', 'min': 'minutes', 'rec': 'catches', 'car': 'carries'}[VAC_KEY[mid]] } is up for grabs.")
+                if me_inj and me_inj["s"] in SHAKY:
+                    why += f" He's listed {me_inj['s'].lower()}{' (' + me_inj['inj'].lower() + ')' if me_inj.get('inj') else ''}, so check his status before betting."
+                if wind is not None and not wx.get("indoor") and (wind >= 15 or (wx.get("rain") or 0) >= 60) and lg != "NBA":
+                    why += f" Forecast at kickoff: {wind:.0f} mph wind" + (f", {wx['rain']:.0f}% chance of rain" if (wx.get("rain") or 0) >= 40 else "") + "."
                 if lg == "NBA" and abs(mtr) >= .08:
                     why += f" His minutes are {'up' if mtr > 0 else 'down'} lately ({sum(mins[-3:]) / 3:.0f} a game over the last 3)."
                 if lg in ("NFL", "CFB") and game["total"] is not None:
@@ -244,6 +307,7 @@ def main():
                     "prob": round(prob if over else 1 - prob, 3),
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
+                    "status": me_inj["s"] if me_inj else None,
                 })
     slate.sort(key=lambda s: (s["t"], -s["score"]))
     json.dump({"built": now.isoformat(timespec="minutes"),
@@ -282,15 +346,25 @@ def main():
         for k in sorted({(c["lg"], c["market"]) for c in cands}):
             pool = [c for c in cands if (c["lg"], c["market"]) == k]
             out["byMarket"][f"{k[0]}|{k[1]}"] = slate(pool, 12)[:12]
+        # the same lists with overs only (the app shows these by default)
+        ov = [c for c in cands if c["side"] == "over"]
+        out["picksOver"] = slate([c for c in ov if c["score"] > .05], 14) if ov else []
+        out["byMarketOver"] = {}
+        for k in sorted({(c["lg"], c["market"]) for c in ov}):
+            pool = [c for c in ov if (c["lg"], c["market"]) == k]
+            out["byMarketOver"][f"{k[0]}|{k[1]}"] = slate(pool, 12)[:12]
         # top 5 for every upcoming game (best play per player), shown when a game is opened in the app
-        games = {}
-        for c in sorted(cands, key=lambda c: -c["score"]):
-            if dt.datetime.fromisoformat(c["t"]) <= now or c["score"] <= .05:
-                continue
-            g = games.setdefault((c["lg"], c["t"], *sorted((c["team"], c["opp"]))), [])
-            if len(g) < 5 and all(x["id"] != c["id"] for x in g):
-                g.append(c)
-        out["games"] = [c for g in games.values() for c in g]
+        def per_game(pool):
+            games = {}
+            for c in sorted(pool, key=lambda c: -c["score"]):
+                if dt.datetime.fromisoformat(c["t"]) <= now or c["score"] <= .05:
+                    continue
+                g = games.setdefault((c["lg"], c["t"], *sorted((c["team"], c["opp"]))), [])
+                if len(g) < 5 and all(x["id"] != c["id"] for x in g):
+                    g.append(c)
+            return [c for g in games.values() for c in g]
+        out["games"] = per_game(cands)
+        out["gamesOver"] = per_game(ov)
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)
