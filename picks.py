@@ -172,6 +172,13 @@ def main():
                     base15 = sum(mins[-15:]) / len(mins[-15:])
                     mtr = max(-.5, min(.5, (sum(mins[-3:]) / 3 - base15) / max(base15, 10)))
                 note = notes.get(f"{lg}|{p['id']}|{mid}") or {}
+                if not note:
+                    # no research on this exact prop: borrow half of what was found on his other props
+                    # (injuries to him or his teammates usually move all his props the same way)
+                    other = [v for k, v in notes.items() if k.startswith(f"{lg}|{p['id']}|")]
+                    if other:
+                        a = sum(RESEARCH.get(v.get("flag"), 0) / .15 + float(v.get("adj") or 0) for v in other) / len(other)
+                        note = {"adj": a * .5, "borrowed": True}
                 # a DraftKings line far from his recent numbers usually means the book knows something
                 # (injury, role change), so trust the stats less there; z is capped to the backtested range
                 ratio = max(avg, line) / max(min(avg, line), 1)
