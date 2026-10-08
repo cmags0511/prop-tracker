@@ -1,277 +1,271 @@
 {
- "updated": "2026-10-08T03:28:07Z",
- "summary": "Cincinnati's Ja'Marr Chase (concussion) and Tee Higgins (adductor) missed Wednesday practice, Chicago's backfield tilted toward Kyle Monangai after Swift's fumble, and the Colts are thin at receiver with Pierce on IR.",
+ "updated": "2026-10-08T12:06:24Z",
+ "summary": "Lamar Jackson's ankle injury makes a Falcons-led Sunday night script likely, Tampa Bay is without Mayfield and Winfield on Thursday night, and Cincinnati's Chase and Higgins remain in doubt.",
  "notes": {
   "NFL|00-0036997|rry": {
    "flag": "support",
    "adj": 1,
-   "note": "Williams has 83, 50, 103 and 83 scrimmage yards in 2026, so 93.5 sits above his usual output; Dallas is a 7.5 to 10 point favorite over 0-4 Tampa and rookie QB Daniels.",
+   "note": "Williams is Dallas's clear lead back (19 carries, 5 catches in Week 4) but has not reached 93.5 scrimmage yards lately; with Mayfield out, a lopsided game could add late carries.",
    "sources": [
-    "https://www.nbcsports.com/nfl/javonte-williams/7010/news",
-    "https://www.si.com/betting/buccaneers-vs-cowboys-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026",
-    "https://www.tsn.ca/nfl/article/rookie-qb-daniels-eager-to-build-on-first-nfl-start-with-struggling-buccaneers/"
+    "https://www.footballnationusa.com/post/buccaneers-at-cowboys-preview-dallas-pressure-tests-jalon-daniels",
+    "https://www.buccaneers.com/news/buccaneers-cowboys-injury-report-oct-5-week-5-2026"
+   ]
+  },
+  "NFL|00-0039846|tkl": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "The 5.5 line reflects Antoine Winfield Jr. being ruled out with a rib fracture; Smith now plays nearly every safety snap beside a practice-squad call-up and had 5 and 6 tackles the last two weeks.",
+   "sources": [
+    "https://rotowire.com/football/player/tykee-smith-17770",
+    "https://www.yardbarker.com/nfl/articles/important_bucs_starter_to_miss_several_weeks/s1_17102_44391615"
    ]
   },
   "NFL|00-0035358|kpts": {
    "flag": "neutral",
    "adj": 0,
-   "note": "McLaughlin missed Tuesday practice with a groin/hip issue but came off the report; he is 9 for 9 on field goals, though Tampa scored little with Daniels and has an implied total near 18.",
+   "note": "McLaughlin is expected to be fine after a groin/hip listing and is perfect on kicks, but Tampa starts rookie Daniels with Mayfield out and carries an implied total near 18.",
    "sources": [
-    "https://www.fantasypros.com/nfl/news/chase-mclaughlin.php",
-    "https://www.dimers.com/nfl/predictions/2026_5_dal_tb"
-   ]
-  },
-  "NFL|00-0036389|car": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Hurts is healthy, but Barkley (hamstring) is uncertain and Bigsby is on IR, leaving Will Shipley as the only healthy back, which could mean more designed QB runs in London.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640713/will-shipley-teams-other-two-rbs-hurt-week-4/",
-    "https://www.thefantasyfootballers.com/news/640896/saquon-barkley-status-uncertain-with-injured-hamstring/",
-    "https://www.inquirer.com/eagles/eagles-jaguars-super-bowl-nfc-odds-update-week-5-20261005.html"
-   ]
-  },
-  "NFL|00-0036442|pyd": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "The low line reflects Ja'Marr Chase in concussion protocol and Tee Higgins (adductor) missing Wednesday practice; Burrow has averaged about 293 yards this season with both available.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640681/chase-brown-massive-production-as-receiver/",
-    "https://fieldlevelmedia.com/?p=495624",
-    "https://www.statsinsider.com.au/news/dolphins-vs-bengals-prediction-and-preview-nfl-week-5-2026"
-   ]
-  },
-  "NFL|00-0038597|car": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Brown had 9 carries and 11 catches in Week 4 and averages 3.6 yards per carry; as a 6.5-point favorite with banged-up receivers, Cincinnati could lean on the run more.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640681/chase-brown-massive-production-as-receiver/",
-    "https://www.statsinsider.com.au/news/dolphins-vs-bengals-prediction-and-preview-nfl-week-5-2026"
-   ]
-  },
-  "NFL|00-0038128|cmp": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Willis remains Miami's starter; he has completed 15, 14, 20 and 9 passes at about 56 percent this season, managing just 9 completions in the Week 4 loss.",
-   "sources": [
-    "https://statsniper.com/nfl/player/malik_willis_MIA/",
-    "https://www.thefantasyfootballers.com/news/640792/malik-willis-stifled-by-vikes-in-week-4-loss/"
+    "https://www.footballguys.com/player/Chase+McLaughlin/McLaCh44",
+    "https://www.buccaneers.com/news/buccaneers-cowboys-injury-report-oct-5-week-5-2026"
    ]
   },
   "NFL|00-0037834|att": {
    "flag": "support",
    "adj": 1,
-   "note": "Purdy has thrown 34, 22, 27 and 30 passes this season with no injury listed; San Francisco is a 3.5-point road underdog in Seattle, so a trailing script could add some volume.",
+   "note": "Purdy has thrown 34, 22, 27 and 30 passes for a 4-0 team with no injury designation; he adds about 10 runs a game, and Pearsall is out for the season.",
    "sources": [
-    "https://statsniper.com/leagues/nfl/player/brock-purdy/",
     "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/purdy-cools-down-in-week-4-win-over-den",
-    "https://www.dimers.com/nfl/predictions/2026_5_sea_sf"
+    "https://rotowire.com//football/player/brock-purdy-15834"
+   ]
+  },
+  "NFL|00-0038797|rec": {
+   "flag": "caution",
+   "adj": -2,
+   "note": "Wilson is now Seattle's workhorse with Walker gone, Jadarian Price on IR and Charbonnet not activated this week; he caught 3 passes on 24 touches in Week 4, which explains the 1.5 line.",
+   "sources": [
+    "https://komonews.com/sports/seahawks/emanuel-wilson-sparks-seahawks-past-chargers-30-23-handing-la-a-fourth-straight-loss-seattle-football-nfl-super-bowl-score-winner-update-sports",
+    "https://www.thefantasyfootballers.com/news/640882/zach-charbonnet-wont-debut-week-5/"
+   ]
+  },
+  "NFL|00-0040730|rry": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Harvey is Denver's receiving back with 10 catches in Week 4 and 6 in Week 3, while Dobbins handles early downs and rookie Jonah Coleman is on IR.",
+   "sources": [
+    "https://www.fantasypros.com/nfl/news/jk-dobbins.php",
+    "https://www.fantasysp.com/target-touch-leaders/DEN/4"
+   ]
+  },
+  "NFL|00-0036355|ptd": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Herbert has 4 TDs and 6 INTs for an 0-4 Chargers team, with McConkey (foot) and Alt (neck) day to day; Denver is a 3.5-point road favorite in a low-total game.",
+   "sources": [
+    "https://www.4for4.com/news/chargers-wr-ladd-mcconkey-foot-day-day",
+    "https://www.chargers.com/news/nfl-betting-odds-broncos-game-picks-week-5-2026"
+   ]
+  },
+  "NFL|00-0033881|rec": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Engram caught 1 of 5 targets in Week 4 while Denver's short passes go to Harvey and wideouts Waddle, Sutton and Bryant; no injury news.",
+   "sources": [
+    "https://www.fantasysp.com/target-touch-leaders/DEN/4"
    ]
   },
   "NFL|00-0035685|ryd": {
    "flag": "support",
    "adj": 1,
-   "note": "Montgomery ran 11 times for 33 yards in Week 3 and 10 for 24 in Week 4 while splitting work with Woody Marks, who has been scoring.",
+   "note": "Montgomery's last three games went 6-10, 11-33 and 10-24 while splitting with Woody Marks, who gets goal-line work; a Houston lead could add some late carries.",
    "sources": [
-    "https://www.thefantasyfootballers.com/news/640707/david-montgomery-bottled-up-in-week-4-loss/",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-09-27/montgomery-bounces-back-for-48-total-yards",
-    "https://www.dimers.com/nfl/predictions/2026_5_ten_hou"
+    "https://www.nbcsports.com/nfl/david-montgomery/6256/news",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-08-23/beat-close-to-50-50-split-for-montgomery-marks"
    ]
   },
-  "NFL|00-0040676|ptd": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Ward has a passing TD in 3 of 4 games and Saleh rejected benching him, but Tennessee is a 7.5-point underdog in a game totaled near 37.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640717/cameron-ward-comeback-falls-short-in-baltimore/",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-09-29/saleh-offers-terse-no-on-benching-cam-ward",
-    "https://www.dimers.com/nfl/predictions/2026_5_ten_hou"
-   ]
-  },
-  "NFL|00-0038997|rec": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "The line is up because Alec Pierce is on IR and Keenan Allen (groin) sat Week 4, making Downs the top receiver, though he caught only 2, 7, 5 and 3 passes this season.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640447/keenan-allen-ruled-out-for-sunday/",
-    "https://www.nbcsports.com/nfl/josh-downs/8532/news",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/josh-downs-flops-in-week-4-smash-spot"
-   ]
-  },
-  "NFL|00-0040128|rec": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Warren caught all 5 targets in Week 4 and has a 6-catch game; with Pierce on IR and Allen's groin status unclear, his target share should stay elevated.",
-   "sources": [
-    "https://www.rotoballer.com/?p=1946239",
-    "https://www.thefantasyfootballers.com/news/640447/keenan-allen-ruled-out-for-sunday/"
-   ]
-  },
-  "NFL|00-0023459|att": {
+  "NFL|00-0040676|pyd": {
    "flag": "support",
    "adj": 1,
-   "note": "Rodgers threw 40 passes in the Week 4 Thursday loss to Cleveland and is healthy on extra rest; Pittsburgh is about a 2.5-point favorite with a 44.5 total.",
+   "note": "Ward is averaging about 181 passing yards with a high of 222 and Saleh keeps backing him; a trailing script as a 7.5-point underdog is the main risk.",
    "sources": [
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-01/aaron-rodgers-steelers-fall-to-2-2-in-loss-to-cle",
-    "https://www.dimers.com/nfl/predictions/2026_5_pit_ind"
-   ]
-  },
-  "NFL|00-0036040|recyd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Johnson is the Saints' lead tight end on about 70 percent of snaps and has topped 50 receiving yards in all four games, with seven or more targets in three.",
-   "sources": [
-    "https://rotowire.com//football/player/juwan-johnson-14630"
-   ]
-  },
-  "NFL|00-0035228|pyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Murray is healthy and starting; his average is dragged down by a Week 1 concussion exit, with 168 and 247 yards in full games, and Jefferson (ankle) hopes to return.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83188/kyler-murray-struggles-without-justin-jefferson",
-    "https://www.thefantasyfootballers.com/news/640446/justin-jefferson-aiming-to-return-week-5/"
-   ]
-  },
-  "NFL|00-0033293|rry": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "The line is high because Jordan Mason (thumb) went on IR; since then Jones has averaged about 23 touches with 92 and 128 scrimmage yards in his last two games.",
-   "sources": [
-    "https://web7.rotowire.com/football/player/aaron-jones-11763"
-   ]
-  },
-  "NFL|00-0037240|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Williams had 10 catches over Weeks 1-3 on a modest target share behind TeSlaa and LaPorta, then caught 6 for 102 when Goff threw 52 times in Week 4.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/82984/another-quiet-day-for-jameson-williams",
-    "https://fantasydata.com/nfl/boxscore/19516-detroit-lions-vs-carolina-panthers-week-4-2026"
-   ]
-  },
-  "NFL|00-0033106|att": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Goff threw 52 passes in last week's loss to Carolina, and Detroit plays indoors at Arizona as a 5.5-point favorite with a 54.5 total.",
-   "sources": [
-    "https://fantasydata.com/nfl/boxscore/19516-detroit-lions-vs-carolina-panthers-week-4-2026",
-    "https://www.dimers.com/nfl/predictions/2026_5_ari_det"
-   ]
-  },
-  "NFL|00-0039139|rry": {
-   "flag": "support",
-   "adj": 1,
-   "note": "The 134.5 line sits well above his recent output; Gibbs managed 77 scrimmage yards against Carolina in Week 4 while Detroit leaned heavily on the pass.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640841/jahmyr-gibbs-surprisingly-stymied-by-panthers/",
-    "https://www.dimers.com/nfl/predictions/2026_5_ari_det"
-   ]
-  },
-  "NFL|00-0036275|car": {
-   "flag": "caution",
-   "adj": -2,
-   "note": "Swift lost a fumble in Week 4 and did not return while Kyle Monangai ran 30 times for 146 yards and two scores; a split backfield is expected at Green Bay.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640652/dandre-swift-outplayed-by-monangai-in-week-4/",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/ben-johnson-denies-benching-swift"
-   ]
-  },
-  "NFL|00-0039919|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Caleb Williams (hamstring) is ruled out so Tyson Bagent starts again; Odunze had a season-best 6 catches for 94 yards with Bagent last week but otherwise has not topped 52 yards.",
-   "sources": [
-    "https://chicago.suntimes.com/bears/2026/10/05/bears-rule-out-qb-caleb-williams-vs-packers-will-start-backup-tyson-bagent-again",
-    "https://www.thefantasyfootballers.com/news/640700/rome-odunze-season-best-game-with-bagent/"
+    "https://www.newsweek.com/sports/nfl/robert-saleh-fires-back-at-cam-ward-critics-as-titans-fall-to-0-4-12525570",
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978643"
    ]
   },
   "NFL|00-0040784|ryd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Judkins is averaging about 3.1 yards per carry this season with no injury tag; the Jets are a 1.5-point favorite in a low 39.5-total game.",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Judkins has no injury and recent lines of 12-21, 18-70 and 17-53; Cleveland has extra rest and no reason for the line rise was found.",
    "sources": [
-    "https://web9.rotowire.com/football/player/quinshon-judkins-18516",
+    "https://www.fantasypros.com/nfl/news/quinshon-judkins.php",
     "https://www.covers.com/nfl/browns-vs-jets-prediction-picks-odds-early-leans-week-5-2026"
    ]
   },
   "NFL|00-0037740|rec": {
    "flag": "neutral",
    "adj": 0,
-   "note": "Wilson has caught 6, 5, 10 and 3 passes this season with no injury designation, in a game with a low 39.5 total.",
+   "note": "With Omar Cooper Jr. on IR, Adonai Mitchell week to week and Breece Hall out, Wilson is the Jets' main target, but Geno Smith completed only 8 passes last week.",
    "sources": [
-    "https://statsniper.com/leagues/nfl/player/garrett-wilson/",
-    "https://www.covers.com/nfl/browns-vs-jets-prediction-picks-odds-early-leans-week-5-2026"
+    "https://www.thefantasyfootballers.com/news/640688/garrett-wilson-struggles-along-with-entire-offense-week-4/",
+    "https://www.draftsharks.com/injury-update/garrett-wilson/12592"
+   ]
+  },
+  "NFL|00-0036040|recyd": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Johnson had 6 catches for 59 yards Monday and has 50 or more in every game as the lead tight end; Jefferson's likely return could push New Orleans into more passing.",
+   "sources": [
+    "https://www.wlox.com/2026/10/06/bijan-robinson-brian-robinson-jr-combine-five-touchdowns-falcons-rout-saints-45-24/",
+    "https://www.stackedfantasy.com/nfl/news/insights/947345"
+   ]
+  },
+  "NFL|00-0040743|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Shough threw for 286 Monday, much of it while trailing in a blowout; Minnesota's pass defense ranks near the top and New Orleans is on a short week.",
+   "sources": [
+    "https://www.wlox.com/2026/10/06/bijan-robinson-brian-robinson-jr-combine-five-touchdowns-falcons-rout-saints-45-24/"
+   ]
+  },
+  "NFL|00-0035228|pyd": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "Justin Jefferson (ankle) practiced limited and says he will play; Murray threw for 247 in Week 4 even without him, and the Saints just allowed 45 points.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/640446/justin-jefferson-aiming-to-return-week-5/",
+    "https://www.thefantasyfootballers.com/news/640804/tj-hockenson-big-day-in-week-4-win/"
+   ]
+  },
+  "NFL|00-0038128|cmp": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Willis went 9 of 17 in the Week 4 loss and completes about 57 percent; with Waddle traded and Achane reportedly out, Miami's passing game is thin and no QB change is reported.",
+   "sources": [
+    "https://fantasydata.com/nfl/boxscore/19512-miami-dolphins-vs-minnesota-vikings-week-4-2026",
+    "https://www.fantasypros.com/nfl/news/jaylen-waddle.php"
+   ]
+  },
+  "NFL|00-0039880|rec": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "With Waddle now in Denver, Washington is Miami's top receiver, leads the team in catches and caught 5 of 5 targets in Week 4, so the 4.5 line reflects a bigger role.",
+   "sources": [
+    "https://www.fantasypros.com/nfl/news/jaylen-waddle.php",
+    "https://fantasydata.com/nfl/boxscore/19512-miami-dolphins-vs-minnesota-vikings-week-4-2026"
+   ]
+  },
+  "NFL|00-0036442|cmp": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "Ja'Marr Chase (concussion protocol) and Tee Higgins (adductor) are both in doubt with Young and Iosivas also out, and a wide spread could limit late passing.",
+   "sources": [
+    "https://www.newsweek.com/sports/nfl/bengals-get-concerning-injury-updates-on-jamarr-chase-and-tee-higgins-12526631",
+    "https://local12.com/sports/bengals/bengals-need-response-after-back-to-back-losses-will-jamarr-chase-tee-higgins-play-miami-dolphins"
+   ]
+  },
+  "NFL|00-0033106|att": {
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Goff's 52 attempts in Week 4 came while trailing; as a 5.5-point favorite indoors with a 54.5 total, a lead could trim volume even though Lions games have been high scoring.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978663",
+    "https://fanduel.com/research/lions-vs-cardinals-predictions-odds-picks-best-bets-for-nfl-week-5-2026"
+   ]
+  },
+  "NFL|00-0039139|rry": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "Gibbs has about 186, 113, 174 and 77 scrimmage yards with Jacob Saylors as the only notable backup, and Detroit is favored against a run defense that allows the 4th-most RB yards.",
+   "sources": [
+    "https://fantasyfootballcalculator.com/players/jahmyr-gibbs/news",
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978663"
+   ]
+  },
+  "NFL|00-0037240|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "note": "St. Brown is healthy and LaPorta drew 13 targets in Week 4, leaving Williams third or fourth in line despite his 6-catch game; the high total helps.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978663"
+   ]
+  },
+  "NFL|00-0023459|att": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Pittsburgh passes on about two-thirds of plays and the Colts allow 8.1 yards per attempt; RB Dowdle (toe) and WR Pittman (foot) were limited Wednesday.",
+   "sources": [
+    "https://www.sharpfootballanalysis.com/fantasy/colts-steelers-week-5-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
+    "https://steelersdepot.com/2026/10/steelers-week-five-wednesday-injury-report-three-players-sit-out-pittman-battling-foot-injury/"
+   ]
+  },
+  "NFL|00-0036223|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Taylor was limited Wednesday for rest only after 95 rushing yards in London; with Keenan Allen limited and other receivers hurt, he may see extra check-downs.",
+   "sources": [
+    "https://steelersdepot.com/2026/10/colts-week-5-wednesday-injury-report-starting-c-tanor-bortolini-four-others-dnp/",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/jonathan-taylor-scores-twice-in-win-over-was"
    ]
   },
   "NFL|00-0038542|rry": {
    "flag": "support",
    "adj": 1,
-   "note": "Bijan ran for 194 yards in Week 3 and 145 on 19 carries in Week 4 with Penix starting, and has no injury news.",
+   "note": "Bijan is off the injury report and Lamar Jackson (ankle) missed Wednesday practice as a long shot to play, favoring an Atlanta lead, though Baltimore allows only 3.9 yards per carry.",
    "sources": [
-    "https://www.si.com/betting/falcons-vs-saints-best-nfl-prop-bets-for-monday-night-football-in-week-4-bet-on-bijan-robinson-2026",
-    "https://www.4for4.com/player/bijan-robinson/news-0"
+    "https://russellstreetreport.com/2026/10/07/injury-report/injury-report-ravens-falcons-wednesday/",
+    "https://www.si.com/betting/ravens-vs-falcons-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026"
    ]
   },
   "NFL|00-0037746|car": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Brian Robinson is Bijan's backup after signing in March; he got 10 carries in a Week 3 blowout, and no news was found explaining the higher line.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-09-24/brian-robinson-cashes-in-on-td-in-blowout-win",
-    "https://www.profootballnetwork.com/bijan-robinson-brian-robinson-falcons-backfield/"
-   ]
-  },
-  "NFL|00-0033090|rec": {
    "flag": "caution",
    "adj": -1,
-   "note": "Henry caught 5 of 5 targets on about 65 percent of snaps last game, and with Eli Raridon (ankle) hurt and Julian Hill on IR his workload could grow.",
+   "note": "Robinson has 10 or more carries in three straight games, including 14 against the Saints, and a likely Atlanta lead over a backup QB could add late carries.",
    "sources": [
-    "https://statsniper.com/leagues/nfl/player/hunter-henry/"
-   ]
-  },
-  "NFL|00-0034857|car": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Allen took a hit to his left knee against the Chargers but finished the game, coaches were unconcerned, and he was reportedly not on Wednesday's injury report.",
-   "sources": [
-    "https://www.essentiallysports.com/nfl-active-news-buffalo-bills-joe-brady-announces-josh-allen-injury-update-amid-concerns-over-bills-qbs-knee-after-chargers-game/",
-    "https://www.rotoballer.com/?p=1954864"
-   ]
-  },
-  "NFL|00-0039075|recyd": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Nacua missed time with a hip/groin issue and returned with 9 catches for 125 yards, but he is reportedly managing a pre-hernia that could flare up or require surgery.",
-   "sources": [
-    "https://www.newsweek.com/sports/nfl/puka-nacua-injury-update-raises-concerns-for-rams-12525900",
-    "https://www.4for4.com/news/rams-wr-puka-nacua-dealing-pre-hernia"
-   ]
-  },
-  "NFL|00-0040730|rry": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Harvey led Denver backs with 29 snaps and caught all 10 targets for 93 scrimmage yards in Week 4; he leads the team in catches and WR Pat Bryant is hurt.",
-   "sources": [
-    "https://www.stackedfantasy.com/player/fc6dbb83-b2b1-4962-b793-e79b2378b525/news"
-   ]
-  },
-  "NFL|00-0040666|ryd": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Hampton's carry share fell to 28 percent in Week 4 as Keaton Mitchell out-carried him in a three-way split, though he cleared 38.5 rushing yards in each of the last two games.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83173/things-just-got-even-worse-for-omarion-hampton",
-    "https://www.thefantasyfootballers.com/news/640787/omarion-hampton-scores-third-td-of-season/"
+    "https://www.dimers.com/nfl/news/bijan-robinson-brian-robinson-week-5-projections",
+    "https://www.si.com/betting/ravens-vs-falcons-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026"
    ]
   },
   "NFL|00-0036309|rec": {
    "flag": "support",
    "adj": 1,
-   "note": "Mooney is the Giants' slot receiver after Calvin Austin's ACL tear and caught exactly 2 passes in each of Weeks 1-3 on about 44 percent of snaps.",
+   "note": "Malik Nabers (knee) missed Wednesday practice and Braxton Berrios went to IR, which should push more targets to slot receiver Mooney, who is not on the injury report.",
    "sources": [
-    "https://www.rotowire.com/football/player/darnellmooney-14510"
+    "https://giants.com/news/giants-vs-commanders-week-5-injury-report-malik-nabers-andrew-thomas-cam-skattebo"
+   ]
+  },
+  "NFL|00-0039409|kpts": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Jacksonville is about a 4.5-point favorite with a 43.5 total, implying around 24 points; Little made three field goals last week and the Eagles list several starters as questionable.",
+   "sources": [
+    "https://www.si.com/betting/eagles-vs-jaguars-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026",
+    "https://jaguars.com/news/game-report-2026-week-4-jaguars-22-bengals-17"
+   ]
+  },
+  "NFL|00-0038611|car": {
+   "flag": "caution",
+   "adj": -1,
+   "note": "Bhayshul Tuten is Jacksonville's lead back with 17 carries in Week 4, and Rodriguez has had exactly 6 carries in three of four games, so the line matches his role.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/football/news/jaguars-chris-rodriguez-scores-again-in-week-4-win/",
+    "https://sports.yahoo.com/articles/jaguars-running-back-bhayshul-tuten-190253811.html"
+   ]
+  },
+  "NFL|00-0039919|recyd": {
+   "flag": "support",
+   "adj": 1,
+   "note": "Tyson Bagent starts again with Caleb Williams out; Odunze had 6 catches for 94 yards with Bagent, and both Bears running backs missed Wednesday practice.",
+   "sources": [
+    "https://www.packers.com/news/packers-bears-injury-report-oct-7-2026",
+    "https://www.draftsharks.com/fantasy-football-news/83183/tyson-bagent-will-start-week-5"
+   ]
+  },
+  "NFL|00-0034857|car": {
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Allen is off the injury report and has 6, 14, 8 and 5 rushes this season; DJ Moore's Week 4 shoulder injury could add some designed QB runs.",
+   "sources": [
+    "https://www.statmuse.com/nfl/ask/josh-allen-stats-by-game-this-season-including-rushing-stats",
+    "https://www.cbssports.com/fantasy/football/news/bills-josh-allen-not-listed-on-wednesday-injury-report/"
    ]
   }
  }
