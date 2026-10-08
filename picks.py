@@ -100,9 +100,10 @@ def main():
     try:
         notes = json.load(open("notes.json"))
         fresh = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+        best_note = (notes.get("best") or {}) if fresh else {}
         notes = notes.get("notes", {}) if fresh else {}
     except Exception:
-        notes = {}
+        notes, best_note = {}, {}
     out_players = {"|".join(k.split("|")[:2]) for k, v in notes.items() if v.get("flag") == "out"}
     try:
         data["CFB"] = json.load(open("cfb_data.json"))
@@ -113,7 +114,7 @@ def main():
     except Exception:
         lines = {}
     now = dt.datetime.now(dt.timezone.utc)
-    cands = []
+    cands, slate = [], []
     for lg in ("NFL", "NBA", "CFB"):
         if lg not in data:
             continue
@@ -191,14 +192,22 @@ def main():
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr}
                 lin = sum(parts.values())
-                over = lin >= 0
+                stats_over = lin >= 0
                 adj = RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0)))
-                parts["research"] = adj if over else -adj  # research is written for the pick's side
-                lin += parts["research"]
+                # research is written for a side: the one it names ("side"), else the side the stats lean to
+                r_side_over = note["side"] == "over" if note.get("side") in ("over", "under") else stats_over
+                r_over = adj if r_side_over else -adj
+                lin += r_over
                 over = lin >= 0
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
-                if score <= .05:
+                parts["research"] = r_over
+                slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "name": p["n"], "team": p["t"], "pos": p.get("p"),
+                              "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
+                              "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
+                              "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
+                              "missed_last": missed, "lean": "over" if stats_over else "under", "score": round(score, 3)})
+                if score <= .05 and not note.get("side"):
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
                 last = re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", p["n"]).split()[-1]
@@ -236,6 +245,11 @@ def main():
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
                 })
+    slate.sort(key=lambda s: (s["t"], -s["score"]))
+    json.dump({"built": now.isoformat(timespec="minutes"),
+               "about": "Every prop with a DraftKings line on the upcoming slate. matchup = opponent's rank (1 = allows the most "
+                        "to this position, last 10 games); gap = how far the line is from his recent average; lean = stats side.",
+               "props": slate}, open("slate.json", "w"), indent=0)
     out = {"built": now.isoformat(timespec="minutes"), "picks": []}
     if cands:
         first = min(dt.datetime.fromisoformat(c["t"]) for c in cands)
@@ -268,6 +282,20 @@ def main():
         for k in sorted({(c["lg"], c["market"]) for c in cands}):
             pool = [c for c in cands if (c["lg"], c["market"]) == k]
             out["byMarket"][f"{k[0]}|{k[1]}"] = slate(pool, 12)[:12]
+        # top 5 for every upcoming game (best play per player), shown when a game is opened in the app
+        games = {}
+        for c in sorted(cands, key=lambda c: -c["score"]):
+            if dt.datetime.fromisoformat(c["t"]) <= now or c["score"] <= .05:
+                continue
+            g = games.setdefault((c["lg"], c["t"], *sorted((c["team"], c["opp"]))), [])
+            if len(g) < 5 and all(x["id"] != c["id"] for x in g):
+                g.append(c)
+        out["games"] = [c for g in games.values() for c in g]
+    # the research check's single best bet of the day
+    if best_note.get("key"):
+        c = next((c for c in cands if c["key"] == best_note["key"]), None)
+        if c and dt.datetime.fromisoformat(c["t"]) > now:
+            out["best"] = dict(c, why_research=best_note.get("why", ""), sources=best_note.get("sources", []))
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: {len(out['picks'])} candidates")
 

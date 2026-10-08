@@ -276,6 +276,29 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .gall{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:10px;cursor:pointer}
 .gall:hover{background:var(--accent-soft)}
 .gall[disabled]{color:var(--muted);cursor:default;background:none;font-weight:600}
+.gcard.open{grid-column:1/-1;border-color:var(--accent)}
+.gchev{color:var(--muted);font-size:14px;transition:transform .15s}
+.gcard.open .gchev{transform:rotate(180deg);color:var(--accent)}
+.gbody{display:flex;flex-direction:column;gap:12px;padding:12px}
+.gbody .gbets{border-radius:8px}
+.gsub{font-size:12px;color:var(--muted)}
+.gtop5{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.gtop5 h4{margin:0;padding:10px 12px;font:700 .95rem/1.2 var(--f-display);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.gtop5 h4 span{font:500 11px var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted)}
+.gtop5 ol{list-style:none;margin:0;padding:0}
+.gtop5 li+li{border-top:1px solid var(--line)}
+.g5{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--panel);border:0;padding:10px 12px;cursor:pointer;color:var(--ink);font:inherit}
+.g5:hover{background:var(--accent-soft)}
+.g5n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 12px/22px var(--f-body);text-align:center}
+.g5b{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.g5t{font-size:13.5px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.g5m{font-size:12px;color:var(--muted)}
+.g5w{font-size:12px;color:var(--ink2);line-height:1.35}
+.g5p{flex:none;font-size:12px;color:var(--accent);font-weight:600}
+.totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:var(--panel);color:var(--accent);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+@media (max-width:600px){.totop{right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px))}body.hasslip .totop{bottom:calc(122px + env(safe-area-inset-bottom,0px))}}
 .gback{font:600 13px var(--f-body);color:var(--accent);background:none;border:0;cursor:pointer;padding:4px 0;align-self:flex-start}
 .ghero{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .ghero .gm{font-size:1.9rem}
@@ -434,6 +457,18 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 .arlast i.win{background:var(--hit)}.arlast i.loss{background:var(--miss)}.arlast i.push{background:var(--push)}
 .fx{font:600 10.5px var(--f-body);border-radius:5px;padding:2px 6px;letter-spacing:.02em}
 .fx.up{color:var(--hit);background:var(--hit-soft)}.fx.dn{color:var(--miss);background:var(--miss-soft)}
+.gbet{cursor:pointer}
+.gbet.sel{background:var(--accent-soft)}
+.gbet.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.gdrawer>td{padding:4px 8px 14px!important;background:var(--accent-soft)}
+.bestbet{display:block}
+.pick.bb{width:100%;border:1px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft),var(--panel) 70%);grid-template-columns:minmax(0,1fr);gap:6px;padding:14px}
+.pick.bb .why,.pick.bb .pkmeta,.pick.bb .bbwhy{grid-column:1}
+.bbtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bbtag{font:700 12px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--on-accent);background:var(--accent);border-radius:5px;padding:3px 8px}
+.bbwhy{margin:0;font-size:14px;color:var(--ink);line-height:1.45;font-weight:500}
+.bbsrc{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+.bbsrc a{color:var(--ink2)}
 .trk:hover{border-color:var(--accent);color:var(--accent)}
 .trk.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .trk.sm{padding:2px 9px;font-size:11.5px;margin-left:auto}
@@ -506,6 +541,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 <main>
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
+    <section class="bestbet" id="bestbet" hidden></section>
     <section class="top" id="top"></section>
     <section class="apprec" id="apprec" hidden></section>
     <div class="movers" id="movers"></div>
@@ -695,6 +731,23 @@ function boardRows(){
   return rows;
 }
 
+// the research check's single Best bet of the day
+function renderBest(){
+  const el=document.getElementById("bestbet"),b=PICKS&&PICKS.best;
+  if(!b||new Date(b.t).getTime()<Date.now()||outNote(b.lg,b.id)){el.hidden=true;return}
+  const t=new Date(b.t),tracked=MY.some(x=>x.lg===b.lg&&x.pid===b.id&&x.market===b.market&&x.side===b.side&&x.line===b.line),inSlip=slipHas(b.lg,b.id,b.market,b.side,b.line);
+  const BR=(RECORD&&RECORD.best||[]).filter(e=>["win","loss","push"].includes(e.status)),bw=BR.filter(e=>e.status==="win").length,bl=BR.filter(e=>e.status==="loss").length;
+  const host=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return""}};
+  el.hidden=false;
+  el.innerHTML=`<div class="pick bb" role="button" tabindex="0" data-lg="${b.lg}" data-m="${b.market}" data-id="${esc(b.id+"|"+b.market)}">
+    <div class="bbtop"><span class="bbtag">★ Best bet</span><span class="pteam">${BR.length?`Best bets ${bw}-${bl}`:"Picked by today's research"}</span></div>
+    <div class="pk1"><span class="who"><span class="lgtag">${b.lg}</span>${esc(b.name)}<small>${b.team} ${b.home?"vs":"@"} ${b.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${b.side}">${b.side==="over"?"Over":"Under"} ${fmt(b.line)} ${esc(SHORT[b.market]||b.label)}</span></div>
+    ${b.why_research?`<p class="bbwhy">${esc(b.why_research)}</p>`:""}
+    <div class="why">${esc(b.why)}</div>
+    <div class="pkmeta"><span>L10 ${b.l10[0]}/${b.l10[1]}</span><span>DK ${fmt(b.line)}</span>${b.factors?fxChips(b):""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(b.key)}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button></div>
+    ${(b.sources||[]).length?`<p class="bbsrc">Sources: ${b.sources.slice(0,4).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(host(u))}</a>`).join(" · ")}</p>`:""}
+  </div>`;
+}
 function renderTop(){
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
@@ -756,6 +809,7 @@ function render(){
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
   const rows=boardRows(), m=mkt();
+  renderBest();
   renderTop();
   renderAppBox();
   renderMovers(rows);
@@ -892,6 +946,7 @@ function renderAppBox(){
     <div><span class="k">Hit rate</span><span class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</span></div>
     <div><span class="k">Units</span><span class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</span></div>
     <div><span class="k">Pending</span><span class="v">${open}</span></div></div>
+    ${(()=>{const B=(RECORD.best||[]).filter(e=>["win","loss","push"].includes(e.status));if(!B.length)return"";const t=appTally(B);return`<p class="pteam" style="margin:0">\u2605 Best bets: <b style="color:var(--ink)">${t.w}-${t.l}${t.p?`-${t.p}`:""}</b> \u00b7 ${t.n?unitsTxt(t.units):""}</p>`})()}
     ${last.length?`<div class="arlast"><span class="pteam">Last ${last.length}:</span>${last.map(e=>`<i class="${e.status}" title="${esc(e.name)} ${e.side} ${fmt(e.line)} ${SHORT[e.market]||e.label}: ${e.status}"></i>`).join("")}</div>`:`<p class="pteam" style="margin:0">First results post after this week's games. Picks lock in at kickoff.</p>`}`;
 }
 function renderAppRecord(){
@@ -1098,7 +1153,7 @@ function openSlip(){
     }
   });
 }
-function refreshTracked(){if(S.view==="rec")renderRecord();else if(S.view==="board"){renderTop();if(S.sel)rerenderInPlace()}}
+function refreshTracked(){if(S.view==="rec")renderRecord();else if(S.view==="board"){renderBest();renderTop();if(S.sel)rerenderInPlace()}}
 function gradeParlay(pl){
   const legs=pl.legs.map(l=>Object.assign({},l,gradeMy(l)));
   const st=s=>legs.filter(l=>l.status===s).length;
@@ -1219,19 +1274,31 @@ function gameBets(x,est){
   return out;
 }
 const POSORD={QB:0,RB:1,WR:2,TE:3,K:4,DL:5,LB:6,DB:7};
-function renderGame(x){
-  const el=document.getElementById("view-up"),lg=S.league;
+// the five best plays in a game: the app's ranked picks first, then the strongest recent-form leans
+function gameTop5(x,bets){
+  const lg=S.league,t=x.t.getTime(),out=[],seen=new Set();
+  const ranked=((PICKS&&PICKS.games)||[]).filter(c=>c.lg===lg&&(c.team===x.away||c.team===x.home)&&Math.abs(new Date(c.t).getTime()-t)<12*3600e3).sort((a,b)=>b.score-a.score);
+  for(const c of ranked){if(seen.has(c.id)||outNote(lg,c.id))continue;const r=bets.find(r=>r.p.id===c.id&&r.m.id===c.market);if(!r)continue;seen.add(c.id);out.push({r,side:c.side,line:c.line,why:c.why,prob:c.prob,app:true});if(out.length===5)return out}
+  const lean=bets.filter(r=>!r.m.fixed&&r.l10!=null&&r.all!=null&&!outNote(lg,r.p.id)).map(r=>{const o=r.l10>=.5;const agree=(r.all>=.5)===o;return{r,side:o?"over":"under",s:Math.abs(r.l10-.5)*2+(agree?Math.abs(r.all-.5):0)}}).sort((a,b)=>b.s-a.s);
+  for(const c of lean){if(seen.has(c.r.p.id))continue;seen.add(c.r.p.id);const r=c.r,n=Math.min(10,r.vals.length),h=Math.round((c.side==="over"?r.l10:1-r.l10)*n);
+    out.push({r,side:c.side,line:r.line,why:`${c.side==="over"?"Over":"Under"} ${fmt(r.line)} in ${h} of his last ${n}, averaging ${r.avg10.toFixed(1)}.`});if(out.length===5)break}
+  return out;
+}
+function gameBody(x){
+  const lg=S.league;
   let bets=gameBets(x);const est=!bets.length;if(est)bets=gameBets(x,true);
+  // a player tapped from the game preview may only have an estimated line; keep his bet in the list
+  if(S.gsel&&!bets.some(r=>r.key===S.gsel)){const extra=gameBets(x,true).find(r=>r.key===S.gsel);if(extra)bets.push(extra)}
   const mks=MK[lg].filter(m=>bets.some(r=>r.m.id===m.id));
   if(S.gmk&&!mks.some(m=>m.id===S.gmk))S.gmk="";
   const shownB=S.gmk?bets.filter(r=>r.m.id===S.gmk):bets;
   const notesOk=NOTES&&NOTES.notes&&(Date.now()-new Date(NOTES.updated||0).getTime())<36*3600e3;
-  const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat()].map(c=>[c.key,c]));
-  const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"");
-  let html=`<button class="gback" data-gback>\u2039 All games</button>
-    <div class="ghero"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"})} \u00b7 ${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}</div></div>
-    <div class="uphead"><h2>${est?"Player props":`${bets.length} DraftKings bets`}</h2><p>${est?"DraftKings hasn't posted props for this game yet \u00b7 lines below are estimates from each player's median":"L10 and season = how often he's gone over the line"} \u00b7 tap a bet for the full prop card</p></div>`;
-  if(!bets.length){el.innerHTML=html+`<div class="upempty">No tracked players for this game yet.</div>`;return}
+  const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat(),...(PICKS&&PICKS.games||[])].map(c=>[c.key,c]));
+  let html=`<div class="gbody">`;
+  if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
+  const top=gameTop5(x,bets);
+  if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} picks<span>${top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+  html+=`<div class="gsub">${est?"DraftKings hasn't posted props for this game yet \u00b7 lines are estimates from each player's median":`${bets.length} DraftKings bets \u00b7 L10 and season = how often he's gone over the line`}</div>`;
   if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
   for(const team of [x.away,x.home]){
     const mine=shownB.filter(r=>r.p.team===team);
@@ -1246,15 +1313,41 @@ function renderGame(x){
       rs.sort((a,b)=>MK[lg].indexOf(a.m)-MK[lg].indexOf(b.m));
       for(const r of rs){
         const k=lg+"|"+p.id+"|"+r.m.id,c=pickKeys.get(k),n=notesOk?NOTES.notes[k]:null;
-        html+=`<tr class="gbet" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}"><td>${esc(SHORT[r.m.id]||r.m.label)}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
-          <td class="num mono">${fmt(r.line)}${r.mine?"*":""}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>`;
+        const on=S.gsel===r.key;
+        html+=`<tr class="gbet${on?" sel":""}" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}" aria-expanded="${on}"><td>${esc(SHORT[r.m.id]||r.m.label)}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
+          <td class="num mono">${fmt(r.line)}${r.mine?"*":""}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>${on?'<tr class="drawer gdrawer"><td colspan="5" id="detail"></td></tr>':""}`;
       }
     }
     html+=`</tbody></table></section>`;
   }
-  el.innerHTML=html;
+  GSHOWN=shownB;
+  return html+`</div>`;
+}
+let GSHOWN=[];
+const reduceMo=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";
+// open or close a game right where it sits in the list
+function toggleGame(gid){
+  S.game=S.game===gid?null:gid;S.gmk="";S.gsel=null;
+  renderUpcoming();
+  const card=[...document.querySelectorAll("#view-up .gcard")].find(c=>c.dataset.g===gid);
+  if(card&&S.game&&card.getBoundingClientRect().top<70)card.scrollIntoView({block:"start",behavior:reduceMo()});
+}
+// open (or close) a bet's full card inside its game, keeping your place
+function openInGame(id,force){
+  S.gsel=(S.gsel===id&&!force)?null:id;
+  renderUpcoming();
+  const row=[...document.querySelectorAll("#view-up tr.gbet")].find(r=>r.dataset.id===id);
+  if(row&&S.gsel){row.focus({preventScroll:true});row.scrollIntoView({block:force?"start":"nearest",behavior:reduceMo()})}
 }
 // jump from the Upcoming tab to a player's prop card on the board
+// open (or close) a bet's full card inside the game page, keeping your place
+function openInGame(id,force){
+  S.gsel=(S.gsel===id&&!force)?null:id;
+  renderUpcoming();
+  const row=[...document.querySelectorAll("#view-up tr.gbet")].find(r=>r.dataset.id===id);
+  if(row&&S.gsel){row.focus({preventScroll:true});row.scrollIntoView({block:force?"start":"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
+  else if(force)window.scrollTo({top:0});
+}
 function openFromUp(id,mid){
   S.view="board";S.game=null;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;
   if(mid&&!isAll()){S.market=mid;if(!inCat(mid))S.cat=""}else if(mid&&!inCat(mid))S.cat="";
@@ -1262,7 +1355,6 @@ function openFromUp(id,mid){
 }
 function renderUpcoming(){
   const el=document.getElementById("view-up"),m=mkt(),meta=DATA[S.league+"meta"];
-  if(S.game){const g=(meta.upcoming||[]).find(x=>gameId(x)===S.game);if(g){renderGame(g);return}S.game=null}
   const games=upcomingGames();
   const byTeam={};
   const keepTeam=S.team;S.team="";const qs=S.q;S.q="";const act=S.active;if(FB(S.league))S.active=true;
@@ -1285,10 +1377,15 @@ function renderUpcoming(){
       const more=Math.max((byTeam[x.away]||[]).length,(byTeam[x.home]||[]).length)>4;
       const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"");
       const nb=gameBets(x).length;
-      return`<article class="gcard"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-label="All bets for ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}</div></div>
-        <div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}<button class="gall" data-game="${esc(gid)}">${nb?`See all ${nb} DraftKings bets for this game \u203a`:"See every player prop for this game \u203a"}</button></article>`}).join("")+`</div></section>`;
+      const open=S.game===gid;
+      return`<article class="gcard${open?" open":""}" data-g="${esc(gid)}"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-expanded="${open}" aria-label="${open?"Close":"Open"} ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}<span class="gchev" aria-hidden="true">\u25be</span></div></div>
+        ${open?gameBody(x)+`<button class="gall" data-game="${esc(gid)}">Close game \u25b4</button>`:`<div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}<button class="gall" data-game="${esc(gid)}">${nb?`Top 5 picks + all ${nb} DraftKings bets \u203a`:"Top 5 picks + every player prop \u203a"}</button>`}</article>`}).join("")+`</div></section>`;
   }
+  document.querySelectorAll("#board #detail").forEach(d=>d.removeAttribute("id"));
   el.innerHTML=html;
+  if(S.game&&!document.querySelector("#view-up .gcard.open"))S.game=null;
+  const sel=S.gsel&&document.querySelector("#view-up .gcard.open")&&GSHOWN.find(r=>r.key===S.gsel);
+  if(sel)renderDetail(sel);else S.gsel=null;
 }
 
 function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw||1)));const n=raw/p;return(n<=1?1:n<=2?2:n<=5?5:10)*p}
@@ -1329,10 +1426,10 @@ function rerenderInPlace(){
   // change the line without the board reshuffling or the page jumping
   const ids=[...document.querySelectorAll("#board tr.row")].map(r=>r.dataset.id);
   if(ids.length)FROZEN=ids;
-  const row=document.querySelector("#board tr.sel"),top=row?row.getBoundingClientRect().top:null;
+  const row=document.querySelector(S.view==="up"?"#view-up tr.gbet.sel":"#board tr.sel"),top=row?row.getBoundingClientRect().top:null;
   const card=document.querySelector("#detail .dcard"),inner=card?card.scrollTop:0;
   render();
-  const row2=document.querySelector("#board tr.sel");
+  const row2=document.querySelector(S.view==="up"?"#view-up tr.gbet.sel":"#board tr.sel");
   if(row2&&top!=null)window.scrollBy(0,row2.getBoundingClientRect().top-top);
   const card2=document.querySelector("#detail .dcard");if(card2)card2.scrollTop=inner;
 }
@@ -1342,16 +1439,19 @@ function open(id,jump){
   if(row){row.focus({preventScroll:true});row.scrollIntoView({block:jump?"start":"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
 }
 function wire(){
-  document.getElementById("top").addEventListener("click",e=>{
+  const tt=document.getElementById("totop");let ttOn=false;
+  addEventListener("scroll",()=>{const on=scrollY>700;if(on!==ttOn){ttOn=on;tt.classList.toggle("show",on)}},{passive:true});
+  tt.onclick=()=>window.scrollTo({top:0,behavior:reduceMo()});
+  document.getElementById("view-board").addEventListener("click",e=>{
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
     const tk=e.target.closest("[data-tk]");
-    if(tk){const c=(PICKS.picks||[]).concat(...Object.values(PICKS.byMarket||{})).find(x=>x.key===tk.dataset.tk);
+    if(tk){const c=(PICKS.picks||[]).concat(...Object.values(PICKS.byMarket||{}),PICKS.best?[PICKS.best]:[]).find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
-      if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>renderTop());return}
+      if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()});return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("apprec").addEventListener("click",e=>{if(e.target.closest("[data-goto-app]")){S.recType="app";S.recLg="all";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0})}});
-  document.getElementById("top").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
+  document.getElementById("view-board").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
   LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
@@ -1364,7 +1464,8 @@ function wire(){
   const b=document.getElementById("board");
   b.addEventListener("click",e=>{const tr=e.target.closest("tr.row");if(tr)open(tr.dataset.id)});
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
-  const setView=v=>{S.view=v;S.game=null;setupControls();render();window.scrollTo({top:0})};
+  const scrollMem={};
+  const setView=v=>{if(v===S.view){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[S.view]=window.scrollY;S.view=v;setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
@@ -1374,11 +1475,11 @@ function wire(){
     const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();renderRecord();toast("Removed from My picks")}});
   document.getElementById("view-up").addEventListener("click",e=>{
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
-    const gb=e.target.closest("[data-gback]");if(gb){S.game=null;renderUpcoming();window.scrollTo({top:0});return}
     const gc=e.target.closest("[data-gmk]");if(gc){S.gmk=gc.dataset.gmk;renderUpcoming();return}
-    const gg=e.target.closest("[data-game]");if(gg){S.game=gg.dataset.game;S.gmk="";renderUpcoming();window.scrollTo({top:0});return}
-    const bt=e.target.closest("tr.gbet");if(bt){openFromUp(bt.dataset.id,bt.dataset.m);return}
-    const gp=e.target.closest(".gp");if(gp){openFromUp(gp.dataset.id,gp.dataset.id.split("|").pop())}});
+    const gg=e.target.closest("[data-game]");if(gg){toggleGame(gg.dataset.game);return}
+    const g5=e.target.closest(".g5");if(g5){S.gmk="";openInGame(g5.dataset.id,true);return}
+    const bt=e.target.closest("tr.gbet");if(bt){openInGame(bt.dataset.id);return}
+    const gp=e.target.closest(".gp");if(gp){const card=gp.closest(".gcard");if(card){S.game=card.dataset.g;S.gmk="";openInGame(gp.dataset.id,true)}}});
   document.getElementById("view-up").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&(e.target.matches(".gtop.go")||e.target.matches("tr.gbet"))){e.preventDefault();e.target.click()}});
   document.getElementById("movers").addEventListener("click",e=>{const btn=e.target.closest(".mover");if(btn){S.sel=null;open(btn.dataset.id,true)}});
 }
@@ -1448,5 +1549,6 @@ document.getElementById("shareBtn").onclick=async()=>{
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("sharebox")?.remove()});
 </script>
 
+<button class="totop" id="totop" aria-label="Back to top" title="Back to top">&#8593;</button>
 </body>
 </html>

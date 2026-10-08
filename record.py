@@ -76,9 +76,22 @@ def main():
                 "line": c["line"], "score": c["score"], "l10": c["l10"], "status": "pending", "result": None,
             }
 
+    # 1b. the research check's Best bet: keep the current one until its game starts, then it's locked
+    best = {(e["key"], e["t"]): e for e in rec.get("best", [])}
+    b = picks.get("best")
+    if b and start(b) > now and f"{b['lg']}|{b['id']}" not in out_players:
+        for k, e in list(best.items()):
+            if e["status"] == "pending" and start(e) > now:
+                del best[k]
+        best[(b["key"], b["t"])] = {
+            "key": b["key"], "lg": b["lg"], "id": b["id"], "name": b["name"], "team": b["team"], "opp": b["opp"],
+            "home": b["home"], "t": b["t"], "market": b["market"], "label": b["label"], "side": b["side"],
+            "line": b["line"], "score": b["score"], "why": b.get("why_research", ""), "status": "pending", "result": None,
+        }
+
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
-    for e in entries.values():
+    for e in list(entries.values()) + list(best.values()):
         if e["status"] != "pending" or start(e) > now:
             continue
         p = players.get(e["lg"], {}).get(e["id"])
@@ -108,6 +121,7 @@ def main():
         e["graded"] = now.isoformat(timespec="minutes")
 
     rec["picks"] = sorted(entries.values(), key=lambda e: (e["t"], -e["score"]))
+    rec["best"] = sorted(best.values(), key=lambda e: e["t"])
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
     json.dump(rec, open(OUT, "w"), separators=(",", ":"))
