@@ -1,271 +1,559 @@
 {
- "updated": "2026-10-08T12:06:24Z",
- "summary": "Lamar Jackson's ankle injury makes a Falcons-led Sunday night script likely, Tampa Bay is without Mayfield and Winfield on Thursday night, and Cincinnati's Chase and Higgins remain in doubt.",
+ "updated": "2026-10-08T22:58:46Z",
+ "summary": "Baker Mayfield (thumb) is out, so rookie Jalon Daniels makes his second start for winless Tampa at Dallas (DAL around -8.5, total 47.5); Tampa is also missing safety Winfield and corner Morrison, while Dallas lists WR Mingo as questionable with illness.",
+ "best": {
+  "key": "NFL|00-0033921|rec",
+  "side": "over",
+  "why": "In Daniels' first start, Godwin was his safety valve with six catches on seven targets, and Tampa should again rely on short throws while trailing by more than a touchdown. Dallas allows the league's worst success rate on dropbacks, and Godwin has gone over this line in six of his last 10 games.",
+  "sources": [
+   "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5",
+   "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+   "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+   "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
+  ]
+ },
  "notes": {
-  "NFL|00-0036997|rry": {
+  "NFL|00-0033921|rec": {
+   "side": "over",
    "flag": "support",
-   "adj": 1,
-   "note": "Williams is Dallas's clear lead back (19 carries, 5 catches in Week 4) but has not reached 93.5 scrimmage yards lately; with Mayfield out, a lopsided game could add late carries.",
+   "adj": 2,
+   "note": "Rookie Jalon Daniels starts for Mayfield (thumb) and fed Godwin seven short targets last week; Dallas allows the league's worst dropback success rate and Tampa likely trails by 8.5.",
    "sources": [
-    "https://www.footballnationusa.com/post/buccaneers-at-cowboys-preview-dallas-pressure-tests-jalon-daniels",
-    "https://www.buccaneers.com/news/buccaneers-cowboys-injury-report-oct-5-week-5-2026"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5",
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
    ]
   },
-  "NFL|00-0039846|tkl": {
+  "NFL|00-0033921|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Volume should be there as Daniels' safety valve, but his targets came near the line of scrimmage, which caps yards per catch.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0040129|rec": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Egbuka managed two catches for 13 yards in Daniels' first start as the offense shifted to short throws and runs.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0040129|recyd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Backup QB Daniels has not pushed the ball downfield, and Egbuka was largely quiet in his first start.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0036997|rry": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa has allowed the third-fewest rushing yards this season, limiting Williams on the ground even though he can add some receiving work.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0036997|ryd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa's run defense ranks among the stingiest in the league, so Dallas is expected to move the ball through the air.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0036997|car": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "A big Dallas lead could add late carries, but a strong Tampa run front argues against a heavy workload; nothing decisive.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/",
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
+   ]
+  },
+  "NFL|00-0036997|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa allows the third-most receptions to running backs, and Williams has 15 catches through four games.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
+   ]
+  },
+  "NFL|00-0036997|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa ranks near the top in receiving yards allowed to backs; Williams cleared this mark in three of four games.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0037120|ryd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Goodson plays through an ankle issue as a backup behind Williams against one of the best run defenses.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
+   ]
+  },
+  "NFL|00-0039530|rec": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Tampa gives up plenty to tight ends, but Spann-Ford is a low-volume blocker; no news changes his role.",
+   "sources": [
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/"
+   ]
+  },
+  "NFL|00-0039530|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Low line for a depth tight end; Tampa is soft against tight ends but his target share is small.",
+   "sources": [
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/"
+   ]
+  },
+  "NFL|00-0038041|rec": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "note": "Tampa allows the sixth-most tight end yards and Ferguson has drawn four-plus targets in each of the last three games, which works against the under.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/",
+    "https://sports.yahoo.com/articles/buccaneers-vs-cowboys-player-props-020029436.html"
+   ]
+  },
+  "NFL|00-0038041|recyd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "note": "Tight ends have produced against Tampa all season and Ferguson's recent target floor points toward the over.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://sports.yahoo.com/articles/buccaneers-vs-cowboys-player-props-020029436.html"
+   ]
+  },
+  "NFL|00-0036358|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Lamb practiced fully and is cleared; Tampa is missing starting safety Winfield and corner Morrison, and Mingo is questionable with illness.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
+   ]
+  },
+  "NFL|00-0036358|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa's secondary is down two starters and Mingo's illness could funnel extra targets to Lamb.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0037247|recyd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "note": "PFF rates Pickens' matchup with Tampa's corners as favorable, and Morrison's absence and Mingo's illness could push more targets his way.",
+   "sources": [
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay",
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0037247|rec": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "note": "With two Tampa defensive backs out and Mingo questionable, Pickens' target outlook improves, which works against the under.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
+   ]
+  },
+  "NFL|00-0039410|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Flournoy would absorb WR3 snaps if Mingo sits with illness against a depleted Tampa secondary.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0039410|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Mingo did not practice due to illness, which leaves more slot and WR3 work for Flournoy.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0037801|rec": {
+   "side": "over",
    "flag": "caution",
    "adj": -1,
-   "note": "The 5.5 line reflects Antoine Winfield Jr. being ruled out with a rib fracture; Smith now plays nearly every safety snap beside a practice-squad call-up and had 5 and 6 tackles the last two weeks.",
+   "note": "Turpin sat out Dallas' last game; he is not on the final injury report, but his offensive snaps are uncertain.",
    "sources": [
-    "https://rotowire.com/football/player/tykee-smith-17770",
-    "https://www.yardbarker.com/nfl/articles/important_bucs_starter_to_miss_several_weeks/s1_17102_44391615"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0037801|recyd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": -1,
+   "note": "Missed the last game and plays a gadget role, so the receiving workload is unpredictable.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0033077|pyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Tampa is missing two secondary starters, but a lead of 8.5 or more could lower his second-half volume; signals are mixed.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/",
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/",
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0033077|att": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Dallas likely passes because Tampa stuffs the run, but a big lead could reduce late attempts.",
+   "sources": [
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/",
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
+   ]
+  },
+  "NFL|00-0033077|cmp": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Tampa's defense ranks top five in yards allowed, but its secondary is short-handed tonight; no clear edge.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/",
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
+   ]
+  },
+  "NFL|00-0033077|ptd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa ranks top five in red zone defense, which makes three Prescott touchdown passes a tall order.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
+   ]
+  },
+  "NFL|00-0033077|ryd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Prescott has a minor hand issue but no restrictions; nothing material for his scrambling.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
+   ]
+  },
+  "NFL|00-0039361|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Irving has 15-17 carries in three straight games, and Tampa is expected to lean on the run to protect its rookie QB.",
+   "sources": [
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0039361|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Dallas has allowed the second-most rushing yards, and Tampa ran on about half its snaps in Daniels' first start.",
+   "sources": [
+    "https://sports.yahoo.com/articles/buccaneers-vs-cowboys-player-props-020029436.html",
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026",
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/"
+   ]
+  },
+  "NFL|00-0039361|rry": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Steady volume in a committee backfield against a Dallas front that has struggled to stop the run.",
+   "sources": [
+    "https://sports.yahoo.com/articles/buccaneers-vs-cowboys-player-props-020029436.html",
+    "https://ats.io/nfl/buccaneers-vs-cowboys-thursday-night-football-player-props-10-8-2026/"
+   ]
+  },
+  "NFL|00-0039361|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Gainwell handles most passing-down work, so Irving's receptions are not expected to rise much.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0039361|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Daniels throws short to backs, but Irving is not the primary receiving back; no clear edge.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0036919|rec": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "note": "The line is well below his average and Daniels throws short to backs, but Gainwell's snaps have dipped as Tucker gets more work.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026",
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0036919|recyd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "note": "He caught Daniels' only touchdown last week, but his role has been shrinking in a three-back rotation.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026",
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0036919|rry": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "note": "The low line reflects reduced snaps as Sean Tucker takes some touches.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0036919|ryd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "note": "Gainwell's carries are being split with Tucker and Irving.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0038951|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tucker has been picking up touches in Tampa's three-back rotation, and Dallas has struggled against the run.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026",
+    "https://sports.yahoo.com/articles/buccaneers-vs-cowboys-player-props-020029436.html"
+   ]
+  },
+  "NFL|00-0038129|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Dallas struggles in pass defense, but Daniels' short passing game has favored Godwin and the backs.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0038129|rec": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "No role change reported; the matchup is mid-pack.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0040237|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "A depth receiver in a run-leaning game plan; nothing material reported.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
+   ]
+  },
+  "NFL|00-0040237|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Nothing material reported for Johnson.",
+   "sources": [
+    "https://www.covers.com/nfl/buccaneers-vs-cowboys-props-best-bets-week-5-2026"
    ]
   },
   "NFL|00-0035358|kpts": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "McLaughlin practiced fully and is cleared from his groin and hip issue; Tampa's red zone struggles favor field goal tries.",
+   "sources": [
+    "https://heavy.com/sports/nfl/tampa-bay-buccaneers/cowboys-buccaneers-chase-mclaughlin-injury-update/",
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0035358|fgm": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "Tampa ranks 31st in red zone touchdown rate, so drives that stall should produce field goal chances; McLaughlin is healthy.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5",
+    "https://heavy.com/sports/nfl/tampa-bay-buccaneers/cowboys-buccaneers-chase-mclaughlin-injury-update/"
+   ]
+  },
+  "NFL|00-0035358|pat": {
+   "side": "over",
    "flag": "neutral",
    "adj": 0,
-   "note": "McLaughlin is expected to be fine after a groin/hip listing and is perfect on kicks, but Tampa starts rookie Daniels with Mayfield out and carries an implied total near 18.",
+   "note": "Tampa projects around 17 points, so two touchdowns is roughly a coin flip.",
    "sources": [
-    "https://www.footballguys.com/player/Chase+McLaughlin/McLaCh44",
-    "https://www.buccaneers.com/news/buccaneers-cowboys-injury-report-oct-5-week-5-2026"
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   },
-  "NFL|00-0037834|att": {
+  "NFL|00-0037692|kpts": {
+   "side": "over",
    "flag": "support",
    "adj": 1,
-   "note": "Purdy has thrown 34, 22, 27 and 30 passes for a 4-0 team with no injury designation; he adds about 10 runs a game, and Pearsall is out for the season.",
+   "note": "Dallas projects for the high 20s, and Tampa's top-five red zone defense tends to force field goals.",
    "sources": [
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/purdy-cools-down-in-week-4-win-over-den",
-    "https://rotowire.com//football/player/brock-purdy-15834"
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   },
-  "NFL|00-0038797|rec": {
-   "flag": "caution",
-   "adj": -2,
-   "note": "Wilson is now Seattle's workhorse with Walker gone, Jadarian Price on IR and Charbonnet not activated this week; he caught 3 passes on 24 touches in Week 4, which explains the 1.5 line.",
-   "sources": [
-    "https://komonews.com/sports/seahawks/emanuel-wilson-sparks-seahawks-past-chargers-30-23-handing-la-a-fourth-straight-loss-seattle-football-nfl-super-bowl-score-winner-update-sports",
-    "https://www.thefantasyfootballers.com/news/640882/zach-charbonnet-wont-debut-week-5/"
-   ]
-  },
-  "NFL|00-0040730|rry": {
+  "NFL|00-0037692|fgm": {
+   "side": "over",
    "flag": "support",
    "adj": 1,
-   "note": "Harvey is Denver's receiving back with 10 catches in Week 4 and 6 in Week 3, while Dobbins handles early downs and rookie Jonah Coleman is on IR.",
+   "note": "Tampa's red zone defense ranks top five, so Dallas drives may end in field goals for Aubrey.",
    "sources": [
-    "https://www.fantasypros.com/nfl/news/jk-dobbins.php",
-    "https://www.fantasysp.com/target-touch-leaders/DEN/4"
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   },
-  "NFL|00-0036355|ptd": {
+  "NFL|00-0037692|pat": {
+   "side": "under",
    "flag": "support",
    "adj": 1,
-   "note": "Herbert has 4 TDs and 6 INTs for an 0-4 Chargers team, with McConkey (foot) and Alt (neck) day to day; Denver is a 3.5-point road favorite in a low-total game.",
+   "note": "Four Dallas touchdowns is a high bar against a top-five red zone defense.",
    "sources": [
-    "https://www.4for4.com/news/chargers-wr-ladd-mcconkey-foot-day-day",
-    "https://www.chargers.com/news/nfl-betting-odds-broncos-game-picks-week-5-2026"
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   },
-  "NFL|00-0033881|rec": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Engram caught 1 of 5 targets in Week 4 while Denver's short passes go to Harvey and wideouts Waddle, Sutton and Bryant; no injury news.",
-   "sources": [
-    "https://www.fantasysp.com/target-touch-leaders/DEN/4"
-   ]
-  },
-  "NFL|00-0035685|ryd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Montgomery's last three games went 6-10, 11-33 and 10-24 while splitting with Woody Marks, who gets goal-line work; a Houston lead could add some late carries.",
-   "sources": [
-    "https://www.nbcsports.com/nfl/david-montgomery/6256/news",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-08-23/beat-close-to-50-50-split-for-montgomery-marks"
-   ]
-  },
-  "NFL|00-0040676|pyd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Ward is averaging about 181 passing yards with a high of 222 and Saleh keeps backing him; a trailing script as a 7.5-point underdog is the main risk.",
-   "sources": [
-    "https://www.newsweek.com/sports/nfl/robert-saleh-fires-back-at-cam-ward-critics-as-titans-fall-to-0-4-12525570",
-    "https://www.rotowire.com/betting/nfl/game.php?id=2978643"
-   ]
-  },
-  "NFL|00-0040784|ryd": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Judkins has no injury and recent lines of 12-21, 18-70 and 17-53; Cleveland has extra rest and no reason for the line rise was found.",
-   "sources": [
-    "https://www.fantasypros.com/nfl/news/quinshon-judkins.php",
-    "https://www.covers.com/nfl/browns-vs-jets-prediction-picks-odds-early-leans-week-5-2026"
-   ]
-  },
-  "NFL|00-0037740|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "With Omar Cooper Jr. on IR, Adonai Mitchell week to week and Breece Hall out, Wilson is the Jets' main target, but Geno Smith completed only 8 passes last week.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/640688/garrett-wilson-struggles-along-with-entire-offense-week-4/",
-    "https://www.draftsharks.com/injury-update/garrett-wilson/12592"
-   ]
-  },
-  "NFL|00-0036040|recyd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Johnson had 6 catches for 59 yards Monday and has 50 or more in every game as the lead tight end; Jefferson's likely return could push New Orleans into more passing.",
-   "sources": [
-    "https://www.wlox.com/2026/10/06/bijan-robinson-brian-robinson-jr-combine-five-touchdowns-falcons-rout-saints-45-24/",
-    "https://www.stackedfantasy.com/nfl/news/insights/947345"
-   ]
-  },
-  "NFL|00-0040743|pyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "note": "Shough threw for 286 Monday, much of it while trailing in a blowout; Minnesota's pass defense ranks near the top and New Orleans is on a short week.",
-   "sources": [
-    "https://www.wlox.com/2026/10/06/bijan-robinson-brian-robinson-jr-combine-five-touchdowns-falcons-rout-saints-45-24/"
-   ]
-  },
-  "NFL|00-0035228|pyd": {
+  "NFL|00-0039846|tkl": {
+   "side": "under",
    "flag": "caution",
    "adj": -1,
-   "note": "Justin Jefferson (ankle) practiced limited and says he will play; Murray threw for 247 in Week 4 even without him, and the Saints just allowed 45 points.",
+   "note": "With Winfield out, Tampa's defensive back snaps shift and Dallas should pass often, which could add tackle chances against the under.",
    "sources": [
-    "https://www.thefantasyfootballers.com/news/640446/justin-jefferson-aiming-to-return-week-5/",
-    "https://www.thefantasyfootballers.com/news/640804/tj-hockenson-big-day-in-week-4-win/"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   },
-  "NFL|00-0038128|cmp": {
+  "NFL|00-0040143|tkl": {
+   "side": "over",
    "flag": "support",
    "adj": 1,
-   "note": "Willis went 9 of 17 in the Week 4 loss and completes about 57 percent; with Waddle traded and Achane reportedly out, Miami's passing game is thin and no QB change is reported.",
+   "note": "Morrison's absence leaves Parrish in a bigger coverage role against a pass-first Dallas offense.",
    "sources": [
-    "https://fantasydata.com/nfl/boxscore/19512-miami-dolphins-vs-minnesota-vikings-week-4-2026",
-    "https://www.fantasypros.com/nfl/news/jaylen-waddle.php"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
    ]
   },
-  "NFL|00-0039880|rec": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "With Waddle now in Denver, Washington is Miami's top receiver, leads the team in catches and caught 5 of 5 targets in Week 4, so the 4.5 line reflects a bigger role.",
-   "sources": [
-    "https://www.fantasypros.com/nfl/news/jaylen-waddle.php",
-    "https://fantasydata.com/nfl/boxscore/19512-miami-dolphins-vs-minnesota-vikings-week-4-2026"
-   ]
-  },
-  "NFL|00-0036442|cmp": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Ja'Marr Chase (concussion protocol) and Tee Higgins (adductor) are both in doubt with Young and Iosivas also out, and a wide spread could limit late passing.",
-   "sources": [
-    "https://www.newsweek.com/sports/nfl/bengals-get-concerning-injury-updates-on-jamarr-chase-and-tee-higgins-12526631",
-    "https://local12.com/sports/bengals/bengals-need-response-after-back-to-back-losses-will-jamarr-chase-tee-higgins-play-miami-dolphins"
-   ]
-  },
-  "NFL|00-0033106|att": {
+  "NFL|00-0037268|tkl": {
+   "side": "under",
    "flag": "neutral",
    "adj": 0,
-   "note": "Goff's 52 attempts in Week 4 came while trailing; as a 5.5-point favorite indoors with a 54.5 total, a lead could trim volume even though Lions games have been high scoring.",
+   "note": "McCollum's role is unchanged; no material news.",
    "sources": [
-    "https://www.rotowire.com/betting/nfl/game.php?id=2978663",
-    "https://fanduel.com/research/lions-vs-cardinals-predictions-odds-picks-best-bets-for-nfl-week-5-2026"
+    "https://www.pff.com/news/bet-cowboys-buccaneers-same-game-parlay"
    ]
   },
-  "NFL|00-0039139|rry": {
+  "NFL|00-0033914|tkl": {
+   "side": "over",
    "flag": "caution",
-   "adj": -1,
-   "note": "Gibbs has about 186, 113, 174 and 77 scrimmage yards with Jacob Saylors as the only notable backup, and Detroit is favored against a run defense that allows the 4th-most RB yards.",
+   "adj": 1,
+   "note": "Fellow linebacker SirVocea Dennis is out, which should keep Anzalone on the field more often, so the under is less appealing.",
    "sources": [
-    "https://fantasyfootballcalculator.com/players/jahmyr-gibbs/news",
-    "https://www.rotowire.com/betting/nfl/game.php?id=2978663"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
    ]
   },
-  "NFL|00-0037240|rec": {
+  "NFL|00-0038625|tkl": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "note": "With Overshown out, Winters takes on a bigger linebacker role against a Tampa offense that plans to run often.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/",
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0037275|tkl": {
+   "side": "over",
    "flag": "neutral",
    "adj": 0,
-   "note": "St. Brown is healthy and LaPorta drew 13 targets in Week 4, leaving Williams third or fourth in line despite his 6-catch game; the high total helps.",
+   "note": "Bland's role is steady; Tampa's short passing could create some tackle chances.",
    "sources": [
-    "https://www.rotowire.com/betting/nfl/game.php?id=2978663"
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
    ]
   },
-  "NFL|00-0023459|att": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Pittsburgh passes on about two-thirds of plays and the Colts allow 8.1 yards per attempt; RB Dowdle (toe) and WR Pittman (foot) were limited Wednesday.",
-   "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/colts-steelers-week-5-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://steelersdepot.com/2026/10/steelers-week-five-wednesday-injury-report-three-players-sit-out-pittman-battling-foot-injury/"
-   ]
-  },
-  "NFL|00-0036223|rry": {
+  "NFL|00-0033877|tkl": {
+   "side": "under",
    "flag": "neutral",
    "adj": 0,
-   "note": "Taylor was limited Wednesday for rest only after 95 rushing yards in London; with Keenan Allen limited and other receivers hurt, he may see extra check-downs.",
+   "note": "Hooker plays through a forearm injury; no role change.",
    "sources": [
-    "https://steelersdepot.com/2026/10/colts-week-5-wednesday-injury-report-starting-c-tanor-bortolini-four-others-dnp/",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-04/jonathan-taylor-scores-twice-in-win-over-was"
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-for-buccaneers-vs-cowboys-on-tnf-are-mayfield-lamb-mingo-playing/"
    ]
   },
-  "NFL|00-0038542|rry": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Bijan is off the injury report and Lamar Jackson (ankle) missed Wednesday practice as a long shot to play, favoring an Atlanta lead, though Baltimore allows only 3.9 yards per carry.",
-   "sources": [
-    "https://russellstreetreport.com/2026/10/07/injury-report/injury-report-ravens-falcons-wednesday/",
-    "https://www.si.com/betting/ravens-vs-falcons-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026"
-   ]
-  },
-  "NFL|00-0037746|car": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Robinson has 10 or more carries in three straight games, including 14 against the Saints, and a likely Atlanta lead over a backup QB could add late carries.",
-   "sources": [
-    "https://www.dimers.com/nfl/news/bijan-robinson-brian-robinson-week-5-projections",
-    "https://www.si.com/betting/ravens-vs-falcons-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026"
-   ]
-  },
-  "NFL|00-0036309|rec": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Malik Nabers (knee) missed Wednesday practice and Braxton Berrios went to IR, which should push more targets to slot receiver Mooney, who is not on the injury report.",
-   "sources": [
-    "https://giants.com/news/giants-vs-commanders-week-5-injury-report-malik-nabers-andrew-thomas-cam-skattebo"
-   ]
-  },
-  "NFL|00-0039409|kpts": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Jacksonville is about a 4.5-point favorite with a 43.5 total, implying around 24 points; Little made three field goals last week and the Eagles list several starters as questionable.",
-   "sources": [
-    "https://www.si.com/betting/eagles-vs-jaguars-prediction-odds-spread-injuries-trends-for-nfl-week-5-2026",
-    "https://jaguars.com/news/game-report-2026-week-4-jaguars-22-bengals-17"
-   ]
-  },
-  "NFL|00-0038611|car": {
-   "flag": "caution",
-   "adj": -1,
-   "note": "Bhayshul Tuten is Jacksonville's lead back with 17 carries in Week 4, and Rodriguez has had exactly 6 carries in three of four games, so the line matches his role.",
-   "sources": [
-    "https://www.cbssports.com/fantasy/football/news/jaguars-chris-rodriguez-scores-again-in-week-4-win/",
-    "https://sports.yahoo.com/articles/jaguars-running-back-bhayshul-tuten-190253811.html"
-   ]
-  },
-  "NFL|00-0039919|recyd": {
-   "flag": "support",
-   "adj": 1,
-   "note": "Tyson Bagent starts again with Caleb Williams out; Odunze had 6 catches for 94 yards with Bagent, and both Bears running backs missed Wednesday practice.",
-   "sources": [
-    "https://www.packers.com/news/packers-bears-injury-report-oct-7-2026",
-    "https://www.draftsharks.com/fantasy-football-news/83183/tyson-bagent-will-start-week-5"
-   ]
-  },
-  "NFL|00-0034857|car": {
+  "NFL|00-0034967|sck": {
+   "side": "under",
    "flag": "neutral",
    "adj": 0,
-   "note": "Allen is off the injury report and has 6, 14, 8 and 5 rushes this season; DJ Moore's Week 4 shoulder injury could add some designed QB runs.",
+   "note": "Gary leads Dallas in pressures, but Daniels' mobility helps him escape; nothing decisive.",
    "sources": [
-    "https://www.statmuse.com/nfl/ask/josh-allen-stats-by-game-this-season-including-rushing-stats",
-    "https://www.cbssports.com/fantasy/football/news/bills-josh-allen-not-listed-on-wednesday-injury-report/"
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0035718|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "Daniels' scrambling limits sack chances; no news on Williams.",
+   "sources": [
+    "https://athlonsports.com/nfl/tampa-bay-buccaneers/jalon-daniels-cowboys-expectations-week-5"
+   ]
+  },
+  "NFL|00-0033964|sck": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "note": "No material news.",
+   "sources": [
+    "https://bettorsinsider.com/nfl/2026/10/07/cowboys-vs-buccaneers-tnf-preview-odds-prediction-best-bet/"
    ]
   }
  }
