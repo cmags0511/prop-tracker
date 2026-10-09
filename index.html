@@ -1116,7 +1116,9 @@ function weatherFor(lg,g){
 // ESPN depth chart role (context.json): {role:"starter"|"backup", slot:"WR2", moved_up}
 function depOf(lg,p){
   if(!CTX||!CTX.depth||Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()>30*3600e3)return null;
-  return(CTX.depth[lg]||{})[String(p.espn||p.id)]||null;
+  const D=CTX.depth[lg]||{},d=D[String(p.espn||p.id)];
+  if(!d&&lg==="NFL"&&Object.keys(D).length>500&&p.cur>0)return{role:"backup",slot:"reserve"};  // not on the depth chart at all
+  return d||null;
 }
 const roleTag=d=>d?`<span class="role ${d.role}" title="ESPN depth chart${d.moved_up?": moves up because the player ahead of him is ruled out":""}">${d.role==="starter"?(d.moved_up?"Starting":"Starter"):"Backup"} \u00b7 ${esc(d.slot)}</span>`:"";
 // Kalshi ladder for this player/prop and his next game: [[strike, prob, spread]], strike s = "more than s"

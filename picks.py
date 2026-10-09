@@ -231,6 +231,8 @@ def main():
                 continue
             me_inj = inj_of(p)
             me_dep = DEP.get(str(p.get("e") or p["id"]))
+            if me_dep is None and lg == "NFL" and len(DEP) > 500:
+                me_dep = {"role": "backup", "slot": "reserve", "n": 9}  # not on his team's depth chart at all
             if me_inj and me_inj["s"] in OUT_STATUS:
                 continue  # on the injury report as out
             wx = (ctx.get("weather") or {}).get(f"{lg}|{game['away']}@{game['home']}|{game['t'].astimezone(dt.timezone.utc):%Y-%m-%d}")
