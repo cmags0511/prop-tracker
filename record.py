@@ -74,11 +74,14 @@ def main():
             for c in list(picks.get(lk, [])) + [c for k, v in picks.get(bk, {}).items() if k.startswith(lg + "|") for c in v]:
                 if c["lg"] == lg and (setname == "all" or c["side"] == "over"):
                     pool[c["key"]] = c
-            top, seen = [], set()
+            top, seen, per_m = [], set(), {}
             for c in sorted(pool.values(), key=lambda c: -c["score"]):
                 if start(c) <= now or f"{lg}|{c['id']}" in out_players or (lg, espn[lg].get(c["id"])) in out_ids or c["id"] in seen:
                     continue
+                if per_m.get(c["market"], 0) >= 3:  # same rule as the page: at most 3 of one prop type
+                    continue
                 seen.add(c["id"])
+                per_m[c["market"]] = per_m.get(c["market"], 0) + 1
                 top.append(c)
                 if len(top) == TOP:
                     break

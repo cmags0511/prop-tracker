@@ -30,6 +30,12 @@ SHAKY = {"Questionable", "Day-To-Day"}
 VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
 WIND_W = -.25   # NFL/CFB passing props: log-odds per 5 mph of wind above 12 mph, capped at -.6
                 # (backtest: no drop at 10-15 mph, passing overs ~39% vs ~49% above 15 mph)
+# backtest by prop type: yardage overs were close to a coin flip even when the form score was confident
+# (receiving 49%, rushing 52%, rush+rec 52%), so their form signal is shrunk toward the over side
+YARD_OVER_SHRINK = {"recyd": .7, "ryd": .7, "rry": .7}
+# lines of 0.5 / 1.5 on count props usually carry heavy juice (-200 and worse), which a hit rate can't see;
+# they rank lower and get a "check odds" tag
+LOW_LINE_M = {"rec", "ptd", "sck", "3pm", "fgm", "pat", "car", "ast", "reb", "tkl"}
 PASS_M = {"pyd", "cmp", "att", "ptd", "rec", "recyd"}
 VAC_KEY = {"pts": "pts", "3pm": "pts", "reb": "reb", "ast": "ast", "pra": "min", "pr": "min", "pa": "min", "ra": "min",
            "rec": "rec", "recyd": "rec", "car": "car", "ryd": "car", "rry": "car"}
@@ -253,6 +259,8 @@ def main():
                 weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
+                if mid in YARD_OVER_SHRINK and sum(parts.values()) > 0:
+                    parts["form"] *= YARD_OVER_SHRINK[mid]
                 lin = sum(parts.values())
                 stats_over = lin >= 0
                 adj = RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0)))
@@ -263,6 +271,9 @@ def main():
                 over = lin >= 0
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
+                lowline = mid in LOW_LINE_M and line <= 1.5
+                if lowline:
+                    score *= .7
                 parts["research"] = r_over
                 slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
@@ -316,7 +327,7 @@ def main():
                     "prob": round(prob if over else 1 - prob, 3),
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
-                    "status": me_inj["s"] if me_inj else None,
+                    "status": me_inj["s"] if me_inj else None, "lowline": lowline,
                 })
     slate.sort(key=lambda s: (s["t"], -s["score"]))
     json.dump({"built": now.isoformat(timespec="minutes"),

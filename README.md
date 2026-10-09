@@ -10,6 +10,8 @@
 - **Weather** (football, Open-Meteo forecast at kickoff): wind above about 12 mph weighs on passing and receiving props, more as it rises (backtest: no drop at 10-15 mph, but passing overs hit about 39% with 15+ mph wind). Indoor stadiums are skipped.
 - **Research**: twice a day (7:54 AM and 4:54 PM ET) a scheduled Claude task researches the top candidates and scouts the whole slate, mostly for overs (injuries and practice reports, role and usage trends, coaching and game plan, rest and travel, weather, the opposing roster and defense, line movement, expert and bettor views), picks a daily Best bet and writes `notes.json`; each pick gets a -2..+2 adjustment, and ruled-out players are dropped.
 
+- **Prop-type checks** (backtest by prop type): yardage overs (receiving, rushing, rush+rec) were close to a coin flip even when the form score was confident, so their form signal is shrunk 30% on the over side. Lines of 0.5/1.5 on count props usually carry heavy juice that a hit rate can't see, so they rank lower and get a "Check odds" tag. The Best-overall Top 10 takes at most 3 picks of any one prop type.
+
 The app shows overs by default ("Overs" / "Overs + unders" switch); `picks.json` has `picksOver`, `byMarketOver` and `gamesOver` lists for that, and `record.json` grades both Top 10s (each entry's `sets`).
 
 Weights for form, matchup, game script and minutes come from a walk-forward backtest on 2025 NFL and 2025-26 NBA games: favorable matchups hit about 57.5% vs about 51-54% for unfavorable ones.
