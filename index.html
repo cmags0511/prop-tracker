@@ -288,6 +288,13 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .ladder span{font:500 12px var(--f-mono);border:1px solid var(--line2);border-radius:6px;padding:3px 7px;color:var(--ink2)}
 .ladder span.on{border-color:var(--accent);color:var(--accent)}
 .ladder b{font-weight:700;color:var(--ink)}
+.resbox{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:10px 12px;background:var(--panel);font-size:13px;display:flex;flex-direction:column;gap:7px}
+.resbox .mutop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.resnote{margin:0;color:var(--ink);line-height:1.45;font-weight:500}
+.angles{display:grid;grid-template-columns:max-content 1fr;gap:5px 12px;margin:0}
+.angles dt{font:600 10.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.angles dd{margin:0;color:var(--ink2);line-height:1.45}
+@media (max-width:600px){.angles{grid-template-columns:1fr;gap:2px}.angles dd{margin-bottom:6px}}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
 .topsub{margin:2px 0 0;color:var(--muted);font-size:12px}
@@ -891,6 +898,7 @@ function renderDetail(r){
     ${newsHtml(S.league,p,m,ng)}
     <div class="strip">${strip}</div>
     ${dkbar}
+    ${researchHtml(S.league,p,m)}
     ${marketHtml(S.league,p,m,line,ng)}
     ${matchupHtml(S.league,p,m,line,ng)}
     ${trackbar}
@@ -1143,6 +1151,29 @@ function marketHtml(lg,p,m,line,g){
     ${at!=null?`<p>Traders give him a <b>${Math.round(at*100)}%</b> chance to go over ${fmt(line)} and <b>${100-Math.round(at*100)}%</b> for the under.${Math.max(at,1-at)>=.524?` At standard -110 odds (52.4% to break even), the market leans <b>${at>=.5?"over":"under"}</b>.`:" That's close to a coin flip at standard -110 odds."}</p>`:`<p>No Kalshi price right at ${fmt(line)}; nearby ${u}:</p>`}
     <div class="ladder">${near.map(([s,pr])=>`<span${Math.abs(s-line)<.01?' class="on"':""}><b>${fmt(Math.floor(s)+1)}+</b> ${Math.round(pr*100)}%</span>`).join("")}</div></div>`;
 }
+// the research check's write-up for this player's prop (notes.json)
+const notesFresh=()=>NOTES&&NOTES.notes&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3;
+const hostOf=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return""}};
+const ANGLES=[["availability","Availability"],["role","Role & usage"],["matchup","Matchup"],["script","Game script"],["conditions","Conditions"],["market","Market"],["experts","Experts"]];
+function researchHtml(lg,p,m){
+  if(!notesFresh())return"";
+  const n=NOTES.notes[`${lg}|${p.id}|${m.id}`];
+  if(!n||!(n.note||n.detail))return"";
+  const verdict=n.side?`${n.side==="over"?"Over":"Under"}${n.adj>=2?" \u00b7 strong":n.adj===1?" \u00b7 lean":n.adj<0?" \u00b7 concerns":""}`:"";
+  const tone=n.flag==="out"||n.flag==="caution"?"tough":n.flag==="support"?"good":"neutral";
+  const det=n.detail||{};
+  return`<div class="resbox"><div class="mutop"><b>Research</b>${verdict?`<span class="mupill ${tone}">${verdict}</span>`:""}${n.conf?`<span class="pteam">${n.conf} confidence</span>`:""}</div>
+    ${n.note?`<p class="resnote">${esc(n.note)}</p>`:""}
+    ${ANGLES.some(([k])=>det[k])?`<dl class="angles">${ANGLES.filter(([k])=>det[k]).map(([k,l])=>`<dt>${l}</dt><dd>${esc(det[k])}</dd>`).join("")}</dl>`:""}
+    ${(n.sources||[]).length?`<p class="bbsrc">Sources: ${n.sources.slice(0,6).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(hostOf(u))}</a>`).join(" \u00b7 ")}</p>`:""}
+    <p class="pteam" style="margin:0">Researched ${new Date(NOTES.updated).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}</p></div>`;
+}
+function gameResearchHtml(x){
+  if(!notesFresh()||!NOTES.games)return"";
+  const d=x.t,gid=`${S.league}-${x.away}-at-${x.home}-${String(d.getUTCMonth()+1).padStart(2,"0")}${String(d.getUTCDate()).padStart(2,"0")}`,g=NOTES.games[gid];
+  if(!g||!g.summary)return"";
+  return`<div class="resbox"><div class="mutop"><b>Game research</b><span class="pteam">${new Date(NOTES.updated).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}</span></div><p class="resnote">${esc(g.summary)}</p>${(g.sources||[]).length?`<p class="bbsrc">Sources: ${g.sources.slice(0,6).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(hostOf(u))}</a>`).join(" \u00b7 ")}</p>`:""}</div>`;
+}
 // injuries, teammates out and weather for the player's next game
 function newsHtml(lg,p,m,g){
   const bits=[],me=injOf(lg,p);
@@ -1382,7 +1413,7 @@ function gameBody(x){
   const shownB=S.gmk?bets.filter(r=>r.m.id===S.gmk):bets;
   const notesOk=NOTES&&NOTES.notes&&(Date.now()-new Date(NOTES.updated||0).getTime())<36*3600e3;
   const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat(),...(PICKS&&PICKS.games||[]),...(PICKS&&PICKS.picksOver||[]),...(PICKS&&PICKS.gamesOver||[])].filter(c=>!OVERS()||c.side==="over").map(c=>[c.key,c]));
-  let html=`<div class="gbody">`;
+  let html=`<div class="gbody">${gameResearchHtml(x)}`;
   if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
   const top=est?[]:gameTop5(x,bets);
   if(!est)html+=`<div class="g5bar">${sideSwitch()}</div>`;

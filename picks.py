@@ -298,7 +298,9 @@ def main():
                     pm = min(.97, max(.03, p_mkt))
                     parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm))))
                     lin += parts["market"]
-                adj = RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0)))
+                # the researcher's confidence in the evidence scales how much the research moves the pick
+                conf = {"low": .6, "medium": 1.0, "high": 1.2}.get(note.get("conf"), 1.0)
+                adj = conf * (RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0))))
                 # research is written for a side: the one it names ("side"), else the side the stats lean to
                 r_side_over = note["side"] == "over" if note.get("side") in ("over", "under") else stats_over
                 r_over = adj if r_side_over else -adj
