@@ -13,7 +13,7 @@ Usage: python record.py [record.json]
 """
 import json, sys, datetime as dt
 from zoneinfo import ZoneInfo
-from picks import stat
+from picks import stat, OUT_STATUS
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
@@ -58,8 +58,11 @@ def main():
         try:
             ctx = json.load(open("context.json"))
             for lg, inj in (ctx.get("injuries") or {}).items():
+                fetched = dt.datetime.fromisoformat((ctx.get("fetched") or {}).get(lg) or ctx["built"])
+                if now - fetched > dt.timedelta(hours=30):
+                    continue  # stale report: don't let it drop anyone
                 for aid, i in inj.items():
-                    if i["s"] in ("Out", "Doubtful", "Injured Reserve", "Suspension"):
+                    if i["s"] in OUT_STATUS:
                         out_ids.add((lg, aid))
         except Exception:
             pass
@@ -97,6 +100,10 @@ def main():
 
     # 1b. the research check's Best bet: keep the current one until its game starts, then it's locked
     best = {(e["key"], e["t"]): e for e in rec.get("best", [])}
+    # a pending Best bet whose player was ruled out before kickoff is dropped, not graded as a void
+    for k, e in list(best.items()):
+        if e["status"] == "pending" and start(e) > now and (f"{e['lg']}|{e['id']}" in out_players or (e["lg"], espn.get(e["lg"], {}).get(e["id"])) in out_ids):
+            del best[k]
     b = picks.get("best")
     if b and start(b) > now and f"{b['lg']}|{b['id']}" not in out_players:
         for k, e in list(best.items()):

@@ -304,7 +304,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:var(--panel);color:var(--accent);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s}
 .totop.show{opacity:1;transform:none;pointer-events:auto}
 body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
-@media (max-width:600px){.totop{right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px))}body.hasslip .totop{bottom:calc(122px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:600px){.totop{right:10px;width:38px;height:38px;font-size:17px;bottom:calc(66px + env(safe-area-inset-bottom,0px))}.totop.show{opacity:.92}body.hasslip .totop{bottom:calc(122px + env(safe-area-inset-bottom,0px))}}
 .gback{font:600 13px var(--f-body);color:var(--accent);background:none;border:0;cursor:pointer;padding:4px 0;align-self:flex-start}
 .ghero{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .ghero .gm{font-size:1.9rem}
@@ -743,7 +743,7 @@ function boardRows(){
 // the research check's single Best bet of the day
 function renderBest(){
   const el=document.getElementById("bestbet"),b=PICKS&&PICKS.best;
-  if(!b||new Date(b.t).getTime()<Date.now()||outNote(b.lg,b.id)){el.hidden=true;return}
+  if(!b||new Date(b.t).getTime()<Date.now()||outNote(b.lg,b.id)){el.hidden=true;el.innerHTML="";return}
   const t=new Date(b.t),tracked=MY.some(x=>x.lg===b.lg&&x.pid===b.id&&x.market===b.market&&x.side===b.side&&x.line===b.line),inSlip=slipHas(b.lg,b.id,b.market,b.side,b.line);
   const BR=(RECORD&&RECORD.best||[]).filter(e=>["win","loss","push"].includes(e.status)),bw=BR.filter(e=>e.status==="win").length,bl=BR.filter(e=>e.status==="loss").length;
   const host=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return""}};
@@ -942,7 +942,7 @@ const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
 const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",research:"Research"};
 function fxChips(c){
-  return Object.entries(c.factors).filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"");
+  return Object.entries(c.factors).filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:k==="weather"?.12:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"");
 }
 const inSet=e=>OVERS()?(e.sets||["all"]).includes("over"):(e.sets||["all"]).includes("all");
 function renderAppBox(){
@@ -1081,7 +1081,7 @@ function saveMy(){try{localStorage.setItem("ptMyPicks",JSON.stringify(MY))}catch
 // ESPN injury report (context.json, refreshed every 3 hours)
 const OUT_ST=new Set(["Out","Doubtful","Injured Reserve","Suspension","Physically Unable to Perform","Not Active"]);
 function injOf(lg,p){
-  if(!CTX||!CTX.injuries||Date.now()-new Date(CTX.built||0).getTime()>30*3600e3)return null;
+  if(!CTX||!CTX.injuries||Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()>30*3600e3)return null;
   const pl=typeof p==="object"?p:(DATA[lg]||[]).find(x=>x.id===p);if(!pl)return null;
   return(CTX.injuries[lg]||{})[String(pl.espn||pl.id)]||null;
 }
@@ -1101,7 +1101,7 @@ function weatherFor(lg,g){
 function newsHtml(lg,p,m,g){
   const bits=[],me=injOf(lg,p);
   if(me&&!OUT_ST.has(me.s))bits.push(`<li><b>${esc(me.s)}</b>${me.inj?` (${esc(me.inj.toLowerCase())})`:""}${me.c?` · ${esc(me.c)}`:""}</li>`);
-  if(CTX&&CTX.injuries){
+  if(CTX&&CTX.injuries&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3){
     const mates=Object.values(CTX.injuries[lg]||{}).filter(i=>i.t===p.team&&OUT_ST.has(i.s)&&i.s!=="Injured Reserve"&&i.n!==p.name);
     const known=new Set((DATA[lg]||[]).filter(x=>x.team===p.team&&x.cur>0).map(x=>x.name));
     const key=mates.filter(i=>known.has(i.n));

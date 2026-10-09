@@ -28,7 +28,8 @@ RESEARCH = {"support": .25, "caution": -.35, "neutral": 0}
 OUT_STATUS = {"Out", "Doubtful", "Injured Reserve", "Suspension", "Physically Unable to Perform", "Not Active"}
 SHAKY = {"Questionable", "Day-To-Day"}
 VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
-WIND_W = -.2    # NFL/CFB passing props: log-odds per 5 mph of wind above 10 mph (backtest coef ~-.2), capped
+WIND_W = -.25   # NFL/CFB passing props: log-odds per 5 mph of wind above 12 mph, capped at -.6
+                # (backtest: no drop at 10-15 mph, passing overs ~39% vs ~49% above 15 mph)
 PASS_M = {"pyd", "cmp", "att", "ptd", "rec", "recyd"}
 VAC_KEY = {"pts": "pts", "3pm": "pts", "reb": "reb", "ast": "ast", "pra": "min", "pr": "min", "pa": "min", "ra": "min",
            "rec": "rec", "recyd": "rec", "car": "car", "ryd": "car", "rry": "car"}
@@ -146,14 +147,22 @@ def main():
                     team_last[pl["t"]] = d
         w = W[lg]
         INJ = (ctx.get("injuries") or {}).get(lg, {})
+        try:  # ignore a league's injury report if it couldn't be refreshed for 30+ hours
+            if now - dt.datetime.fromisoformat((ctx.get("fetched") or {}).get(lg) or ctx["built"]) > dt.timedelta(hours=30):
+                INJ = {}
+        except Exception:
+            INJ = {}
         inj_of = lambda pl: INJ.get(str(pl.get("e") or pl["id"]))
         # each team's recent games, to see which regulars an injury report takes away
         by_team = {}
         for pl in meta["players"]:
             by_team.setdefault(pl["t"], []).append(pl)
+        # only this season's games from the last couple of weeks count, so a long-term absence the team has
+        # already adjusted to (or last season's roster) isn't treated as fresh news
+        recent_from = max(meta["curStart"], (now - dt.timedelta(days=12 if lg == "NBA" else 16)).date().isoformat())
         team_recent = {}
         for tm, pls in by_team.items():
-            ds = sorted({dict(zip(cols, g))["date"] for pl in pls for g in pl["g"][-6:]})[-4:]
+            ds = sorted({d for pl in pls for g in pl["g"][-6:] if (d := dict(zip(cols, g))["date"]) >= recent_from})[-4:]
             team_recent[tm] = ds
 
         def vacated(pl, key):
@@ -241,7 +250,7 @@ def main():
                 vac, vac_who = vacated(p, VAC_KEY.get(mid))
                 news = (VAC_W * min(vac, .6) if lg == "NBA" else 0.0) - (.1 if me_inj and me_inj["s"] in SHAKY else 0.0)
                 wind = (wx or {}).get("wind")
-                weather = max(-.6, WIND_W * max(0.0, (wind - 10) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
+                weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
                 lin = sum(parts.values())
@@ -285,7 +294,7 @@ def main():
                 if mu:
                     why += (f" {opp} has allowed the {ordinal(mu['rank']) if mu['rank'] <= mu['n'] / 2 else ordinal(mu['n'] - mu['rank'] + 1)}-"
                             f"{'most' if mu['rank'] <= mu['n'] / 2 else 'fewest'} {UNIT[mid]} to {GROUPNAME.get(grp(lg, p.get('p')), 'players')} over its last 10.")
-                if vac_who and vac >= .05:
+                if vac_who and vac >= .05 and lg == "NBA" and over:
                     names = [re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", n).split()[-1] for n in vac_who[:2]]
                     why += (f" With {' and '.join(names)} ruled out, about {vac * 100:.0f}% of {p['t']}'s recent "
                             f"{ {'pts': 'scoring', 'reb': 'rebounding', 'ast': 'assists', 'min': 'minutes', 'rec': 'catches', 'car': 'carries'}[VAC_KEY[mid]] } is up for grabs.")

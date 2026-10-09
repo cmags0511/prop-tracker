@@ -57,6 +57,13 @@ def injuries(lg, path):
             if not aid or i.get("status") in (None, "Active"):
                 continue
             det = i.get("details") or {}
+            # skip stale entries (ESPN's college feed carries years-old ones); IR stays, it's long-term by nature
+            try:
+                age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat((i.get("date") or "").replace("Z", "+00:00"))
+                if age > dt.timedelta(days=30) and i["status"] != "Injured Reserve":
+                    continue
+            except ValueError:
+                pass
             out[aid] = {"n": a.get("displayName", ""), "t": team(lg, (a.get("team") or {}).get("abbreviation", "")),
                         "pos": (a.get("position") or {}).get("abbreviation", ""), "s": i["status"],
                         "inj": det.get("type") or "", "ret": det.get("returnDate") or "",
@@ -98,7 +105,9 @@ def weather(lg, path, days, geo, now):
             if e.get("status", {}).get("type", {}).get("state") != "pre":
                 continue
             c = e["competitions"][0]
-            tm = {x["homeAway"]: team(lg, x["team"]["abbreviation"]) for x in c["competitors"]}
+            tm = {x["homeAway"]: team(lg, (x.get("team") or {}).get("abbreviation", "")) for x in c["competitors"]}
+            if not tm.get("home") or not tm.get("away"):
+                continue
             v = c.get("venue") or {}
             ad = v.get("address") or {}
             t = dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00"))
@@ -136,16 +145,25 @@ def main():
     except Exception:
         old = {}
     geo = old.get("geo", {})
-    ctx = {"built": now.isoformat(timespec="minutes"), "injuries": {}, "weather": {}, "geo": geo}
+    stamp = now.isoformat(timespec="minutes")
+    # "fetched" = when each league's injury report was last pulled successfully; the picks ignore
+    # a league's report once it's more than 30 hours old, so a broken feed can't keep stale news alive
+    ctx = {"built": stamp, "fetched": dict(old.get("fetched") or {}), "injuries": {}, "weather": {}, "geo": geo}
     for lg, path in LEAGUES.items():
         try:
             ctx["injuries"][lg] = injuries(lg, path)
+            ctx["fetched"][lg] = stamp
         except Exception as e:
             print(f"{lg} injuries failed ({e}); keeping previous")
             ctx["injuries"][lg] = (old.get("injuries") or {}).get(lg, {})
+            ctx["fetched"].setdefault(lg, old.get("built", "2000-01-01T00:00+00:00"))
     for lg, days in (("NFL", 7), ("CFB", 4)):
         try:
             w = weather(lg, LEAGUES[lg], days, geo, now)
+            # keep last run's forecast for upcoming games a failed scoreboard request skipped
+            for k, v in (old.get("weather") or {}).items():
+                if k.startswith(lg + "|") and k[len(lg) + 1:] not in w and v.get("t") and dt.datetime.fromisoformat(v["t"]) > now:
+                    ctx["weather"][k] = v
             ctx["weather"].update({f"{lg}|{k}": v for k, v in w.items()})
         except Exception as e:
             print(f"{lg} weather failed ({e}); keeping previous")
