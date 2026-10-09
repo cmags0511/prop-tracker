@@ -30,6 +30,9 @@ jobs:
       - name: Injury reports and kickoff weather
         run: python fetch_context.py context.json
         continue-on-error: true
+      - name: Kalshi prediction-market prices
+        run: python fetch_markets.py markets.json
+        continue-on-error: true
       - name: Rank top picks
         run: python picks.py picks.json
         continue-on-error: true
@@ -40,7 +43,7 @@ jobs:
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add props_data.json $(ls lines.json picks.json cfb_data.json cfb_games.json.gz record.json slate.json context.json 2>/dev/null)
+          git add props_data.json $(ls lines.json picks.json cfb_data.json cfb_games.json.gz record.json slate.json context.json markets.json 2>/dev/null)
           git diff --cached --quiet || git commit -m "Update prop data $(date -u +'%Y-%m-%d %H:%M UTC')"
           git pull --rebase -X theirs origin main || true
           git push

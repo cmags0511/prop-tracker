@@ -108,6 +108,26 @@ def allowed_tables(players, cols, lg):
     return get
 
 
+MKT_W = .8  # log-odds weight on the Kalshi market's probability of the over at DraftKings' line (capped ±.6)
+MONTHS = {m: i + 1 for i, m in enumerate(["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
+
+
+def market_prob(rec, line, game_t, now):
+    """Kalshi traders' probability that he goes over `line`, read off the ladder for this game (pre-game only)."""
+    if not rec or not rec.get("k") or game_t <= now:
+        return None
+    m = re.search(r"-(\d\d)([A-Z]{3})(\d\d)", rec.get("g", ""))
+    if not m or dt.date(2000 + int(m.group(1)), MONTHS[m.group(2)], int(m.group(3))) != game_t.astimezone(dt.timezone(dt.timedelta(hours=-4))).date():
+        return None  # ladder is for a different game
+    k = rec["k"]
+    for (s0, p0, _), (s1, p1, _) in zip(k, k[1:]):
+        if s0 <= line <= s1:
+            return p0 if s1 == s0 else p0 + (p1 - p0) * (line - s0) / (s1 - s0)
+    if len(k) == 1 and k[0][0] == line:
+        return k[0][1]
+    return None  # the line is outside the strikes traded
+
+
 def fmt(v):
     return str(int(v)) if float(v).is_integer() else f"{v:.1f}"
 
@@ -137,6 +157,12 @@ def main():
             ctx = {}
     except Exception:
         ctx = {}
+    try:  # Kalshi prediction-market prices (fetch_markets.py); stale prices are ignored
+        MKTS = json.load(open("markets.json"))
+        if now - dt.datetime.fromisoformat(MKTS["fetched"]) > dt.timedelta(hours=8):
+            MKTS = {}
+    except Exception:
+        MKTS = {}
     cands, slate = [], []
     for lg in ("NFL", "NBA", "CFB"):
         if lg not in data:
@@ -153,11 +179,12 @@ def main():
                     team_last[pl["t"]] = d
         w = W[lg]
         INJ = (ctx.get("injuries") or {}).get(lg, {})
+        DEP = (ctx.get("depth") or {}).get(lg, {})  # ESPN depth charts: starter or backup
         try:  # ignore a league's injury report if it couldn't be refreshed for 30+ hours
             if now - dt.datetime.fromisoformat((ctx.get("fetched") or {}).get(lg) or ctx["built"]) > dt.timedelta(hours=30):
-                INJ = {}
+                INJ, DEP = {}, {}
         except Exception:
-            INJ = {}
+            INJ, DEP = {}, {}
         inj_of = lambda pl: INJ.get(str(pl.get("e") or pl["id"]))
         # each team's recent games, to see which regulars an injury report takes away
         by_team = {}
@@ -203,6 +230,7 @@ def main():
             if f"{lg}|{p['id']}" in out_players:
                 continue
             me_inj = inj_of(p)
+            me_dep = DEP.get(str(p.get("e") or p["id"]))
             if me_inj and me_inj["s"] in OUT_STATUS:
                 continue  # on the injury report as out
             wx = (ctx.get("weather") or {}).get(f"{lg}|{game['away']}@{game['home']}|{game['t'].astimezone(dt.timezone.utc):%Y-%m-%d}")
@@ -263,6 +291,11 @@ def main():
                     parts["form"] *= YARD_OVER_SHRINK[mid]
                 lin = sum(parts.values())
                 stats_over = lin >= 0
+                p_mkt = market_prob(((MKTS.get(lg) or {}).get(p["id"]) or {}).get(mid), line, game["t"], now)
+                if p_mkt is not None:
+                    pm = min(.97, max(.03, p_mkt))
+                    parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm))))
+                    lin += parts["market"]
                 adj = RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0)))
                 # research is written for a side: the one it names ("side"), else the side the stats lean to
                 r_side_over = note["side"] == "over" if note.get("side") in ("over", "under") else stats_over
@@ -272,6 +305,10 @@ def main():
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
                 lowline = mid in LOW_LINE_M and line <= 1.5
+                # backups' roles swing week to week, so they rank much lower unless research says his role grew
+                backup = bool(me_dep and me_dep["role"] == "backup")
+                if backup and not (note.get("side") == ("over" if over else "under") and float(note.get("adj") or 0) >= 1):
+                    score *= .5
                 if lowline:
                     score *= .7
                 parts["research"] = r_over
@@ -281,7 +318,9 @@ def main():
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
                               "missed_last": missed, "lean": "over" if stats_over else "under", "score": round(score, 3),
                               "status": me_inj["s"] if me_inj else None, "teammates_out": vac_who[:3], "vacated": round(vac, 2),
-                              "wind": wind, "rain": (wx or {}).get("rain"), "indoor": (wx or {}).get("indoor")})
+                              "wind": wind, "rain": (wx or {}).get("rain"), "indoor": (wx or {}).get("indoor"),
+                              "market_over": round(p_mkt, 3) if p_mkt is not None else None,
+                              "depth": f"{me_dep['role']} ({me_dep['slot']})" if me_dep else None})
                 if score <= .05 and not note.get("side"):
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
@@ -313,6 +352,12 @@ def main():
                     why += f" He's listed {me_inj['s'].lower()}{' (' + me_inj['inj'].lower() + ')' if me_inj.get('inj') else ''}, so check his status before betting."
                 if wind is not None and not wx.get("indoor") and (wind >= 15 or (wx.get("rain") or 0) >= 60) and lg != "NBA":
                     why += f" Forecast at kickoff: {wind:.0f} mph wind" + (f", {wx['rain']:.0f}% chance of rain" if (wx.get("rain") or 0) >= 40 else "") + "."
+                if backup:
+                    why += f" He's a backup on the depth chart ({me_dep['slot']}), so his role can swing a lot."
+                elif me_dep and me_dep.get("moved_up"):
+                    why += " He moves into the starting lineup because the player ahead of him is ruled out."
+                if p_mkt is not None:
+                    why += f" Kalshi traders put the {'over' if over else 'under'} at {round((p_mkt if over else 1 - p_mkt) * 100)}%."
                 if lg == "NBA" and abs(mtr) >= .08:
                     why += f" His minutes are {'up' if mtr > 0 else 'down'} lately ({sum(mins[-3:]) / 3:.0f} a game over the last 3)."
                 if lg in ("NFL", "CFB") and game["total"] is not None:
@@ -328,6 +373,9 @@ def main():
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
+                    "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
+                    "moved_up": bool(me_dep and me_dep.get("moved_up")),
+                    "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,
                 })
     slate.sort(key=lambda s: (s["t"], -s["score"]))
     json.dump({"built": now.isoformat(timespec="minutes"),

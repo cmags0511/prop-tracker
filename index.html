@@ -278,6 +278,16 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .gall:hover{background:var(--accent-soft)}
 .gall[disabled]{color:var(--muted);cursor:default;background:none;font-weight:600}
 .live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(--line2);border-radius:999px;padding:3px 9px;margin-left:auto}
+.role{display:inline-block;font:600 10.5px var(--f-body);letter-spacing:.02em;border-radius:999px;padding:2px 8px;vertical-align:middle;text-transform:none}
+.role.starter{background:var(--accent-soft);color:var(--accent)}
+.role.backup{background:var(--line);color:var(--ink2)}
+.fx.nt{background:var(--line);color:var(--ink2)}
+.mktbox{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg);font-size:13px;display:flex;flex-direction:column;gap:6px}
+.mktbox p{margin:0;color:var(--ink2);line-height:1.45}
+.ladder{display:flex;flex-wrap:wrap;gap:6px}
+.ladder span{font:500 12px var(--f-mono);border:1px solid var(--line2);border-radius:6px;padding:3px 7px;color:var(--ink2)}
+.ladder span.on{border-color:var(--accent);color:var(--accent)}
+.ladder b{font-weight:700;color:var(--ink)}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
 .topsub{margin:2px 0 0;color:var(--muted);font-size:12px}
@@ -615,7 +625,7 @@ const LEAGUES=["NFL","NBA","CFB"];
 const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, shown=PAGE;
+let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, shown=PAGE;
 function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
@@ -869,7 +879,7 @@ function renderDetail(r){
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
   el.innerHTML=`<div class="dcard">
     <div class="dtop">
-      <div><h3>${esc(p.name)}</h3><p>${p.team} · ${p.pos||""} · ${m.label} · ${n} games since ${g[0].d.toLocaleDateString("en-US",{month:"short",year:"numeric"})}</p></div>
+      <div><h3>${esc(p.name)} ${roleTag(depOf(S.league,p))}</h3><p>${p.team} · ${p.pos||""} · ${m.label} · ${n} games since ${g[0].d.toLocaleDateString("en-US",{month:"short",year:"numeric"})}</p></div>
       <div class="linebox">
         ${m.fixed?`<span class="k">Line</span><div class="stepper"><input value="0.5" readonly aria-label="Line"></div>`:`
         <span class="k">${r.mine?"Your line":r.bk?"DK line":"Est. line"}</span>
@@ -881,6 +891,7 @@ function renderDetail(r){
     ${newsHtml(S.league,p,m,ng)}
     <div class="strip">${strip}</div>
     ${dkbar}
+    ${marketHtml(S.league,p,m,line,ng)}
     ${matchupHtml(S.league,p,m,line,ng)}
     ${trackbar}
     <div class="dtabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" aria-selected="${S.dtab===t[0]}">${t[1]}</button>`).join("")}</div>
@@ -945,9 +956,9 @@ function renderDetail(r){
 function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}}
 const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
-const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",research:"Research"};
+const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",market:"Market",research:"Research"};
 function fxChips(c){
-  return Object.entries(c.factors).filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:k==="weather"?.12:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"")+(c.lowline?`<span class="fx dn" title="Lines of 0.5 or 1.5 are usually priced well above -110, so a high hit rate pays less. Check the odds before betting.">\u26a0 Check odds</span>`:"");
+  return (c.role==="backup"?`<span class="fx dn" title="Listed as a backup (${esc(c.slot||"")}) on the ESPN depth chart">Backup</span>`:"")+(c.mkt!=null?`<span class="fx ${c.mkt>=.524?"up":c.mkt<.476?"dn":"nt"}" title="Kalshi prediction-market traders' chance of this ${c.side} at DraftKings' line. Above 52.4% beats standard -110 pricing.">Kalshi ${Math.round(c.mkt*100)}%</span>`:"")+Object.entries(c.factors).filter(([k])=>k!=="market").filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:k==="weather"?.12:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"")+(c.lowline?`<span class="fx dn" title="Lines of 0.5 or 1.5 are usually priced well above -110, so a high hit rate pays less. Check the odds before betting.">\u26a0 Check odds</span>`:"");
 }
 const inSet=e=>OVERS()?(e.sets||["all"]).includes("over"):(e.sets||["all"]).includes("all");
 function renderAppBox(){
@@ -1101,6 +1112,34 @@ const QPILL=s=>`<span class="pill p" title="${esc(s)} on the injury report">${s=
 function weatherFor(lg,g){
   if(!CTX||!CTX.weather||!g)return null;
   return CTX.weather[`${lg}|${g.away}@${g.home}|${g.t.toISOString().slice(0,10)}`]||null;
+}
+// ESPN depth chart role (context.json): {role:"starter"|"backup", slot:"WR2", moved_up}
+function depOf(lg,p){
+  if(!CTX||!CTX.depth||Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()>30*3600e3)return null;
+  return(CTX.depth[lg]||{})[String(p.espn||p.id)]||null;
+}
+const roleTag=d=>d?`<span class="role ${d.role}" title="ESPN depth chart${d.moved_up?": moves up because the player ahead of him is ruled out":""}">${d.role==="starter"?(d.moved_up?"Starting":"Starter"):"Backup"} \u00b7 ${esc(d.slot)}</span>`:"";
+// Kalshi ladder for this player/prop and his next game: [[strike, prob, spread]], strike s = "more than s"
+function mktLadder(lg,p,m,g){
+  if(!MKTS||!MKTS[lg]||!g||Date.now()-new Date(MKTS.fetched||0).getTime()>8*3600e3||g.t.getTime()<=Date.now())return null;
+  const r=((MKTS[lg][p.id]||{})[m.id]);if(!r||!r.k||!r.k.length)return null;
+  const mm=/-(\d\d)([A-Z]{3})(\d\d)/.exec(r.g||"");if(!mm)return null;
+  const et=new Date(g.t.getTime()-4*3600e3),mon=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"].indexOf(mm[2]);
+  if(2000+ +mm[1]!==et.getUTCFullYear()||mon!==et.getUTCMonth()||+mm[3]!==et.getUTCDate())return null;
+  return r.k;
+}
+function mktAt(k,line){
+  if(!k)return null;
+  for(let i=0;i+1<k.length;i++){const[s0,p0]=k[i],[s1,p1]=k[i+1];if(s0<=line&&line<=s1)return s1===s0?p0:p0+(p1-p0)*(line-s0)/(s1-s0)}
+  return k.length&&k[0][0]===line?k[0][1]:null;
+}
+function marketHtml(lg,p,m,line,g){
+  const k=mktLadder(lg,p,m,g);if(!k)return"";
+  const at=mktAt(k,line),u=(SHORT[m.id]||m.label).toLowerCase();
+  const near=[...k].sort((a,b)=>Math.abs(a[0]-line)-Math.abs(b[0]-line)).slice(0,5).sort((a,b)=>a[0]-b[0]);
+  return`<div class="mktbox"><div class="mutop"><b>Prediction market</b><span class="pteam">Kalshi traders \u00b7 updated ${new Date(MKTS.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
+    ${at!=null?`<p>Traders give him a <b>${Math.round(at*100)}%</b> chance to go over ${fmt(line)} and <b>${100-Math.round(at*100)}%</b> for the under.${Math.max(at,1-at)>=.524?` At standard -110 odds (52.4% to break even), the market leans <b>${at>=.5?"over":"under"}</b>.`:" That's close to a coin flip at standard -110 odds."}</p>`:`<p>No Kalshi price right at ${fmt(line)}; nearby ${u}:</p>`}
+    <div class="ladder">${near.map(([s,pr])=>`<span${Math.abs(s-line)<.01?' class="on"':""}><b>${fmt(Math.floor(s)+1)}+</b> ${Math.round(pr*100)}%</span>`).join("")}</div></div>`;
 }
 // injuries, teammates out and weather for the player's next game
 function newsHtml(lg,p,m,g){
@@ -1358,7 +1397,8 @@ function gameBody(x){
     html+=`<table><thead><tr><th>Prop</th><th class="num">Line</th><th class="num">L10</th><th class="num hide-xs">Season</th><th class="num">Avg</th></tr></thead><tbody>`;
     for(const rs of players){
       const p=rs[0].p,out=outNote(lg,p.id);
-      html+=`<tr class="gpl"><td colspan="5">${esc(p.name)}<small>${p.pos||""}</small>${out?" "+OUTPILL:""}</td></tr>`;
+      const dp=depOf(lg,p);
+      html+=`<tr class="gpl"><td colspan="5">${esc(p.name)}<small>${dp?esc(dp.slot):p.pos||""}</small>${dp&&dp.role==="backup"?' <span class="role backup">Backup</span>':""}${out?" "+OUTPILL:""}</td></tr>`;
       rs.sort((a,b)=>MK[lg].indexOf(a.m)-MK[lg].indexOf(b.m));
       for(const r of rs){
         const k=lg+"|"+p.id+"|"+r.m.id,c=pickKeys.get(k),n=notesOk?NOTES.notes[k]:null;
@@ -1529,10 +1569,10 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;

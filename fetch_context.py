@@ -71,6 +71,44 @@ def injuries(lg, path):
     return out
 
 
+# depth-chart slots we care about (NFL offense + kicker + defense, NBA starting five)
+SLOT_NAME = {"qb": "QB", "rb": "RB", "wr1": "WR", "wr2": "WR", "wr3": "WR", "te": "TE", "pk": "K",
+             "pg": "PG", "sg": "SG", "sf": "SF", "pf": "PF", "c": "C"}
+DEF_SLOTS = {"lde", "ldt", "rdt", "rde", "wlb", "mlb", "slb", "lilb", "rilb", "lolb", "rolb", "nt", "lcb", "rcb", "ss", "fs", "nb", "dt", "de"}
+OUT_ST = {"Out", "Doubtful", "Injured Reserve", "Suspension"}
+
+
+def depth(lg, path, inj):
+    """{espn id: {"role": "starter"|"backup", "slot": "WR2", "n": order}} from every team's ESPN depth chart.
+    A player listed behind a starter who's ruled out on the injury report moves up."""
+    t = get(f"{ESPN}/{path}/teams")
+    teams = [x["team"] for x in t["sports"][0]["leagues"][0]["teams"]]
+    out = {}
+    for tm in teams:
+        try:
+            d = get(f"{ESPN}/{path}/teams/{tm['id']}/depthcharts")
+        except Exception as e:
+            print(f"{lg} depth chart {tm.get('abbreviation')} failed: {e}")
+            continue
+        for f in d.get("depthchart") or []:
+            for key, slot in (f.get("positions") or {}).items():
+                name = SLOT_NAME.get(key) or ("DEF" if key in DEF_SLOTS else None)
+                if not name:
+                    continue
+                ids = [a.get("id") for a in slot.get("athletes") or [] if a.get("id")]
+                live = [a for a in ids if (inj.get(a) or {}).get("s") not in OUT_ST]
+                for i, aid in enumerate(live):
+                    role = "starter" if i == 0 else "backup"
+                    label = f"{name}{i + 1}" if name in ("QB", "RB", "TE", "K", "WR") and i else name
+                    if name == "WR":
+                        label = f"WR{int(key[-1]) + 3 * i}" if i else f"WR{key[-1]}"
+                    prev = out.get(aid)
+                    if prev is None or (prev["role"] != "starter" and role == "starter") or (prev["role"] == role and i < prev["n"]):
+                        out[aid] = {"role": role, "slot": label, "n": i, "moved_up": role == "starter" and ids.index(aid) > 0}
+        time.sleep(.05)
+    return out
+
+
 def geocode(city, state, country, cache):
     key = f"{city}|{state}|{country}"
     if key in cache:
@@ -157,6 +195,13 @@ def main():
             print(f"{lg} injuries failed ({e}); keeping previous")
             ctx["injuries"][lg] = (old.get("injuries") or {}).get(lg, {})
             ctx["fetched"].setdefault(lg, old.get("built", "2000-01-01T00:00+00:00"))
+    ctx["depth"] = {}
+    for lg in ("NFL", "NBA"):  # ESPN has no college depth charts
+        try:
+            ctx["depth"][lg] = depth(lg, LEAGUES[lg], ctx["injuries"].get(lg, {}))
+        except Exception as e:
+            print(f"{lg} depth charts failed ({e}); keeping previous")
+            ctx["depth"][lg] = (old.get("depth") or {}).get(lg, {})
     for lg, days in (("NFL", 7), ("CFB", 4)):
         try:
             w = weather(lg, LEAGUES[lg], days, geo, now)
@@ -171,6 +216,7 @@ def main():
     json.dump(ctx, open(OUT, "w"), separators=(",", ":"))
     from collections import Counter
     print(f"wrote {OUT}: " + ", ".join(f"{lg} {len(v)} injuries {dict(Counter(x['s'] for x in v.values()))}" for lg, v in ctx["injuries"].items())
+          + f"; depth charts {', '.join(f'{lg} {len(v)}' for lg, v in ctx['depth'].items())}"
           + f"; weather for {len(ctx['weather'])} games, {sum(1 for w in ctx['weather'].values() if w.get('wind') is not None)} with forecasts")
 
 
