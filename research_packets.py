@@ -3,8 +3,8 @@
 Research is the expensive part of the app, so it goes where people look: the props the app actually
 shows (the Top 10s, each game's Top 5, Kalshi gaps for the Best bet). For each upcoming game a packet
 (research/packets/<id>.json) holds the game context (spread/total, weather, both injury reports with
-practice notes, starters) and its TARGET props with everything the app knows about them, plus a short
-list of other props for scouting. Games are then grouped into at most 4 batches
+practice notes, starters), its TARGET props with everything the app knows about them, and every other
+prop in the game in compact form so the researcher can scan the whole board. Games are then grouped into at most 4 batches
 (research/batches/batch-<n>.json), one researcher per batch.
 
 College football has no DraftKings prop lines in the app's feed, so it gets one extra packet
@@ -169,7 +169,8 @@ def main():
         t = dt.datetime.fromisoformat(g["kickoff"]).astimezone(dt.timezone.utc)
         w = wx.get(f"{lg}|{g['away']}@{g['home']}|{t:%Y-%m-%d}")
         g["weather"] = None if not w else ("indoor" if w.get("indoor") else {k: w.get(k) for k in ("wind", "gust", "rain", "temp")} | {"venue": w.get("venue")})
-        g["other_props"] = sorted(g["other_props"], key=lambda x: -(x["score"] or 0))[:8]
+        # every other prop in the game, compact, so the researcher can scan the whole board for edges
+        g["other_props"] = sorted(g["other_props"], key=lambda x: -(x["score"] or 0))
         g["td_candidates"] = td_candidates(lg, teams, g["kickoff"], data, mkts) if g["tier"] == "full" else []
     for d in ("research/packets", "research/batches"):
         if os.path.isdir(d):

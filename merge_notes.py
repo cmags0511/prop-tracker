@@ -147,7 +147,7 @@ def main():
         print(f"best bet ignored: {b.get('key')} not on the slate or no side")
     out = {"updated": now.isoformat(timespec="seconds").replace("+00:00", "Z"),
            "summary": txt(lead.get("summary") or old.get("summary"), 500), "notes": notes, "games": games,
-           "cfb_lines": {k: v for k, v in cfb_lines.items() if k in notes}}
+           "cfb_lines": cfb_lines}  # every college line collected, researched or not; the app ranks them all
     if best:
         out["best"] = best
     json.dump(out, open("notes.json", "w"), indent=1)

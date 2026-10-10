@@ -9,7 +9,8 @@ honest: if the research says under, say under.
 
 **Budget.** Research runs on the owner's Claude usage, and an earlier version that researched every
 prop in every game used it all up. Stay inside these limits: at most 4 NFL/NBA researchers plus 1
-college researcher and 1 fact-checker, about 4 searches per game for the game-level picture plus 1-2 per target prop,
+college researcher and 1 fact-checker, about 4 searches per game for the game-level picture plus 1-2 per target prop
+(the college researcher gets about 25),
 and open only the articles that matter. Quality over volume: a few specific, sourced findings beat
 seven vague angles.
 
@@ -99,7 +100,9 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 > for that side), `flag` (`out` / `caution` / `support` / `neutral`), `conf` (`high` = confirmed by an
 > official report or team source plus at least one more independent source; `medium` = one solid
 > source or clear usage data; `low` = inference or thin sourcing) and a one-sentence `note` (max 35 words) with the main non-stat reason.
-> If you find a strong edge in `other_props`, add a note for it too (at most 2 per batch).
+> **Scan the whole board.** `other_props` lists every other prop in the game. After the targets, run
+> down that list with what you've learned about the game (injuries, roles, script) and add a note for
+> any prop the news clearly moves, or where you find a real edge (at most 3 per game).
 >
 > **Anytime TDs.** Each `full` game has `td_candidates`: the likeliest scorers with Kalshi's "1+ TD"
 > price (`kalshi_1plus`) and their TD history. TDs come from red-zone and goal-line roles the numbers
@@ -124,27 +127,37 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 
 ## College researcher brief
 
-> You pick the best college football player props of the week for a prop app that has every FBS
-> player's game logs but no sportsbook lines. Read `research/packets/CFB-week.json`: the games in the
-> next 60 hours with spread/total and each team's main players (`key_prefix`, position, this season's
-> averages and last 3 games). Budget: about 15 searches in total.
+> You find the best college football player props of the week for a prop app that has every FBS
+> player's game logs but no sportsbook lines in its feed. Read `research/packets/CFB-week.json`: the games
+> in the next 60 hours with spread/total and each team's main players (`key_prefix`, position, this
+> season's averages and last 3 games). Work in three passes. Budget: about 25 searches in total.
 >
-> 1. Pick the 6 biggest games (ranked teams, national TV, high totals) and find their published
->    player prop lines in prop previews and odds articles from reputable outlets (Action Network,
->    Covers, VSiN, Pickswise, OddsShark, ESPN, The Athletic, team beat writers). Skip anonymous picks
->    sites. Record the line exactly as quoted (usually ending in .5) and the book it's quoted for; if an
->    article gives no book, use "consensus".
-> 2. Choose the 8-10 best props, at least two-thirds overs (the owner prefers overs; include an under
->    only when the case is clearly stronger): compare each line with the player's averages and last 3
->    games in the packet, then check availability, role, the opponent's defense, script and weather.
-> 3. Write `research/out/CFB-week.json`:
+> **Pass 1: collect ALL the player props for the big games.** Pick the 8 biggest games (ranked teams,
+> national TV, high totals). For each, find the full list of posted player props (every QB, RB and WR
+> line: passing yards, completions, attempts, passing TDs, rushing yards, carries, receptions, receiving
+> yards, rush+rec yards) from reputable odds pages: BettingPros prop pages, Covers, Action Network,
+> VSiN, OddsShark, FanDuel/DraftKings research pages, ESPN. Skip anonymous picks sites and lines given as
+> whole numbers unless a named book posts them. Record each line exactly as posted (it usually ends in
+> .5) and the book it's quoted for ("consensus" if the page averages books). Aim for 40-80 lines. Write
+> them to `research/out/CFB-week.json` as `{"game": "CFB-week", "lines": [{"key": "<key_prefix>|<market>",
+> "line": 245.5, "book": "FanDuel", "source": "<url>"}, ...]}`. Players not in the packet: look them up
+> in `cfb_data.json` (`players`: `id`, `n` name, `t` team) to get the id.
+>
+> **Pass 2: screen them all.** Run `python cfb_screen.py`. It scores every line with the app's numbers:
+> season and last-5 hit rate at the line, average, last 3 games, and how the opponent has defended that
+> stat (rank, 1 = allows the most). Take the best 12 edges, at least two-thirds overs.
+>
+> **Pass 3: research those 12** beyond the numbers: availability and practice news, depth chart and
+> snaps, the opponent's defense and missing defenders, game script from the spread/total, weather,
+> line movement, and what credible previews say. Keep the 8-10 that hold up (an under only when the case
+> is clearly stronger than any over) and add them to the same file:
 > ```
 > {"game": "CFB-week", "summary": "<2-3 sentences on the week's college storylines>", "sources": [...],
->  "lines": [{"key": "<key_prefix>|<market>", "line": 245.5, "book": "FanDuel", "source": "<url>"}],
->  "notes": {"<same key>": {"side", "flag", "adj", "conf", "note", "detail": {...}, "sources": [...]}},
+>  "lines": [ ...every line from pass 1... ],
+>  "notes": {"<key>": {"side", "flag", "adj", "conf", "note", "detail": {...}, "sources": [...]}},
 >  "best_candidate": {...} or null}
 > ```
 > Markets: `pyd` passing yards, `cmp` completions, `att` attempts, `ptd` passing TDs, `ryd` rushing
-> yards, `car` carries, `rec` receptions, `recyd` receiving yards, `rry` rush+rec yards. Lines must end
-> in .0 or .5. Every pick needs both a `lines` entry and a note with a source. Same rules: facts only,
-> your own words. Reply with one line: games covered, picks (overs/unders), best candidate.
+> yards, `car` carries, `rec` receptions, `recyd` receiving yards, `rry` rush+rec yards. Every note needs
+> a source you read. Facts only, your own words. Reply with one line: games covered, lines collected,
+> picks (overs/unders), best candidate.
