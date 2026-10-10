@@ -295,6 +295,9 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .angles dt{font:600 10.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
 .angles dd{margin:0;color:var(--ink2);line-height:1.45}
 @media (max-width:600px){.angles{grid-template-columns:1fr;gap:2px}.angles dd{margin-bottom:6px}}
+.tdpicks{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.tdpicks h3{margin:4px 0 0;font:700 1rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.tdpicks h3 .pteam{font:500 12px var(--f-body);letter-spacing:0;text-transform:none}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
 .topsub{margin:2px 0 0;color:var(--muted);font-size:12px}
@@ -760,6 +763,16 @@ function boardRows(){
   return rows;
 }
 
+// the research's anytime-TD picks (picks.json tdPicks): Kalshi price, TD history and why
+function tdPicksHtml(){
+  if(S.league!=="NFL"||!(isAll()||S.market==="td")||!PICKS||!(PICKS.tdPicks||[]).length)return"";
+  const L=PICKS.tdPicks.filter(c=>new Date(c.t).getTime()>Date.now()&&!outNote(c.lg,c.id)&&(!S.team||c.team===S.team)).slice(0,5);
+  if(!L.length)return"";
+  return`<div class="tdpicks"><h3>Anytime TD picks <span class="pteam">from the research</span></h3>${L.map((c,i)=>{const t=new Date(c.t),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString());
+    return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span><div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet over">Anytime TD</span></div>
+    <div class="why">${esc(c.why)}</div><div class="pkmeta"><span>TD in ${c.l10[0]} of last ${c.l10[1]}</span>${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores; fair odds without the book's margin">Kalshi ${Math.round(c.kalshi*100)}% \u00b7 ${decToAm(1/Math.max(.01,c.kalshi))}</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}
+    <p class="topnote" style="margin:0">Sportsbooks don't publish anytime-TD odds in the free feed, so compare your book's price with the Kalshi fair odds: a book price longer than the fair odds is the better bet.</p></div>`;
+}
 // the research check's single Best bet of the day
 function renderBest(){
   const el=document.getElementById("bestbet"),b=PICKS&&PICKS.best;
@@ -814,6 +827,7 @@ function renderTop(){
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
+  ${tdPicksHtml()}
   <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
 
@@ -1396,7 +1410,13 @@ function gameBets(x,est){
   for(const p of DATA[lg]){
     if(p.team!==x.away&&p.team!==x.home)continue;
     for(const m of MK[lg]){
-      if(m.fixed)continue;
+      if(m.fixed){
+        // anytime TD: no sportsbook line in the feed; show players who score, with Kalshi's "1+ TD" price when listed
+        if(!FB(lg)||!m.pos.includes(p.pos)||!(p.cur>0))continue;
+        const r=compute(p,m),k=mktLadder(lg,p,m,x);r.kal=k?mktAt(k,.5):null;
+        if(r.kal!=null||(r.l10!=null&&r.l10>=.2))out.push(r);
+        continue;
+      }
       const r=compute(p,m);
       if(r.dk){if(r.dk.d&&Math.abs(new Date(r.dk.d).getTime()-t)>12*3600e3)continue;out.push(r)}
       else if(est&&(lg!=="NFL"||m.pos.includes(p.pos))&&p.cur>0&&eligible(r,m))out.push(r);
@@ -1417,7 +1437,7 @@ function gameTop5(x,bets){
 }
 function gameBody(x){
   const lg=S.league;
-  let bets=gameBets(x);const est=!bets.length;if(est)bets=gameBets(x,true);
+  let bets=gameBets(x);const est=!bets.some(r=>!r.m.fixed);if(est)bets=gameBets(x,true);
   // a player tapped from the game preview may only have an estimated line; keep his bet in the list
   if(S.gsel&&!bets.some(r=>r.key===S.gsel)){const extra=gameBets(x,true).find(r=>r.key===S.gsel);if(extra)bets.push(extra)}
   const mks=MK[lg].filter(m=>bets.some(r=>r.m.id===m.id));
@@ -1431,12 +1451,13 @@ function gameBody(x){
   if(!est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
   if(!top.length&&OVERS()&&!est)html+=`<div class="gnone" style="padding:4px 2px">No over plays stand out in this game yet.</div>`;
   if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${OVERS()?"overs":"picks"}<span>${top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
-  html+=`<div class="gsub">${est?"DraftKings hasn't posted props for this game yet \u00b7 lines are estimates from each player's median":`${bets.length} DraftKings bets \u00b7 L10 and season = how often he's gone over the line`}</div>`;
+  html+=`<div class="gsub">${est?"DraftKings hasn't posted props for this game yet \u00b7 lines are estimates from each player's median":`${bets.filter(r=>!r.m.fixed).length} DraftKings bets${bets.some(r=>r.m.fixed)?" + anytime TDs":""} \u00b7 L10 and season = how often he's gone over the line`}</div>`;
   if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
   for(const team of [x.away,x.home]){
     const mine=shownB.filter(r=>r.p.team===team);
     const byP=new Map();mine.forEach(r=>{if(!byP.has(r.p.id))byP.set(r.p.id,[]);byP.get(r.p.id).push(r)});
-    const players=[...byP.values()].sort((a,b)=>((POSORD[a[0].p.pos]??9)-(POSORD[b[0].p.pos]??9))||(b.length-a.length)||(b[0].avg10-a[0].avg10));
+    const tdc=r=>r.kal!=null?r.kal:(r.l10||0)*.8;
+    const players=[...byP.values()].sort(S.gmk==="td"?(a,b)=>tdc(b[0])-tdc(a[0]):(a,b)=>((POSORD[a[0].p.pos]??9)-(POSORD[b[0].p.pos]??9))||(b.length-a.length)||(b[0].avg10-a[0].avg10));
     html+=`<section class="gbets"><h4>${team}${team===x.home?" \u00b7 home":""}</h4>`;
     if(!players.length){html+=`<div class="gnone" style="padding:12px 14px">No ${S.gmk?esc((SHORT[S.gmk]||"").toLowerCase())+" ":""}lines posted for ${team} yet.</div></section>`;continue}
     html+=`<table><thead><tr><th>Prop</th><th class="num">Line</th><th class="num">L10</th><th class="num hide-xs">Season</th><th class="num">Avg</th></tr></thead><tbody>`;
@@ -1448,8 +1469,8 @@ function gameBody(x){
       for(const r of rs){
         const k=lg+"|"+p.id+"|"+r.m.id,c=pickKeys.get(k),n=notesOk?NOTES.notes[k]:null;
         const on=S.gsel===r.key;
-        html+=`<tr class="gbet${on?" sel":""}" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}" aria-expanded="${on}"><td>${esc(SHORT[r.m.id]||r.m.label)}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
-          <td class="num mono">${fmt(r.line)}${r.mine?"*":""}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>${on?'<tr class="drawer gdrawer"><td colspan="5" id="detail"></td></tr>':""}`;
+        html+=`<tr class="gbet${on?" sel":""}" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}" aria-expanded="${on}"><td>${esc(SHORT[r.m.id]||r.m.label)}${r.m.fixed&&r.kal!=null?`<span class="tp kal" title="Kalshi traders' chance he scores a TD; fair odds without the book's margin">Kalshi ${Math.round(r.kal*100)}% \u00b7 ${decToAm(1/Math.max(.01,r.kal))}</span>`:""}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
+          <td class="num mono">${r.m.fixed?"1+":fmt(r.line)+(r.mine?"*":"")}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>${on?'<tr class="drawer gdrawer"><td colspan="5" id="detail"></td></tr>':""}`;
       }
     }
     html+=`</tbody></table></section>`;
@@ -1503,7 +1524,7 @@ function renderUpcoming(){
       const gid=gameId(x);
       const more=Math.max((byTeam[x.away]||[]).length,(byTeam[x.home]||[]).length)>4;
       const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"")+gameOddsChip(S.league,x);
-      const nb=gameBets(x).length;
+      const nb=gameBets(x).filter(r=>!r.m.fixed).length;
       const open=S.game===gid;
       return`<article class="gcard${open?" open":""}" data-g="${esc(gid)}"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-expanded="${open}" aria-label="${open?"Close":"Open"} ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}<span class="gchev" aria-hidden="true">\u25be</span></div></div>
         ${open?gameBody(x)+`<button class="gall" data-game="${esc(gid)}">Close game \u25b4</button>`:`<div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}<button class="gall" data-game="${esc(gid)}">${nb?`Top 5 picks + all ${nb} DraftKings bets \u203a`:"Top 5 picks + every player prop \u203a"}</button>`}</article>`}).join("")+`</div></section>`;
@@ -1574,7 +1595,7 @@ function wire(){
   document.getElementById("view-board").addEventListener("click",e=>{
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
     const tk=e.target.closest("[data-tk]");
-    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[])].find(x=>x.key===tk.dataset.tk);
+    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[])].find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
       if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()},c.t);return}
     const b=e.target.closest(".pick");if(!b)return;

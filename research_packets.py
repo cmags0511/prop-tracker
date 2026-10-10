@@ -62,6 +62,36 @@ def targets(slate, picks, now):
     return out
 
 
+def td_candidates(lg, teams, kickoff, data, mkts):
+    """the likeliest anytime-TD scorers in a game: Kalshi's "1+ TD" price plus each player's TD history"""
+    if lg != "NFL":
+        return []
+    meta = data.get(lg, {})
+    cols = meta.get("cols", [])
+    day = dt.datetime.fromisoformat(kickoff).astimezone(dt.timezone(dt.timedelta(hours=-4)))
+    code = f"{day:%y}{day.strftime('%b').upper()}{day:%d}"
+    out = []
+    for pl in meta.get("players", []):
+        if pl["t"] not in teams or pl.get("p") not in ("RB", "WR", "TE", "QB"):
+            continue
+        lad = ((mkts.get(lg) or {}).get(pl["id"]) or {}).get("td")
+        k = None
+        if lad and code in lad.get("g", ""):
+            k = next((pr for s, pr, _ in lad["k"] if s == .5), None)
+        gs = [dict(zip(cols, r)) for r in pl["g"]]
+        cur = [g for g in gs if g["date"] >= meta.get("curStart", "")]
+        l10 = gs[-10:]
+        if not cur:
+            continue
+        rate = lambda a: round(sum(1 for g in a if g["td"] > 0) / len(a), 2) if a else None
+        if k is None and (rate(l10) or 0) < .3:
+            continue
+        out.append({"key": f"{lg}|{pl['id']}|td", "name": pl["n"], "team": pl["t"], "pos": pl.get("p"),
+                    "kalshi_1plus": k, "td_games_l10": rate(l10), "td_games_season": rate(cur),
+                    "season_tds": sum(g["td"] for g in cur), "season_games": len(cur)})
+    return sorted(out, key=lambda x: -(x["kalshi_1plus"] if x["kalshi_1plus"] is not None else x["td_games_l10"] * .8))[:6]
+
+
 def cfb_packet(cfb, now):
     """this week's college games and each team's main players (by this season's volume)"""
     cols = cfb.get("cols", [])
@@ -98,6 +128,7 @@ def main():
     slate = load("slate.json", {"props": []})["props"]
     picks = load("picks.json")
     ctx = load("context.json")
+    mkts = load("markets.json")
     data = load("props_data.json")
     cfb = load("cfb_data.json")
     if cfb:
@@ -107,7 +138,7 @@ def main():
     for p in slate:
         t = dt.datetime.fromisoformat(p["t"])
         h = (t - now).total_seconds() / 3600
-        if h <= 0 or h > QUICK_H:
+        if h <= 0 or h > QUICK_H or p["lg"] == "CFB":  # college has its own researcher (CFB-week)
             continue
         meta = data.get(p["lg"], {})
         up = next((u for u in meta.get("upcoming", []) if dt.datetime.fromisoformat(u[0]) == t and p["team"] in (u[1], u[2])), None)
@@ -139,6 +170,7 @@ def main():
         w = wx.get(f"{lg}|{g['away']}@{g['home']}|{t:%Y-%m-%d}")
         g["weather"] = None if not w else ("indoor" if w.get("indoor") else {k: w.get(k) for k in ("wind", "gust", "rain", "temp")} | {"venue": w.get("venue")})
         g["other_props"] = sorted(g["other_props"], key=lambda x: -(x["score"] or 0))[:8]
+        g["td_candidates"] = td_candidates(lg, teams, g["kickoff"], data, mkts) if g["tier"] == "full" else []
     for d in ("research/packets", "research/batches"):
         if os.path.isdir(d):
             shutil.rmtree(d)

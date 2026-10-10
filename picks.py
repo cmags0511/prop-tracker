@@ -445,6 +445,32 @@ def main():
             return [c for g in games.values() for c in g]
         out["games"] = per_game(cands)
         out["gamesOver"] = per_game(ov)
+    # anytime-TD picks: the research's TD calls (no sportsbook line in the feed), with Kalshi's price and his history
+    tdp = []
+    meta = data.get("NFL", {})
+    cols = meta.get("cols", [])
+    pls = {p["id"]: p for p in meta.get("players", [])}
+    ups = [{"t": dt.datetime.fromisoformat(u[0]), "away": u[1], "home": u[2]} for u in meta.get("upcoming", [])]
+    for k, n in notes.items():
+        lg, pid, mid = k.split("|")
+        if mid != "td" or lg != "NFL" or n.get("side") != "over" or float(n.get("adj") or 0) < 1 or n.get("flag") == "out":
+            continue
+        p = pls.get(pid)
+        game = p and next((u for u in sorted(ups, key=lambda u: u["t"]) if p["t"] in (u["away"], u["home"]) and u["t"] > now), None)
+        if not game:
+            continue
+        gs = [dict(zip(cols, r)) for r in p["g"]]
+        l10 = gs[-10:]
+        lad = ((MKTS.get("NFL") or {}).get(pid) or {}).get("td")
+        kal = market_prob(lad, .5, game["t"], now) if lad else None
+        conf = {"low": .6, "medium": 1.0, "high": 1.2}.get(n.get("conf"), 1.0)
+        home = game["home"] == p["t"]
+        tdp.append({"key": k, "lg": "NFL", "id": pid, "name": p["n"], "team": p["t"], "pos": p.get("p"),
+                    "opp": game["away"] if home else game["home"], "home": home, "t": game["t"].isoformat(),
+                    "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
+                    "l10": [sum(1 for g in l10 if g["td"] > 0), len(l10)], "kalshi": round(kal, 3) if kal is not None else None,
+                    "score": round(conf * float(n.get("adj") or 0) + (kal or 0), 3), "why": n.get("note", ""), "conf": n.get("conf")})
+    out["tdPicks"] = sorted(tdp, key=lambda c: -c["score"])[:8]
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)

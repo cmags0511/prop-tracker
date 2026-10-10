@@ -144,6 +144,14 @@ def main():
                                      "adj": n.get("adj", 0), "conf": n.get("conf", "medium"), "flag": n.get("flag"),
                                      "lean": p.get("lean"), "status": "pending", "result": None}
 
+    # 1d. the research's anytime-TD picks are research calls too (line 0.5 = scores at least once)
+    for c in picks.get("tdPicks", []):
+        if start(c) > now:
+            research[(c["key"], c["t"])] = {"key": c["key"], "lg": c["lg"], "id": c["id"], "name": c["name"], "team": c["team"],
+                                           "opp": c["opp"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over",
+                                           "line": .5, "adj": None, "conf": c.get("conf"), "flag": None, "lean": None,
+                                           "status": "pending", "result": None}
+
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
     for e in list(entries.values()) + list(best.values()) + list(research.values()):

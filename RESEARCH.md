@@ -9,7 +9,7 @@ honest: if the research says under, say under.
 
 **Budget.** Research runs on the owner's Claude usage, and an earlier version that researched every
 prop in every game used it all up. Stay inside these limits: at most 4 NFL/NBA researchers plus 1
-college researcher, about 4 searches per game for the game-level picture plus 1-2 per target prop,
+college researcher and 1 fact-checker, about 4 searches per game for the game-level picture plus 1-2 per target prop,
 and open only the articles that matter. Quality over volume: a few specific, sourced findings beat
 seven vague angles.
 
@@ -33,18 +33,27 @@ seven vague angles.
    If the Agent tool isn't available, do the batches yourself, soonest games first.
 5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
-6. **Choose the Best bet** from the researchers' `best_candidate`s: the single OVER where stats, matchup,
+6. **Fact-check the strongest calls.** Collect the 10 calls that will matter most: every note with
+   adj +2 or conf high, the `best_candidate`s and the anytime-TD notes. Start ONE fact-checker (Agent
+   tool) with that list (key, player, side, note, sources). For each call it identifies the one or two
+   facts the call rests on (he's starting, he practiced fully, the defender is out, his snap share) and
+   verifies them with one fresh search each, preferring official team sources and the latest reports.
+   It returns, per call, `confirmed`, `weakened` (with the corrected fact) or `wrong`. Apply the results
+   in `research/out/` before merging: `weakened` → lower `adj` by 1 and `conf` to medium and fix the
+   wording; `wrong` → set `adj` to 0, `flag` to `caution` (or `out` if he's not playing) and rewrite the
+   note with the corrected fact. Never make the Best bet from a call that wasn't `confirmed`.
+7. **Choose the Best bet** from the researchers' `best_candidate`s: the single OVER where stats, matchup,
    role, conditions, market and news line up best (an under only if no over is sound). He must be a
    confirmed starter or have a clearly grown role, and his game must start within 60 hours. A college
    pick can be the Best bet. Write `research/lead.json`:
    `{"summary": "<1-2 sentences: the biggest news across the slate>", "best": {"key", "side", "why": "<2-3 sentences>", "sources": [urls]}}`
-7. **Merge and publish.** `python merge_notes.py` (validates everything into `notes.json`), then
+8. **Merge and publish.** `python merge_notes.py` (validates everything into `notes.json`), then
    `python picks.py picks.json`. Commit `notes.json picks.json slate.json` with the message
    `Research check <date> <AM|PM>` ending with the line
    `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`, and push to main. If the push is
    rejected: `git pull --rebase origin main`, rerun `python picks.py picks.json`, commit, push.
    Don't commit the `research/` folder. **Always publish what you have**, even if some researchers failed.
-8. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
+9. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
    where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
 
 ## Light mode (Sunday late-morning inactives check)
@@ -69,7 +78,8 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 >
 > **Per target prop**, write one specific sentence for each angle where you found something real (skip
 > angles with nothing new; never restate the packet's numbers as a finding):
-> - **availability**: status, practice reps, limitations, minutes restrictions.
+> - **availability**: status and the practice trend through the week (DNP → limited → full is a good
+>   sign; limited all week or a Friday downgrade is a warning), limitations, minutes restrictions.
 > - **role**: snaps, routes, targets/touches or minutes in the last 2-3 games; who absorbs injured
 >   teammates' work; is he actually starting.
 > - **matchup**: how this defense defends the stat this season, scheme/coverage, missing defenders.
@@ -89,6 +99,14 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 > official report or team source plus at least one more independent source; `medium` = one solid
 > source or clear usage data; `low` = inference or thin sourcing) and a one-sentence `note` (max 35 words) with the main non-stat reason.
 > If you find a strong edge in `other_props`, add a note for it too (at most 2 per batch).
+>
+> **Anytime TDs.** Each `full` game has `td_candidates`: the likeliest scorers with Kalshi's "1+ TD"
+> price (`kalshi_1plus`) and their TD history. TDs come from red-zone and goal-line roles the numbers
+> barely show, so check: who gets carries and targets inside the 10 and 5, goal-line packages, the
+> opponent's red-zone defense, the team's implied points, and injuries that shift those roles. Pick at
+> most 2 per game, only where your estimate of his chance to score is clearly above Kalshi's price, and
+> write a note with `side` "over" (= scores), `adj` +1 or +2 and the red-zone reason. Use the key exactly
+> as given (it ends in `|td`).
 > Facts only, your own words: no quotes, usernames, copied picks, hype or guarantees.
 >
 > Write one file per game, `research/out/<packet id>.json`:
