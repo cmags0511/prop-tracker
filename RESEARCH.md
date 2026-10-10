@@ -7,7 +7,7 @@ market price. **Your job is what the numbers can't see**, for the props people a
 The owner prefers **overs**; the app shows overs by default. Spend most of the effort on overs, but be
 honest: if the research says under, say under.
 
-**Budget.** Research runs on the owner's Claude usage, and an earlier version that researched every
+**Budget.** Research runs once a day in full (7:34 AM ET) plus quick news checks, on the owner's Claude usage, and an earlier version that researched every
 prop in every game used it all up. Stay inside these limits: at most 4 NFL/NBA researchers plus 1
 college researcher and 1 fact-checker, about 4 searches per game for the game-level picture plus 1-2 per target prop
 (the college researcher gets about 25),
@@ -57,13 +57,28 @@ seven vague angles.
 9. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
    where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
 
-## Light mode (Sunday late-morning inactives check)
+## Light mode (quick news checks: every evening, Sunday inactives)
 
-When the prompt says light mode: skip the researchers. Build the packets, then for the games starting
-in the next 3 hours check the official inactives and late injury news (team sites, beat writers) for
-every target. Update `notes.json` directly: set `flag` to `out` for anyone inactive, `caution` for a
-real late concern, and leave everything else as it is. Then `python picks.py picks.json`, commit
-(`Inactives check <date>`), push.
+Used by the 4:34 PM daily check and the Sunday 11:34 AM inactives check, so the deep morning research
+stays fresh without another full run. No subagents, a handful of searches in total.
+
+1. Build the packets (`python research_packets.py`).
+2. The prompt gives a window (for example "next 24 hours" or "next 3 hours"). For the games starting in
+   that window, check the latest injury, practice, inactive and lineup news for the player behind every
+   `target` and every anytime-TD note in `notes.json` (official team sites and beat writers first;
+   search a team's news once and use it for all its players).
+3. Edit `notes.json` directly; don't re-research or rewrite notes that haven't changed:
+   - ruled out, inactive or suspended → `flag` "out";
+   - a real late concern (downgraded to questionable/doubtful, limited snaps or minutes expected,
+     a backup now starting ahead of him) → `flag` "caution", `adj` lowered by 1, and add the news to
+     the note in one sentence;
+   - news that clearly helps (a teammate ruled out, a starter role confirmed) → raise `adj` by 1
+     (max +2) and add one sentence.
+   Update `"updated"` to the current UTC time.
+4. `python picks.py picks.json`, commit `notes.json picks.json slate.json` as `News check <date>`
+   (or `Inactives check <date>`) ending with the Co-Authored-By line, push (if rejected:
+   `git pull --rebase origin main`, rerun picks.py, commit, push).
+5. Finish with one or two lines: who was ruled out, flagged or upgraded.
 
 ## Game researcher brief
 
