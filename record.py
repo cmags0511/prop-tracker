@@ -118,9 +118,35 @@ def main():
             "line": b["line"], "score": b["score"], "why": b.get("why_research", ""), "status": "pending", "result": None,
         }
 
+    # 1c. the research's own calls: every researched prop with a side, as it stood before kickoff, so the
+    #     research can be graded (does it beat the numbers? are "high confidence" calls better?)
+    research = {(e["key"], e["t"]): e for e in rec.get("research", [])}
+    try:
+        nfile = json.load(open("notes.json"))
+        fresh = now - dt.datetime.fromisoformat(nfile["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+    except Exception:
+        nfile, fresh = {}, False
+    if fresh:
+        slate = {p["key"]: p for p in load("slate.json", {"props": []})["props"]}
+        for k, n in (nfile.get("notes") or {}).items():
+            p = slate.get(k)
+            if not p or n.get("side") not in ("over", "under") or n.get("flag") == "out":
+                continue
+            t = dt.datetime.fromisoformat(p["t"])
+            if t <= now:
+                continue
+            for kk, e in list(research.items()):  # replace an earlier pending call on the same prop and game
+                if e["key"] == k and e["t"] == p["t"] and e["status"] == "pending":
+                    del research[kk]
+            lg, pid, mid = k.split("|")
+            research[(k, p["t"])] = {"key": k, "lg": lg, "id": pid, "name": p["name"], "team": p["team"], "opp": p["opp"],
+                                     "t": p["t"], "market": mid, "label": p["label"], "side": n["side"], "line": p["line"],
+                                     "adj": n.get("adj", 0), "conf": n.get("conf", "medium"), "flag": n.get("flag"),
+                                     "lean": p.get("lean"), "status": "pending", "result": None}
+
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
-    for e in list(entries.values()) + list(best.values()):
+    for e in list(entries.values()) + list(best.values()) + list(research.values()):
         if e["status"] != "pending" or start(e) > now:
             continue
         p = players.get(e["lg"], {}).get(e["id"])
@@ -151,6 +177,7 @@ def main():
 
     rec["picks"] = sorted(entries.values(), key=lambda e: (e["t"], -e["score"]))
     rec["best"] = sorted(best.values(), key=lambda e: e["t"])
+    rec["research"] = sorted(research.values(), key=lambda e: e["t"])
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
     json.dump(rec, open(OUT, "w"), separators=(",", ":"))

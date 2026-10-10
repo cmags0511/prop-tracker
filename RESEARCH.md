@@ -17,28 +17,34 @@ seven vague angles.
 
 1. **Get the repo.** `add_repo` (owner `cmags0511`, repo `prop-tracker`, access `push`), then
    `git clone --depth 1 https://github.com/cmags0511/prop-tracker` and work inside it.
-2. **Build the packets.** `python research_packets.py`. It prints up to 4 batches of games
+2. **Learn from the record.** `record.json` → `"research"` holds every past research call graded
+   win/loss/push, with its `adj`, `conf`, `side` and the stats `lean`. Tally the graded ones by
+   confidence, by strength and by "research went against the stats". Put 2-3 lessons in each brief you
+   hand out (for example "low-confidence calls are 4-9: only make them when the news is concrete" or
+   "calls against the stats are losing: need two sources to go against the numbers"). Skip this when
+   fewer than 20 calls are graded.
+3. **Build the packets.** `python research_packets.py`. It prints up to 4 batches of games
    (`research/batches/batch-<n>.json`, each a list of packet ids) and, when college games are within
    60 hours, `CFB-week`. Each game packet (`research/packets/<id>.json`) has the spread/total, weather,
    both injury reports with practice notes, starters, its `targets` (the props the app shows: Top 10s,
    game Top 5s, Kalshi gaps, teammate-out bumps, each with `why_target`) and up to 8 `other_props`.
-3. **Start the researchers, all in one message (Agent tool), so they run in parallel:** one per batch
+4. **Start the researchers, all in one message (Agent tool), so they run in parallel:** one per batch
    with the "Game researcher brief", plus one with the "College researcher brief" if `CFB-week` exists.
    If the Agent tool isn't available, do the batches yourself, soonest games first.
-4. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
+5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
-5. **Choose the Best bet** from the researchers' `best_candidate`s: the single OVER where stats, matchup,
+6. **Choose the Best bet** from the researchers' `best_candidate`s: the single OVER where stats, matchup,
    role, conditions, market and news line up best (an under only if no over is sound). He must be a
    confirmed starter or have a clearly grown role, and his game must start within 60 hours. A college
    pick can be the Best bet. Write `research/lead.json`:
    `{"summary": "<1-2 sentences: the biggest news across the slate>", "best": {"key", "side", "why": "<2-3 sentences>", "sources": [urls]}}`
-6. **Merge and publish.** `python merge_notes.py` (validates everything into `notes.json`), then
+7. **Merge and publish.** `python merge_notes.py` (validates everything into `notes.json`), then
    `python picks.py picks.json`. Commit `notes.json picks.json slate.json` with the message
    `Research check <date> <AM|PM>` ending with the line
    `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`, and push to main. If the push is
    rejected: `git pull --rebase origin main`, rerun `python picks.py picks.json`, commit, push.
    Don't commit the `research/` folder. **Always publish what you have**, even if some researchers failed.
-7. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
+8. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
    where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
 
 ## Light mode (Sunday late-morning inactives check)
@@ -72,9 +78,16 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 > - **market**: Kalshi vs the 52.4% break-even of a -110 bet, line moves, consensus. If Kalshi is under
 >   45% for the side you like, find out why.
 > - **experts**: what credible previews say and why, in your own words.
+> **Team news flows to every prop it touches.** When a game-level finding changes a team's outlook (a
+> QB change or limited QB, a top receiver or back out or questionable, offensive-line injuries, a new
+> play-caller), revisit every target AND `other_prop` on that team and the opponent, and write a note for
+> each one the news moves (a backup QB starting usually means caution on his receivers' overs and on
+> the QB-dependent props; a WR1 out usually supports the WR2/TE's volume).
+>
 > Then the verdict: `side`, `adj` (+2 strong, +1 mild, 0 nothing, -1 mild concern, -2 strong concern,
-> for that side), `flag` (`out` / `caution` / `support` / `neutral`), `conf` (`high` / `medium` / `low`:
-> how solid the evidence is) and a one-sentence `note` (max 35 words) with the main non-stat reason.
+> for that side), `flag` (`out` / `caution` / `support` / `neutral`), `conf` (`high` = confirmed by an
+> official report or team source plus at least one more independent source; `medium` = one solid
+> source or clear usage data; `low` = inference or thin sourcing) and a one-sentence `note` (max 35 words) with the main non-stat reason.
 > If you find a strong edge in `other_props`, add a note for it too (at most 2 per batch).
 > Facts only, your own words: no quotes, usernames, copied picks, hype or guarantees.
 >
@@ -97,10 +110,13 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 > next 60 hours with spread/total and each team's main players (`key_prefix`, position, this season's
 > averages and last 3 games). Budget: about 15 searches in total.
 >
-> 1. Pick the 5-6 biggest games (ranked teams, national TV, high totals) and find their published
->    player prop lines in prop previews and odds articles (Action Network, Covers, Pickswise, VSiN,
->    ESPN, team beat writers). Record the line and the book it's quoted for.
-> 2. Choose the 6-10 best props, mostly overs: compare each line with the player's averages and last 3
+> 1. Pick the 6 biggest games (ranked teams, national TV, high totals) and find their published
+>    player prop lines in prop previews and odds articles from reputable outlets (Action Network,
+>    Covers, VSiN, Pickswise, OddsShark, ESPN, The Athletic, team beat writers). Skip anonymous picks
+>    sites. Record the line exactly as quoted (usually ending in .5) and the book it's quoted for; if an
+>    article gives no book, use "consensus".
+> 2. Choose the 8-10 best props, at least two-thirds overs (the owner prefers overs; include an under
+>    only when the case is clearly stronger): compare each line with the player's averages and last 3
 >    games in the packet, then check availability, role, the opponent's defense, script and weather.
 > 3. Write `research/out/CFB-week.json`:
 > ```

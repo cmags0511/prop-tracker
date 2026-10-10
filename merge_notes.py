@@ -96,7 +96,7 @@ def main():
                 bad.append(k)
                 continue
             t, opp = cfb_next[cfb_team[k.split("|")[1]]]
-            cfb_lines[k] = {"line": line, "book": txt(ln.get("book") or "sportsbook", 30), "t": t.isoformat(),
+            cfb_lines[k] = {"line": line, "book": txt(ln.get("book") or "consensus", 40), "t": t.isoformat(),
                             "opp": opp, "source": (urls([ln.get("source")]) or [None])[0]}
         for k, n in (g.get("notes") or {}).items():
             if k.startswith("CFB|") and cfb_key(k) and isinstance(n, dict):
