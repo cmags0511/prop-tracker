@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-10T14:31:03Z",
+ "updated": "2026-10-10T20:36:38Z",
  "summary": "Lamar Jackson is out for Baltimore at Atlanta, Ja'Marr Chase and Tee Higgins are both questionable for Cincinnati, and Caleb Williams was limited Friday, leaving Tyson Bagent as the likely Bears starter at Green Bay.",
  "notes": {
   "CFB|5141629|pyd": {
@@ -604,14 +604,15 @@
   },
   "NFL|00-0040128|rec": {
    "side": "under",
-   "flag": "support",
-   "adj": 1,
+   "flag": "caution",
+   "adj": 0,
    "conf": "medium",
-   "note": "Keenan Allen returned to full practice Friday after missing Week 4, adding a target competitor; Warren's big nine-catch game came when Indy's receiver room was thinnest.",
+   "note": "Keenan Allen returned to full practice Friday after missing Week 4, adding a target competitor; Warren's big nine-catch game came when Indy's receiver room was thinnest. Colts receiver Darius Slayton was downgraded to out on Saturday, which thins the receiver room again and works against the under.",
    "sources": [
     "https://www.steelers.com/news/week-5-injury-report-colts",
     "https://fantasyfootballcalculator.com/players/tyler-warren/news",
-    "https://www.thefantasyfootballers.com/news/640595/tyler-warren-five-grabs-in-week-4-win/"
+    "https://www.thefantasyfootballers.com/news/640595/tyler-warren-five-grabs-in-week-4-win/",
+    "https://www.nfl.com/news/nfl-news-roundup-latest-league-updates-from-saturday-oct-10"
    ],
    "detail": {
     "availability": "Warren is healthy and off the report; Keenan Allen (groin) moved to a full practice Friday and Darius Slayton was limited, while Alec Pierce (heel) remains out.",
@@ -1010,42 +1011,42 @@
  "cfb_lines": {
   "CFB|5141629|pyd": {
    "line": 236.5,
-   "book": "Consensus\u2026",
+   "book": "Consensus…",
    "t": "2026-10-10T23:30:00+00:00",
    "opp": "UGA",
    "source": "https://www.bettingpros.com/ncaaf/props/keelon-russell/passing-yards/"
   },
   "CFB|4870906|pyd": {
    "line": 229.0,
-   "book": "Unnamed book (DocSports\u2026",
+   "book": "Unnamed book (DocSports…",
    "t": "2026-10-10T19:30:00+00:00",
    "opp": "OU",
    "source": "https://www.docsports.com/free-picks/football/2026/arch-manning-prop-bets-today-vs-oklahoma-sooners-10-10-2026.html"
   },
   "CFB|4870906|cmp": {
    "line": 19.0,
-   "book": "Unnamed book (DocSports\u2026",
+   "book": "Unnamed book (DocSports…",
    "t": "2026-10-10T19:30:00+00:00",
    "opp": "OU",
    "source": "https://www.docsports.com/free-picks/football/2026/arch-manning-prop-bets-today-vs-oklahoma-sooners-10-10-2026.html"
   },
   "CFB|4685454|pyd": {
    "line": 277.0,
-   "book": "Unnamed book (DocSports\u2026",
+   "book": "Unnamed book (DocSports…",
    "t": "2026-10-10T23:30:00+00:00",
    "opp": "PSU",
    "source": "https://www.docsports.com/free-picks/football/2026/jayden-maiava-player-prop-bets-saturday-vs-penn-state-nittany-lions-10-10-2026.html"
   },
   "CFB|4911529|pyd": {
    "line": 287.0,
-   "book": "Unnamed book (DocSports\u2026",
+   "book": "Unnamed book (DocSports…",
    "t": "2026-10-10T19:30:00+00:00",
    "opp": "VAN",
    "source": "https://www.docsports.com/free-picks/football/2026/trinidad-chambliss-prop-bets-today-vs-vanderbilt-commodores-10-10-2026.html"
   },
   "CFB|5078810|pyd": {
    "line": 243.0,
-   "book": "Unnamed book (DocSports\u2026",
+   "book": "Unnamed book (DocSports…",
    "t": "2026-10-10T23:00:00+00:00",
    "opp": "UK",
    "source": "https://www.docsports.com/free-picks/football/2026/sam-leavitt-best-prop-bets-today-vs-kentucky-wildcats-10-10-2026.html"
