@@ -157,6 +157,18 @@ def main():
 
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
+    def team_played(e, day):
+        lg = e["lg"]
+        cols = data[lg]["cols"]
+        for q in data[lg]["players"]:
+            if q.get("t") != e["team"]:
+                continue
+            for row in q["g"][-3:]:
+                gm = dict(zip(cols, row))
+                if gm["opp"] == e["opp"] and abs((dt.date.fromisoformat(gm["date"]) - day).days) <= 1:
+                    return True
+        return False
+
     for e in list(entries.values()) + list(best.values()) + list(research.values()):
         if e["status"] != "pending" or start(e) > now:
             continue
@@ -171,6 +183,11 @@ def main():
                 if abs((gd - day).days) <= 1 and gm["opp"] == e["opp"]:
                     g = gm
                     break
+        if g is None and p and e["lg"] in ("NFL", "CFB") and now - start(e) > dt.timedelta(hours=12) \
+                and (e["lg"], espn.get(e["lg"], {}).get(e["id"])) not in out_ids and team_played(e, day):
+            # football stat lines only list players who recorded a stat: his team's game is in and he wasn't
+            # ruled out, so he played and finished with 0 (a receiver who was never targeted is a loss, not a void)
+            g = {**{c: 0 for c in data[e["lg"]]["cols"]}, "date": str(day), "opp": e["opp"]}
         if g is None:
             # stats usually land by the next morning; after 3 days assume he didn't play
             if now - start(e) > dt.timedelta(days=3):

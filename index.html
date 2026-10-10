@@ -1161,7 +1161,9 @@ function parseBox(lg,sum){
   for(const t of (sum.boxscore&&sum.boxscore.players)||[])for(const cat of t.statistics||[]){
     const keys=cat.keys||[];
     for(const a of cat.athletes||[]){
-      const id=a.athlete&&a.athlete.id;if(!id)continue;const st={};keys.forEach((k,i)=>st[k]=(a.stats||[])[i]);
+      const id=a.athlete&&a.athlete.id;if(!id)continue;
+      if(lg==="NBA"&&(a.didNotPlay||!(a.stats||[]).length))continue; // listed but never checked in: DNP
+      const st={};keys.forEach((k,i)=>st[k]=(a.stats||[])[i]);
       const o=out[id]=out[id]||{};
       if(lg==="NBA"){o.min=liveNum(st.minutes);o.pts=liveNum(st.points);o.reb=liveNum(st.rebounds);o.ast=liveNum(st.assists);o["3pm"]=liveNum((st["threePointFieldGoalsMade-threePointFieldGoalsAttempted"]||"0").split("-")[0]);continue}
       const n=cat.name;
@@ -1182,7 +1184,7 @@ function liveValue(mid,o){
 function liveItems(){
   // games underway now, plus finished games from the last 3 days the nightly stats haven't graded yet
   const now=Date.now(),inWin=l=>{const t=new Date(l.t).getTime();if(t>now+5*60e3)return false;if(now-t<8*3600e3)return true;
-    if(now-t>3*864e5||dataGrade(l))return false;const lv=liveFor(l);return!(lv&&lv.state==="post")};
+    if(now-t>3*864e5||l.final||dataGrade(l))return false;const lv=liveFor(l);return!(lv&&lv.state==="post")};
   return[...MY.filter(inWin),...PARLAYS.flatMap(p=>p.legs.filter(inWin))];
 }
 async function refreshLive(){
@@ -1481,6 +1483,12 @@ function addMy(lg,p,m,side,line){
   MY.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t,market:m.id,label:m.label,side,line,added:new Date().toISOString()});
   saveMy();toast(`Tracking ${side==="over"?"Over":"Under"} ${fmt(line)} ${SHORT[m.id]||m.label}`);
 }
+// a final grade from the live box score is saved with the pick, so it sticks after the game drops out of ESPN's window
+let finalSaveT=null;
+function keepFinal(e,r){
+  if(!e.final||e.final.status!==r.status||e.final.result!==r.result){e.final={status:r.status,result:r.result};clearTimeout(finalSaveT);finalSaveT=setTimeout(()=>{saveMy();saveParlays()},0)}
+  return r;
+}
 const YARD_M=new Set(["pyd","ryd","recyd","rry"]);
 function dataGrade(e){
   if(!DATA[e.lg]||!MK[e.lg])return null;
@@ -1496,12 +1504,16 @@ function gradeMy(e){
   if(start>now)return{status:"pending"};
   if(!DATA[e.lg]){ensureLeague(e.lg).then(ok=>{if(ok&&S.view==="rec")renderRecord()});return{status:"live"}}
   const dg=dataGrade(e);if(dg)return dg;
+  if(e.final)return Object.assign({},e.final);
   const lv=liveFor(e);
   if(lv){
     if(lv.state==="post"){
       // not in the box score at all: wait for the full stats (a player with no catches can be missing) before calling it void
-      if(!lv.played)return now-start>36*3600e3?{status:"void"}:{status:"live",live:null};
-      const v=lv.v;return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v,live:lv}}
+      // ESPN's football box only lists players who recorded a stat, so a receiver who played but wasn't targeted is
+      // missing: that's a 0, not a void. Void only if he was ruled out / inactive (NBA lists every player, so missing = DNP).
+      let v=lv.v;
+      if(!lv.played){const inj=injOf(e.lg,e.pid);if(e.lg==="NBA"||(inj&&OUT_ST.has(inj.s)))return keepFinal(e,{status:"void"});v=0}
+      return keepFinal(e,{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v,live:Object.assign({},lv,{v})})}
     // already decided mid-game: stats only go up, so once past the line an over has won and an under has lost
     // (yardage can dip on a loss, so yards need a 10-yard cushion)
     if(lv.played&&lv.v!=null&&lv.v>e.line+(YARD_M.has(e.market)?10:0))return{status:e.side==="over"?"win":"loss",result:lv.v,live:lv,early:true};
