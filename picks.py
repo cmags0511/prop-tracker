@@ -128,6 +128,20 @@ def market_prob(rec, line, game_t, now):
     return None  # the line is outside the strikes traded
 
 
+def market_median(rec, game_t, now):
+    """the line Kalshi traders see as 50/50 (where the ladder crosses 0.5), for this game, pre-game only"""
+    if not rec or not rec.get("k") or game_t <= now:
+        return None
+    m = re.search(r"-(\d\d)([A-Z]{3})(\d\d)", rec.get("g", ""))
+    if not m or dt.date(2000 + int(m.group(1)), MONTHS[m.group(2)], int(m.group(3))) != game_t.astimezone(dt.timezone(dt.timedelta(hours=-4))).date():
+        return None
+    k = rec["k"]
+    for (s0, p0, _), (s1, p1, _) in zip(k, k[1:]):
+        if p0 >= .5 >= p1 and p0 != p1:
+            return s0 + (s1 - s0) * (p0 - .5) / (p0 - p1)
+    return None
+
+
 def fmt(v):
     return str(int(v)) if float(v).is_integer() else f"{v:.1f}"
 
@@ -301,7 +315,20 @@ def main():
                     parts["form"] *= YARD_OVER_SHRINK[mid]
                 lin = sum(parts.values())
                 stats_over = lin >= 0
-                p_mkt = market_prob(((MKTS.get(lg) or {}).get(p["id"]) or {}).get(mid), line, game["t"], now)
+                mrec = ((MKTS.get(lg) or {}).get(p["id"]) or {}).get(mid)
+                p_mkt = market_prob(mrec, line, game["t"], now)
+                # ESPN's DraftKings lines can go stale for days; Kalshi's live market shows where the line really is
+                age_h = None
+                try:
+                    if dk.get("u"):
+                        age_h = (now - dt.datetime.fromisoformat(dk["u"].replace("Z", "+00:00"))).total_seconds() / 3600
+                except ValueError:
+                    pass
+                med = market_median(mrec, game["t"], now)
+                moved = med is not None and abs(med - line) >= max(1.5 if mid not in ("rec", "cmp", "car", "att", "ptd", "td", "sck") else 1.0, .08 * line) \
+                    and (age_h is None or age_h > 6)
+                if moved:
+                    p_mkt = None  # the price at a line that's probably gone isn't a signal
                 if p_mkt is not None:
                     pm = min(.97, max(.03, p_mkt))
                     parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm))))
@@ -317,6 +344,10 @@ def main():
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
                 lowline = mid in LOW_LINE_M and line <= 1.5
+                if moved:
+                    score *= .6   # the real line has likely moved away from this one
+                elif age_h is not None and age_h > 24:
+                    score *= .9   # unconfirmed for a day or more
                 # backups' roles swing week to week, so they rank much lower unless research says his role grew
                 backup = bool(me_dep and me_dep["role"] == "backup")
                 if backup and not (note.get("side") == ("over" if over else "under") and float(note.get("adj") or 0) >= 1):
@@ -368,6 +399,10 @@ def main():
                     why += f" He's a backup on the depth chart ({me_dep['slot']}), so his role can swing a lot."
                 elif me_dep and me_dep.get("moved_up"):
                     why += " He moves into the starting lineup because the player ahead of him is ruled out."
+                if moved:
+                    why += (f" Heads up: this DraftKings line hasn't updated in {age_h / 24:.0f} day{'s' if age_h >= 36 else ''} and Kalshi's market"
+                            f" centers near {fmt(round(med * 2) / 2)}, so the live line has probably moved." if age_h else
+                            f" Heads up: Kalshi's market centers near {fmt(round(med * 2) / 2)}, so check the live line.")
                 if p_mkt is not None:
                     why += f" Kalshi traders put the {'over' if over else 'under'} at {round((p_mkt if over else 1 - p_mkt) * 100)}%."
                 if lg == "NBA" and abs(mtr) >= .08:
@@ -387,6 +422,7 @@ def main():
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
                     "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
+                    "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,
                     "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,
                 })
     slate.sort(key=lambda s: (s["t"], -s["score"]))

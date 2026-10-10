@@ -86,7 +86,8 @@ real late concern, and leave everything else as it is. Then `python picks.py pic
 > - **script**: how spread, total, pace and game plan shape his volume.
 > - **conditions**: weather, wind, rest, travel.
 > - **market**: Kalshi vs the 52.4% break-even of a -110 bet, line moves, consensus. If Kalshi is under
->   45% for the side you like, find out why.
+>   45% for the side you like, find out why. If the line quoted in current previews differs from the packet's
+>   `line` (ESPN's DraftKings feed can lag a day or more), say so and give the current number.
 > - **experts**: what credible previews say and why, in your own words.
 > **Team news flows to every prop it touches.** When a game-level finding changes a team's outlook (a
 > QB change or limited QB, a top receiver or back out or questionable, offensive-line injuries, a new
