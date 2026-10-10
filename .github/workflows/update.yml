@@ -49,7 +49,7 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
       - name: Lock and grade the app's Top 10
-        run: python record.py record.json
+        run: python record.py record.json && python tune.py tuning.json
         continue-on-error: true
       - name: Commit if changed
         run: |
