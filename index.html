@@ -1110,7 +1110,7 @@ function renderRecord(){
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill live" title="Game under way">Live</span>'};
   if(P.length){
     html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = didn't play · open picks can be removed until kickoff</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"?sweatHtml(e):""}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   }
   html+=`<p class="note">Picks are saved in this browser on this device (or in the installed app), not in an account. Units assume 1 unit per pick at -110; real prices vary. Not betting advice.</p>`;
   el.innerHTML=html;
@@ -1145,7 +1145,7 @@ function renderParlayRecord(){
   html+=G.map(g=>{const d=new Date(g.pl.legs[0].t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const price=g.pl.odds!=null?(g.pl.odds>0?"+":"")+g.pl.odds:decToAm(Math.pow(LEGDEC,g.legs.length))+" est.";
     return`<section class="board pcard ${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
-      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"?sweatHtml(x):""}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
+      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"||x.early?sweatHtml(x):""}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
   html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
   el.innerHTML=html;
 }
@@ -1180,7 +1180,9 @@ function liveValue(mid,o){
   return{rry:g("ryd")+g("recyd"),td:g("rtd")+g("rectd"),kpts:3*g("fgm")+g("pat"),pra:g("pts")+g("reb")+g("ast"),pr:g("pts")+g("reb"),pa:g("pts")+g("ast"),ra:g("reb")+g("ast")}[mid]??g(mid);
 }
 function liveItems(){
-  const now=Date.now(),inWin=l=>{const t=new Date(l.t).getTime();return t<=now+5*60e3&&now-t<8*3600e3};
+  // games underway now, plus finished games from the last 3 days the nightly stats haven't graded yet
+  const now=Date.now(),inWin=l=>{const t=new Date(l.t).getTime();if(t>now+5*60e3)return false;if(now-t<8*3600e3)return true;
+    if(now-t>3*864e5||dataGrade(l))return false;const lv=liveFor(l);return!(lv&&lv.state==="post")};
   return[...MY.filter(inWin),...PARLAYS.flatMap(p=>p.legs.filter(inWin))];
 }
 async function refreshLive(){
@@ -1197,6 +1199,7 @@ async function refreshLive(){
         const abbrs=c.competitors.map(x=>x.team.abbreviation);
         const mine=[...teams].filter(t=>abbrs.includes((ESPN_TEAM[lg]||{})[t]||t));
         if(!mine.length||c.status.type.state==="pre")continue;
+        if(mine.every(t=>{const o=LIVE_EV[lg+"|"+t+"|"+d];return o&&o.state==="post"}))continue; // final box already loaded
         const sum=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${ESPN_PATH[lg]}/summary?event=${ev.id}`).then(r=>r.json()).catch(()=>null);
         if(!sum)continue;
         const box=parseBox(lg,sum),st=c.status.type;
@@ -1478,19 +1481,30 @@ function addMy(lg,p,m,side,line){
   MY.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t,market:m.id,label:m.label,side,line,added:new Date().toISOString()});
   saveMy();toast(`Tracking ${side==="over"?"Over":"Under"} ${fmt(line)} ${SHORT[m.id]||m.label}`);
 }
+const YARD_M=new Set(["pyd","ryd","recyd","rry"]);
+function dataGrade(e){
+  if(!DATA[e.lg]||!MK[e.lg])return null;
+  const p=DATA[e.lg].find(x=>x.id===e.pid),m=MK[e.lg].find(x=>x.id===e.market);
+  if(!p||!m)return null;
+  const day=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
+  const g=(p.games||[]).find(x=>x.opp===e.opp&&Math.abs((new Date(x.date)-new Date(day))/864e5)<=1);
+  if(!g)return null;
+  const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v};
+}
 function gradeMy(e){
   const start=new Date(e.t).getTime(),now=Date.now();
   if(start>now)return{status:"pending"};
   if(!DATA[e.lg]){ensureLeague(e.lg).then(ok=>{if(ok&&S.view==="rec")renderRecord()});return{status:"live"}}
-  const p=DATA[e.lg].find(x=>x.id===e.pid),m=MK[e.lg].find(x=>x.id===e.market);
-  if(p&&m){
-    const day=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
-    const g=p.games.find(x=>x.opp===e.opp&&Math.abs((new Date(x.date)-new Date(day))/864e5)<=1);
-    if(g){const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v}}
-  }
+  const dg=dataGrade(e);if(dg)return dg;
   const lv=liveFor(e);
   if(lv){
-    if(lv.state==="post"){if(!lv.played)return{status:"void"};const v=lv.v;return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v,live:lv}}
+    if(lv.state==="post"){
+      // not in the box score at all: wait for the full stats (a player with no catches can be missing) before calling it void
+      if(!lv.played)return now-start>36*3600e3?{status:"void"}:{status:"live",live:null};
+      const v=lv.v;return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v,live:lv}}
+    // already decided mid-game: stats only go up, so once past the line an over has won and an under has lost
+    // (yardage can dip on a loss, so yards need a 10-yard cushion)
+    if(lv.played&&lv.v!=null&&lv.v>e.line+(YARD_M.has(e.market)?10:0))return{status:e.side==="over"?"win":"loss",result:lv.v,live:lv,early:true};
     return{status:"live",result:lv.v,live:lv};
   }
   return{status:now-start>3*864e5?"void":"live"};
