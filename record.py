@@ -19,6 +19,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
 TOP = 10
 CALIB = "calib.json"
+CLOSE = "closing.json"
 
 
 def load(path, default):
@@ -96,11 +97,16 @@ def main():
             if e["lg"] == lg and e["status"] == "pending" and start(e) > now and k not in cur:
                 del entries[k]
         for k, (c, sets) in cur.items():
+            old = entries.get(k) or {}
+            # the line when the app first listed it (resets if it flips sides): compared with the closing line,
+            # it shows whether the app gets in before the market moves
+            first = old.get("line0") if old.get("side") == c["side"] and old.get("line0") is not None else c["line"]
             entries[k] = {
                 "key": c["key"], "lg": lg, "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                 "home": c["home"], "t": c["t"], "market": c["market"], "label": c["label"], "side": c["side"],
                 "line": c["line"], "score": c["score"], "l10": c["l10"], "sets": sets, "status": "pending", "result": None,
                 "factors": c.get("factors"), "prob": c.get("prob"),  # why it was picked, so tune.py can learn
+                "line0": first, "t0": old.get("t0") if first == old.get("line0") and old.get("t0") else now.isoformat(timespec="minutes"),
             }
 
     # 1b. the research check's Best bet: keep the current one until its game starts, then it's locked
@@ -205,6 +211,55 @@ def main():
     for e in list(entries.values()) + list(best.values()) + list(research.values()):
         if e["status"] == "pending" and start(e) <= now:
             grade(e)
+
+    # 2b. closing lines: the last line seen before kickoff for every prop (hourly), so the app can show whether a
+    #     pick beat the close. closing.json: {"NFL": {"<player id>|<prop>|<ET game date>": line}}, kept 30 days.
+    close = load(CLOSE, {})
+    rev = {lg: {v: k for k, v in m.items()} for lg, m in espn.items()}
+    try:
+        lines = json.load(open("lines.json"))
+    except Exception:
+        lines = {}
+    try:
+        odds = json.load(open("odds.json")).get("props", {})
+    except Exception:
+        odds = {}
+    def put(lg, pid, mid, t, line):
+        if line is None or not t:
+            return
+        gt = dt.datetime.fromisoformat(t.replace("Z", "+00:00"))
+        if gt <= now:
+            return  # after kickoff the closing line is frozen
+        close.setdefault(lg, {})[f"{pid}|{mid}|{gt.astimezone(ET).date()}"] = [line, gt.isoformat(timespec="minutes")]
+        got.add(f"{lg}|{pid}|{mid}")
+    got = set()
+    for lg in ("NFL", "NBA", "CFB"):
+        for eid, mk in (lines.get(lg) or {}).items():
+            pid = rev.get(lg, {}).get(str(eid), str(eid) if lg == "CFB" else None)
+            if not pid:
+                continue
+            for mid, d in mk.items():
+                if isinstance(d, dict):
+                    put(lg, pid, mid, d.get("d"), d.get("line"))
+    for k, o in odds.items():  # direct sportsbook quotes win when they're fresh
+        lg, pid, mid = k.split("|")
+        try:
+            fresh = now - dt.datetime.fromisoformat(o["t"].replace("Z", "+00:00")) < dt.timedelta(hours=14)
+        except Exception:
+            fresh = False
+        if fresh:
+            put(lg, pid, mid, o.get("game_t"), o.get("line"))
+    if notes.get("cfb_lines"):  # college lines found by the research
+        for k, v in notes["cfb_lines"].items():
+            lg, pid, mid = k.split("|")
+            if k not in got:
+                put("CFB", pid, mid, v.get("t"), v.get("line"))
+    old_cut = now - dt.timedelta(days=30)
+    for lg in list(close):
+        if isinstance(close[lg], dict):
+            close[lg] = {k: v for k, v in close[lg].items() if dt.datetime.fromisoformat(v[1]) >= old_cut}
+    close["updated"] = now.isoformat(timespec="minutes")
+    json.dump(close, open(CLOSE, "w"), separators=(",", ":"))
 
     # 3. probability check: every prop on the slate (not just the Top 10), with the app's chance for the side it
     #    leans and Kalshi's chance for that side, locked at kickoff and graded. Kept in calib.json for 60 days;

@@ -332,6 +332,10 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .calib .cbtick{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--ink);border-radius:1px}
 .calib .cbmid{position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed var(--line2)}
 .cbtk{width:2px;height:12px;background:var(--ink);display:inline-block;border-radius:1px}
+.clv{display:inline-block;margin-top:4px;font:600 11px var(--f-mono);padding:1px 7px;border-radius:999px;background:var(--bg);color:var(--ink2);border:1px solid var(--line)}
+.clv.good{background:var(--hit-soft);color:var(--hit);border-color:transparent}.clv.bad{background:var(--miss-soft);color:var(--miss);border-color:transparent}
+.clvsum{border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--ink);display:flex;flex-direction:column;gap:3px}
+.clvsum b.good{color:var(--hit)}.clvsum b.bad{color:var(--miss)}.clvsum .pteam{font-size:12px}
 .learn h4{margin:0 0 6px}.learn ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;color:var(--ink2)}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
@@ -672,6 +676,7 @@ const LEAGUES=["NFL","NBA","CFB"];
 const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
+let CLOSE=null;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, TUNE=null, shown=PAGE;
 const amFmt=v=>v==null?"":(v>0?"+":"")+v;
 // how long ago ESPN last saw this DraftKings line change; flag it when it's old
@@ -1102,6 +1107,7 @@ function renderAppRecord(){
     <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick at -110</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
   // what the app has learned from graded results (tune.py)
+  html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
   html+=calibHtml();
   if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
@@ -1152,7 +1158,7 @@ function renderRecord(){
       <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
       <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?u(T.units):"–"}</div><div class="s">1u per pick at -110</div></div>
       <div><div class="k">Open</div><div class="v">${pend.length}</div><div class="s">awaiting results</div></div>
-    </div>`;
+    </div>${clvSummary(P,"You")}`;
   if(done.length>=2){
     const table=(title,groups)=>{groups=groups.filter(g=>g[1].length);if(!groups.length)return"";return`<div><h4>${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${groups.map(([lab,a])=>{const t=tally(a);return`<tr><td>${lab}</td><td class="num mono">${wl(t)}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?u(t.units):"–"}</td></tr>`}).join("")}</tbody></table></div></div>`};
     const by=f=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
@@ -1165,7 +1171,7 @@ function renderRecord(){
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill live" title="Game under way">Live</span>'};
   if(P.length){
     html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = didn't play · open picks can be removed until kickoff</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}${clvChip(e)}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   }
   html+=`<p class="note">Picks are saved in this browser on this device (or in the installed app), not in an account. Units assume 1 unit per pick at -110; real prices vary. Not betting advice.</p>`;
   el.innerHTML=html;
@@ -1190,7 +1196,7 @@ function renderParlayRecord(){
       <div><div class="k">Parlays hit</div><div class="v">${pct(w+l?w/(w+l):null)}</div><div class="s">legs hit ${pct(legHit)}</div></div>
       <div><div class="k">Units</div><div class="v" style="color:${done.length?units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${done.length?u(units):"–"}</div><div class="s">1u per parlay</div></div>
       <div><div class="k">Open</div><div class="v">${open.length}</div><div class="s">awaiting results</div></div>
-    </div>`;
+    </div>${clvSummary(G.flatMap(g=>g.legs),"Your parlay legs")}`;
   if(done.length>=2){
     const grp={};done.forEach(g=>{const k=g.legs.length>=5?"5+ legs":g.legs.length+" legs";(grp[k]=grp[k]||[]).push(g)});
     html+=`<div class="rsplit"><div><h4>By size</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Units</th></tr></thead><tbody>${Object.entries(grp).sort().map(([k,a])=>{const W=a.filter(g=>g.status==="win").length,L=a.filter(g=>g.status==="loss").length,U=a.reduce((x,g)=>x+g.units,0);return`<tr><td>${k}</td><td class="num mono">${W}-${L}</td><td class="num mono">${u(U)}</td></tr>`}).join("")}</tbody></table></div></div></div>`;
@@ -1200,7 +1206,7 @@ function renderParlayRecord(){
   html+=G.map(g=>{const d=new Date(g.pl.legs[0].t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const price=g.pl.odds!=null?(g.pl.odds>0?"+":"")+g.pl.odds:decToAm(Math.pow(LEGDEC,g.legs.length))+" est.";
     return`<section class="board pcard ${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
-      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"||x.early?sweatHtml(x):""}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
+      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"||x.early?sweatHtml(x):""}${clvChip(x)}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
   html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
   el.innerHTML=html;
 }
@@ -1543,6 +1549,27 @@ let finalSaveT=null;
 function keepFinal(e,r){
   if(!e.final||e.final.status!==r.status||e.final.result!==r.result){e.final={status:r.status,result:r.result};clearTimeout(finalSaveT);finalSaveT=setTimeout(()=>{saveMy();saveParlays()},0)}
   return r;
+}
+// ---- Closing line value: did you get a better number than the line at kickoff? ----
+// closing.json holds the last line seen before kickoff (checked hourly); before kickoff it's the latest line.
+const etDay=t=>new Date(t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
+function clvOf(e,lineKey="line"){
+  const bet=e[lineKey];if(bet==null||e.market==="td"||!CLOSE||!CLOSE[e.lg])return null;
+  const v=CLOSE[e.lg][`${e.pid||e.id}|${e.market}|${etDay(e.t)}`];if(!v)return null;
+  const close=v[0],d=e.side==="over"?close-bet:bet-close;
+  return{close,d:Math.round(d*10)/10,pct:bet?d/Math.max(bet,1):0,final:new Date(e.t).getTime()<=Date.now()};
+}
+function clvChip(e){
+  const c=clvOf(e);if(!c)return"";
+  if(!c.final){if(c.d===0)return"";return`<span class="clv ${c.d>0?"good":"bad"}" title="DraftKings has moved to ${fmt(c.close)} since you tracked ${fmt(e.line)}">Line now ${fmt(c.close)} · ${c.d>0?"+":"−"}${fmt(Math.abs(c.d))} for you</span>`}
+  return c.d===0?`<span class="clv" title="The line at kickoff was the same as yours">Matched close</span>`:`<span class="clv ${c.d>0?"good":"bad"}" title="Line at kickoff: ${fmt(c.close)}. You had ${fmt(e.line)}.">${c.d>0?"Beat close by "+fmt(c.d):"Close "+fmt(c.close)+" (−"+fmt(Math.abs(c.d))+")"}</span>`;
+}
+function clvSummary(list,who){
+  const cs=list.map(e=>clvOf(e)).filter(c=>c&&c.final);if(!cs.length)return"";
+  const beat=cs.filter(c=>c.d>0).length,worse=cs.filter(c=>c.d<0).length,same=cs.length-beat-worse;
+  const rate=beat+worse?beat/(beat+worse):null;
+  return`<div class="clvsum"><b>Closing line value</b><span>${who} beat the kickoff line on <b class="${rate==null?"":rate>=.5?"good":"bad"}">${beat} of ${cs.length}</b> pick${cs.length===1?"":"s"}${same?`, matched it on ${same}`:""}${worse?`, worse on ${worse}`:""}.</span>
+    <span class="pteam">Getting a better number than kickoff is the best early sign your picks have an edge, long before wins and losses settle down.</span></div>`;
 }
 const YARD_M=new Set(["pyd","ryd","recyd","rry"]);
 function dataGrade(e){
@@ -1908,10 +1935,10 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json"),closeLoad=jget("closing.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;CLOSE=await closeLoad;
   // current team from ESPN's depth charts (trades and signings since his last game)
   try{if(CTX&&CTX.depth)for(const lg of ["NFL","NBA"])if(DATA[lg]&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3)for(const p of DATA[lg]){const d=(CTX.depth[lg]||{})[String(p.espn||p.id)];if(d&&d.t&&d.t!==p.team)p.team=d.t}}catch(e){}
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)
