@@ -639,7 +639,7 @@ const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, shown=PAGE;
 // how long ago ESPN last saw this DraftKings line change; flag it when it's old
 function lineAge(dk){
-  if(!dk||!dk.u)return"";const h=(Date.now()-new Date(dk.u).getTime())/3600e3;if(!(h>=0))return"";
+  if(!dk||!dk.u)return"";let h=(Date.now()-new Date(dk.u).getTime())/3600e3;if(isNaN(h))return"";h=Math.max(0,h); // ESPN sometimes stamps a few hours ahead
   const txt=h<1?"updated this hour":h<24?`updated ${Math.round(h)}h ago`:`updated ${Math.round(h/24)}d ago`;
   return`<span class="mv${h>24?" old":""}" title="When ESPN's DraftKings feed last changed this line. Lines that haven't changed in a day or more may differ from the live DraftKings number.">${txt}</span>`;
 }
