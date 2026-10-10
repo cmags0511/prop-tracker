@@ -43,7 +43,7 @@ jobs:
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add $(ls lines.json markets.json odds.json picks.json slate.json record.json 2>/dev/null)
+          git add $(ls lines.json markets.json odds.json picks.json slate.json record.json calib.json 2>/dev/null)
           git diff --cached --quiet || git commit -m "Refresh lines $(date -u +'%Y-%m-%d %H:%M UTC')"
           git pull --rebase -X theirs origin main || true
           git push

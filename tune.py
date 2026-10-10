@@ -34,6 +34,20 @@ def shrunk(w, l):
     return (w + PRIOR * BE) / (w + l + PRIOR)
 
 
+CAL_EDGES = [.5, .55, .6, .65, .7, 1.01]
+
+
+def buckets(rows, key):
+    """[[low, high, graded, average predicted chance, actual hit rate], ...] for each chance band with any picks"""
+    res = []
+    for lo, hi in zip(CAL_EDGES, CAL_EDGES[1:]):
+        b = [e for e in rows if lo <= (e.get(key) or 0) < hi]
+        if b:
+            res.append([lo, min(hi, 1), len(b), round(sum(e[key] for e in b) / len(b), 3),
+                        round(sum(e["status"] == "win" for e in b) / len(b), 3)])
+    return res
+
+
 def main():
     try:
         rec = json.load(open("record.json"))
@@ -80,6 +94,14 @@ def main():
             out["research_conf"][c] = mult
             out["notes"].append(f"{c.capitalize()}-confidence research calls are {sum(res)}-{len(res) - sum(res)}: "
                                 f"their weight goes from {base} to {mult}")
+    # 4. probability check: when the app says 60%, does it hit about 60%? (every slate prop, plus Kalshi's own odds)
+    try:
+        cal = [e for e in json.load(open("calib.json")).get("props", []) if e.get("status") in ("win", "loss")]
+    except Exception:
+        cal = []
+    out["calib"] = {"n": len(cal), "since": min((e["t"][:10] for e in cal), default=None),
+                    "app": buckets(cal, "prob"), "kalshi": buckets([e for e in cal if e.get("kal") is not None], "kal"),
+                    "top": buckets([e for e in picks if e.get("prob") is not None], "prob")}
     json.dump(out, open(OUT, "w"), indent=1)
     print(f"wrote {OUT}: {len(picks)} graded picks, {len(research)} graded research calls, {len(out['notes'])} adjustments")
     for n in out["notes"]:

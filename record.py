@@ -18,6 +18,7 @@ from picks import stat, OUT_STATUS
 OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
 TOP = 10
+CALIB = "calib.json"
 
 
 def load(path, default):
@@ -169,9 +170,7 @@ def main():
                     return True
         return False
 
-    for e in list(entries.values()) + list(best.values()) + list(research.values()):
-        if e["status"] != "pending" or start(e) > now:
-            continue
+    def grade(e):
         p = players.get(e["lg"], {}).get(e["id"])
         day = start(e).astimezone(ET).date()
         g = None
@@ -192,7 +191,7 @@ def main():
             # stats usually land by the next morning; after 3 days assume he didn't play
             if now - start(e) > dt.timedelta(days=3):
                 e["status"] = "void"
-            continue
+            return
         v = stat(g, e["market"])
         e["result"] = v
         if v == e["line"]:
@@ -202,6 +201,34 @@ def main():
         else:
             e["status"] = "loss"
         e["graded"] = now.isoformat(timespec="minutes")
+
+    for e in list(entries.values()) + list(best.values()) + list(research.values()):
+        if e["status"] == "pending" and start(e) <= now:
+            grade(e)
+
+    # 3. probability check: every prop on the slate (not just the Top 10), with the app's chance for the side it
+    #    leans and Kalshi's chance for that side, locked at kickoff and graded. Kept in calib.json for 60 days;
+    #    tune.py turns it into the "Probability check" chart.
+    calib = load(CALIB, {"props": []})
+    ckeys = {(c["key"], c["t"]): c for c in calib["props"]}
+    for s in load("slate.json", {}).get("props", []):
+        if s.get("p_over") is None or not s.get("id") or start(s) <= now:
+            continue
+        po, ko = s["p_over"], s.get("market_over")
+        over = po >= .5
+        ckeys[(s["key"], s["t"])] = {"key": s["key"], "lg": s["lg"], "id": s["id"], "team": s["team"], "opp": s["opp"],
+                                     "t": s["t"], "market": s["market"], "line": s["line"], "side": "over" if over else "under",
+                                     "prob": po if over else round(1 - po, 3),
+                                     "kal": None if ko is None else (ko if over else round(1 - ko, 3)),
+                                     "status": "pending", "result": None}
+    keep = now - dt.timedelta(days=60)
+    for c in ckeys.values():
+        if c["status"] == "pending" and start(c) <= now:
+            grade(c)
+    calib["props"] = sorted((c for c in ckeys.values() if start(c) >= keep and c["status"] != "void"
+                             and not (c["status"] == "pending" and now - start(c) > dt.timedelta(days=4))), key=lambda c: c["t"])
+    calib["updated"] = now.isoformat(timespec="minutes")
+    json.dump(calib, open(CALIB, "w"), separators=(",", ":"))
 
     rec["picks"] = sorted(entries.values(), key=lambda e: (e["t"], -e["score"]))
     rec["best"] = sorted(best.values(), key=lambda e: e["t"])

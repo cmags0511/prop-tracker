@@ -408,7 +408,7 @@ def main():
                 if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
                     score *= .85
                 parts["research"] = r_over
-                slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "name": p["n"], "team": p["t"], "pos": p.get("p"),
+                slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "p_over": round(prob, 3), "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
                               "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
