@@ -133,6 +133,11 @@ def main():
     cfb = load("cfb_data.json")
     if cfb:
         data["CFB"] = cfb
+    for lg in ("NFL", "NBA"):  # current team from ESPN's depth charts (trades/signings since his last game)
+        for pl in (data.get(lg) or {}).get("players", []):
+            d = ((ctx.get("depth") or {}).get(lg) or {}).get(str(pl.get("e") or pl["id"]))
+            if d and d.get("t"):
+                pl["t"] = d["t"]
     tg = targets(slate, picks, now)
     games = {}
     for p in slate:

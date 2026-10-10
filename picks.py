@@ -177,6 +177,12 @@ def main():
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
     except Exception:
         ODDS = {}
+    try:  # what the graded results have taught (tune.py): prop-type, factor and research-confidence weights
+        TUNE = json.load(open("tuning.json"))
+    except Exception:
+        TUNE = {}
+    FXM, MKM = TUNE.get("factors") or {}, TUNE.get("market") or {}
+    CONF = {"low": .6, "medium": 1.0, "high": 1.2, **(TUNE.get("research_conf") or {})}
     try:  # Kalshi prediction-market prices (fetch_markets.py); stale prices are ignored
         MKTS = json.load(open("markets.json"))
         if now - dt.datetime.fromisoformat(MKTS["fetched"]) > dt.timedelta(hours=8):
@@ -197,6 +203,16 @@ def main():
                     L.setdefault(pid, {})[mid] = {"line": v["line"], "open": None, "d": v["t"], "book": v.get("book")}
         meta = data[lg]
         cols = meta["cols"]
+        # a player's team comes from his last box score; after a trade or signing (or before his new team's
+        # first game) that's stale, so use the team ESPN's current depth chart lists him on
+        try:
+            if now - dt.datetime.fromisoformat((ctx.get("fetched") or {}).get(lg) or ctx["built"]) < dt.timedelta(hours=30):
+                for pl in meta["players"]:
+                    d = ((ctx.get("depth") or {}).get(lg) or {}).get(str(pl.get("e") or pl["id"]))
+                    if d and d.get("t") and d["t"] != pl["t"]:
+                        pl["t"] = d["t"]
+        except Exception:
+            pass
         allowed = allowed_tables(meta["players"], cols, lg)
         team_last = {}
         for pl in meta["players"]:
@@ -296,7 +312,8 @@ def main():
                     tsp = game["spread"] if home else -game["spread"]
                     tot = (game["total"] / 2 - tsp / 2 - (22.5 if lg == "NFL" else 28)) / 4
                 mtr = 0.0
-                if lg == "NBA" and len(games) >= 8:
+                # a minutes trend from last season's final weeks (rest days, tanking) says nothing about opening week
+                if lg == "NBA" and len(games) >= 8 and (now.date() - dt.date.fromisoformat(games[-1]["date"])).days <= 30:
                     mins = [g["min"] for g in games]
                     base15 = sum(mins[-15:]) / len(mins[-15:])
                     mtr = max(-.5, min(.5, (sum(mins[-3:]) / 3 - base15) / max(base15, 10)))
@@ -323,6 +340,9 @@ def main():
                 weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
+                for f, mlt in FXM.items():
+                    if f in parts:
+                        parts[f] *= mlt
                 if mid in YARD_OVER_SHRINK and sum(parts.values()) > 0:
                     parts["form"] *= YARD_OVER_SHRINK[mid]
                 lin = sum(parts.values())
@@ -343,10 +363,10 @@ def main():
                     p_mkt = None  # the price at a line that's probably gone isn't a signal
                 if p_mkt is not None:
                     pm = min(.97, max(.03, p_mkt))
-                    parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm))))
+                    parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm)))) * FXM.get("market", 1)
                     lin += parts["market"]
                 # the researcher's confidence in the evidence scales how much the research moves the pick
-                conf = {"low": .6, "medium": 1.0, "high": 1.2}.get(note.get("conf"), 1.0)
+                conf = CONF.get(note.get("conf"), 1.0) * FXM.get("research", 1)
                 adj = conf * (RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0))))
                 # research is written for a side: the one it names ("side"), else the side the stats lean to
                 r_side_over = note["side"] == "over" if note.get("side") in ("over", "under") else stats_over
@@ -355,6 +375,7 @@ def main():
                 over = lin >= 0
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
+                score *= MKM.get(f"{lg}|{mid}|{'over' if over else 'under'}", 1)  # learned from graded results
                 lowline = mid in LOW_LINE_M and line <= 1.5
                 if moved:
                     score *= .6   # the real line has likely moved away from this one

@@ -300,6 +300,23 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .tdpicks h3 .pteam{font:500 12px var(--f-body);letter-spacing:0;text-transform:none}
 .mv.old{color:var(--miss)}
 .px{font:600 12px var(--f-mono);color:var(--ink);background:var(--line);border-radius:6px;padding:2px 7px}
+.pill.live{background:#e11d48;color:#fff;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+.sweat{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:12px;flex-wrap:wrap}
+.sbar{position:relative;flex:1 1 120px;min-width:100px;height:8px;border-radius:99px;background:var(--line);overflow:visible}
+.sbar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--muted)}
+.sweat.ok .sbar i{background:var(--hit)}.sweat.bad .sbar i{background:var(--miss)}
+.sbar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);transform:translateX(-1px)}
+.sweat .mono{font-weight:700}
+#livecnt{display:inline-block;width:8px;height:8px;margin-left:5px;border-radius:50%;background:#e11d48;vertical-align:middle;animation:pulse 1.6s ease-in-out infinite}
+#livecnt[hidden]{display:none}
+.pinsight{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;font-size:13px;background:var(--bg)}
+.pinsight p{margin:0}
+.pnote.good{color:var(--hit)}.pnote.bad{color:var(--miss)}
+.stack{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px dashed var(--accent);border-radius:8px;padding:10px 12px;font-size:13px;background:var(--accent-soft)}
+@media (max-width:600px){.stack{flex-direction:column;align-items:flex-start}}
+.learn{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;background:var(--bg)}
+.learn h4{margin:0 0 6px}.learn ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;color:var(--ink2)}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
 .topsub{margin:2px 0 0;color:var(--muted);font-size:12px}
@@ -563,7 +580,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
-      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">My picks<span class="cnt" id="mycnt" hidden></span></button>
+      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">My picks<span class="cnt" id="mycnt" hidden></span><span id="livecnt" hidden></span></button>
     </div>
   </div>
 </div>
@@ -637,7 +654,7 @@ const LEAGUES=["NFL","NBA","CFB"];
 const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, shown=PAGE;
+let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, TUNE=null, shown=PAGE;
 const amFmt=v=>v==null?"":(v>0?"+":"")+v;
 // how long ago ESPN last saw this DraftKings line change; flag it when it's old
 function lineAge(dk){
@@ -1030,6 +1047,8 @@ function renderAppRecord(){
     <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
     <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick at -110</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
+  // what the app has learned from graded results (tune.py)
+  if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
   {const R=((RECORD&&RECORD.research)||[]).filter(e=>lgf==="all"||e.lg===lgf),Rd=R.filter(e=>["win","loss","push"].includes(e.status));
    if(R.length){const row=(lab,a)=>{const t=appTally(a);return`<tr><td>${lab}</td><td class="num mono">${wl(t)}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?unitsTxt(t.units):"\u2013"}</td></tr>`};
@@ -1088,10 +1107,10 @@ function renderRecord(){
   html+=`</section>`;
   const days={};
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill p" title="Waiting for the box score">Grading</span>'};
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill live" title="Game under way">Live</span>'};
   if(P.length){
     html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = didn't play · open picks can be removed until kickoff</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"?sweatHtml(e):""}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   }
   html+=`<p class="note">Picks are saved in this browser on this device (or in the installed app), not in an account. Units assume 1 unit per pick at -110; real prices vary. Not betting advice.</p>`;
   el.innerHTML=html;
@@ -1126,9 +1145,82 @@ function renderParlayRecord(){
   html+=G.map(g=>{const d=new Date(g.pl.legs[0].t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const price=g.pl.odds!=null?(g.pl.odds>0?"+":"")+g.pl.odds:decToAm(Math.pow(LEGDEC,g.legs.length))+" est.";
     return`<section class="board pcard ${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
-      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div></td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
+      <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"?sweatHtml(x):""}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
   html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
   el.innerHTML=html;
+}
+
+
+// ---- Live sweat: ESPN's live box scores, read in the browser, for picks whose games are under way ----
+const LIVE={},LIVE_EV={};let liveTimer=null,liveBusy=false;
+const ESPN_PATH={NFL:"football/nfl",NBA:"basketball/nba",CFB:"football/college-football"};
+const ESPN_TEAM={NFL:{LA:"LAR",WAS:"WSH"}};
+const liveNum=v=>{const n=parseFloat(v);return isNaN(n)?0:n};
+function parseBox(lg,sum){
+  const out={};
+  for(const t of (sum.boxscore&&sum.boxscore.players)||[])for(const cat of t.statistics||[]){
+    const keys=cat.keys||[];
+    for(const a of cat.athletes||[]){
+      const id=a.athlete&&a.athlete.id;if(!id)continue;const st={};keys.forEach((k,i)=>st[k]=(a.stats||[])[i]);
+      const o=out[id]=out[id]||{};
+      if(lg==="NBA"){o.min=liveNum(st.minutes);o.pts=liveNum(st.points);o.reb=liveNum(st.rebounds);o.ast=liveNum(st.assists);o["3pm"]=liveNum((st["threePointFieldGoalsMade-threePointFieldGoalsAttempted"]||"0").split("-")[0]);continue}
+      const n=cat.name;
+      if(n==="passing"){const c=(st["completions/passingAttempts"]||"0/0").split("/");o.cmp=liveNum(c[0]);o.att=liveNum(c[1]);o.pyd=liveNum(st.passingYards);o.ptd=liveNum(st.passingTouchdowns)}
+      else if(n==="rushing"){o.car=liveNum(st.rushingAttempts);o.ryd=liveNum(st.rushingYards);o.rtd=liveNum(st.rushingTouchdowns)}
+      else if(n==="receiving"){o.rec=liveNum(st.receptions);o.recyd=liveNum(st.receivingYards);o.rectd=liveNum(st.receivingTouchdowns)}
+      else if(n==="defensive"){o.tkl=liveNum(st.totalTackles);o.sck=liveNum(st.sacks)}
+      else if(n==="interceptions"){o.dint=liveNum(st.interceptions)}
+      else if(n==="kicking"){o.fgm=liveNum((st["fieldGoalsMade/fieldGoalAttempts"]||"0/0").split("/")[0]);o.pat=liveNum((st["extraPointsMade/extraPointAttempts"]||"0/0").split("/")[0])}
+    }
+  }
+  return out;
+}
+function liveValue(mid,o){
+  if(!o)return 0;const g=k=>o[k]||0;
+  return{rry:g("ryd")+g("recyd"),td:g("rtd")+g("rectd"),kpts:3*g("fgm")+g("pat"),pra:g("pts")+g("reb")+g("ast"),pr:g("pts")+g("reb"),pa:g("pts")+g("ast"),ra:g("reb")+g("ast")}[mid]??g(mid);
+}
+function liveItems(){
+  const now=Date.now(),inWin=l=>{const t=new Date(l.t).getTime();return t<=now+5*60e3&&now-t<8*3600e3};
+  return[...MY.filter(inWin),...PARLAYS.flatMap(p=>p.legs.filter(inWin))];
+}
+async function refreshLive(){
+  if(liveBusy)return;const items=liveItems();if(!items.length){stopLive();return}
+  liveBusy=true;
+  try{
+    const days={};
+    for(const l of items){const d=new Date(l.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");(days[l.lg+"|"+d]=days[l.lg+"|"+d]||new Set()).add(l.team)}
+    for(const[k,teams]of Object.entries(days)){
+      const[lg,d]=k.split("|");
+      const sb=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${ESPN_PATH[lg]}/scoreboard?dates=${d}${lg==="CFB"?"&groups=80&limit=400":""}`).then(r=>r.json()).catch(()=>null);
+      for(const ev of (sb&&sb.events)||[]){
+        const c=ev.competitions&&ev.competitions[0];if(!c)continue;
+        const abbrs=c.competitors.map(x=>x.team.abbreviation);
+        const mine=[...teams].filter(t=>abbrs.includes((ESPN_TEAM[lg]||{})[t]||t));
+        if(!mine.length||c.status.type.state==="pre")continue;
+        const sum=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${ESPN_PATH[lg]}/summary?event=${ev.id}`).then(r=>r.json()).catch(()=>null);
+        if(!sum)continue;
+        const box=parseBox(lg,sum),st=c.status.type;
+        for(const t of mine)LIVE_EV[lg+"|"+t+"|"+d]={state:st.state,detail:st.shortDetail||st.detail||"",box,at:Date.now()};
+      }
+    }
+  }finally{liveBusy=false}
+  if(S.view==="rec")renderRecord();
+  updLiveChip();
+}
+function liveFor(e){
+  const d=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");
+  const ev=LIVE_EV[e.lg+"|"+e.team+"|"+d];if(!ev)return null;
+  const p=DATA[e.lg]&&DATA[e.lg].find(x=>x.id===e.pid),aid=p?String(p.espn||p.id):String(e.pid);
+  return{state:ev.state,detail:ev.detail,v:liveValue(e.market,ev.box[aid]),played:!!ev.box[aid]};
+}
+function startLive(){if(liveTimer||!liveItems().length)return;refreshLive();liveTimer=setInterval(()=>{if(!document.hidden)refreshLive()},60e3)}
+function stopLive(){if(liveTimer){clearInterval(liveTimer);liveTimer=null}updLiveChip()}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&liveTimer)refreshLive()});
+function updLiveChip(){const n=liveItems().filter(e=>{const l=liveFor(e);return l&&l.state==="in"}).length,c=document.getElementById("livecnt");if(c){c.hidden=!n;c.title=n?`${n} pick${n>1?"s":""} live`:""}}
+function sweatHtml(e){
+  if(!e.live)return"";const{v,detail,state}=e.live,line=e.line,scale=Math.max(line*1.4,v,1),pctW=Math.max(2,v/scale*100);
+  const ahead=e.side==="over"?v>line:v<line;
+  return`<div class="sweat ${state==="post"?"final":ahead?"ok":"bad"}"><div class="sbar"><i style="width:${pctW}%"></i><b style="left:${line/scale*100}%" title="Line ${fmt(line)}"></b></div><span class="mono">${fmt(v)} / ${fmt(line)}</span><span class="pteam">${esc(detail)}</span></div>`;
 }
 
 // ---- My picks: saved on this device, graded in the browser against the box scores ----
@@ -1283,6 +1375,56 @@ function renderSlip(){
   document.body.classList.add("hasslip");
   bar.innerHTML=`<span class="sl1">Parlay slip</span><span class="sl2">${SLIP.length} leg${SLIP.length>1?"s":""}${SLIP.length>1?` \u00b7 ~${decToAm(Math.pow(LEGDEC,SLIP.length))}`:""}</span><span class="sl3">Review</span>`;
 }
+
+// ---- Parlay builder helpers: each leg's chance (Kalshi), fair parlay odds, and how legs relate ----
+const PASSM=new Set(["pyd","cmp","att","ptd"]),RECM=new Set(["rec","recyd","rry"]),RUSHM=new Set(["ryd","car"]);
+function legFair(l){
+  const p=DATA[l.lg]&&DATA[l.lg].find(x=>x.id===l.pid),m=MK[l.lg]&&MK[l.lg].find(x=>x.id===l.market);if(!p||!m)return null;
+  const k=mktLadder(l.lg,p,m,{t:new Date(l.t)});if(!k)return null;const po=mktAt(k,l.line);if(po==null)return null;
+  return l.side==="over"?po:1-po;
+}
+const sameGame=(a,b)=>a.lg===b.lg&&a.t===b.t&&(a.team===b.team||a.team===b.opp);
+function pairNote(a,b){
+  if(a.lg!==b.lg)return null;
+  const sign=(a.side==="over"?1:-1)*(b.side==="over"?1:-1); // an under flips the relationship
+  const say=(r,why)=>{const v=r*sign;return v>0?{good:true,txt:why}:{good:false,txt:why.replace(/tend to hit together/,"tend to move together, so these sides work against each other")}};
+  if(a.pid===b.pid){
+    if(a.market===b.market)return a.side===b.side?null:{good:false,txt:`${a.name}: over and under on the same prop can't both hit`};
+    return say(1,`${a.name}'s ${SHORT[a.market]||a.label} and ${SHORT[b.market]||b.label} tend to hit together`);
+  }
+  if(!sameGame(a,b))return null;
+  if(a.lg==="NBA"){if(a.team===b.team&&a.market==="pts"&&b.market==="pts")return say(-1,`${a.name} and ${b.name} share the same shots, so both points overs is a little harder`);return null}
+  const qb=[a,b].find(x=>PASSM.has(x.market)),o=qb&&[a,b].find(x=>x!==qb);
+  if(qb&&o&&qb.team===o.team&&RECM.has(o.market))return say(1,`${qb.name} passing and ${o.name} receiving tend to hit together`);
+  if(qb&&o&&qb.team===o.team&&RUSHM.has(o.market))return say(-1,`when ${qb.team} throws more it runs less: ${qb.name} passing and ${o.name} rushing tend to pull apart`);
+  if(qb&&o&&qb.team!==o.team&&PASSM.has(o.market))return say(1,`both passing overs tend to hit together in a shootout`);
+  if(qb&&o&&qb.team!==o.team&&RUSHM.has(o.market))return say(1,`game script: if ${o.team} runs well with a lead, ${qb.team} has to throw, so these tend to hit together`);
+  if(RECM.has(a.market)&&RECM.has(b.market)&&a.team===b.team)return say(-1,`${a.name} and ${b.name} compete for the same targets`);
+  return null;
+}
+function parlayInsight(legs){
+  const probs=legs.map(legFair),all=probs.every(x=>x!=null);
+  const notes=[];for(let i=0;i<legs.length;i++)for(let j=i+1;j<legs.length;j++){const n=pairNote(legs[i],legs[j]);if(n)notes.push(n)}
+  const fair=all?probs.reduce((a,b)=>a*b,1):null;
+  return{probs,fair,notes};
+}
+// a same-game stack worth a look: the best QB passing over with his best receiving over, both ranked by the app
+function stackHtml(x,pickKeys){
+  if(!FB(S.league))return"";
+  const t=x.t.getTime(),C=[...pickKeys.values()].filter(c=>c.lg===S.league&&c.side==="over"&&Math.abs(new Date(c.t).getTime()-t)<12*3600e3&&!outNote(c.lg,c.id));
+  let best=null;
+  for(const q of C.filter(c=>PASSM.has(c.market)))for(const r of C.filter(c=>RECM.has(c.market)&&c.team===q.team&&c.id!==q.id)){
+    const sc=q.score+r.score;if(!best||sc>best.sc)best={q,r,sc};
+  }
+  if(!best)return"";
+  const leg=c=>`<b>${esc(c.name)}</b> over ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}`;
+  return`<div class="stack"><div><span class="bbtag" style="background:var(--accent)">Stack</span> ${leg(best.q)} + ${leg(best.r)}<p class="pteam" style="margin:4px 0 0">When ${esc(best.q.name.split(" ").slice(-1)[0])} throws more, his receivers catch more, so these two tend to hit together. Both are ranked overs.</p></div><button class="trk sm" data-stack="${esc(best.q.key)},${esc(best.r.key)}">+ Add both to parlay</button></div>`;
+}
+function slipInsightHtml(legs){
+  const{fair,notes}=parlayInsight(legs);
+  return`<div class="pinsight">${fair!=null?`<p><b>Fair odds ${decToAm(1/Math.max(fair,.001))}</b> <span class="pteam">(${(fair*100).toFixed(fair<.1?1:0)}% to hit, from Kalshi${notes.some(n=>n.good)?"; correlated legs make it a bit likelier than this":""})</span></p><p class="pteam" id="pvalue">Enter your book's odds to see if it's a good price.</p>`:`<p class="pteam">Fair odds need a Kalshi price on every leg; ${legs.filter(l=>legFair(l)==null).length} leg(s) don't have one.</p>`}
+    ${notes.map(n=>`<p class="pnote ${n.good?"good":"bad"}">${n.good?"\u2714":"\u26a0"} ${esc(n.txt)}</p>`).join("")}</div>`;
+}
 function openSlip(){
   document.getElementById("sheet")?.remove();
   const now=Date.now();
@@ -1292,12 +1434,16 @@ function openSlip(){
   const d=document.createElement("div");d.className="sharebox";d.id="sheet";
   d.innerHTML=`<div class="sharecard sheetcard" role="dialog" aria-label="Parlay slip">
     <h3>Parlay slip</h3>
-    <div class="slegs">${SLIP.map(l=>`<div class="sleg"><div><b>${esc(l.name)}</b> <span class="lgtag">${l.lg}</span><div class="pteam">${legText(l)} \u00b7 ${l.team} ${l.home?"vs":"@"} ${l.opp} ${new Date(l.t).toLocaleDateString("en-US",{weekday:"short"})}</div></div><button class="rm" data-rmleg="${l.id}" aria-label="Remove leg">\u2715</button></div>`).join("")}</div>
+    <div class="slegs">${SLIP.map(l=>`<div class="sleg"><div><b>${esc(l.name)}</b> <span class="lgtag">${l.lg}</span>${(()=>{const f=legFair(l);return f!=null?` <span class="fx nt" title="Kalshi traders' chance this leg hits">${Math.round(f*100)}%</span>`:""})()}<div class="pteam">${legText(l)} \u00b7 ${l.team} ${l.home?"vs":"@"} ${l.opp} ${new Date(l.t).toLocaleDateString("en-US",{weekday:"short"})}</div></div><button class="rm" data-rmleg="${l.id}" aria-label="Remove leg">\u2715</button></div>`).join("")}</div>
+    ${SLIP.length>=2?slipInsightHtml(SLIP):""}
     ${SLIP.length<2?`<p>Add at least one more leg to save a parlay. Tap <b>+ Track</b> on another pick and choose <b>Add to parlay</b>.</p>`:`
     <label class="oddsrow" for="podds"><span>Parlay odds <small>(optional)</small></span><input id="podds" inputmode="text" placeholder="${est} est." autocomplete="off"></label>
     <p class="hint" style="margin:0">Enter the odds your book gave you, like +650. Leave blank to estimate at -110 per leg (${est}).</p>`}
     <div class="sheetbtns"><button class="close" data-sc="clear">Clear slip</button>${SLIP.length>=2?`<button class="savebtn" data-sc="save">Save ${SLIP.length}-leg parlay</button>`:`<button class="close" data-sc="x">Keep adding</button>`}</div></div>`;
   document.body.appendChild(d);
+  const po=d.querySelector("#podds"),pv=d.querySelector("#pvalue");
+  if(po&&pv){const{fair}=parlayInsight(SLIP);po.addEventListener("input",()=>{const raw=po.value.replace(/\s/g,"");if(!/^[+-]?\d{3,6}$/.test(raw)||fair==null){pv.textContent="Enter your book's odds to see if it's a good price.";pv.className="pteam";return}
+    const dec=amToDec(parseInt(raw.replace(/^\+/,""),10)),ev=fair*dec-1;pv.className="pnote "+(ev>=0?"good":"bad");pv.textContent=ev>=0?`Good price: worth about ${(ev*100).toFixed(0)}% more than fair.`:`Below fair: the book keeps about ${(-ev*100).toFixed(0)}% of your stake on average.`})}
   d.addEventListener("click",e=>{
     if(e.target===d){d.remove();return}
     const r=e.target.closest("[data-rmleg]");if(r){SLIP=SLIP.filter(l=>l.id!==r.dataset.rmleg);saveSlip();renderSlip();d.remove();if(SLIP.length)openSlip();refreshTracked();return}
@@ -1341,6 +1487,11 @@ function gradeMy(e){
     const day=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"});
     const g=p.games.find(x=>x.opp===e.opp&&Math.abs((new Date(x.date)-new Date(day))/864e5)<=1);
     if(g){const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v}}
+  }
+  const lv=liveFor(e);
+  if(lv){
+    if(lv.state==="post"){if(!lv.played)return{status:"void"};const v=lv.v;return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v,live:lv}}
+    return{status:"live",result:lv.v,live:lv};
   }
   return{status:now-start>3*864e5?"void":"live"};
 }
@@ -1465,6 +1616,7 @@ function gameBody(x){
   if(!est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
   if(!top.length&&OVERS()&&!est)html+=`<div class="gnone" style="padding:4px 2px">No over plays stand out in this game yet.</div>`;
   if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${OVERS()?"overs":"picks"}<span>${top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+  if(!est)html+=stackHtml(x,pickKeys);
   html+=`<div class="gsub">${est?"DraftKings hasn't posted props for this game yet \u00b7 lines are estimates from each player's median":`${bets.filter(r=>!r.m.fixed).length} DraftKings bets${bets.some(r=>r.m.fixed)?" + anytime TDs":""} \u00b7 L10 and season = how often he's gone over the line`}</div>`;
   if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
   for(const team of [x.away,x.home]){
@@ -1641,6 +1793,7 @@ function wire(){
     const mb=e.target.closest(".gmore");if(mb){const k=mb.dataset.g;gExpanded.has(k)?gExpanded.delete(k):gExpanded.add(k);renderUpcoming();return}
     const gc=e.target.closest("[data-gmk]");if(gc){S.gmk=gc.dataset.gmk;renderUpcoming();return}
     const gg=e.target.closest("[data-game]");if(gg){toggleGame(gg.dataset.game);return}
+    const sk=e.target.closest("[data-stack]");if(sk){let n=0;for(const k of sk.dataset.stack.split(",")){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.games||[]),...(PICKS.gamesOver||[])].find(x=>x.key===k);const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);if(p&&m&&!slipHas(c.lg,p.id,m.id,c.side,c.line)){const l=makeLeg(c.lg,p,m,c.side,c.line);if(l){SLIP.push(l);n++}}}saveSlip();renderSlip();toast(n?`Added ${n} leg${n>1?"s":""} \u00b7 parlay has ${SLIP.length}`:"Already in your parlay");return}
     const g5=e.target.closest(".g5");if(g5){S.gmk="";openInGame(g5.dataset.id,true);return}
     const bt=e.target.closest("tr.gbet");if(bt){openInGame(bt.dataset.id);return}
     const gp=e.target.closest(".gp");if(gp){const card=gp.closest(".gcard");if(card){S.game=card.dataset.g;S.gmk="";openInGame(gp.dataset.id,true)}}});
@@ -1649,10 +1802,12 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;
+  // current team from ESPN's depth charts (trades and signings since his last game)
+  try{if(CTX&&CTX.depth)for(const lg of ["NFL","NBA"])if(DATA[lg]&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3)for(const p of DATA[lg]){const d=(CTX.depth[lg]||{})[String(p.espn||p.id)];if(d&&d.t&&d.t!==p.team)p.team=d.t}}catch(e){}
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)
   try{if(NOTES&&NOTES.cfb_lines&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3){LINES=LINES||{};LINES.CFB=LINES.CFB||{};
     for(const[k,v]of Object.entries(NOTES.cfb_lines)){const[,pid,mid]=k.split("|");if(new Date(v.t).getTime()<Date.now()-3*3600e3)continue;const e=(LINES.CFB[pid]=LINES.CFB[pid]||{});if(!e[mid])e[mid]={line:v.line,open:null,d:v.t,book:v.book}}}}catch(e){}
@@ -1662,7 +1817,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
-  setupControls();wire();updMyCount();renderSlip();render();
+  setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);
   if(startLg==="CFB"){S.league="CFB";if(switchLeague("CFB")){setupControls();render()}}
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";

@@ -99,6 +99,7 @@ def main():
                 "key": c["key"], "lg": lg, "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                 "home": c["home"], "t": c["t"], "market": c["market"], "label": c["label"], "side": c["side"],
                 "line": c["line"], "score": c["score"], "l10": c["l10"], "sets": sets, "status": "pending", "result": None,
+                "factors": c.get("factors"), "prob": c.get("prob"),  # why it was picked, so tune.py can learn
             }
 
     # 1b. the research check's Best bet: keep the current one until its game starts, then it's locked
@@ -142,7 +143,9 @@ def main():
             research[(k, p["t"])] = {"key": k, "lg": lg, "id": pid, "name": p["name"], "team": p["team"], "opp": p["opp"],
                                      "t": p["t"], "market": mid, "label": p["label"], "side": n["side"], "line": p["line"],
                                      "adj": n.get("adj", 0), "conf": n.get("conf", "medium"), "flag": n.get("flag"),
-                                     "lean": p.get("lean"), "status": "pending", "result": None}
+                                     "lean": p.get("lean"), "status": "pending", "result": None,
+                                     "factors": next((c.get("factors") for c in picks.get("picks", []) + picks.get("picksOver", [])
+                                                      if c["key"] == k), None)}
 
     # 1d. the research's anytime-TD picks are research calls too (line 0.5 = scores at least once)
     for c in picks.get("tdPicks", []):

@@ -104,7 +104,8 @@ def depth(lg, path, inj):
                         label = f"WR{int(key[-1]) + 3 * i}" if i else f"WR{key[-1]}"
                     prev = out.get(aid)
                     if prev is None or (prev["role"] != "starter" and role == "starter") or (prev["role"] == role and i < prev["n"]):
-                        out[aid] = {"role": role, "slot": label, "n": i, "moved_up": role == "starter" and ids.index(aid) > 0}
+                        out[aid] = {"role": role, "slot": label, "n": i, "moved_up": role == "starter" and ids.index(aid) > 0,
+                                    "t": team(lg, tm.get("abbreviation", ""))}  # his CURRENT team (trades, signings)
         time.sleep(.05)
     return out
 

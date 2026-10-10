@@ -29,7 +29,7 @@ SERIES = {
 GAME_SERIES = {"NFL": "KXNFLGAME", "CFB": "KXNCAAFGAME", "NBA": "KXNBAGAME"}
 MAX_SPREAD = .15  # quotes wider than 15 cents are too loose to read a probability from
 # Kalshi team codes that differ from the app's (nflverse) codes
-TEAM_FIX = {"NFL": {"LAR": "LA", "WSH": "WAS", "JAC": "JAX"}, "NBA": {"GS": "GSW", "NY": "NYK", "SA": "SAS", "NO": "NOP", "UTAH": "UTA", "WSH": "WAS"}}
+TEAM_FIX = {"NFL": {"LAR": "LA", "WSH": "WAS", "JAC": "JAX"}, "NBA": {"GSW": "GS", "NYK": "NY", "SAS": "SA", "NOP": "NO", "UTA": "UTAH", "WAS": "WSH"}}
 
 
 def get(url, tries=3):
