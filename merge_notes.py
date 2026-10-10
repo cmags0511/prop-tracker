@@ -9,6 +9,8 @@ Per-game file:
                         "conditions": "...", "market": "...", "experts": "..."},
              "sources": [urls]}},
    "best_candidate": {"key": "...", "side": "over", "why": "...", "sources": [urls]} or null}
+College file (research/out/CFB-week.json) may also carry the published prop lines it researched:
+   "lines": [{"key": "CFB|<player id>|<market>", "line": 245.5, "book": "FanDuel", "source": "<url>"}]
 Lead file: {"summary": "<1-2 sentences for the whole slate>", "best": {"key", "side", "why", "sources"}}
 
 Notes from the previous run are kept for games this run didn't cover, if their game hasn't started.
@@ -58,6 +60,22 @@ def clean_note(n):
 def main():
     now = dt.datetime.now(dt.timezone.utc)
     slate = {p["key"]: p for p in load("slate.json", {"props": []})["props"]}
+    # college players (no DraftKings lines in the feed): allow notes on any of their props, with a researched line
+    cfb = load("cfb_data.json", {}) or {}
+    cfb_team = {p["id"]: p["t"] for p in cfb.get("players", [])}
+    cfb_next = {}
+    for u in cfb.get("upcoming", []):
+        t = dt.datetime.fromisoformat(u[0])
+        if t > now:
+            for tm, opp in ((u[1], u[2]), (u[2], u[1])):
+                if tm not in cfb_next or t < cfb_next[tm][0]:
+                    cfb_next[tm] = (t, opp)
+    CFB_M = {"pyd", "cmp", "att", "ptd", "ryd", "car", "rec", "recyd", "rry"}
+    cfb_lines = {}
+
+    def cfb_key(k):
+        parts = k.split("|")
+        return len(parts) == 3 and parts[0] == "CFB" and parts[1] in cfb_team and parts[2] in CFB_M and cfb_team[parts[1]] in cfb_next
     old = load("notes.json", {}) or {}
     lead = load("research/lead.json", {}) or {}
     notes, games, bad = {}, {}, []
@@ -68,7 +86,22 @@ def main():
             continue
         gid = g.get("game") or f.split("/")[-1][:-5]
         games[gid] = {"summary": txt(g.get("summary"), 600), "sources": urls(g.get("sources"), 8)}
+        for ln in g.get("lines") or []:
+            try:
+                k, line = ln["key"], float(ln["line"])
+            except (KeyError, TypeError, ValueError):
+                bad.append(str(ln)[:40])
+                continue
+            if not cfb_key(k) or line <= 0 or line % 1 not in (0, .5):
+                bad.append(k)
+                continue
+            t, opp = cfb_next[cfb_team[k.split("|")[1]]]
+            cfb_lines[k] = {"line": line, "book": txt(ln.get("book") or "sportsbook", 30), "t": t.isoformat(),
+                            "opp": opp, "source": (urls([ln.get("source")]) or [None])[0]}
         for k, n in (g.get("notes") or {}).items():
+            if k.startswith("CFB|") and cfb_key(k) and isinstance(n, dict):
+                notes[k] = clean_note(n)
+                continue
             if k not in slate or not isinstance(n, dict):
                 bad.append(k)
                 continue
@@ -77,6 +110,12 @@ def main():
             covered.add((slate[k]["opp"], slate[k]["t"]))
     # keep last run's notes for games nobody re-researched this time (and that haven't started)
     kept = 0
+    for k, v in (old.get("cfb_lines") or {}).items():  # keep last run's college lines until kickoff
+        if k not in cfb_lines and not any(f.endswith("CFB-week.json") for f in glob.glob("research/out/*.json")) \
+                and dt.datetime.fromisoformat(v["t"]) > now:
+            cfb_lines[k] = v
+            if k in (old.get("notes") or {}):
+                notes.setdefault(k, old["notes"][k])
     for k, n in (old.get("notes") or {}).items():
         p = slate.get(k)
         if k in notes or not p or (p["team"], p["t"]) in covered or dt.datetime.fromisoformat(p["t"]) <= now:
@@ -92,7 +131,7 @@ def main():
                 pass
     best = None
     b = lead.get("best") or {}
-    if b.get("key") in slate and b.get("side") in ("over", "under"):
+    if (b.get("key") in slate or b.get("key") in cfb_lines) and b.get("side") in ("over", "under"):
         n = notes.get(b["key"])
         if not n or n.get("side") != b["side"]:
             print(f"best bet {b['key']} has no matching note; adding one at +2")
@@ -102,13 +141,14 @@ def main():
     elif b:
         print(f"best bet ignored: {b.get('key')} not on the slate or no side")
     out = {"updated": now.isoformat(timespec="seconds").replace("+00:00", "Z"),
-           "summary": txt(lead.get("summary") or old.get("summary"), 500), "notes": notes, "games": games}
+           "summary": txt(lead.get("summary") or old.get("summary"), 500), "notes": notes, "games": games,
+           "cfb_lines": {k: v for k, v in cfb_lines.items() if k in notes}}
     if best:
         out["best"] = best
     json.dump(out, open("notes.json", "w"), indent=1)
     sides = {s: sum(1 for n in notes.values() if n.get("side") == s) for s in ("over", "under")}
     print(f"notes.json: {len(notes)} notes ({sides['over']} over, {sides['under']} under; {kept} kept from last run), "
-          f"{len(games)} game write-ups, best bet {'set' if best else 'none'}"
+          f"{len(games)} game write-ups, {len(out['cfb_lines'])} college lines, best bet {'set' if best else 'none'}"
           + (f"; dropped {len(bad)} notes with unknown keys: {bad[:5]}" if bad else ""))
 
 

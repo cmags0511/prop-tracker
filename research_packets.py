@@ -1,20 +1,28 @@
-"""Build one research packet per upcoming game for the twice-daily research check (see RESEARCH.md).
+"""Build the research packets for the research check (see RESEARCH.md).
 
-Each packet (research/packets/<id>.json) holds everything the app already knows about a game, so the
-researcher can spend its searches on what the app CAN'T see: the spread/total and kickoff weather,
-both injury reports, the starting lineups from the depth charts, and every prop with a DraftKings line,
-with its recent form, matchup rank, Kalshi market probability and whether it's in the app's Top lists.
+Research is the expensive part of the app, so it goes where people look: the props the app actually
+shows (the Top 10s, each game's Top 5, Kalshi gaps for the Best bet). For each upcoming game a packet
+(research/packets/<id>.json) holds the game context (spread/total, weather, both injury reports with
+practice notes, starters) and its TARGET props with everything the app knows about them, plus a short
+list of other props for scouting. Games are then grouped into at most 4 batches
+(research/batches/batch-<n>.json), one researcher per batch.
 
-Usage: python research_packets.py [--hours 60] [--quick-hours 96]
-Prints a one-line index of the packets: id, tier (full / quick), kickoff, props and Top-list picks.
+College football has no DraftKings prop lines in the app's feed, so it gets one extra packet
+(research/packets/CFB-week.json): the week's games and each team's main players with their numbers,
+for a researcher who finds published prop lines and picks the best college props.
+
+Usage: python research_packets.py [--hours 60] [--quick-hours 96] [--batches 4]
 """
 import json, os, sys, shutil, datetime as dt
 
 ARGS = dict(zip(sys.argv[1::2], sys.argv[2::2]))
 FULL_H = float(ARGS.get("--hours", 60))
 QUICK_H = float(ARGS.get("--quick-hours", 96))
-OUTDIR = "research/packets"
+N_BATCH = int(ARGS.get("--batches", 4))
+MAX_TARGETS = {"NFL": 36, "NBA": 24}
 OUT_ST = {"Out", "Doubtful", "Injured Reserve", "Suspension"}
+FIELDS = ("key", "name", "team", "pos", "depth", "label", "line", "avg10", "l10_over", "n10", "matchup", "gap", "lean",
+          "score", "market_over", "status", "teammates_out", "missed_last")
 
 
 def load(f, d=None):
@@ -22,6 +30,67 @@ def load(f, d=None):
         return json.load(open(f))
     except Exception:
         return d if d is not None else {}
+
+
+def targets(slate, picks, now):
+    """{key: why it's a target} for the props people will see, capped per league"""
+    why = {}
+    add = lambda k, r: why.setdefault(k, r)
+    for i, c in enumerate(picks.get("picksOver", [])[:12]):
+        add(c["key"], f"overs Top 10 #{i + 1}")
+    for i, c in enumerate(picks.get("picks", [])[:8]):
+        add(c["key"], f"Top 10 #{i + 1}")
+    seen = {}
+    for c in picks.get("gamesOver", []):  # each game's Top 5 (overs), first 3
+        g = (c["lg"], c["t"], *sorted((c["team"], c["opp"])))
+        if seen.get(g, 0) < 3:
+            seen[g] = seen.get(g, 0) + 1
+            add(c["key"], "game Top 5")
+    # scouting for the Best bet: overs Kalshi likes at DraftKings' line, and role bumps from injuries
+    live = [p for p in slate if dt.datetime.fromisoformat(p["t"]) > now]
+    for p in sorted([p for p in live if (p.get("market_over") or 0) >= .56], key=lambda p: -p["market_over"])[:6]:
+        add(p["key"], f"Kalshi {round(p['market_over'] * 100)}% over")
+    for p in sorted([p for p in live if p.get("teammates_out") and p.get("lean") == "over"], key=lambda p: -p["score"])[:4]:
+        add(p["key"], "teammate out")
+    out, n = {}, {}
+    order = {k: i for i, k in enumerate(why)}
+    for k in sorted(why, key=order.get):
+        lg = k.split("|")[0]
+        if n.get(lg, 0) < MAX_TARGETS.get(lg, 20):
+            out[k] = why[k]
+            n[lg] = n.get(lg, 0) + 1
+    return out
+
+
+def cfb_packet(cfb, now):
+    """this week's college games and each team's main players (by this season's volume)"""
+    cols = cfb.get("cols", [])
+    ups = [u for u in cfb.get("upcoming", []) if 0 < (dt.datetime.fromisoformat(u[0]) - now).total_seconds() / 3600 <= FULL_H]
+    if not ups or not cols:
+        return None
+    teams = {t for u in ups for t in (u[1], u[2])}
+    by_team = {}
+    for p in cfb.get("players", []):
+        if p["t"] not in teams:
+            continue
+        cur = [dict(zip(cols, r)) for r in p["g"] if dict(zip(cols, r))["date"] >= cfb["curStart"]]
+        if len(cur) < 2:
+            continue
+        avg = lambda k: round(sum(g[k] for g in cur) / len(cur), 1)
+        rec = {"key_prefix": f"CFB|{p['id']}", "name": p["n"], "pos": p["p"], "games": len(cur),
+               "avg": {k: avg(k) for k in ("cmp", "att", "pyd", "ptd", "car", "ryd", "rec", "recyd")},
+               "last3": {k: [g[k] for g in cur[-3:]] for k in ("pyd", "ryd", "recyd", "rec")}}
+        by_team.setdefault(p["t"], []).append(rec)
+    keep = {}
+    for tm, ps in by_team.items():
+        pick = sorted([p for p in ps if p["pos"] == "QB"], key=lambda p: -p["avg"]["att"])[:1]
+        pick += sorted([p for p in ps if p["pos"] == "RB"], key=lambda p: -p["avg"]["car"])[:2]
+        pick += sorted([p for p in ps if p["pos"] == "WR"], key=lambda p: -p["avg"]["recyd"])[:3]
+        keep[tm] = pick
+    games = [{"away": u[1], "home": u[2], "kickoff": u[0], "spread_home": u[3], "total": u[4],
+              "players": {u[1]: keep.get(u[1], []), u[2]: keep.get(u[2], [])}} for u in sorted(ups, key=lambda u: u[0])]
+    return {"id": "CFB-week", "lg": "CFB", "markets": ["pyd", "cmp", "att", "ptd", "ryd", "car", "rec", "recyd", "rry"],
+            "note": "Keys are key_prefix + '|' + market, e.g. CFB|4432577|pyd. Team codes are ESPN's.", "games": games}
 
 
 def main():
@@ -33,15 +102,7 @@ def main():
     cfb = load("cfb_data.json")
     if cfb:
         data["CFB"] = cfb
-    top = {}
-    for lk in ("picksOver", "picks"):
-        for i, c in enumerate(picks.get(lk, [])):
-            top.setdefault(c["key"], f"{'overs' if lk == 'picksOver' else 'all'} #{i + 1}")
-    for lk in ("byMarketOver", "byMarket"):
-        for v in picks.get(lk, {}).values():
-            for i, c in enumerate(v):
-                top.setdefault(c["key"], f"{c['label']} #{i + 1}")
-    # games
+    tg = targets(slate, picks, now)
     games = {}
     for p in slate:
         t = dt.datetime.fromisoformat(p["t"])
@@ -50,15 +111,18 @@ def main():
             continue
         meta = data.get(p["lg"], {})
         up = next((u for u in meta.get("upcoming", []) if dt.datetime.fromisoformat(u[0]) == t and p["team"] in (u[1], u[2])), None)
-        away, home = (up[1], up[2]) if up else ((p["opp"], p["team"]) if p.get("home") else (p["team"], p["opp"]))
+        away, home = (up[1], up[2]) if up else (p["team"], p["opp"])
         gid = f"{p['lg']}-{away}-at-{home}-{t.astimezone(dt.timezone.utc):%m%d}"
         g = games.setdefault(gid, {"id": gid, "lg": p["lg"], "away": away, "home": home, "kickoff": p["t"],
                                    "tier": "full" if h <= FULL_H else "quick", "hours_to_kickoff": round(h, 1),
-                                   "spread_home": up[3] if up else None, "total": up[4] if up else None, "props": []})
-        g["props"].append({k: p.get(k) for k in ("key", "name", "team", "pos", "depth", "label", "line", "avg10", "l10_over", "n10",
-                                                  "matchup", "gap", "lean", "score", "market_over", "status", "teammates_out",
-                                                  "missed_last")} | {"in_top": top.get(p["key"])})
-    # injuries, depth and weather per game
+                                   "spread_home": up[3] if up else None, "total": up[4] if up else None,
+                                   "targets": [], "other_props": []})
+        row = {k: p.get(k) for k in FIELDS}
+        if p["key"] in tg:
+            g["targets"].append(row | {"why_target": tg[p["key"]]})
+        else:
+            g["other_props"].append({k: p.get(k) for k in ("key", "name", "label", "line", "avg10", "lean", "score", "market_over", "depth")})
+    games = {k: g for k, g in games.items() if g["targets"]}  # only games with something people will see
     inj, dep, wx = ctx.get("injuries", {}), ctx.get("depth", {}), ctx.get("weather", {})
     for g in games.values():
         lg, teams = g["lg"], (g["away"], g["home"])
@@ -74,17 +138,33 @@ def main():
         t = dt.datetime.fromisoformat(g["kickoff"]).astimezone(dt.timezone.utc)
         w = wx.get(f"{lg}|{g['away']}@{g['home']}|{t:%Y-%m-%d}")
         g["weather"] = None if not w else ("indoor" if w.get("indoor") else {k: w.get(k) for k in ("wind", "gust", "rain", "temp")} | {"venue": w.get("venue")})
-        g["props"].sort(key=lambda x: (x["in_top"] is None, -(x["score"] or 0)))
-    if os.path.isdir(OUTDIR):
-        shutil.rmtree(OUTDIR)
-    os.makedirs(OUTDIR, exist_ok=True)
+        g["other_props"] = sorted(g["other_props"], key=lambda x: -(x["score"] or 0))[:8]
+    for d in ("research/packets", "research/batches"):
+        if os.path.isdir(d):
+            shutil.rmtree(d)
+        os.makedirs(d, exist_ok=True)
     os.makedirs("research/out", exist_ok=True)
-    for g in sorted(games.values(), key=lambda g: g["kickoff"]):
-        json.dump(g, open(f"{OUTDIR}/{g['id']}.json", "w"), indent=1)
-        n_top = sum(1 for x in g["props"] if x["in_top"])
-        print(f"{g['id']:28} {g['tier']:5} {g['kickoff'][:16]}  {len(g['props']):3} props  {n_top:2} in Top lists")
-    if not games:
-        print("no games with DraftKings lines in the window")
+    order = sorted(games.values(), key=lambda g: (g["tier"] != "full", g["kickoff"]))
+    for g in order:
+        json.dump(g, open(f"research/packets/{g['id']}.json", "w"), indent=1)
+    # batches: balance the number of target props, keeping kickoff order
+    nb = max(1, min(N_BATCH, len(order)))
+    batches = [[] for _ in range(nb)]
+    load_ = [0] * nb
+    for g in order:
+        i = load_.index(min(load_))
+        batches[i].append(g["id"])
+        load_[i] += len(g["targets"]) + 3  # +3: the game-level research
+    for i, b in enumerate(batches):
+        if b:
+            json.dump(b, open(f"research/batches/batch-{i + 1}.json", "w"))
+            print(f"batch-{i + 1}: {len(b)} games, {sum(len(games[x]['targets']) for x in b)} target props: {', '.join(b)}")
+    cp = cfb_packet(cfb, now) if cfb else None
+    if cp:
+        json.dump(cp, open("research/packets/CFB-week.json", "w"), indent=1)
+        print(f"CFB-week: {len(cp['games'])} college games in the next {FULL_H:.0f} hours")
+    if not games and not cp:
+        print("nothing to research in the window")
 
 
 if __name__ == "__main__":

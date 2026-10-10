@@ -633,6 +633,7 @@ const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and total
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, shown=PAGE;
+const bookTag=c=>c.book&&c.book!=="DraftKings"?esc(c.book):"DK";
 function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
@@ -709,7 +710,7 @@ function compute(p,m){
   const rate=a=>a.length?a.filter(v=>v>line).length/a.length:null;
   let streak=0;for(let i=vals.length-1;i>=0;i--){const o=vals[i]>line;if(i===vals.length-1)streak=o?1:-1;else if(o===(streak>0))streak+=o?1:-1;else break}
   const l10=vals.slice(-10);
-  return{p,m,key:p.id+"|"+m.id,vals,line,est,dk,bk:mine==null&&dk?"DK":null,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
+  return{p,m,key:p.id+"|"+m.id,vals,line,est,dk,bk:mine==null&&dk?(dk.book?dk.book.split(" ")[0]:"DK"):null,mine:mine!=null,l5:rate(vals.slice(-5)),l10:rate(l10),all:rate(curVals),allN:curVals.length,
     avg10:l10.reduce((a,b)=>a+b,0)/l10.length,streak,name:p.name};
 }
 
@@ -772,7 +773,7 @@ function renderBest(){
     <div class="pk1"><span class="who"><span class="lgtag">${b.lg}</span>${esc(b.name)}<small>${b.team} ${b.home?"vs":"@"} ${b.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${b.side}">${b.side==="over"?"Over":"Under"} ${fmt(b.line)} ${esc(SHORT[b.market]||b.label)}</span></div>
     ${b.why_research?`<p class="bbwhy">${esc(b.why_research)}</p>`:""}
     <div class="why">${esc(b.why)}</div>
-    <div class="pkmeta"><span>L10 ${b.l10[0]}/${b.l10[1]}</span><span>DK ${fmt(b.line)}</span>${b.factors?fxChips(b):""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(b.key)}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button></div>
+    <div class="pkmeta"><span>L10 ${b.l10[0]}/${b.l10[1]}</span><span>${bookTag(b)} ${fmt(b.line)}</span>${b.factors?fxChips(b):""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(b.key)}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button></div>
     ${(b.sources||[]).length?`<p class="bbsrc">Sources: ${b.sources.slice(0,4).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(host(u))}</a>`).join(" · ")}</p>`:""}
   </div>`;
 }
@@ -797,7 +798,7 @@ function renderTop(){
   const list=src.filter(c=>live(c)&&inCat(c.market)).slice(0,10);
   const head=`<div class="tophead"><h2>${list.length?`Top <span>${list.length}</span> · `:"Top picks · "}${OVERS()?"Overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}${[OVERS()&&!isAll()?esc(m.label):OVERS()&&FB(S.league)&&S.cat?esc(S.cat):"",S.team].filter(Boolean).map(x=>` <small class="h2sub">${x}</small>`).join("")}</h2>${sideSwitch()}</div>`;
   if(!list.length&&S.team){el.innerHTML=`${head}<p class="topnote">No ${OVERS()?"over ":""}picks for ${esc(S.team)} in the current Top ${isAll()?"lists":esc(m.label.toLowerCase())+" list"}${(DATA[S.league+"meta"].upcoming||[]).some(g=>(g.away===S.team||g.home===S.team)&&g.t.getTime()>now)?"":` (no ${esc(S.team)} game coming up soon)`}. Clear the team filter to see the full Top 10.</p>`;return}
-  if(!list.length){el.innerHTML=`${head}<p class="topnote">${OVERS()&&src.length?`No strong ${S.league} over plays here right now. Tap <b>Overs + unders</b> to see every pick. `:""}${S.league==="CFB"&&!m.fixed?`DraftKings doesn't publish college player prop lines through ESPN, so the college Top 10 fills in only when lines are available. You can still type any sportsbook's line on a player to see how often he clears it.`:m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${isAll()?"player prop":esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
+  if(!list.length){el.innerHTML=`${head}<p class="topnote">${OVERS()&&src.length?`No strong ${S.league} over plays here right now. Tap <b>Overs + unders</b> to see every pick. `:""}${S.league==="CFB"&&!m.fixed?`DraftKings college prop lines aren't in the free feed, so college picks come from the research: before each game day it finds the best published prop lines for the week's biggest games and checks them against these numbers. None are up for this prop right now. You can still type any sportsbook's line on a player to see how often he clears it.`:m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${isAll()?"player prop":esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
@@ -811,7 +812,7 @@ function renderTop(){
       <div class="pk1"><span class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>DK ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
@@ -881,7 +882,7 @@ function renderDetail(r){
   const ng=nextGame(p,S.league),mine=ng?myFor(S.league,p.id,m.id,ng.t.toISOString()):null;
   const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
     ${["over","under"].map(sd=>{const on=mine&&mine.side===sd&&mine.line===line,sl=slipHas(S.league,p.id,m.id,sd,line);return`<button class="trk ${on||sl?"on":""}" data-track="${sd}">${on&&sl?"\u2713 Straight + parlay":on?"\u2713 Tracking":sl?"\u2713 In parlay":"+ Track"} ${sd} ${fmt(line)}</button>`}).join("")}</div>`:"";
-  const dkbar=dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
+  const dkbar=dk&&dk.book?`<div class="dkbar"><span class="dk">${esc(dk.book.slice(0,2).toUpperCase())}</span>${esc(dk.book)} <b>${fmt(dk.line)}</b><span class="mv">found by the research in a published preview \u00b7 check the current line</span>${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use this line</button>`:""}</div>`:dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
   const tabs=[["chart","Chart"],["alt","Alt lines"],["splits","Splits"],["log","Game log"]];
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
   el.innerHTML=`<div class="dcard">
@@ -1173,6 +1174,13 @@ function gameResearchHtml(x){
   const d=x.t,gid=`${S.league}-${x.away}-at-${x.home}-${String(d.getUTCMonth()+1).padStart(2,"0")}${String(d.getUTCDate()).padStart(2,"0")}`,g=NOTES.games[gid];
   if(!g||!g.summary)return"";
   return`<div class="resbox"><div class="mutop"><b>Game research</b><span class="pteam">${new Date(NOTES.updated).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}</span></div><p class="resnote">${esc(g.summary)}</p>${(g.sources||[]).length?`<p class="bbsrc">Sources: ${g.sources.slice(0,6).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(hostOf(u))}</a>`).join(" \u00b7 ")}</p>`:""}</div>`;
+}
+// Kalshi game-winner odds (markets.json "games"): favorite and its chance to win
+function gameOddsChip(lg,x){
+  if(!MKTS||!MKTS.games||!MKTS.games[lg]||Date.now()-new Date(MKTS.fetched||0).getTime()>8*3600e3)return"";
+  const o=MKTS.games[lg][`${x.away}@${x.home}|${x.t.toISOString().slice(0,10)}`];if(!o)return"";
+  const fav=o.home>=o.away?x.home:x.away,p=Math.max(o.home,o.away);
+  return`<span class="gl kal" title="Kalshi traders: ${x.away} ${Math.round(o.away*100)}% \u00b7 ${x.home} ${Math.round(o.home*100)}% to win">${fav} <b>${Math.round(p*100)}%</b> win</span>`;
 }
 // injuries, teammates out and weather for the player's next game
 function newsHtml(lg,p,m,g){
@@ -1490,7 +1498,7 @@ function renderUpcoming(){
     html+=`<section class="day"><h3>${day}</h3><div class="games">`+list.map(x=>{
       const gid=gameId(x);
       const more=Math.max((byTeam[x.away]||[]).length,(byTeam[x.home]||[]).length)>4;
-      const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"");
+      const lines=(x.spread!=null?`<span class="gl">${x.home} <b>${x.spread>0?"+":""}${fmt(x.spread)}</b></span>`:"")+(x.total!=null?`<span class="gl">O/U <b>${fmt(x.total)}</b></span>`:"")+gameOddsChip(S.league,x);
       const nb=gameBets(x).length;
       const open=S.game===gid;
       return`<article class="gcard${open?" open":""}" data-g="${esc(gid)}"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-expanded="${open}" aria-label="${open?"Close":"Open"} ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}<span class="gchev" aria-hidden="true">\u25be</span></div></div>
@@ -1606,6 +1614,9 @@ const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
   LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;
+  // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)
+  try{if(NOTES&&NOTES.cfb_lines&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3){LINES=LINES||{};LINES.CFB=LINES.CFB||{};
+    for(const[k,v]of Object.entries(NOTES.cfb_lines)){const[,pid,mid]=k.split("|");if(new Date(v.t).getTime()<Date.now()-3*3600e3)continue;const e=(LINES.CFB[pid]=LINES.CFB[pid]||{});if(!e[mid])e[mid]={line:v.line,open:null,d:v.t,book:v.book}}}}catch(e){}
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;

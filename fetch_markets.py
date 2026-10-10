@@ -25,6 +25,8 @@ SERIES = {
             "KXNFLTD": "td", "KXNFLSACK": "sck"},
     "NBA": {"KXNBAPTS": "pts", "KXNBAREB": "reb", "KXNBAAST": "ast", "KXNBA3PT": "3pm", "KXNBAPRA": "pra"},
 }
+# game-winner markets (one market per team): the crowd's chance each side wins
+GAME_SERIES = {"NFL": "KXNFLGAME", "CFB": "KXNCAAFGAME", "NBA": "KXNBAGAME"}
 MAX_SPREAD = .15  # quotes wider than 15 cents are too loose to read a probability from
 # Kalshi team codes that differ from the app's (nflverse) codes
 TEAM_FIX = {"NFL": {"LAR": "LA", "WSH": "WAS", "JAC": "JAX"}, "NBA": {"GS": "GSW", "NY": "NYK", "SA": "SAS", "NO": "NOP", "UTAH": "UTA", "WSH": "WAS"}}
@@ -67,6 +69,63 @@ def download():
             raw[s] = out
             time.sleep(.15)
     return raw
+
+
+def download_series(s):
+    out, cursor = [], ""
+    for _ in range(10):
+        q = {"series_ticker": s, "status": "open", "limit": 1000}
+        if cursor:
+            q["cursor"] = cursor
+        d = get(f"{API}/markets?" + urllib.parse.urlencode(q))
+        out += d.get("markets", [])
+        cursor = d.get("cursor") or ""
+        if not cursor:
+            break
+        time.sleep(.15)
+    return out
+
+
+def build_games(raw_games, data):
+    """{"NFL": {"AWAY@HOME|YYYY-MM-DD": {"away": p, "home": p, "spread": worst bid/ask gap}}} for the app's upcoming games.
+    Kalshi's event code is the date plus both team codes (e.g. 26OCT11CINMIA), and each team's market ends
+    with its code."""
+    out = {}
+    for lg, s in GAME_SERIES.items():
+        meta = data.get(lg) or {}
+        ups = meta.get("upcoming") or []
+        fix = TEAM_FIX.get(lg, {})
+        back = {v: k for k, v in fix.items()}
+        by_event = {}
+        for m in raw_games.get(s, []):
+            parts = (m.get("ticker") or "").split("-")
+            if len(parts) < 3:
+                continue
+            by_event.setdefault(parts[1], {})[parts[2]] = m
+        res = {}
+        for u in ups:
+            t = dt.datetime.fromisoformat(u[0])
+            et = t.astimezone(dt.timezone(dt.timedelta(hours=-4)))
+            code = f"{et:%y}{et.strftime('%b').upper()}{et:%d}"
+            away, home = u[1], u[2]
+            ka, kh = back.get(away, away), back.get(home, home)
+            ev = by_event.get(code + ka + kh) or by_event.get(code + kh + ka)
+            if not ev or ka not in ev or kh not in ev:
+                continue
+            mids, gaps = {}, []
+            for side, k in (("away", ka), ("home", kh)):
+                bid, ask = num(ev[k].get("yes_bid_dollars")), num(ev[k].get("yes_ask_dollars"))
+                if bid is None or ask is None or ask <= 0:
+                    break
+                mids[side] = (bid + ask) / 2
+                gaps.append(ask - bid)
+            if len(mids) != 2 or max(gaps) > .2 or sum(mids.values()) <= 0:
+                continue
+            tot = mids["away"] + mids["home"]
+            res[f"{away}@{home}|{t.astimezone(dt.timezone.utc):%Y-%m-%d}"] = {
+                "away": round(mids["away"] / tot, 3), "home": round(mids["home"] / tot, 3), "spread": round(max(gaps), 3)}
+        out[lg] = res
+    return out
 
 
 def num(v):
@@ -147,12 +206,20 @@ def main():
         print(f"Kalshi unreachable ({e}); keeping previous markets.json")
         return
     mk, stats = build(raw, data)
+    try:
+        cfb = json.load(open("cfb_data.json"))
+        gdata = {"NFL": data.get("NFL"), "NBA": data.get("NBA"), "CFB": cfb}
+        games = build_games({s: download_series(s) for s in GAME_SERIES.values()}, gdata)
+    except Exception as e:
+        print(f"game markets failed ({e})")
+        games = old.get("games", {})
     if not any(mk.values()) and old:
         print("no Kalshi prop markets matched; keeping previous markets.json")
         return
-    json.dump({"fetched": now.isoformat(timespec="minutes"), "source": "Kalshi", **mk}, open(OUT, "w"), separators=(",", ":"))
+    json.dump({"fetched": now.isoformat(timespec="minutes"), "source": "Kalshi", **mk, "games": games}, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: " + ", ".join(f"{lg} {len(v)} players" for lg, v in mk.items()) + " | "
-          + ", ".join(f"{s} {h}/{h + m}" for s, (h, m) in stats.items()))
+          + ", ".join(f"{s} {h}/{h + m}" for s, (h, m) in stats.items())
+          + " | game odds: " + ", ".join(f"{lg} {len(v)}" for lg, v in games.items()))
 
 
 if __name__ == "__main__":

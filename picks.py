@@ -138,9 +138,10 @@ def main():
         notes = json.load(open("notes.json"))
         fresh = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
         best_note = (notes.get("best") or {}) if fresh else {}
+        cfb_lines = (notes.get("cfb_lines") or {}) if fresh else {}
         notes = notes.get("notes", {}) if fresh else {}
     except Exception:
-        notes, best_note = {}, {}
+        notes, best_note, cfb_lines = {}, {}, {}
     out_players = {"|".join(k.split("|")[:2]) for k, v in notes.items() if v.get("flag") == "out"}
     try:
         data["CFB"] = json.load(open("cfb_data.json"))
@@ -168,6 +169,13 @@ def main():
         if lg not in data:
             continue
         L = lines.get(lg) or {}
+        if lg == "CFB" and cfb_lines:
+            # no DraftKings college props in the feed: use the lines the research found in published previews
+            L = {k: dict(v) for k, v in L.items()}
+            for k, v in cfb_lines.items():
+                _, pid, mid = k.split("|")
+                if dt.datetime.fromisoformat(v["t"]) > now and mid not in L.get(pid, {}):
+                    L.setdefault(pid, {})[mid] = {"line": v["line"], "open": None, "d": v["t"], "book": v.get("book")}
         meta = data[lg]
         cols = meta["cols"]
         allowed = allowed_tables(meta["players"], cols, lg)
@@ -371,7 +379,7 @@ def main():
                 cands.append({
                     "key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "name": p["n"], "team": p["t"],
                     "pos": p.get("p"), "opp": opp, "home": home, "t": game["t"].isoformat(), "market": mid,
-                    "label": LABEL[mid], "side": "over" if over else "under", "line": line, "open": dk.get("open"),
+                    "label": LABEL[mid], "side": "over" if over else "under", "line": line, "open": dk.get("open"), "book": dk.get("book") or "DraftKings",
                     "l10": [side_hits(l10), len(l10)], "avg10": round(avg, 1), "score": round(score, 3), "why": why,
                     "prob": round(prob if over else 1 - prob, 3),
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
