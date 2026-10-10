@@ -172,6 +172,11 @@ def main():
             ctx = {}
     except Exception:
         ctx = {}
+    try:  # real sportsbook lines and prices for the top picks (fetch_odds.py, The Odds API), when available
+        ODDS = {k: v for k, v in (json.load(open("odds.json")).get("props") or {}).items()
+                if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
+    except Exception:
+        ODDS = {}
     try:  # Kalshi prediction-market prices (fetch_markets.py); stale prices are ignored
         MKTS = json.load(open("markets.json"))
         if now - dt.datetime.fromisoformat(MKTS["fetched"]) > dt.timedelta(hours=8):
@@ -262,6 +267,11 @@ def main():
             for mid, dk in e.items():
                 if mid not in UNIT:
                     continue
+                od = ODDS.get(f"{lg}|{p['id']}|{mid}")
+                if od and od.get("line") is not None:
+                    # a sportsbook quote straight from the book beats ESPN's copy: use its line and prices
+                    dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
+                              books=od.get("books"), book=od.get("book"))
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
@@ -269,7 +279,9 @@ def main():
                     continue
                 line = dk["line"]
                 cur = [stat(g, mid) for g in games if g["date"] >= meta["curStart"]]
-                l10, l5 = vals[-10:], vals[-5:]
+                # college rosters and roles change a lot between seasons: judge college form on this season alone
+                l10 = cur[-10:] if lg == "CFB" and len(cur) >= 3 else vals[-10:]
+                l5 = l10[-5:]
                 hits = lambda a: sum(v > line for v in a)
                 sh = lambda a: (hits(a) + 1) / (len(a) + 2)
                 p_over = .45 * sh(l10) + .35 * (sh(cur) if len(cur) >= 3 else sh(vals)) + .2 * sh(l5)
@@ -354,6 +366,26 @@ def main():
                     score *= .5
                 if lowline:
                     score *= .7
+                side = "over" if over else "under"
+                price = dk.get("price_over") if over else dk.get("price_under")
+                be = None
+                if isinstance(price, (int, float)) and price != 0:
+                    be = 100 / (price + 100) if price > 0 else -price / (-price + 100)  # break-even win rate at this price
+                    if (prob if over else 1 - prob) < be:
+                        score *= .7  # the price asks for more than the numbers give him
+                exact = note if note and not note.get("borrowed") else {}
+                confirmed = exact.get("side") == side and float(exact.get("adj") or 0) >= 1
+                # a line far from his numbers usually means the book knows something: keep it out of the Top lists
+                # unless the research checked it and still backs this side
+                if gap > .25 and not confirmed:
+                    score *= .6
+                # the fact-checker found a different line in current odds pages: this one is probably out of date
+                line_off = exact.get("line_now") is not None and abs(float(exact["line_now"]) - line) >= max(1, .05 * line)
+                if line_off:
+                    score *= .7
+                # rank props the research hasn't looked at a little lower than ones it has (when research is current)
+                if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
+                    score *= .85
                 parts["research"] = r_over
                 slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
@@ -365,6 +397,11 @@ def main():
                               "market_over": round(p_mkt, 3) if p_mkt is not None else None,
                               "depth": f"{me_dep['role']} ({me_dep['slot']})" if me_dep else None})
                 if score <= .05 and not note.get("side"):
+                    continue
+                # never show a pick the research argues against
+                if exact.get("side") in ("over", "under") and exact["side"] != side and float(exact.get("adj") or 0) >= 1:
+                    continue
+                if exact.get("side") == side and exact.get("flag") == "caution" and float(exact.get("adj") or 0) <= -2:
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
                 last = re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", p["n"]).split()[-1]
@@ -403,6 +440,8 @@ def main():
                     why += (f" Heads up: this DraftKings line hasn't updated in {age_h / 24:.0f} day{'s' if age_h >= 36 else ''} and Kalshi's market"
                             f" centers near {fmt(round(med * 2) / 2)}, so the live line has probably moved." if age_h else
                             f" Heads up: Kalshi's market centers near {fmt(round(med * 2) / 2)}, so check the live line.")
+                if line_off:
+                    why += f" Current odds pages show {fmt(float(exact['line_now']))}, so check the live line before betting."
                 if p_mkt is not None:
                     why += f" Kalshi traders put the {'over' if over else 'under'} at {round((p_mkt if over else 1 - p_mkt) * 100)}%."
                 if lg == "NBA" and abs(mtr) >= .08:
@@ -420,7 +459,8 @@ def main():
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
-                    "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
+                    "researched": bool(exact), "price": price, "price_other": dk.get("price_under") if over else dk.get("price_over"),
+                    "books": dk.get("books"), "break_even": round(be, 3) if be else None, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
                     "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,
                     "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,

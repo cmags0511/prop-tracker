@@ -49,6 +49,12 @@ def clean_note(n):
     out = {"side": side, "flag": n.get("flag") if n.get("flag") in FLAGS else "neutral", "adj": adj,
            "conf": n.get("conf") if n.get("conf") in ("low", "medium", "high") else "medium",
            "note": txt(n.get("note"), 320), "sources": urls(n.get("sources"))}
+    try:  # the line the fact-checker found in current odds pages, when it differs from the app's
+        if n.get("line_now") is not None:
+            out["line_now"] = float(n["line_now"])
+            out["line_src"] = (urls([n.get("line_src")]) or [None])[0]
+    except (TypeError, ValueError):
+        pass
     det = {k: txt((n.get("detail") or {}).get(k), 300) for k in DETAIL if (n.get("detail") or {}).get(k)}
     if det:
         out["detail"] = det

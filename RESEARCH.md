@@ -39,6 +39,10 @@ seven vague angles.
    tool) with that list (key, player, side, note, sources). For each call it identifies the one or two
    facts the call rests on (he's starting, he practiced fully, the defender is out, his snap share) and
    verifies them with one fresh search each, preferring official team sources and the latest reports.
+   It also checks the LINE for each of these calls and for every pick in the current overs Top 10
+   (`python audit_top.py` lists them): one current odds page per player (BettingPros prop pages show the
+   consensus and each book; Covers, Action Network or the book's own research pages also work). Where
+   the posted line differs from the app's, add `"line_now": <number>, "line_src": "<url>"` to that note.
    It returns, per call, `confirmed`, `weakened` (with the corrected fact) or `wrong`. Apply the results
    in `research/out/` before merging: `weakened` → lower `adj` by 1 and `conf` to medium and fix the
    wording; `wrong` → set `adj` to 0, `flag` to `caution` (or `out` if he's not playing) and rewrite the
@@ -54,6 +58,12 @@ seven vague angles.
    `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`, and push to main. If the push is
    rejected: `git pull --rebase origin main`, rerun `python picks.py picks.json`, commit, push.
    Don't commit the `research/` folder. **Always publish what you have**, even if some researchers failed.
+   **Quality gate before you push:** run `python audit_top.py`. It rebuilds the Top 10s exactly as the
+   app shows them and flags each pick. Any `NOT RESEARCHED` pick (the ranking shifts after research)
+   gets a quick check now: 1-2 searches on availability, role and the line, then a note in
+   `research/out/fix.json` (same format as a game file); any `RESEARCH SAYS` conflict means the note's
+   side must be re-confirmed. Then rerun `python merge_notes.py`, `python picks.py picks.json` and the
+   audit, at most twice, and push. Mention any remaining flags in your summary.
 9. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
    where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
 
@@ -75,10 +85,13 @@ stays fresh without another full run. No subagents, a handful of searches in tot
    - news that clearly helps (a teammate ruled out, a starter role confirmed) → raise `adj` by 1
      (max +2) and add one sentence.
    Update `"updated"` to the current UTC time.
-4. `python picks.py picks.json`, commit `notes.json picks.json slate.json` as `News check <date>`
+4. `python picks.py picks.json`, then `python audit_top.py`: for any `NOT RESEARCHED` pick whose game
+   is in the window, do a quick availability, role and line check (1-2 searches) and add a short note
+   to `notes.json` (side, flag, adj, conf, note, sources), then rerun picks.py.
+5. Commit `notes.json picks.json slate.json` as `News check <date>`
    (or `Inactives check <date>`) ending with the Co-Authored-By line, push (if rejected:
    `git pull --rebase origin main`, rerun picks.py, commit, push).
-5. Finish with one or two lines: who was ruled out, flagged or upgraded.
+6. Finish with one or two lines: who was ruled out, flagged or upgraded.
 
 ## Game researcher brief
 

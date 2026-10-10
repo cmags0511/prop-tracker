@@ -299,6 +299,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .tdpicks h3{margin:4px 0 0;font:700 1rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .tdpicks h3 .pteam{font:500 12px var(--f-body);letter-spacing:0;text-transform:none}
 .mv.old{color:var(--miss)}
+.px{font:600 12px var(--f-mono);color:var(--ink);background:var(--line);border-radius:6px;padding:2px 7px}
 .sidesw button{padding:5px 11px;font-size:12.5px}
 .h2sub{font:600 .8rem var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
 .topsub{margin:2px 0 0;color:var(--muted);font-size:12px}
@@ -636,7 +637,8 @@ const LEAGUES=["NFL","NBA","CFB"];
 const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
-let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, shown=PAGE;
+let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, shown=PAGE;
+const amFmt=v=>v==null?"":(v>0?"+":"")+v;
 // how long ago ESPN last saw this DraftKings line change; flag it when it's old
 function lineAge(dk){
   if(!dk||!dk.u)return"";let h=(Date.now()-new Date(dk.u).getTime())/3600e3;if(isNaN(h))return"";h=Math.max(0,h); // ESPN sometimes stamps a few hours ahead
@@ -644,7 +646,12 @@ function lineAge(dk){
   return`<span class="mv${h>24?" old":""}" title="When ESPN's DraftKings feed last changed this line. Lines that haven't changed in a day or more may differ from the live DraftKings number.">${txt}</span>`;
 }
 const bookTag=c=>c.book&&c.book!=="DraftKings"?esc(c.book):"DK";
-function dkLine(p,m){if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
+function dkLine(p,m){
+  const o=ODDS&&ODDS.props&&ODDS.props[`${S.league}|${p.id}|${m.id}`];
+  if(o&&o.line!=null&&Date.now()-new Date(o.t).getTime()<14*3600e3&&new Date(o.game_t).getTime()>Date.now()-3*3600e3){
+    const b=LINES&&LINES[S.league]&&LINES[S.league][p.espn]&&LINES[S.league][p.espn][m.id];
+    return{line:o.line,open:b?b.open:null,u:o.t,d:o.game_t,po:o.over,pu:o.under,books:o.books,live:true}}
+  if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
 let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"over"};
@@ -903,7 +910,7 @@ function renderDetail(r){
   const ng=nextGame(p,S.league),mine=ng?myFor(S.league,p.id,m.id,ng.t.toISOString()):null;
   const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
     ${["over","under"].map(sd=>{const on=mine&&mine.side===sd&&mine.line===line,sl=slipHas(S.league,p.id,m.id,sd,line);return`<button class="trk ${on||sl?"on":""}" data-track="${sd}">${on&&sl?"\u2713 Straight + parlay":on?"\u2713 Tracking":sl?"\u2713 In parlay":"+ Track"} ${sd} ${fmt(line)}</button>`}).join("")}</div>`:"";
-  const dkbar=dk&&dk.book?`<div class="dkbar"><span class="dk">${esc(dk.book.slice(0,2).toUpperCase())}</span>${esc(dk.book)} <b>${fmt(dk.line)}</b><span class="mv">found by the research in a published preview \u00b7 check the current line</span>${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use this line</button>`:""}</div>`:dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${lineAge(dk)}${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
+  const dkbar=dk&&dk.book?`<div class="dkbar"><span class="dk">${esc(dk.book.slice(0,2).toUpperCase())}</span>${esc(dk.book)} <b>${fmt(dk.line)}</b><span class="mv">found by the research in a published preview \u00b7 check the current line</span>${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use this line</button>`:""}</div>`:dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.po!=null?`<span class="px">O ${amFmt(dk.po)}${dk.pu!=null?` / U ${amFmt(dk.pu)}`:""}</span>`:""}${lineAge(dk)}${dk.books?Object.entries(dk.books).filter(([b])=>b!=="DraftKings").map(([b,v])=>`<span class="mv">${esc(b)} ${fmt(v.line)} ${amFmt(v.over)}${v.under!=null?"/"+amFmt(v.under):""}</span>`).join(""):""}${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
   const tabs=[["chart","Chart"],["alt","Alt lines"],["splits","Splits"],["log","Game log"]];
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
   el.innerHTML=`<div class="dcard">
@@ -988,7 +995,7 @@ const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
 const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",market:"Market",research:"Research"};
 function fxChips(c){
-  return (c.role==="backup"?`<span class="fx dn" title="Listed as a backup (${esc(c.slot||"")}) on the ESPN depth chart">Backup</span>`:"")+(c.mkt!=null?`<span class="fx ${c.mkt>=.524?"up":c.mkt<.476?"dn":"nt"}" title="Kalshi prediction-market traders' chance of this ${c.side} at DraftKings' line. Above 52.4% beats standard -110 pricing.">Kalshi ${Math.round(c.mkt*100)}%</span>`:"")+Object.entries(c.factors).filter(([k])=>k!=="market").filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:k==="weather"?.12:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"")+(c.moved!=null?`<span class="fx dn" title="This DraftKings line hasn't updated in a while and Kalshi's market centers near ${fmt(Math.round(c.moved*2)/2)}: the live line has probably moved">\u26a0 Line moved?</span>`:c.age_h>48?`<span class="fx nt" title="ESPN's DraftKings feed hasn't changed this line in ${Math.round(c.age_h/24)} days; check the live number">Line ${Math.round(c.age_h/24)}d old</span>`:"")+(c.mkt!=null?`<span class="fx nt" title="Fair price from Kalshi's probability (no sportsbook margin). A sportsbook price better than this is good value.">Fair ${decToAm(1/Math.min(.99,Math.max(.01,c.mkt)))}</span>`:"")+(c.lowline?`<span class="fx dn" title="Lines of 0.5 or 1.5 are usually priced well above -110, so a high hit rate pays less. Check the odds before betting.">\u26a0 Check odds</span>`:"");
+  return (c.role==="backup"?`<span class="fx dn" title="Listed as a backup (${esc(c.slot||"")}) on the ESPN depth chart">Backup</span>`:"")+(c.mkt!=null?`<span class="fx ${c.mkt>=.524?"up":c.mkt<.476?"dn":"nt"}" title="Kalshi prediction-market traders' chance of this ${c.side} at DraftKings' line. Above 52.4% beats standard -110 pricing.">Kalshi ${Math.round(c.mkt*100)}%</span>`:"")+Object.entries(c.factors).filter(([k])=>k!=="market").filter(([k,v])=>Math.abs(v)>=(k==="form"?.15:k==="weather"?.12:.03)).map(([k,v])=>`<span class="fx ${v>0?"up":"dn"}" title="${FXNAME[k]||k} ${v>0?"supports":"works against"} this pick">${v>0?"\u25b2":"\u25bc"} ${FXNAME[k]||k}</span>`).join("")+(c.gap>.25?`<span class="fx dn" title="The line is far from his recent average, often a sign of role or injury news">\u26a0 Line gap</span>`:"")+(c.moved!=null?`<span class="fx dn" title="This DraftKings line hasn't updated in a while and Kalshi's market centers near ${fmt(Math.round(c.moved*2)/2)}: the live line has probably moved">\u26a0 Line moved?</span>`:c.age_h>48?`<span class="fx nt" title="ESPN's DraftKings feed hasn't changed this line in ${Math.round(c.age_h/24)} days; check the live number">Line ${Math.round(c.age_h/24)}d old</span>`:"")+(c.price!=null?`<span class="fx ${c.break_even&&c.break_even>.6?"dn":"nt"}" title="The sportsbook's price for this side${c.books?" ("+Object.entries(c.books).map(([b,v])=>`${b} ${fmt(v.line)} ${amFmt(c.side==="over"?v.over:v.under)}`).join(", ")+")":""}. You need to win ${Math.round((c.break_even||0)*100)}% of the time to break even at this price.">${c.side==="over"?"O":"U"} ${amFmt(c.price)}</span>`:"")+(c.mkt!=null?`<span class="fx nt" title="Fair price from Kalshi's probability (no sportsbook margin). A sportsbook price better than this is good value.">Fair ${decToAm(1/Math.min(.99,Math.max(.01,c.mkt)))}</span>`:"")+(c.lowline?`<span class="fx dn" title="Lines of 0.5 or 1.5 are usually priced well above -110, so a high hit rate pays less. Check the odds before betting.">\u26a0 Check odds</span>`:"");
 }
 const inSet=e=>OVERS()?(e.sets||["all"]).includes("over"):(e.sets||["all"]).includes("all");
 function renderAppBox(){
@@ -1642,10 +1649,10 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)
   try{if(NOTES&&NOTES.cfb_lines&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3){LINES=LINES||{};LINES.CFB=LINES.CFB||{};
     for(const[k,v]of Object.entries(NOTES.cfb_lines)){const[,pid,mid]=k.split("|");if(new Date(v.t).getTime()<Date.now()-3*3600e3)continue;const e=(LINES.CFB[pid]=LINES.CFB[pid]||{});if(!e[mid])e[mid]={line:v.line,open:null,d:v.t,book:v.book}}}}catch(e){}
