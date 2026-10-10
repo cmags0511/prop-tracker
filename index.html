@@ -386,8 +386,8 @@ body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .books{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .books th{background:transparent;border-top:0;padding:6px 8px}
 .books td{padding:8px}
-#dpanel .books td:first-child{white-space:normal}#dpanel .books tr.subhd td{white-space:nowrap}
-@media(max-width:480px){#dpanel .books th,#dpanel .books td{padding:7px 5px}}
+.dpanel .books td:first-child{white-space:normal}.dpanel .books tr.subhd td{white-space:nowrap}
+@media(max-width:480px){.dpanel .books th,.dpanel .books td{padding:7px 5px}}
 .books tr.bk{cursor:pointer}
 .books tr.bk:hover{background:var(--accent-soft)}
 .books tr.on td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
@@ -946,7 +946,7 @@ function renderDetail(r){
   const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
     ${["over","under"].map(sd=>{const on=mine&&mine.side===sd&&mine.line===line,sl=slipHas(S.league,p.id,m.id,sd,line);return`<button class="trk ${on||sl?"on":""}" data-track="${sd}">${on&&sl?"\u2713 Straight + parlay":on?"\u2713 Tracking":sl?"\u2713 In parlay":"+ Track"} ${sd} ${fmt(line)}</button>`}).join("")}</div>`:"";
   const dkbar=dk&&dk.book?`<div class="dkbar"><span class="dk">${esc(dk.book.slice(0,2).toUpperCase())}</span>${esc(dk.book)} <b>${fmt(dk.line)}</b><span class="mv">found by the research in a published preview \u00b7 check the current line</span>${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use this line</button>`:""}</div>`:dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.po!=null?`<span class="px">O ${amFmt(dk.po)}${dk.pu!=null?` / U ${amFmt(dk.pu)}`:""}</span>`:""}${lineAge(dk)}${dk.books?Object.entries(dk.books).filter(([b])=>b!=="DraftKings").map(([b,v])=>`<span class="mv">${esc(b)} ${fmt(v.line)} ${amFmt(v.over)}${v.under!=null?"/"+amFmt(v.under):""}</span>`).join(""):""}${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
-  const tabs=[["chart","Chart"],["splits","Splits"],["props","His props"],["alt","Alt lines"],["log","Game log"]];
+  const tabs=[["chart","Chart"],["splits","Splits"],["props","All props"],["alt","Alt lines"],["log","Log"]];
   const nextOpp=ng?(ng.home===p.team?ng.away:ng.home):null;
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
   el.innerHTML=`<div class="dcard">
@@ -960,26 +960,26 @@ function renderDetail(r){
       </div>
     </div>
     ${outNote(S.league,p.id)?`<p class="slate" style="border-left:3px solid var(--miss)"><b>Ruled out:</b> ${esc(outNote(S.league,p.id))}</p>`:""}
-    ${newsHtml(S.league,p,m,ng)}
     <div class="strip">${strip}</div>
     ${dkbar}
+    ${trackbar}
+    <div class="dtabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" aria-selected="${S.dtab===t[0]}">${t[1]}</button>`).join("")}</div>
+    <div class="dpanel"></div>
+    ${newsHtml(S.league,p,m,ng)}
     ${researchHtml(S.league,p,m)}
     ${marketHtml(S.league,p,m,line,ng)}
     ${matchupHtml(S.league,p,m,line,ng)}
-    ${trackbar}
-    <div class="dtabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" aria-selected="${S.dtab===t[0]}">${t[1]}</button>`).join("")}</div>
-    <div class="dpanel" id="dpanel"></div>
   </div>`;
-  const panel=document.getElementById("dpanel");
+  const panel=el.querySelector(".dpanel");
   const draw=()=>{
     el.querySelectorAll(".dtabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===S.dtab));
     if(S.dtab==="chart"){
       const ranges=[["10","Last 10"],["20","Last 20"],["cur","This season"]],cr=ranges.some(x=>x[0]===S.crange)?S.crange:"20";
       const gs=cr==="cur"?g.filter(x=>x.date>=CUR()):g.slice(-+cr),sub=gs.length?gs:g.slice(-10);
       const hasOpp=nextOpp&&sub.some(x=>x.opp===nextOpp);
-      panel.innerHTML=`<p class="ptitle"><span>${sub.length} game${sub.length===1?"":"s"} vs ${fmt(line)} · ${sub.filter(x=>m.f(x)>line).length} over</span><span class="seg2 sm" role="group" aria-label="Games shown">${ranges.map(([k,t])=>`<button data-crange="${k}" aria-pressed="${k===cr}">${t}</button>`).join("")}</span></p><div class="chart" id="chart"></div>
+      panel.innerHTML=`<p class="ptitle"><span>${sub.length} game${sub.length===1?"":"s"} vs ${fmt(line)} · ${sub.filter(x=>m.f(x)>line).length} over</span><span class="seg2 sm" role="group" aria-label="Games shown">${ranges.map(([k,t])=>`<button data-crange="${k}" aria-pressed="${k===cr}">${t}</button>`).join("")}</span></p><div class="chart"></div>
         <div class="legend"><span><i class="sw" style="background:var(--hit)"></i>Over</span><span><i class="sw" style="background:var(--miss)"></i>Under</span><span><i class="dash"></i>Line ${fmt(line)}</span>${sub.length>=6?`<span><i class="avgsw"></i>5-game average</span>`:""}${hasOpp?`<span><i class="oppsw"></i>vs ${nextOpp}</span>`:""}</div>`;
-      drawChart(sub,m,line,nextOpp);
+      drawChart(panel.querySelector(".chart"),sub,m,line,nextOpp);
       panel.querySelector("[aria-label='Games shown']").onclick=e=>{const b=e.target.closest("[data-crange]");if(b){S.crange=b.dataset.crange;save();draw()}};
     }else if(S.dtab==="alt"){
       const rungs=m.fixed?[.5,1.5,2.5]:[-3,-2,-1,0,1,2,3].map(k=>line+k*step).filter(v=>v>0);
@@ -1008,7 +1008,7 @@ function renderDetail(r){
       const opps=[...new Set(g.map(x=>x.opp))].sort();
       panel.innerHTML=`<p class="ptitle"><span>Most recent first</span><select id="vsopp" class="small" aria-label="Filter game log by opponent"><option value="">All opponents</option>${opps.map(o=>`<option>${o}</option>`).join("")}</select></p>
         <div class="log"><table id="logT"></table></div><div><button class="linkbtn" id="logmore" hidden></button></div>`;
-      const logT=document.getElementById("logT"),more=document.getElementById("logmore");
+      const logT=el.querySelector("#logT"),more=el.querySelector("#logmore");
       let showAll=false,curOpp="";
       const drawLog=opp=>{
         curOpp=opp;
@@ -1021,7 +1021,7 @@ function renderDetail(r){
             <td class="num mono" style="font-weight:600">${m.f(x)}</td><td class="num">${ou(m.f(x),line)}</td></tr>`).join("")+"</tbody>";
       };
       drawLog("");
-      document.getElementById("vsopp").onchange=e=>drawLog(e.target.value);
+      el.querySelector("#vsopp").onchange=e=>drawLog(e.target.value);
       more.onclick=()=>{showAll=!showAll;drawLog(curOpp)};
     }
   };
@@ -1032,10 +1032,10 @@ function renderDetail(r){
     const k=e.target.closest("[data-track]");if(k)chooseTrack(S.league,p,m,k.dataset.track,line,()=>rerenderInPlace())});
   el.addEventListener("keydown",e=>{const t=e.target.closest("tr[data-set]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();setLine(parseFloat(t.dataset.set))}});
   if(!m.fixed){
-    document.getElementById("ldn").onclick=()=>setLine(line-step);
-    document.getElementById("lup").onclick=()=>setLine(line+step);
-    document.getElementById("lin").onchange=e=>{const v=parseFloat(e.target.value);if(!isNaN(v))setLine(v)};
-    const rs=document.getElementById("lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p,m)];save();rerenderInPlace()};
+    el.querySelector("#ldn").onclick=()=>setLine(line-step);
+    el.querySelector("#lup").onclick=()=>setLine(line+step);
+    el.querySelector("#lin").onchange=e=>{const v=parseFloat(e.target.value);if(!isNaN(v))setLine(v)};
+    const rs=el.querySelector("#lreset");if(rs)rs.onclick=()=>{delete S.lines[lineKey(p,m)];save();rerenderInPlace()};
   }
 }
 
@@ -1776,7 +1776,7 @@ function renderUpcoming(){
       return`<article class="gcard${open?" open":""}" data-g="${esc(gid)}"><div class="gtop go" role="button" tabindex="0" data-game="${esc(gid)}" aria-expanded="${open}" aria-label="${open?"Close":"Open"} ${x.away} at ${x.home}"><div><div class="gm">${x.away}<span class="at">@</span>${x.home}</div><div class="gtime">${x.t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"})}${x.week?" \u00b7 Week "+x.week:""}</div></div><div class="glines">${lines}<span class="gchev" aria-hidden="true">\u25be</span></div></div>
         ${open?gameBody(x)+`<button class="gall" data-game="${esc(gid)}">Close game \u25b4</button>`:`<div class="gteams">${side(x.away,gid)}${side(x.home,gid)}</div>${more?`<button class="gmore" data-g="${esc(gid)}">${gExpanded.has(gid)?"Show fewer":"Show all players"}</button>`:""}<button class="gall" data-game="${esc(gid)}">${nb?`Top 5 picks + all ${nb} DraftKings bets \u203a`:"Top 5 picks + every player prop \u203a"}</button>`}</article>`}).join("")+`</div></section>`;
   }
-  document.querySelectorAll("#board #detail").forEach(d=>d.removeAttribute("id"));
+  document.querySelectorAll("#board #detail").forEach(d=>{d.innerHTML="";d.removeAttribute("id")});
   el.innerHTML=html;
   if(S.game&&!document.querySelector("#view-up .gcard.open"))S.game=null;
   const sel=S.gsel&&document.querySelector("#view-up .gcard.open")&&GSHOWN.find(r=>r.key===S.gsel);
@@ -1803,8 +1803,7 @@ function teammateSplits(lg,p){
   }
   return res;
 }
-function drawChart(g,m,line,opp){
-  const box=document.getElementById("chart");
+function drawChart(box,g,m,line,opp){
   const W=Math.max(300,Math.round(box.clientWidth||560)),H=Math.min(240,Math.max(190,Math.round(W*.32))),mg={t:10,r:6,b:24,l:34};
   const vals=g.map(m.f);
   const max=Math.max(line,...vals)*1.12||1;
