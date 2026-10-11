@@ -7,7 +7,7 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir -p out && (time python soccer_data.py) 2>&1 | tee out/log.txt; cp soccer.json soccer_hist.json.gz soccer_close.json out/ || true
+      - run: mkdir -p out && python p.py 2>&1 | tee out/log.txt
       - run: |
           git config user.name probe; git config user.email probe@users.noreply.github.com
           git checkout -b probe-out-$GITHUB_RUN_ID; git add out; git commit -qm out; git push -q origin probe-out-$GITHUB_RUN_ID
