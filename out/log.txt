@@ -1,0 +1,39 @@
+eng.2 20260920 [('West Bromwich Albion at Wolver', 'post'), ('Bolton Wanderers at Norwich Ci', 'post')]
+eng.2 20260926 []
+eng.2 20260927 []
+eng.2 20260930 []
+eng.2 20261001 []
+eng.2 20261003 []
+eng.2 20261004 []
+eng.1 20260920 [('Liverpool at AFC Bournemouth', 'post'), ('Crystal Palace at Leeds United', 'post'), ('Sunderland at Manchester City', 'post'), ('Manchester United at Fulham', 'post')]
+eng.1 20260926 []
+eng.1 20260927 []
+eng.1 20260930 []
+eng.1 20261001 []
+eng.1 20261003 []
+eng.1 20261004 []
+Traceback (most recent call last):
+  File "/home/runner/work/prop-tracker/prop-tracker/p.py", line 8, in <module>
+    sb=g("https://site.api.espn.com/apis/site/v2/sports/soccer/eng.2/scoreboard?dates=20260920-20261005")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/prop-tracker/prop-tracker/p.py", line 3, in <lambda>
+    g=lambda u: json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=H),timeout=30).read())
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 400: Bad Request
