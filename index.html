@@ -501,12 +501,31 @@ body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .seg2 button small{font:600 10.5px var(--f-mono);background:var(--line);color:var(--ink2);border-radius:999px;padding:1px 6px}
 .seg2 button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
 .sheetcard{align-items:stretch;text-align:left;gap:10px;max-width:400px}
-.addp{max-height:88vh;overflow:auto}.addrow label{display:flex;flex-direction:column;gap:4px;font:600 12px var(--f-body);color:var(--ink2)}
-.addrow.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.addrow input,.addrow select{font:500 15px var(--f-body);padding:9px 10px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink);width:100%;box-sizing:border-box}
-.aplegs{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px}
-.aplegs div{display:flex;gap:6px;align-items:center}.aplegs .rm{margin-left:auto}
-.addpbtn{align-self:flex-start;font-weight:600}
+.apbox{place-items:end center;padding:0}
+.apcard{background:var(--panel);color:var(--ink);width:100%;max-width:480px;height:min(92vh,760px);border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgb(0 0 0/.25)}
+@media(min-width:700px){.apbox{place-items:center;padding:16px}.apcard{border-radius:16px;height:min(86vh,760px)}}
+.aphead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.aphead b{font:700 1.05rem var(--f-display);letter-spacing:.05em;text-transform:uppercase}
+.apx{border:0;background:var(--bg);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer}
+.apbody{flex:1;overflow:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.apfoot{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}.apfoot:empty{display:none}
+.apstep{margin:2px 0 0;font:600 12px var(--f-body);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.apsport{align-self:flex-start}
+.aplist{display:flex;flex-direction:column;gap:6px}
+.aprow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:11px 12px;font:500 14.5px var(--f-body);cursor:pointer}
+.aprow:hover{border-color:var(--accent)}.aprow small{grid-column:1;color:var(--muted);font-size:12px}
+.apst{grid-row:1/3;grid-column:2;font:600 11.5px var(--f-body);color:var(--muted)}.apst.islive{color:#e11d48}.apst.final{color:var(--ink2)}
+.apback{align-self:flex-start;border:0;background:none;color:var(--accent);font:600 13.5px var(--f-body);padding:0;cursor:pointer}
+.apchips{display:flex;flex-wrap:wrap;gap:6px}
+.apbet{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.apside button{min-width:76px}
+.apodds{display:flex;flex-direction:column;gap:4px;font:600 12.5px var(--f-body);color:var(--ink2)}
+.apodds input,.apsave input{font:500 15px var(--f-body);padding:9px 10px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink);width:100%;box-sizing:border-box}
+.apbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.apbtns .btn{padding:12px 8px;font-size:14px}
+.btn.ghost{background:var(--panel);color:var(--accent);border:1px solid var(--accent)}
+.apbtns .btn:not(.ghost),.apsave .btn{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.aplegs2{display:flex;flex-direction:column;gap:4px;font-size:13px;background:var(--bg);border-radius:10px;padding:8px 10px}
+.aplegs2 span{display:flex;align-items:center;gap:6px}.aplegs2 .rm{margin-left:auto}
+.apsave{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:4px}
+.addpbtn{align-self:flex-start}
 .late{font:600 10px var(--f-body);color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:0 6px;margin-left:4px}
 .sheetcard h3{text-align:center}
 .sheethead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding-bottom:4px}
@@ -1261,7 +1280,7 @@ function renderRecord(){
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const usedLg=[...LEAGUES,"SOC"].filter(l=>MY.some(e=>e.lg===l));
   const chips=usedLg.length>1?`<div class="cats" style="margin:0">${[["all","All"],...usedLg.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l==="SOC"?"Soccer":l}</button>`).join("")}</div>`:"";
-  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}<button class="linkbtn addpbtn" data-addpast="straight">+ Add a pick you already placed</button>`;
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}<button class="btn ghost addpbtn" data-addpast="1">+ Add a bet you already placed</button>`;
   if(!MY.length){
     html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
     el.innerHTML=html;return;
@@ -1299,7 +1318,7 @@ function renderParlayRecord(){
   const legsDone=G.flatMap(g=>g.legs).filter(x=>x.status==="win"||x.status==="loss");
   const legHit=legsDone.length?legsDone.filter(x=>x.status==="win").length/legsDone.length:null;
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
-  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Parlays win only if every leg hits; pushed or void legs drop out</p></div>${recTypeSwitch()}<button class="linkbtn addpbtn" data-addpast="parlay">+ Add a parlay you already placed</button>`;
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Parlays win only if every leg hits; pushed or void legs drop out</p></div>${recTypeSwitch()}<button class="btn ghost addpbtn" data-addpast="1">+ Add a parlay you already placed</button>`;
   if(!G.length){
     html+=`<div class="rempty"><p>No parlays yet. Tap <b>+ Track</b> on any pick and choose <b>Add to parlay</b>. Legs collect in the parlay slip at the bottom of the screen; open it to enter your book's odds and save the parlay.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
     el.innerHTML=html;return;
@@ -2178,74 +2197,106 @@ function gradeSoc(e){
   return{status:now-start>4*864e5?"void":"live"};
 }
 
-// ---- Add a pick you already placed (games underway or finished: the normal Track buttons stop at kickoff) ----
-let ADDP={lg:"NFL",legs:[]};
-function addPastGames(lg,p){
-  // his team's games from two days ago through the next week, plus his last 6 games in the data (date only)
-  const now=Date.now(),out=[],seen=new Set();
-  for(const g of (DATA[lg+"meta"].upcoming||[]))if((g.away===p.team||g.home===p.team)&&g.t.getTime()>now-2*864e5&&g.t.getTime()<now+7*864e5){
-    const k=etDay(g.t);if(seen.has(k))continue;seen.add(k);out.push({t:g.t.toISOString(),opp:g.home===p.team?g.away:g.home,home:g.home===p.team,started:g.t.getTime()<=now})}
-  for(const x of p.games.slice(-6).reverse()){const k=x.date;if(seen.has(k)||now-new Date(x.date).getTime()>120*864e5)continue;seen.add(k);
-    out.push({t:new Date(x.date+"T17:00:00Z").toISOString(),opp:x.opp,home:!!x.home,started:true,played:true})}
-  return out.sort((a,b)=>new Date(b.t)-new Date(a.t));
+// ---- Add a bet you already placed: tap the game, tap the player, tap the bet (graded like any other pick) ----
+let ADDP={lg:"NFL",legs:[],step:"game",game:null,pid:null,mid:null,side:"over",line:null,odds:""};
+function apGames(lg){
+  // games from the last week (finished or underway) and the next few days, most recent first
+  const now=Date.now(),seen=new Map(),meta=DATA[lg+"meta"]||{};
+  for(const g of meta.upcoming||[]){const t=g.t.getTime();if(t>now-4*864e5&&t<now+3*864e5)seen.set(`${g.away}@${g.home}|${etDay(g.t)}`,{away:g.away,home:g.home,t:g.t.toISOString()})}
+  for(const p of DATA[lg]||[]){const x=p.games[p.games.length-1];if(!x||now-new Date(x.date+"T12:00:00").getTime()>8*864e5)continue;
+    const away=x.home?x.opp:p.team,home=x.home?p.team:x.opp,k=`${away}@${home}|${x.date}`;
+    if(![...seen.keys()].some(s=>s.startsWith(`${away}@${home}|`)&&Math.abs(new Date(s.split("|")[1])-new Date(x.date))<=864e5))seen.set(k,{away,home,t:new Date(x.date+"T17:00:00Z").toISOString(),past:true})}
+  return[...seen.values()].sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,40);
 }
-function openAddPast(mode){
-  ADDP.mode=mode;if(mode!=="parlay")ADDP.legs=[];
+function apState(g){const t=new Date(g.t).getTime(),now=Date.now();return g.past||t<now-4*3600e3?"Final":t<=now?"Live":new Date(g.t).toLocaleTimeString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}
+function apPlayers(lg,g){
+  const lines=LINES&&LINES[lg]||{};
+  return(DATA[lg]||[]).filter(p=>p.team===g.away||p.team===g.home).filter(p=>p.cur>0||lines[p.espn])
+    .map(p=>{const recent=p.games.slice(-5),u=recent.reduce((a,x)=>a+(x.pyd||0)/8+(x.ryd||0)+(x.recyd||0)+(x.pts||0)*3+(x.tkl||0)*2,0)/Math.max(1,recent.length);return{p,u:u+(lines[p.espn]?1000:0)}})
+    .sort((a,b)=>b.u-a.u).map(o=>o.p);
+}
+function apMarkets(lg,p){
+  const vals=m=>p.games.slice(-10).map(m.f);
+  return MK[lg].filter(m=>m.fixed?m.id==="td":vals(m).some(v=>v>0)).sort((a,b)=>{const la=!!(LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][a.id]),lb=!!(LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][b.id]);return lb-la});
+}
+function apDefaultLine(lg,p,m){
+  if(m.fixed)return .5;
+  const d=LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][m.id];if(d&&d.line!=null)return d.line;
+  const v=p.games.slice(-10).map(m.f),a=v.reduce((x,y)=>x+y,0)/Math.max(1,v.length);return Math.max(.5,Math.floor(a)+.5);
+}
+function openAddPast(){
+  ADDP.step="game";ADDP.game=null;ADDP.pid=null;
   document.getElementById("sheet")?.remove();
-  const d=document.createElement("div");d.className="sharebox";d.id="sheet";
-  d.innerHTML=`<div class="sharecard sheetcard addp" role="dialog" aria-label="Add a pick you already placed"><h3 style="margin:0">Add a pick you already placed</h3>
-    <p class="pteam" style="margin:0">For bets you didn't track before kickoff. It's graded from the box score like any other pick${mode==="parlay"?"; add each leg, then save the parlay":""}.</p>
-    <div class="addrow"><label>Sport<select id="ap-lg">${LEAGUES.map(l=>`<option ${l===ADDP.lg?"selected":""}>${l}</option>`).join("")}</select></label></div>
-    <div class="addrow"><label>Player<input id="ap-pl" list="ap-pls" placeholder="Start typing a name" autocomplete="off"></label><datalist id="ap-pls"></datalist></div>
-    <div class="addrow"><label>Game<select id="ap-g" disabled><option>Pick a player first</option></select></label></div>
-    <div class="addrow two"><label>Prop<select id="ap-m"></select></label><label>Side<select id="ap-s"><option value="over">Over</option><option value="under">Under</option></select></label></div>
-    <div class="addrow two"><label>Line<input id="ap-l" type="number" step="0.5" min="0" inputmode="decimal"></label>${mode==="parlay"?"":`<label>Odds <small class="pteam">(optional)</small><input id="ap-o" placeholder="-110" inputmode="text"></label>`}</div>
-    ${mode==="parlay"?`<div id="ap-legs"></div><button class="choice" data-ap="leg"><b>+ Add this leg</b><span>Then add the next one</span></button>
-      <div class="addrow"><label>Parlay odds <small class="pteam">(optional)</small><input id="ap-po" placeholder="+650" inputmode="text"></label></div>
-      <button class="choice" data-ap="saveparlay"><b>Save parlay</b><span id="ap-pn">Add at least 2 legs</span></button>`
-      :`<button class="choice" data-ap="save"><b>Save pick</b><span>Adds it to My picks</span></button>`}
-    <button class="close" data-ap="x">Cancel</button></div>`;
+  const d=document.createElement("div");d.className="sharebox apbox";d.id="sheet";
+  d.innerHTML=`<div class="apcard" role="dialog" aria-label="Add a bet you already placed"><div class="aphead"><b>Add a bet you already placed</b><button class="apx" data-ap="x" aria-label="Close">✕</button></div><div class="apbody"></div><div class="apfoot"></div></div>`;
   document.body.appendChild(d);
-  const $=id=>d.querySelector("#"+id);
-  const fill=async()=>{
-    const lg=$("ap-lg").value;ADDP.lg=lg;
-    if(!DATA[lg]){$("ap-pls").innerHTML="";await ensureLeague(lg);}
-    $("ap-pls").innerHTML=(DATA[lg]||[]).filter(p=>p.cur>0||lg==="NBA").map(p=>`<option value="${esc(p.name)} · ${p.team}">`).join("");
-    $("ap-m").innerHTML=MK[lg].filter(m=>!m.fixed||m.id==="td").map(m=>`<option value="${m.id}">${esc(m.label)}</option>`).join("");
-  };
-  const player=()=>{const v=$("ap-pl").value,lg=$("ap-lg").value;const[nm,tm]=v.split(" · ");
-    return(DATA[lg]||[]).find(p=>p.name===nm&&(!tm||p.team===tm))||(DATA[lg]||[]).find(p=>p.name.toLowerCase()===v.trim().toLowerCase())};
-  const games=()=>{const p=player(),sel=$("ap-g");if(!p){sel.disabled=true;sel.innerHTML="<option>Pick a player first</option>";return}
-    const gs=addPastGames($("ap-lg").value,p);sel.disabled=false;
-    sel.innerHTML=gs.map((g,i)=>`<option value="${i}">${new Date(g.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})} ${g.home?"vs":"@"} ${g.opp}${g.started?"":" (not started)"}</option>`).join("");sel._g=gs;setLine()};
-  const setLine=()=>{const p=player(),m=MK[$("ap-lg").value].find(x=>x.id===$("ap-m").value);if(!p||!m)return;
-    if(m.fixed){$("ap-l").value=.5;$("ap-l").disabled=true;$("ap-s").value="over";return}$("ap-l").disabled=false;
-    const S0=S.league;S.league=$("ap-lg").value;const dk=dkLine(p,m);S.league=S0;if(dk&&!$("ap-l").value)$("ap-l").value=dk.line};
-  const build=()=>{const lg=$("ap-lg").value,p=player(),m=MK[lg].find(x=>x.id===$("ap-m").value),sel=$("ap-g"),g=sel._g&&sel._g[+sel.value],line=parseFloat($("ap-l").value),side=$("ap-s").value;
-    if(!p){toast("Pick a player from the list");return null}if(!g){toast("Pick the game");return null}if(!m){toast("Pick the prop");return null}
-    if(!(line>=0)||Math.round(line*2)!==line*2){toast("Enter a line like 24.5");return null}
-    return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.opp,home:g.home,t:g.t,market:m.id,label:m.label,side,line,added:new Date().toISOString(),late:true}};
-  const odds=id=>{const el=$(id);if(!el)return null;const raw=el.value.trim();if(!raw)return null;if(!/^[+-]?\d{3,6}$/.test(raw)||Math.abs(parseInt(raw,10))<100){toast("Enter odds like +650 or -120");return undefined}return parseInt(raw.replace(/^\+/,""),10)};
-  const legsHtml=()=>{const el=$("ap-legs");if(!el)return;el.innerHTML=ADDP.legs.length?`<div class="aplegs">${ADDP.legs.map((l,i)=>`<div>${esc(l.name)} <b>${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}</b> <button class="rm" data-aprm="${i}" aria-label="Remove leg">✕</button></div>`).join("")}</div>`:"";
-    const n=$("ap-pn");if(n)n.textContent=ADDP.legs.length>=2?`${ADDP.legs.length} legs`:"Add at least 2 legs"};
-  $("ap-lg").onchange=()=>{$("ap-pl").value="";fill();games()};
-  $("ap-pl").onchange=()=>{$("ap-l").value="";games()};$("ap-pl").oninput=()=>{if(player())games()};
-  $("ap-m").onchange=()=>{$("ap-l").value="";setLine()};
-  fill();legsHtml();
-  d.addEventListener("click",e=>{
-    if(e.target===d){d.remove();return}
-    const rm=e.target.closest("[data-aprm]");if(rm){ADDP.legs.splice(+rm.dataset.aprm,1);legsHtml();return}
-    const b=e.target.closest("[data-ap]");if(!b)return;const a=b.dataset.ap;
-    if(a==="x"){d.remove();return}
-    if(a==="save"){const e1=build();if(!e1)return;const o=odds("ap-o");if(o===undefined)return;if(o!=null)e1.price=o;
-      if(MY.some(x=>x.lg===e1.lg&&x.pid===e1.pid&&x.market===e1.market&&etDay(x.t)===etDay(e1.t)&&x.side===e1.side&&x.line===e1.line)){toast("That pick is already in My picks");return}
-      MY.push(e1);saveMy();updMyCount();d.remove();toast("Added to My picks");S.recType="straight";renderRecord();startLive();return}
-    if(a==="leg"){const l=build();if(!l)return;if(ADDP.legs.some(x=>x.pid===l.pid&&x.market===l.market&&etDay(x.t)===etDay(l.t))){toast("That leg is already in this parlay");return}
-      ADDP.legs.push(l);legsHtml();$("ap-pl").value="";$("ap-l").value="";games();toast("Leg added");return}
-    if(a==="saveparlay"){if(ADDP.legs.length<2){toast("Add at least 2 legs");return}const o=odds("ap-po");if(o===undefined)return;
-      PARLAYS.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),legs:ADDP.legs,odds:o,added:new Date().toISOString(),late:true});
-      ADDP.legs=[];saveParlays();updMyCount();d.remove();toast("Parlay saved to My picks");S.recType="parlay";renderRecord();startLive();return}
-  });
+  ensureLeague(ADDP.lg).then(()=>apRender());apRender();
+  d.addEventListener("click",apClick);
+  d.addEventListener("input",e=>{if(e.target.id==="apq"){ADDP.q=e.target.value;apRender(true)}if(e.target.id==="apodds")ADDP.odds=e.target.value;if(e.target.id==="appodds")ADDP.podds=e.target.value});
+}
+function apRender(keepFocus){
+  const d=document.getElementById("sheet");if(!d)return;const body=d.querySelector(".apbody"),foot=d.querySelector(".apfoot"),lg=ADDP.lg;
+  const crumbs=[];
+  let h="";
+  if(!DATA[lg]){body.innerHTML=`<p class="pteam">Loading ${lg}…</p>`;return}
+  if(ADDP.step==="game"){
+    h=`<div class="seg2 apsport" role="group" aria-label="Sport">${LEAGUES.map(l=>`<button data-aplg="${l}" aria-pressed="${l===lg}">${l}</button>`).join("")}</div>
+      <p class="apstep">1 · Which game?</p><div class="aplist">${apGames(lg).map((g,i)=>{const st=apState(g);return`<button class="aprow" data-apg="${i}"><span><b>${g.away}</b> @ <b>${g.home}</b></span><span class="apst ${st==="Live"?"islive":st==="Final"?"final":""}">${st==="Live"?"● Live":st}</span><small>${new Date(g.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</small></button>`}).join("")||'<p class="pteam">No recent games.</p>'}</div>`;
+  }else if(ADDP.step==="player"){
+    const g=ADDP.game,q=(ADDP.q||"").toLowerCase(),pl=apPlayers(lg,g).filter(p=>!q||p.name.toLowerCase().includes(q));
+    h=`<button class="apback" data-ap="back">‹ ${g.away} @ ${g.home}</button><p class="apstep">2 · Which player?</p>
+      <input id="apq" class="socq" placeholder="Search ${g.away} or ${g.home} players" value="${esc(ADDP.q||"")}" autocomplete="off">
+      <div class="aplist">${pl.slice(0,40).map(p=>`<button class="aprow" data-app="${esc(p.id)}"><span><b>${esc(p.name)}</b></span><small>${esc(p.pos||"")} · ${p.team}</small></button>`).join("")||'<p class="pteam">No players found.</p>'}</div>`;
+  }else{
+    const g=ADDP.game,p=(DATA[lg]||[]).find(x=>x.id===ADDP.pid),ms=apMarkets(lg,p);
+    if(!ADDP.mid||!ms.some(m=>m.id===ADDP.mid)){ADDP.mid=ms[0]&&ms[0].id;ADDP.line=null}
+    const m=ms.find(x=>x.id===ADDP.mid);if(ADDP.line==null&&m)ADDP.line=apDefaultLine(lg,p,m);
+    const step=m&&m.step||1;
+    h=`<button class="apback" data-ap="back">‹ ${esc(p.name)} · ${g.away} @ ${g.home}</button><p class="apstep">3 · The bet</p>
+      <div class="apchips">${ms.map(x=>`<button class="cat" data-apm="${x.id}" aria-pressed="${x.id===ADDP.mid}">${esc(SHORT[x.id]||x.label)}</button>`).join("")}</div>
+      ${m&&!m.fixed?`<div class="apbet"><div class="seg2 apside">${["over","under"].map(s=>`<button data-aps="${s}" aria-pressed="${ADDP.side===s}">${s==="over"?"Over":"Under"}</button>`).join("")}</div>
+        <div class="stepper"><button data-apl="-${step}" aria-label="Lower line">−</button><input id="apline" type="number" step="0.5" value="${ADDP.line}" aria-label="Line"><button data-apl="${step}" aria-label="Raise line">+</button></div></div>`:`<p class="pteam">Anytime touchdown (scores at least once)</p>`}
+      <label class="apodds">Your odds <small class="pteam">(optional, e.g. -115 or +250)</small><input id="apodds" inputmode="text" value="${esc(ADDP.odds||"")}" placeholder="-110"></label>`;
+  }
+  body.innerHTML=h;
+  if(keepFocus){const i=document.getElementById("apq");if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}
+  const n=ADDP.legs.length;
+  foot.innerHTML=ADDP.step==="bet"?`<div class="apbtns"><button class="btn" data-ap="straight">Add as a straight bet</button><button class="btn ghost" data-ap="leg">${n?`Add as parlay leg ${n+1}`:"Start a parlay with it"}</button></div>`:"";
+  if(n)foot.innerHTML+=`<div class="aplegs2"><b>Parlay · ${n} leg${n>1?"s":""}</b>${ADDP.legs.map((l,i)=>`<span>${esc(l.name)} ${l.side==="over"?"O":"U"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}<button class="rm" data-aprm="${i}" aria-label="Remove leg">✕</button></span>`).join("")}
+    ${n>=2?`<div class="apsave"><input id="appodds" placeholder="Parlay odds, e.g. +650" value="${esc(ADDP.podds||"")}" inputmode="text"><button class="btn" data-ap="saveparlay">Save parlay</button></div>`:`<small class="pteam">Add one more leg to save the parlay</small>`}</div>`;
+}
+function apOdds(raw){raw=(raw||"").trim();if(!raw)return null;if(!/^[+-]?\d{3,6}$/.test(raw)||Math.abs(parseInt(raw,10))<100){toast("Enter odds like -115 or +250");return undefined}return parseInt(raw.replace(/^\+/,""),10)}
+function apBuild(){
+  const lg=ADDP.lg,g=ADDP.game,p=(DATA[lg]||[]).find(x=>x.id===ADDP.pid),m=MK[lg].find(x=>x.id===ADDP.mid);
+  const li=document.getElementById("apline");if(li)ADDP.line=parseFloat(li.value);
+  const line=m&&m.fixed?.5:ADDP.line;
+  if(!p||!m||!(line>=0)||Math.round(line*2)!==line*2){toast("Check the line (like 24.5)");return null}
+  return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:p.team===g.home?g.away:g.home,home:p.team===g.home,t:g.t,market:m.id,label:m.label,side:m.fixed?"over":ADDP.side,line,added:new Date().toISOString(),late:new Date(g.t).getTime()<=Date.now()};
+}
+function apClick(e){
+  const d=document.getElementById("sheet"),t=e.target;
+  if(t===d){d.remove();return}
+  const q=s=>t.closest(s);let b;
+  if((b=q("[data-aplg]"))){ADDP.lg=b.dataset.aplg;ensureLeague(ADDP.lg).then(()=>apRender());apRender();return}
+  if((b=q("[data-apg]"))){ADDP.game=apGames(ADDP.lg)[+b.dataset.apg];ADDP.step="player";ADDP.q="";apRender();return}
+  if((b=q("[data-app]"))){ADDP.pid=b.dataset.app;ADDP.step="bet";ADDP.mid=null;ADDP.line=null;ADDP.side="over";apRender();return}
+  if((b=q("[data-apm]"))){ADDP.mid=b.dataset.apm;ADDP.line=null;apRender();return}
+  if((b=q("[data-aps]"))){const li=document.getElementById("apline");if(li)ADDP.line=parseFloat(li.value);ADDP.side=b.dataset.aps;apRender();return}
+  if((b=q("[data-apl]"))){const li=document.getElementById("apline");ADDP.line=Math.max(.5,Math.round(((parseFloat(li.value)||0)+parseFloat(b.dataset.apl))*2)/2);li.value=ADDP.line;return}
+  if((b=q("[data-aprm]"))){ADDP.legs.splice(+b.dataset.aprm,1);apRender();return}
+  if(!(b=q("[data-ap]")))return;
+  const a=b.dataset.ap;
+  if(a==="x"){d.remove();return}
+  if(a==="back"){ADDP.step=ADDP.step==="bet"?"player":"game";apRender();return}
+  if(a==="straight"){const e1=apBuild();if(!e1)return;const o=apOdds(ADDP.odds);if(o===undefined)return;if(o!=null)e1.price=o;
+    if(MY.some(x=>x.lg===e1.lg&&x.pid===e1.pid&&x.market===e1.market&&etDay(x.t)===etDay(e1.t)&&x.side===e1.side&&x.line===e1.line)){toast("That bet is already in My picks");return}
+    MY.push(e1);saveMy();updMyCount();ADDP.odds="";toast(`Added: ${e1.name} ${e1.side==="over"?"over":"under"} ${fmt(e1.line)} ${SHORT[e1.market]||e1.label}`);
+    if(!ADDP.legs.length){d.remove();S.recType="straight";renderRecord();startLive()}else{ADDP.step="player";apRender()}return}
+  if(a==="leg"){const l=apBuild();if(!l)return;if(ADDP.legs.some(x=>x.pid===l.pid&&x.market===l.market&&etDay(x.t)===etDay(l.t))){toast("That leg is already in this parlay");return}
+    ADDP.legs.push(l);ADDP.step="player";ADDP.q="";toast("Leg added");apRender();return}
+  if(a==="saveparlay"){if(ADDP.legs.length<2){toast("Add at least 2 legs");return}const o=apOdds(ADDP.podds);if(o===undefined)return;
+    PARLAYS.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),legs:ADDP.legs,odds:o,added:new Date().toISOString(),late:true});
+    ADDP.legs=[];ADDP.podds="";saveParlays();updMyCount();d.remove();toast("Parlay saved to My picks");S.recType="parlay";renderRecord();startLive();return}
 }
 
 function wire(){
@@ -2289,7 +2340,7 @@ function wire(){
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-soc").onclick=()=>setView("soc");
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
-    const ap=e.target.closest("[data-addpast]");if(ap){openAddPast(ap.dataset.addpast);return}
+    const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
     const xp=e.target.closest("[data-unparlay]");if(xp){PARLAYS=PARLAYS.filter(p=>p.id!==xp.dataset.unparlay);saveParlays();updMyCount();renderRecord();toast("Parlay deleted");return}
     const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();updMyCount();renderRecord();toast("Removed from My picks")}});
