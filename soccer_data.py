@@ -63,7 +63,11 @@ MARGIN = {"g": .10, "sh": .07, "sot": .08, "a": .10, "sv": .07, "fc": .07, "card
 K_START, K_SUB = 4, 3    # shrinkage (pseudo-appearances) toward the position average
 
 
-def get(url, tries=3):
+FAILED = "failed"  # marker: the request didn't go through (rate limit, timeout), unlike a real "no data"
+
+
+def get(url, tries=4):
+    """JSON, None when ESPN has nothing (400/404), or FAILED when it never answered properly"""
     for i in range(tries):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=H), timeout=30) as r:
@@ -71,15 +75,13 @@ def get(url, tries=3):
         except urllib.error.HTTPError as e:
             if e.code in (400, 404):
                 return None
-            if i == tries - 1:
-                return None
         except Exception:
-            if i == tries - 1:
-                return None
-        time.sleep(1.5 * (i + 1))
+            pass
+        time.sleep(2 ** (i + 1))
+    return FAILED
 
 
-def pmap(fn, items, workers=12):
+def pmap(fn, items, workers=6):
     with ThreadPoolExecutor(workers) as ex:
         return list(ex.map(fn, items))
 
@@ -94,9 +96,12 @@ def num(v):
 def scoreboards(days):
     """{lg: [event, ...]} for the given dates"""
     jobs = [(lg, d) for lg in LEAGUES for d in days]
-    res = pmap(lambda j: (j[0], get(f"{SITE}/{j[0]}/scoreboard?dates={j[1]:%Y%m%d}")), jobs)
+    res = pmap(lambda j: (j, get(f"{SITE}/{j[0]}/scoreboard?dates={j[1]:%Y%m%d}")), jobs)
     out = {}
-    for lg, d in res:
+    scoreboards.failed = [[j[0], j[1].isoformat()] for j, d in res if d == FAILED]
+    for (lg, _), d in res:
+        if d == FAILED:
+            continue
         for e in (d or {}).get("events", []):
             out.setdefault(lg, {})[e["id"]] = e
     return {lg: list(v.values()) for lg, v in out.items()}
@@ -172,18 +177,38 @@ def add_match(hist, lg, ev, s):
 
 
 def update_history(hist, days_back, now):
+    """add every finished match from the last `days_back` days, plus anything an earlier run couldn't fetch
+    (ESPN sometimes rate-limits; a missed day or match is retried on the next runs until it comes through)"""
     done = hist.setdefault("events", {})
     days = [(now - dt.timedelta(days=k)).date() for k in range(0, days_back + 1)]
     sb = scoreboards(days)
-    todo = [(lg, e["id"]) for lg, evs in sb.items() for e in evs
-            if e["status"]["type"].get("state") == "post" and e["id"] not in done]
-    print(f"history: {len(todo)} new finished matches")
+    # league-days that failed before: retry them too
+    old_fail = [(lg, dt.date.fromisoformat(d)) for lg, d in hist.get("retry_days", []) if lg in LEAGUES and dt.date.fromisoformat(d) not in days]
+    failed_days = list(scoreboards.failed)
+    for lg, d in old_fail:
+        r = get(f"{SITE}/{lg}/scoreboard?dates={d:%Y%m%d}")
+        if r == FAILED:
+            failed_days.append([lg, d.isoformat()])
+        else:
+            sb.setdefault(lg, []).extend((r or {}).get("events", []))
+    hist["retry_days"] = failed_days[-2000:]
+    todo = {(lg, e["id"]) for lg, evs in sb.items() for e in evs
+            if e["status"]["type"].get("state") == "post" and e["id"] not in done}
+    todo |= {(lg, ev) for ev, lg in hist.get("retry_ev", {}).items() if ev not in done}
+    todo = sorted(todo)
+    print(f"history: {len(todo)} finished matches to add; {len(failed_days)} league-days to retry")
     res = pmap(lambda j: (j, get(f"{SITE}/{j[0]}/summary?event={j[1]}")), todo)
     n = 0
+    retry = {}
     for (lg, ev), s in res:
-        if s and add_match(hist, lg, ev, s):
+        if s == FAILED or not s:
+            if s == FAILED:
+                retry[ev] = lg
+            continue
+        if add_match(hist, lg, ev, s):
             done[ev] = (now.date()).isoformat()
             n += 1
+    hist["retry_ev"] = retry
     # forget old events / rows
     cut = (now - dt.timedelta(days=KEEP_DAYS)).date().isoformat()
     hist["events"] = {k: v for k, v in done.items() if v >= (now - dt.timedelta(days=30)).date().isoformat() or v >= cut}
@@ -299,7 +324,7 @@ def read_props(lg, ev):
     out, page, pages = [], 1, 1
     while page <= pages and page <= 5:
         d = get(f"{CORE}/{lg}/events/{ev}/competitions/{ev}/odds/100/propBets?limit=1000&page={page}")
-        if not d:
+        if not d or d == FAILED:
             break
         pages = d.get("pageCount") or 1
         for it in d.get("items", []):
@@ -336,6 +361,8 @@ def read_props(lg, ev):
 def lineups(lg, ev):
     """confirmed starters / bench from the match summary when ESPN has the lineups (about an hour before)"""
     s = get(f"{SITE}/{lg}/summary?event={ev}")
+    if s == FAILED:
+        s = None
     res = {}
     for r in (s or {}).get("rosters", []) or []:
         for x in r.get("roster", []) or []:
@@ -347,16 +374,16 @@ def lineups(lg, ev):
 
 def main():
     light = "--light" in sys.argv
-    days_back = int(sys.argv[sys.argv.index("--days-back") + 1]) if "--days-back" in sys.argv else 4
+    days_back = int(sys.argv[sys.argv.index("--days-back") + 1]) if "--days-back" in sys.argv else 7
     now = dt.datetime.now(dt.timezone.utc)
     try:
         hist = json.load(gzip.open(HIST, "rt"))
     except Exception:
         hist = {"players": {}, "teams": {}, "events": {}}
         days_back = max(days_back, 60)  # first run: build two months of history
-    if not light and hist.get("depth", 0) < 120:
-        days_back = max(days_back, 120)  # deepen once to four months, so more players have enough matches
-        hist["depth"] = 120
+    if not light and hist.get("depth", 0) < 121:
+        days_back = max(days_back, 120)  # deepen (and re-check) four months once, so more players have enough matches
+        hist["depth"] = 121
     if not light:
         update_history(hist, days_back, now)
         json.dump(hist, gzip.open(HIST, "wt"), separators=(",", ":"))
@@ -440,6 +467,8 @@ def main():
             r_adj = {"support": .2, "caution": -.35}.get(note.get("flag"), 0) * {"high": 1.2, "medium": 1.0, "low": .6}.get(note.get("conf"), 1.0)
             s_start = 1.0 if status == "start" else 0.0 if status == "bench" else \
                 ((sum(r[6] for r in apps) + .5) / (len(apps) + 1) if apps else .5)
+            last = ((hist["teams"].get(tid) or {}).get("g") or [[""]])[-1][0]
+            stale = not last or last < (now - dt.timedelta(days=18)).date().isoformat()  # his team's recent matches are missing
             gf, ga = tav[tid]
             ogf, oga = tav[opp_id]
             exp_for = imp.get("home" if home else "away")
@@ -468,7 +497,7 @@ def main():
                              "home": home, "m": m, "k": k, "label": (f"{k}+ goals" if m == "g" else f"{k}+ {LABEL[m].lower()}") if m not in ("g", "card") or k > 1 else LABEL[m],
                              "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
                              "book": round(q, 3), "fair_book": round(q_fair, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
-                             "lineup": status, "start_rate": round(s_start, 2),
+                             "lineup": status, "start_rate": round(s_start, 2), **({"stale": True} if stale else {}),
                              "open": opened.get(f"SOC|{aid}|{m}|{k}|{u['ev']}", am),
                              **({"research": note.get("note"), "rflag": note.get("flag"), "rconf": note.get("conf")} if note.get("note") else {})})
                 if u["t"] > now:
@@ -510,10 +539,10 @@ def main():
         return out
     # a model chance far above the book's (more than 1.75x, or 15+ points) usually means the book knows something the
     # box scores don't (injury, rotation, a different role), so those stay off the Top lists
-    sane = lambda c: c["model"] <= 1.75 * c["fair_book"] and c["model"] - c["fair_book"] <= .15
+    sane = lambda c: c["model"] <= 1.75 * c["fair_book"] and c["model"] - c["fair_book"] <= .15 and not c.get("stale")
     value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
-    scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
+    scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1 and not c.get("stale")], lambda c: -c["prob"], per_match=3)
     matches.sort(key=lambda m: m["t"])
     cut = (now - dt.timedelta(days=10)).isoformat(timespec="minutes")
     json.dump({k: v for k, v in closing.items() if v[1] >= cut}, open(CLOSE, "w"), separators=(",", ":"))
