@@ -322,6 +322,7 @@ span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(-
 .tdh3{margin:10px 0 2px;font:700 .95rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
 .tdprice td{vertical-align:middle}@media(max-width:480px){.tdprice th,.tdprice td{padding:7px 4px}.tdin input{width:48px}}.tdprice td:first-child{white-space:normal}.tdprice small.pteam{display:block}
 .tdv{display:block;font:600 10.5px var(--f-body)}.tdv.good{color:var(--hit)}.tdv.bad{color:var(--miss)}
+.ltdidle{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:14px}.livedot.off{background:var(--line2);animation:none}
 .livedot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e11d48;margin-right:8px;vertical-align:2px;animation:pulse 2s ease-in-out infinite}
 .ltdgames{display:flex;flex-wrap:wrap;gap:6px}.ltdg{font:500 12.5px var(--f-body);border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--ink2)}
 .ltdg.rz{border-color:var(--hit);background:var(--hit-soft)}.ltdg em{font-style:normal;color:var(--hit);font-weight:600}
@@ -2309,9 +2310,28 @@ function apClick(e){
 // left, how much he's being used compared with normal, whether his team is in the red zone right now, and blowouts.
 // All of it runs in the browser from ESPN's free live data.
 let LTD={games:[],at:0,busy:false,timer:null};
+// the pre-game TD model (same weights as picks.py td_board, stats only), for games that kicked off before the app
+// saved a pre-game chance for them
+const TDW={b:-.682,rate:.48,touch:.35,per:-.412,imp:.381,WR:.228,TE:.408,QB:-.321};
+function ltdModel(team){
+  const meta=DATA.NFLmeta||{},now=Date.now();
+  const g=(meta.upcoming||[]).find(u=>(u.away===team||u.home===team)&&u.t.getTime()<=now&&now-u.t.getTime()<6*3600e3);if(!g)return[];
+  const home=g.home===team,sp=g.spread==null?null:(home?g.spread:-g.spread),imp=g.total!=null&&sp!=null?g.total/2-sp/2:22.5;
+  const lt=v=>Math.log(v/(1-v)),cur=DATA.NFLmeta.curStart;
+  return(DATA.NFL||[]).filter(p=>p.team===team&&["RB","WR","TE","QB"].includes(p.pos)&&p.games.some(x=>x.date>=cur)&&p.games.length>=4).map(p=>{
+    const l10=p.games.slice(-10),l5=p.games.slice(-5);
+    const rate=(l10.filter(x=>x.td>0).length+.6)/(l10.length+2),touch=l5.reduce((a,x)=>a+x.car+x.rec,0)/l5.length;
+    const per=(l10.reduce((a,x)=>a+x.td,0)+.5)/(l10.reduce((a,x)=>a+x.car+x.rec,0)+15);
+    const z=TDW.b+TDW.rate*lt(rate)+TDW.touch*Math.log(touch+1)+TDW.per*Math.log(per*100)+TDW.imp*(imp-22.5)/7+(TDW[p.pos]||0);
+    return{key:`NFL|${p.id}|td`,lg:"NFL",id:p.id,name:p.name,team,pos:p.pos,opp:home?g.away:g.home,home,t:g.t.toISOString(),prob:1/(1+Math.exp(-z)),touches:touch,implied:imp}
+  }).filter(c=>c.prob>=.08);
+}
+function ltdLiveTeams(){const now=Date.now();return((DATA.NFLmeta||{}).upcoming||[]).filter(u=>u.t.getTime()<=now&&now-u.t.getTime()<5*3600e3).flatMap(u=>[u.away,u.home])}
 function ltdPool(){
   const now=Date.now(),all=[...((PICKS&&PICKS.tdLive)||[]),...((PICKS&&PICKS.tdAll)||[])],seen=new Set();
-  return all.filter(c=>{const t=new Date(c.t).getTime();if(t>now||now-t>6*3600e3||seen.has(c.key))return false;seen.add(c.key);return true});
+  const pool=all.filter(c=>{const t=new Date(c.t).getTime();if(t>now||now-t>6*3600e3||seen.has(c.key))return false;seen.add(c.key);return true});
+  for(const tm of ltdLiveTeams())if(!pool.some(c=>c.team===tm))pool.push(...ltdModel(tm));
+  return pool;
 }
 async function ltdRefresh(){
   if(LTD.busy||S.league!=="NFL"||S.view!=="board")return;
@@ -2365,7 +2385,9 @@ function ltdRows(){
 }
 function renderLiveTD(){
   const el=document.getElementById("tdlive");if(!el)return;
-  if(S.league!=="NFL"||!LTD.games.length){el.hidden=true;el.innerHTML="";return}
+  if(S.league!=="NFL"){el.hidden=true;el.innerHTML="";return}
+  if(!LTD.games.length){const nx=((DATA.NFLmeta||{}).upcoming||[]).filter(u=>u.t.getTime()>Date.now()).sort((a,b)=>a.t-b.t)[0];
+    el.hidden=!nx;el.innerHTML=nx?`<div class="ltdidle"><span class="livedot off"></span><b>Live anytime TDs</b><span class="pteam">${LTD.busy?"checking live games\u2026":`appears here during NFL games \u00b7 next: ${nx.away} @ ${nx.home} ${nx.t.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}`}</span></div>`:"";return}
   const rows=ltdRows(),open=rows.filter(r=>!r.scored).sort((a,b)=>b.p-a.p),scored=rows.filter(r=>r.scored);
   const fair=p=>decToAm(1/Math.max(.01,p));
   el.hidden=false;
