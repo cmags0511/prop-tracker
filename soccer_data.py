@@ -476,7 +476,7 @@ def main():
                 if aid not in pinfo:
                     pinfo[aid] = {"n": p["n"], "pos": pos_group(p.get("pos")), "team": p["t"], "lineup": status,
                                   "sr": round(s_start, 2), "dates": [r[0][5:] for r in g10], "opp": [r[4] for r in g10],
-                                  "comp": [LEAGUES.get(r[1], r[1]) for r in g10], "st": [r[6] for r in g10],
+                                  "comp": [r[1] for r in g10], "home": home, "st": [r[6] for r in g10],
                                   "v": {s_: [r[i_] or 0 for r in g10] for s_, i_ in (("g", 8), ("a", 9), ("sh", 10), ("sot", 11), ("sv", 15), ("fc", 12), ("yc", 13))
                                         if s_ != "sv" or pos_group(p.get("pos")) == "G"},
                                   **({"research": note.get("note"), "rflag": note.get("flag")} if note.get("note") else {})}
@@ -487,7 +487,11 @@ def main():
               "home": u["home"].get("abbreviation", ""), "away": u["away"].get("abbreviation", ""),
               "home_n": u["home"].get("displayName", ""), "away_n": u["away"].get("displayName", ""),
               "exp": [round(imp["home"], 2), round(imp["away"], 2)] if imp.get("home") else None,
-              "lineups": bool(lus.get(i)), "n_dk": len(pr), "n_pl": [len(pinfo), len(by_player)], "props": [r for r in rows if r["prob"] >= .05 or r["ev"] > 0], "players": pinfo}
+              "lineups": bool(lus.get(i)), "n_dk": len(pr), "n_pl": [len(pinfo), len(by_player)], "players": pinfo,
+              # every prop with at least a 5% chance, compact: [player, market, k, price, first price seen, chance,
+              # expected profit, hits, of last n, model chance] (the app rebuilds names and labels from "players")
+              "P": [[r["pid"], r["m"], r["k"], r["price"], r["open"], r["prob"], r["ev"], r["hits"][0], r["hits"][1], r["model"]]
+                    for r in rows if r["prob"] >= .05]}
         matches.append(mt)
         for r in rows:
             cands.append(dict(r, lg=u["lg"], league=mt["league"], ev_id=u["ev"], t=mt["t"]))
