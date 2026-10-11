@@ -1,5 +1,5 @@
-name: probe6
-on: {push: {branches: [probe-td]}}
+name: probe7
+on: {push: {branches: [probe-soc]}}
 permissions: {contents: write}
 jobs:
   p:
@@ -9,6 +9,6 @@ jobs:
       - run: mkdir -p out && python p.py 2>&1 | tee out/log.txt
       - run: |
           git config user.name probe; git config user.email probe@users.noreply.github.com
-          git checkout -b probe-td-out; git add out; git commit -qm out; git push -q origin probe-td-out
+          git checkout -b probe-soc-out; git add out; git commit -qm out; git push -q origin probe-soc-out
           sleep 600
-          git push origin --delete probe-td-out probe-td || true
+          git push origin --delete probe-soc-out probe-soc || true
