@@ -46,6 +46,8 @@ def clean_note(n):
         adj = max(-2, min(2, int(round(float(n.get("adj") or 0)))))
     except (TypeError, ValueError):
         adj = 0
+    if side and adj < 0:  # "against the over" is stored as "for the under", so every note reads one way
+        side, adj = ("under" if side == "over" else "over"), -adj
     out = {"side": side, "flag": n.get("flag") if n.get("flag") in FLAGS else "neutral", "adj": adj,
            "conf": n.get("conf") if n.get("conf") in ("low", "medium", "high") else "medium",
            "note": txt(n.get("note"), 320), "sources": urls(n.get("sources"))}

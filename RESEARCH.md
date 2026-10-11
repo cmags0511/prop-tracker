@@ -125,8 +125,11 @@ stays fresh without another full run. No subagents, a handful of searches in tot
 > each one the news moves (a backup QB starting usually means caution on his receivers' overs and on
 > the QB-dependent props; a WR1 out usually supports the WR2/TE's volume).
 >
-> Then the verdict: `side`, `adj` (+2 strong, +1 mild, 0 nothing, -1 mild concern, -2 strong concern,
-> for that side), `flag` (`out` / `caution` / `support` / `neutral`), `conf` (`high` = confirmed by an
+> Then the verdict. **`side` is always the side your evidence favors** (even when the app leans the other
+> way), and `adj` is how strongly: +2 strong, +1 mild, 0 nothing clear (never negative). Example: the app
+> shows an under but the matchup and script point over → `side` "over", `adj` +1. `flag` (`out` / `caution`
+> / `support` / `neutral`): `caution` = his outlook is uncertain (questionable, role in flux), not a
+> direction; `conf` (`high` = confirmed by an
 > official report or team source plus at least one more independent source; `medium` = one solid
 > source or clear usage data; `low` = inference or thin sourcing) and a one-sentence `note` (max 35 words) with the main non-stat reason.
 > **Scan the whole board.** `other_props` lists every other prop in the game. After the targets, run

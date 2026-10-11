@@ -54,6 +54,31 @@ LABEL = {"pyd": "Passing yards", "cmp": "Completions", "att": "Pass attempts", "
          "tkl": "Tackles + assists", "sck": "Sacks"}
 
 
+def research_dir(n):
+    """(side the research favors or None, strength 0-2, uncertain?) from a research note, however it was written.
+    Researchers name a side and an adj; a negative adj means "against that side", so it's flipped to a positive adj
+    for the other side. A caution with no clear lean (adj 0) has no direction; it only says the outlook is uncertain
+    (questionable status, role in flux)."""
+    side = n.get("side") if n.get("side") in ("over", "under") else None
+    try:
+        adj = max(-2.0, min(2.0, float(n.get("adj") or 0)))
+    except (TypeError, ValueError):
+        adj = 0.0
+    if side and adj < 0:
+        side, adj = ("under" if side == "over" else "over"), -adj
+    uncertain = n.get("flag") == "caution" and adj < 1
+    return (side if adj > 0 else None), adj, uncertain
+
+
+def research_push(n, conf=1.0):
+    """log-odds push toward the OVER from a note (negative = toward the under)"""
+    side, adj, _ = research_dir(n)
+    if not side:
+        return 0.0
+    s = .15 * adj + (.25 if n.get("flag") == "support" else .1)
+    return conf * s * (1 if side == "over" else -1)
+
+
 def stat(g, m):
     if m == "rry": return g["ryd"] + g["recyd"]
     if m == "kpts": return 3 * g["fgm"] + g["pat"]
@@ -200,10 +225,8 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
         kal = market_prob(lad, .5, game["t"], now) if lad else None
         zz = TD_MKT * lt(min(.97, max(.03, kal))) + (1 - TD_MKT) * z if kal is not None else z
         why = []
-        adj = 0.0
-        if note.get("side") in ("over", "under"):
-            a = CONF.get(note.get("conf"), 1.0) * .15 * max(-2, min(2, float(note.get("adj") or 0)))
-            adj = a if note["side"] == "over" else -a
+        r_fav, r_adj, _ = research_dir(note)
+        adj = CONF.get(note.get("conf"), 1.0) * .15 * r_adj * (1 if r_fav == "over" else -1) if r_fav else 0.0
         zz += adj
         shaky = bool(inj and inj["s"] in SHAKY)
         if shaky:
@@ -241,7 +264,7 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
                     "l10": [sum(1 for g in l10 if g["td"] > 0), len(l10)], "season_td": cur_td, "season_g": len(cur),
                     "touches": round(touch, 1), "implied": round(imp, 1), "status": inj["s"] if inj else None,
                     "backup": backup, "why": ". ".join(why) + ".", "research": note.get("note") if note.get("side") else None,
-                    "conf": note.get("conf"), "radj": (float(note.get("adj") or 0) * (1 if note["side"] == "over" else -1)) if note.get("side") in ("over", "under") else None, "buzz": note.get("buzz")})
+                    "conf": note.get("conf"), "radj": (r_adj * (1 if r_fav == "over" else -1)) if r_fav else (0 if note.get("side") else None), "buzz": note.get("buzz")})
     res.sort(key=lambda c: -c["score"])
 
     def pick10(pool):
@@ -444,10 +467,10 @@ def main():
                 if not note:
                     # no research on this exact prop: borrow half of what was found on his other props
                     # (injuries to him or his teammates usually move all his props the same way)
-                    other = [v for k, v in notes.items() if k.startswith(f"{lg}|{p['id']}|")]
+                    other = [v for k, v in notes.items() if k.startswith(f"{lg}|{p['id']}|") and not k.endswith("|td")]
                     if other:
-                        a = sum(RESEARCH.get(v.get("flag"), 0) / .15 + float(v.get("adj") or 0) for v in other) / len(other)
-                        note = {"adj": a * .5, "borrowed": True}
+                        # what was found about his production in general (more or less), at half weight
+                        note = {"push": .5 * sum(research_push(v) for v in other) / len(other), "borrowed": True}
                 # a DraftKings line far from his recent numbers usually means the book knows something
                 # (injury, role change), so trust the stats less there; z is capped to the backtested range
                 ratio = max(avg, line) / max(min(avg, line), 1)
@@ -490,10 +513,7 @@ def main():
                     lin += parts["market"]
                 # the researcher's confidence in the evidence scales how much the research moves the pick
                 conf = CONF.get(note.get("conf"), 1.0) * FXM.get("research", 1)
-                adj = conf * (RESEARCH.get(note.get("flag"), 0) + .15 * max(-2, min(2, float(note.get("adj") or 0))))
-                # research is written for a side: the one it names ("side"), else the side the stats lean to
-                r_side_over = note["side"] == "over" if note.get("side") in ("over", "under") else stats_over
-                r_over = adj if r_side_over else -adj
+                r_over = note["push"] * conf if note.get("borrowed") else research_push(note, conf)
                 lin += r_over
                 over = lin >= 0
                 prob = 1 / (1 + math.exp(-lin))
@@ -518,7 +538,12 @@ def main():
                     if (prob if over else 1 - prob) < be:
                         score *= .7  # the price asks for more than the numbers give him
                 exact = note if note and not note.get("borrowed") else {}
-                confirmed = exact.get("side") == side and float(exact.get("adj") or 0) >= 1
+                r_fav, r_adj, r_unc = research_dir(exact) if exact else (None, 0, False)
+                confirmed = r_fav == side and r_adj >= 1
+                if exact and r_unc:
+                    score *= .85  # the research found the outlook uncertain (questionable, role in flux)
+                if exact and exact.get("side") in ("over", "under") and exact["side"] != side and not r_fav:
+                    score *= .6   # the research named the other side, without a firm call
                 # a line far from his numbers usually means the book knows something: keep it out of the Top lists
                 # unless the research checked it and still backs this side
                 if gap > .25 and not confirmed:
@@ -543,9 +568,7 @@ def main():
                 if score <= .05 and not note.get("side"):
                     continue
                 # never show a pick the research argues against
-                if exact.get("side") in ("over", "under") and exact["side"] != side and float(exact.get("adj") or 0) >= 1:
-                    continue
-                if exact.get("side") == side and exact.get("flag") == "caution" and float(exact.get("adj") or 0) <= -2:
+                if r_fav and r_fav != side and r_adj >= 1:
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
                 last = re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", p["n"]).split()[-1]

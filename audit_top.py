@@ -17,6 +17,7 @@ can fix them before publishing.
 
 Usage: python audit_top.py [--json]
 """
+from picks import research_dir
 import json, sys, datetime as dt
 
 
@@ -61,8 +62,10 @@ def main():
                 flags = []
                 if not n:
                     flags.append("NOT RESEARCHED")
+                elif research_dir(n)[0] and research_dir(n)[0] != c["side"]:
+                    flags.append(f"RESEARCH SAYS {research_dir(n)[0].upper()}")
                 elif n.get("side") in ("over", "under") and n["side"] != c["side"]:
-                    flags.append(f"RESEARCH SAYS {n['side'].upper()}")
+                    flags.append(f"RESEARCH LEANS {n['side'].upper()}")
                 if n.get("flag") == "caution":
                     flags.append("CAUTION")
                 if (c.get("gap") or 0) > .25:
