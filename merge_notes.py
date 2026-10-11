@@ -81,6 +81,7 @@ def main():
     CFB_M = {"pyd", "cmp", "att", "ptd", "ryd", "car", "rec", "recyd", "rry"}
     cfb_lines = {}
     # anytime-TD keys the packets offered (no DraftKings line, so they aren't on the slate)
+    soc_ok = {p["key"] for p in (load("research/packets/SOCCER-day.json", {}) or {}).get("players", [])}
     td_ok = {c["key"] for f in glob.glob("research/packets/*.json") for c in (load(f, {}) or {}).get("td_candidates", [])}
 
     def cfb_key(k):
@@ -110,6 +111,9 @@ def main():
                             "opp": opp, "source": (urls([ln.get("source")]) or [None])[0]}
         for k, n in (g.get("notes") or {}).items():
             if k.startswith("CFB|") and cfb_key(k) and isinstance(n, dict):
+                notes[k] = clean_note(n)
+                continue
+            if k in soc_ok and isinstance(n, dict):
                 notes[k] = clean_note(n)
                 continue
             if k in td_ok and isinstance(n, dict):

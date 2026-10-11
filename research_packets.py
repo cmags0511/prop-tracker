@@ -134,6 +134,25 @@ def cfb_packet(cfb, now):
             "note": "Keys are key_prefix + '|' + market, e.g. CFB|4432577|pyd. Team codes are ESPN's.", "games": games}
 
 
+def soccer_packet(soc, now):
+    """the players on the Soccer tab's Top 10 lists kicking off in the next 36 hours: check availability and role"""
+    if not soc:
+        return None
+    seen = {}
+    for lst in ("value", "plus", "scorers"):
+        for c in soc.get(lst, []):
+            t = dt.datetime.fromisoformat(c["t"])
+            if not (now < t < now + dt.timedelta(hours=36)):
+                continue
+            k = f"SOC|{c['pid']}|{c['ev_id']}"
+            p = seen.setdefault(k, {"key": k, "name": c["name"], "pos": c["pos"], "team": c["team"], "opp": c["opp"],
+                                    "home": c["home"], "league": c.get("league"), "kickoff": c["t"],
+                                    "lineup": c.get("lineup") or f"starts {round((c.get('start_rate') or .5) * 100)}% of recent matches",
+                                    "bets": []})
+            p["bets"].append(f"{c['label']} at {'+' if c['price'] > 0 else ''}{c['price']} (app {round(c['prob'] * 100)}%)")
+    return {"players": sorted(seen.values(), key=lambda p: p["kickoff"])} if seen else None
+
+
 def main():
     now = dt.datetime.now(dt.timezone.utc)
     slate = load("slate.json", {"props": []})["props"]
@@ -212,7 +231,11 @@ def main():
     if cp:
         json.dump(cp, open("research/packets/CFB-week.json", "w"), indent=1)
         print(f"CFB-week: {len(cp['games'])} college games in the next {FULL_H:.0f} hours")
-    if not games and not cp:
+    sp = soccer_packet(load("soccer.json"), now)
+    if sp:
+        json.dump(sp, open("research/packets/SOCCER-day.json", "w"), indent=1)
+        print(f"SOCCER-day: {len(sp['players'])} players on the soccer Top 10s in the next 36 hours")
+    if not games and not cp and not sp:
         print("nothing to research in the window")
 
 

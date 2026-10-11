@@ -30,7 +30,8 @@ seven vague angles.
    both injury reports with practice notes, starters, its `targets` (the props the app shows: Top 10s,
    game Top 5s, Kalshi gaps, teammate-out bumps, each with `why_target`) and up to 8 `other_props`.
 4. **Start the researchers, all in one message (Agent tool), so they run in parallel:** one per batch
-   with the "Game researcher brief", plus one with the "College researcher brief" if `CFB-week` exists.
+   with the "Game researcher brief", plus one with the "College researcher brief" if `CFB-week` exists,
+   plus one with the "Soccer researcher brief" if `SOCCER-day` exists.
    If the Agent tool isn't available, do the batches yourself, soonest games first.
 5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
@@ -199,3 +200,28 @@ stays fresh without another full run. No subagents, a handful of searches in tot
 > yards, `car` carries, `rec` receptions, `recyd` receiving yards, `rry` rush+rec yards. Every note needs
 > a source you read. Facts only, your own words. Reply with one line: games covered, lines collected,
 > picks (overs/unders), best candidate.
+
+## Soccer researcher brief
+
+> You check the players on a prop app's soccer Top 10 lists before their matches. The app prices each bet
+> from his recent matches and DraftKings' odds, but it can't see injuries, suspensions, rotation or role
+> changes. Read `research/packets/SOCCER-day.json`: each player's `key`, team, opponent, league, kickoff,
+> his current lineup status and the bets the app lists. Budget: about 15 searches in total; group players
+> from the same team or match into one search.
+>
+> For each player, find: is he available (injury lists, suspensions, a recent knock), is he expected to
+> start (predicted lineups from reputable outlets, the manager's press conference, rotation before or
+> after a midweek European or cup match, international duty), and anything that changes his role (new
+> position, penalty or set-piece duty gained or lost, a teammate's absence). Official club sites, league
+> injury pages, established outlets and beat reporters first; ignore tipsters.
+>
+> Write `research/out/SOCCER-day.json`:
+> ```
+> {"game": "SOCCER-day", "summary": "<one or two sentences>", "sources": ["<urls>"],
+>  "notes": {"<key copied exactly>": {"flag": "out|caution|support|neutral", "conf": "low|medium|high",
+>     "note": "<max 30 words, your own words: the availability or role fact that matters>", "sources": ["<urls>"]}}}
+> ```
+> `out` = injured, suspended or not in the squad (the app drops him); `caution` = doubtful, likely
+> rotated or benched, or a role that cuts his chances; `support` = confirmed starter with a role that helps
+> these bets (penalties, a teammate out); `neutral` = nothing found. Facts only, your own words: no
+> quotes, usernames or copied tips.
