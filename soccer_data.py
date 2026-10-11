@@ -481,7 +481,9 @@ def main():
             # his team's matches are missing from the data while the rest of its league kept playing
             last = ((hist["teams"].get(tid) or {}).get("g") or [[""]])[-1][0]
             lg_last = league_last.get(u["lg"])
-            stale = not last or (lg_last and (dt.date.fromisoformat(lg_last) - dt.date.fromisoformat(last)).days > 10)
+            # (checked against ESPN's schedules: gaps here have been real breaks in the calendar, so this only flags a
+            # team with no match at all in the last 60 days)
+            stale = not last or last < (now - dt.timedelta(days=60)).date().isoformat()
             gf, ga = tav[tid]
             ogf, oga = tav[opp_id]
             exp_for = imp.get("home" if home else "away")
