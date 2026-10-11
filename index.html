@@ -952,13 +952,15 @@ function renderTop(){
   el.innerHTML=`${head}<p class="topsub">${S.league} · ${range} · ranked against the DraftKings line${CTX&&CTX.built?" · injuries checked "+new Date(CTX.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):""}${notesOk?` · researched ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p>
   ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
-    const lbl={caution:"Caution",support:"News",neutral:"News"}[n&&n.flag]||"News";
+    const rd=researchDir(n),agrees=rd.side===c.side,against=rd.side&&rd.side!==c.side;
+    const lbl=against?"Research disagrees":agrees?"Research":rd.unc?"Caution":"News";
+    const lcls=against||rd.unc?"caution":agrees?"support":"neutral";
     const inSlip=slipHas(c.lg,c.id,c.market,c.side,c.line);
     const tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market===c.market&&x.t===new Date(c.t).toISOString()&&x.side===c.side&&x.line===c.line);
     return`<div class="pick" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
-      ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
+      ${n&&n.note?`<div class="news"><b class="${lcls}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
@@ -1452,14 +1454,23 @@ function marketHtml(lg,p,m,line,g){
 const notesFresh=()=>NOTES&&NOTES.notes&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3;
 const hostOf=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return""}};
 const ANGLES=[["availability","Availability"],["role","Role & usage"],["matchup","Matchup"],["script","Game script"],["conditions","Conditions"],["market","Market"],["experts","Experts"]];
+// how to read a research note (same rules as picks.py research_dir): side = what the evidence favors, adj = how
+// firmly (a negative adj means the other side); "caution" with no firm lean = uncertain, not a direction
+function researchDir(n){
+  if(!n)return{side:null,adj:0,unc:false};
+  let side=n.side==="over"||n.side==="under"?n.side:null,adj=Math.max(-2,Math.min(2,+n.adj||0));
+  if(side&&adj<0){side=side==="over"?"under":"over";adj=-adj}
+  return{side:adj>0?side:null,adj,unc:n.flag==="caution"&&adj<1,named:n.side};
+}
 function researchHtml(lg,p,m){
   if(!notesFresh())return"";
   const n=NOTES.notes[`${lg}|${p.id}|${m.id}`];
   if(!n||!(n.note||n.detail))return"";
-  const verdict=n.side?`${n.side==="over"?"Over":"Under"}${n.adj>=2?" \u00b7 strong":n.adj===1?" \u00b7 lean":n.adj<0?" \u00b7 concerns":""}`:"";
-  const tone=n.flag==="out"||n.flag==="caution"?"tough":n.flag==="support"?"good":"neutral";
+  const rd=researchDir(n);
+  const verdict=n.flag==="out"?"Ruled out":rd.side?`Favors ${rd.side==="over"?"over":"under"}${rd.adj>=2?" \u00b7 strong":" \u00b7 lean"}`:"No clear lean";
+  const tone=n.flag==="out"?"tough":rd.side?"good":"neutral";
   const det=n.detail||{};
-  return`<div class="resbox"><div class="mutop"><b>Research</b>${verdict?`<span class="mupill ${tone}">${verdict}</span>`:""}${n.conf?`<span class="pteam">${n.conf} confidence</span>`:""}</div>
+  return`<div class="resbox"><div class="mutop"><b>Research</b>${verdict?`<span class="mupill ${tone}">${verdict}</span>`:""}${rd.unc?`<span class="mupill tough" title="Questionable status or a role in flux">Uncertain</span>`:""}${n.conf?`<span class="pteam">${n.conf} confidence</span>`:""}</div>
     ${n.note?`<p class="resnote">${esc(n.note)}</p>`:""}
     ${ANGLES.some(([k])=>det[k])?`<dl class="angles">${ANGLES.filter(([k])=>det[k]).map(([k,l])=>`<dt>${l}</dt><dd>${esc(det[k])}</dd>`).join("")}</dl>`:""}
     ${(n.sources||[]).length?`<p class="bbsrc">Sources: ${n.sources.slice(0,6).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(hostOf(u))}</a>`).join(" \u00b7 ")}</p>`:""}
@@ -1862,7 +1873,7 @@ function gameBody(x){
       for(const r of rs){
         const k=lg+"|"+p.id+"|"+r.m.id,c=pickKeys.get(k),n=notesOk?NOTES.notes[k]:null;
         const on=S.gsel===r.key;
-        html+=`<tr class="gbet${on?" sel":""}" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}" aria-expanded="${on}"><td>${esc(SHORT[r.m.id]||r.m.label)}${r.m.fixed&&r.kal!=null?`<span class="tp kal" title="Kalshi traders' chance he scores a TD; fair odds without the book's margin">Kalshi ${Math.round(r.kal*100)}% \u00b7 ${decToAm(1/Math.max(.01,r.kal))}</span>`:""}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${n&&n.flag==="caution"?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""}</td>
+        html+=`<tr class="gbet${on?" sel":""}" tabindex="0" data-id="${esc(r.key)}" data-m="${r.m.id}" aria-expanded="${on}"><td>${esc(SHORT[r.m.id]||r.m.label)}${r.m.fixed&&r.kal!=null?`<span class="tp kal" title="Kalshi traders' chance he scores a TD; fair odds without the book's margin">Kalshi ${Math.round(r.kal*100)}% \u00b7 ${decToAm(1/Math.max(.01,r.kal))}</span>`:""}${c?`<span class="tp" title="${esc(c.why)}">${c.side==="over"?"Over pick":"Under pick"}</span>`:""}${(()=>{const rd=researchDir(n);return rd.side&&c&&rd.side!==c.side?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Research: ${rd.side}</span>`:rd.unc?`<span class="tp" style="color:var(--miss)" title="${esc(n.note)}">Caution</span>`:""})()}</td>
           <td class="num mono">${r.m.fixed?"1+":fmt(r.line)+(r.mine?"*":"")}</td><td class="num"><span class="heat ${heat(r.l10)}">${pct(r.l10)}</span></td><td class="num hide-xs"><span class="heat ${heat(r.all)}">${pct(r.all)}</span></td><td class="num mono">${r.avg10.toFixed(1)}</td></tr>${on?'<tr class="drawer gdrawer"><td colspan="5" id="detail"></td></tr>':""}`;
       }
     }
@@ -1888,11 +1899,6 @@ function openInGame(id,force){
   renderUpcoming();
   const row=[...document.querySelectorAll("#view-up tr.gbet")].find(r=>r.dataset.id===id);
   if(row&&S.gsel){row.focus({preventScroll:true});row.scrollIntoView({block:force?"start":"nearest",behavior:reduceMo()})}
-}
-function openFromUp(id,mid){
-  S.view="board";S.game=null;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;
-  if(mid&&!isAll()){S.market=mid;if(!inCat(mid))S.cat=""}else if(mid&&!inCat(mid))S.cat="";
-  setupControls();open(id,true);
 }
 function renderUpcoming(){
   const el=document.getElementById("view-up"),m=mkt(),meta=DATA[S.league+"meta"];

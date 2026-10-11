@@ -17,3 +17,35 @@
 The app shows overs by default ("Overs" / "Overs + unders" switch); `picks.json` has `picksOver`, `byMarketOver` and `gamesOver` lists for that, and `record.json` grades both Top 10s (each entry's `sets`).
 
 Weights for form, matchup, game script and minutes come from a walk-forward backtest on 2025 NFL and 2025-26 NBA games: favorable matchups hit about 57.5% vs about 51-54% for unfavorable ones.
+
+## Research notes: how they're read
+
+Every note says which side the evidence **favors** (`side`) and how firmly (`adj` +1 lean, +2 strong, 0 nothing clear).
+`merge_notes.py` stores "against the over" as "for the under", so every note reads one way; `picks.py` (`research_dir`),
+`record.py` and the app all use the same rule. `caution` means the outlook is uncertain (questionable, role in flux),
+not a direction: it ranks the pick a bit lower. A pick the research firmly favors the other side of is dropped; one the
+research only leans against ranks much lower. `audit_top.py` flags any Top 10 pick that's unresearched or disagrees.
+
+## Touchdowns
+
+`picks.py` → `tdTop`: a backtested anytime-TD model (TD rate, touches, TDs per touch, team implied points, position;
+calibrated on 2025-26 games) blended with Kalshi's "1+ TD" price and the research. Two Top 10s: likeliest and plus
+money. `tdAll` feeds the "most profitable plus-money TDs" section: expected profit from real prices (The Odds API, when a
+key is set) or odds typed into the app.
+
+## Soccer
+
+`soccer_data.py` (every 3 hours, prices hourly with `--light`): every league ESPN carries DraftKings soccer props for.
+It keeps four months of player match stats (`soccer_hist.json.gz`), reads each upcoming match's priced props (goals,
+shots, shots on target, assists, saves, fouls, cards), and estimates each chance with a Poisson model (recent starts and
+sub appearances, shrunk toward the position average, scaled by the team's expected goals from DraftKings' total and
+moneylines). `backtest_soccer.py` checks it against every past appearance; the per-stat calibration and per-position
+corrections in `soccer_data.py` come from it. The chance is blended with DraftKings' price, and expected profit =
+chance × payout. Club and international form are kept apart. The daily research checks availability and rotation for
+the soccer Top 10s. `soccer_close.json` holds the last price before kickoff (closing line value).
+
+## Records and tracking
+
+`record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box
+score; `calib.json` grades every slate prop for the Probability check; `closing.json` keeps kickoff lines. My picks and
+parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.

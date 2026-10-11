@@ -13,7 +13,7 @@ Usage: python record.py [record.json]
 """
 import gzip, json, sys, datetime as dt
 from zoneinfo import ZoneInfo
-from picks import stat, OUT_STATUS
+from picks import stat, OUT_STATUS, research_dir
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
@@ -136,9 +136,20 @@ def main():
         nfile, fresh = {}, False
     if fresh:
         slate = {p["key"]: p for p in load("slate.json", {"props": []})["props"]}
+        firm = {}
         for k, n in (nfile.get("notes") or {}).items():
             p = slate.get(k)
-            if not p or n.get("side") not in ("over", "under") or n.get("flag") == "out":
+            fav, adj, _ = research_dir(n)
+            if p and fav and n.get("flag") != "out":
+                firm[k] = (fav, adj)
+        # a pending call whose note no longer makes a firm call (or changed sides) is withdrawn before kickoff
+        for kk, e in list(research.items()):
+            if e["status"] == "pending" and start(e) > now and e.get("market") != "td" and \
+                    (e["key"] not in firm or firm[e["key"]][0] != e["side"]):
+                del research[kk]
+        for k, n in (nfile.get("notes") or {}).items():
+            p = slate.get(k)
+            if not p or k not in firm:
                 continue
             t = dt.datetime.fromisoformat(p["t"])
             if t <= now:
@@ -148,8 +159,8 @@ def main():
                     del research[kk]
             lg, pid, mid = k.split("|")
             research[(k, p["t"])] = {"key": k, "lg": lg, "id": pid, "name": p["name"], "team": p["team"], "opp": p["opp"],
-                                     "t": p["t"], "market": mid, "label": p["label"], "side": n["side"], "line": p["line"],
-                                     "adj": n.get("adj", 0), "conf": n.get("conf", "medium"), "flag": n.get("flag"),
+                                     "t": p["t"], "market": mid, "label": p["label"], "side": firm[k][0], "line": p["line"],
+                                     "adj": firm[k][1], "conf": n.get("conf", "medium"), "flag": n.get("flag"),
                                      "lean": p.get("lean"), "status": "pending", "result": None,
                                      "factors": next((c.get("factors") for c in picks.get("picks", []) + picks.get("picksOver", [])
                                                       if c["key"] == k), None)}

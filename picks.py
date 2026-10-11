@@ -24,7 +24,7 @@ KEEP = 30  # the daily research check reviews these, then the app shows the best
 # backtested weights (log-odds units): form, distance from line, matchup, implied team total, minutes trend
 W = {"NFL": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0), "CFB": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0),
      "NBA": dict(p=2.33, z=.65, mu=.046, tot=0, mtr=.86)}
-RESEARCH = {"support": .25, "caution": -.35, "neutral": 0}
+# (research notes are read by research_dir / research_push below)
 OUT_STATUS = {"Out", "Doubtful", "Injured Reserve", "Suspension", "Physically Unable to Perform", "Not Active"}
 SHAKY = {"Questionable", "Day-To-Day"}
 VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
@@ -499,7 +499,7 @@ def main():
                 age_h = None
                 try:
                     if dk.get("u"):
-                        age_h = (now - dt.datetime.fromisoformat(dk["u"].replace("Z", "+00:00"))).total_seconds() / 3600
+                        age_h = max(0.0, (now - dt.datetime.fromisoformat(dk["u"].replace("Z", "+00:00"))).total_seconds() / 3600)  # ESPN stamps can run ahead
                 except ValueError:
                     pass
                 med = market_median(mrec, game["t"], now)
@@ -696,7 +696,7 @@ def main():
     ups = [{"t": dt.datetime.fromisoformat(u[0]), "away": u[1], "home": u[2]} for u in meta.get("upcoming", [])]
     for k, n in notes.items():
         lg, pid, mid = k.split("|")
-        if mid != "td" or lg != "NFL" or n.get("side") != "over" or float(n.get("adj") or 0) < 1 or n.get("flag") == "out":
+        if mid != "td" or lg != "NFL" or research_dir(n)[0] != "over" or research_dir(n)[1] < 1 or n.get("flag") == "out":
             continue
         p = pls.get(pid)
         game = p and next((u for u in sorted(ups, key=lambda u: u["t"]) if p["t"] in (u["away"], u["home"]) and u["t"] > now), None)
