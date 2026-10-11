@@ -1,0 +1,825 @@
+{
+ "eng.1": "HTTP Error 400: Bad Request",
+ "esp.1": "HTTP Error 400: Bad Request",
+ "ita.1": "HTTP Error 400: Bad Request",
+ "ger.1": "HTTP Error 400: Bad Request",
+ "fra.1": "HTTP Error 400: Bad Request",
+ "usa.1": "HTTP Error 400: Bad Request",
+ "uefa.champions": "HTTP Error 400: Bad Request",
+ "uefa.europa": "HTTP Error 400: Bad Request",
+ "mex.1": "HTTP Error 400: Bad Request",
+ "ned.1": "HTTP Error 400: Bad Request",
+ "por.1": "HTTP Error 400: Bad Request",
+ "eng.2": "HTTP Error 400: Bad Request",
+ "bra.1": "HTTP Error 400: Bad Request",
+ "arg.1": "HTTP Error 400: Bad Request",
+ "sco.1": "HTTP Error 400: Bad Request",
+ "tur.1": "HTTP Error 400: Bad Request",
+ "bel.1": "HTTP Error 400: Bad Request",
+ "fifa.worldq.uefa": "HTTP Error 400: Bad Request",
+ "uefa.nations": "HTTP Error 400: Bad Request",
+ "fifa.friendly": "HTTP Error 400: Bad Request",
+ "sample_roster": "HTTP Error 400: Bad Request",
+ "kalshi_series": [
+  [
+   "KXUEFAEURO",
+   "UEFA European Championship"
+  ],
+  [
+   "KXWCGAMEGOALS",
+   "World Cup Highest Scoring Game"
+  ],
+  [
+   "KXUEFANLGAME",
+   "UEFA Nations League Game"
+  ],
+  [
+   "KXLIGUE1RELEGATION",
+   "Ligue 1 Relegation"
+  ],
+  [
+   "KXUEFANL1HBTTS",
+   "1st Half BTTS"
+  ],
+  [
+   "KXUCLTOTAL",
+   "Champions League Total Goals"
+  ],
+  [
+   "KXDDFWOMENSINGLES",
+   "Dubai Duty Free Tennis Championships"
+  ],
+  [
+   "KXLALIGABTTS",
+   "La Liga BTTS"
+  ],
+  [
+   "KXINTLFRIENDLYGOAL",
+   "Friendly Goal"
+  ],
+  [
+   "KXLIGUE2GAME",
+   "Ligue 2 Game"
+  ],
+  [
+   "KXSCOTTISHPREMGAME",
+   "Scottish Premiership Game"
+  ],
+  [
+   "KXMLS2H",
+   "2nd Half Winner"
+  ],
+  [
+   "KXUCL16PSVJUV",
+   "Champions League round of 16 - PSV JUV"
+  ],
+  [
+   "KXUEFASCGOAL",
+   "Goalscorer"
+  ],
+  [
+   "KXUEFACL",
+   "UEFA Champions League"
+  ],
+  [
+   "KXEPLTOP4",
+   "EPL top 4 teams"
+  ],
+  [
+   "KXUEFASCTEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXTRUMPGOLF",
+   "Trump US gold championship"
+  ],
+  [
+   "KXMLBALCSMVP",
+   "Pro Baseball American League Championship Series MVP"
+  ],
+  [
+   "KXUNITEDCUP",
+   "United Cup Champions"
+  ],
+  [
+   "KXLIGUE1LEADER",
+   "Ligue 1 Leader"
+  ],
+  [
+   "KXEFLCHAMPIONSHIPBTTS",
+   "BTTS"
+  ],
+  [
+   "KXEPLADVANCE",
+   "To Advance"
+  ],
+  [
+   "KXPUBGGC",
+   "PUBG Global Championship 2025"
+  ],
+  [
+   "KXPREMIERLEAGUE",
+   "PREMIER LEAGUE"
+  ],
+  [
+   "KXBIG12REG",
+   "Big 12 Regular Season Champions"
+  ],
+  [
+   "KXSERIEATOP4",
+   "Serie A Top 4 Finishers"
+  ],
+  [
+   "KXMLBNLCSMVP",
+   "Pro Baseball National League Championship Series MVP"
+  ],
+  [
+   "KXWCEVERYTEAMGOAL",
+   "World Cup Every Team to Score a Goal"
+  ],
+  [
+   "KXEPLTOP",
+   "EPL Top Finishers"
+  ],
+  [
+   "KXURYPD",
+   "Uruguayan Premier Division"
+  ],
+  [
+   "KXACCREG",
+   "ACC Regular Season Champions"
+  ],
+  [
+   "KXWCTEAMTOTALGOALS",
+   "World Cup Tournament Goals"
+  ],
+  [
+   "KXEPLAST",
+   "EPL Assists"
+  ],
+  [
+   "KXUFASEMI",
+   "Ultimate Frisbee Association Championship Qualifiers"
+  ],
+  [
+   "KXUEFASCMOV",
+   "Method of Victory"
+  ],
+  [
+   "KXUEFASC2H",
+   "2nd Half Winner"
+  ],
+  [
+   "KXMLS1HSCORE",
+   "1st Half Correct Score"
+  ],
+  [
+   "KXSERIEATOTAL",
+   "Serie A Total"
+  ],
+  [
+   "KXMLS2HBTTS",
+   "2nd Half BTTS"
+  ],
+  [
+   "KXUEFANLROUND",
+   "UEFA Nations League Round Qualifiers"
+  ],
+  [
+   "KXMLSASTTOTAL",
+   "Point Total"
+  ],
+  [
+   "KXAFCCLGAME",
+   "AFC Champions League Game"
+  ],
+  [
+   "KXWCGOALSTREAK",
+   "World Soccer Cup Goal Streak"
+  ],
+  [
+   "KXNCAAF",
+   "NCAAF Championship"
+  ],
+  [
+   "KXEFLCHAMPIONSHIP1HBTTS",
+   "1st Half BTTS"
+  ],
+  [
+   "KXLALIGATOP",
+   "La Liga Top Finishers"
+  ],
+  [
+   "KXSOCCERTOTAL",
+   "Soccer Goal Total"
+  ],
+  [
+   "KXUEFASCFIRSTGOAL",
+   "First Goalscorer"
+  ],
+  [
+   "KXSECREG",
+   "SEC Regular Season Champions"
+  ],
+  [
+   "KXBUNDESLIGA1HBTTS",
+   "1st Half BTTS"
+  ],
+  [
+   "KXMLSTEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXSERIEA",
+   "Serie A "
+  ],
+  [
+   "KXMLS2HSPREAD",
+   "2nd Half Spread"
+  ],
+  [
+   "KXNCAAFMACQUAL",
+   "College Football Mid-American Conference Championship Qualifiers"
+  ],
+  [
+   "KXWOMHOCKEYGOAL",
+   "Olympic Hockey Goalscorer"
+  ],
+  [
+   "KXMLS1HSPREAD",
+   "1st Half Spread"
+  ],
+  [
+   "KXMLSTOTAL",
+   "MLS Total"
+  ],
+  [
+   "KXLALIGAGAME",
+   "La Liga Game"
+  ],
+  [
+   "KXUEFANLGOAL",
+   "UEFA Nations League Goal"
+  ],
+  [
+   "KXWCTEAMLEADGOAL",
+   "World Cup Team Top Scorer"
+  ],
+  [
+   "KXBUNDESLIGA1HSPREAD",
+   "1st Half Spread"
+  ],
+  [
+   "KXBBWSERIEAGAME",
+   "Italy Serie A (W) Game"
+  ],
+  [
+   "KXEFLCHAMPIONSHIPTEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXUEFASCTCORNERS",
+   "Team Corners"
+  ],
+  [
+   "KXNHLSERIESTOTALGOAL",
+   "NHL Series Total Goals"
+  ],
+  [
+   "KXUCLGOAL",
+   "UCL Goalscorer"
+  ],
+  [
+   "KXMLSTCORNERS",
+   "Team Corners"
+  ],
+  [
+   "KXSOCCERJOIN",
+   "Soccer Next Team"
+  ],
+  [
+   "KXVENFUTVEGAME",
+   "Venezuela Liga FUTVE game"
+  ],
+  [
+   "KXEPLSCORE",
+   "Correct Score"
+  ],
+  [
+   "KXMLSFTTS",
+   "First Team to Score"
+  ],
+  [
+   "KXNHLFIRSTGOAL",
+   "Pro Hockey First Goal"
+  ],
+  [
+   "KXNCAAFCONF",
+   "NCAAF Championship Conference"
+  ],
+  [
+   "KXWCTEAMGOALS",
+   "World Cup Team Goals"
+  ],
+  [
+   "KXBUNDESLIGA1HSCORE",
+   "1st Half Correct Score"
+  ],
+  [
+   "KXUEFASCADVANCE",
+   "To Advance"
+  ],
+  [
+   "KXUAEPLBTTS",
+   "BTTS"
+  ],
+  [
+   "KXLIGUE12H",
+   "2nd Half Winner"
+  ],
+  [
+   "KXWCGOALLEADER",
+   "World Cup Goal Leader"
+  ],
+  [
+   "KXNFLTEAMFG",
+   "Pro Football Field Goals"
+  ],
+  [
+   "KXLIGUE1POINTMARGIN",
+   "Ligue 1 Champion Winning Margin"
+  ],
+  [
+   "KXBIGEASTREG",
+   "Big East Regular Season Champions"
+  ],
+  [
+   "KXEPLPOINTMARGIN",
+   "English Premier League Champion Winning Margin"
+  ],
+  [
+   "KXBUNDESLIGA2GAME",
+   "Bundesliga 2 Game"
+  ],
+  [
+   "KXUEFANLADVANCE",
+   "To Advance"
+  ],
+  [
+   "KXPREMDARTS",
+   "Premier League Darts Champion"
+  ],
+  [
+   "KXJOINCLUB",
+   "Soccer Join Club"
+  ],
+  [
+   "KXLEADERUCLGOALS",
+   "UCL Top Goalscorer"
+  ],
+  [
+   "KXMLSMOV",
+   "Method of Victory"
+  ],
+  [
+   "KXIPLGAME",
+   "Indian Premier League Cricket Game"
+  ],
+  [
+   "KXNFLGAMEFG",
+   "Pro Football Field Goals"
+  ],
+  [
+   "KXBUNDESLIGATEAMPOINTS",
+   "Team Points"
+  ],
+  [
+   "KXMLSSPREAD",
+   "MLS Spread"
+  ],
+  [
+   "KXEFLCHAMPIONSHIP1H",
+   "1st Half Winner"
+  ],
+  [
+   "KXUCLWGAME",
+   "Champions League Women's Game"
+  ],
+  [
+   "KXWCGSGOALS",
+   "World Cup Group Stage Goals"
+  ],
+  [
+   "KXBBSERIEASPREAD",
+   "Italy Serie A Spread"
+  ],
+  [
+   "KXWPLGAME",
+   "Women's Indian Premier League Cricket Game"
+  ],
+  [
+   "KXNCAAFPAC12QUAL",
+   "College Football Pac-12 Championship Qualifiers"
+  ],
+  [
+   "KXUCLSPREAD",
+   "Champions League Spread"
+  ],
+  [
+   "KXUELGAME",
+   "UEFA Europa League Game"
+  ],
+  [
+   "KXUCL",
+   "UEFA Champions League"
+  ],
+  [
+   "KXLIGUE1BTTS",
+   "Ligue 1 BTTS"
+  ],
+  [
+   "KXLIGUE11H",
+   "Ligue 1 First Half Winner"
+  ],
+  [
+   "KXSUPERBOWLWHITEHOUSE",
+   "WILL THE WINNERS OF THE PRO FOOTBALL CHAMPIONSHIP GO TO THE WHITE HOUSE? "
+  ],
+  [
+   "KXEPLPOY",
+   "EPL Player Of The Year "
+  ],
+  [
+   "KXUEFAEUROQUAL",
+   "Euros Qualifiers"
+  ],
+  [
+   "KXSOCCERPLAYCRON",
+   "Cristiano Ronaldo world cup"
+  ],
+  [
+   "KXWCFASTESTGOAL",
+   "World Cup Fastest Goal"
+  ],
+  [
+   "KXCHAMPTOUR",
+   "PGA Champions Tour"
+  ],
+  [
+   "KXEPLFTTS",
+   "First Team to Score"
+  ],
+  [
+   "KXUEFANLFIRSTGOAL",
+   "UEFA Nations League First Goal"
+  ],
+  [
+   "KXUCLLEAGUE",
+   "League to Win UEFA Champions League"
+  ],
+  [
+   "KXGEOGUESSR",
+   "GeoGuessr World Championship Winner"
+  ],
+  [
+   "KXWCMBAPPEGOALLEADER",
+   "Mbappe to Break the World Soccer Cup All-Time Goals Record"
+  ],
+  [
+   "KXNHLSEASONGOALS",
+   "Player to score X Goals in Season"
+  ],
+  [
+   "KXEPLCORNERS",
+   "EPL Corners"
+  ],
+  [
+   "KXLIGUE11HSCORE",
+   "1st Half Correct Score"
+  ],
+  [
+   "KXUCLFIRSTGOAL",
+   "UCL First Goalscorer"
+  ],
+  [
+   "KXEPL1HTOTAL",
+   "EPL 1st Half Total"
+  ],
+  [
+   "KXWCCLUBGOALS",
+   "World Cup Club Goals"
+  ],
+  [
+   "KXSERIEA1H",
+   "Serie A First Half Winner"
+  ],
+  [
+   "KXEPLBTTS",
+   "EPL Both Teams to Score"
+  ],
+  [
+   "KXBUNDESLIGATEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXLIGAMXFIRSTGOAL",
+   "First Goal"
+  ],
+  [
+   "KXUEFASC2HBTTS",
+   "2nd Half BTTS"
+  ],
+  [
+   "KXLIGUE1TOP4",
+   "Ligue 1 Top 4 Finishers"
+  ],
+  [
+   "KXLALIGAFIRSTGOAL",
+   "First Goal"
+  ],
+  [
+   "KXEPLLEADER",
+   "EPL Leader"
+  ],
+  [
+   "KXEPL1HSPREAD",
+   "EPL 1st Half Spread"
+  ],
+  [
+   "KXUEFASUPERCUP",
+   "UEFA Super Cup Winner"
+  ],
+  [
+   "KXLIGUE1GOAL",
+   "Goalscorer"
+  ],
+  [
+   "KXBUNDESLIGALAST",
+   "Bundesliga Last Place Finisher"
+  ],
+  [
+   "KXUEFASC1HSPREAD",
+   "1st Half Spread"
+  ],
+  [
+   "KXLIGUE2SPREAD",
+   "Spread"
+  ],
+  [
+   "KXNCAAFB12QUAL",
+   "College Football Big 12 Championship Qualifiers"
+  ],
+  [
+   "KXUEFANL1HSPREAD",
+   "1st Half Spread"
+  ],
+  [
+   "KXUAEPLSPREAD",
+   "Spread"
+  ],
+  [
+   "KXAFC",
+   "AFC Championship"
+  ],
+  [
+   "KXNHLFINALSEXACT",
+   "NHL Championship Series Score"
+  ],
+  [
+   "KXIIHF",
+   "Who will win IIHF championship?"
+  ],
+  [
+   "KXFIBACHAMPGAME",
+   "FIBA Champions League Game"
+  ],
+  [
+   "KXSBHOST",
+   "Pro Football Championship Host"
+  ],
+  [
+   "KXWOMHOCKEYFGOAL",
+   "Winter Olympics Hockey First Goal"
+  ],
+  [
+   "KXCONCACAFCCUPGAME",
+   "CONCACAF Champions Cup Game"
+  ],
+  [
+   "KXUCLQUAL",
+   "Champions League Qualifiers"
+  ],
+  [
+   "KXBUNDESLIGARELEGATION",
+   "Bundesliga Relegation"
+  ],
+  [
+   "KXMLSJOIN",
+   "MLS Transfers"
+  ],
+  [
+   "KXMLSASTGAME",
+   "MLS All Star Game"
+  ],
+  [
+   "KXSOCCERBTTS",
+   "Soccer Both Team to Score"
+  ],
+  [
+   "KXWCMESSIRONALDO",
+   "Goal Contributions Messi and Ronaldo"
+  ],
+  [
+   "KXLALIGAPOINTMARGIN",
+   "La Liga Champion Winning Margin"
+  ],
+  [
+   "KXNHLPLAYOFFGOALS",
+   "NHL Playoffs Goal Leader (by Round)"
+  ],
+  [
+   "KXPREMCHAMP",
+   "Gallagher Premiership Champion"
+  ],
+  [
+   "KXBRASILEIROGAME",
+   "Brasileiro Serie A Game"
+  ],
+  [
+   "KXFIBACHAMPSPREAD",
+   "FIBA Champions League Spread"
+  ],
+  [
+   "KXBOLPDIVGAME",
+   "Bolivia Premier Division Game"
+  ],
+  [
+   "KXLIGUE1MOV",
+   "Method of Victory"
+  ],
+  [
+   "KXMWREG",
+   "Mountain West Regular Season Champions"
+  ],
+  [
+   "KXCPL",
+   "Caribbean Premier League Champion"
+  ],
+  [
+   "KXLPLMATCH",
+   "Lanka Premier League Match"
+  ],
+  [
+   "KXLALIGATOP4",
+   "La Liga Top 4 Finishers"
+  ],
+  [
+   "KXBUNDESLIGA",
+   "BUNDESLIGA"
+  ],
+  [
+   "KXBUNDESLIGA2HTOTAL",
+   "2nd Half Total"
+  ],
+  [
+   "KXWCFREEKICKGOAL",
+   "World Cup Free Kick Goal"
+  ],
+  [
+   "KXLALIGA1H",
+   "La Liga First Half Winner"
+  ],
+  [
+   "KXLIGUE2BTTS",
+   "BTTS"
+  ],
+  [
+   "KXLIGUE1FTTS",
+   "First Team to Score"
+  ],
+  [
+   "KXLIGUE1TEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXNCAAFMWCQUAL",
+   "College Football Mountain West Conference Championship Qualifiers"
+  ],
+  [
+   "KXNFLSBMVPDEF",
+   "Defensive Player Championship MVP"
+  ],
+  [
+   "KXNCAAFSECQ",
+   "College Football SEC Championship Qualifiers"
+  ],
+  [
+   "KXNCAAFCONFMATCHUP",
+   "College Football Conference Championship Matchup"
+  ],
+  [
+   "KXARGPREMDIVBTTS",
+   "Argentina Premier Division BTTS"
+  ],
+  [
+   "KXUAEPLGAME",
+   "UAE Pro League"
+  ],
+  [
+   "KXMLSASTBTTS",
+   "BTTS"
+  ],
+  [
+   "KXMLSSKILLS",
+   "MLS Skills Challenge Winner"
+  ],
+  [
+   "KXNCAALAX",
+   "College Lacrosse National Championship"
+  ],
+  [
+   "KXBUNDESLIGA2HBTTS",
+   "2nd Half BTTS"
+  ],
+  [
+   "KXMLS2HTOTAL",
+   "2nd Half Total"
+  ],
+  [
+   "KXNCAALAXFINAL",
+   "College Lacrosse National Championship"
+  ],
+  [
+   "KXLIGUE1SPREAD",
+   "Ligue 1 Spread"
+  ],
+  [
+   "KXCPLMATCH",
+   "Caribbean Premier League Match"
+  ],
+  [
+   "KXBBLGAME",
+   "Bundesliga Basketball Game"
+  ],
+  [
+   "KXIIHFCHAMP",
+   "IIHF World Championship winner"
+  ],
+  [
+   "KXLIGUE12HBTTS",
+   "2nd Half BTTS"
+  ],
+  [
+   "KXNFLSBMVPPOS",
+   "Pro Football Championship MVP Position"
+  ],
+  [
+   "KXCANPLGAME",
+   "Canadian Premier League"
+  ],
+  [
+   "KXMLSFIRSTGOAL",
+   "First Goal"
+  ],
+  [
+   "KXWIBPLGAME",
+   "Women's Iceland Premier League Game"
+  ],
+  [
+   "KXWCFIRSTGOAL",
+   "World Cup First Goal"
+  ],
+  [
+   "KXNFLLONGFG",
+   "Pro Football Team Longest Field Goal"
+  ],
+  [
+   "KXSERIEARELEGATION",
+   "Serie A Relegation"
+  ],
+  [
+   "KXLIGUE11HTOTAL",
+   "1st Half Total"
+  ],
+  [
+   "KXMLBCHAMPLEAGUE",
+   "Pro Baseball Championship League"
+  ],
+  [
+   "KXSERIEASPREAD",
+   "Serie A Spread"
+  ],
+  [
+   "KXEPLTEAMTOTAL",
+   "Team Total"
+  ],
+  [
+   "KXUEFANLMOV",
+   "Method of Victory"
+  ],
+  [
+   "KXMLSCORNERS",
+   "Total Corners"
+  ]
+ ]
+}
