@@ -422,6 +422,11 @@ def main():
     soon = [i for i, u in enumerate(ups) if u["t"] - now < dt.timedelta(hours=2) and props[i]]
     lus = dict(zip(soon, pmap(lambda i: lineups(ups[i]["lg"], ups[i]["ev"]), soon)))
     players = hist["players"]
+    league_last = {}
+    for t in hist["teams"].values():
+        for r in t["g"]:
+            if r[0] > league_last.get(r[4], ""):
+                league_last[r[4]] = r[0]
     matches, cands = [], []
     skip = {"history": 0, "team": 0, "absent": 0}
     for i, u in enumerate(ups):
@@ -439,6 +444,12 @@ def main():
             by_player.setdefault(aid, []).append((m, k, am, dec))
         for aid, bets in by_player.items():
             p = players.get(aid)
+            if p:
+                # club form for club matches, international form for internationals (different team, different role)
+                nat = u["lg"].startswith(NATIONAL)
+                same = [r for r in p["g"] if r[1].startswith(NATIONAL) == nat]
+                if len(same) >= 3:
+                    p = dict(p, g=same)
             if not p or len(p["g"]) < 3:
                 skip["history"] += 1
                 continue
@@ -467,8 +478,10 @@ def main():
             r_adj = {"support": .2, "caution": -.35}.get(note.get("flag"), 0) * {"high": 1.2, "medium": 1.0, "low": .6}.get(note.get("conf"), 1.0)
             s_start = 1.0 if status == "start" else 0.0 if status == "bench" else \
                 ((sum(r[6] for r in apps) + .5) / (len(apps) + 1) if apps else .5)
+            # his team's matches are missing from the data while the rest of its league kept playing
             last = ((hist["teams"].get(tid) or {}).get("g") or [[""]])[-1][0]
-            stale = not last or last < (now - dt.timedelta(days=18)).date().isoformat()  # his team's recent matches are missing
+            lg_last = league_last.get(u["lg"])
+            stale = not last or (lg_last and (dt.date.fromisoformat(lg_last) - dt.date.fromisoformat(last)).days > 10)
             gf, ga = tav[tid]
             ogf, oga = tav[opp_id]
             exp_for = imp.get("home" if home else "away")
