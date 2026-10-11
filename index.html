@@ -322,6 +322,10 @@ span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(-
 .tdh3{margin:10px 0 2px;font:700 .95rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
 .tdprice td{vertical-align:middle}@media(max-width:480px){.tdprice th,.tdprice td{padding:7px 4px}.tdin input{width:48px}}.tdprice td:first-child{white-space:normal}.tdprice small.pteam{display:block}
 .tdv{display:block;font:600 10.5px var(--f-body)}.tdv.good{color:var(--hit)}.tdv.bad{color:var(--miss)}
+.livedot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e11d48;margin-right:8px;vertical-align:2px;animation:pulse 2s ease-in-out infinite}
+.ltdgames{display:flex;flex-wrap:wrap;gap:6px}.ltdg{font:500 12.5px var(--f-body);border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--ink2)}
+.ltdg.rz{border-color:var(--hit);background:var(--hit-soft)}.ltdg em{font-style:normal;color:var(--hit);font-weight:600}
+.pick.ltd{cursor:default}.pick.rznow{border-color:var(--hit);box-shadow:inset 3px 0 0 var(--hit)}
 .tdprob{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}.tdprob b{font:700 1.5rem var(--f-display);color:var(--hit)}.tdprob small{font:500 11px var(--f-mono);color:var(--muted)}
 .pk1 .who small.pos,.who small.pos{display:inline;font:600 11px var(--f-mono);color:var(--muted)}
 .fx.good{background:var(--hit-soft);color:var(--hit)}
@@ -665,6 +669,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
     <section class="bestbet" id="bestbet" hidden></section>
     <section class="top" id="top"></section>
+    <section class="top" id="tdlive" hidden></section>
     <section class="top" id="tdtop" hidden></section>
     <section class="top" id="tdvalue" hidden></section>
     <section class="apprec" id="apprec" hidden></section>
@@ -950,7 +955,7 @@ function renderTdValue(){
     <p class="topnote" style="margin:0">Expected profit is an average over many bets, not a promise: most plus-money TD bets lose more often than they win. It's only as good as the app's chance, which the Probability check grades over time.</p>`;
 }
 function renderTop(){
-  renderTdTop();renderTdValue();
+  renderTdTop();renderTdValue();renderLiveTD();ltdStart();
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
   const now=Date.now(),m=mkt();
@@ -2298,6 +2303,94 @@ function apClick(e){
     PARLAYS.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),legs:ADDP.legs,odds:o,added:new Date().toISOString(),late:true});
     ADDP.legs=[];ADDP.podds="";saveParlays();updMyCount();d.remove();toast("Parlay saved to My picks");S.recType="parlay";renderRecord();startLive();return}
 }
+
+// ======== Live anytime-TD tracker (NFL): who's most likely to score from here, updated every minute ========
+// Starts from each player's pre-game TD chance (the app's TD model blended with Kalshi), then adjusts for the time
+// left, how much he's being used compared with normal, whether his team is in the red zone right now, and blowouts.
+// All of it runs in the browser from ESPN's free live data.
+let LTD={games:[],at:0,busy:false,timer:null};
+function ltdPool(){
+  const now=Date.now(),all=[...((PICKS&&PICKS.tdLive)||[]),...((PICKS&&PICKS.tdAll)||[])],seen=new Set();
+  return all.filter(c=>{const t=new Date(c.t).getTime();if(t>now||now-t>6*3600e3||seen.has(c.key))return false;seen.add(c.key);return true});
+}
+async function ltdRefresh(){
+  if(LTD.busy||S.league!=="NFL"||S.view!=="board")return;
+  const pool=ltdPool();if(!pool.length){LTD.games=[];renderLiveTD();return}
+  LTD.busy=true;
+  try{
+    const day=new Date().toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");
+    const sb=await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${day}`).then(r=>r.json()).catch(()=>null);
+    const games=[];
+    for(const ev of (sb&&sb.events)||[]){
+      const c=ev.competitions&&ev.competitions[0];if(!c||c.status.type.state!=="in")continue;
+      const tm=c.competitors.map(x=>({id:x.team.id,ab:(ESPN_TEAM.NFL&&Object.keys(ESPN_TEAM.NFL).find(k=>ESPN_TEAM.NFL[k]===x.team.abbreviation))||x.team.abbreviation,home:x.homeAway==="home",score:+x.score||0}));
+      const teams=tm.map(x=>x.ab);if(!pool.some(p=>teams.includes(p.team)))continue;
+      const sum=await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${ev.id}`).then(r=>r.json()).catch(()=>null);
+      const box={};
+      for(const t of (sum&&sum.boxscore&&sum.boxscore.players)||[])for(const cat of t.statistics||[]){
+        const keys=cat.keys||[];
+        for(const a of cat.athletes||[]){const id=a.athlete&&a.athlete.id;if(!id)continue;const st={};keys.forEach((k,i)=>st[k]=(a.stats||[])[i]);const o=box[id]=box[id]||{car:0,rec:0,tgt:0,yds:0,td:0};
+          if(cat.name==="rushing"){o.car=liveNum(st.rushingAttempts);o.yds+=liveNum(st.rushingYards);o.td+=liveNum(st.rushingTouchdowns)}
+          if(cat.name==="receiving"){o.rec=liveNum(st.receptions);o.tgt=liveNum(st.receivingTargets);o.yds+=liveNum(st.receivingYards);o.td+=liveNum(st.receivingTouchdowns)}}
+      }
+      const s=c.situation||{},per=c.status.period||1,clk=c.status.clock||0;
+      const left=Math.max(0,per>4?0:((4-per)*900+clk))/3600;
+      const posTeam=s.possession?tm.find(x=>x.id===s.possession):null;
+      games.push({id:ev.id,tm,teams,left,per,detail:c.status.type.shortDetail||"",box,rz:!!s.isRedZone,yl:s.yardLine,posAb:posTeam&&posTeam.ab,dd:s.downDistanceText||s.shortDownDistanceText||""});
+    }
+    LTD.games=games;LTD.at=Date.now();
+  }finally{LTD.busy=false}
+  renderLiveTD();
+}
+function ltdRows(){
+  const pool=ltdPool(),out=[];
+  for(const g of LTD.games){
+    for(const c of pool.filter(p=>g.teams.includes(p.team))){
+      const pl=(DATA.NFL||[]).find(x=>x.id===c.id),b=g.box[String(pl?pl.espn:"")]||{car:0,rec:0,tgt:0,yds:0,td:0};
+      const lamPre=-Math.log(1-Math.min(.95,c.prob));
+      const elapsed=Math.max(.02,1-g.left);
+      const expT=(c.touches||8)*elapsed,touches=b.car+b.rec+.5*Math.max(0,b.tgt-b.rec);
+      const use=Math.max(.35,Math.min(2,(touches+3)/(expT+3)));  // live touches vs his normal pace, shrunk toward 1
+      const me=g.tm.find(x=>x.ab===c.team),op=g.tm.find(x=>x.ab!==c.team),diff=me.score-op.score;
+      let lam=lamPre*g.left*Math.pow(use,.7);
+      if(g.per>=4&&Math.abs(diff)>=21)lam*=.5;            // blowout: starters may sit, fewer real drives
+      else if(g.per>=4&&diff<=-9)lam*=c.pos==="RB"?.8:1.15; // trailing late: passing game over the run game
+      let rzNow=false;
+      if(g.rz&&g.posAb===c.team){rzNow=true;const share=Math.min(.6,lamPre/Math.max(.8,(c.implied||22)/7));lam+=.55*share*(g.yl!=null&&g.yl<=5?1.25:1)}
+      const p=1-Math.exp(-lam);
+      out.push({c,g,b,p,rzNow,scored:b.td>0,touches:Math.round(touches),use});
+    }
+  }
+  return out;
+}
+function renderLiveTD(){
+  const el=document.getElementById("tdlive");if(!el)return;
+  if(S.league!=="NFL"||!LTD.games.length){el.hidden=true;el.innerHTML="";return}
+  const rows=ltdRows(),open=rows.filter(r=>!r.scored).sort((a,b)=>b.p-a.p),scored=rows.filter(r=>r.scored);
+  const fair=p=>decToAm(1/Math.max(.01,p));
+  el.hidden=false;
+  el.innerHTML=`<div class="tophead"><h2><span class="livedot"></span>Live <span>anytime TDs</span></h2><span class="pteam">updated ${new Date(LTD.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
+    <div class="ltdgames">${LTD.games.map(g=>`<span class="ltdg${g.rz?" rz":""}"><b>${g.tm.find(x=>!x.home).ab} ${g.tm.find(x=>!x.home).score}</b> – <b>${g.tm.find(x=>x.home).ab} ${g.tm.find(x=>x.home).score}</b> · ${esc(g.detail)}${g.rz?` · <em>${esc(g.posAb)} in the red zone${g.dd?" ("+esc(g.dd)+")":""}</em>`:""}</span>`).join("")}</div>
+    <p class="topsub">Players who haven't scored yet, ranked by their chance to score from here. Fair odds = what that chance is worth; it's a good bet when your book's live price is longer.</p>
+    <div class="tdpicks">${open.slice(0,10).map((r,i)=>{const c=r.c,tracked=MY.some(x=>x.lg==="NFL"&&x.pid===c.id&&x.market==="td"&&etDay(x.t)===etDay(c.t));
+      return`<div class="pick td ltd${r.rzNow?" rznow":""}"><span class="rank">${i+1}</span>
+      <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${c.team} vs ${c.opp} · ${esc(r.g.detail)}</small></span><span class="tdprob"><b>${Math.round(r.p*100)}%</b><small>fair ${fair(r.p)}</small></span></div>
+      <div class="why">${r.touches} touch${r.touches===1?"":"es"} so far (${r.use>=1.25?"more than":r.use<=.75?"less than":"about"} his usual pace) · ${r.b.yds} yds · ${Math.round(c.prob*100)}% before kickoff</div>
+      <div class="pkmeta">${r.rzNow?`<span class="fx good">${esc(c.team)} in the red zone now</span>`:""}${r.use>=1.25?`<span class="fx good">Heavy usage</span>`:r.use<=.75?`<span class="fx nt">Light usage</span>`:""}<button class="trk sm ${tracked?"on":""}" data-ltd="${esc(c.key)}">${tracked?"✓ Tracking":"+ Track"}</button></div></div>`}).join("")||'<p class="pteam">Everyone on the board has already scored.</p>'}</div>
+    ${scored.length?`<p class="pteam" style="margin:6px 0 0"><b>Already scored:</b> ${scored.map(r=>`${esc(r.c.name)} (${r.b.td})`).join(", ")}</p>`:""}
+    <p class="topnote" style="margin:0">Live chances are estimates: the pre-game chance scaled by time left and how much he's being used, plus a bump when his team is in the red zone. Updates every minute while this page is open.</p>`;
+}
+function ltdStart(){
+  if(LTD.timer)return;
+  const tick=()=>{if(!document.hidden&&S.view==="board"&&S.league==="NFL"&&ltdPool().length)ltdRefresh();else if(!ltdPool().length&&LTD.games.length){LTD.games=[];renderLiveTD()}};
+  tick();LTD.timer=setInterval(tick,60e3);
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-ltd]");if(!b)return;
+  const r=ltdRows().find(x=>x.c.key===b.dataset.ltd);if(!r)return;const c=r.c;
+  const ex=MY.find(x=>x.lg==="NFL"&&x.pid===c.id&&x.market==="td"&&etDay(x.t)===etDay(c.t));
+  if(ex){MY=MY.filter(x=>x!==ex);saveMy();toast("Removed from My picks")}
+  else{MY.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg:"NFL",pid:c.id,name:c.name,team:c.team,opp:c.opp,home:c.home,t:new Date(c.t).toISOString(),market:"td",label:"Anytime TD",side:"over",line:.5,added:new Date().toISOString(),late:true});saveMy();toast(`Tracking ${c.name} anytime TD`);startLive()}
+  updMyCount();renderLiveTD()});
 
 function wire(){
   document.addEventListener("click",e=>{const b=e.target.closest("[data-side]");if(!b||b.dataset.side===S.side)return;S.side=b.dataset.side;try{localStorage.setItem("ptSide",S.side)}catch(err){}

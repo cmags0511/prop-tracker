@@ -715,6 +715,18 @@ def main():
                     "score": round(conf * float(n.get("adj") or 0) + (kal or 0), 3), "why": n.get("note", ""), "conf": n.get("conf")})
     out["tdPicks"] = sorted(tdp, key=lambda c: -c["score"])[:8]
     out["tdTop"], out["tdAll"] = td_board(data, ctx, MKTS, notes, CONF, now, ODDS)
+    # pre-game TD chances for games now underway (kept from the last pre-game run), so the app's live TD tracker can
+    # start from what was expected before kickoff and update it with the live box score
+    try:
+        prev = json.load(open(OUT))
+        keep = {}
+        for c in prev.get("tdLive", []) + prev.get("tdAll", []):
+            t = dt.datetime.fromisoformat(c["t"])
+            if t <= now and now - t < dt.timedelta(hours=6) and c["key"] + c["t"] not in keep:
+                keep[c["key"] + c["t"]] = c
+        out["tdLive"] = sorted(keep.values(), key=lambda c: -c["prob"])[:200]
+    except Exception:
+        out["tdLive"] = []
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)
