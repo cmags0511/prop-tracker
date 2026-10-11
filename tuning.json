@@ -1,13 +1,13 @@
 {
- "built": "2026-10-10T21:31+00:00",
- "graded_picks": 5,
- "graded_research": 0,
+ "built": "2026-10-11T00:43+00:00",
+ "graded_picks": 7,
+ "graded_research": 2,
  "market": {},
  "factors": {},
  "research_conf": {},
  "notes": [],
  "calib": {
-  "n": 30,
+  "n": 32,
   "since": "2026-10-08",
   "app": [
    [
@@ -41,9 +41,9 @@
    [
     0.7,
     1,
-    12,
+    14,
     0.761,
-    0.75
+    0.643
    ]
   ],
   "kalshi": [],
