@@ -176,6 +176,23 @@ def main():
                     return True
         return False
 
+    # 1e. the Top 10 anytime-TD lists (likeliest and plus money), locked at kickoff like the props
+    tds = {(e["key"], e["t"]): e for e in rec.get("td", [])}
+    cur_td = {(c["key"], c["t"]): c for c in picks.get("tdTop", []) if start(c) > now}
+    for k, e in list(tds.items()):
+        if e["status"] == "pending" and start(e) > now and k not in cur_td:
+            del tds[k]
+    for k, c in cur_td.items():
+        if f"NFL|{c['id']}" in out_players or ("NFL", espn.get("NFL", {}).get(c["id"])) in out_ids:
+            tds.pop(k, None)
+            continue
+        old = tds.get(k) or {}
+        lists = sorted(set(old.get("lists", [])) | {c.get("list", "likely")}) if old else [c.get("list", "likely")]
+        tds[k] = {"key": c["key"], "lg": "NFL", "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
+                  "home": c["home"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
+                  "prob": c["prob"], "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
+                  "status": "pending", "result": None}
+
     def grade(e):
         p = players.get(e["lg"], {}).get(e["id"])
         day = start(e).astimezone(ET).date()
@@ -208,7 +225,7 @@ def main():
             e["status"] = "loss"
         e["graded"] = now.isoformat(timespec="minutes")
 
-    for e in list(entries.values()) + list(best.values()) + list(research.values()):
+    for e in list(entries.values()) + list(best.values()) + list(research.values()) + list(tds.values()):
         if e["status"] == "pending" and start(e) <= now:
             grade(e)
 
@@ -288,6 +305,7 @@ def main():
     rec["picks"] = sorted(entries.values(), key=lambda e: (e["t"], -e["score"]))
     rec["best"] = sorted(best.values(), key=lambda e: e["t"])
     rec["research"] = sorted(research.values(), key=lambda e: e["t"])
+    rec["td"] = sorted(tds.values(), key=lambda e: (e["t"], -e["prob"]))
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
     json.dump(rec, open(OUT, "w"), separators=(",", ":"))

@@ -132,20 +132,30 @@ stays fresh without another full run. No subagents, a handful of searches in tot
 > down that list with what you've learned about the game (injuries, roles, script) and add a note for
 > any prop the news clearly moves, or where you find a real edge (at most 3 per game).
 >
-> **Anytime TDs.** Each `full` game has `td_candidates`: the likeliest scorers with Kalshi's "1+ TD"
-> price (`kalshi_1plus`) and their TD history. TDs come from red-zone and goal-line roles the numbers
-> barely show, so check: who gets carries and targets inside the 10 and 5, goal-line packages, the
-> opponent's red-zone defense, the team's implied points, and injuries that shift those roles. Pick at
-> most 2 per game, only where your estimate of his chance to score is clearly above Kalshi's price, and
-> write a note with `side` "over" (= scores), `adj` +1 or +2 and the red-zone reason. Use the key exactly
-> as given (it ends in `|td`).
+> **Anytime TDs.** Each `full` game has `td_candidates`: everyone on the app's Top 10 TD lists
+> (`on_app_td_list`) plus the next likeliest scorers, with the app's chance (`app_prob`, its stats model
+> blended with Kalshi), the stats-only chance, Kalshi's "1+ TD" price (`kalshi_1plus`) and TD history.
+> TDs come from red-zone and goal-line roles the numbers barely show, so check: who gets carries and
+> targets inside the 10 and 5, goal-line packages (and vultures), the opponent's red-zone defense, the
+> team's implied points, and injuries that shift those roles.
+> Then see what bettors and analysts are saying about this game's TD scorers: r/sportsbook and
+> r/fantasyfootball game-day threads, X posts from beat writers and betting/fantasy analysts, and betting
+> sites' anytime-TD previews. Use it to catch role news you missed (a new goal-line back, a limited
+> practice), and record how much he's being talked up as `buzz`: "high" (a popular pick across sources),
+> "some" or "none". Popular TD picks are usually priced shorter, so buzz alone is never a reason to back
+> someone; a well-sourced role fact is.
+> Write a note for **every player on an app TD list** (it's shown with his pick) and for anyone else
+> where you find a real edge: `side` "over" (= scores) with `adj` +1/+2 when the role supports him, or
+> `side` "under" with `adj` +1/+2 when it argues against him (lost goal-line work, limited, bad matchup;
+> the app drops him from its TD list), plus `buzz`, `conf` and the red-zone reason. Use the key exactly as
+> given (it ends in `|td`).
 > Facts only, your own words: no quotes, usernames, copied picks, hype or guarantees.
 >
 > Write one file per game, `research/out/<packet id>.json`:
 > ```
 > {"game": "<id>", "summary": "<2-3 sentences: the storyline that matters for props>",
 >  "sources": ["<urls>"],
->  "notes": {"<key copied exactly>": {"side": "over", "flag": "support", "adj": 1, "conf": "medium",
+>  "notes": {"<key copied exactly>": {"side": "over", "flag": "support", "adj": 1, "conf": "medium", "buzz": "<TD notes only: high|some|none>",
 >     "note": "...", "detail": {"availability": "...", "role": "...", "matchup": "...", "script": "...",
 >     "conditions": "...", "market": "...", "experts": "..."}, "sources": ["<urls you read>"]}},
 >  "best_candidate": {"key": "...", "side": "over", "why": "<2-3 sentences>", "sources": ["..."]} or null}

@@ -146,6 +146,118 @@ def fmt(v):
     return str(int(v)) if float(v).is_integer() else f"{v:.1f}"
 
 
+# Anytime-TD model (NFL), fit on 2025-26 player games (logistic; walk-forward test: log loss .543 vs .570 for the
+# base rate, and calibrated: 20% predicted -> 19% hit, 30% -> 28%, 49% -> 48%). Inputs: share of his last 10 games
+# with a TD, touches per game over his last 5, TDs per touch over his last 10, his team's implied points, position.
+TD_W = dict(b=-.682, rate=.48, touch=.35, per=-.412, imp=.381, WR=.228, TE=.408, QB=-.321)
+TD_MKT = .6      # weight on Kalshi's "1+ TD" price when it has one (log-odds blend); the stats get the rest
+TD_PER_TEAM = 2  # at most two scorers from one team in the Top 10
+
+
+def td_board(data, ctx, MKTS, notes, CONF, now):
+    """the 10 likeliest anytime-TD scorers on the upcoming NFL slate (plus the full ranked list for the game views)"""
+    meta = data.get("NFL") or {}
+    cols = meta.get("cols", [])
+    if not cols:
+        return [], []
+    lt = lambda v: math.log(v / (1 - v))
+    sig = lambda z: 1 / (1 + math.exp(-z))
+    INJ = (ctx.get("injuries") or {}).get("NFL", {})
+    DEP = (ctx.get("depth") or {}).get("NFL", {})
+    ups = sorted(({"t": dt.datetime.fromisoformat(u[0]), "away": u[1], "home": u[2], "spread": u[3], "total": u[4]}
+                  for u in meta.get("upcoming", [])), key=lambda u: u["t"])
+    ups = [u for u in ups if now < u["t"] < now + dt.timedelta(days=7)]
+    res = []
+    for p in meta.get("players", []):
+        if p.get("p") not in ("RB", "WR", "TE", "QB"):
+            continue
+        game = next((u for u in ups if p["t"] in (u["away"], u["home"])), None)
+        if not game:
+            continue
+        gs = [dict(zip(cols, r)) for r in p["g"]]
+        cur = [g for g in gs if g["date"] >= meta["curStart"]]
+        if len(gs) < 4 or not cur:
+            continue
+        aid = str(p.get("e") or p["id"])
+        inj, dep = INJ.get(aid), DEP.get(aid)
+        if inj and inj["s"] in OUT_STATUS:
+            continue
+        key = f"NFL|{p['id']}|td"
+        note = notes.get(key) or {}
+        if note.get("flag") == "out":
+            continue
+        l10, l5 = gs[-10:], gs[-5:]
+        rate = (sum(1 for g in l10 if g["td"] > 0) + .6) / (len(l10) + 2)
+        touch = sum(g["car"] + g["rec"] for g in l5) / len(l5)
+        per = (sum(g["td"] for g in l10) + .5) / (sum(g["car"] + g["rec"] for g in l10) + 15)
+        home = game["home"] == p["t"]
+        sp = game["spread"] if home else (-game["spread"] if game["spread"] is not None else None)
+        imp = game["total"] / 2 - sp / 2 if game["total"] is not None and sp is not None else 22.5
+        z = (TD_W["b"] + TD_W["rate"] * lt(rate) + TD_W["touch"] * math.log(touch + 1) + TD_W["per"] * math.log(per * 100)
+             + TD_W["imp"] * (imp - 22.5) / 7 + TD_W.get(p["p"], 0))
+        p_stat = sig(z)
+        lad = ((MKTS.get("NFL") or {}).get(p["id"]) or {}).get("td")
+        kal = market_prob(lad, .5, game["t"], now) if lad else None
+        zz = TD_MKT * lt(min(.97, max(.03, kal))) + (1 - TD_MKT) * z if kal is not None else z
+        why = []
+        adj = 0.0
+        if note.get("side") in ("over", "under"):
+            a = CONF.get(note.get("conf"), 1.0) * .15 * max(-2, min(2, float(note.get("adj") or 0)))
+            adj = a if note["side"] == "over" else -a
+        zz += adj
+        shaky = bool(inj and inj["s"] in SHAKY)
+        if shaky:
+            zz -= .3
+        backup = bool(dep and dep.get("role") == "backup")
+        prob = sig(zz)
+        if prob < .12:
+            continue
+        edge = prob - kal if kal is not None else None
+        score = prob + (.5 * max(0, p_stat - kal) if kal is not None else -.03)  # stats above the market: a small bump
+        if backup and not adj > 0:
+            score *= .7
+        cur_td = sum(g["td"] for g in cur)
+        why.append(f"Scored in {sum(1 for g in l10 if g['td'] > 0)} of his last {len(l10)} games ({cur_td} TD{'s' if cur_td != 1 else ''} in {len(cur)} games this season)")
+        why.append(f"{touch:.0f} touches a game lately")
+        why.append(f"{p['t']} projected for about {imp:.0f} points")
+        if shaky:
+            why.append(f"listed {inj['s'].lower()}")
+        if backup:
+            why.append(f"a backup on the depth chart ({dep.get('slot')})")
+        res.append({"key": key, "lg": "NFL", "id": p["id"], "name": p["n"], "team": p["t"], "pos": p["p"],
+                    "opp": game["away"] if home else game["home"], "home": home, "t": game["t"].isoformat(),
+                    "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
+                    "prob": round(prob, 3), "stat": round(p_stat, 3), "kalshi": round(kal, 3) if kal is not None else None,
+                    "edge": round(edge, 3) if edge is not None else None, "score": round(score, 3),
+                    "l10": [sum(1 for g in l10 if g["td"] > 0), len(l10)], "season_td": cur_td, "season_g": len(cur),
+                    "touches": round(touch, 1), "implied": round(imp, 1), "status": inj["s"] if inj else None,
+                    "backup": backup, "why": ". ".join(why) + ".", "research": note.get("note") if note.get("side") else None,
+                    "conf": note.get("conf"), "radj": (float(note.get("adj") or 0) * (1 if note["side"] == "over" else -1)) if note.get("side") in ("over", "under") else None, "buzz": note.get("buzz")})
+    res.sort(key=lambda c: -c["score"])
+
+    def pick10(pool):
+        top, per_team = [], {}
+        for c in pool:
+            if per_team.get(c["team"], 0) >= TD_PER_TEAM or (c["radj"] is not None and c["radj"] <= -1):
+                continue
+            per_team[c["team"]] = per_team.get(c["team"], 0) + 1
+            top.append(c)
+            if len(top) == 10:
+                break
+        return top
+    top = pick10(res)
+    # plus-money list: fair odds better than even (20-48%), ranked toward players the stats or research rate above
+    # the market's price, since that's where a longer-shot TD bet can carry value
+    lng = sorted((c for c in res if .2 <= c["prob"] < .48 and (c["kalshi"] is None or c["kalshi"] < .48)),
+                 key=lambda c: -(c["prob"] + (1.0 * max(0, c["stat"] - c["kalshi"]) if c["kalshi"] is not None else 0)
+                                 + .05 * max(0, c["radj"] or 0) * (1 if c["research"] else 0)))
+    for c in top:
+        c["list"] = "likely"
+    long10 = [dict(c, list="long") for c in pick10(lng)]
+    return top + long10, [{k: c[k] for k in ("key", "id", "name", "team", "pos", "opp", "t", "prob", "stat", "kalshi", "l10", "season_td", "season_g")}
+                 for c in res[:120]]
+
+
 def main():
     data = json.load(open("props_data.json"))
     try:
@@ -568,6 +680,7 @@ def main():
                     "l10": [sum(1 for g in l10 if g["td"] > 0), len(l10)], "kalshi": round(kal, 3) if kal is not None else None,
                     "score": round(conf * float(n.get("adj") or 0) + (kal or 0), 3), "why": n.get("note", ""), "conf": n.get("conf")})
     out["tdPicks"] = sorted(tdp, key=lambda c: -c["score"])[:8]
+    out["tdTop"], out["tdAll"] = td_board(data, ctx, MKTS, notes, CONF, now)
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)

@@ -62,10 +62,21 @@ def targets(slate, picks, now):
     return out
 
 
-def td_candidates(lg, teams, kickoff, data, mkts):
-    """the likeliest anytime-TD scorers in a game: Kalshi's "1+ TD" price plus each player's TD history"""
+def td_candidates(lg, teams, kickoff, data, mkts, picks=None):
+    """the anytime-TD scorers worth checking in a game: everyone on the app's Top 10 TD lists, then the likeliest
+    by the app's TD model (stats blended with Kalshi's "1+ TD" price), with each player's TD history"""
     if lg != "NFL":
         return []
+    board = {c["id"]: c for c in (picks or {}).get("tdAll", []) if c.get("team") in teams}
+    top = {c["id"]: c.get("list", "likely") for c in (picks or {}).get("tdTop", []) if c.get("team") in teams}
+    if board:
+        ids = list(top) + [i for i in sorted(board, key=lambda i: -board[i]["prob"]) if i not in top]
+        return [{"key": f"NFL|{i}|td", "name": board[i]["name"], "team": board[i]["team"], "pos": board[i]["pos"],
+                 "app_prob": board[i]["prob"], "stats_prob": board[i]["stat"], "kalshi_1plus": board[i]["kalshi"],
+                 "td_games_l10": f"{board[i]['l10'][0]}/{board[i]['l10'][1]}", "season_tds": board[i]["season_td"],
+                 "season_games": board[i]["season_g"],
+                 "on_app_td_list": {"likely": "Top 10 likeliest", "long": "Top 10 plus money"}.get(top.get(i))}
+                for i in ids[:8] if i in board]
     meta = data.get(lg, {})
     cols = meta.get("cols", [])
     day = dt.datetime.fromisoformat(kickoff).astimezone(dt.timezone(dt.timedelta(hours=-4)))
@@ -176,7 +187,7 @@ def main():
         g["weather"] = None if not w else ("indoor" if w.get("indoor") else {k: w.get(k) for k in ("wind", "gust", "rain", "temp")} | {"venue": w.get("venue")})
         # every other prop in the game, compact, so the researcher can scan the whole board for edges
         g["other_props"] = sorted(g["other_props"], key=lambda x: -(x["score"] or 0))
-        g["td_candidates"] = td_candidates(lg, teams, g["kickoff"], data, mkts) if g["tier"] == "full" else []
+        g["td_candidates"] = td_candidates(lg, teams, g["kickoff"], data, mkts, picks) if g["tier"] == "full" else []
     for d in ("research/packets", "research/batches"):
         if os.path.isdir(d):
             shutil.rmtree(d)

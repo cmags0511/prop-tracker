@@ -55,6 +55,8 @@ def clean_note(n):
             out["line_src"] = (urls([n.get("line_src")]) or [None])[0]
     except (TypeError, ValueError):
         pass
+    if n.get("buzz") in ("high", "some", "none"):  # how much bettors/analysts online are talking him up (TD notes)
+        out["buzz"] = n["buzz"]
     det = {k: txt((n.get("detail") or {}).get(k), 300) for k in DETAIL if (n.get("detail") or {}).get(k)}
     if det:
         out["detail"] = det

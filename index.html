@@ -301,6 +301,9 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .angles dd{margin:0;color:var(--ink2);line-height:1.45}
 @media (max-width:600px){.angles{grid-template-columns:1fr;gap:2px}.angles dd{margin-bottom:6px}}
 .tdpicks{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.tdprob{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}.tdprob b{font:700 1.5rem var(--f-display);color:var(--hit)}.tdprob small{font:500 11px var(--f-mono);color:var(--muted)}
+.who small.pos{display:inline;font:600 11px var(--f-mono);color:var(--muted)}
+.fx.good{background:var(--hit-soft);color:var(--hit)}
 .tdpicks h3{margin:4px 0 0;font:700 1rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .tdpicks h3 .pteam{font:500 12px var(--f-body);letter-spacing:0;text-transform:none}
 .mv.old{color:var(--miss)}
@@ -612,6 +615,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
     <section class="bestbet" id="bestbet" hidden></section>
     <section class="top" id="top"></section>
+    <section class="top" id="tdtop" hidden></section>
     <section class="apprec" id="apprec" hidden></section>
     <div class="movers" id="movers"></div>
     <section class="board">
@@ -818,15 +822,6 @@ function boardRows(){
 }
 
 // the research's anytime-TD picks (picks.json tdPicks): Kalshi price, TD history and why
-function tdPicksHtml(){
-  if(S.league!=="NFL"||!(isAll()||S.market==="td")||!PICKS||!(PICKS.tdPicks||[]).length)return"";
-  const L=PICKS.tdPicks.filter(c=>new Date(c.t).getTime()>Date.now()&&!outNote(c.lg,c.id)&&(!S.team||c.team===S.team)).slice(0,5);
-  if(!L.length)return"";
-  return`<div class="tdpicks"><h3>Anytime TD picks <span class="pteam">from the research</span></h3>${L.map((c,i)=>{const t=new Date(c.t),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString());
-    return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span><div class="pk1"><span class="who">${esc(c.name)}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet over">Anytime TD</span></div>
-    <div class="why">${esc(c.why)}</div><div class="pkmeta"><span>TD in ${c.l10[0]} of last ${c.l10[1]}</span>${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores; fair odds without the book's margin">Kalshi ${Math.round(c.kalshi*100)}% \u00b7 ${decToAm(1/Math.max(.01,c.kalshi))}</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}
-    <p class="topnote" style="margin:0">Sportsbooks don't publish anytime-TD odds in the free feed, so compare your book's price with the Kalshi fair odds: a book price longer than the fair odds is the better bet.</p></div>`;
-}
 // the research check's single Best bet of the day
 function renderBest(){
   const el=document.getElementById("bestbet"),b=PICKS&&PICKS.best;
@@ -844,7 +839,29 @@ function renderBest(){
     ${(b.sources||[]).length?`<p class="bbsrc">Sources: ${b.sources.slice(0,4).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(host(u))}</a>`).join(" · ")}</p>`:""}
   </div>`;
 }
+// ---- Top 10 anytime TDs (NFL): the app's TD model blended with Kalshi's "1+ TD" price and the research ----
+function renderTdTop(){
+  const el=document.getElementById("tdtop");if(!el)return;
+  const all=(PICKS&&PICKS.tdTop)||[],now=Date.now();
+  const which=S.tdList==="long"?"long":"likely";
+  const L=all.filter(c=>(c.list||"likely")===which&&new Date(c.t).getTime()>now&&!outNote(c.lg,c.id)&&(!S.team||c.team===S.team));
+  if(S.league!=="NFL"||!all.length){el.hidden=true;el.innerHTML="";return}
+  el.hidden=false;
+  const fair=p=>decToAm(1/Math.max(.01,p));
+  const buzz={high:"Popular pick online",some:"Some buzz online"};
+  el.innerHTML=`<div class="tophead"><h2>Top 10 <span>Anytime TDs</span></h2><div class="seg2 sidesw" role="group" aria-label="TD list"><button data-tdl="likely" aria-pressed="${which==="likely"}">Likeliest</button><button data-tdl="long" aria-pressed="${which==="long"}">Plus money</button></div></div>
+    <p class="topsub">${which==="likely"?"The players most likely to score":"Longer shots (fair odds better than even), leaning to players the stats or research rate above the market"}: the app's touchdown model, blended with Kalshi traders' price and the daily research</p>
+    ${L.length?`<div class="tdpicks">${L.map((c,i)=>{const t=new Date(c.t),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString()),inSlip=slipHas(c.lg,c.id,"td","over",.5);
+    const st=c.status?" "+QPILL(c.status):"";
+    return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
+      <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small>${st}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="tdprob"><b>${Math.round(c.prob*100)}%</b><small>fair ${fair(c.prob)}</small></span></div>
+      <div class="why">${esc(c.why)}</div>
+      ${c.research?`<div class="news"><b class="${c.radj<0?"caution":"support"}">${c.radj<0?"Caution":"Research"}</b><span>${esc(c.research)}</span></div>`:""}
+      <div class="pkmeta">${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores">Kalshi ${Math.round(c.kalshi*100)}%</span>`:`<span class="fx nt">No Kalshi market</span>`}<span class="fx nt" title="The app's stats-only estimate: his recent TD rate, touches and his team's projected points">Stats ${Math.round(c.stat*100)}%</span>${c.kalshi!=null&&c.stat-c.kalshi>=.04?`<span class="fx good" title="His numbers say he scores more often than the market's price">Stats above market</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}${buzz[c.buzz]?`<span class="fx nt" title="How much bettors and analysts are talking him up online. Popular TD picks are often priced shorter, so this is context, not a reason to bet">${buzz[c.buzz]}</span>`:""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>`:`<p class="pteam">No ${which==="long"?"plus-money ":""}TD picks${S.team?" for "+S.team:""} right now.</p>`}
+    <p class="topnote" style="margin:0">Bet only when your sportsbook pays more than the fair odds (for example, fair +150 and your book offers +170). Anytime-TD odds aren't in the free line feed, so compare in your app.</p>`;
+}
 function renderTop(){
+  renderTdTop();
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
   const now=Date.now(),m=mkt();
@@ -881,7 +898,6 @@ function renderTop(){
       ${n&&n.note?`<div class="news"><b class="${n.flag==="caution"?"caution":n.flag==="support"?"support":"neutral"}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
       <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  ${tdPicksHtml()}
   <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
 
@@ -1071,6 +1087,16 @@ function renderAppBox(){
 }
 // Probability check: when the app gives a side 60%, does it hit about 60% of the time? Every slate prop counts, not
 // just the Top 10, so the sample builds fast. Kalshi's own odds are graded the same way for comparison.
+// how the Top 10 anytime-TD picks have done: hit rate against what the app predicted (TD odds are mostly plus
+// money, so a 40% hit rate can be a winner; the fair line is what matters)
+function tdRecordHtml(){
+  const T=((RECORD&&RECORD.td)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length)return"";
+  const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,pr=a.reduce((x,e)=>x+e.prob,0)/a.length,hr=w/a.length;
+    return`<tr><td>${lab}</td><td class="num mono">${w} of ${a.length}</td><td class="num"><span class="heat ${hr>=pr+.03?"h1":hr<=pr-.05?"c1":""}">${pct(hr)}</span></td><td class="num mono">${pct(pr)}</td></tr>`};
+  const lk=T.filter(e=>(e.lists||[]).includes("likely")),lg=T.filter(e=>(e.lists||[]).includes("long"));
+  return`<div class="learn"><h4>Top 10 anytime TDs</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Scored</th><th class="num">Hit %</th><th class="num">Predicted</th></tr></thead><tbody>${row("Likeliest",lk)}${row("Plus money",lg)}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">Locked at kickoff and graded from the box score. Most TD bets pay plus money, so beating the predicted rate matters more than the raw hit rate.</p></div>`;
+}
 function calibHtml(){
   const c=TUNE&&TUNE.calib;if(!c||!c.n)return"";
   const sum=(rows,i)=>rows.reduce((a,r)=>a+r[2]*r[i],0),N=rows=>rows.reduce((a,r)=>a+r[2],0);
@@ -1108,6 +1134,7 @@ function renderAppRecord(){
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
+  html+=tdRecordHtml();
   html+=calibHtml();
   if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
@@ -1893,8 +1920,9 @@ function wire(){
   tt.onclick=()=>window.scrollTo({top:0,behavior:reduceMo()});
   document.getElementById("view-board").addEventListener("click",e=>{
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
+    const tdl=e.target.closest("[data-tdl]");if(tdl){S.tdList=tdl.dataset.tdl;save();renderTdTop();return}
     const tk=e.target.closest("[data-tk]");
-    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[])].find(x=>x.key===tk.dataset.tk);
+    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[])].find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
       if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()},c.t);return}
     const b=e.target.closest(".pick");if(!b)return;
