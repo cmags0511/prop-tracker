@@ -43,6 +43,7 @@ SITE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 CORE = "https://sports.core.api.espn.com/v2/sports/soccer/leagues"
 H = {"User-Agent": "Mozilla/5.0 (prop-tracker)", "Accept": "application/json"}
 HIST = "soccer_hist.json.gz"
+NATIONAL = ("fifa.", "uefa.nations", "uefa.euro", "conmebol.america", "concacaf.gold", "concacaf.nations")
 OUT = "soccer.json"
 AHEAD_DAYS = 3
 KEEP_DAYS = 400          # history kept per player
@@ -159,7 +160,10 @@ def add_match(hist, lg, ev, s):
             p["n"] = a.get("displayName") or p["n"]
             if pos and pos != "SUB":
                 p["pos"] = pos
-            p["tid"], p["t"] = tid, ab[tid]
+            if not lg.startswith(NATIONAL):  # his club (international matches don't change it)
+                p["tid"], p["t"] = tid, ab[tid]
+            else:
+                p["ntid"] = tid
             if not any(g[2] == ev for g in p["g"]):
                 p["g"].append(row)
                 p["g"] = sorted(p["g"])[-MAX_ROWS:]
@@ -392,7 +396,9 @@ def main():
             if not p or len(p["g"]) < 4:
                 skip["history"] += 1
                 continue
-            tid = p.get("tid")
+            tid = p.get("tid") if not u["lg"].startswith(NATIONAL) else p.get("ntid")
+            if tid not in (hid, aid_) and {hid, aid_} & {p.get("tid"), p.get("ntid")}:
+                tid = ({hid, aid_} & {p.get("tid"), p.get("ntid")}).pop()
             if tid not in (hid, aid_):
                 skip["team"] += 1
                 continue  # last seen on another team (transfer); skip until he has a match for this one
@@ -471,7 +477,7 @@ def main():
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
     matches.sort(key=lambda m: m["t"])
-    json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "matches": matches,
+    json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "skipped": skip, "matches": matches,
                "value": value, "plus": plus, "scorers": scorers},
               open(OUT, "w"), separators=(",", ":"))
     print("players skipped:", skip)
