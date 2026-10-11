@@ -263,6 +263,16 @@ def lam_for(p, stat, pri, s_start):
     return s_start * l_s + (1 - s_start) * l_b
 
 
+# recalibration per stat and milestone, fit by backtest_soccer.py --raw: p' = sig(a + b * logit(p)). The raw
+# Poisson model was overconfident at the high end (goals said 40% -> 30% happened, assists 25% -> 15%).
+CAL = {'sv1': (0.143, 0.735), 'sv2': (0.402, 0.554), 'sv3': (0.096, 0.52), 'sv4': (-0.146, 0.516), 'sv5': (-0.362, 0.557), 'sv6': (-0.342, 0.705), 'g1': (-0.569, 0.699), 'g2': (-0.026, 1.217), 'a1': (-0.949, 0.557), 'sh1': (-0.144, 0.865), 'sh2': (-0.129, 0.869), 'sh3': (-0.091, 0.894), 'sh4': (0.135, 1.036), 'sot1': (-0.211, 0.809), 'sot2': (-0.127, 0.921), 'sot3': (0.044, 1.121), 'fc1': (-0.014, 0.791), 'fc2': (-0.25, 0.766), 'fc3': (-0.271, 0.86), 'yc1': (-0.943, 0.41)}
+
+
+def calibrate(stat, k, p):
+    ab = CAL.get(f"{stat}{k}") or CAL.get(f"{stat}{max([int(x[len(stat):]) for x in CAL if x.startswith(stat) and x[len(stat):].isdigit()] or [0])}")
+    return sig(ab[0] + ab[1] * logit(p)) if ab else p
+
+
 def logit(p):
     p = min(.985, max(.015, p))
     return math.log(p / (1 - p))
@@ -401,7 +411,7 @@ def main():
                     lam *= f_att if m in ("g", "a") else f_att ** .6
                 if m == "sv":
                     lam *= f_def ** .6
-                p_mod = pois_ge(lam, k)
+                p_mod = calibrate(stat, k, pois_ge(lam, k))
                 q = 1 / dec
                 q_fair = min(.97, q / (1 + MARGIN.get(m, .08)))
                 prob = sig((1 - MKT_W) * logit(p_mod) + MKT_W * logit(q_fair))
@@ -413,7 +423,7 @@ def main():
                              "team": p["t"], "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
                              "home": home, "m": m, "k": k, "label": f"{k}+ {LABEL[m].lower()}" if m not in ("g", "card") or k > 1 else LABEL[m],
                              "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
-                             "book": round(q, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
+                             "book": round(q, 3), "fair_book": round(q_fair, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
                              "vals": [r[si] or 0 for r in g10], "starts": [r[6] for r in g10],
                              "lineup": status, "start_rate": round(s_start, 2)})
         if not rows:
@@ -440,8 +450,11 @@ def main():
             if len(out) == 10:
                 break
         return out
-    value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .15 and c["hits"][1] >= 5], lambda c: -c["ev"])
-    plus = top([c for c in cands if c["ev"] >= .03 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5], lambda c: -c["ev"])
+    # a model chance far above the book's (more than double, or 25+ points) usually means the book knows something the
+    # box scores don't (injury, rotation, a different role), so those stay off the Top lists
+    sane = lambda c: c["model"] <= 2 * c["fair_book"] and c["model"] - c["fair_book"] <= .25
+    value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
+    plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
     # recent results for grading tracked picks (last 10 days): {event: {athlete: [g, a, sh, sot, fc, yc, rc, sv]}}
     cut = (now - dt.timedelta(days=10)).date().isoformat()
@@ -454,8 +467,12 @@ def main():
     json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "matches": matches,
                "value": value, "plus": plus, "scorers": scorers, "results": res},
               open(OUT, "w"), separators=(",", ":"))
+    evs = sorted(c["ev"] for c in cands)
+    if evs:
+        print("EV distribution: median %.3f, 90th %.3f, share above +5%%: %.1f%%" % (evs[len(evs) // 2], evs[int(len(evs) * .9)],
+              100 * sum(1 for e in evs if e >= .05) / len(evs)))
     print(f"wrote {OUT}: {len(matches)} matches with props, {len(cands)} priced props, "
-          f"top value {[(c['name'], c['label'], c['price'], c['ev']) for c in value[:3]]}")
+          f"top value {[(c['name'], c['label'], c['price'], c['prob'], c['model'], c['ev']) for c in value[:6]]} plus {[(c['name'], c['label'], c['price'], c['ev']) for c in plus[:4]]}")
 
 
 if __name__ == "__main__":
