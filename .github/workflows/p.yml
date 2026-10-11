@@ -1,0 +1,14 @@
+name: probe6
+on: {push: {branches: [probe-td]}}
+permissions: {contents: write}
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p out && python p.py 2>&1 | tee out/log.txt
+      - run: |
+          git config user.name probe; git config user.email probe@users.noreply.github.com
+          git checkout -b probe-td-out; git add out; git commit -qm out; git push -q origin probe-td-out
+          sleep 600
+          git push origin --delete probe-td-out probe-td || true
