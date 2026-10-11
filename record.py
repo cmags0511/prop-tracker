@@ -11,7 +11,7 @@ Each run:
 
 Usage: python record.py [record.json]
 """
-import json, sys, datetime as dt
+import gzip, json, sys, datetime as dt
 from zoneinfo import ZoneInfo
 from picks import stat, OUT_STATUS
 
@@ -193,6 +193,45 @@ def main():
                   "prob": c["prob"], "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
                   "status": "pending", "result": None}
 
+    # 1f. soccer: the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff with
+    #     DraftKings' price, so the record shows real profit at the prices the app showed
+    soc = {(e["key"], e["t"]): e for e in rec.get("soccer", [])}
+    sfile = load("soccer.json", {})
+    cur_s = {}
+    for lst in ("value", "plus", "scorers"):
+        for c in sfile.get(lst, []):
+            if start(c) > now:
+                cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)
+    for k, e in list(soc.items()):
+        if e["status"] == "pending" and start(e) > now and k not in cur_s:
+            del soc[k]
+    for k, (c, lists) in cur_s.items():
+        soc[k] = {"key": c["key"], "lg": "SOC", "league": c.get("league"), "comp": c.get("lg"), "ev_id": c["ev_id"],
+                  "pid": c["pid"], "name": c["name"], "team": c["team"], "opp": c["opp"], "home": c["home"], "t": c["t"],
+                  "m": c["m"], "k": c["k"], "label": c["label"], "price": c["price"], "dec": c["dec"], "prob": c["prob"],
+                  "ev": c["ev"], "lists": sorted(lists), "status": "pending", "result": None}
+    try:
+        shist = json.load(gzip.open("soccer_hist.json.gz", "rt"))
+    except Exception:
+        shist = {"players": {}, "events": {}}
+    SIDX = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "card": 13, "sv": 15}
+    for e in soc.values():
+        if e["status"] != "pending" or start(e) > now:
+            continue
+        p = shist["players"].get(e["pid"]) or {}
+        row = next((r for r in p.get("g", []) if r[2] == e["ev_id"]), None)
+        if row is None:
+            # match in the history but he isn't: he didn't play, so the bet is void (books refund it)
+            if e["ev_id"] in shist.get("events", {}) or now - start(e) > dt.timedelta(days=4):
+                e["status"] = "void"
+            continue
+        v = row[SIDX[e["m"]]] or 0
+        if e["m"] == "card":
+            v = 1 if (row[13] or 0) + (row[14] or 0) > 0 else 0
+        e["result"] = v
+        e["status"] = "win" if v >= e["k"] else "loss"
+        e["graded"] = now.isoformat(timespec="minutes")
+
     def grade(e):
         p = players.get(e["lg"], {}).get(e["id"])
         day = start(e).astimezone(ET).date()
@@ -306,6 +345,7 @@ def main():
     rec["best"] = sorted(best.values(), key=lambda e: e["t"])
     rec["research"] = sorted(research.values(), key=lambda e: e["t"])
     rec["td"] = sorted(tds.values(), key=lambda e: (e["t"], -e["prob"]))
+    rec["soccer"] = sorted(soc.values(), key=lambda e: (e["t"], -e["ev"]))
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
     json.dump(rec, open(OUT, "w"), separators=(",", ":"))

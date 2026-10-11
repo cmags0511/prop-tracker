@@ -76,7 +76,8 @@ body{-webkit-tap-highlight-color:transparent}
 .iostip button{position:absolute;top:6px;right:6px;border:0;background:none;color:inherit;font-size:20px;line-height:1;padding:6px;cursor:pointer}
 @media (max-width:600px){
   .band .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;padding:0 0 env(safe-area-inset-bottom,0px);background:var(--band);border-top:1px solid var(--band-line);justify-content:space-around}
-  .band .tabs button{flex:1;margin:0;padding:12px 6px 10px;border-bottom:0;border-top:3px solid transparent;font-size:14px}
+  .band .tabs button{flex:1;margin:0;padding:12px 6px 10px;border-bottom:0;border-top:3px solid transparent;font-size:14px;white-space:nowrap}
+  @media (max-width:430px){.band .tabs button{font-size:12.5px;padding:12px 2px 10px;letter-spacing:.04em}.band .tabs .cnt{display:none}}
   .band .tabs button[aria-selected="true"]{border-top-color:var(--accent);border-bottom-color:transparent}
   .band .in{padding-block:16px 14px;gap:12px}
   h1{font-size:2rem}
@@ -301,6 +302,14 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .angles dd{margin:0;color:var(--ink2);line-height:1.45}
 @media (max-width:600px){.angles{grid-template-columns:1fr;gap:2px}.angles dd{margin-bottom:6px}}
 .tdpicks{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.pick.soc{cursor:default}
+.spark{display:inline-flex;align-items:flex-end;gap:2px;height:22px;position:relative;padding:0 2px;margin-right:4px}
+.spark i{display:block;width:5px;background:var(--line2);border-radius:2px 2px 0 0}.spark i.hit{background:var(--hit)}
+.spark b{position:absolute;left:0;right:0;border-top:1.5px dashed var(--accent)}
+.why b.good,.socT .good{color:var(--hit)}.socT .muted{color:var(--muted)}
+.socT td{vertical-align:middle}.socT td:first-child{white-space:normal}.socbet{display:block;font-size:12.5px;color:var(--ink2)}.socbet small.pteam{display:inline!important}
+@media(max-width:480px){.socT th,.socT td{padding:7px 4px}.socT td:first-child>small.pteam{display:block}}
+.gcard.soc .gtop{cursor:pointer}
 .tdin{display:inline-flex;align-items:center;gap:3px;font:500 11px var(--f-body);color:var(--muted);margin-left:auto}
 .tdin input{width:56px;font:600 13px var(--f-mono);padding:4px 6px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
 .pkmeta .tdin+.trk{margin-left:6px}
@@ -308,7 +317,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .tdprice td{vertical-align:middle}@media(max-width:480px){.tdprice th,.tdprice td{padding:7px 4px}.tdin input{width:48px}}.tdprice td:first-child{white-space:normal}.tdprice small.pteam{display:block}
 .tdv{display:block;font:600 10.5px var(--f-body)}.tdv.good{color:var(--hit)}.tdv.bad{color:var(--miss)}
 .tdprob{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}.tdprob b{font:700 1.5rem var(--f-display);color:var(--hit)}.tdprob small{font:500 11px var(--f-mono);color:var(--muted)}
-.who small.pos{display:inline;font:600 11px var(--f-mono);color:var(--muted)}
+.pk1 .who small.pos,.who small.pos{display:inline;font:600 11px var(--f-mono);color:var(--muted)}
 .fx.good{background:var(--hit-soft);color:var(--hit)}
 .tdpicks h3{margin:4px 0 0;font:700 1rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .tdpicks h3 .pteam{font:500 12px var(--f-body);letter-spacing:0;text-transform:none}
@@ -556,6 +565,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
 /* phone layout (kept last so it wins) */
 @media (max-width:600px){.install{padding:6px 11px;font-size:12.5px}.hbtns{gap:6px}h1{font-size:1.5rem!important}}
+@media (max-width:360px){.hbtns .show-sm{display:none}h1{font-size:1.3rem!important}}
 @media (max-width:600px){
   h1{font-size:1.6rem}
   .band .in{gap:10px}
@@ -611,6 +621,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
+      <button role="tab" id="tab-soc" aria-selected="false" aria-controls="view-soc">Soccer</button>
       <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">My picks<span class="cnt" id="mycnt" hidden></span><span id="livecnt" hidden></span></button>
     </div>
   </div>
@@ -649,6 +660,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     </div>
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-soc" role="tabpanel" aria-labelledby="tab-soc" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
   </div>
 </main>
@@ -962,10 +974,13 @@ function render(){
   document.getElementById("view-board").style.display=S.view==="board"?"flex":"none";
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
-  ["board","up","rec"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",S.view===v));
-  document.getElementById("market").hidden=S.view==="rec";
-  document.querySelector(".toolbar").hidden=S.view==="rec";
-  document.getElementById("srcnote").hidden=S.view==="rec";
+  const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
+  ["board","up","soc","rec"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",S.view===v));
+  const noBoard=S.view==="rec"||S.view==="soc";
+  document.getElementById("market").hidden=noBoard;
+  document.querySelector(".toolbar").hidden=noBoard;
+  document.getElementById("srcnote").hidden=noBoard;
+  if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
   const rows=boardRows(), m=mkt();
@@ -1133,6 +1148,15 @@ function renderAppBox(){
 // just the Top 10, so the sample builds fast. Kalshi's own odds are graded the same way for comparison.
 // how the Top 10 anytime-TD picks have done: hit rate against what the app predicted (TD odds are mostly plus
 // money, so a 40% hit rate can be a winner; the fair line is what matters)
+// the Soccer tab's Top 10 lists, graded at the DraftKings price shown at kickoff (real profit, not -110)
+function socRecordHtml(){
+  const T=((RECORD&&RECORD.soccer)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length)return"";
+  const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
+    return`<tr><td>${lab}</td><td class="num mono">${w}-${a.length-w}</td><td class="num mono">${pct(w/a.length)} <small class="pteam">vs ${pct(pr)}</small></td><td class="num mono" style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"\u2212"}${Math.abs(u).toFixed(1)}u</td></tr>`};
+  const L=k=>T.filter(e=>(e.lists||[]).includes(k));
+  return`<div class="learn"><h4>Soccer Top 10s</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Best value",L("value"))}${row("Plus money",L("plus"))}${row("Goalscorers",L("scorers"))}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">1 unit per pick at the DraftKings price when it was listed; void when he doesn't play.</p></div>`;
+}
 function tdRecordHtml(){
   const T=((RECORD&&RECORD.td)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length)return"";
   const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,pr=a.reduce((x,e)=>x+e.prob,0)/a.length,hr=w/a.length;
@@ -1168,17 +1192,18 @@ function renderAppRecord(){
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
-  const chips=used.length>1?`<div class="cats" style="margin:0">${[["all","All"],...used.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`:"";
+  const chips=used.length>1?`<div class="cats" style="margin:0">${[["all","All"],...used.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l==="SOC"?"Soccer":l}</button>`).join("")}</div>`:"";
   let html=`<section class="top"><div class="tophead"><h2>App <span>Top 10</span>${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${recTypeSwitch()}${chips}`;
   if(!P.length){el.innerHTML=html+`<p class="topnote">No picks recorded yet. The Top 10 is locked in as each game kicks off.</p></section>`;return}
   html+=`<div class="strip">
     <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
     <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
-    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick at -110</div></div>
+    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${MY.some(e=>e.price)?"":" at -110"}</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
   html+=tdRecordHtml();
+  html+=socRecordHtml();
   html+=calibHtml();
   if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
@@ -1197,7 +1222,7 @@ function renderAppRecord(){
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}`}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units assume 1 unit per pick at -110. Not betting advice.</p>`;
   el.innerHTML=html;
 }
@@ -1213,12 +1238,13 @@ function renderRecord(){
   const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
   const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
-    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}};
+    const pay=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
+    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+pay(e),0)-l}};
   const T=tally(done);
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
-  const usedLg=LEAGUES.filter(l=>MY.some(e=>e.lg===l));
-  const chips=usedLg.length>1?`<div class="cats" style="margin:0">${[["all","All"],...usedLg.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`:"";
+  const usedLg=[...LEAGUES,"SOC"].filter(l=>MY.some(e=>e.lg===l));
+  const chips=usedLg.length>1?`<div class="cats" style="margin:0">${[["all","All"],...usedLg.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l==="SOC"?"Soccer":l}</button>`).join("")}</div>`:"";
   let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}`;
   if(!MY.length){
     html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
@@ -1227,14 +1253,14 @@ function renderRecord(){
   html+=`<div class="strip">
       <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
       <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
-      <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?u(T.units):"–"}</div><div class="s">1u per pick at -110</div></div>
+      <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?u(T.units):"–"}</div><div class="s">1u per pick${MY.some(e=>e.price)?"":" at -110"}</div></div>
       <div><div class="k">Open</div><div class="v">${pend.length}</div><div class="s">awaiting results</div></div>
     </div>${clvSummary(P,"You")}`;
   if(done.length>=2){
     const table=(title,groups)=>{groups=groups.filter(g=>g[1].length);if(!groups.length)return"";return`<div><h4>${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${groups.map(([lab,a])=>{const t=tally(a);return`<tr><td>${lab}</td><td class="num mono">${wl(t)}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?u(t.units):"–"}</td></tr>`}).join("")}</tbody></table></div></div>`};
     const by=f=>{const m={};done.forEach(e=>{const k=f(e);(m[k]=m[k]||[]).push(e)});return m};
     const lgs=new Set(done.map(e=>e.lg)).size>1;
-    html+=`<div class="rsplit">${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${lgs?table("By league",LEAGUES.map(l=>[l,done.filter(e=>e.lg===l)])):""}${table("By prop",Object.entries(by(e=>(lgs?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
+    html+=`<div class="rsplit">${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${lgs?table("By league",[...LEAGUES,"SOC"].map(l=>[l==="SOC"?"Soccer":l,done.filter(e=>e.lg===l)])):""}${table("By prop",Object.entries(by(e=>(lgs?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
   }
   html+=`</section>`;
   const days={};
@@ -1242,7 +1268,7 @@ function renderRecord(){
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill live" title="Game under way">Live</span>'};
   if(P.length){
     html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = didn't play · open picks can be removed until kickoff</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · <b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}${clvChip(e)}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+      Object.entries(days).map(([d,list])=>{const t=tally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}`}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}${clvChip(e)}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   }
   html+=`<p class="note">Picks are saved in this browser on this device (or in the installed app), not in an account. Units assume 1 unit per pick at -110; real prices vary. Not betting advice.</p>`;
   el.innerHTML=html;
@@ -1323,8 +1349,9 @@ async function refreshLive(){
   if(liveBusy)return;const items=liveItems();if(!items.length){stopLive();return}
   liveBusy=true;
   try{
+    await refreshSocLive(items);
     const days={};
-    for(const l of items){const d=new Date(l.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");(days[l.lg+"|"+d]=days[l.lg+"|"+d]||new Set()).add(l.team)}
+    for(const l of items.filter(x=>x.lg!=="SOC")){const d=new Date(l.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");(days[l.lg+"|"+d]=days[l.lg+"|"+d]||new Set()).add(l.team)}
     for(const[k,teams]of Object.entries(days)){
       const[lg,d]=k.split("|");
       const sb=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${ESPN_PATH[lg]}/scoreboard?dates=${d}${lg==="CFB"?"&groups=80&limit=400":""}`).then(r=>r.json()).catch(()=>null);
@@ -1345,6 +1372,7 @@ async function refreshLive(){
   updLiveChip();
 }
 function liveFor(e){
+  if(e.lg==="SOC")return socLiveFor(e);
   const d=new Date(e.t).toLocaleDateString("en-CA",{timeZone:"America/New_York"}).replace(/-/g,"");
   const ev=LIVE_EV[e.lg+"|"+e.team+"|"+d];if(!ev)return null;
   const p=DATA[e.lg]&&DATA[e.lg].find(x=>x.id===e.pid),aid=p?String(p.espn||p.id):String(e.pid);
@@ -1653,6 +1681,7 @@ function dataGrade(e){
   const v=m.f(g);return{status:v===e.line?"push":(v>e.line)===(e.side==="over")?"win":"loss",result:v};
 }
 function gradeMy(e){
+  if(e.lg==="SOC")return gradeSoc(e);
   const start=new Date(e.t).getTime(),now=Date.now();
   if(start>now)return{status:"pending"};
   if(!DATA[e.lg]){ensureLeague(e.lg).then(ok=>{if(ok&&S.view==="rec")renderRecord()});return{status:"live"}}
@@ -1956,6 +1985,122 @@ function open(id,jump){
   const row=document.querySelector(`#board tr[data-id="${CSS.escape(id)}"]`);
   if(row){row.focus({preventScroll:true});row.scrollIntoView({block:jump?"start":"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
 }
+// ======== Soccer: DraftKings-priced player props (via ESPN) for every league ESPN carries, with the app's chance ========
+let SOC=null,socLoading=null;
+const SOC_M={g:"Goals",sh:"Shots",sot:"Shots on target",a:"Assists",sv:"Saves",fc:"Fouls",card:"Cards"};
+const SOC_STAT={g:"g",sh:"sh",sot:"sot",a:"a",sv:"sv",fc:"fc",card:"yc"};
+function loadSoccer(){
+  if(SOC||socLoading)return socLoading;
+  socLoading=fetch("soccer.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null).then(d=>{SOC=d||{matches:[]};socLoading=null;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord();return SOC});
+  return socLoading;
+}
+const socWhen=t=>{t=new Date(t);return`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`};
+const socTracked=c=>MY.some(x=>x.lg==="SOC"&&x.key===c.key&&x.ev===(c.ev_id||c.evid));
+function socLineup(c){return c.lineup==="start"?`<span class="fx good" title="ESPN has the lineups: he starts">Starting</span>`:c.lineup==="bench"?`<span class="fx nt" title="ESPN has the lineups: he's on the bench">Bench</span>`:`<span class="fx nt" title="Lineups usually come out about an hour before kickoff; this is how often he's started his team's recent matches">Starts ${Math.round((c.start_rate??.5)*100)}%</span>`}
+function socSpark(vals,k){if(!vals||!vals.length)return"";const mx=Math.max(k,...vals,1);
+  return`<span class="spark" title="Last ${vals.length} matches (oldest first); line = ${k}+">${vals.map(v=>`<i class="${v>=k?"hit":""}" style="height:${Math.max(8,v/mx*100)}%"></i>`).join("")}<b style="bottom:${(k-.5)/mx*100}%"></b></span>`}
+function socCard(c,i,mt){
+  const pl=mt&&mt.players&&mt.players[c.pid],vals=pl&&pl.v?pl.v[SOC_STAT[c.m]]:null;
+  const fair=decToAm(1/Math.max(.01,c.prob)),tr=socTracked(c);
+  return`<div class="pick soc"><span class="rank">${i+1}</span>
+    <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.price)}</b><small>${esc(c.label)}</small></span></div>
+    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}); DraftKings' price implies ${Math.round(c.book*100)}%. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${c.ev>0?`Expected profit <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.`:""}</div>
+    <div class="pkmeta">${socSpark(vals,c.k)}${socLineup(c)}<button class="trk sm ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}">${tr?"✓ Tracking":"+ Track"}</button></div></div>`;
+}
+function socAll(){return(SOC&&SOC.matches||[]).filter(m=>new Date(m.t).getTime()>Date.now()-5*60e3)}
+function socFind(key,ev){for(const m of socAll())if(m.ev===ev){const p=m.props.find(x=>x.key===key);if(p)return Object.assign({},p,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t})}
+  for(const l of ["value","plus","scorers"])for(const c of (SOC&&SOC[l])||[])if(c.key===key&&c.ev_id===ev)return c;return null}
+function socTrack(c){
+  const ex=MY.find(x=>x.lg==="SOC"&&x.key===c.key&&x.ev===c.ev_id);
+  if(ex){if(new Date(ex.t).getTime()<=Date.now()){toast("Game has started");return}MY=MY.filter(x=>x!==ex);saveMy();toast("Removed from My picks");updMyCount();return}
+  if(new Date(c.t).getTime()<=Date.now()){toast("Game has started");return}
+  MY.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg:"SOC",comp:c.lg,ev:c.ev_id,key:c.key,pid:c.pid,name:c.name,team:c.team,opp:c.opp,home:c.home,
+    t:new Date(c.t).toISOString(),market:"soc_"+c.m,m:c.m,k:c.k,label:c.label,side:"over",line:c.k-.5,price:c.price,league:c.league,added:new Date().toISOString()});
+  saveMy();updMyCount();toast(`Tracking ${c.name} ${c.label} at ${amFmt(c.price)}`);
+}
+function renderSoccer(){
+  const el=document.getElementById("view-soc");
+  if(!SOC){el.innerHTML=`<section class="top"><p class="pteam">Loading soccer…</p></section>`;loadSoccer();return}
+  const ms=socAll();
+  if(!ms.length){el.innerHTML=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2></div><p class="pteam">No priced matches in the next three days yet. DraftKings posts player props a day or two before kickoff.</p></section>`;return}
+  const lgs=[...new Map(ms.map(m=>[m.lg,m.league])).entries()];
+  const lf=lgs.some(([k])=>k===S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
+  const list=S.socList||"value";
+  const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
+  const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
+  const sub={value:"Best expected profit at DraftKings' price: the app's chance (from his recent matches, his team's expected goals and the price itself) times the payout",
+    plus:"Plus-money bets with the best expected profit",scorers:"The players most likely to score, with DraftKings' anytime-goal price"}[list];
+  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["value","Best value"],["plus","Plus money"],["scorers","Goalscorers"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
+    <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
+    <p class="topsub">${sub}. Prices: DraftKings via ESPN, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
+    ${pool.length?`<div class="tdpicks">${pool.map((c,i)=>socCard(c,i,mtOf(c))).join("")}</div>`:`<p class="pteam">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`}
+    <p class="topnote" style="margin:0">Expected profit is an average over many bets, not a promise. The app's chances were checked against 14,000 past appearances and are calibrated (when it says 25%, about 25% happened); they're blended with DraftKings' price because the book knows about injuries and rotation the box scores don't. If he doesn't play, DraftKings voids the bet.</p></section>`;
+  // matches
+  const days={};ms.filter(inLg).forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
+  html+=`<section class="top"><div class="tophead"><h2>Matches</h2></div>${Object.entries(days).map(([d,list])=>`<h3 class="tdh3">${d}</h3>`+list.map(m=>{
+    const open=S.socOpen===m.ev,best=m.props.filter(p=>p.ev>0).length;
+    return`<article class="gcard soc${open?" open":""}"><div class="gtop go" role="button" tabindex="0" data-socm="${esc(m.ev)}" aria-expanded="${open}"><div><div class="gm">${esc(m.home)}<span class="at">vs</span>${esc(m.away)}</div><div class="gtime">${esc(m.league)} · ${socWhen(m.t)}${m.lineups?" · lineups out":""}</div></div><div class="gtime" style="text-align:right">${m.exp?`xG ${m.exp[0].toFixed(1)}–${m.exp[1].toFixed(1)}<br>`:""}${m.props.length} props${best?` · ${best} +EV`:""}</div></div>
+      ${open?socMatchBody(m):""}</article>`}).join("")).join("")}</section>`;
+  el.innerHTML=html;
+}
+function socMatchBody(m){
+  const mk=SOC_M[S.socMk]?S.socMk:"all";
+  const rows=m.props.filter(p=>mk==="all"||p.m===mk).sort((a,b)=>b.ev-a.ev).slice(0,mk==="all"?40:80);
+  const have=Object.keys(SOC_M).filter(k=>m.props.some(p=>p.m===k));
+  return`<div class="gbody"><div class="cats" style="margin:6px 0">${[["all","Best"],...have.map(k=>[k,SOC_M[k]])].map(([k,l])=>`<button class="cat" data-socmk="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div>
+    <div class="log"><table class="books socT"><thead><tr><th>Player \u00b7 bet</th><th class="num">DK</th><th class="num">App</th><th class="num" title="Expected profit per $10 at DraftKings' price">$/10</th><th></th></tr></thead><tbody>${rows.map(p=>{const c=Object.assign({},p,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t}),tr=socTracked(c);
+      return`<tr><td><b>${esc(p.name)}</b> <small class="pteam">${p.pos} · ${esc(p.team)}${p.lineup==="start"?" · starting":p.lineup==="bench"?" · bench":""}</small><span class="socbet">${esc(p.label)} <small class="pteam">\u00b7 hit ${p.hits[0]}/${p.hits[1]}</small></span></td><td class="num mono">${amFmt(p.price)}</td><td class="num mono">${Math.round(p.prob*100)}%</td><td class="num mono ${p.ev>=.05?"good":p.ev<0?"muted":""}">${p.ev>=0?"+":"−"}$${Math.abs(p.ev*10).toFixed(2)}</td><td><button class="trk sm ${tr?"on":""}" data-soctk="${esc(p.key)}" data-socev="${esc(m.ev)}" aria-label="Track ${esc(p.name)} ${esc(p.label)}">${tr?"✓":"+"}</button></td></tr>`}).join("")}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">Profit/$10 = expected profit per $10 at DraftKings' price. Negative is the usual case: the book's margin.</p></div>`;
+}
+document.addEventListener("click",e=>{
+  if(S.view!=="soc")return;
+  const t=e.target;
+  const sl=t.closest("[data-soclist]");if(sl){S.socList=sl.dataset.soclist;save();renderSoccer();return}
+  const lg=t.closest("[data-soclg]");if(lg){S.socLg=lg.dataset.soclg;save();renderSoccer();return}
+  const mk=t.closest("[data-socmk]");if(mk){S.socMk=mk.dataset.socmk;renderSoccer();return}
+  const tk=t.closest("[data-soctk]");if(tk){const c=socFind(tk.dataset.soctk,tk.dataset.socev);if(c){socTrack(c);renderSoccer()}return}
+  const gm=t.closest("[data-socm]");if(gm){const card=gm.closest(".gcard"),top=card.getBoundingClientRect().top;S.socOpen=S.socOpen===gm.dataset.socm?null:gm.dataset.socm;renderSoccer();
+    const c2=document.querySelector(`#view-soc [data-socm="${CSS.escape(gm.dataset.socm)}"]`);if(c2)window.scrollBy(0,c2.closest(".gcard").getBoundingClientRect().top-top);return}
+});
+document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm]")){e.preventDefault();e.target.click()}});
+// live + grading for tracked soccer picks: ESPN's match summary (box score by player)
+function socBox(sum){
+  const out={};
+  for(const r of (sum&&sum.rosters)||[])for(const x of r.roster||[]){
+    const st={};for(const k of x.stats||[])st[k.name]=k.value;const id=x.athlete&&x.athlete.id;if(!id)continue;
+    out[id]={app:liveNum(st.appearances),g:liveNum(st.totalGoals),a:liveNum(st.goalAssists),sh:liveNum(st.totalShots),sot:liveNum(st.shotsOnTarget),fc:liveNum(st.foulsCommitted),
+      yc:liveNum(st.yellowCards),rc:liveNum(st.redCards),sv:st.saves!=null?liveNum(st.saves):Math.max(0,liveNum(st.shotsFaced)-liveNum(st.goalsConceded))};
+  }
+  return out;
+}
+async function refreshSocLive(items){
+  const evs=[...new Map(items.filter(l=>l.lg==="SOC").map(l=>[l.ev,l.comp])).entries()];
+  for(const[ev,comp]of evs){
+    if(LIVE_EV["SOC|"+ev]&&LIVE_EV["SOC|"+ev].state==="post")continue;
+    const sum=await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${comp}/summary?event=${ev}`).then(r=>r.json()).catch(()=>null);
+    const st=sum&&sum.header&&sum.header.competitions&&sum.header.competitions[0].status&&sum.header.competitions[0].status.type;
+    if(!st||st.state==="pre")continue;
+    LIVE_EV["SOC|"+ev]={state:st.state,detail:st.shortDetail||st.detail||"",box:socBox(sum),at:Date.now()};
+  }
+}
+function socLiveFor(e){
+  const ev=LIVE_EV["SOC|"+e.ev];if(!ev)return null;const b=ev.box[e.pid];
+  const v=!b?0:e.m==="card"?((b.yc||0)+(b.rc||0)>0?1:0):(b[e.m]||0);
+  return{state:ev.state,detail:ev.detail,v,played:!!(b&&b.app>0)};
+}
+function gradeSoc(e){
+  const start=new Date(e.t).getTime(),now=Date.now();
+  if(start>now)return{status:"pending"};
+  if(e.final)return Object.assign({},e.final);
+  const lv=socLiveFor(e);
+  if(lv){
+    if(lv.state==="post"){if(!lv.played)return keepFinal(e,{status:"void"});return keepFinal(e,{status:lv.v>=e.k?"win":"loss",result:lv.v,live:lv})}
+    if(lv.played&&lv.v>=e.k)return{status:"win",result:lv.v,live:lv,early:true};
+    return{status:"live",result:lv.v,live:lv};
+  }
+  return{status:now-start>4*864e5?"void":"live"};
+}
+
 function wire(){
   document.addEventListener("click",e=>{const b=e.target.closest("[data-side]");if(!b||b.dataset.side===S.side)return;S.side=b.dataset.side;try{localStorage.setItem("ptSide",S.side)}catch(err){}
     if(S.view==="up")renderUpcoming();else if(S.view==="rec")renderRecord();else{renderTop();renderAppBox()}});
@@ -1995,6 +2140,7 @@ function wire(){
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
+  document.getElementById("tab-soc").onclick=()=>setView("soc");
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
     const xp=e.target.closest("[data-unparlay]");if(xp){PARLAYS=PARLAYS.filter(p=>p.id!==xp.dataset.unparlay);saveParlays();updMyCount();renderRecord();toast("Parlay deleted");return}
