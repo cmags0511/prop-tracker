@@ -301,6 +301,12 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .angles dd{margin:0;color:var(--ink2);line-height:1.45}
 @media (max-width:600px){.angles{grid-template-columns:1fr;gap:2px}.angles dd{margin-bottom:6px}}
 .tdpicks{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.tdin{display:inline-flex;align-items:center;gap:3px;font:500 11px var(--f-body);color:var(--muted);margin-left:auto}
+.tdin input{width:56px;font:600 13px var(--f-mono);padding:4px 6px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
+.pkmeta .tdin+.trk{margin-left:6px}
+.tdh3{margin:10px 0 2px;font:700 .95rem/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.tdprice td{vertical-align:middle}@media(max-width:480px){.tdprice th,.tdprice td{padding:7px 4px}.tdin input{width:48px}}.tdprice td:first-child{white-space:normal}.tdprice small.pteam{display:block}
+.tdv{display:block;font:600 10.5px var(--f-body)}.tdv.good{color:var(--hit)}.tdv.bad{color:var(--miss)}
 .tdprob{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}.tdprob b{font:700 1.5rem var(--f-display);color:var(--hit)}.tdprob small{font:500 11px var(--f-mono);color:var(--muted)}
 .who small.pos{display:inline;font:600 11px var(--f-mono);color:var(--muted)}
 .fx.good{background:var(--hit-soft);color:var(--hit)}
@@ -616,6 +622,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     <section class="bestbet" id="bestbet" hidden></section>
     <section class="top" id="top"></section>
     <section class="top" id="tdtop" hidden></section>
+    <section class="top" id="tdvalue" hidden></section>
     <section class="apprec" id="apprec" hidden></section>
     <div class="movers" id="movers"></div>
     <section class="board">
@@ -860,8 +867,45 @@ function renderTdTop(){
       <div class="pkmeta">${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores">Kalshi ${Math.round(c.kalshi*100)}%</span>`:`<span class="fx nt">No Kalshi market</span>`}<span class="fx nt" title="The app's stats-only estimate: his recent TD rate, touches and his team's projected points">Stats ${Math.round(c.stat*100)}%</span>${c.kalshi!=null&&c.stat-c.kalshi>=.04?`<span class="fx good" title="His numbers say he scores more often than the market's price">Stats above market</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}${buzz[c.buzz]?`<span class="fx nt" title="How much bettors and analysts are talking him up online. Popular TD picks are often priced shorter, so this is context, not a reason to bet">${buzz[c.buzz]}</span>`:""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>`:`<p class="pteam">No ${which==="long"?"plus-money ":""}TD picks${S.team?" for "+S.team:""} right now.</p>`}
     <p class="topnote" style="margin:0">Bet only when your sportsbook pays more than the fair odds (for example, fair +150 and your book offers +170). Anytime-TD odds aren't in the free line feed, so compare in your app.</p>`;
 }
+// ---- Most profitable plus-money TDs: expected profit = the app's chance to score x the payout ----
+// Prices come from The Odds API (best price across books) when it's set up, or from odds you type in.
+let TDODDS={};try{TDODDS=JSON.parse(localStorage.getItem("ptTdOdds")||"{}")}catch(e){TDODDS={}}
+function tdPrice(c){
+  const u=TDODDS[c.key+"|"+c.t];if(u!=null)return{price:u,book:"your book",mine:true};
+  return c.price!=null?{price:c.price,book:c.book||"book",mine:false}:null;
+}
+const amDec=a=>a>0?1+a/100:1+100/-a;
+function renderTdValue(){
+  const el=document.getElementById("tdvalue");if(!el)return;
+  const all=((PICKS&&PICKS.tdAll)||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&!outNote(c.lg,c.id)&&(!S.team||c.team===S.team));
+  if(S.league!=="NFL"||!all.length){el.hidden=true;el.innerHTML="";return}
+  el.hidden=false;
+  const fair=p=>decToAm(1/Math.max(.01,p));
+  const rows=all.map(c=>{const pr=tdPrice(c);const ev=pr&&pr.price>=100?c.prob*amDec(pr.price)-1:null;return Object.assign({},c,{pr,ev})});
+  const ranked=rows.filter(c=>c.ev!=null&&c.ev>=.03).sort((a,b)=>b.ev-a.ev).slice(0,10);
+  const inRank=new Set(ranked.map(c=>c.key));
+  // plus-money candidates still waiting for a price (or priced below fair): the likeliest first
+  const toPrice=rows.filter(c=>!inRank.has(c.key)&&c.prob>=.15&&c.prob<.5).sort((a,b)=>b.prob-a.prob).slice(0,12);
+  const anyFeed=rows.some(c=>c.price!=null);
+  const box=c=>`<label class="tdin" title="Type the anytime-TD odds your sportsbook shows, e.g. 250 for +250"><span><span class="hide-sm">Your odds </span>+</span><input inputmode="numeric" maxlength="4" placeholder="${c.pr&&!c.pr.mine?String(c.pr.price):"___"}" value="${c.pr&&c.pr.mine?c.pr.price:""}" data-tdodds="${esc(c.key+"|"+c.t)}" aria-label="Your odds for ${esc(c.name)}"></label>`;
+  const when=c=>{const t=new Date(c.t);return`${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`};
+  const trk=c=>{const t=new Date(c.t),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString());return`<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button>`};
+  el.innerHTML=`<div class="tophead"><h2>Most profitable <span>plus-money TDs</span></h2></div>
+    <p class="topsub">Ranked by expected profit: the app's chance he scores times what the price pays. Plus-money prices only${anyFeed?"; prices are the best across DraftKings, FanDuel and BetMGM":""}.</p>
+    ${ranked.length?`<div class="tdpicks">${ranked.map((c,i)=>`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
+      <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small>${c.status?" "+QPILL(c.status):""}<small>${when(c)}</small></span><span class="tdprob"><b>+$${(c.ev*10).toFixed(2)}</b><small>per $10 at ${amFmt(c.pr.price)}</small></span></div>
+      <div class="why">Scores ${Math.round(c.prob*100)}% of the time by the app's estimate (fair odds ${fair(c.prob)}), so ${amFmt(c.pr.price)} at ${esc(c.pr.book)} pays ${Math.round(c.ev*100)}% more than it should on average. TD in ${c.l10[0]} of his last ${c.l10[1]}.</div>
+      ${c.research?`<div class="news"><b class="${c.radj<0?"caution":"support"}">${c.radj<0?"Caution":"Research"}</b><span>${esc(c.research)}</span></div>`:""}
+      <div class="pkmeta">${c.kalshi!=null?`<span class="fx nt">Kalshi ${Math.round(c.kalshi*100)}%</span>`:""}<span class="fx nt">Stats ${Math.round(c.stat*100)}%</span>${box(c)}${trk(c)}</div></div>`).join("")}</div>`
+      :`<div class="rempty" style="margin:0"><p style="margin:0">${anyFeed?"No plus-money TD price beats the app's odds right now.":"Sportsbook TD prices aren't in the free line feed yet. Type the odds your book shows for any player below, and the profitable ones move up here, ranked."}</p></div>`}
+    ${toPrice.length?`<h3 class="tdh3">${ranked.length?"More plus-money scorers to price":"Plus-money scorers to price"}</h3>
+    <div class="log"><table class="books tdprice"><thead><tr><th>Player</th><th class="num">Chance</th><th class="num">Fair</th><th class="num">Price</th></tr></thead><tbody>${toPrice.map(c=>{
+      const pr=c.pr,ok=pr&&pr.price>=100&&c.ev!=null;
+      return`<tr><td><b>${esc(c.name)}</b> <small class="pteam">${c.pos} \u00b7 ${when(c)}</small></td><td class="num mono">${Math.round(c.prob*100)}%</td><td class="num mono">${fair(c.prob)}</td><td class="num">${box(c)}${pr?`<small class="${ok&&c.ev>-.03?"":"bad"} tdv">${pr.price<100?"not plus money":c.ev>-.03?"about fair":"below fair"}</small>`:""}</td></tr>`}).join("")}</tbody></table></div>`:""}
+    <p class="topnote" style="margin:0">Expected profit is an average over many bets, not a promise: most plus-money TD bets lose more often than they win. It's only as good as the app's chance, which the Probability check grades over time.</p>`;
+}
 function renderTop(){
-  renderTdTop();
+  renderTdTop();renderTdValue();
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
   const now=Date.now(),m=mkt();
@@ -1921,12 +1965,17 @@ function wire(){
   document.getElementById("view-board").addEventListener("click",e=>{
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
     const tdl=e.target.closest("[data-tdl]");if(tdl){S.tdList=tdl.dataset.tdl;save();renderTdTop();return}
+    if(e.target.closest(".tdin"))return;
     const tk=e.target.closest("[data-tk]");
-    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[])].find(x=>x.key===tk.dataset.tk);
+    if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[]),...(PICKS.tdAll||[])].find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
       if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()},c.t);return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
+  document.getElementById("view-board").addEventListener("change",e=>{const i=e.target.closest("[data-tdodds]");if(!i)return;
+    const v=parseInt(String(i.value).replace(/[^0-9]/g,""),10);if(isNaN(v)||!i.value.trim())delete TDODDS[i.dataset.tdodds];else if(v<100||v>5000){toast("Enter plus-money odds like 250 for +250");return}else TDODDS[i.dataset.tdodds]=v;
+    try{const now=Date.now();for(const k of Object.keys(TDODDS)){const t=k.split("|").slice(3).join("|");if(new Date(t).getTime()<now-6*3600e3)delete TDODDS[k]}localStorage.setItem("ptTdOdds",JSON.stringify(TDODDS))}catch(x){}
+    renderTdValue()});
   document.getElementById("apprec").addEventListener("click",e=>{if(e.target.closest("[data-goto-app]")){S.recType="app";S.recLg="all";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0})}});
   document.getElementById("view-board").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};

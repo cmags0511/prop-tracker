@@ -154,7 +154,7 @@ TD_MKT = .6      # weight on Kalshi's "1+ TD" price when it has one (log-odds bl
 TD_PER_TEAM = 2  # at most two scorers from one team in the Top 10
 
 
-def td_board(data, ctx, MKTS, notes, CONF, now):
+def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
     """the 10 likeliest anytime-TD scorers on the upcoming NFL slate (plus the full ranked list for the game views)"""
     meta = data.get("NFL") or {}
     cols = meta.get("cols", [])
@@ -224,7 +224,16 @@ def td_board(data, ctx, MKTS, notes, CONF, now):
             why.append(f"listed {inj['s'].lower()}")
         if backup:
             why.append(f"a backup on the depth chart ({dep.get('slot')})")
-        res.append({"key": key, "lg": "NFL", "id": p["id"], "name": p["n"], "team": p["t"], "pos": p["p"],
+        # real sportsbook prices (The Odds API, when a key is set): the best price across books and its expected profit
+        od = (ODDS or {}).get(key) or {}
+        best = max(((b, v.get("over")) for b, v in (od.get("books") or {}).items() if isinstance(v.get("over"), (int, float))),
+                   key=lambda x: x[1], default=(None, None))
+        price, book = best[1], best[0]
+        ev = None
+        if price:
+            dec = 1 + (price / 100 if price > 0 else 100 / -price)
+            ev = round(prob * dec - 1, 3)
+        res.append({"key": key, "lg": "NFL", "id": p["id"], "price": price, "book": book, "ev": ev, "name": p["n"], "team": p["t"], "pos": p["p"],
                     "opp": game["away"] if home else game["home"], "home": home, "t": game["t"].isoformat(),
                     "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
                     "prob": round(prob, 3), "stat": round(p_stat, 3), "kalshi": round(kal, 3) if kal is not None else None,
@@ -254,8 +263,10 @@ def td_board(data, ctx, MKTS, notes, CONF, now):
     for c in top:
         c["list"] = "likely"
     long10 = [dict(c, list="long") for c in pick10(lng)]
-    return top + long10, [{k: c[k] for k in ("key", "id", "name", "team", "pos", "opp", "t", "prob", "stat", "kalshi", "l10", "season_td", "season_g")}
-                 for c in res[:120]]
+    keep = ("key", "lg", "id", "name", "team", "pos", "opp", "home", "t", "market", "label", "side", "line", "prob", "stat",
+            "kalshi", "l10", "season_td", "season_g", "touches", "implied", "status", "research", "radj", "conf", "buzz",
+            "price", "book", "ev")
+    return top + long10, [{k: c[k] for k in keep} for c in res[:120] if c["radj"] is None or c["radj"] > -1]
 
 
 def main():
@@ -680,7 +691,7 @@ def main():
                     "l10": [sum(1 for g in l10 if g["td"] > 0), len(l10)], "kalshi": round(kal, 3) if kal is not None else None,
                     "score": round(conf * float(n.get("adj") or 0) + (kal or 0), 3), "why": n.get("note", ""), "conf": n.get("conf")})
     out["tdPicks"] = sorted(tdp, key=lambda c: -c["score"])[:8]
-    out["tdTop"], out["tdAll"] = td_board(data, ctx, MKTS, notes, CONF, now)
+    out["tdTop"], out["tdAll"] = td_board(data, ctx, MKTS, notes, CONF, now, ODDS)
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)

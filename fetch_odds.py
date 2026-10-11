@@ -74,6 +74,9 @@ def wanted(picks, now):
     out = {}
     pool = list(picks.get("picksOver", [])[:14]) + list(picks.get("picks", [])[:12]) + ([picks["best"]] if picks.get("best") else [])
     pool += list(picks.get("tdPicks", [])[:5])
+    # anytime-TD prices for the whole TD board: one credit per game returns every player's price, so price every
+    # plausible scorer in games kicking off within 36 hours (the "most profitable TDs" section needs real prices)
+    pool += [c for c in picks.get("tdAll", []) if dt.timedelta(0) < dt.datetime.fromisoformat(c["t"]) - now < dt.timedelta(hours=36)]
     for c in pool:
         if c["lg"] not in SPORT or c["market"] not in MARKET or dt.datetime.fromisoformat(c["t"]) <= now:
             continue
