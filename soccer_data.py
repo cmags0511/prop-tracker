@@ -43,7 +43,9 @@ SITE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 CORE = "https://sports.core.api.espn.com/v2/sports/soccer/leagues"
 H = {"User-Agent": "Mozilla/5.0 (prop-tracker)", "Accept": "application/json"}
 HIST = "soccer_hist.json.gz"
+NATIONAL = ("fifa.", "uefa.nations", "uefa.euro", "conmebol.america", "concacaf.gold", "concacaf.nations")
 OUT = "soccer.json"
+CLOSE = "soccer_close.json"  # the last DraftKings price seen before each kickoff (closing line value)
 AHEAD_DAYS = 3
 KEEP_DAYS = 400          # history kept per player
 MAX_ROWS = 30            # matches kept per player
@@ -159,7 +161,10 @@ def add_match(hist, lg, ev, s):
             p["n"] = a.get("displayName") or p["n"]
             if pos and pos != "SUB":
                 p["pos"] = pos
-            p["tid"], p["t"] = tid, ab[tid]
+            if not lg.startswith(NATIONAL):  # his club (international matches don't change it)
+                p["tid"], p["t"] = tid, ab[tid]
+            else:
+                p["ntid"] = tid
             if not any(g[2] == ev for g in p["g"]):
                 p["g"].append(row)
                 p["g"] = sorted(p["g"])[-MAX_ROWS:]
@@ -349,10 +354,28 @@ def main():
     except Exception:
         hist = {"players": {}, "teams": {}, "events": {}}
         days_back = max(days_back, 60)  # first run: build two months of history
+    if not light and hist.get("depth", 0) < 120:
+        days_back = max(days_back, 120)  # deepen once to four months, so more players have enough matches
+        hist["depth"] = 120
     if not light:
         update_history(hist, days_back, now)
         json.dump(hist, gzip.open(HIST, "wt"), separators=(",", ":"))
     pri = priors(hist)
+    try:  # first price seen for each prop (from earlier runs), to show how the price has moved
+        old = json.load(open(OUT))
+        opened = {f"{p['key']}|{m['ev']}": p.get("open", p["price"]) for m in old.get("matches", []) for p in m.get("props", [])}
+    except Exception:
+        opened = {}
+    try:  # the daily research's soccer check (injuries, suspensions, rotation), when it's fresh
+        nf = json.load(open("notes.json"))
+        fresh = now - dt.datetime.fromisoformat(nf["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+        snotes = {k: v for k, v in (nf.get("notes") or {}).items() if k.startswith("SOC|")} if fresh else {}
+    except Exception:
+        snotes = {}
+    try:
+        closing = json.load(open(CLOSE))
+    except Exception:
+        closing = {}
     # upcoming matches
     sb = scoreboards([(now + dt.timedelta(days=k)).date() for k in range(0, AHEAD_DAYS + 1)])
     ups = []
@@ -373,6 +396,7 @@ def main():
     lus = dict(zip(soon, pmap(lambda i: lineups(ups[i]["lg"], ups[i]["ev"]), soon)))
     players = hist["players"]
     matches, cands = [], []
+    skip = {"history": 0, "team": 0, "absent": 0}
     for i, u in enumerate(ups):
         pr = props[i]
         if not pr:
@@ -388,10 +412,14 @@ def main():
             by_player.setdefault(aid, []).append((m, k, am, dec))
         for aid, bets in by_player.items():
             p = players.get(aid)
-            if not p or len(p["g"]) < 4:
+            if not p or len(p["g"]) < 3:
+                skip["history"] += 1
                 continue
-            tid = p.get("tid")
+            tid = p.get("tid") if not u["lg"].startswith(NATIONAL) else p.get("ntid")
+            if tid not in (hid, aid_) and {hid, aid_} & {p.get("tid"), p.get("ntid")}:
+                tid = ({hid, aid_} & {p.get("tid"), p.get("ntid")}).pop()
             if tid not in (hid, aid_):
+                skip["team"] += 1
                 continue  # last seen on another team (transfer); skip until he has a match for this one
             home = tid == hid
             opp_id = aid_ if home else hid
@@ -400,10 +428,16 @@ def main():
             mine = {r[2]: r for r in p["g"]}
             apps = [mine[e] for e in tg if e in mine]
             if tg and not any(e in mine for e in tg[-3:]) and lu.get(aid) != "start":
+                skip["absent"] += 1
                 continue  # not in any of his team's last 3 squads: injured, dropped or away
             status = lu.get(aid)
             if lu and not status:
                 continue  # lineups are out and he isn't in the squad
+            note = snotes.get(f"SOC|{aid}|{u['ev']}") or {}
+            if note.get("flag") == "out":
+                skip["research_out"] = skip.get("research_out", 0) + 1
+                continue  # the research found he's injured, suspended or left out
+            r_adj = {"support": .2, "caution": -.35}.get(note.get("flag"), 0) * {"high": 1.2, "medium": 1.0, "low": .6}.get(note.get("conf"), 1.0)
             s_start = 1.0 if status == "start" else 0.0 if status == "bench" else \
                 ((sum(r[6] for r in apps) + .5) / (len(apps) + 1) if apps else .5)
             gf, ga = tav[tid]
@@ -420,6 +454,8 @@ def main():
                 if m == "sv":
                     lam *= f_def ** .6
                 p_mod = calibrate(stat, k, pois_ge(lam, k))
+                if r_adj and m != "fc":
+                    p_mod = sig(logit(p_mod) + r_adj)
                 q = 1 / dec
                 q_fair = min(.97, q / (1 + MARGIN.get(m, .08)))
                 prob = sig((1 - MKT_W) * logit(p_mod) + MKT_W * logit(q_fair))
@@ -432,10 +468,18 @@ def main():
                              "home": home, "m": m, "k": k, "label": (f"{k}+ goals" if m == "g" else f"{k}+ {LABEL[m].lower()}") if m not in ("g", "card") or k > 1 else LABEL[m],
                              "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
                              "book": round(q, 3), "fair_book": round(q_fair, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
-                             "lineup": status, "start_rate": round(s_start, 2)})
-                pinfo.setdefault(aid, {"n": p["n"], "pos": pos_group(p.get("pos")), "team": p["t"], "lineup": status,
-                                       "sr": round(s_start, 2), "dates": [r[0][5:] for r in g10],
-                                       "opp": [r[4] for r in g10], "st": [r[6] for r in g10], "v": {}})["v"][stat] = [r[si] or 0 for r in g10]
+                             "lineup": status, "start_rate": round(s_start, 2),
+                             "open": opened.get(f"SOC|{aid}|{m}|{k}|{u['ev']}", am),
+                             **({"research": note.get("note"), "rflag": note.get("flag"), "rconf": note.get("conf")} if note.get("note") else {})})
+                if u["t"] > now:
+                    closing[f"SOC|{aid}|{m}|{k}|{u['ev']}"] = [round(dec, 3), u["t"].isoformat(timespec="minutes")]
+                if aid not in pinfo:
+                    pinfo[aid] = {"n": p["n"], "pos": pos_group(p.get("pos")), "team": p["t"], "lineup": status,
+                                  "sr": round(s_start, 2), "dates": [r[0][5:] for r in g10], "opp": [r[4] for r in g10],
+                                  "comp": [LEAGUES.get(r[1], r[1]) for r in g10], "st": [r[6] for r in g10],
+                                  "v": {s_: [r[i_] or 0 for r in g10] for s_, i_ in (("g", 8), ("a", 9), ("sh", 10), ("sot", 11), ("sv", 15), ("fc", 12), ("yc", 13))
+                                        if s_ != "sv" or pos_group(p.get("pos")) == "G"},
+                                  **({"research": note.get("note"), "rflag": note.get("flag")} if note.get("note") else {})}
         if not rows:
             continue
         rows.sort(key=lambda r: -r["ev"])
@@ -443,7 +487,7 @@ def main():
               "home": u["home"].get("abbreviation", ""), "away": u["away"].get("abbreviation", ""),
               "home_n": u["home"].get("displayName", ""), "away_n": u["away"].get("displayName", ""),
               "exp": [round(imp["home"], 2), round(imp["away"], 2)] if imp.get("home") else None,
-              "lineups": bool(lus.get(i)), "props": [r for r in rows if r["prob"] >= .05 or r["ev"] > 0], "players": pinfo}
+              "lineups": bool(lus.get(i)), "n_dk": len(pr), "n_pl": [len(pinfo), len(by_player)], "props": [r for r in rows if r["prob"] >= .05 or r["ev"] > 0], "players": pinfo}
         matches.append(mt)
         for r in rows:
             cands.append(dict(r, lg=u["lg"], league=mt["league"], ev_id=u["ev"], t=mt["t"]))
@@ -467,9 +511,12 @@ def main():
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
     matches.sort(key=lambda m: m["t"])
-    json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "matches": matches,
+    cut = (now - dt.timedelta(days=10)).isoformat(timespec="minutes")
+    json.dump({k: v for k, v in closing.items() if v[1] >= cut}, open(CLOSE, "w"), separators=(",", ":"))
+    json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "skipped": skip, "matches": matches,
                "value": value, "plus": plus, "scorers": scorers},
               open(OUT, "w"), separators=(",", ":"))
+    print("players skipped:", skip)
     evs = sorted(c["ev"] for c in cands)
     if evs:
         print("EV distribution: median %.3f, 90th %.3f, share above +5%%: %.1f%%" % (evs[len(evs) // 2], evs[int(len(evs) * .9)],
