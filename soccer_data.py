@@ -274,7 +274,7 @@ def calibrate(stat, k, p):
 
 
 def logit(p):
-    p = min(.985, max(.015, p))
+    p = min(.999, max(.001, p))
     return math.log(p / (1 - p))
 
 
@@ -375,6 +375,7 @@ def main():
         tav = {hid: team_avg(hist, hid, now), aid_: team_avg(hist, aid_, now)}
         lu = lus.get(i, {})
         rows = []
+        pinfo = {}
         by_player = {}
         for (aid, m, k, am, dec) in pr:
             by_player.setdefault(aid, []).append((m, k, am, dec))
@@ -421,11 +422,13 @@ def main():
                 hits = sum(1 for r in g10 if (r[si] or 0) >= k)
                 rows.append({"key": f"SOC|{aid}|{m}|{k}", "pid": aid, "name": p["n"], "pos": pos_group(p.get("pos")),
                              "team": p["t"], "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
-                             "home": home, "m": m, "k": k, "label": f"{k}+ {LABEL[m].lower()}" if m not in ("g", "card") or k > 1 else LABEL[m],
+                             "home": home, "m": m, "k": k, "label": (f"{k}+ goals" if m == "g" else f"{k}+ {LABEL[m].lower()}") if m not in ("g", "card") or k > 1 else LABEL[m],
                              "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
                              "book": round(q, 3), "fair_book": round(q_fair, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
-                             "vals": [r[si] or 0 for r in g10], "starts": [r[6] for r in g10],
                              "lineup": status, "start_rate": round(s_start, 2)})
+                pinfo.setdefault(aid, {"n": p["n"], "pos": pos_group(p.get("pos")), "team": p["t"], "lineup": status,
+                                       "sr": round(s_start, 2), "dates": [r[0][5:] for r in g10],
+                                       "opp": [r[4] for r in g10], "st": [r[6] for r in g10], "v": {}})["v"][stat] = [r[si] or 0 for r in g10]
         if not rows:
             continue
         rows.sort(key=lambda r: -r["ev"])
@@ -433,7 +436,7 @@ def main():
               "home": u["home"].get("abbreviation", ""), "away": u["away"].get("abbreviation", ""),
               "home_n": u["home"].get("displayName", ""), "away_n": u["away"].get("displayName", ""),
               "exp": [round(imp["home"], 2), round(imp["away"], 2)] if imp.get("home") else None,
-              "lineups": bool(lus.get(i)), "props": rows}
+              "lineups": bool(lus.get(i)), "props": [r for r in rows if r["prob"] >= .05 or r["ev"] > 0], "players": pinfo}
         matches.append(mt)
         for r in rows:
             cands.append(dict(r, lg=u["lg"], league=mt["league"], ev_id=u["ev"], t=mt["t"]))
@@ -456,16 +459,9 @@ def main():
     value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
-    # recent results for grading tracked picks (last 10 days): {event: {athlete: [g, a, sh, sot, fc, yc, rc, sv]}}
-    cut = (now - dt.timedelta(days=10)).date().isoformat()
-    res = {}
-    for aid, p in players.items():
-        for r in p["g"]:
-            if r[0] >= cut:
-                res.setdefault(r[2], {})[aid] = [r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]]
     matches.sort(key=lambda m: m["t"])
     json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "matches": matches,
-               "value": value, "plus": plus, "scorers": scorers, "results": res},
+               "value": value, "plus": plus, "scorers": scorers},
               open(OUT, "w"), separators=(",", ":"))
     evs = sorted(c["ev"] for c in cands)
     if evs:
