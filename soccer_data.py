@@ -249,6 +249,13 @@ def implied(ev_odds, home):
     return {"home": max(.2, tot / 2 + d / 2), "away": max(.2, tot / 2 - d / 2), "total": tot}
 
 
+# per-position correction to the rates (backtest_soccer.py): the shrunken rates overrated defenders' goals and
+# shots on target and underrated forwards' goals, because a few big games move a low-volume player's average a lot
+POS_ADJ = {'g|D': 0.637, 'a|D': 0.657, 'sh|D': 0.983, 'sot|D': 0.824, 'fc|D': 1.058, 'yc|D': 1.261, 'g|M': 1.022,
+           'a|M': 1.071, 'sh|M': 1.012, 'sot|M': 1.04, 'fc|M': 0.971, 'yc|M': 0.869, 'g|F': 1.225, 'a|F': 0.916,
+           'sh|F': 0.975, 'sot|F': 1.077, 'fc|F': 0.973, 'yc|F': 0.536}
+
+
 def lam_for(p, stat, pri, s_start):
     """his expected count of `stat` in this match, before the team adjustment"""
     i = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "yc": 13, "sv": 15}[stat]
@@ -260,12 +267,12 @@ def lam_for(p, stat, pri, s_start):
     pb = (pri.get((gp, "b")) or {}).get(stat, ps * .3)
     l_s = (sum(r[i] or 0 for r in st) + ps * K_START) / (len(st) + K_START)
     l_b = (sum(r[i] or 0 for r in sb) + pb * K_SUB) / (len(sb) + K_SUB)
-    return s_start * l_s + (1 - s_start) * l_b
+    return (s_start * l_s + (1 - s_start) * l_b) * POS_ADJ.get(f"{stat}|{gp}", 1.0)
 
 
 # recalibration per stat and milestone, fit by backtest_soccer.py --raw: p' = sig(a + b * logit(p)). The raw
 # Poisson model was overconfident at the high end (goals said 40% -> 30% happened, assists 25% -> 15%).
-CAL = {'sv1': (0.143, 0.735), 'sv2': (0.402, 0.554), 'sv3': (0.096, 0.52), 'sv4': (-0.146, 0.516), 'sv5': (-0.362, 0.557), 'sv6': (-0.342, 0.705), 'g1': (-0.569, 0.699), 'g2': (-0.026, 1.217), 'a1': (-0.949, 0.557), 'sh1': (-0.144, 0.865), 'sh2': (-0.129, 0.869), 'sh3': (-0.091, 0.894), 'sh4': (0.135, 1.036), 'sot1': (-0.211, 0.809), 'sot2': (-0.127, 0.921), 'sot3': (0.044, 1.121), 'fc1': (-0.014, 0.791), 'fc2': (-0.25, 0.766), 'fc3': (-0.271, 0.86), 'yc1': (-0.943, 0.41)}
+CAL = {'sv1': (0.166, 0.726), 'sv2': (0.405, 0.553), 'sv3': (0.098, 0.512), 'sv4': (-0.149, 0.516), 'sv5': (-0.365, 0.556), 'sv6': (-0.35, 0.701), 'g1': (-0.692, 0.631), 'g2': (-0.296, 0.959), 'a1': (-1.002, 0.519), 'sh1': (-0.141, 0.859), 'sh2': (-0.132, 0.866), 'sh3': (-0.168, 0.827), 'sh4': (-0.096, 0.861), 'sot1': (-0.254, 0.756), 'sot2': (-0.411, 0.775), 'sot3': (-0.225, 0.889), 'fc1': (-0.014, 0.793), 'fc2': (-0.259, 0.758), 'fc3': (-0.399, 0.788), 'yc1': (-0.997, 0.376)}
 
 
 def calibrate(stat, k, p):
@@ -453,9 +460,9 @@ def main():
             if len(out) == 10:
                 break
         return out
-    # a model chance far above the book's (more than double, or 25+ points) usually means the book knows something the
+    # a model chance far above the book's (more than 1.75x, or 15+ points) usually means the book knows something the
     # box scores don't (injury, rotation, a different role), so those stay off the Top lists
-    sane = lambda c: c["model"] <= 2 * c["fair_book"] and c["model"] - c["fair_book"] <= .25
+    sane = lambda c: c["model"] <= 1.75 * c["fair_book"] and c["model"] - c["fair_book"] <= .15
     value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
