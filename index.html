@@ -283,7 +283,7 @@ select.small{font:500 12px var(--f-body);color:var(--ink);background:var(--panel
 .gall{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:10px;cursor:pointer}
 .gall:hover{background:var(--accent-soft)}
 .gall[disabled]{color:var(--muted);cursor:default;background:none;font-weight:600}
-.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(--line2);border-radius:999px;padding:3px 9px;margin-left:auto}
+span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(--line2);border-radius:999px;padding:3px 9px;margin-left:auto}
 .role{display:inline-block;font:600 10.5px var(--f-body);letter-spacing:.02em;border-radius:999px;padding:2px 8px;vertical-align:middle;text-transform:none}
 .role.starter{background:var(--accent-soft);color:var(--accent)}
 .role.backup{background:var(--line);color:var(--ink2)}
@@ -523,8 +523,9 @@ body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 @media (max-width:600px){.slipbar{left:12px;right:12px;bottom:calc(58px + env(safe-area-inset-bottom,0px));justify-content:space-between;border-radius:12px}body.hasslip main .in{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))}}
 .pcard .bhead p{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.pcard.win{box-shadow:inset 3px 0 0 var(--hit)}
-.pcard.loss{box-shadow:inset 3px 0 0 var(--miss)}
+.pcard.st-win{box-shadow:inset 3px 0 0 var(--hit)}
+.pcard.st-loss{box-shadow:inset 3px 0 0 var(--miss)}
+.pcard.st-live{box-shadow:inset 3px 0 0 #e11d48}
 .mu{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--panel)}
 .mu.good{border-left:3px solid var(--hit)}.mu.tough{border-left:3px solid var(--miss)}
 .mutop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1308,7 +1309,7 @@ function renderParlayRecord(){
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Open</span>',live:'<span class="pill p" title="Some legs still waiting">Live</span>'};
   html+=G.map(g=>{const d=new Date(g.pl.legs[0].t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const price=g.pl.odds!=null?(g.pl.odds>0?"+":"")+g.pl.odds:decToAm(Math.pow(LEGDEC,g.legs.length))+" est.";
-    return`<section class="board pcard ${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
+    return`<section class="board pcard st-${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="live"?` <span class="pteam">${g.legs.filter(x=>x.status==="win").length} of ${g.legs.length} legs in</span>`:""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
       <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"||x.early?sweatHtml(x):""}${clvChip(x)}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
   html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
   el.innerHTML=html;
