@@ -4,9 +4,10 @@ permissions: {contents: write}
 jobs:
   p:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir -p out && python p.py 2>&1 | tee out/log.txt
+      - run: mkdir -p out && (time python soccer_data.py --days-back 60) 2>&1 | tee out/log.txt; cp soccer.json soccer_hist.json.gz out/ || true
       - run: |
           git config user.name probe; git config user.email probe@users.noreply.github.com
           git checkout -b probe-out-$GITHUB_RUN_ID; git add out; git commit -qm out; git push -q origin probe-out-$GITHUB_RUN_ID

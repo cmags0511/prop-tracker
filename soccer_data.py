@@ -1,0 +1,462 @@
+"""Soccer player props: match history, upcoming matches, DraftKings prices (via ESPN) and the app's model.
+
+Every league ESPN carries DraftKings soccer props for. For each upcoming match (next 3 days) it reads the
+priced player props (anytime goalscorer, shots, shots on target, assists, keeper saves, fouls, cards), estimates
+each player's chance from his recent matches, and works out the expected profit at DraftKings' price.
+
+Files
+  soccer_hist.json.gz  match-by-match player stats (all competitions), built up run by run
+  soccer.json          what the app shows: upcoming matches, priced props with the model's chance and expected
+                       profit, the Top 10 lists, and recent results for grading tracked picks
+
+Model (see backtest_soccer.py): each stat is a Poisson count per appearance. His rate as a starter and as a sub
+come from his last 12 appearances (shrunk toward his position's average), mixed by how often he's started his
+team's recent matches (or the confirmed lineup, when ESPN has it). Goals, assists, shots and shots on target are
+scaled by his team's expected goals from DraftKings' match total and moneylines; keeper saves by the opponent's.
+The model's chance is then blended with DraftKings' price (log-odds, MKT_W), because the book knows things the box
+scores don't (injuries, rotation), and a tiny edge from a model alone is mostly noise.
+
+Usage: python soccer_data.py [--light] [--days-back N]
+  --light   prices and lineups only (no new history), for the hourly refresh
+"""
+import gzip, json, math, sys, time, datetime as dt
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+
+LEAGUES = {
+    "eng.1": "Premier League", "esp.1": "La Liga", "ita.1": "Serie A", "ger.1": "Bundesliga", "fra.1": "Ligue 1",
+    "usa.1": "MLS", "uefa.champions": "Champions League", "uefa.europa": "Europa League",
+    "uefa.europa.conf": "Conference League", "mex.1": "Liga MX", "ned.1": "Eredivisie", "por.1": "Primeira Liga",
+    "eng.2": "Championship", "bra.1": "Brasileirão", "arg.1": "Argentina", "sco.1": "Scottish Prem",
+    "tur.1": "Süper Lig", "bel.1": "Belgian Pro League", "aut.1": "Austria", "sui.1": "Switzerland",
+    "den.1": "Denmark", "gre.1": "Greece", "nor.1": "Norway", "swe.1": "Sweden", "jpn.1": "J1 League",
+    "ksa.1": "Saudi Pro League", "aus.1": "A-League", "eng.3": "League One", "esp.2": "La Liga 2",
+    "ita.2": "Serie B", "ger.2": "2. Bundesliga", "fra.2": "Ligue 2", "eng.fa": "FA Cup",
+    "eng.league_cup": "Carabao Cup", "esp.copa_del_rey": "Copa del Rey", "ger.dfb_pokal": "DFB-Pokal",
+    "ita.coppa_italia": "Coppa Italia", "fra.coupe_de_france": "Coupe de France", "usa.open": "US Open Cup",
+    "concacaf.champions": "CONCACAF Champions Cup", "conmebol.libertadores": "Libertadores",
+    "conmebol.sudamericana": "Sudamericana", "uefa.nations": "Nations League", "fifa.worldq.uefa": "WC Qual (UEFA)",
+    "fifa.worldq.conmebol": "WC Qual (CONMEBOL)", "fifa.worldq.concacaf": "WC Qual (CONCACAF)",
+    "fifa.friendly": "Friendlies", "fifa.world": "World Cup", "usa.nwsl": "NWSL", "eng.w.1": "WSL",
+}
+SITE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
+CORE = "https://sports.core.api.espn.com/v2/sports/soccer/leagues"
+H = {"User-Agent": "Mozilla/5.0 (prop-tracker)", "Accept": "application/json"}
+HIST = "soccer_hist.json.gz"
+OUT = "soccer.json"
+AHEAD_DAYS = 3
+KEEP_DAYS = 400          # history kept per player
+MAX_ROWS = 30            # matches kept per player
+# row layout in soccer_hist players[aid]["g"]
+COLS = ["date", "lg", "ev", "team", "opp", "home", "start", "sub", "g", "a", "sh", "sot", "fc", "yc", "rc", "sv", "gc"]
+# DraftKings markets read from ESPN, and the stat each one settles on
+MARKETS = {"Anytime Goalscorer": "g", "To Score 2+ Goals": "g2", "Shots Milestones": "sh",
+           "Shots on Target Milestones": "sot", "Assists Milestones": "a", "Goalkeeper Saves Milestones": "sv",
+           "Fouls Committed Milestones": "fc", "To Receive a Card": "card"}
+LABEL = {"g": "Anytime goal", "sh": "Shots", "sot": "Shots on target", "a": "Assists", "sv": "Saves",
+         "fc": "Fouls", "card": "Booked"}
+ATTACK = {"g", "a", "sh", "sot"}
+MKT_W = .5               # log-odds weight on DraftKings' price (margin removed) in the final chance
+MARGIN = {"g": .10, "sh": .07, "sot": .08, "a": .10, "sv": .07, "fc": .07, "card": .10}  # typical book margin
+K_START, K_SUB = 4, 3    # shrinkage (pseudo-appearances) toward the position average
+
+
+def get(url, tries=3):
+    for i in range(tries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=H), timeout=30) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            if e.code in (400, 404):
+                return None
+            if i == tries - 1:
+                return None
+        except Exception:
+            if i == tries - 1:
+                return None
+        time.sleep(1.5 * (i + 1))
+
+
+def pmap(fn, items, workers=12):
+    with ThreadPoolExecutor(workers) as ex:
+        return list(ex.map(fn, items))
+
+
+def num(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def scoreboards(days):
+    """{lg: [event, ...]} for the given dates"""
+    jobs = [(lg, d) for lg in LEAGUES for d in days]
+    res = pmap(lambda j: (j[0], get(f"{SITE}/{j[0]}/scoreboard?dates={j[1]:%Y%m%d}")), jobs)
+    out = {}
+    for lg, d in res:
+        for e in (d or {}).get("events", []):
+            out.setdefault(lg, {})[e["id"]] = e
+    return {lg: list(v.values()) for lg, v in out.items()}
+
+
+def pos_group(p):
+    p = (p or "").upper()
+    if p.startswith("G"):
+        return "G"
+    if p in ("D", "CD", "CB", "LB", "RB", "WB", "LWB", "RWB", "CD-L", "CD-R", "SW") or p.startswith("D") or p.endswith("B"):
+        return "D"
+    if p in ("F", "CF", "ST", "LF", "RF", "LW", "RW", "SS") or p.startswith("F") or p.endswith("W"):
+        return "F"
+    return "M"
+
+
+def add_match(hist, lg, ev, s):
+    """store each player's line from a finished match summary"""
+    try:
+        comp = s["header"]["competitions"][0]
+        date = comp["date"][:10]
+        cs = comp["competitors"]
+        sc = {c["team"]["id"]: int(float(c.get("score") or 0)) for c in cs}
+        ab = {c["team"]["id"]: c["team"].get("abbreviation") or c["team"].get("displayName", "")[:3].upper() for c in cs}
+        nm = {c["team"]["id"]: c["team"].get("displayName", "") for c in cs}
+        ha = {c["team"]["id"]: c.get("homeAway") == "home" for c in cs}
+    except Exception:
+        return False
+    ids = list(sc)
+    if len(ids) != 2:
+        return False
+    for tid in ids:
+        opp = ids[1] if tid == ids[0] else ids[0]
+        t = hist["teams"].setdefault(tid, {"a": ab[tid], "n": nm[tid], "g": []})
+        t["a"], t["n"] = ab[tid], nm[tid]
+        if not any(r[1] == ev for r in t["g"]):
+            t["g"].append([date, ev, sc[tid], sc[opp], lg])
+            t["g"] = sorted(t["g"])[-40:]
+    for r in s.get("rosters", []):
+        tid = (r.get("team") or {}).get("id")
+        if tid not in sc:
+            continue
+        opp = ids[1] if tid == ids[0] else ids[0]
+        for x in r.get("roster", []):
+            st = {k["name"]: k.get("value") for k in x.get("stats", [])}
+            if not st.get("appearances"):
+                continue
+            a = x.get("athlete") or {}
+            aid = a.get("id")
+            if not aid:
+                continue
+            pos = ((x.get("position") or {}).get("abbreviation")) or ""
+            sv = st.get("saves")
+            if sv is None and pos_group(pos) == "G" and st.get("shotsFaced") is not None:
+                sv = max(0, (st.get("shotsFaced") or 0) - (st.get("goalsConceded") or 0))
+            row = [date, lg, ev, ab[tid], ab[opp], 1 if ha[tid] else 0, 1 if x.get("starter") else 0,
+                   1 if x.get("subbedIn") else 0, st.get("totalGoals") or 0, st.get("goalAssists") or 0,
+                   st.get("totalShots") or 0, st.get("shotsOnTarget") or 0, st.get("foulsCommitted") or 0,
+                   st.get("yellowCards") or 0, st.get("redCards") or 0, sv or 0, st.get("goalsConceded") or 0]
+            row = [int(v) if isinstance(v, float) and v.is_integer() else v for v in row]
+            p = hist["players"].setdefault(aid, {"n": a.get("displayName") or a.get("fullName", ""), "pos": pos, "g": []})
+            p["n"] = a.get("displayName") or p["n"]
+            if pos and pos != "SUB":
+                p["pos"] = pos
+            p["tid"], p["t"] = tid, ab[tid]
+            if not any(g[2] == ev for g in p["g"]):
+                p["g"].append(row)
+                p["g"] = sorted(p["g"])[-MAX_ROWS:]
+    return True
+
+
+def update_history(hist, days_back, now):
+    done = hist.setdefault("events", {})
+    days = [(now - dt.timedelta(days=k)).date() for k in range(0, days_back + 1)]
+    sb = scoreboards(days)
+    todo = [(lg, e["id"]) for lg, evs in sb.items() for e in evs
+            if e["status"]["type"].get("state") == "post" and e["id"] not in done]
+    print(f"history: {len(todo)} new finished matches")
+    res = pmap(lambda j: (j, get(f"{SITE}/{j[0]}/summary?event={j[1]}")), todo)
+    n = 0
+    for (lg, ev), s in res:
+        if s and add_match(hist, lg, ev, s):
+            done[ev] = (now.date()).isoformat()
+            n += 1
+    # forget old events / rows
+    cut = (now - dt.timedelta(days=KEEP_DAYS)).date().isoformat()
+    hist["events"] = {k: v for k, v in done.items() if v >= (now - dt.timedelta(days=30)).date().isoformat() or v >= cut}
+    for aid in list(hist["players"]):
+        p = hist["players"][aid]
+        p["g"] = [g for g in p["g"] if g[0] >= cut]
+        if not p["g"]:
+            del hist["players"][aid]
+    print(f"history: added {n} matches; {len(hist['players'])} players")
+    return sb
+
+
+def priors(hist):
+    """average per-appearance rate of each stat by position group, for starts and for sub appearances"""
+    acc = {}
+    for p in hist["players"].values():
+        gp = pos_group(p.get("pos"))
+        for r in p["g"][-12:]:
+            k = (gp, "s" if r[6] else "b")
+            a = acc.setdefault(k, {"n": 0, **{s: 0 for s in ("g", "a", "sh", "sot", "fc", "yc", "sv")}})
+            a["n"] += 1
+            for s, i in (("g", 8), ("a", 9), ("sh", 10), ("sot", 11), ("fc", 12), ("yc", 13), ("sv", 15)):
+                a[s] += r[i] or 0
+    out = {}
+    for k, a in acc.items():
+        out[k] = {s: (a[s] / a["n"] if a["n"] else 0) for s in a if s != "n"}
+    return out
+
+
+def pois_ge(lam, k):
+    """P(X >= k) for X ~ Poisson(lam)"""
+    if k <= 0:
+        return 1.0
+    term, cdf = math.exp(-lam), 0.0
+    for i in range(k):
+        if i:
+            term *= lam / i
+        cdf += term
+    return max(0.0, min(1.0, 1 - cdf))
+
+
+def team_avg(hist, tid, now):
+    rows = [r for r in (hist["teams"].get(tid) or {}).get("g", [])
+            if r[0] >= (now - dt.timedelta(days=200)).date().isoformat()][-10:]
+    if not rows:
+        return 1.35, 1.35
+    gf = (sum(r[2] for r in rows) + 1.35 * 3) / (len(rows) + 3)
+    ga = (sum(r[3] for r in rows) + 1.35 * 3) / (len(rows) + 3)
+    return gf, ga
+
+
+def implied(ev_odds, home):
+    """team expected goals from DraftKings' match total and moneylines"""
+    if not ev_odds:
+        return None
+    tot = num(ev_odds.get("overUnder")) or 2.6
+    def p_ml(v):
+        v = num(v)
+        if v is None or v == 0:
+            return None
+        return 100 / (v + 100) if v > 0 else -v / (-v + 100)
+    ph, pa, pd = p_ml((ev_odds.get("homeTeamOdds") or {}).get("moneyLine")), p_ml((ev_odds.get("awayTeamOdds") or {}).get("moneyLine")), p_ml((ev_odds.get("drawOdds") or {}).get("moneyLine"))
+    if ph is None or pa is None:
+        return {"home": tot / 2, "away": tot / 2, "total": tot}
+    s = ph + pa + (pd or 0)
+    ph, pa = ph / s, pa / s
+    d = 1.9 * (ph - pa)
+    return {"home": max(.2, tot / 2 + d / 2), "away": max(.2, tot / 2 - d / 2), "total": tot}
+
+
+def lam_for(p, stat, pri, s_start):
+    """his expected count of `stat` in this match, before the team adjustment"""
+    i = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "yc": 13, "sv": 15}[stat]
+    gp = pos_group(p.get("pos"))
+    rows = p["g"][-12:]
+    st = [r for r in rows if r[6]]
+    sb = [r for r in rows if not r[6]]
+    ps = (pri.get((gp, "s")) or {}).get(stat, 0)
+    pb = (pri.get((gp, "b")) or {}).get(stat, ps * .3)
+    l_s = (sum(r[i] or 0 for r in st) + ps * K_START) / (len(st) + K_START)
+    l_b = (sum(r[i] or 0 for r in sb) + pb * K_SUB) / (len(sb) + K_SUB)
+    return s_start * l_s + (1 - s_start) * l_b
+
+
+def logit(p):
+    p = min(.985, max(.015, p))
+    return math.log(p / (1 - p))
+
+
+def sig(z):
+    return 1 / (1 + math.exp(-z))
+
+
+def read_props(lg, ev):
+    """[(athlete id, market, target k, american price, decimal)] from ESPN's DraftKings prop bets"""
+    out, page, pages = [], 1, 1
+    while page <= pages and page <= 5:
+        d = get(f"{CORE}/{lg}/events/{ev}/competitions/{ev}/odds/100/propBets?limit=1000&page={page}")
+        if not d:
+            break
+        pages = d.get("pageCount") or 1
+        for it in d.get("items", []):
+            m = MARKETS.get((it.get("type") or {}).get("name"))
+            if not m:
+                continue
+            ref = ((it.get("athlete") or {}).get("$ref") or "")
+            aid = ref.split("/athletes/")[-1].split("?")[0] if "/athletes/" in ref else None
+            cur = it.get("current") or {}
+            o = cur.get("over") or {}
+            dec = num(o.get("decimal") or o.get("value"))
+            am = o.get("american")
+            if not aid or not dec or dec <= 1:
+                continue
+            if m == "g2":
+                m, k = "g", 2
+            elif m in ("g", "card"):
+                k = 1
+            else:
+                k = int(num((cur.get("target") or {}).get("value")) or 0)
+                if k <= 0:
+                    continue
+            try:
+                am = int(str(am).replace("+", "")) if am not in (None, "") else None
+            except ValueError:
+                am = None
+            if am is None:
+                am = round((dec - 1) * 100) if dec >= 2 else round(-100 / (dec - 1))
+            out.append((aid, m, k, am, dec))
+        page += 1
+    return out
+
+
+def lineups(lg, ev):
+    """confirmed starters / bench from the match summary when ESPN has the lineups (about an hour before)"""
+    s = get(f"{SITE}/{lg}/summary?event={ev}")
+    res = {}
+    for r in (s or {}).get("rosters", []) or []:
+        for x in r.get("roster", []) or []:
+            aid = (x.get("athlete") or {}).get("id")
+            if aid:
+                res[aid] = "start" if x.get("starter") else "bench"
+    return res if sum(1 for v in res.values() if v == "start") >= 18 else {}
+
+
+def main():
+    light = "--light" in sys.argv
+    days_back = int(sys.argv[sys.argv.index("--days-back") + 1]) if "--days-back" in sys.argv else 4
+    now = dt.datetime.now(dt.timezone.utc)
+    try:
+        hist = json.load(gzip.open(HIST, "rt"))
+    except Exception:
+        hist = {"players": {}, "teams": {}, "events": {}}
+        days_back = max(days_back, 60)  # first run: build two months of history
+    if not light:
+        update_history(hist, days_back, now)
+        json.dump(hist, gzip.open(HIST, "wt"), separators=(",", ":"))
+    pri = priors(hist)
+    # upcoming matches
+    sb = scoreboards([(now + dt.timedelta(days=k)).date() for k in range(0, AHEAD_DAYS + 1)])
+    ups = []
+    for lg, evs in sb.items():
+        for e in evs:
+            t = dt.datetime.fromisoformat(e["date"].replace("Z", "+00:00"))
+            if e["status"]["type"].get("state") != "pre" or not (now - dt.timedelta(minutes=5) < t < now + dt.timedelta(days=AHEAD_DAYS)):
+                continue
+            c = e["competitions"][0]
+            teams = {x["homeAway"]: x["team"] for x in c["competitors"]}
+            if "home" not in teams or "away" not in teams:
+                continue
+            ups.append({"lg": lg, "ev": e["id"], "t": t, "home": teams["home"], "away": teams["away"],
+                        "odds": (c.get("odds") or [None])[0]})
+    print(f"upcoming: {len(ups)} matches")
+    props = pmap(lambda u: read_props(u["lg"], u["ev"]), ups)
+    soon = [i for i, u in enumerate(ups) if u["t"] - now < dt.timedelta(hours=2) and props[i]]
+    lus = dict(zip(soon, pmap(lambda i: lineups(ups[i]["lg"], ups[i]["ev"]), soon)))
+    players = hist["players"]
+    matches, cands = [], []
+    for i, u in enumerate(ups):
+        pr = props[i]
+        if not pr:
+            continue
+        hid, aid_ = u["home"]["id"], u["away"]["id"]
+        imp = implied(u["odds"], True) or {}
+        tav = {hid: team_avg(hist, hid, now), aid_: team_avg(hist, aid_, now)}
+        lu = lus.get(i, {})
+        rows = []
+        by_player = {}
+        for (aid, m, k, am, dec) in pr:
+            by_player.setdefault(aid, []).append((m, k, am, dec))
+        for aid, bets in by_player.items():
+            p = players.get(aid)
+            if not p or len(p["g"]) < 4:
+                continue
+            tid = p.get("tid")
+            if tid not in (hid, aid_):
+                continue  # last seen on another team (transfer); skip until he has a match for this one
+            home = tid == hid
+            opp_id = aid_ if home else hid
+            # recent availability: in how many of his team's last 5 matches did he play / start?
+            tg = [r[1] for r in (hist["teams"].get(tid) or {}).get("g", [])][-5:]
+            mine = {r[2]: r for r in p["g"]}
+            apps = [mine[e] for e in tg if e in mine]
+            if tg and not any(e in mine for e in tg[-3:]) and lu.get(aid) != "start":
+                continue  # not in any of his team's last 3 squads: injured, dropped or away
+            status = lu.get(aid)
+            if lu and not status:
+                continue  # lineups are out and he isn't in the squad
+            s_start = 1.0 if status == "start" else 0.0 if status == "bench" else \
+                ((sum(r[6] for r in apps) + .5) / (len(apps) + 1) if apps else .5)
+            gf, ga = tav[tid]
+            ogf, oga = tav[opp_id]
+            exp_for = imp.get("home" if home else "away")
+            exp_ag = imp.get("away" if home else "home")
+            f_att = max(.55, min(1.7, (exp_for or gf) / max(.4, gf)))
+            f_def = max(.55, min(1.7, (exp_ag or ga) / max(.4, ga)))
+            for (m, k, am, dec) in bets:
+                stat = "yc" if m == "card" else m
+                lam = lam_for(p, stat, pri, s_start)
+                if m in ATTACK:
+                    lam *= f_att if m in ("g", "a") else f_att ** .6
+                if m == "sv":
+                    lam *= f_def ** .6
+                p_mod = pois_ge(lam, k)
+                q = 1 / dec
+                q_fair = min(.97, q / (1 + MARGIN.get(m, .08)))
+                prob = sig((1 - MKT_W) * logit(p_mod) + MKT_W * logit(q_fair))
+                ev = prob * dec - 1
+                g10 = p["g"][-10:]
+                si = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "yc": 13, "sv": 15, "card": 13}[m]
+                hits = sum(1 for r in g10 if (r[si] or 0) >= k)
+                rows.append({"key": f"SOC|{aid}|{m}|{k}", "pid": aid, "name": p["n"], "pos": pos_group(p.get("pos")),
+                             "team": p["t"], "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
+                             "home": home, "m": m, "k": k, "label": f"{k}+ {LABEL[m].lower()}" if m not in ("g", "card") or k > 1 else LABEL[m],
+                             "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
+                             "book": round(q, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
+                             "vals": [r[si] or 0 for r in g10], "starts": [r[6] for r in g10],
+                             "lineup": status, "start_rate": round(s_start, 2)})
+        if not rows:
+            continue
+        rows.sort(key=lambda r: -r["ev"])
+        mt = {"lg": u["lg"], "league": LEAGUES.get(u["lg"], u["lg"]), "ev": u["ev"], "t": u["t"].isoformat(timespec="minutes"),
+              "home": u["home"].get("abbreviation", ""), "away": u["away"].get("abbreviation", ""),
+              "home_n": u["home"].get("displayName", ""), "away_n": u["away"].get("displayName", ""),
+              "exp": [round(imp["home"], 2), round(imp["away"], 2)] if imp.get("home") else None,
+              "lineups": bool(lus.get(i)), "props": rows}
+        matches.append(mt)
+        for r in rows:
+            cands.append(dict(r, lg=u["lg"], league=mt["league"], ev_id=u["ev"], t=mt["t"]))
+    # Top 10s: best expected profit (one bet per player, at most 2 per match, chance at least 15%), and the
+    # likeliest anytime scorers
+    def top(pool, key, per_match=2):
+        out, seen, pm = [], set(), {}
+        for c in sorted(pool, key=key):
+            if c["pid"] in seen or pm.get(c["ev_id"], 0) >= per_match:
+                continue
+            seen.add(c["pid"])
+            pm[c["ev_id"]] = pm.get(c["ev_id"], 0) + 1
+            out.append(c)
+            if len(out) == 10:
+                break
+        return out
+    value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .15 and c["hits"][1] >= 5], lambda c: -c["ev"])
+    plus = top([c for c in cands if c["ev"] >= .03 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5], lambda c: -c["ev"])
+    scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1], lambda c: -c["prob"], per_match=3)
+    # recent results for grading tracked picks (last 10 days): {event: {athlete: [g, a, sh, sot, fc, yc, rc, sv]}}
+    cut = (now - dt.timedelta(days=10)).date().isoformat()
+    res = {}
+    for aid, p in players.items():
+        for r in p["g"]:
+            if r[0] >= cut:
+                res.setdefault(r[2], {})[aid] = [r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]]
+    matches.sort(key=lambda m: m["t"])
+    json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "matches": matches,
+               "value": value, "plus": plus, "scorers": scorers, "results": res},
+              open(OUT, "w"), separators=(",", ":"))
+    print(f"wrote {OUT}: {len(matches)} matches with props, {len(cands)} priced props, "
+          f"top value {[(c['name'], c['label'], c['price'], c['ev']) for c in value[:3]]}")
+
+
+if __name__ == "__main__":
+    main()
