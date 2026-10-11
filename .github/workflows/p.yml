@@ -10,5 +10,5 @@ jobs:
       - run: |
           git config user.name probe; git config user.email probe@users.noreply.github.com
           git checkout -b probe-soc-out; git add out; git commit -qm out; git push -q origin probe-soc-out
-          sleep 600
+          sleep 300
           git push origin --delete probe-soc-out probe-soc || true
