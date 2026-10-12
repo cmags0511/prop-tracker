@@ -1,5 +1,5 @@
 {
- "built": "2026-10-12T06:45+00:00",
+ "built": "2026-10-12T09:37+00:00",
  "graded_picks": 28,
  "graded_research": 59,
  "market": {},
@@ -11,7 +11,7 @@
   "Medium-confidence research calls are 18-29: their weight goes from 1.0 to 0.663"
  ],
  "calib": {
-  "n": 643,
+  "n": 645,
   "since": "2026-10-08",
   "app": [
    [
@@ -38,16 +38,16 @@
    [
     0.65,
     0.7,
-    99,
+    100,
     0.675,
-    0.576
+    0.58
    ],
    [
     0.7,
     1,
-    122,
+    123,
     0.76,
-    0.492
+    0.496
    ]
   ],
   "kalshi": [
