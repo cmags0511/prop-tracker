@@ -68,10 +68,11 @@ seven vague angles.
 9. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
    where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
 
-## Light mode (quick news checks: every evening, Sunday inactives)
+## Light mode (quick news checks: every evening, game-day inactives)
 
-Used by the 4:34 PM daily check and the Sunday 11:34 AM inactives check, so the deep morning research
-stays fresh without another full run. No subagents, a handful of searches in total.
+Used by the 4:34 PM daily check and the game-day inactives checks (Sunday 11:34 AM and 2:44 PM, and
+6:44 PM on Thursday, Sunday and Monday night-game days), so the deep morning research stays fresh and
+nothing is locked at kickoff without a look. No subagents, a handful of searches in total.
 
 1. Build the packets (`python research_packets.py`).
 2. The prompt gives a window (for example "next 24 hours" or "next 3 hours"). For the games starting in
@@ -86,9 +87,11 @@ stays fresh without another full run. No subagents, a handful of searches in tot
    - news that clearly helps (a teammate ruled out, a starter role confirmed) → raise `adj` by 1
      (max +2) and add one sentence.
    Update `"updated"` to the current UTC time.
-4. `python picks.py picks.json`, then `python audit_top.py`: for any `NOT RESEARCHED` pick whose game
-   is in the window, do a quick availability, role and line check (1-2 searches) and add a short note
-   to `notes.json` (side, flag, adj, conf, note, sources), then rerun picks.py.
+4. `python picks.py picks.json`, then `python audit_top.py --within <window hours>` (it covers the Top 10
+   lists and the Top anytime-TD picks): for every pick it marks `!!` (`NOT RESEARCHED` or `RESEARCH SAYS`),
+   do a quick availability, role and line check (1-2 searches) and add or correct a short note in
+   `notes.json` (side, flag, adj, conf, note, sources; an anytime-TD note is keyed `NFL|<id>|td`), then
+   rerun picks.py and the audit until no `!!` is left. This is the last look before the Top 10 locks.
 5. Commit `notes.json picks.json slate.json` as `News check <date>`
    (or `Inactives check <date>`) ending with the Co-Authored-By line, push (if rejected:
    `git pull --rebase origin main`, rerun picks.py, commit, push).

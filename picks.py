@@ -27,6 +27,7 @@ W = {"NFL": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0), "CFB": dict(p=1.16, 
 # (research notes are read by research_dir / research_push below)
 OUT_STATUS = {"Out", "Doubtful", "Injured Reserve", "Suspension", "Physically Unable to Perform", "Not Active"}
 SHAKY = {"Questionable", "Day-To-Day"}
+VAC_W_NFL = .25  # NFL catches / carries left by a ruled-out teammate (game-day inactives included); tune.py re-weights "news"
 VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
 WIND_W = -.25   # NFL/CFB passing props: log-odds per 5 mph of wind above 12 mph, capped at -.6
                 # (backtest: no drop at 10-15 mph, passing overs ~39% vs ~49% above 15 mph)
@@ -383,7 +384,7 @@ def main():
             by_team.setdefault(pl["t"], []).append(pl)
         # only this season's games from the last couple of weeks count, so a long-term absence the team has
         # already adjusted to (or last season's roster) isn't treated as fresh news
-        recent_from = max(meta["curStart"], (now - dt.timedelta(days=12 if lg == "NBA" else 16)).date().isoformat())
+        recent_from = max(meta["curStart"], (now - dt.timedelta(days=12 if lg == "NBA" else 29)).date().isoformat())
         team_recent = {}
         for tm, pls in by_team.items():
             ds = sorted({d for pl in pls for g in pl["g"][-6:] if (d := dict(zip(cols, g))["date"]) >= recent_from})[-4:]
@@ -392,7 +393,8 @@ def main():
         def vacated(pl, key):
             """share of his team's usual `key` production (last 4 games) held by regulars now ruled out"""
             ds = team_recent.get(pl["t"]) or []
-            if len(ds) < 3 or key is None:
+            need = 3 if lg == "NBA" else 2  # football: weekly games, so two recent games is a fair read
+            if len(ds) < need or key is None:
                 return 0.0, []
             tot, gone, who = 0.0, 0.0, []
             for mate in by_team[pl["t"]]:
@@ -401,7 +403,7 @@ def main():
                 v = sum(g[key] for g in gs) / len(ds)
                 tot += v
                 st = inj_of(mate)
-                if mate is not pl and len(gs) >= 3 and st and st["s"] in OUT_STATUS and v > 0:
+                if mate is not pl and len(gs) >= need and st and st["s"] in OUT_STATUS and v > 0:
                     gone += v
                     who.append((v, mate["n"]))
             if tot <= 0:
@@ -483,7 +485,7 @@ def main():
                     trust *= .5
                 zc = max(-1.0, min(1.0, z))
                 vac, vac_who = vacated(p, VAC_KEY.get(mid))
-                news = (VAC_W * min(vac, .6) if lg == "NBA" else 0.0) - (.1 if me_inj and me_inj["s"] in SHAKY else 0.0)
+                news = (VAC_W * min(vac, .6) if lg == "NBA" else VAC_W_NFL * min(vac, .5) if lg == "NFL" else 0.0) - (.1 if me_inj and me_inj["s"] in SHAKY else 0.0)
                 wind = (wx or {}).get("wind")
                 weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
@@ -599,7 +601,7 @@ def main():
                 if mu:
                     why += (f" {opp} has allowed the {ordinal(mu['rank']) if mu['rank'] <= mu['n'] / 2 else ordinal(mu['n'] - mu['rank'] + 1)}-"
                             f"{'most' if mu['rank'] <= mu['n'] / 2 else 'fewest'} {UNIT[mid]} to {GROUPNAME.get(grp(lg, p.get('p')), 'players')} over its last 10.")
-                if vac_who and vac >= .05 and lg == "NBA" and over:
+                if vac_who and ((vac >= .05 and lg == "NBA") or (vac >= .1 and lg == "NFL")) and over:
                     names = [re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", n).split()[-1] for n in vac_who[:2]]
                     why += (f" With {' and '.join(names)} ruled out, about {vac * 100:.0f}% of {p['t']}'s recent "
                             f"{ {'pts': 'scoring', 'reb': 'rebounding', 'ast': 'assists', 'min': 'minutes', 'rec': 'catches', 'car': 'carries'}[VAC_KEY[mid]] } is up for grabs.")

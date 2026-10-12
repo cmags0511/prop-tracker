@@ -307,6 +307,12 @@ span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(-
 .socpl{margin-top:8px;cursor:default}.socLog td,.socLog th{padding:5px 6px}.socLog td.nz{font-weight:700;color:var(--ink)}.socLog td{color:var(--ink2)}
 .socLog .avgrow td{border-top:1px solid var(--line2);font-weight:600;color:var(--ink)}
 .socrow{cursor:pointer}.socrow.open td{background:var(--accent-soft)}.socplrow td{background:var(--bg)}
+.wkcard{border:1px solid var(--line2);border-radius:10px;background:var(--panel);padding:8px 10px;margin:10px 0}
+.wkhead{display:flex;align-items:center;gap:6px}.wktitle{flex:1;display:flex;flex-direction:column;align-items:center;background:none;border:0;color:var(--ink);font:inherit;cursor:pointer;padding:2px}
+.wktitle b{font:700 14px var(--f-body)}.wktitle span{font:500 12px var(--f-body);color:var(--muted)}
+.wknav{width:34px;height:34px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font-size:18px;cursor:pointer}.wknav:disabled{opacity:.35;cursor:default}
+.wkverdict{margin:8px 0 4px;font:600 13.5px var(--f-body);text-align:center}.wkT td,.wkT th{padding:5px 6px}.wkline{margin:6px 0 0;line-height:1.5}
+.wkh{margin:10px 0 4px;font:700 12px var(--f-body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.wkul{margin:0;padding-left:18px;font-size:13px;line-height:1.45}
 .socq{width:100%;box-sizing:border-box;font:500 14px var(--f-body);padding:9px 12px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink)}
 .socres{display:flex;flex-direction:column;gap:6px}
 .spark{display:inline-flex;align-items:flex-end;gap:2px;height:22px;position:relative;padding:0 2px;margin-right:4px}
@@ -757,6 +763,7 @@ function dkLine(p,m){
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
 let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"over"};
+try{if(localStorage.getItem("ptWkOpen")==="0")S.wkOpen=false}catch(e){}
 try{const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
 const OVERS=()=>S.side==="over";
 const sideSwitch=()=>`<div class="seg2 sidesw" role="group" aria-label="Which picks"><button data-side="over" aria-pressed="${OVERS()}">Overs</button><button data-side="all" aria-pressed="${!OVERS()}">Overs + unders</button></div>`;
@@ -1271,6 +1278,47 @@ function recTypeSwitch(){
   const openP=PARLAYS.length,st=MY.length;
   return`<div class="seg2" role="group" aria-label="Bet type"><button data-rtype="straight" aria-pressed="${S.recType!=="parlay"&&S.recType!=="app"}">Straight bets${st?`<small>${st}</small>`:""}</button><button data-rtype="parlay" aria-pressed="${S.recType==="parlay"}">Parlays${openP?`<small>${openP}</small>`:""}</button><button data-rtype="app" aria-pressed="${S.recType==="app"}">App Top 10</button></div>`;
 }
+// ---- Weekly report card: Tuesday to Monday (an NFL week), app vs you, and what the app changed ----
+function weekStart(t){const d=new Date(etDay(t)+"T12:00:00Z");const back=(d.getUTCDay()+5)%7;d.setUTCDate(d.getUTCDate()-back);return d.toISOString().slice(0,10)}
+function weekData(){
+  const W={};const add=(t,k,e)=>{const w=weekStart(t);(W[w]=W[w]||{app:[],td:[],soc:[],res:[],my:[],par:[],notes:[]})[k].push(e)};
+  const R=RECORD||{},gr=e=>e.status==="win"||e.status==="loss"||e.status==="push";
+  (R.picks||[]).filter(e=>(e.sets||["all"]).includes("all")&&gr(e)).forEach(e=>add(e.t,"app",e));
+  (R.td||[]).filter(gr).forEach(e=>add(e.t,"td",e));
+  (R.soccer||[]).filter(gr).forEach(e=>add(e.t,"soc",e));
+  (R.research||[]).filter(gr).forEach(e=>add(e.t,"res",e));
+  MY.map(e=>Object.assign({},e,gradeMy(e))).filter(gr).forEach(e=>add(e.t,"my",e));
+  PARLAYS.map(pl=>Object.assign({pl},gradeParlay(pl))).filter(g=>gr(g)).forEach(g=>add(g.pl.legs[g.pl.legs.length-1].t,"par",g));
+  ((TUNE&&TUNE.history)||[]).forEach(h=>{const w=weekStart(h.d+"T12:00:00-04:00");if(W[w])W[w].notes.push(...h.notes)});
+  return W;
+}
+function weekHtml(){
+  const W=weekData(),keys=Object.keys(W).sort().reverse();if(!keys.length)return"";
+  const i=Math.min(S.wk||0,keys.length-1),w=W[keys[i]];
+  const pay=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
+  const T=a=>{const v=a.filter(e=>e.status==="win"),l=a.filter(e=>e.status==="loss").length;return{w:v.length,l,u:v.reduce((x,e)=>x+pay(e),0)-l}};
+  const u=v=>(v>=0?"+":"\u2212")+Math.abs(v).toFixed(1)+"u",col=v=>v>=0?"var(--hit)":"var(--miss)";
+  const s0=new Date(keys[i]+"T12:00:00Z"),s1=new Date(s0);s1.setUTCDate(s1.getUTCDate()+6);
+  const f=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"});
+  const now=weekStart(new Date())===keys[i];
+  const row=(lab,t,extra)=>`<tr><td>${lab}</td><td class="num mono">${t.w}-${t.l}</td><td class="num mono" style="color:${col(t.u)}">${u(t.u)}</td><td class="pteam">${extra||""}</td></tr>`;
+  const app=T(w.app),my=T(w.my),par={w:w.par.filter(g=>g.status==="win").length,l:w.par.filter(g=>g.status==="loss").length,u:w.par.reduce((a,g)=>a+(g.units||0),0)};
+  const tdHit=w.td.filter(e=>e.status==="win").length,tdExp=w.td.reduce((a,e)=>a+(e.prob||0),0);
+  const soc={w:w.soc.filter(e=>e.status==="win").length,l:w.soc.filter(e=>e.status==="loss").length,u:w.soc.reduce((a,e)=>a+(e.status==="win"?(e.dec?e.dec-1:pay(e)):e.status==="loss"?-1:0),0)};
+  const res=T(w.res);
+  let verdict="";
+  if(w.my.length+w.par.length&&w.app.length){const mu=my.u+par.u;verdict=mu>app.u?`You beat the app's Top 10 by ${Math.abs(mu-app.u).toFixed(1)}u.`:mu<app.u?`The app's Top 10 beat you by ${Math.abs(mu-app.u).toFixed(1)}u.`:"You and the app finished even."}
+  const best=[...w.app].filter(e=>e.status==="win").sort((a,b)=>b.score-a.score)[0],worst=[...w.app].filter(e=>e.status==="loss").sort((a,b)=>b.score-a.score)[0];
+  const pk=e=>`${esc(e.name)} ${e.side} ${fmt(e.line)} ${esc(SHORT[e.market]||e.label)} (${e.result})`;
+  const open=S.wkOpen!==false;
+  return`<div class="wkcard${open?"":" shut"}"><div class="wkhead"><button class="wknav" data-wk="${i+1}" ${i+1>=keys.length?"disabled":""} aria-label="Earlier week">\u2039</button><button class="wktitle" data-wktoggle="1" aria-expanded="${open}"><b>Week in review</b><span>${f(s0)} \u2013 ${f(s1)}${now?" \u00b7 so far":""}</span></button><button class="wknav" data-wk="${i-1}" ${i===0?"disabled":""} aria-label="Later week">\u203a</button></div>
+  ${open?`${verdict?`<p class="wkverdict">${verdict}</p>`:""}<div class="log"><table class="books wkT"><thead><tr><th></th><th class="num">W-L</th><th class="num">Units</th><th></th></tr></thead><tbody>
+    ${w.my.length?row("Your straight bets",my):""}${w.par.length?row("Your parlays",par):""}
+    ${w.app.length?row("App Top 10",app):""}${w.res.length?row("Research calls",res):""}${w.soc.length?row("Soccer picks",soc,"at DK prices"):""}
+    ${w.td.length?`<tr><td>Anytime TDs</td><td class="num mono">${tdHit}/${w.td.length}</td><td></td><td class="pteam">${tdExp.toFixed(1)} expected</td></tr>`:""}</tbody></table></div>
+    ${best||worst?`<p class="pteam wkline">${best?`<b>Best call:</b> ${pk(best)}`:""}${best&&worst?"<br>":""}${worst?`<b>Worst miss:</b> ${pk(worst)}`:""}</p>`:""}
+    ${w.notes.length?`<h4 class="wkh">What the app changed about itself</h4><ul class="wkul">${w.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam wkline">No new self-corrections this week.</p>`}`:""}</div>`;
+}
 function renderRecord(){
   const el=document.getElementById("view-rec");
   if(S.recType==="parlay"){renderParlayRecord();return}
@@ -1286,7 +1334,7 @@ function renderRecord(){
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const usedLg=[...LEAGUES,"SOC"].filter(l=>MY.some(e=>e.lg===l));
   const chips=usedLg.length>1?`<div class="cats" style="margin:0">${[["all","All"],...usedLg.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l==="SOC"?"Soccer":l}</button>`).join("")}</div>`:"";
-  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}<button class="btn ghost addpbtn" data-addpast="1">+ Add a bet you already placed</button>`;
+  let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}<button class="btn ghost addpbtn" data-addpast="1">+ Add a bet you already placed</button>${weekHtml()}`;
   if(!MY.length){
     html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
     el.innerHTML=html;return;
@@ -1550,7 +1598,7 @@ const amToDec=a=>a>0?1+a/100:1+100/-a;
 const decToAm=d=>d>=2?"+"+Math.round((d-1)*100):"-"+Math.round(100/(d-1));
 function makeLeg(lg,p,m,side,line){
   const g=nextGame(p,lg);if(!g){toast("No upcoming game to track yet");return null}
-  return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t:g.t.toISOString(),market:m.id,label:m.label,side,line};
+  return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),lg,pid:p.id,name:p.name,team:p.team,opp:g.home===p.team?g.away:g.home,home:g.home===p.team,t:g.t.toISOString(),market:m.id,label:m.label,side,line,pos:p.pos};
 }
 const sameLeg=(a,b)=>a.lg===b.lg&&a.pid===b.pid&&a.market===b.market&&a.t===b.t;
 function slipHas(lg,pid,mid,side,line){return SLIP.some(l=>l.lg===lg&&l.pid===pid&&l.market===mid&&l.side===side&&l.line===line)}
@@ -1615,13 +1663,52 @@ function pairNote(a,b){
   if(qb&&o&&qb.team!==o.team&&PASSM.has(o.market))return say(1,`both passing overs tend to hit together in a shootout`);
   if(qb&&o&&qb.team!==o.team&&RUSHM.has(o.market))return say(1,`game script: if ${o.team} runs well with a lead, ${qb.team} has to throw, so these tend to hit together`);
   if(RECM.has(a.market)&&RECM.has(b.market)&&a.team===b.team)return say(-1,`${a.name} and ${b.name} compete for the same targets`);
+  // anytime TDs, kickers and pass rushers
+  const td=[a,b].find(x=>x.market==="td"),ot=td&&[a,b].find(x=>x!==td);
+  const posOf=l=>l.pos||((DATA[l.lg]||[]).find(x=>x.id===l.pid)||{}).pos;
+  if(td&&ot&&ot.market==="td"&&td.team===ot.team&&posOf(td)==="RB"&&posOf(ot)==="RB")return say(-1,`${td.name} and ${ot.name} split the same goal-line carries`);
+  if(td&&ot&&ot.market==="td"&&td.team!==ot.team)return say(1,`TDs on both sides tend to come together in a high-scoring game`);
+  if(td&&ot&&ot.market==="td")return say(1,`two ${td.team} scorers tend to hit together when ${td.team} has a big day`);
+  if(td&&ot&&PASSM.has(ot.market)&&ot.team===td.team&&posOf(td)!=="QB")return say(1,`${ot.name} passing and a ${td.name} TD tend to hit together`);
+  if(td&&ot&&ot.market==="kpts"&&ot.team===td.team)return say(-1,`drives that end in field goals instead of TDs: ${ot.name} kicking points and a ${td.name} TD pull apart a little`);
+  const k=[a,b].find(x=>x.market==="kpts"||x.market==="pat"),ko=k&&[a,b].find(x=>x!==k);
+  if(k&&ko&&ko.team===k.team&&(PASSM.has(ko.market)||RECM.has(ko.market)||RUSHM.has(ko.market)))return say(1,`more ${k.team} yards means more kicks for ${k.name}, so these tend to hit together`);
+  const sk=[a,b].find(x=>x.market==="sck"),so=sk&&[a,b].find(x=>x!==sk);
+  if(sk&&so&&so.team!==sk.team&&PASSM.has(so.market))return say(so.market==="att"?1:-1,so.market==="att"?`more drop-backs give ${sk.name} more chances at a sack`:`sacks stall drives: ${sk.name} sacks and ${so.name} passing pull apart`);
   return null;
+}
+// how two legs actually did together in the games both players played (same team, or the same matchup)
+function pairHistory(a,b){
+  if(a.lg!==b.lg||a.pid===b.pid&&a.market===b.market)return null;
+  const P=DATA[a.lg]||[],pa=P.find(x=>x.id===a.pid),pb=P.find(x=>x.id===b.pid),ma=MK[a.lg].find(x=>x.id===a.market),mb=MK[b.lg].find(x=>x.id===b.market);
+  if(!pa||!pb||!ma||!mb)return null;
+  const hit=(m,g,l)=>{const v=m.f(g);return v==null?null:(l.side==="over"?v>l.line:v<l.line)};
+  const byDate=new Map(pb.games.map(g=>[g.date,g]));
+  let n=0,both=0,ha=0,hb=0;
+  for(const g of pa.games.slice(-40)){
+    const h=byDate.get(g.date);if(!h)continue;
+    if(g.opp!==undefined&&(a.team===b.team?h.opp!==g.opp:!(g.opp===h.opp?false:g.opp===b.team&&h.opp===a.team)))continue; // the same game, not just the same day
+    const x=hit(ma,g,a),y=hit(mb,h,b);if(x==null||y==null)continue;
+    n++;both+=x&&y;ha+=x;hb+=y;
+  }
+  if(n<8)return null;
+  return{n,both,exp:ha*hb/n};
+}
+function pairHistNote(a,b){
+  const h=pairHistory(a,b);if(!h)return null;
+  const d=h.both-h.exp,sd=Math.sqrt(Math.max(.5,h.exp*(1-h.exp/h.n)));if(Math.abs(d)<1.5||Math.abs(d)/sd<1.3)return null;  // only gaps too big to be luck
+  const nm=l=>`${l.name.split(" ").slice(-1)[0]} ${l.market==="td"?"TD":`${l.side} ${SHORT[l.market]||l.label}`}`;
+  return{good:d>0,txt:`${nm(a)} + ${nm(b)}: both hit in ${h.both} of their ${h.n} games together, ${d>0?"more":"less"} often than the ${h.exp.toFixed(1)} you'd expect if they were unrelated`};
 }
 function parlayInsight(legs){
   const probs=legs.map(legFair),all=probs.every(x=>x!=null);
-  const notes=[];for(let i=0;i<legs.length;i++)for(let j=i+1;j<legs.length;j++){const n=pairNote(legs[i],legs[j]);if(n)notes.push(n)}
+  const notes=[];for(let i=0;i<legs.length;i++)for(let j=i+1;j<legs.length;j++){const n=pairNote(legs[i],legs[j]);if(n)notes.push(n);const h=(legs[i].pid===legs[j].pid||sameGame(legs[i],legs[j]))&&pairHistNote(legs[i],legs[j]);if(h)notes.push(Object.assign(h,{hist:true}))}
   const fair=all?probs.reduce((a,b)=>a*b,1):null;
-  return{probs,fair,notes};
+  // the same reason for several pairs is said once
+  const uniq=[];for(const n of notes){const u=uniq.find(x=>x.txt===n.txt);if(u)u.k++;else uniq.push(Object.assign({k:1},n))}
+  uniq.forEach(n=>{if(n.k>1)n.txt+=` (${n.k} pairs)`});
+  uniq.sort((a,b)=>a.good-b.good);
+  return{probs,fair,notes:uniq};
 }
 // a same-game stack worth a look: the best QB passing over with his best receiving over, both ranked by the app
 function stackHtml(x,pickKeys){
@@ -1638,7 +1725,8 @@ function stackHtml(x,pickKeys){
 function slipInsightHtml(legs){
   const{fair,notes}=parlayInsight(legs);
   return`<div class="pinsight">${fair!=null?`<p><b>Fair odds ${decToAm(1/Math.max(fair,.001))}</b> <span class="pteam">(${(fair*100).toFixed(fair<.1?1:0)}% to hit, from Kalshi${notes.some(n=>n.good)?"; correlated legs make it a bit likelier than this":""})</span></p><p class="pteam" id="pvalue">Enter your book's odds to see if it's a good price.</p>`:`<p class="pteam">Fair odds need a Kalshi price on every leg; ${legs.filter(l=>legFair(l)==null).length} leg(s) don't have one.</p>`}
-    ${notes.map(n=>`<p class="pnote ${n.good?"good":"bad"}">${n.good?"\u2714":"\u26a0"} ${esc(n.txt)}</p>`).join("")}</div>`;
+    ${notes.some(n=>!n.good)?`<p class="pnote bad"><b>Heads up: ${notes.filter(n=>!n.good).length===1?"two of these legs work":"some of these legs work"} against each other.</b> When one hits, the other is less likely to, so this parlay is a worse bet than its legs look.</p>`:notes.some(n=>n.good)?`<p class="pnote good"><b>These legs tend to hit together.</b> Books know this too and usually price same-game parlays shorter.</p>`:""}
+    ${notes.map(n=>`<p class="pnote ${n.good?"good":"bad"}${n.hist?" hist":""}">${n.good?"\u2714":"\u26a0"} ${esc(n.txt)}</p>`).join("")}</div>`;
 }
 function openSlip(){
   document.getElementById("sheet")?.remove();
@@ -2457,6 +2545,8 @@ function wire(){
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
+    const wk=e.target.closest("[data-wk]");if(wk&&!wk.disabled){S.wk=Math.max(0,+wk.dataset.wk);S.wkOpen=true;renderRecord();return}
+    if(e.target.closest("[data-wktoggle]")){S.wkOpen=S.wkOpen===false;try{localStorage.setItem("ptWkOpen",S.wkOpen?"1":"0")}catch(_){}renderRecord();return}
     const xp=e.target.closest("[data-unparlay]");if(xp){PARLAYS=PARLAYS.filter(p=>p.id!==xp.dataset.unparlay);saveParlays();updMyCount();renderRecord();toast("Parlay deleted");return}
     const x=e.target.closest("[data-unmy]");if(x){MY=MY.filter(p=>p.id!==x.dataset.unmy);saveMy();updMyCount();renderRecord();toast("Removed from My picks")}});
   document.getElementById("view-up").addEventListener("click",e=>{

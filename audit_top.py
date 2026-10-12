@@ -15,7 +15,10 @@ checks every pick:
 Exit code 1 if any pick has a blocking flag (not researched, research disagrees), so the research run
 can fix them before publishing.
 
-Usage: python audit_top.py [--json]
+Also checks the Top 10 anytime-TD picks (NOT RESEARCHED / RESEARCH SAYS NO / OUT).
+--within H  only games starting in the next H hours (the game-day checks use --within 3)
+
+Usage: python audit_top.py [--json] [--within H]
 """
 from picks import research_dir
 import json, sys, datetime as dt
@@ -51,9 +54,13 @@ def main():
     picks = load("picks.json", {})
     notes = (load("notes.json", {}) or {}).get("notes", {})
     blocking, report = 0, []
+    within = None
+    if "--within" in sys.argv:
+        within = now + dt.timedelta(hours=float(sys.argv[sys.argv.index("--within") + 1]))
+    in_win = lambda c: within is None or dt.datetime.fromisoformat(c["t"]) <= within
     for lg in ("NFL", "NBA", "CFB"):
         for overs in (True, False):
-            lst = top10(picks, lg, overs, now)
+            lst = [c for c in top10(picks, lg, overs, now) if in_win(c)]
             if not lst:
                 continue
             print(f"== {lg} Top 10 {'overs' if overs else 'overs + unders'}")
@@ -88,6 +95,31 @@ def main():
                                "pick": f"{c['side']} {c['line']} {c['label']}", "flags": flags, "blocking": block})
                 print(f"{i + 1:2}. {'!!' if block else '  '} {c['name']:24} {c['side']:5} {c['line']:6} {c['label']:20} "
                       f"{', '.join(flags) or 'ok'}   [{c['key']}]")
+    # the Top 10 anytime-TD picks
+    tds = [c for c in (picks.get("tdTop") or []) if dt.datetime.fromisoformat(c["t"]) > now and in_win(c)]
+    if tds:
+        print("== Top anytime TDs")
+    for i, c in enumerate(tds):
+        n = notes.get(c["key"]) or {}
+        flags = []
+        if not n:
+            flags.append("NOT RESEARCHED")
+        elif n.get("flag") == "out":
+            flags.append("RESEARCH SAYS OUT")
+        elif research_dir(n)[0] == "under" and research_dir(n)[1] >= 1:
+            flags.append("RESEARCH SAYS NO")
+        if n.get("flag") == "caution":
+            flags.append("CAUTION")
+        if c.get("status"):
+            flags.append(c["status"].upper())
+        if c.get("backup"):
+            flags.append("BACKUP")
+        block = any(f.startswith(("NOT RESEARCHED", "RESEARCH SAYS")) for f in flags)
+        blocking += block
+        report.append({"lg": "TD", "overs": True, "rank": i + 1, "key": c["key"], "name": c["name"],
+                       "pick": f"anytime TD ({c.get('list')})", "flags": flags, "blocking": block})
+        print(f"{i + 1:2}. {'!!' if block else '  '} {c['name']:24} TD {c.get('list', ''):7} {c['t'][5:16]}  "
+              f"{', '.join(flags) or 'ok'}   [{c['key']}]")
     if "--json" in sys.argv:
         json.dump(report, open("research/audit.json", "w"), indent=1)
     print(f"{blocking} pick(s) need fixing before publishing" if blocking else "all Top 10 picks are researched and agree with the research")

@@ -238,6 +238,18 @@ def main():
     out["calib"] = {"n": len(cal), "since": min((e["t"][:10] for e in cal), default=None),
                     "app": buckets(cal, "prob"), "kalshi": buckets([e for e in cal if e.get("kal") is not None], "kal"),
                     "top": buckets([e for e in picks if e.get("prob") is not None], "prob")}
+    # a dated log of what changed, for the app's weekly report card ("what the app changed about itself")
+    try:
+        hist = json.load(open(OUT)).get("history") or []
+    except Exception:
+        hist = []
+    today = out["built"][:10]
+    shape = lambda n: __import__("re").sub(r"[\d.]+", "#", n)  # the same adjustment with updated numbers isn't news
+    seen = {shape(n) for h in hist for n in h["notes"]}
+    new = [n for n in out["notes"] if shape(n) not in seen]
+    if new:
+        hist = [h for h in hist if h["d"] != today] + [{"d": today, "notes": new}]
+    out["history"] = hist[-40:]
     json.dump(out, open(OUT, "w"), indent=1)
     print(f"wrote {OUT}: {len(picks)} graded picks, {len(research)} graded research calls, {len(out['notes'])} adjustments")
     for n in out["notes"]:
