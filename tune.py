@@ -12,10 +12,18 @@ writes tuning.json, which picks.py applies:
   research  per confidence level (high / medium / low): how much the research moves a pick (replaces
             the default 1.2 / 1.0 / 0.6), from the graded research calls. Needs 10+ graded calls.
 
+  calibration  the app's percentages checked against every graded slate prop (calib.json, not just the Top 10):
+            logit P(over) = c + b * (the model's raw over-logit). b < 1 shrinks over-confident chances toward 50%,
+            c shifts every prop toward overs (c > 0) or unders (c < 0). Each prop type also gets its own small
+            offset and slope on top. Fit by ridge-penalised logistic regression, pulled toward "no change" so a
+            single odd weekend can't swing it.
+  factors   (from calib.json once 300+ graded props carry their factor parts) one multiplier per factor, fit
+            the same way; otherwise from the Top 10 picks as described above.
+
 Every adjustment is listed in plain English under "notes" so the app can show what changed and why.
 Usage: python tune.py [tuning.json]
 """
-import json, sys, datetime as dt
+import json, math, sys, datetime as dt
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "tuning.json"
 BE = 110 / 210  # 52.4%: the win rate needed to break even at -110
@@ -46,6 +54,132 @@ def buckets(rows, key):
             res.append([lo, min(hi, 1), len(b), round(sum(e[key] for e in b) / len(b), 3),
                         round(sum(e["status"] == "win" for e in b) / len(b), 3)])
     return res
+
+
+def solve(A, v):
+    """A x = v for a small dense system (Gaussian elimination with partial pivoting)"""
+    n = len(v)
+    M = [row[:] + [v[i]] for i, row in enumerate(A)]
+    for i in range(n):
+        p = max(range(i, n), key=lambda r: abs(M[r][i]))
+        M[i], M[p] = M[p], M[i]
+        if abs(M[i][i]) < 1e-12:
+            return [0.0] * n
+        for r in range(n):
+            if r != i:
+                f = M[r][i] / M[i][i]
+                M[r] = [a - f * b for a, b in zip(M[r], M[i])]
+    return [M[i][n] / M[i][i] for i in range(n)]
+
+
+def ridge_logit(X, y, prior, lam, off=None, iters=25):
+    """logistic regression y ~ sig(off + X.w), penalised by lam * |w - prior|^2 (Newton's method)"""
+    w = list(prior)
+    k = len(w)
+    off = off or [0.0] * len(y)
+    for _ in range(iters):
+        g = [2 * lam * (w[j] - prior[j]) for j in range(k)]
+        H = [[2 * lam * (i == j) for j in range(k)] for i in range(k)]
+        for x, t, o in zip(X, y, off):
+            z = o + sum(a * b for a, b in zip(w, x))
+            p = 1 / (1 + math.exp(-max(-30, min(30, z))))
+            for i in range(k):
+                g[i] += (p - t) * x[i]
+                for j in range(k):
+                    H[i][j] += p * (1 - p) * x[i] * x[j]
+        step = solve(H, g)
+        w = [a - b for a, b in zip(w, step)]
+        if max(abs(b) for b in step) < 1e-6:
+            break
+    return w
+
+
+def lg(p):
+    p = min(.995, max(.005, p))
+    return math.log(p / (1 - p))
+
+
+def learn(cal, out):
+    """self-correction from every graded slate prop: shrink over-confident chances, fix an over/under lean,
+    per-prop-type corrections and factor weights"""
+    rows = []
+    for e in cal:
+        x = e.get("x")
+        if x is None:  # older entries: the app's chance for its side, before any calibration existed
+            x = lg(e["prob"]) * (1 if e["side"] == "over" else -1)
+        y = 1.0 if (e["side"] == "over") == (e["status"] == "win") else 0.0
+        rows.append((e, x, y))
+    n = len(rows)
+    if n < 150:
+        return
+    ys = [y for _, _, y in rows]
+    # props on the same day share weather, game scripts and late news, so one big Sunday is worth far less than
+    # its prop count: only trust the fit in proportion to how many separate game days it has seen
+    days = sum(1 for v in __import__("collections").Counter(e["t"][:10] for e, _, _ in rows).values() if v >= 20)
+    trust = days / (days + 2)
+    c, b = ridge_logit([[1.0, x] for _, x, _ in rows], ys, [0.0, 1.0], 25.0)
+    c, b = c * trust, 1 + (b - 1) * trust
+    b = max(.35, min(1.2, b))
+    c = max(-.4, min(.4, c))
+    base = [c + b * x for _, x, _ in rows]
+    mk = {}
+    for i, (e, x, y) in enumerate(rows):
+        mk.setdefault(f"{e['lg']}|{e['market']}", []).append(i)
+    per = {}
+    for m, idx in sorted(mk.items()):
+        if len(idx) < 30:
+            continue
+        cm, bm = ridge_logit([[1.0, b * rows[i][1]] for i in idx], [ys[i] for i in idx], [0.0, 1.0], 15.0, [c for _ in idx])
+        cm, bm = cm * trust, 1 + (bm - 1) * trust
+        cm, bm = max(-.5, min(.5, cm)), max(.3, min(1.5, bm))
+        if abs(cm) >= .03 or abs(bm - 1) >= .05:
+            per[m] = [round(cm, 3), round(bm, 3)]
+            for i in idx:
+                base[i] = c + cm + b * bm * rows[i][1]
+    out["calibration"] = {"n": n, "days": days, "trust": round(trust, 2), "c": round(c, 3), "b": round(b, 3), "per": per}
+    # what the app would have said with these corrections, side by side with what it said
+    pred_old = sum(e["prob"] for e, _, _ in rows) / n
+    hit = sum(e["status"] == "win" for e, _, _ in rows) / n
+    if b < .97:
+        out["notes"].append(f"Across {n} graded props the app's chances averaged {pred_old:.0%} but {hit:.0%} hit: "
+                            f"its percentages are now pulled toward 50% (confidence x{b:.2f})")
+    elif b > 1.03:
+        out["notes"].append(f"Across {n} graded props the app was too cautious ({pred_old:.0%} predicted, {hit:.0%} hit): "
+                            f"its percentages now spread out more (x{b:.2f})")
+    ov = [y for e, _, y in rows if e["side"] == "over"]
+    un = [1 - y for e, _, y in rows if e["side"] == "under"]
+    if abs(c) >= .03 and ov and un:
+        out["notes"].append(f"Overs it backed hit {sum(ov) / len(ov):.0%}, unders {sum(un) / len(un):.0%}: every prop now gets a "
+                            f"{'small' if abs(c) < .1 else 'firm'} nudge toward the {'over' if c > 0 else 'under'} before a side is picked")
+    for m, (cm, bm) in sorted(per.items(), key=lambda kv: -abs(kv[1][0]) - abs(kv[1][1] - 1)):
+        lgn, mid = m.split("|")
+        bits = []
+        if abs(cm) >= .05:
+            bits.append(f"an extra nudge toward the {'over' if cm > 0 else 'under'}")
+        if bm <= .9:
+            bits.append(f"trusted less (x{bm:.2f}): its edges have played out smaller than predicted")
+        elif bm >= 1.1:
+            bits.append(f"trusted more (x{bm:.2f})")
+        if bits:
+            out["notes"].append(f"{lgn} {LABEL.get(mid, mid)}: " + ", ".join(bits))
+    # factor weights: needs the factor parts stored with each prop (picks.py since pt-v60)
+    fx = [(i, e["f"]) for i, (e, _, _) in enumerate(rows) if isinstance(e.get("f"), dict)]
+    names = [f for f in FXNAME if sum(1 for _, d in fx if abs(d.get(f) or 0) > .02) >= 60]
+    if len(fx) >= 300 and names:
+        pm = {}
+        for i, d in fx:
+            e = rows[i][0]
+            pm[i] = (per.get(f"{e['lg']}|{e['market']}") or [0.0, 1.0])
+        X = [[b * pm[i][1] * (d.get(f) or 0) for f in names] for i, d in fx]
+        rest = [c + pm[i][0] + b * pm[i][1] * sum(v for f, v in d.items() if f not in names) for i, d in fx]
+        w = ridge_logit(X, [ys[i] for i, _ in fx], [1.0] * len(names), 40.0, rest)
+        for f, m in zip(names, w):
+            m = 1 + (m - 1) * trust
+            m = round(max(.5, min(1.5, m)), 3)
+            if abs(m - 1) >= .05:
+                out["factors"][f] = m
+                out["notes"].append(f"{FXNAME[f].capitalize()} has been {'over' if m < 1 else 'under'}-weighted across "
+                                    f"{len(fx)} graded props: weighted x{m}")
 
 
 def main():
@@ -94,11 +228,13 @@ def main():
             out["research_conf"][c] = mult
             out["notes"].append(f"{c.capitalize()}-confidence research calls are {sum(res)}-{len(res) - sum(res)}: "
                                 f"their weight goes from {base} to {mult}")
-    # 4. probability check: when the app says 60%, does it hit about 60%? (every slate prop, plus Kalshi's own odds)
+    # 4. self-correction from every graded slate prop (replaces the Top-10-only factor weights when there's enough)
     try:
         cal = [e for e in json.load(open("calib.json")).get("props", []) if e.get("status") in ("win", "loss")]
     except Exception:
         cal = []
+    learn(cal, out)
+    # 5. probability check: when the app says 60%, does it hit about 60%? (every slate prop, plus Kalshi's own odds)
     out["calib"] = {"n": len(cal), "since": min((e["t"][:10] for e in cal), default=None),
                     "app": buckets(cal, "prob"), "kalshi": buckets([e for e in cal if e.get("kal") is not None], "kal"),
                     "top": buckets([e for e in picks if e.get("prob") is not None], "prob")}

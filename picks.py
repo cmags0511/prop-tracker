@@ -328,6 +328,8 @@ def main():
     except Exception:
         TUNE = {}
     FXM, MKM = TUNE.get("factors") or {}, TUNE.get("market") or {}
+    # self-correction (tune.py, from every graded slate prop): logit P(over) = c + b * raw logit, plus per prop type
+    CALB = TUNE.get("calibration") or {}
     CONF = {"low": .6, "medium": 1.0, "high": 1.2, **(TUNE.get("research_conf") or {})}
     try:  # Kalshi prediction-market prices (fetch_markets.py); stale prices are ignored
         MKTS = json.load(open("markets.json"))
@@ -515,6 +517,12 @@ def main():
                 conf = CONF.get(note.get("conf"), 1.0) * FXM.get("research", 1)
                 r_over = note["push"] * conf if note.get("borrowed") else research_push(note, conf)
                 lin += r_over
+                parts["research"] = r_over
+                # the model's own parts with the learned factor weights taken back out, so tune.py can re-learn them
+                fraw = {f: round((v / FXM.get(f, 1)) if FXM.get(f) else v, 3) for f, v in parts.items() if abs(v) >= .001}
+                raw_lin = lin
+                cm, bm = (CALB.get("per") or {}).get(f"{lg}|{mid}") or (0.0, 1.0)
+                lin = CALB.get("c", 0.0) + cm + CALB.get("b", 1.0) * bm * lin
                 over = lin >= 0
                 prob = 1 / (1 + math.exp(-lin))
                 score = abs(prob - .5) * 4
@@ -555,8 +563,8 @@ def main():
                 # rank props the research hasn't looked at a little lower than ones it has (when research is current)
                 if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
                     score *= .85
-                parts["research"] = r_over
-                slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "p_over": round(prob, 3), "name": p["n"], "team": p["t"], "pos": p.get("p"),
+                slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "p_over": round(prob, 3),
+                              "x": round(raw_lin, 3), "f": fraw, "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
                               "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),

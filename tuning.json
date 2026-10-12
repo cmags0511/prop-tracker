@@ -1,5 +1,5 @@
 {
- "built": "2026-10-12T21:32+00:00",
+ "built": "2026-10-12T22:33+00:00",
  "graded_picks": 28,
  "graded_research": 60,
  "market": {},
@@ -8,8 +8,41 @@
   "medium": 0.693
  },
  "notes": [
-  "Medium-confidence research calls are 19-29: their weight goes from 1.0 to 0.693"
+  "Medium-confidence research calls are 19-29: their weight goes from 1.0 to 0.693",
+  "Across 649 graded props the app's chances averaged 62% but 52% hit: its percentages are now pulled toward 50% (confidence x0.73)",
+  "Overs it backed hit 47%, unders 57%: every prop now gets a small nudge toward the under before a side is picked",
+  "NFL receptions: trusted less (x0.89): its edges have played out smaller than predicted",
+  "NFL sacks: an extra nudge toward the under"
  ],
+ "calibration": {
+  "n": 649,
+  "days": 2,
+  "trust": 0.5,
+  "c": -0.072,
+  "b": 0.73,
+  "per": {
+   "NFL|rec": [
+    0.037,
+    0.889
+   ],
+   "NFL|recyd": [
+    -0.047,
+    0.924
+   ],
+   "NFL|ryd": [
+    -0.043,
+    1.017
+   ],
+   "NFL|sck": [
+    -0.078,
+    0.966
+   ],
+   "NFL|tkl": [
+    -0.018,
+    0.92
+   ]
+  }
+ },
  "calib": {
   "n": 649,
   "since": "2026-10-08",

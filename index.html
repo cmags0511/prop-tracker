@@ -1246,7 +1246,7 @@ function renderAppRecord(){
   html+=tdRecordHtml();
   html+=socRecordHtml();
   html+=calibHtml();
-  if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
+  if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4><p class="pteam" style="margin:0 0 6px">Every day it re-checks its chances against every graded prop${TUNE.calibration?` (${TUNE.calibration.n} so far, ${TUNE.calibration.days} game day${TUNE.calibration.days===1?"":"s"})`:""} and corrects itself. Corrections start small and grow as more game days are graded.</p>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
   {const R=((RECORD&&RECORD.research)||[]).filter(e=>lgf==="all"||e.lg===lgf),Rd=R.filter(e=>["win","loss","push"].includes(e.status));
    if(R.length){const row=(lab,a)=>{const t=appTally(a);return`<tr><td>${lab}</td><td class="num mono">${wl(t)}</td><td class="num"><span class="heat ${t.pct==null?"":t.pct>=.6?"h1":t.pct>=.524?"":"c1"}">${pct(t.pct)}</span></td><td class="num mono">${t.n?unitsTxt(t.units):"\u2013"}</td></tr>`};

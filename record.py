@@ -342,7 +342,8 @@ def main():
                                      "t": s["t"], "market": s["market"], "line": s["line"], "side": "over" if over else "under",
                                      "prob": po if over else round(1 - po, 3),
                                      "kal": None if ko is None else (ko if over else round(1 - ko, 3)),
-                                     "status": "pending", "result": None}
+                                     "status": "pending", "result": None,
+                                     **({"x": s["x"], "f": s["f"]} if s.get("x") is not None else {})}
     keep = now - dt.timedelta(days=60)
     for c in ckeys.values():
         if c["status"] == "pending" and start(c) <= now:
