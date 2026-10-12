@@ -1,25 +1,25 @@
 {
- "built": "2026-10-12T09:37+00:00",
+ "built": "2026-10-12T12:56+00:00",
  "graded_picks": 28,
- "graded_research": 59,
+ "graded_research": 60,
  "market": {},
  "factors": {},
  "research_conf": {
-  "medium": 0.663
+  "medium": 0.693
  },
  "notes": [
-  "Medium-confidence research calls are 18-29: their weight goes from 1.0 to 0.663"
+  "Medium-confidence research calls are 19-29: their weight goes from 1.0 to 0.693"
  ],
  "calib": {
-  "n": 645,
+  "n": 647,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    153,
+    154,
     0.525,
-    0.51
+    0.506
    ],
    [
     0.55,
@@ -45,9 +45,9 @@
    [
     0.7,
     1,
-    123,
-    0.76,
-    0.496
+    124,
+    0.761,
+    0.492
    ]
   ],
   "kalshi": [
@@ -75,9 +75,9 @@
    [
     0.65,
     0.7,
-    4,
-    0.67,
-    0.75
+    5,
+    0.667,
+    0.6
    ],
    [
     0.7,
