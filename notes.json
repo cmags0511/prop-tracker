@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-12T11:58:28Z",
+ "updated": "2026-10-12T20:36:08Z",
  "summary": "Buffalo plays Monday night in Los Angeles without WR Joshua Palmer and DT Ed Oliver, with DJ Moore a game-time call; on Thursday, Denver may again be missing both starting corners against Seattle, and no TNF props are posted yet.",
  "notes": {
   "NFL|00-0037840|rec": {
@@ -608,6 +608,57 @@
    "sources": [
     "https://gazette.com/2026/10/11/sean-payton-underwhelming-broncos-offense-notebook/"
    ]
+  },
+  "NFL|00-0037840|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Williams has 16 catches for 137 yards over the last two games since Nacua's return and is the clear lead back, and Buffalo allows a lot of receiving work to backs.",
+   "sources": [
+    "https://ats.io/nfl/bills-vs-rams-monday-night-football-player-props-10-12-2026/"
+   ]
+  },
+  "NFL|00-0039738|rec": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Corum is the clear second back; Williams out-touched him 47 to 14 over the last two games, so his passing-down work is thin even though the line is only one catch.",
+   "sources": [
+    "https://ats.io/nfl/bills-vs-rams-monday-night-football-player-props-10-12-2026/"
+   ]
+  },
+  "NFL|00-0034857|att": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Buffalo's receiving group is thin with Palmer out and Moore questionable, and Allen carries a big goal-line rushing role, but no news points to a game plan change in his passing volume.",
+   "sources": [
+    "https://ats.io/nfl/bills-vs-rams-monday-night-football-player-props-10-12-2026/",
+    "https://www.espn.com/nfl/story/_/id/50149505/bills-rule-ed-oliver-joshua-palmer-wait-wr-dj-moore"
+   ]
+  },
+  "NFL|00-0039872|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bishop is not on Buffalo's injury report and should start at safety; no news on his role or the matchup was found.",
+   "sources": [
+    "https://www.espn.com/nfl/story/_/id/50149505/bills-rule-ed-oliver-joshua-palmer-wait-wr-dj-moore"
+   ]
+  },
+  "NFL|00-0035253|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gardner-Johnson is not on either team's final injury report; no other news on his role was found.",
+   "sources": [
+    "https://www.espn.com/nfl/story/_/id/50149505/bills-rule-ed-oliver-joshua-palmer-wait-wr-dj-moore"
+   ]
   }
  },
  "games": {
@@ -634,7 +685,7 @@
    ]
   },
   "NFL-SEA-at-DEN-1016": {
-   "summary": "Denver's starting corners are both hurt: Surtain (ankle) was given roughly a two-game absence after Week 4 and missed Week 5, and Moss (ribs) also sat. On a short week that leaves backups Abrams-Draine and Barron likely facing a Seattle passing game that runs through Smith-Njigba. Seattle again has no Charbonnet (PUP), so Emanuel Wilson carries the backfield. Denver's passing game was thin in a 23-17 win (Nix 123 yards, WR Pat Bryant hurt). Seattle opened at -1.5 with a 42.5 total, the packet's later number is 41.5, and the forecast has about 14 mph wind and a 40% chance of rain. It is\u2026",
+   "summary": "Denver's starting corners are both hurt: Surtain (ankle) was given roughly a two-game absence after Week 4 and missed Week 5, and Moss (ribs) also sat. On a short week that leaves backups Abrams-Draine and Barron likely facing a Seattle passing game that runs through Smith-Njigba. Seattle again has no Charbonnet (PUP), so Emanuel Wilson carries the backfield. Denver's passing game was thin in a 23-17 win (Nix 123 yards, WR Pat Bryant hurt). Seattle opened at -1.5 with a 42.5 total, the packet's later number is 41.5, and the forecast has about 14 mph wind and a 40% chance of rain. It is…",
    "sources": [
     "https://www.thefantasyfootballers.com/news/641294/-expected-to-avoid-ir-stint/",
     "https://www.newsweek.com/sports/nfl/sean-payton-provides-promising-update-on-injured-cb-pat-surtain-12538935",
