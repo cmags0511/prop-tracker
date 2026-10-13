@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T11:54:27Z",
+ "updated": "2026-10-13T20:36:20Z",
  "summary": "Sean Payton's return to play-calling turned Denver run-first (29 runs to 28 passes in Week 5), shrinking the Broncos' passing volume ahead of Thursday's Seattle visit, while Denver's secondary is thin with Surtain and Hufanga not practicing. Midweek college games had no posted player props.",
  "notes": {
   "NFL|00-0034348|rec": {
@@ -262,8 +262,10 @@
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No current injury or rotation news found for the trip to Roma.",
-   "sources": []
+   "note": "Named in Real Madrid's predicted XI at Roma, with no injury listed for him. Roma are without Malen (reported suspended), Svilar and Cristante.",
+   "sources": [
+    "https://starting11.com/fixtures/roma-vs-real-madrid"
+   ]
   },
   "SOC|217092|401915407": {
    "flag": "neutral",
@@ -276,16 +278,19 @@
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No current Dortmund team news found for the Bodo/Glimt trip.",
-   "sources": []
+   "note": "Named in Dortmund's predicted XI at Bodo/Glimt, and previews report no fresh absences for either side.",
+   "sources": [
+    "https://www.squawka.com/ca/?p=15566"
+   ]
   },
   "SOC|259481|401915414": {
-   "flag": "neutral",
-   "adj": 0,
+   "flag": "caution",
+   "adj": -1,
    "conf": "medium",
-   "note": "Started at Como on Oct 11 but was sent off in the 52nd minute. That Serie A red card normally does not carry over to the Champions League, so he should be available.",
+   "note": "Started at Como on Oct 11 but was sent off in the 52nd minute. That Serie A red card normally does not carry over to the Champions League, so he should be available. A late team-news page now lists him as suspended for this Champions League match, which conflicts with the usual rule, so his availability is in doubt until the lineup is out.",
    "sources": [
-    "https://www.realmadrid.com/en-US/news/football/first-team/latest-news/cronica-como-roma-11-10-2026"
+    "https://www.realmadrid.com/en-US/news/football/first-team/latest-news/cronica-como-roma-11-10-2026",
+    "https://starting11.com/fixtures/roma-vs-real-madrid"
    ]
   },
   "SOC|228416|761863": {
