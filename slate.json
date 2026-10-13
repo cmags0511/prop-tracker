@@ -1,5 +1,5 @@
 {
-"built": "2026-10-13T02:58+00:00",
+"built": "2026-10-13T03:35+00:00",
 "about": "Every prop with a DraftKings line on the upcoming slate. matchup = opponent's rank (1 = allows the most to this position, last 10 games); gap = how far the line is from his recent average; lean = stats side.",
 "props": [
 {
@@ -120,10 +120,10 @@
 "lg": "NFL",
 "id": "00-0039793",
 "p_over": 0.404,
-"x": -0.547,
+"x": -0.548,
 "f": {
 "form": -0.318,
-"matchup": -0.04,
+"matchup": -0.041,
 "game": -0.012,
 "market": -0.177
 },
@@ -138,11 +138,11 @@
 "avg10": 2.3,
 "l10_over": 4,
 "n10": 10,
-"matchup": "20/32",
+"matchup": "21/32",
 "gap": 0.09,
 "missed_last": false,
 "lean": "under",
-"score": 0.385,
+"score": 0.386,
 "status": null,
 "teammates_out": [],
 "vacated": 0.0,
@@ -535,10 +535,10 @@
 "lg": "NFL",
 "id": "00-0033881",
 "p_over": 0.444,
-"x": -0.294,
+"x": -0.295,
 "f": {
 "form": -0.436,
-"matchup": 0.009,
+"matchup": 0.008,
 "game": -0.062,
 "news": 0.019,
 "market": 0.177
@@ -554,7 +554,7 @@
 "avg10": 2.2,
 "l10_over": 4,
 "n10": 10,
-"matchup": "13/32",
+"matchup": "14/32",
 "gap": 0.14,
 "missed_last": false,
 "lean": "under",
@@ -1332,10 +1332,10 @@
 "lg": "NFL",
 "id": "00-0033881",
 "p_over": 0.485,
-"x": 0.086,
+"x": 0.085,
 "f": {
 "form": 0.154,
-"matchup": -0.046,
+"matchup": -0.047,
 "game": -0.062,
 "news": 0.019,
 "market": 0.021
@@ -1602,14 +1602,14 @@
 "key": "NFL|00-0039732|ryd",
 "lg": "NFL",
 "id": "00-0039732",
-"p_over": 0.494,
-"x": 0.122,
+"p_over": 0.493,
+"x": 0.119,
 "f": {
 "form": 0.072,
 "matchup": 0.096,
 "game": -0.062,
 "news": 0.003,
-"market": 0.013
+"market": 0.01
 },
 "name": "Bo Nix",
 "team": "DEN",
@@ -1626,7 +1626,7 @@
 "gap": 0.3,
 "missed_last": false,
 "lean": "over",
-"score": 0.015,
+"score": 0.016,
 "status": null,
 "teammates_out": [
 "Pat Bryant"
@@ -1635,7 +1635,7 @@
 "wind": 7.1,
 "rain": 53,
 "indoor": false,
-"market_over": 0.504,
+"market_over": 0.503,
 "depth": "starter (QB)"
 },
 {
@@ -1643,10 +1643,10 @@
 "lg": "NFL",
 "id": "00-0039793",
 "p_over": 0.505,
-"x": 0.208,
+"x": 0.207,
 "f": {
 "form": 0.203,
-"matchup": -0.015,
+"matchup": -0.016,
 "game": -0.012,
 "market": 0.032
 },
@@ -1947,10 +1947,10 @@
 "lg": "NFL",
 "id": "00-0038935",
 "p_over": 0.387,
-"x": -0.656,
+"x": -0.657,
 "f": {
 "form": -0.62,
-"matchup": -0.04,
+"matchup": -0.041,
 "game": 0.004
 },
 "name": "Brenton Strange",
@@ -1964,7 +1964,7 @@
 "avg10": 3.8,
 "l10_over": 4,
 "n10": 10,
-"matchup": "20/32",
+"matchup": "21/32",
 "gap": 0.18,
 "missed_last": false,
 "lean": "under",
@@ -2534,10 +2534,10 @@
 "lg": "NFL",
 "id": "00-0038935",
 "p_over": 0.456,
-"x": -0.087,
+"x": -0.088,
 "f": {
 "form": -0.024,
-"matchup": -0.067,
+"matchup": -0.068,
 "game": 0.004
 },
 "name": "Brenton Strange",
@@ -2555,7 +2555,7 @@
 "gap": 0.02,
 "missed_last": false,
 "lean": "under",
-"score": 0.177,
+"score": 0.178,
 "status": null,
 "teammates_out": [],
 "vacated": 0.0,
