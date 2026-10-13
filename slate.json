@@ -1,5 +1,5 @@
 {
-"built": "2026-10-13T00:45+00:00",
+"built": "2026-10-13T01:07+00:00",
 "about": "Every prop with a DraftKings line on the upcoming slate. matchup = opponent's rank (1 = allows the most to this position, last 10 games); gap = how far the line is from his recent average; lean = stats side.",
 "props": [
 {
@@ -82,13 +82,13 @@
 "key": "NFL|00-0034869|pyd",
 "lg": "NFL",
 "id": "00-0034869",
-"p_over": 0.38,
-"x": -0.573,
+"p_over": 0.384,
+"x": -0.547,
 "f": {
 "form": -0.449,
 "matchup": -0.035,
 "game": -0.012,
-"market": -0.077
+"market": -0.051
 },
 "name": "Sam Darnold",
 "team": "SEA",
@@ -105,14 +105,14 @@
 "gap": 0.07,
 "missed_last": false,
 "lean": "under",
-"score": 0.481,
+"score": 0.463,
 "status": null,
 "teammates_out": [],
 "vacated": 0.0,
 "wind": 7.1,
 "rain": 59,
 "indoor": false,
-"market_over": 0.476,
+"market_over": 0.484,
 "depth": "starter (QB)"
 },
 {
@@ -313,13 +313,13 @@
 "key": "NFL|00-0038797|ryd",
 "lg": "NFL",
 "id": "00-0038797",
-"p_over": 0.375,
-"x": -0.535,
+"p_over": 0.366,
+"x": -0.588,
 "f": {
 "form": -0.517,
 "matchup": 0.012,
 "game": -0.012,
-"market": -0.018
+"market": -0.07
 },
 "name": "Emanuel Wilson",
 "team": "SEA",
@@ -336,14 +336,14 @@
 "gap": 0.67,
 "missed_last": false,
 "lean": "under",
-"score": 0.301,
+"score": 0.323,
 "status": null,
 "teammates_out": [],
 "vacated": 0.0,
 "wind": 7.1,
 "rain": 59,
 "indoor": false,
-"market_over": 0.494,
+"market_over": 0.478,
 "depth": "starter (RB)"
 },
 {
@@ -1511,14 +1511,14 @@
 "key": "NFL|00-0033881|recyd",
 "lg": "NFL",
 "id": "00-0033881",
-"p_over": 0.484,
-"x": 0.081,
+"p_over": 0.485,
+"x": 0.086,
 "f": {
 "form": 0.154,
 "matchup": -0.046,
 "game": -0.062,
 "news": 0.019,
-"market": 0.016
+"market": 0.021
 },
 "name": "Evan Engram",
 "team": "DEN",
@@ -1535,7 +1535,7 @@
 "gap": 0.16,
 "missed_last": false,
 "lean": "over",
-"score": 0.039,
+"score": 0.037,
 "status": null,
 "teammates_out": [
 "Pat Bryant"
@@ -1544,7 +1544,7 @@
 "wind": 7.1,
 "rain": 59,
 "indoor": false,
-"market_over": 0.505,
+"market_over": 0.506,
 "depth": "starter (TE)"
 },
 {
@@ -1848,6 +1848,45 @@
 "depth": "starter (QB)"
 },
 {
+"key": "NFL|00-0039163|car",
+"lg": "NFL",
+"id": "00-0039163",
+"p_over": 0.32,
+"x": -0.934,
+"f": {
+"form": -1.034,
+"matchup": 0.047,
+"game": -0.045,
+"news": 0.099
+},
+"name": "C.J. Stroud",
+"team": "HOU",
+"pos": "QB",
+"opp": "JAX",
+"t": "2026-10-18T09:30:00-04:00",
+"market": "car",
+"label": "Rush attempts",
+"line": 3.5,
+"avg10": 2.8,
+"l10_over": 3,
+"n10": 10,
+"matchup": "9/32",
+"gap": 0.25,
+"missed_last": false,
+"lean": "under",
+"score": 0.72,
+"status": null,
+"teammates_out": [
+"David Montgomery"
+],
+"vacated": 0.4,
+"wind": 6.7,
+"rain": 11,
+"indoor": false,
+"market_over": null,
+"depth": "starter (QB)"
+},
+{
 "key": "NFL|00-0036971|pyd",
 "lg": "NFL",
 "id": "00-0036971",
@@ -1882,6 +1921,84 @@
 "indoor": false,
 "market_over": null,
 "depth": "starter (QB)"
+},
+{
+"key": "NFL|00-0040583|ryd",
+"lg": "NFL",
+"id": "00-0040583",
+"p_over": 0.344,
+"x": -0.714,
+"f": {
+"form": -0.586,
+"matchup": -0.181,
+"game": -0.045,
+"news": 0.099
+},
+"name": "Woody Marks",
+"team": "HOU",
+"pos": "RB",
+"opp": "JAX",
+"t": "2026-10-18T09:30:00-04:00",
+"market": "ryd",
+"label": "Rushing yards",
+"line": 49.5,
+"avg10": 42.7,
+"l10_over": 3,
+"n10": 10,
+"matchup": "32/32",
+"gap": 0.16,
+"missed_last": false,
+"lean": "under",
+"score": 0.623,
+"status": null,
+"teammates_out": [
+"David Montgomery"
+],
+"vacated": 0.4,
+"wind": 6.7,
+"rain": 11,
+"indoor": false,
+"market_over": null,
+"depth": "starter (RB)"
+},
+{
+"key": "NFL|00-0040583|car",
+"lg": "NFL",
+"id": "00-0040583",
+"p_over": 0.259,
+"x": -1.342,
+"f": {
+"form": -1.219,
+"matchup": -0.176,
+"game": -0.045,
+"news": 0.099
+},
+"name": "Woody Marks",
+"team": "HOU",
+"pos": "RB",
+"opp": "JAX",
+"t": "2026-10-18T09:30:00-04:00",
+"market": "car",
+"label": "Rush attempts",
+"line": 14.5,
+"avg10": 11.2,
+"l10_over": 3,
+"n10": 10,
+"matchup": "32/32",
+"gap": 0.29,
+"missed_last": false,
+"lean": "under",
+"score": 0.578,
+"status": null,
+"teammates_out": [
+"David Montgomery"
+],
+"vacated": 0.4,
+"wind": 6.7,
+"rain": 11,
+"indoor": false,
+"market_over": null,
+"depth": "starter (RB)"
 },
 {
 "key": "NFL|00-0038935|rec",
@@ -2093,6 +2210,44 @@
 "status": null,
 "teammates_out": [],
 "vacated": 0.0,
+"wind": 6.7,
+"rain": 11,
+"indoor": false,
+"market_over": null,
+"depth": "starter (QB)"
+},
+{
+"key": "NFL|00-0039163|ryd",
+"lg": "NFL",
+"id": "00-0039163",
+"p_over": 0.419,
+"x": -0.287,
+"f": {
+"form": -0.341,
+"game": -0.045,
+"news": 0.099
+},
+"name": "C.J. Stroud",
+"team": "HOU",
+"pos": "QB",
+"opp": "JAX",
+"t": "2026-10-18T09:30:00-04:00",
+"market": "ryd",
+"label": "Rushing yards",
+"line": 10.5,
+"avg10": 8.7,
+"l10_over": 4,
+"n10": 10,
+"matchup": "15/32",
+"gap": 0.21,
+"missed_last": false,
+"lean": "under",
+"score": 0.325,
+"status": null,
+"teammates_out": [
+"David Montgomery"
+],
+"vacated": 0.4,
 "wind": 6.7,
 "rain": 11,
 "indoor": false,
