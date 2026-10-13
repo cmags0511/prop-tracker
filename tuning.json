@@ -1,5 +1,5 @@
 {
- "built": "2026-10-13T15:41+00:00",
+ "built": "2026-10-13T18:45+00:00",
  "graded_picks": 36,
  "graded_research": 70,
  "market": {},
@@ -11,27 +11,27 @@
  "notes": [
   "Medium-confidence research calls are 26-30: their weight goes from 1.0 to 0.853",
   "Low-confidence research calls are 4-7: their weight goes from 0.6 to 0.462",
-  "Across 704 graded props the app's chances averaged 62% but 52% hit: its percentages are now pulled toward 50% (confidence x0.69)",
+  "Across 706 graded props the app's chances averaged 62% but 53% hit: its percentages are now pulled toward 50% (confidence x0.70)",
   "Overs it backed hit 48%, unders 57%: every prop now gets a small nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
-  "NFL receptions: trusted less (x0.89): its edges have played out smaller than predicted",
+  "NFL receptions: trusted less (x0.90): its edges have played out smaller than predicted",
   "NFL receiving yards: an extra nudge toward the under",
   "NFL rushing yards: an extra nudge toward the under"
  ],
  "calibration": {
-  "n": 704,
+  "n": 706,
   "days": 3,
   "trust": 0.6,
-  "c": -0.081,
-  "b": 0.694,
+  "c": -0.083,
+  "b": 0.696,
   "per": {
    "NFL|rec": [
-    0.044,
-    0.892
+    0.041,
+    0.895
    ],
    "NFL|recyd": [
-    -0.053,
-    0.93
+    -0.056,
+    0.933
    ],
    "NFL|ryd": [
     -0.052,
@@ -39,16 +39,16 @@
    ],
    "NFL|sck": [
     -0.114,
-    0.952
+    0.951
    ],
    "NFL|tkl": [
-    0.001,
+    0.002,
     0.907
    ]
   }
  },
  "calib": {
-  "n": 704,
+  "n": 706,
   "since": "2026-10-08",
   "app": [
    [
@@ -68,9 +68,9 @@
    [
     0.6,
     0.65,
-    122,
+    123,
     0.623,
-    0.5
+    0.504
    ],
    [
     0.65,
@@ -82,9 +82,9 @@
    [
     0.7,
     1,
-    129,
+    130,
     0.759,
-    0.504
+    0.508
    ]
   ],
   "kalshi": [
