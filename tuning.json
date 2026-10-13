@@ -1,5 +1,5 @@
 {
- "built": "2026-10-13T18:45+00:00",
+ "built": "2026-10-13T21:47+00:00",
  "graded_picks": 36,
  "graded_research": 70,
  "market": {},
@@ -11,7 +11,7 @@
  "notes": [
   "Medium-confidence research calls are 26-30: their weight goes from 1.0 to 0.853",
   "Low-confidence research calls are 4-7: their weight goes from 0.6 to 0.462",
-  "Across 706 graded props the app's chances averaged 62% but 53% hit: its percentages are now pulled toward 50% (confidence x0.70)",
+  "Across 710 graded props the app's chances averaged 62% but 53% hit: its percentages are now pulled toward 50% (confidence x0.70)",
   "Overs it backed hit 48%, unders 57%: every prop now gets a small nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL receptions: trusted less (x0.90): its edges have played out smaller than predicted",
@@ -19,19 +19,19 @@
   "NFL rushing yards: an extra nudge toward the under"
  ],
  "calibration": {
-  "n": 706,
+  "n": 710,
   "days": 3,
   "trust": 0.6,
   "c": -0.083,
-  "b": 0.696,
+  "b": 0.695,
   "per": {
    "NFL|rec": [
     0.041,
-    0.895
+    0.898
    ],
    "NFL|recyd": [
-    -0.056,
-    0.933
+    -0.055,
+    0.927
    ],
    "NFL|ryd": [
     -0.052,
@@ -39,7 +39,7 @@
    ],
    "NFL|sck": [
     -0.114,
-    0.951
+    0.952
    ],
    "NFL|tkl": [
     0.002,
@@ -48,29 +48,29 @@
   }
  },
  "calib": {
-  "n": 706,
+  "n": 710,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    174,
+    175,
     0.524,
-    0.523
+    0.526
    ],
    [
     0.55,
     0.6,
-    175,
+    177,
     0.575,
     0.514
    ],
    [
     0.6,
     0.65,
-    123,
+    124,
     0.623,
-    0.504
+    0.5
    ],
    [
     0.65,
@@ -91,23 +91,23 @@
    [
     0.5,
     0.55,
-    173,
+    174,
     0.517,
-    0.526
+    0.523
    ],
    [
     0.55,
     0.6,
-    50,
+    51,
     0.569,
-    0.62
+    0.627
    ],
    [
     0.6,
     0.65,
-    18,
-    0.62,
-    0.667
+    19,
+    0.619,
+    0.684
    ],
    [
     0.65,
