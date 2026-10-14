@@ -828,7 +828,7 @@ function switchLeague(lg){
 function compute(p,m){
   const vals=p.games.map(m.f);
   const curVals=p.games.filter(g=>g.date>=CUR()).map(m.f);
-  const base=curVals.length>=8?curVals:vals.slice(S.league==="NFL"?-17:S.league==="CFB"?-13:-40);
+  const base=curVals.length>=(S.league==="CFB"?3:8)?curVals:vals.slice(S.league==="NFL"?-17:S.league==="CFB"?-13:-40);
   const est=m.fixed??half(median(base));
   const mine=S.lines[lineKey(p,m)];
   const dk=m.fixed?null:dkLine(p,m);
@@ -1959,6 +1959,38 @@ function gameTop5(x,bets){
     out.push({r,side:c.side,line:r.line,why:`${c.side==="over"?"Over":"Under"} ${fmt(r.line)} in ${h} of his last ${n}, averaging ${r.avg10.toFixed(1)}.`});if(out.length===5)break}
   return out;
 }
+// no sportsbook lines yet (college most of the week): lean each starter against his typical game (the median
+// line) using the matchup, the game script and his recent trend, and show the five strongest
+const EST_M=new Set(["pyd","cmp","att","ptd","ryd","car","rec","recyd","rry","pts","reb","ast","3pm","pra"]);  // offense only: defensive 0.5 lines are coin flips
+function estTop5(x,bets){
+  const lg=S.league,out=[],seen=new Set(),base=lg==="CFB"?28:lg==="NFL"?22.5:null;
+  const cand=[];
+  for(const r of bets){
+    if(r.m.fixed||r.mine||!r.vals.length||outNote(lg,r.p.id)||!EST_M.has(r.m.id))continue;
+    const cur=r.p.games.filter(g=>g.date>=CUR()).map(r.m.f);if(cur.length<3)continue;
+    const sAvg=cur.reduce((a,b)=>a+b,0)/cur.length;if(sAvg<(r.m.min??(r.m.step?15:1.5)))continue;  // regulars only
+    const l3=cur.slice(-3),a3=l3.reduce((a,b)=>a+b,0)/l3.length;
+    const opp=r.p.team===x.home?x.away:x.home,mu=matchup(lg,r.p,r.m,opp);
+    const home=r.p.team===x.home,sp=x.spread==null?null:(home?x.spread:-x.spread),imp=x.total!=null&&sp!=null?x.total/2-sp/2:null;
+    const f={mu:mu?Math.max(-.5,Math.min(.5,mu.diff)):0,tr:Math.max(-.5,Math.min(.5,(a3-sAvg)/Math.max(sAvg,1))),sc:imp!=null&&base?Math.max(-.3,Math.min(.3,(imp-base)/30)):0};
+    const lean=.55*f.mu+.3*f.tr+.15*f.sc*(r.m.id==="ryd"||r.m.id==="car"?(sp!=null&&sp<0?1.5:.5):1);
+    if(Math.abs(lean)<.06)continue;
+    cand.push({r,lean,mu,opp,a3,sAvg,l3,imp});
+  }
+  cand.sort((a,b)=>Math.abs(b.lean)-Math.abs(a.lean));
+  for(const c of cand){
+    const over=c.lean>0;if(OVERS()&&!over)continue;if(seen.has(c.r.p.id))continue;
+    if(out.filter(o=>o.r.m.id===c.r.m.id).length>=2||out.filter(o=>o.r.p.team===c.r.p.team).length>=3)continue;  // a mix of players, props and both teams
+    seen.add(c.r.p.id);
+    const u=SHORT[c.r.m.id]||c.r.m.label,bits=[];
+    if(c.mu&&Math.abs(c.mu.diff)>=.08)bits.push(`${c.opp} allows ${Math.round(Math.abs(c.mu.diff)*100)}% ${c.mu.diff>0?"more":"fewer"} ${u.toLowerCase()} than average to ${GROUPNAME[c.mu.grp]||"players"}`);
+    if(Math.abs(c.a3-c.sAvg)/Math.max(c.sAvg,1)>=.1)bits.push(`last 3: ${c.l3.join(", ")} (season avg ${c.sAvg.toFixed(1)})`);
+    if(c.imp!=null&&base&&Math.abs(c.imp-base)>=4)bits.push(`${c.r.p.team} projected for about ${Math.round(c.imp)} points`);
+    out.push({r:c.r,side:over?"over":"under",line:c.r.line,why:(bits.join("; ")||"Leans this way on matchup and recent form")+".",est:true});
+    if(out.length===5)break;
+  }
+  return out;
+}
 function gameBody(x){
   const lg=S.league;
   let bets=gameBets(x);const est=!bets.some(r=>!r.m.fixed);if(est)bets=gameBets(x,true);
@@ -1971,12 +2003,13 @@ function gameBody(x){
   const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat(),...(PICKS&&PICKS.games||[]),...(PICKS&&PICKS.picksOver||[]),...(PICKS&&PICKS.gamesOver||[])].filter(c=>!OVERS()||c.side==="over").map(c=>[c.key,c]));
   let html=`<div class="gbody">${gameResearchHtml(x)}`;
   if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
-  const top=est?[]:gameTop5(x,bets);
+  const top=est?estTop5(x,bets):gameTop5(x,bets);
   if(!est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
+  if(est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
   if(!top.length&&OVERS()&&!est)html+=`<div class="gnone" style="padding:4px 2px">No over plays stand out in this game yet.</div>`;
-  if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${OVERS()?"overs":"picks"}<span>${top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+  if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${top[0].est?"leans":OVERS()?"overs":"picks"}<span>${top[0].est?"no sportsbook lines yet: each line is his typical game, so compare with your book's line":top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
   if(!est)html+=stackHtml(x,pickKeys);
-  html+=`<div class="gsub">${est?"DraftKings hasn't posted props for this game yet \u00b7 lines are estimates from each player's median":`${bets.filter(r=>!r.m.fixed).length} DraftKings bets${bets.some(r=>r.m.fixed)?" + anytime TDs":""} \u00b7 L10 and season = how often he's gone over the line`}</div>`;
+  html+=`<div class="gsub">${est?`${lg==="CFB"?"College props aren't in the free line feed (the research adds real lines for the biggest games about 2 days out)":"DraftKings hasn't posted props for this game yet"} \u00b7 lines are estimates from each player's median`:`${bets.filter(r=>!r.m.fixed).length} DraftKings bets${bets.some(r=>r.m.fixed)?" + anytime TDs":""} \u00b7 L10 and season = how often he's gone over the line`}</div>`;
   if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
   for(const team of [x.away,x.home]){
     const mine=shownB.filter(r=>r.p.team===team);
