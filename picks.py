@@ -176,6 +176,15 @@ def fmt(v):
 # base rate, and calibrated: 20% predicted -> 19% hit, 30% -> 28%, 49% -> 48%). Inputs: share of his last 10 games
 # with a TD, touches per game over his last 5, TDs per touch over his last 10, his team's implied points, position.
 TD_W = dict(b=-.682, rate=.48, touch=.35, per=-.412, imp=.381, WR=.228, TE=.408, QB=-.321)
+# red-zone usage (build_usage.py): log(1 + red-zone carries+targets per game, last 6) and goal-line carries, centered
+# on the league average; backtest (train 2023-24, test 2025-26) added them on top of TD rate and touches
+TD_RZ, TD_GL, RZ_MEAN, GL_MEAN = .16, .08, .41, .14
+# usage signals for NFL props (build_usage.py), log-odds; the backtest coefficients were halved because the test's
+# stand-in lines (recent averages) know less than a sportsbook's, so they overstate what usage adds over the book
+USE_W = {"rec": .22, "recyd": .22, "ryd": .15, "car": .15, "rry": .15, "pyd": .12, "cmp": .12, "att": .12}
+SNAP_W = .7     # x the change in snap share (last 2 games vs the 4 before), capped at +/-0.2
+USAGE = {}
+NBA_PACE_W = .06
 TD_MKT = .6      # weight on Kalshi's "1+ TD" price when it has one (log-odds blend); the stats get the rest
 TD_PER_TEAM = 2  # at most two scorers from one team in the Top 10
 
@@ -221,6 +230,9 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
         imp = game["total"] / 2 - sp / 2 if game["total"] is not None and sp is not None else 22.5
         z = (TD_W["b"] + TD_W["rate"] * lt(rate) + TD_W["touch"] * math.log(touch + 1) + TD_W["per"] * math.log(per * 100)
              + TD_W["imp"] * (imp - 22.5) / 7 + TD_W.get(p["p"], 0))
+        us = (USAGE.get("players") or {}).get(p["id"]) or {}
+        if us.get("rz") is not None:
+            z += TD_RZ * (math.log1p(us["rz"]) - RZ_MEAN) + TD_GL * (math.log1p(us.get("gl") or 0) - GL_MEAN)
         p_stat = sig(z)
         lad = ((MKTS.get("NFL") or {}).get(p["id"]) or {}).get("td")
         kal = market_prob(lad, .5, game["t"], now) if lad else None
@@ -324,6 +336,13 @@ def main():
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
     except Exception:
         ODDS = {}
+    global USAGE
+    try:  # how each NFL player is being used: snaps, target / carry share, red zone (build_usage.py)
+        USAGE = json.load(open("usage.json"))
+        if now - dt.datetime.fromisoformat(USAGE["built"]) > dt.timedelta(days=9):
+            USAGE = {}
+    except Exception:
+        USAGE = {}
     try:  # what the graded results have taught (tune.py): prop-type, factor and research-confidence weights
         TUNE = json.load(open("tuning.json"))
     except Exception:
@@ -490,6 +509,17 @@ def main():
                 weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
+                pc = meta.get("pace") or {}
+                if lg == "NBA" and pc.get(p["t"]) and pc.get(opp):
+                    lg_pace = sum(pc.values()) / len(pc)
+                    # a fast matchup means more possessions for everyone (backtest +0.07 log-odds per 5 possessions)
+                    parts["game"] = NBA_PACE_W * max(-1.5, min(1.5, ((pc[p["t"]] + pc[opp]) / 2 - lg_pace) / 5))
+                us = (USAGE.get("players") or {}).get(p["id"]) if lg == "NFL" else None
+                if us and us.get("team") == p["t"] and mid in USE_W and (us.get("proj") or {}).get(mid) is not None:
+                    upj = max(-1.5, min(1.5, (us["proj"][mid] - line) / sd))
+                    # a role change the book may not have caught up with yet
+                    u_proj, u_snap = USE_W[mid] * upj, SNAP_W * max(-.2, min(.2, us.get("snap_tr") or 0)) * (0 if missed else 1)
+                    parts["usage"] = u_proj + u_snap
                 for f, mlt in FXM.items():
                     if f in parts:
                         parts[f] *= mlt
@@ -601,6 +631,21 @@ def main():
                 if mu:
                     why += (f" {opp} has allowed the {ordinal(mu['rank']) if mu['rank'] <= mu['n'] / 2 else ordinal(mu['n'] - mu['rank'] + 1)}-"
                             f"{'most' if mu['rank'] <= mu['n'] / 2 else 'fewest'} {UNIT[mid]} to {GROUPNAME.get(grp(lg, p.get('p')), 'players')} over its last 10.")
+                if "usage" in parts and abs(us.get("snap_tr") or 0) >= .1 and not missed:
+                    st = us["snap_tr"]
+                    why += (f" His snap share has {'jumped' if st > 0 else 'dropped'} {abs(st) * 100:.0f} points over his last 2 games"
+                            f"{', a role the line may not have caught up with' if (st > 0) == over else ', which works against this pick'}.")
+                if "usage" in parts and abs(u_proj) >= .06:
+                    pj = us["proj"][mid]
+                    agree = (u_proj > 0) == over
+                    share = (f"{us['tsh'] * 100:.0f}% of {p['t']}'s targets" if mid in ("rec", "recyd") else
+                             f"{us['csh'] * 100:.0f}% of {p['t']}'s carries" if mid in ("ryd", "car") else
+                             f"{us['csh'] * 100:.0f}% of the carries and {us['tsh'] * 100:.0f}% of the targets" if mid == "rry" else
+                             f"{p['t']}'s {USAGE['teams'][p['t']]['drop']:.0f} dropbacks a game")
+                    why += (f" Usage {'backs this' if agree else 'cuts against this'}: {share} over his last 6 projects about "
+                            f"{pj:.0f} {UNIT[mid]}.") if mid not in ("pyd", "cmp", "att") else (
+                            f" Usage {'backs this' if agree else 'cuts against this'}: {share} lately projects about {pj:.0f} {UNIT[mid]}.")
+
                 if vac_who and ((vac >= .05 and lg == "NBA") or (vac >= .1 and lg == "NFL")) and over:
                     names = [re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", n).split()[-1] for n in vac_who[:2]]
                     why += (f" With {' and '.join(names)} ruled out, about {vac * 100:.0f}% of {p['t']}'s recent "

@@ -49,3 +49,14 @@ the soccer Top 10s. `soccer_close.json` holds the last price before kickoff (clo
 `record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box
 score; `calib.json` grades every slate prop for the Probability check; `closing.json` keeps kickoff lines. My picks and
 parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.
+
+## Usage signals (build_usage.py)
+
+From nflverse's free play-by-play, snap counts and weekly stats, every update builds `usage.json`: each NFL
+player's snap share and its trend, target and carry share, red-zone (inside the 10) and goal-line looks, and a
+usage projection per prop (share x team volume x efficiency). Backtested on 2025-26 games with a model fit on
+2023-24: the usage projection, snap-share trend and red-zone looks (anytime TDs) improved the predictions and
+are used, at half their backtested weight. Team pace, pass rate over expected, opponents' missing defenders, a
+backup QB starting, and rest / short weeks did not improve them and carry no weight. NBA: team pace helped
+slightly and is used; back-to-backs, blowout risk and usage-rate trends did not. tune.py re-weights the usage
+factor from real graded results like every other factor.

@@ -31,6 +31,9 @@ jobs:
       - name: College football (ESPN box scores)
         run: python build_cfb.py cfb_data.json
         continue-on-error: true
+      - name: NFL usage (snaps, target and carry share, red zone) from nflverse play-by-play
+        run: python build_usage.py usage.json
+        continue-on-error: true
       - name: Injury reports and kickoff weather
         run: python fetch_context.py context.json
         continue-on-error: true
@@ -58,7 +61,7 @@ jobs:
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add props_data.json $(ls lines.json picks.json cfb_data.json cfb_games.json.gz record.json calib.json closing.json soccer.json soccer_hist.json.gz soccer_close.json slate.json context.json markets.json odds.json tuning.json 2>/dev/null)
+          git add props_data.json $(ls usage.json lines.json picks.json cfb_data.json cfb_games.json.gz record.json calib.json closing.json soccer.json soccer_hist.json.gz soccer_close.json slate.json context.json markets.json odds.json tuning.json 2>/dev/null)
           git diff --cached --quiet || git commit -m "Update prop data $(date -u +'%Y-%m-%d %H:%M UTC')"
           git pull --rebase -X theirs origin main || true
           git push

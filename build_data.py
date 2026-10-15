@@ -100,7 +100,25 @@ if sched is not None:
     s = s[(s.dt >= NOW - pd.Timedelta(hours=4)) & (s.dt <= NOW + pd.Timedelta(days=30))].sort_values("dt")
     for r in s.itertuples():
         nba_up.append([r.dt.isoformat(), r.away_abbreviation, r.home_abbreviation, None, None, None])
-out["NBA"] = {"season": nba_label(cur_nba), "curStart": cur_start, "hasCur": bool(has_cur),
+# each team's pace: possessions per game over its last 10 (this season once it has 5+ games). In the backtest
+# (train 2023-25, test 2025-26) a fast matchup nudged every stat over slightly, about +0.07 log-odds per 5 possessions
+pace = {}
+try:
+    tb = pd.concat([x for x in (get_csv(f"{SDV}/espn_nba_team_boxscores/team_box_{yr}.csv", required=False)
+                                for yr in (nba_end - 1, nba_end)) if x is not None])
+    tb = tb[tb.season_type == 2].copy()
+    for c in ["field_goals_attempted", "offensive_rebounds", "turnovers", "free_throws_attempted"]:
+        tb[c] = pd.to_numeric(tb[c], errors="coerce").fillna(0)
+    tb["poss"] = tb.field_goals_attempted - tb.offensive_rebounds + tb.turnovers + .44 * tb.free_throws_attempted
+    tb = tb.sort_values("game_date")
+    for t, d in tb.groupby("team_abbreviation"):
+        c = d[d.season == cur_nba]
+        if len(d) < 20:  # all-star and exhibition teams
+            continue
+        pace[t] = round(float((c if len(c) >= 5 else d).poss.tail(10).mean()), 1)
+except Exception as e:
+    print(f"NBA pace skipped: {e}")
+out["NBA"] = {"season": nba_label(cur_nba), "curStart": cur_start, "hasCur": bool(has_cur), "pace": pace,
               "cols": ["date", "opp", "home", "min", "pts", "reb", "ast", "3pm", "po"],
               "players": nba, "upcoming": nba_up}
 
