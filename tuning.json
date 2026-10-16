@@ -1,118 +1,120 @@
 {
- "built": "2026-10-16T03:46+00:00",
- "graded_picks": 36,
- "graded_research": 70,
+ "built": "2026-10-16T07:09+00:00",
+ "graded_picks": 37,
+ "graded_research": 76,
  "market": {},
  "factors": {},
  "research_conf": {
-  "medium": 0.853,
+  "medium": 0.9,
   "low": 0.462
  },
  "notes": [
-  "Medium-confidence research calls are 26-30: their weight goes from 1.0 to 0.853",
+  "Medium-confidence research calls are 30-32: their weight goes from 1.0 to 0.9",
   "Low-confidence research calls are 4-7: their weight goes from 0.6 to 0.462",
-  "Across 716 graded props the app's chances averaged 62% but 53% hit: its percentages are now pulled toward 50% (confidence x0.70)",
-  "Overs it backed hit 49%, unders 57%: every prop now gets a small nudge toward the under before a side is picked",
+  "Across 792 graded props the app's chances averaged 61% but 54% hit: its percentages are now pulled toward 50% (confidence x0.67)",
+  "Overs it backed hit 49%, unders 58%: every prop now gets a small nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
+  "NFL receptions: an extra nudge toward the over",
+  "NFL tackles: trusted less (x0.90): its edges have played out smaller than predicted",
   "NFL rushing yards: an extra nudge toward the under"
  ],
  "calibration": {
-  "n": 716,
-  "days": 3,
-  "trust": 0.6,
-  "c": -0.078,
-  "b": 0.702,
+  "n": 792,
+  "days": 4,
+  "trust": 0.67,
+  "c": -0.093,
+  "b": 0.669,
   "per": {
    "NFL|rec": [
-    0.046,
-    0.906
+    0.051,
+    0.905
    ],
    "NFL|recyd": [
-    -0.047,
-    0.929
+    -0.04,
+    0.94
    ],
    "NFL|ryd": [
-    -0.059,
-    1.014
+    -0.075,
+    1.009
    ],
    "NFL|sck": [
-    -0.114,
-    0.951
+    -0.13,
+    0.953
    ],
    "NFL|tkl": [
-    0.001,
-    0.906
+    0.006,
+    0.896
    ]
   }
  },
  "calib": {
-  "n": 716,
+  "n": 792,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    178,
+    207,
     0.524,
-    0.528
+    0.536
    ],
    [
     0.55,
     0.6,
-    178,
-    0.575,
-    0.517
+    203,
+    0.574,
+    0.532
    ],
    [
     0.6,
     0.65,
-    124,
+    139,
     0.623,
-    0.5
+    0.511
    ],
    [
     0.65,
     0.7,
-    104,
+    108,
     0.675,
-    0.596
+    0.593
    ],
    [
     0.7,
     1,
-    132,
-    0.758,
-    0.515
+    135,
+    0.757,
+    0.519
    ]
   ],
   "kalshi": [
    [
     0.5,
     0.55,
-    175,
+    199,
     0.516,
-    0.526
+    0.523
    ],
    [
     0.55,
     0.6,
-    52,
+    57,
     0.57,
-    0.635
+    0.632
    ],
    [
     0.6,
     0.65,
-    20,
+    25,
     0.62,
-    0.7
+    0.68
    ],
    [
     0.65,
     0.7,
-    6,
-    0.665,
-    0.667
+    7,
+    0.668,
+    0.571
    ],
    [
     0.7,
@@ -147,9 +149,9 @@
    [
     0.7,
     1,
-    22,
-    0.783,
-    0.409
+    23,
+    0.78,
+    0.435
    ]
   ]
  },
@@ -170,6 +172,13 @@
     "Low-confidence research calls are 4-7: their weight goes from 0.6 to 0.462",
     "NFL receiving yards: an extra nudge toward the under",
     "NFL rushing yards: an extra nudge toward the under"
+   ]
+  },
+  {
+   "d": "2026-10-16",
+   "notes": [
+    "NFL receptions: an extra nudge toward the over",
+    "NFL tackles: trusted less (x0.90): its edges have played out smaller than predicted"
    ]
   }
  ]
