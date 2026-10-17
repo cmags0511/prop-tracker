@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-17
+- **cmags0511 · PR (market-anchored-ev)**: picks.py now starts each prop's chance from the market (Pinnacle no-vig,
+  else FanDuel, else Kalshi) and tilts it with the model, picks the side with the better expected profit at the real
+  price, and ranks by expected profit. `score` is now EV-based (+5% EV ~ 0.85). index.html shows a $/10 chip.
 - **cmags0511**: Navigation redesign mockup tried and dropped; the app keeps its current layout. Nothing in
   `index.html` changed, so layout work there is open again.
 - **rmolnar10**: Sportsbook prices from Pinnacle and FanDuel (`fetch_prices.py`, step `fetch_prices` in both

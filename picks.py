@@ -134,6 +134,13 @@ def allowed_tables(players, cols, lg):
     return get
 
 
+# Market anchor. On 454 graded slate props with a Kalshi price, Kalshi's chance alone predicted better (log loss .688)
+# than the app's (.722) or any blend of the two; the app's own numbers were worse than a coin flip. So each prop's
+# chance now starts from the market (Pinnacle's no-vig price, the sharpest book; else FanDuel's; else Kalshi's) and the
+# model only tilts it. ANCHOR_W = how much of the final log-odds comes from the market, by source.
+ANCHOR_W = {"Pinnacle": .85, "FanDuel": .75, "Kalshi": .8}
+ANCHOR_EST = .1   # less trust when the book's price was moved from a nearby line (fetch_prices.py "est")
+NO_MARKET = .85   # score multiplier when no market price exists at all (the model alone has been overconfident)
 MKT_W = .8  # log-odds weight on the Kalshi market's probability of the over at DraftKings' line (capped ±.6)
 MONTHS = {m: i + 1 for i, m in enumerate(["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
 
@@ -556,11 +563,49 @@ def main():
                 raw_lin = lin
                 cm, bm = (CALB.get("per") or {}).get(f"{lg}|{mid}") or (0.0, 1.0)
                 lin = CALB.get("c", 0.0) + cm + CALB.get("b", 1.0) * bm * lin
-                over = lin >= 0
+                # ---- anchor on the market, then pick the side with the better expected profit at the real price ----
+                lg_ = lambda q: math.log(min(.985, max(.015, q)) / (1 - min(.985, max(.015, q))))
+                imp = lambda a: 100 / (a + 100) if a > 0 else -a / (-a + 100)
+                po_, pu_ = dk.get("price_over"), dk.get("price_under")
+                anchor, a_src, a_w = None, None, 0.0
+                if isinstance(po_, (int, float)) and isinstance(pu_, (int, float)) and po_ and pu_:
+                    q_book = imp(po_) / (imp(po_) + imp(pu_))  # the book's own chance with its margin taken out
+                    a_src = dk.get("book") or "Pinnacle"
+                    a_w = ANCHOR_W.get(a_src, .75) - (ANCHOR_EST if (dk.get("est_over") or dk.get("est_under")) else 0)
+                    anchor = lg_(q_book)
+                    if p_mkt is not None:  # Kalshi agrees or not: a quarter of the anchor
+                        anchor = .75 * anchor + .25 * lg_(p_mkt)
+                elif p_mkt is not None:
+                    a_src, a_w, anchor = "Kalshi", ANCHOR_W["Kalshi"], lg_(p_mkt)
+                model_lin = lin - CALB.get("b", 1.0) * bm * parts.get("market", 0.0) if anchor is not None else lin
+                if anchor is not None:
+                    lin = a_w * anchor + (1 - a_w) * model_lin
+                else:
+                    lin = .5 * lin  # no market at all: the model alone has run about twice as confident as its results
                 prob = 1 / (1 + math.exp(-lin))
-                score = abs(prob - .5) * 4
+                # the price we'd get: the book's real price; without one, a typical 4.5% margin around the market's own
+                # chance (Kalshi), or -110 when there's no market at all
+                q_anchor = 1 / (1 + math.exp(-anchor)) if anchor is not None else None
+                def dec(a, q_side):
+                    if isinstance(a, (int, float)) and a:
+                        return 1 + (a / 100 if a > 0 else 100 / -a)
+                    if q_side is not None:
+                        return 1 / min(.97, max(.03, q_side * 1.045))
+                    return 1 + 100 / 110
+                ev_o = prob * dec(po_, q_anchor) - 1
+                ev_u = (1 - prob) * dec(pu_, None if q_anchor is None else 1 - q_anchor) - 1
+                over = ev_o >= ev_u if (po_ or pu_) else lin >= 0
+                ev = ev_o if over else ev_u
+                # rank by expected profit per unit: +5% EV ~ 0.85, break-even ~ 0.6, -5% ~ 0.35
+                # with no market to check it against, a model-only edge counts for 30%: alone it ran worse than a coin flip
+                ev_rank = ev if anchor is not None else .3 * ev
+                if dk.get("est_over" if over else "est_under") and ev_rank > 0:
+                    ev_rank *= .5  # a price worked out from another line or a ladder, not one the book quoted: half credit
+                score = max(.01, (ev_rank + .12) * 5)
+                if anchor is None:
+                    score *= NO_MARKET
                 score *= MKM.get(f"{lg}|{mid}|{'over' if over else 'under'}", 1)  # learned from graded results
-                lowline = mid in LOW_LINE_M and line <= 1.5
+                lowline = mid in LOW_LINE_M and line <= 1.5 and not (po_ and pu_)  # a real price already counts the juice
                 if moved:
                     score *= .6   # the real line has likely moved away from this one
                 elif age_h is not None and age_h > 24:
@@ -576,8 +621,6 @@ def main():
                 be = None
                 if isinstance(price, (int, float)) and price != 0:
                     be = 100 / (price + 100) if price > 0 else -price / (-price + 100)  # break-even win rate at this price
-                    if (prob if over else 1 - prob) < be:
-                        score *= .7  # the price asks for more than the numbers give him
                 exact = note if note and not note.get("borrowed") else {}
                 r_fav, r_adj, r_unc = research_dir(exact) if exact else (None, 0, False)
                 confirmed = r_fav == side and r_adj >= 1
@@ -667,6 +710,11 @@ def main():
                     why += f" Current odds pages show {fmt(float(exact['line_now']))}, so check the live line before betting."
                 if p_mkt is not None:
                     why += f" Kalshi traders put the {'over' if over else 'under'} at {round((p_mkt if over else 1 - p_mkt) * 100)}%."
+                if a_src in ("Pinnacle", "FanDuel") and price:
+                    qb = imp(po_) / (imp(po_) + imp(pu_))
+                    why += (f" {a_src}'s price, margin removed, gives the {'over' if over else 'under'} {round((qb if over else 1 - qb) * 100)}%;"
+                            f" with the stats the app makes it {round((prob if over else 1 - prob) * 100)}%, so at {'+' if price > 0 else ''}{price}"
+                            f" it {'returns about $' + format(ev * 10, '.2f') + ' per $10 on average' if ev > 0 else 'costs about $' + format(-ev * 10, '.2f') + ' per $10 on average (no edge at this price)'}.")
                 if lg == "NBA" and abs(mtr) >= .08:
                     why += f" His minutes are {'up' if mtr > 0 else 'down'} lately ({sum(mins[-3:]) / 3:.0f} a game over the last 3)."
                 if lg in ("NFL", "CFB") and game["total"] is not None:
@@ -684,7 +732,7 @@ def main():
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
                     "researched": bool(exact), "price": price, "price_other": dk.get("price_under") if over else dk.get("price_over"),
                     "price_est": bool(price is not None and dk.get("est_over" if over else "est_under")),
-                    "books": dk.get("books"), "break_even": round(be, 3) if be else None, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
+                    "books": dk.get("books"), "break_even": round(be, 3) if be else None, "ev": round(ev, 3), "anchor": a_src, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
                     "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,
                     "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,
