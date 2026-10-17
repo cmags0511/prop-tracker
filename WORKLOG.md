@@ -4,9 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-17
-- **cmags0511 · IN PROGRESS**: Navigation redesign (Home / Sports / My Picks / Results, every sport under one
-  Sports page with Picks · Games · Players · TDs). Mockup only so far, nothing in the app changed yet; when it's
-  built it will touch most of `index.html`, so hold off on big `index.html` layout changes until this lands.
+- **cmags0511**: Navigation redesign mockup tried and dropped; the app keeps its current layout. Nothing in
+  `index.html` changed, so layout work there is open again.
 - **rmolnar10**: Sportsbook prices from Pinnacle and FanDuel (`fetch_prices.py`, step `fetch_prices` in both
   workflows) into `odds.json`; the record grades units at the price saved with each pick (PR #1).
 - **cmags0511**: Workflows on checkout v5 / setup-python v6 (Node 24), runner pinned to ubuntu-24.04.
