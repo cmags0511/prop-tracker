@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15T22:46:07Z",
+ "updated": "2026-10-17T20:36:32Z",
  "summary": "Injuries drive the Week 6 board: Lamar Jackson and Baker Mayfield are uncertain, TreVeyon Henderson's ankle and David Montgomery's groin reshape the Patriots' and Texans' backfields, and Denver is without Pat Surtain II tonight.",
  "notes": {
   "CFB|5079647|recyd": {
@@ -800,12 +800,13 @@
   "NFL|00-0037239|rec": {
    "side": "over",
    "flag": "caution",
-   "adj": 0,
+   "adj": -1,
    "conf": "medium",
-   "note": "Olave missed Wednesday's practice with an illness and has no game designation yet. Watch the Thursday and Friday reports before acting.",
+   "note": "Olave missed two practices with an illness, returned on a limited basis Friday and is officially questionable, so his workload against the Giants is uncertain.",
    "sources": [
     "https://clutchpoints.com/nfl/new-orleans-saints/saints-news-chris-olave-new-orleans-practice-giants-clash",
-    "https://heavy.com/sports/nfl/new-orleans-saints/tyler-shough-injury-update-giants"
+    "https://heavy.com/sports/nfl/new-orleans-saints/tyler-shough-injury-update-giants",
+    "https://www.si.com/nfl/saints/onsi/saints-injury-report-olave-questionable-as-giants-face-offensive-line-concerns-01m539wwpp1f"
    ],
    "detail": {
     "availability": "He was a non-participant Wednesday because of the illness. An illness usually clears faster than a soft-tissue injury, but his status is unresolved until Friday.",
@@ -814,14 +815,15 @@
   },
   "NFL|00-0036875|rec": {
    "side": "over",
-   "flag": "support",
-   "adj": 1,
+   "flag": "caution",
+   "adj": 0,
    "conf": "medium",
-   "note": "Henderson's high-ankle sprain was reported as a multi-week injury (he was limited Wednesday), which would leave Stevenson as New England's main pass-catching back.",
+   "note": "Henderson's high-ankle sprain was reported as a multi-week injury (he was limited Wednesday), which would leave Stevenson as New England's main pass-catching back. Henderson is now listed questionable and says he hopes to play through the sprain, so Stevenson's expanded role is not assured.",
    "sources": [
     "https://www.tsn.ca/nfl/article/sources-patriots-rb-henderson-out-multiple-weeks-with-high-ankle-sprain-n1-50173985/",
     "https://www.nbcsportsboston.com/nfl/new-england-patriots/treveyon-henderson-injury-high-ankle-sprain-raiders/807455/",
-    "https://www.si.com/betting/treveyon-henderson-injury-update-betting-impact-for-steelers-vs-patriots-in-nfl-week-2-2026"
+    "https://www.si.com/betting/treveyon-henderson-injury-update-betting-impact-for-steelers-vs-patriots-in-nfl-week-2-2026",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-16/treveyon-henderson-ankle-questionable-vs-jets"
    ],
    "detail": {
     "availability": "Stevenson is healthy; Henderson is expected to miss multiple weeks, per ESPN reporting relayed by TSN and NBC Sports Boston.",
@@ -1260,12 +1262,13 @@
   "NFL|00-0036875|td": {
    "side": "over",
    "flag": "caution",
-   "adj": 0,
+   "adj": -1,
    "conf": "medium",
-   "note": "Henderson's ankle was reported as a multi-week injury, but he practiced on a limited basis Wednesday, so Stevenson's share of goal-line work is not settled yet.",
+   "note": "Henderson's ankle was reported as a multi-week injury, but he practiced on a limited basis Wednesday, so Stevenson's share of goal-line work is not settled yet. He is now officially questionable and hoping to play.",
    "sources": [
     "https://www.patriots.com/news/week-6-injury-report-patriots-vs-jets",
-    "https://www.tsn.ca/nfl/article/sources-patriots-rb-henderson-out-multiple-weeks-with-high-ankle-sprain-n1-50173985/"
+    "https://www.tsn.ca/nfl/article/sources-patriots-rb-henderson-out-multiple-weeks-with-high-ankle-sprain-n1-50173985/",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-16/treveyon-henderson-ankle-questionable-vs-jets"
    ],
    "buzz": "none"
   },
@@ -1442,6 +1445,106 @@
    "sources": [
     "https://www.seahawks.com/news/week-6-injury-report-seahawks-at-broncos",
     "https://www.espn.com/nfl/story/_/id/50185443/seahawks-rule-thomas-charbonnet-thursday-vs-broncos"
+   ]
+  },
+  "NFL|00-0039919|rec": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Odunze is Chicago's top receiver and carries no injury designation; Williams is listed questionable with a hamstring but practiced fully all week and is expected to play.",
+   "sources": [
+    "https://www.nfl.com/news/bears-qb-caleb-williams-hamstring-questionable-to-play-falcons"
+   ]
+  },
+  "NFL|00-0036275|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "With Monangai ruled out, Swift is Chicago's clear lead back and should get most of the short-yardage and goal-line carries.",
+   "sources": [
+    "https://www.nfl.com/news/bears-qb-caleb-williams-hamstring-questionable-to-play-falcons"
+   ]
+  },
+  "NFL|00-0034673|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Edmunds is healthy and starting with no injury designation; no news changes his role, and he has cleared 9.5 tackles only once in his last ten.",
+   "sources": [
+    "https://neworleanssaints.com/news/injury-report-new-york-giants-vs-new-orleans-saints-2026-nfl-week-6-friday"
+   ]
+  },
+  "NFL|00-0039163|car": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Stroud carries no injury designation for the London game; Houston has leaned on the pass with Montgomery ruled out, and no news points to more designed runs.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/football/news/texans-david-montgomery-ruled-out-for-london-game/"
+   ]
+  },
+  "NFL|00-0040583|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Montgomery is ruled out, leaving Marks as Houston's lead back in London, but the Texans have leaned on the pass and Jacksonville's run defense is strong.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/football/news/texans-david-montgomery-ruled-out-for-london-game/"
+   ]
+  },
+  "NFL|00-0038611|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Rodriguez is the backup behind Marks with Montgomery ruled out, so he should see some carries but no clear goal-line role.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/football/news/texans-david-montgomery-ruled-out-for-london-game/"
+   ]
+  },
+  "NFL|00-0037744|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McBride is healthy and remains Arizona's top target; with Love ruled out the Cardinals may throw more near the goal line, but no specific red-zone news was found.",
+   "sources": [
+    "https://cbssports.com/nfl/news/nfl-week-6-injury-report-lamar-jackson-jalen-hurts-caleb-williams"
+   ]
+  },
+  "CFB|5121169|pyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or availability news found for this player before the Florida State at Miami game tonight; the call rests on the numbers.",
+   "sources": [
+    "https://sports.yahoo.com/articles/updated-florida-state-vs-miami-001919832.html"
+   ]
+  },
+  "CFB|5088153|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or availability news found for this player before the Florida State at Miami game tonight; the call rests on the numbers.",
+   "sources": [
+    "https://sports.yahoo.com/articles/updated-florida-state-vs-miami-001919832.html"
+   ]
+  },
+  "CFB|4804878|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or availability news found for this player before the Florida State at Miami game tonight; the call rests on the numbers.",
+   "sources": [
+    "https://sports.yahoo.com/articles/updated-florida-state-vs-miami-001919832.html"
    ]
   }
  },
