@@ -22,8 +22,13 @@ A pick needs the model 4+ points off DraftKings' spread (smaller gaps were a coi
 bankroll by edge). Units are graded at the DraftKings price
 ESPN shows for that side when the game kicked off. This is a paper record: not betting advice.
 
-Data: nflverse schedule (results, closing spreads, starting QBs), ESPN scoreboard (DraftKings spread and prices,
-final scores), context.json (ESPN injuries: a projected starting QB listed Out or Doubtful counts as a change).
+Totals: no rating-based totals model beat closing totals in the backtest (47-50%), but Walters' weather factor did:
+unders at outdoor games with 12-19 mph wind at kickoff went 57% (both halves of the sample), so that's the totals
+pick, 1 unit, graded at DraftKings' under price. Non-QB injuries are listed per game (see POS_PTS) without moving
+the line.
+
+Data: nflverse schedule (results, closing spreads and totals, kickoff wind, starting QBs) and snap counts, ESPN
+scoreboard (DraftKings spread, total and prices, final scores), context.json (ESPN injuries; Open-Meteo kickoff wind).
 Output: walters.json {built, params, backtest, ratings, games}
 Usage: python walters.py [walters.json]
 """
@@ -43,6 +48,19 @@ QB_PTS = 4.0
 CAP = 21
 DECAY, LAM, WINDOW = .85, 2.0, 30   # market ratings: weight per week back, pull toward 0, weeks kept
 EDGE, EDGE2 = 4.0, 5.0              # points off the line for a 1-unit and a 2-unit pick
+WIND_LO, WIND_HI = 12, 20           # totals: the under when kickoff wind is 12-19 mph outdoors (Walters' weather factor)
+INJ_K = 0.0                         # non-QB injuries move the line by INJ_K x their points: 0 = shown, not used (see below)
+# non-QB injuries, in Walters' terms: points for a full-time starter by position (Wirfs, a tackle, was 1.3; the best
+# non-QBs 2.5-3; most players ~0), times his snap share over the team's last 4 games (0 for games he missed, so a
+# player who's been out for weeks is already in the ratings), x1.5 when 2+ starters are out in one unit.
+# Backtested at several weights against closing lines, they didn't help (the market has the Friday report by
+# kickoff), so they're listed on the page but don't move the line unless INJ_K is raised
+POS_PTS = {"OL": .6, "WR": .8, "TE": .5, "RB": .3, "DL": .6, "LB": .3, "CB": .7, "S": .4}
+GROUP = {"T": "OL", "G": "OL", "C": "OL", "OT": "OL", "OG": "OL", "WR": "WR", "TE": "TE", "RB": "RB", "FB": "RB",
+         "DE": "DL", "DT": "DL", "NT": "DL", "LB": "LB", "OLB": "LB", "ILB": "LB", "MLB": "LB", "CB": "CB",
+         "FS": "S", "SS": "S", "S": "S", "DB": "S"}
+UNIT = {"OL": "OL", "WR": "PC", "TE": "PC", "DL": "DL", "CB": "DB", "S": "DB", "RB": "RB", "LB": "LB"}
+SNAPS = "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_{}.csv"
 START = 2009                        # replay from here; backtest record from BT_FROM
 BT_FROM = 2012
 # nflverse uses the team's abbreviation at the time; ESPN uses today's
@@ -157,6 +175,33 @@ def p_cover(table, mu, line):
     return win / (win + lose) if win + lose else .5
 
 
+def nm(s):
+    s = "".join(c for c in s.lower() if c.isalnum() or c == " ")
+    return " ".join(w for w in s.split() if w not in ("jr", "sr", "ii", "iii", "iv", "v"))
+
+
+def injury_losses(snaps, team, week, names):
+    """[(name, group, share)] for the players in `names` (listed Out / Doubtful) who've been playing: share = mean snap
+    share over the team's last 4 games before `week`, 0 for a game he missed"""
+    wk = snaps.get(team, {})
+    prev = sorted(w for w in wk if w < week)[-4:]
+    out = []
+    for n in names:
+        k = nm(n)
+        sh = [wk[w].get(k, (0, None))[0] for w in prev]
+        g = next((wk[w][k][1] for w in prev if k in wk[w]), None)
+        if g and prev and sum(sh) / len(prev) >= .25:
+            out.append((n, g, round(sum(sh) / len(prev), 2)))
+    return out
+
+
+def injury_points(losses):
+    by = C.defaultdict(list)
+    for n, g, sh in losses:
+        by[UNIT[g]].append((POS_PTS[g] * sh, sh))
+    return sum(sum(p for p, _ in v) * (1.5 if sum(sh >= .6 for _, sh in v) >= 2 else 1) for v in by.values())
+
+
 def payout(price):
     return price / 100 if price > 0 else 100 / -price
 
@@ -179,6 +224,9 @@ def main():
                       "spread": float(r["spread_line"]) if r["spread_line"] else None,
                       "margin": float(r["result"]) if r["result"] else None,
                       "qb_h": r["home_qb_id"], "qb_a": r["away_qb_id"],
+                      "total": float(r["total_line"]) if r["total_line"] else None,
+                      "pts": float(r["total"]) if r["total"] else None, "outdoor": r["roof"] in ("outdoors", "open"),
+                      "wind": float(r["wind"]) if r["wind"] else None,
                       "qbn_h": r["home_qb_name"], "qbn_a": r["away_qb_name"]})
     games.sort(key=lambda g: (g["day"], g["time"]))
     done = [g for g in games if g["margin"] is not None]
@@ -190,6 +238,7 @@ def main():
     for g in done:
         weeks[(g["season"], g["week"])].append(g)
     bt = C.defaultdict(lambda: [0, 0, 0.0])  # season -> wins, losses, units at -110
+    btt = C.defaultdict(lambda: [0, 0, 0.0])  # the same for wind unders
     tiers = {"4-5": [0, 0], "5+": [0, 0]}
     for wk in sorted(weeks):
         if wk[0] != season:
@@ -208,6 +257,12 @@ def main():
                         s[0 if r > 0 else 1] += 1
                         s[2] += u * (100 / 110) if r > 0 else -u
                         tiers["5+" if abs(d) >= EDGE2 else "4-5"][0 if r > 0 else 1] += 1
+            wind = g.get("wind")
+            if g["season"] >= BT_FROM and g["type"] == "REG" and g["total"] is not None and g["outdoor"] \
+                    and wind is not None and WIND_LO <= wind < WIND_HI and g["pts"] != g["total"]:
+                s = btt[g["season"]]
+                s[0 if g["pts"] < g["total"] else 1] += 1
+                s[2] += 100 / 110 if g["pts"] < g["total"] else -1
             M.result(g, ph, pa)
         M.close_week(weeks[wk])
 
@@ -230,6 +285,22 @@ def main():
     except Exception:
         inj = {}
     out_qb = {(v.get("t"), v.get("n")) for v in inj.values() if v.get("pos") == "QB" and v.get("s") in ("Out", "Doubtful", "Injured Reserve", "IR")}
+    out_nonqb = C.defaultdict(list)  # this week's Out / Doubtful non-QBs by team (IR players are already in the ratings)
+    for v in inj.values():
+        if v.get("pos") != "QB" and v.get("s") in ("Out", "Doubtful"):
+            out_nonqb[tm(v.get("t") or "")].append(v.get("n") or "")
+    weather = (ctx.get("weather") or {}) if inj else {}
+    cur = max(g["season"] for g in games)
+    snaps = C.defaultdict(dict)  # team -> week -> {name: (share, group)}
+    try:
+        for r in csv.DictReader(io.StringIO(get(SNAPS.format(cur)).decode())):
+            g = GROUP.get(r["position"])
+            if g:
+                sh = max(float(r["offense_pct"] or 0), float(r["defense_pct"] or 0))
+                snaps[tm(r["team"])].setdefault(int(r["week"]), {})[nm(r["player"])] = (sh, g)
+    except Exception as e:
+        print(f"snap counts failed: {e}")
+    week_of = {(g["h"], g["a"]): g["week"] for g in games if g["season"] == cur}
     upcoming = {(g["h"], g["a"]): g for g in games if g["margin"] is None}
     nxt = {}  # each team's next game: this week's injury report only speaks for that one
     for ev in sorted(events, key=lambda e: e["date"]):
@@ -253,7 +324,22 @@ def main():
             # a listed starter the injury report has Out or Doubtful counts as a backup starting
             ph = -QB_PTS if (h, ug.get("qbn_h")) in out_qb and nxt.get(h) == ev["id"] else M.qb_adj(h, ug.get("qb_h"))
             pa = -QB_PTS if (a, ug.get("qbn_a")) in out_qb and nxt.get(a) == ev["id"] else M.qb_adj(a, ug.get("qb_a"))
-            mu = M.expect(h, a, bool(c.get("neutralSite")), ph, pa)
+            wk_n = week_of.get((h, a), 99)
+            lh = injury_losses(snaps, h, wk_n, out_nonqb.get(h, [])) if nxt.get(h) == ev["id"] else []
+            la = injury_losses(snaps, a, wk_n, out_nonqb.get(a, [])) if nxt.get(a) == ev["id"] else []
+            ih, ia = injury_points(lh), injury_points(la)
+            mu = M.expect(h, a, bool(c.get("neutralSite")), ph - INJ_K * ih, pa - INJ_K * ia)
+            # totals: DraftKings' total and prices; the under when the kickoff forecast has 12-19 mph wind outdoors
+            tot = o.get("total") or {}
+            wx = weather.get(f"NFL|{a}@{h}|{t:%Y-%m-%d}") or {}
+            wind = None if wx.get("indoor") or c.get("venue", {}).get("indoor") else wx.get("wind")
+            tl = o.get("overUnder")
+            e.update({"tline": tl, "tprice_o": num(((tot.get("over") or {}).get("close") or {}).get("odds")),
+                      "tprice_u": num(((tot.get("under") or {}).get("close") or {}).get("odds")),
+                      "wind": wind, "indoor": bool(wx.get("indoor") or (c.get("venue") or {}).get("indoor")),
+                      "tpick": "under" if tl is not None and wind is not None and WIND_LO <= wind < WIND_HI else None,
+                      "inj_h": [[n, g, sh] for n, g, sh in lh], "inj_a": [[n, g, sh] for n, g, sh in la],
+                      "injp_h": round(ih, 1), "injp_a": round(ia, 1)})
             e.update({"t": t.isoformat(), "line": line, "open": num(((ps.get("home") or {}).get("open") or {}).get("line")),
                       "price_h": num(((ps.get("home") or {}).get("close") or {}).get("odds")),
                       "price_a": num(((ps.get("away") or {}).get("close") or {}).get("odds")),
@@ -276,6 +362,11 @@ def main():
                 e["units_won"] = round(e["units"] * payout(price), 2) if r > 0 else -e["units"] if r < 0 else 0
             else:
                 e["status"] = "nopick"
+            if e.get("tpick") and e.get("tline") is not None:
+                r = e["tline"] - (hs + as_)  # > 0: under wins
+                price = e.get("tprice_u") or -110
+                e["tstatus"] = "win" if r > 0 else "loss" if r < 0 else "push"
+                e["tunits_won"] = round(payout(price), 2) if r > 0 else -1 if r < 0 else 0
             e["graded"] = now.isoformat(timespec="minutes")
     # games ESPN no longer lists in the window (graded long ago) stay as they are
     gl = sorted(rec.values(), key=lambda e: e["t"])
@@ -286,9 +377,12 @@ def main():
     allw = sum(v[0] for v in bt.values())
     alll = sum(v[1] for v in bt.values())
     out = {"built": now.isoformat(timespec="minutes"),
-           "params": {"alpha": ALPHA, "w": W, "hfa": HFA, "qb": QB_PTS, "edge": EDGE, "edge2": EDGE2, "cap": CAP},
+           "params": {"alpha": ALPHA, "w": W, "hfa": HFA, "qb": QB_PTS, "edge": EDGE, "edge2": EDGE2, "cap": CAP, "inj_k": INJ_K},
            "backtest": {"from": BT_FROM, "all": [allw, alll, round(sum(v[2] for v in bt.values()), 1)],
                         "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(bt.items())}, "tiers": tiers},
+           "backtest_totals": {"from": BT_FROM, "wind": [WIND_LO, WIND_HI],
+                               "all": [sum(v[0] for v in btt.values()), sum(v[1] for v in btt.values()), round(sum(v[2] for v in btt.values()), 1)],
+                               "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btt.items())}},
            "ratings": ratings, "games": gl}
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     open_picks = [e for e in gl if e.get("pick") and e["status"] == "pending"]
