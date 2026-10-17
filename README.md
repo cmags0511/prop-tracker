@@ -76,3 +76,10 @@ every regular-season game since 2012 (nflverse results and closing spreads): rat
 1.5. A pick needs the model 4+ points off DraftKings' spread (1 unit at 4-5, 2 at 5+); smaller gaps were a coin
 flip. Backtest: 440-349 (55.8%), +90.4u at -110. Picks lock at kickoff and are graded at the DraftKings price
 ESPN shows. The page is reached from the "poopy?" link at the bottom of the Record tab.
+
+Totals: no ratings-based totals model beat closing totals (47-50%), but Walters' weather factor did: the under at
+outdoor games with 12-19 mph wind at kickoff went 287-212 (57.5%) since 2012, both halves of the sample, so that's
+the totals pick (1 unit, kickoff wind from the Open-Meteo forecast in context.json, graded at DraftKings' under
+price). Non-QB injuries (ESPN Out / Doubtful starters, valued Walters-style by position x recent snap share from
+nflverse snap counts, x1.5 for two starters out in a unit) are listed per game but don't move the line: at several
+weights they didn't beat the closing line (`INJ_K` = 0 in walters.py turns them on).
