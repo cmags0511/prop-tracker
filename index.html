@@ -765,6 +765,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
         <button id="lg-NFL" aria-pressed="true">NFL</button>
         <button id="lg-NBA" aria-pressed="false">NBA</button>
         <button id="lg-CFB" aria-pressed="false" title="College football (FBS)">CFB</button>
+        <button id="lg-SOC" aria-pressed="false" title="Soccer: every league ESPN carries DraftKings props for">Soccer</button>
       </div>
       <select id="pos" aria-label="Category"></select>
       <select id="team" aria-label="Team"></select>
@@ -775,7 +776,6 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     <div class="tabs" role="tablist" aria-label="View">
       <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V10M10 19V5M16 19v-7M22 19H2"/></svg><span>Props</span></button>
       <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Games</span><span class="cnt" id="upcnt"></span></button>
-      <button role="tab" id="tab-soc" aria-selected="false" aria-controls="view-soc"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l4 2.9-1.5 4.7h-5L8 10.4z"/><path d="M12 3v4.5M16 10.4l4.3-1.4M14.5 15.1l2.7 3.7M9.5 15.1l-2.7 3.7M8 10.4L3.7 9"/></svg><span>Soccer</span></button>
       <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>My picks</span><span class="cnt" id="mycnt" hidden></span><span id="livecnt" hidden></span></button>
       <button role="tab" id="tab-app" aria-selected="false" aria-controls="view-rec"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0z"/><path d="M17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"/></svg><span>Record</span></button>
     </div>
@@ -820,7 +820,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     </div>
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
-    <div id="view-soc" role="tabpanel" aria-labelledby="tab-soc" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
   </div>
 </main>
@@ -884,7 +884,7 @@ S.sec="picks";try{const sc=localStorage.getItem("ptSec");if(["picks","td","trend
 function applySec(){
   if(S.sec==="td"&&S.league!=="NFL")S.sec="picks";
   document.getElementById("view-board").dataset.sec=S.sec;
-  document.body.classList.toggle("sec-table",S.view==="board"&&S.sec==="all");  // category / team / search only filter the table
+  document.body.classList.toggle("sec-table",S.view==="board"&&S.sec==="all"||S.view==="up");  // category / team / search filter the table and the games list
   document.querySelectorAll("#subnav [data-sec]").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.sec===S.sec);if(b.dataset.sec==="td")b.hidden=S.league!=="NFL"});
 }
 try{const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
@@ -965,7 +965,9 @@ function compute(p,m){
 
 function setupControls(){
   if(!DATA[S.league])S.league="NFL";
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.league===l));
+  // Soccer sits in the sport switch but is its own view (soccer.json), not a league in DATA
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.league===l));
+  document.getElementById("lg-SOC").setAttribute("aria-pressed",S.view==="soc");
   const players=DATA[S.league];
   if(S.cat&&!CATS[S.cat])S.cat="";
   const catSel=document.getElementById("pos");
@@ -1175,11 +1177,11 @@ function render(){
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"?"app":S.view;
-  ["board","up","soc","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
+  const tabOn=S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;
+  ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
   const noBoard=S.view==="rec"||S.view==="soc";
   document.getElementById("market").hidden=noBoard;
-  document.querySelector(".toolbar").hidden=noBoard;
+  document.querySelector(".toolbar").hidden=S.view==="rec";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   applySec();
   if(S.view==="soc"){renderSoccer();return}
@@ -2722,7 +2724,8 @@ function wire(){
   document.getElementById("apprec").addEventListener("click",e=>{if(e.target.closest("[data-goto-app]")){S.recType="app";S.recLg="all";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0})}});
   document.getElementById("view-board").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  document.getElementById("lg-SOC").onclick=()=>{if(S.view==="soc")return;scrollMem[tabOf()]=window.scrollY;S.view="soc";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
@@ -2737,7 +2740,7 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
-  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view;
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;
   const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
     if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
     setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
@@ -2746,7 +2749,6 @@ function wire(){
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
-  document.getElementById("tab-soc").onclick=()=>setView("soc");
   document.getElementById("tab-app").onclick=()=>setView("app");
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
