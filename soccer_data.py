@@ -58,6 +58,10 @@ MARKETS = {"Anytime Goalscorer": "g", "To Score 2+ Goals": "g2", "Shots Mileston
 LABEL = {"g": "Anytime goal", "sh": "Shots", "sot": "Shots on target", "a": "Assists", "sv": "Saves",
          "fc": "Fouls", "card": "Booked"}
 ATTACK = {"g", "a", "sh", "sot"}
+# goalkeeper saves lean harder on the book: the saves model is calibrated overall, but at its top end (where the value
+# lists pick from) it ran hot in the backtest (4+ saves said 52%, 45% happened; 5+ said 37%, 26% happened) and the
+# opponent-strength boost isn't in that backtest; the first saves picks went 0-6
+MKT_W_M = {"sv": .7}
 MKT_W = .5               # log-odds weight on DraftKings' price (margin removed) in the final chance
 MARGIN = {"g": .10, "sh": .07, "sot": .08, "a": .10, "sv": .07, "fc": .07, "card": .10}  # typical book margin
 K_START, K_SUB = 4, 3    # shrinkage (pseudo-appearances) toward the position average
@@ -261,16 +265,33 @@ def team_avg(hist, tid, now):
 
 
 def implied(ev_odds, home):
-    """team expected goals from DraftKings' match total and moneylines"""
+    """team expected goals from DraftKings' match total and moneylines (ESPN's odds block: `moneyline` and `total`
+    carry the current prices; older payloads used homeTeamOdds / awayTeamOdds / drawOdds)"""
     if not ev_odds:
         return None
-    tot = num(ev_odds.get("overUnder")) or 2.6
     def p_ml(v):
-        v = num(v)
+        v = num(v.replace("+", "") if isinstance(v, str) else v) if v not in (None, "", "EVEN", "even") else (100 if v in ("EVEN", "even") else None)
         if v is None or v == 0:
             return None
         return 100 / (v + 100) if v > 0 else -v / (-v + 100)
-    ph, pa, pd = p_ml((ev_odds.get("homeTeamOdds") or {}).get("moneyLine")), p_ml((ev_odds.get("awayTeamOdds") or {}).get("moneyLine")), p_ml((ev_odds.get("drawOdds") or {}).get("moneyLine"))
+    cur = lambda d: ((d or {}).get("close") or {}).get("odds") or ((d or {}).get("open") or {}).get("odds")
+    ml = ev_odds.get("moneyline") or {}
+    ph, pa, pd = p_ml(cur(ml.get("home"))), p_ml(cur(ml.get("away"))), p_ml(cur(ml.get("draw")))
+    if ph is None or pa is None:
+        ph, pa, pd = (p_ml((ev_odds.get("homeTeamOdds") or {}).get("moneyLine")), p_ml((ev_odds.get("awayTeamOdds") or {}).get("moneyLine")),
+                      p_ml((ev_odds.get("drawOdds") or {}).get("moneyLine")))
+    # match total: the line, moved by how the over and under are priced (o3.5 at +130 means fewer than 3.5 expected)
+    tot = num(ev_odds.get("overUnder")) or 2.6
+    t = ev_odds.get("total") or {}
+    po, pu = p_ml(cur(t.get("over"))), p_ml(cur(t.get("under")))
+    line = num(str(((t.get("over") or {}).get("close") or {}).get("line") or "").lstrip("ou")) or tot
+    if po and pu:
+        q = po / (po + pu)
+        lo, hi = .3, 7.0
+        for _ in range(40):  # the Poisson mean whose chance of going over the line matches the book's
+            mid = (lo + hi) / 2
+            lo, hi = (mid, hi) if pois_ge(mid, math.floor(line) + 1) < q else (lo, mid)
+        tot = round((lo + hi) / 2, 2)
     if ph is None or pa is None:
         return {"home": tot / 2, "away": tot / 2, "total": tot}
     s = ph + pa + (pd or 0)
@@ -502,7 +523,8 @@ def main():
                     p_mod = sig(logit(p_mod) + r_adj)
                 q = 1 / dec
                 q_fair = min(.97, q / (1 + MARGIN.get(m, .08)))
-                prob = sig((1 - MKT_W) * logit(p_mod) + MKT_W * logit(q_fair))
+                mw = MKT_W_M.get(m, MKT_W)
+                prob = sig((1 - mw) * logit(p_mod) + mw * logit(q_fair))
                 ev = prob * dec - 1
                 g10 = p["g"][-10:]
                 si = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "yc": 13, "sv": 15, "card": 13}[m]
@@ -554,7 +576,8 @@ def main():
         return out
     # a model chance far above the book's (more than 1.75x, or 15+ points) usually means the book knows something the
     # box scores don't (injury, rotation, a different role), so those stay off the Top lists
-    sane = lambda c: c["model"] <= 1.75 * c["fair_book"] and c["model"] - c["fair_book"] <= .15 and not c.get("stale")
+    sane = lambda c: c["model"] <= (1.35 if c["m"] == "sv" else 1.75) * c["fair_book"] and c["model"] - c["fair_book"] <= .15 \
+        and not c.get("stale")
     value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
     scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1 and not c.get("stale")], lambda c: -c["prob"], per_match=3)

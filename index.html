@@ -390,6 +390,7 @@ span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(-
 .gtop5 ol{list-style:none;margin:0;padding:0}
 .gtop5 li+li{border-top:1px solid var(--line)}
 .cfb5{margin-bottom:0}.cfb5 .gtop5{background:var(--panel)}
+.warnchip{border-color:var(--miss)!important;color:var(--miss)!important;cursor:help}
 .g5{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--panel);border:0;padding:10px 12px;cursor:pointer;color:var(--ink);font:inherit}
 .g5:hover{background:var(--accent-soft)}
 .g5n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 12px/22px var(--f-body);text-align:center}
@@ -2360,13 +2361,15 @@ function gradeSoc(e){
 // ---- Add a bet you already placed: tap the game, tap the player, tap the bet (graded like any other pick) ----
 let ADDP={lg:"NFL",legs:[],step:"game",game:null,pid:null,mid:null,side:"over",line:null,odds:""};
 function apGames(lg){
-  // games from the last week (finished or underway) and the next few days, most recent first
+  // games from the last week (finished or underway) and the next few days
   const now=Date.now(),seen=new Map(),meta=DATA[lg+"meta"]||{};
   for(const g of meta.upcoming||[]){const t=g.t.getTime();if(t>now-4*864e5&&t<now+3*864e5)seen.set(`${g.away}@${g.home}|${etDay(g.t)}`,{away:g.away,home:g.home,t:g.t.toISOString()})}
   for(const p of DATA[lg]||[]){const x=p.games[p.games.length-1];if(!x||now-new Date(x.date+"T12:00:00").getTime()>8*864e5)continue;
     const away=x.home?x.opp:p.team,home=x.home?p.team:x.opp,k=`${away}@${home}|${x.date}`;
     if(![...seen.keys()].some(s=>s.startsWith(`${away}@${home}|`)&&Math.abs(new Date(s.split("|")[1])-new Date(x.date))<=864e5))seen.set(k,{away,home,t:new Date(x.date+"T17:00:00Z").toISOString(),past:true})}
-  return[...seen.values()].sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,40);
+  // underway first, then the next games to start, then finished games (most recent first)
+  const grp=g=>{const t=new Date(g.t).getTime();return t<=now&&t>now-6*3600e3&&!g.past?0:t>now?1:2};
+  return[...seen.values()].sort((a,b)=>grp(a)-grp(b)||(grp(a)===1?new Date(a.t)-new Date(b.t):new Date(b.t)-new Date(a.t))).slice(0,40);
 }
 function apState(g){const t=new Date(g.t).getTime(),now=Date.now();return g.past||t<now-4*3600e3?"Final":t<=now?"Live":new Date(g.t).toLocaleTimeString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}
 function apPlayers(lg,g){
@@ -2643,6 +2646,15 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;
   const built=DATA.built?new Date(DATA.built):null;
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
+  // a warning when a data step failed in the latest run, or the daily research hasn't run for a day and a half
+  Promise.all([jget("health_update.json"),jget("health_lines.json")]).then(([hu,hl])=>{
+    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data"};
+    const bad=[];for(const h of [hu,hl])if(h&&h.steps&&Date.now()-new Date(h.at).getTime()<12*3600e3)for(const[k,v]of Object.entries(h.steps))if(v==="failure"&&KEY[k]&&!bad.includes(KEY[k]))bad.push(KEY[k]);
+    const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
+    const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
+    document.addEventListener("click",e=>{const w=e.target.closest(".warnchip");if(w)toast(w.title)});
+    if(msg.length)document.getElementById("chips").insertAdjacentHTML("beforeend",`<span class="chip warnchip" title="${esc(msg.join(" "))}" tabindex="0" role="note">\u26a0 ${bad.length?"Data issue":"Research from "+new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short"})}</span>`);
+  });
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
   setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);

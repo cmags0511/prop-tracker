@@ -128,6 +128,7 @@ w = get_csv(f"{NFLV}/stats_player/stats_player_week_{nfl_cur}.csv", required=Fal
 if w is not None:
     weeks.append(w)
 f = pd.concat(weeks)
+raw_weeks = f.copy()  # every player's line, before the usage filters below (record.py grades from it)
 OFF = ["QB", "RB", "WR", "TE"]
 DEF = ["DB", "LB", "DL"]
 f = f[(f.position.isin(OFF + ["K"]) | f.position_group.isin(DEF)) & f.season_type.isin(["REG", "POST"])].copy()
@@ -194,5 +195,45 @@ out["NFL"] = {"season": str(nfl_cur), "curStart": f"{nfl_cur}-08-01",
               "players": nfl, "upcoming": nfl_up}
 
 json.dump(out, open(OUT, "w"), separators=(",", ":"))
+
+# ---------------- box_recent.json: every NFL player's stat line from the last 3 weeks ----------------
+# The app's player list keeps only regulars, but a Top 10 pick or research call can be on a fringe player; when his
+# line comes down after kickoff he drops off that list and his bet could not be graded (it was voided after 3 days).
+# This keeps every stat line, plus a 0 line for anyone who took a snap without recording a stat (nflverse snap counts),
+# so those bets grade as the win or loss they were.
+try:
+    cut = (TODAY - dt.timedelta(days=21)).isoformat()
+    r = raw_weeks[raw_weeks.season_type.isin(["REG", "POST"])].merge(sch[["game_id", "gameday"]], on="game_id", how="left")
+    r = r[r.gameday >= cut].copy()
+    for c in ["completions", "attempts", "passing_yards", "passing_tds", "carries", "rushing_yards", "receptions",
+              "receiving_yards", "rushing_tds", "receiving_tds", "fg_made", "pat_made", "def_tackles_solo",
+              "def_tackle_assists", "def_sacks", "def_interceptions"]:
+        r[c] = pd.to_numeric(r.get(c, 0), errors="coerce").fillna(0)
+    box = {}
+    for x in r.itertuples():
+        box.setdefault(x.player_id, []).append([str(x.gameday), x.opponent_team, int(x.completions), int(x.attempts),
+            int(x.passing_yards), int(x.passing_tds), int(x.carries), int(x.rushing_yards), int(x.receptions),
+            int(x.receiving_yards), int(x.rushing_tds + x.receiving_tds), int(x.fg_made), int(x.pat_made),
+            int(x.def_tackles_solo + x.def_tackle_assists), float(x.def_sacks), int(x.def_interceptions)])
+    zeros = 0
+    sn = get_csv(f"{NFLV}/snap_counts/snap_counts_{nfl_cur}.csv", required=False)
+    if sn is not None and pl is not None:
+        pfr = dict(zip(pl.pfr_id, pl.gsis_id))
+        g = sch.set_index("game_id")
+        sn = sn[(sn.offense_snaps + sn.defense_snaps + sn.st_snaps) > 0]
+        for x in sn.itertuples():
+            gid = pfr.get(x.pfr_player_id)
+            if gid is None or x.game_id not in g.index or str(g.gameday[x.game_id]) < cut:
+                continue
+            day, opp = str(g.gameday[x.game_id]), x.opponent
+            if not any(row[0] == day for row in box.get(gid, [])):
+                box.setdefault(gid, []).append([day, opp] + [0] * 14)
+                zeros += 1
+    json.dump({"built": NOW.isoformat(timespec="minutes"),
+               "cols": ["date", "opp", "cmp", "att", "pyd", "ptd", "car", "ryd", "rec", "recyd", "td", "fgm", "pat", "tkl", "sck", "dint"],
+               "players": box}, open("box_recent.json", "w"), separators=(",", ":"))
+    print(f"box_recent.json: {len(box)} players ({zeros} snap-only zero lines)")
+except Exception as e:
+    print(f"box_recent.json skipped: {e}")
 print(f"NBA {len(nba)} players ({out['NBA']['season']}), {len(nba_up)} upcoming | "
       f"NFL {len(nfl)} players ({nfl_cur}), {len(nfl_up)} upcoming -> {OUT}")

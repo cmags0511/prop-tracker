@@ -243,11 +243,21 @@ def main():
         e["status"] = "win" if v >= e["k"] else "loss"
         e["graded"] = now.isoformat(timespec="minutes")
 
+    try:  # every NFL player's recent stat line, including fringe players the app's list leaves out (build_data.py)
+        BOX = json.load(open("box_recent.json"))
+    except Exception:
+        BOX = {"cols": [], "players": {}}
+
     def grade(e):
         p = players.get(e["lg"], {}).get(e["id"])
         day = start(e).astimezone(ET).date()
         g = None
-        if p:
+        if e["lg"] == "NFL":
+            for row in BOX["players"].get(e["id"], []):
+                if abs((dt.date.fromisoformat(row[0]) - day).days) <= 1 and row[1] == e["opp"]:
+                    g = dict(zip(BOX["cols"], row))
+                    break
+        if p and g is None:
             cols = data[e["lg"]]["cols"]
             for row in p["g"]:
                 gm = dict(zip(cols, row))

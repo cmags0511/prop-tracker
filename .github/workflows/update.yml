@@ -24,44 +24,62 @@ jobs:
       - run: pip install pandas pyarrow
       # lines first: build_data keeps every player who has a DraftKings line posted
       - name: DraftKings lines from ESPN
+        id: fetch_lines
         run: python fetch_lines.py lines.json
         continue-on-error: true
       - name: Build data
+        id: build_data
         run: python build_data.py props_data.json
       - name: College football (ESPN box scores)
+        id: build_cfb
         run: python build_cfb.py cfb_data.json
         continue-on-error: true
       - name: NFL usage (snaps, target and carry share, red zone) from nflverse play-by-play
+        id: build_usage
         run: python build_usage.py usage.json
         continue-on-error: true
       - name: Injury reports and kickoff weather
+        id: fetch_context
         run: python fetch_context.py context.json
         continue-on-error: true
       - name: Kalshi prediction-market prices
+        id: fetch_markets
         run: python fetch_markets.py markets.json
         continue-on-error: true
       - name: Learn from graded picks
+        id: tune
         run: python tune.py tuning.json
         continue-on-error: true
       - name: Rank top picks
+        id: picks
         run: python picks.py picks.json
         continue-on-error: true
       - name: Sportsbook prices for the top picks (The Odds API, only if a key is set)
+        id: fetch_odds
         run: python fetch_odds.py odds.json && python picks.py picks.json
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
       - name: Soccer props (DraftKings prices via ESPN, every league)
+        id: soccer_data
         run: python soccer_data.py
         continue-on-error: true
       - name: Lock and grade the app's Top 10
+        id: record
         run: python record.py record.json && python tune.py tuning.json
         continue-on-error: true
+      - name: Record which steps worked (the app shows a warning when a data step fails)
+        if: always()
+        run: |
+          cat > /tmp/steps.json <<'JSON'
+          ${{ toJSON(steps) }}
+          JSON
+          python -c "import json,datetime;s=json.load(open('/tmp/steps.json'));json.dump({'at':datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='minutes'),'steps':{k:v['outcome'] for k,v in s.items()}},open('health_update.json','w'))"
       - name: Commit if changed
         run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add props_data.json $(ls usage.json lines.json picks.json cfb_data.json cfb_games.json.gz record.json calib.json closing.json soccer.json soccer_hist.json.gz soccer_close.json slate.json context.json markets.json odds.json tuning.json 2>/dev/null)
+          git add props_data.json $(ls health_update.json box_recent.json usage.json lines.json picks.json cfb_data.json cfb_games.json.gz record.json calib.json closing.json soccer.json soccer_hist.json.gz soccer_close.json slate.json context.json markets.json odds.json tuning.json 2>/dev/null)
           git diff --cached --quiet || git commit -m "Update prop data $(date -u +'%Y-%m-%d %H:%M UTC')"
           git pull --rebase -X theirs origin main || true
           git push
