@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f1a2b">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,28 +27,33 @@
 <meta name="description" content="Free NBA and NFL player prop tracker: hit rates, alt lines, splits and upcoming games, updated automatically.">
 <title>Prop Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: dark scoreboard band (title + toolbar), three "movers" cards, then one full-width board whose rows open inline */
+/* Design: one sans (Inter) with tabular numbers, neutral surfaces, soft cards, color only where it means something
+   (green = over / win, red = under / loss, blue = actions). A light header, and a bottom tab bar on phones. */
 :root{
-  --bg:#eef1f6; --panel:#ffffff; --ink:#132033; --ink2:#46566e; --muted:#7a889e;
-  --line:#e1e6ee; --line2:#cfd7e3; --accent:#2563eb; --accent-soft:#e7eefd; --on-accent:#ffffff;
-  --band:#0f1a2b; --band-ink:#eef3fb; --band-muted:#8fa0ba; --band-line:#22314a; --band-field:#18253a;
-  --hit:#178a4f; --hit-soft:#dcf2e5; --hit-strong:#b6e5c9; --miss:#c23838; --miss-soft:#fbe3e3; --miss-strong:#f4c0c0; --push:#8a8f99; --warn:#9a5b00; --warn-soft:#fcefd8;
-  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
-  --f-body:"IBM Plex Sans",system-ui,sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#f4f5f7; --panel:#ffffff; --ink:#0e1116; --ink2:#4a5261; --muted:#8a92a0;
+  --line:#e9ebef; --line2:#d9dde4; --accent:#2f6bff; --accent-soft:#eaf0ff; --on-accent:#ffffff;
+  --band:#ffffff; --band-ink:#0e1116; --band-muted:#6b7381; --band-line:#e9ebef; --band-field:#f1f3f6;
+  --hit:#12a150; --hit-soft:#e3f6ea; --hit-strong:#bfe9d0; --miss:#e5484d; --miss-soft:#fdebec; --miss-strong:#f8c9cb; --push:#8a92a0; --warn:#b46a00; --warn-soft:#fdf1dc;
+  --shadow:0 1px 2px rgb(16 24 40 / .04),0 1px 3px rgb(16 24 40 / .06);
+  --radius:16px;
+  --f-display:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b111b; --panel:#131b28; --ink:#e7ecf4; --ink2:#a9b5c8; --muted:#76849a;
-  --line:#1f2a3c; --line2:#2b3a52; --accent:#6c9cf5; --accent-soft:#1a2842; --on-accent:#0b111b;
-  --band:#070c14; --band-ink:#eef3fb; --band-muted:#7f90a9; --band-line:#1c2940; --band-field:#111b2b;
-  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; --warn:#f0b45a; --warn-soft:#3a2a12; color-scheme:dark}}
+  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
+  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
+  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
+  --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0b111b; --panel:#131b28; --ink:#e7ecf4; --ink2:#a9b5c8; --muted:#76849a;
-  --line:#1f2a3c; --line2:#2b3a52; --accent:#6c9cf5; --accent-soft:#1a2842; --on-accent:#0b111b;
-  --band:#070c14; --band-ink:#eef3fb; --band-muted:#7f90a9; --band-line:#1c2940; --band-field:#111b2b;
-  --hit:#4cc285; --hit-soft:#14301f; --hit-strong:#1d4a31; --miss:#ee6e6e; --miss-soft:#36191d; --miss-strong:#552328; --push:#8a93a3; --warn:#f0b45a; --warn-soft:#3a2a12; color-scheme:dark}
+  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
+  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
+  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
+  --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 /* no double-tap zoom on controls; 16px fields so iOS doesn't zoom on focus */
@@ -637,6 +643,108 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 }
 .morepicks{align-self:center;border:1px solid var(--line2);background:var(--panel);color:var(--ink);font:600 13px var(--f-body);padding:8px 16px;border-radius:999px;cursor:pointer;display:none}
 @media (max-width:600px){.morepicks{display:inline-block}}
+
+/* ---- Design layer: sentence case, one font, soft cards. Later rules here win over the component rules above ---- */
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"cv11","ss01";letter-spacing:-.003em}
+.mono,.num,td.num,th.num,.v,.heat,.pill,.chip,.fx,.lbl{font-variant-numeric:tabular-nums}
+h1,h2,h3,h4,h5,th,.lbl,.k,.tabs button,.seg button,.dtabs button,.bet,.tp,.wkh,.tdh3,.news b,.bbtag,.aphead,.apstep,.arhead b,.mutop b,
+.sharecard h3,.mcard h2,.bhead h2,.dtop h3,.uphead h2,.day h3,.gteam h5,.angles dt,.tdpicks h3,.calib .cbhead,.gtop5 h4,.gbets h4,
+.gbets th,.tophead h2,.rlog .dayrow td,.rsplit h4,.strip .k,.slipbar .sl1,.arstats .k,.linebox .k,.tile .k,tr.subhd td{text-transform:none!important;letter-spacing:normal!important}
+/* header */
+.band{background:var(--band);border-bottom:1px solid var(--band-line)}
+.band .in{padding-block:14px 12px;gap:12px}
+h1{font:700 1.25rem/1.2 var(--f-display);letter-spacing:-.02em!important;display:flex;align-items:center;gap:8px}
+h1 .logo{width:24px;height:24px;flex:none}
+h1 .logo rect{fill:var(--accent)}
+h1 .logo path{stroke:#fff;stroke-width:2.6;stroke-linecap:round;fill:none}
+.tag{font-size:13px}
+.install{background:var(--band-field);border:0;color:var(--band-ink);font-weight:600;padding:7px 12px}
+.chip{font:500 11.5px var(--f-body);border:0;background:var(--band-field);color:var(--band-muted);padding:3px 9px}
+.chip b{font-weight:600}
+.seg{background:var(--band-field);border:0;border-radius:10px;padding:3px}
+.seg button{font:600 13.5px var(--f-body);color:var(--band-muted);padding:6px 16px;border-radius:8px}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--band-ink);box-shadow:0 1px 3px rgb(16 24 40 / .12)}
+.toolbar select,.toolbar input{background-color:var(--band-field);border:0;border-radius:10px;padding:9px 12px;font-size:14px}
+.props button{background:var(--band-field);border:0;color:var(--band-ink);font-weight:500;padding:7px 13px}
+.props button[aria-pressed="true"]{background:var(--band-ink);color:var(--band)}
+.toolbar label.chk{color:var(--band-muted)}
+/* tabs: icon + label; a frosted bar at the bottom on phones */
+.tabs{margin-bottom:-12px}
+.tabs button{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--f-body);color:var(--band-muted);border-bottom:2px solid transparent;padding:8px 12px 12px}
+.tabs button[aria-selected="true"]{color:var(--band-ink);border-bottom-color:var(--band-ink)}
+.tabs .ti{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.tabs .cnt{font:600 10.5px var(--f-body);background:var(--accent);color:var(--on-accent);border:0}
+@media (max-width:600px){
+  .band .tabs{background:color-mix(in srgb,var(--panel) 86%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
+  .band .tabs button{flex-direction:column;gap:3px;font:600 10.5px var(--f-body);padding:8px 2px 6px;border:0;color:var(--muted);position:relative}
+  .band .tabs button[aria-selected="true"]{color:var(--accent);border:0}
+  .band .tabs .ti{width:23px;height:23px}
+  .band .tabs .cnt:not([hidden]){display:inline-block!important}
+  .band .tabs .cnt{position:absolute;top:4px;left:calc(50% + 6px);margin:0;padding:0 5px;min-width:16px;font-size:10px;line-height:16px}
+  @media (max-width:430px){.band .tabs button{font-size:10.5px;letter-spacing:0}}
+  .band .in{padding-block:12px 10px;gap:10px}
+  h1{font-size:1.2rem}
+  main .in{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+}
+/* surfaces */
+main .in{gap:16px}
+.top,.board,.mcard,.learn,.bestbet,.apprec,.cfb5,section.board,.day,.game,.gcard{border-radius:var(--radius)}
+.top,.board,.mcard,.apprec{border:1px solid var(--line);box-shadow:var(--shadow)}
+.top{padding:18px 16px;gap:14px}
+.tophead h2,.bhead h2,.uphead h2{font:700 1.15rem/1.25 var(--f-display);letter-spacing:-.015em!important}
+.tophead h2 span,.bhead h2 span,.uphead h2 span{color:inherit}
+.topsub,.topnote{font-size:13px;color:var(--muted)}
+.mcard h2{font:600 13px var(--f-body);color:var(--ink)}
+th{font:600 11.5px var(--f-body);color:var(--muted)}
+/* pick cards: flat tiles inside their section instead of boxes in boxes */
+.picks{gap:10px}
+.pick{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel)}
+.pick:hover{border-color:var(--line2)}
+.pick .rank{font:700 13px var(--f-body);color:var(--muted)}
+.pk1 .who{font-size:15px;font-weight:650}
+.pk1 .who small,.pk1 .who small.pos,.who small.pos{font:500 12px var(--f-body);color:var(--muted)}
+.why{font-size:13.5px;line-height:1.5}
+.news{background:var(--bg);border-radius:10px;padding:8px 10px}
+.news b{font:700 10.5px var(--f-body);border-radius:6px}
+.pick.bb{border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);border-radius:var(--radius);padding:16px}
+.bbtag{font:700 11.5px var(--f-body)!important;border-radius:999px!important;padding:4px 10px!important}
+.pill{font:600 11.5px var(--f-body);border-radius:999px}
+.fx,.pkmeta span,.lbl{font:500 11.5px var(--f-body);border-radius:999px}
+.btn,.linkbtn,.trk{font-family:var(--f-body)}
+.btn{border-radius:10px}
+.trk{border-radius:999px}
+.strip .v,.arstats .v{font:700 1.35rem/1.2 var(--f-body);letter-spacing:-.02em!important}
+.strip .k,.arstats .k{font:500 12px var(--f-body);color:var(--muted)}
+.heat{font:600 12px var(--f-body);border-radius:8px}
+/* long write-ups show three lines; tap the text for the rest (markClipped adds .clipped when it overflows) */
+.pick .why,.bbwhy{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;position:relative}
+.pick .why.open,.bbwhy.open{-webkit-line-clamp:unset;display:block}
+.pick .why.clipped:not(.open)::after,.bbwhy.clipped:not(.open)::after{content:"More";position:absolute;right:0;bottom:0;padding-left:28px;
+  background:linear-gradient(90deg,transparent,var(--panel) 24px);color:var(--accent);font-weight:600}
+.pick .why.clipped,.bbwhy.clipped{cursor:pointer}
+/* Props sub-sections: only the chosen one shows (the sections keep their own hidden logic) */
+#view-board[data-sec="picks"] > [data-sec]:not(#subnav):not([data-sec="picks"]),
+#view-board[data-sec="td"] > [data-sec]:not(#subnav):not([data-sec="td"]),
+#view-board[data-sec="trends"] > [data-sec]:not(#subnav):not([data-sec="trends"]),
+#view-board[data-sec="all"] > [data-sec]:not(#subnav):not([data-sec="all"]){display:none!important}
+body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
+@media (max-width:600px){body:not(.sec-table) .toolbar{display:flex}body:not(.sec-table) .toolbar .seg{flex:1}}
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:0 16px}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{flex:none;border:0;background:var(--panel);color:var(--ink2);font:600 13.5px var(--f-body);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer}
+.subnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+/* compact header on phones */
+@media (max-width:600px){
+  .brand{gap:8px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{font-size:11.5px;padding:2px 8px}
+  .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .toolbar .seg{grid-column:1/-1;display:flex}.toolbar .seg button{flex:1;padding:5px 0}
+  .toolbar select,.toolbar input{padding:6px 10px;height:38px}
+  .toolbar label.chk{justify-content:flex-end}
+  .props button{padding:6px 12px;font-size:13.5px}
+}
 </style>
 </head>
 <body>
@@ -646,7 +754,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
   <div class="in">
     <div class="brand">
       <div class="titlerow">
-        <h1>Prop<span>/</span>Tracker</h1>
+        <h1><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7"/><path d="M7 16.5v-3M12 16.5v-6M17 16.5v-9"/></svg>Prop Tracker</h1>
         <div class="hbtns"><button class="install" id="shareBtn" type="button">&#x21aa;<span class="hide-sm"> Share app</span><span class="show-sm"> Share</span></button><button class="install" id="installBtn" hidden aria-label="Install app">&#x2b07;<span class="hide-sm"> Install app</span></button></div>
       </div>
       <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
@@ -665,10 +773,11 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
     </div>
     <div class="props" id="market" role="group" aria-label="Prop type"></div>
     <div class="tabs" role="tablist" aria-label="View">
-      <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><span class="hide-sm">Props </span>board</button>
-      <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up">Upcoming<span class="hide-sm"> games</span><span class="cnt" id="upcnt"></span></button>
-      <button role="tab" id="tab-soc" aria-selected="false" aria-controls="view-soc">Soccer</button>
-      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec">My picks<span class="cnt" id="mycnt" hidden></span><span id="livecnt" hidden></span></button>
+      <button role="tab" id="tab-board" aria-selected="true" aria-controls="view-board"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V10M10 19V5M16 19v-7M22 19H2"/></svg><span>Props</span></button>
+      <button role="tab" id="tab-up" aria-selected="false" aria-controls="view-up"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Games</span><span class="cnt" id="upcnt"></span></button>
+      <button role="tab" id="tab-soc" aria-selected="false" aria-controls="view-soc"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l4 2.9-1.5 4.7h-5L8 10.4z"/><path d="M12 3v4.5M16 10.4l4.3-1.4M14.5 15.1l2.7 3.7M9.5 15.1l-2.7 3.7M8 10.4L3.7 9"/></svg><span>Soccer</span></button>
+      <button role="tab" id="tab-rec" aria-selected="false" aria-controls="view-rec"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>My picks</span><span class="cnt" id="mycnt" hidden></span><span id="livecnt" hidden></span></button>
+      <button role="tab" id="tab-app" aria-selected="false" aria-controls="view-rec"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0z"/><path d="M17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"/></svg><span>Record</span></button>
     </div>
   </div>
 </div>
@@ -676,15 +785,18 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 <main>
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
-    <section class="cfb5" id="cfb5" hidden></section>
-    <section class="bestbet" id="bestbet" hidden></section>
-    <section class="top" id="top"></section>
-    <section class="top" id="tdlive" hidden></section>
-    <section class="top" id="tdtop" hidden></section>
-    <section class="top" id="tdvalue" hidden></section>
-    <section class="apprec" id="apprec" hidden></section>
-    <div class="movers" id="movers"></div>
-    <section class="board">
+    <div class="subnav" role="group" aria-label="Section" id="subnav">
+      <button data-sec="picks">Top picks</button><button data-sec="td">Touchdowns</button><button data-sec="trends">Trends</button><button data-sec="all">All props</button>
+    </div>
+    <section class="cfb5" id="cfb5" data-sec="picks" hidden></section>
+    <section class="bestbet" id="bestbet" data-sec="picks" hidden></section>
+    <section class="top" id="top" data-sec="picks"></section>
+    <section class="apprec" id="apprec" data-sec="picks" hidden></section>
+    <section class="top" id="tdlive" data-sec="td" hidden></section>
+    <section class="top" id="tdtop" data-sec="td" hidden></section>
+    <section class="top" id="tdvalue" data-sec="td" hidden></section>
+    <div class="movers" id="movers" data-sec="trends"></div>
+    <section class="board" data-sec="all">
       <div class="bhead">
         <h2 id="btitle">Props board</h2>
         <p><span class="lbl book" style="margin:0">DK</span> = DraftKings line &#xb7; <span class="lbl">est.</span> = his season median</p>
@@ -767,6 +879,14 @@ function dkLine(p,m){
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
 let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"over"};
 try{if(localStorage.getItem("ptWkOpen")==="0")S.wkOpen=false}catch(e){}
+// the Props tab shows one section at a time: Top picks, Touchdowns (NFL), Trends or All props (the full table)
+S.sec="picks";try{const sc=localStorage.getItem("ptSec");if(["picks","td","trends","all"].includes(sc))S.sec=sc}catch(e){}
+function applySec(){
+  if(S.sec==="td"&&S.league!=="NFL")S.sec="picks";
+  document.getElementById("view-board").dataset.sec=S.sec;
+  document.body.classList.toggle("sec-table",S.view==="board"&&S.sec==="all");  // category / team / search only filter the table
+  document.querySelectorAll("#subnav [data-sec]").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.sec===S.sec);if(b.dataset.sec==="td")b.hidden=S.league!=="NFL"});
+}
 try{const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
 const OVERS=()=>S.side==="over";
 const sideSwitch=()=>`<div class="seg2 sidesw" role="group" aria-label="Which picks"><button data-side="over" aria-pressed="${OVERS()}">Overs</button><button data-side="all" aria-pressed="${!OVERS()}">Overs + unders</button></div>`;
@@ -1055,11 +1175,13 @@ function render(){
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
-  ["board","up","soc","rec"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",S.view===v));
+  const tabOn=S.view==="rec"&&S.recType==="app"?"app":S.view;
+  ["board","up","soc","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
   const noBoard=S.view==="rec"||S.view==="soc";
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=noBoard;
   document.getElementById("srcnote").hidden=noBoard;
+  applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
@@ -1281,7 +1403,7 @@ function renderAppRecord(){
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const chips=used.length>1?`<div class="cats" style="margin:0">${[["all","All"],...used.map(l=>[l,l])].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l==="SOC"?"Soccer":l}</button>`).join("")}</div>`:"";
-  let html=`<section class="top"><div class="tophead"><h2>App <span>Top 10</span>${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${recTypeSwitch()}${chips}`;
+  let html=`<section class="top"><div class="tophead"><h2>Record${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${chips}`;
   if(!P.length){el.innerHTML=html+`<p class="topnote">No picks recorded yet. The Top 10 is locked in as each game kicks off.</p></section>`;return}
   html+=`<div class="strip">
     <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
@@ -1316,7 +1438,7 @@ function renderAppRecord(){
 }
 function recTypeSwitch(){
   const openP=PARLAYS.length,st=MY.length;
-  return`<div class="seg2" role="group" aria-label="Bet type"><button data-rtype="straight" aria-pressed="${S.recType!=="parlay"&&S.recType!=="app"}">Straight bets${st?`<small>${st}</small>`:""}</button><button data-rtype="parlay" aria-pressed="${S.recType==="parlay"}">Parlays${openP?`<small>${openP}</small>`:""}</button><button data-rtype="app" aria-pressed="${S.recType==="app"}">App Top 10</button></div>`;
+  return`<div class="seg2" role="group" aria-label="Bet type"><button data-rtype="straight" aria-pressed="${S.recType!=="parlay"&&S.recType!=="app"}">Straight bets${st?`<small>${st}</small>`:""}</button><button data-rtype="parlay" aria-pressed="${S.recType==="parlay"}">Parlays${openP?`<small>${openP}</small>`:""}</button></div>`;
 }
 // ---- Weekly report card: Tuesday to Monday (an NFL week), app vs you, and what the app changed ----
 function weekStart(t){const d=new Date(etDay(t)+"T12:00:00Z");const back=(d.getUTCDay()+5)%7;d.setUTCDate(d.getUTCDate()-back);return d.toISOString().slice(0,10)}
@@ -2199,6 +2321,7 @@ function rerenderInPlace(){
   const card2=document.querySelector("#detail .dcard");if(card2)card2.scrollTop=inner;
 }
 function open(id,jump){
+  S.sec="all";  // a player's detail opens in the props table
   FROZEN=null;S.sel=S.sel===id?null:id;render();
   const row=document.querySelector(`#board tr[data-id="${CSS.escape(id)}"]`);
   if(row){row.focus({preventScroll:true});row.scrollIntoView({block:jump?"start":"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
@@ -2603,7 +2726,9 @@ function wire(){
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
   document.getElementById("team").onchange=e=>{S.team=e.target.value;reset();setupControls();render()};
-  document.getElementById("search").oninput=e=>{S.q=e.target.value;shown=PAGE;FROZEN=null;render()};
+  document.getElementById("search").oninput=e=>{S.q=e.target.value;if(S.q)S.sec="all";shown=PAGE;FROZEN=null;render()};
+  document.getElementById("subnav").addEventListener("click",e=>{const b=e.target.closest("[data-sec]");if(!b||b.dataset.sec===S.sec)return;
+    S.sec=b.dataset.sec;try{localStorage.setItem("ptSec",S.sec)}catch(_){}render();window.scrollTo({top:0})});
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
   document.getElementById("moreBtn").onclick=()=>{shown+=PAGE;render()};
   document.querySelector("#boardT thead").onclick=e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;FROZEN=null;S.dir=S.sort===k?-S.dir:(k==="name"?1:-1);S.sort=k;render()};
@@ -2611,13 +2736,18 @@ function wire(){
   b.addEventListener("click",e=>{const tr=e.target.closest("tr.row");if(tr)open(tr.dataset.id)});
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
-  const setView=v=>{if(v===S.view){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[S.view]=window.scrollY;S.view=v;setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
+  // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view;
+  const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
+    if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
+    setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
   document.getElementById("cfb5").addEventListener("click",e=>{const b=e.target.closest("[data-cfb5]");if(!b)return;
     S.game=b.dataset.cfb5;S.gmk="";setView("up");openInGame(b.dataset.key,true)});
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-soc").onclick=()=>setView("soc");
+  document.getElementById("tab-app").onclick=()=>setView("app");
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
@@ -2638,6 +2768,11 @@ function wire(){
 }
 
 const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+// long write-ups are clamped to three lines (CSS); mark the ones that overflow, and let a tap on one expand it
+function markClipped(){document.querySelectorAll(".pick .why:not(.open),.bbwhy:not(.open)").forEach(el=>el.classList.toggle("clipped",el.scrollHeight>el.clientHeight+2))}
+{let raf=0;new MutationObserver(()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(markClipped)}).observe(document.querySelector("main"),{childList:true,subtree:true})}
+document.addEventListener("click",e=>{const w=e.target.closest(".pick .why.clipped,.pick .why.open,.bbwhy.clipped,.bbwhy.open");if(!w)return;
+  e.stopPropagation();e.preventDefault();w.classList.toggle("open");w.classList.toggle("clipped",!w.classList.contains("open"))},true);
 const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json"),usageLoad=jget("usage.json"),closeLoad=jget("closing.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
