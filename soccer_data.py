@@ -395,7 +395,7 @@ def main():
         opened = {}
     try:  # the daily research's soccer check (injuries, suspensions, rotation), when it's fresh
         nf = json.load(open("notes.json"))
-        fresh = now - dt.datetime.fromisoformat(nf["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+        fresh = now - dt.datetime.fromisoformat(nf["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=72)
         snotes = {k: v for k, v in (nf.get("notes") or {}).items() if k.startswith("SOC|")} if fresh else {}
     except Exception:
         snotes = {}

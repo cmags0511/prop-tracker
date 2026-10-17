@@ -389,6 +389,7 @@ span.live{font:600 11px var(--f-body);color:var(--muted);border:1px dashed var(-
 .gtop5 h4 span{font:500 11px var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted)}
 .gtop5 ol{list-style:none;margin:0;padding:0}
 .gtop5 li+li{border-top:1px solid var(--line)}
+.cfb5{margin-bottom:0}.cfb5 .gtop5{background:var(--panel)}
 .g5{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--panel);border:0;padding:10px 12px;cursor:pointer;color:var(--ink);font:inherit}
 .g5:hover{background:var(--accent-soft)}
 .g5n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 12px/22px var(--f-body);text-align:center}
@@ -674,6 +675,7 @@ body.hasslip .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 <main>
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
+    <section class="cfb5" id="cfb5" hidden></section>
     <section class="bestbet" id="bestbet" hidden></section>
     <section class="top" id="top"></section>
     <section class="top" id="tdlive" hidden></section>
@@ -962,12 +964,41 @@ function renderTdValue(){
       return`<tr><td><b>${esc(c.name)}</b> <small class="pteam">${c.pos} \u00b7 ${when(c)}</small></td><td class="num mono">${Math.round(c.prob*100)}%</td><td class="num mono">${fair(c.prob)}</td><td class="num">${box(c)}${pr?`<small class="${ok&&c.ev>-.03?"":"bad"} tdv">${pr.price<100?"not plus money":c.ev>-.03?"about fair":"below fair"}</small>`:""}</td></tr>`}).join("")}</tbody></table></div>`:""}
     <p class="topnote" style="margin:0">Expected profit is an average over many bets, not a promise: most plus-money TD bets lose more often than they win. It's only as good as the app's chance, which the Probability check grades over time.</p>`;
 }
+// college: the five best props across every game and prop type. Real lines first (the research finds them for the
+// big games before each game day), then the strongest leans for games without a line yet
+function renderCfbTop(){
+  const el=document.getElementById("cfb5");if(!el)return;
+  if(S.league!=="CFB"||!DATA||!DATA.CFBmeta||S.team){el.hidden=true;el.innerHTML="";return}
+  const now=Date.now(),soon=now+40*3600e3,ups=(DATA.CFBmeta.upcoming||[]).filter(x=>x.t.getTime()>now-15*60e3&&x.t.getTime()<soon);
+  const gameOf=c=>ups.find(x=>(x.away===c.team||x.home===c.team)&&Math.abs(x.t.getTime()-new Date(c.t).getTime())<12*3600e3);
+  const pool=new Map();
+  for(const c of [...(PICKS&&PICKS.picks||[]),...(PICKS&&PICKS.games||[]),...Object.entries(PICKS&&PICKS.byMarket||{}).filter(([k])=>k.startsWith("CFB|")).flatMap(([,v])=>v)])
+    if(c.lg==="CFB"&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote("CFB",c.id)&&gameOf(c))pool.set(c.key,c);
+  const out=[],seen=new Set(),perM={};
+  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){
+    if(seen.has(c.id)||(perM[c.market]||0)>=2)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;
+    out.push({app:true,x:gameOf(c),key:c.id+"|"+c.market,name:c.name,side:c.side,line:c.line,mk:SHORT[c.market]||c.label,why:(c.why||"").split(/(?<=\.)\s/)[0],prob:c.prob});
+    if(out.length===5)break;
+  }
+  if(out.length<5){
+    const leans=[];
+    for(const x of ups){let bets=gameBets(x);if(bets.some(r=>!r.m.fixed&&r.dk))continue;bets=gameBets(x,true);
+      for(const c of estTop5(x,bets))leans.push(Object.assign(c,{x}))}
+    leans.sort((a,b)=>b.s-a.s);
+    for(const c of leans){if(out.length>=5)break;if(seen.has(c.r.p.id)||(perM[c.r.m.id]||0)>=2)continue;seen.add(c.r.p.id);perM[c.r.m.id]=(perM[c.r.m.id]||0)+1;
+      out.push({app:false,x:c.x,key:c.r.key,name:c.r.p.name,side:c.side,line:c.line,mk:SHORT[c.r.m.id]||c.r.m.label,why:c.why})}
+  }
+  if(!out.length){el.hidden=true;el.innerHTML="";return}
+  const nApp=out.filter(c=>c.app).length,day=d=>d.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
+  el.hidden=false;
+  el.innerHTML=`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span>${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+}
 function renderTop(){
-  renderTdTop();renderTdValue();renderLiveTD();ltdStart();
+  renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
   const now=Date.now(),m=mkt();
-  const notesOk=NOTES&&NOTES.notes&&(now-new Date(NOTES.updated||0).getTime())<36*3600e3;
+  const notesOk=NOTES&&NOTES.notes&&(now-new Date(NOTES.updated||0).getTime())<72*3600e3;
   const noteFor=k=>notesOk?NOTES.notes[k]:null;
   const live=c=>new Date(c.t).getTime()>now-2*3600e3&&!outNote(c.lg,c.id)&&(!OVERS()||c.side==="over")&&(!S.team||c.team===S.team);
   const PL=OVERS()&&PICKS.picksOver?PICKS.picksOver:PICKS.picks,BM=OVERS()&&PICKS.byMarketOver?PICKS.byMarketOver:PICKS.byMarket;
@@ -1492,7 +1523,7 @@ function injOf(lg,p){
 }
 function outNote(lg,pid){
   const i=injOf(lg,pid);if(i&&OUT_ST.has(i.s))return`${i.s}${i.inj?" ("+i.inj.toLowerCase()+")":""} on the injury report${i.c?". "+i.c:""}`;
-  if(!NOTES||!NOTES.notes||Date.now()-new Date(NOTES.updated||0).getTime()>36*3600e3)return null;
+  if(!NOTES||!NOTES.notes||Date.now()-new Date(NOTES.updated||0).getTime()>72*3600e3)return null;
   for(const[k,v]of Object.entries(NOTES.notes))if(v.flag==="out"&&k.startsWith(lg+"|"+pid+"|"))return v.note||"Ruled out";
   return null;
 }
@@ -1533,7 +1564,7 @@ function marketHtml(lg,p,m,line,g){
     <div class="ladder">${near.map(([s,pr])=>`<span${Math.abs(s-line)<.01?' class="on"':""}><b>${fmt(Math.floor(s)+1)}+</b> ${Math.round(pr*100)}%</span>`).join("")}</div></div>`;
 }
 // the research check's write-up for this player's prop (notes.json)
-const notesFresh=()=>NOTES&&NOTES.notes&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3;
+const notesFresh=()=>NOTES&&NOTES.notes&&Date.now()-new Date(NOTES.updated||0).getTime()<72*3600e3;
 const hostOf=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return""}};
 const ANGLES=[["availability","Availability"],["role","Role & usage"],["matchup","Matchup"],["script","Game script"],["conditions","Conditions"],["market","Market"],["experts","Experts"]];
 // how to read a research note (same rules as picks.py research_dir): side = what the evidence favors, adj = how
@@ -1988,7 +2019,7 @@ function estTop5(x,bets){
     if(c.mu&&Math.abs(c.mu.diff)>=.08)bits.push(`${c.opp} allows ${Math.round(Math.abs(c.mu.diff)*100)}% ${c.mu.diff>0?"more":"fewer"} ${u.toLowerCase()} than average to ${GROUPNAME[c.mu.grp]||"players"}`);
     if(Math.abs(c.a3-c.sAvg)/Math.max(c.sAvg,1)>=.1)bits.push(`last 3: ${c.l3.join(", ")} (season avg ${c.sAvg.toFixed(1)})`);
     if(c.imp!=null&&base&&Math.abs(c.imp-base)>=4)bits.push(`${c.r.p.team} projected for about ${Math.round(c.imp)} points`);
-    out.push({r:c.r,side:over?"over":"under",line:c.r.line,why:(bits.join("; ")||"Leans this way on matchup and recent form")+".",est:true});
+    out.push({r:c.r,side:over?"over":"under",line:c.r.line,why:(bits.join("; ")||"Leans this way on matchup and recent form")+".",est:true,s:Math.abs(c.lean)});
     if(out.length===5)break;
   }
   return out;
@@ -2001,7 +2032,7 @@ function gameBody(x){
   const mks=MK[lg].filter(m=>bets.some(r=>r.m.id===m.id));
   if(S.gmk&&!mks.some(m=>m.id===S.gmk))S.gmk="";
   const shownB=S.gmk?bets.filter(r=>r.m.id===S.gmk):bets;
-  const notesOk=NOTES&&NOTES.notes&&(Date.now()-new Date(NOTES.updated||0).getTime())<36*3600e3;
+  const notesOk=NOTES&&NOTES.notes&&(Date.now()-new Date(NOTES.updated||0).getTime())<72*3600e3;
   const pickKeys=new Map([...(PICKS&&PICKS.picks||[]),...Object.values(PICKS&&PICKS.byMarket||{}).flat(),...(PICKS&&PICKS.games||[]),...(PICKS&&PICKS.picksOver||[]),...(PICKS&&PICKS.gamesOver||[])].filter(c=>!OVERS()||c.side==="over").map(c=>[c.key,c]));
   let html=`<div class="gbody">${gameResearchHtml(x)}`;
   if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
@@ -2573,6 +2604,8 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   const setView=v=>{if(v===S.view){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[S.view]=window.scrollY;S.view=v;setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
+  document.getElementById("cfb5").addEventListener("click",e=>{const b=e.target.closest("[data-cfb5]");if(!b)return;
+    S.game=b.dataset.cfb5;S.gmk="";setView("up");openInGame(b.dataset.key,true)});
   document.getElementById("tab-board").onclick=()=>setView("board");
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
@@ -2604,7 +2637,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   // current team from ESPN's depth charts (trades and signings since his last game)
   try{if(CTX&&CTX.depth)for(const lg of ["NFL","NBA"])if(DATA[lg]&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3)for(const p of DATA[lg]){const d=(CTX.depth[lg]||{})[String(p.espn||p.id)];if(d&&d.t&&d.t!==p.team)p.team=d.t}}catch(e){}
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)
-  try{if(NOTES&&NOTES.cfb_lines&&Date.now()-new Date(NOTES.updated||0).getTime()<36*3600e3){LINES=LINES||{};LINES.CFB=LINES.CFB||{};
+  try{if(NOTES&&NOTES.cfb_lines&&Date.now()-new Date(NOTES.updated||0).getTime()<96*3600e3){LINES=LINES||{};LINES.CFB=LINES.CFB||{};
     for(const[k,v]of Object.entries(NOTES.cfb_lines)){const[,pid,mid]=k.split("|");if(new Date(v.t).getTime()<Date.now()-3*3600e3)continue;const e=(LINES.CFB[pid]=LINES.CFB[pid]||{});if(!e[mid])e[mid]={line:v.line,open:null,d:v.t,book:v.book}}}}catch(e){}
   const nflCur=DATA.NFL.flatMap(p=>p.games.filter(x=>x.date>=DATA.NFLmeta.curStart&&!x.po).map(x=>x.week));
   const nflTxt=nflCur.length?`${DATA.NFLmeta.season} thru Wk ${Math.max(...nflCur)}`:DATA.NFLmeta.season;

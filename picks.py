@@ -309,7 +309,7 @@ def main():
     data = json.load(open("props_data.json"))
     try:
         notes = json.load(open("notes.json"))
-        fresh = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+        fresh = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=72)
         best_note = (notes.get("best") or {}) if fresh else {}
         cfb_lines = (notes.get("cfb_lines") or {}) if fresh else {}
         notes = notes.get("notes", {}) if fresh else {}

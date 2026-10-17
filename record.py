@@ -43,7 +43,7 @@ def main():
     # players the news check ruled out (only trust notes from the last 36 hours)
     out_players = set()
     try:
-        if notes.get("updated") and now - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36):
+        if notes.get("updated") and now - dt.datetime.fromisoformat(notes["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=72):
             out_players = {"|".join(k.split("|")[:2]) for k, v in notes.get("notes", {}).items() if v.get("flag") == "out"}
     except Exception:
         pass
@@ -131,7 +131,7 @@ def main():
     research = {(e["key"], e["t"]): e for e in rec.get("research", [])}
     try:
         nfile = json.load(open("notes.json"))
-        fresh = now - dt.datetime.fromisoformat(nfile["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=36)
+        fresh = now - dt.datetime.fromisoformat(nfile["updated"].replace("Z", "+00:00")) < dt.timedelta(hours=72)
     except Exception:
         nfile, fresh = {}, False
     if fresh:
