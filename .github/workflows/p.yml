@@ -1,0 +1,12 @@
+name: probe-soc2
+on: {push: {branches: [probe-soc2]}}
+permissions: {contents: write}
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p out && python probe_soc.py 2>&1 | tee out/log.txt
+      - run: |
+          git config user.name probe; git config user.email probe@users.noreply.github.com
+          git checkout -b probe-out-$GITHUB_RUN_ID; git add out; git commit -qm out; git push -q origin probe-out-$GITHUB_RUN_ID
