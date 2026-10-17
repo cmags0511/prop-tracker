@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-17
+- **rmolnar10**: Walters-style NFL game lines (PR): `walters.py` → `walters.json`, new hourly step `walters`
+  in `lines.yml`, hidden page `view-walt` behind the "poopy?" link at the bottom of the Record tab. Data:
+  nflverse schedule (games.csv), ESPN scoreboard (DK spread + prices, finals), context.json injuries. Backtest
+  440-349 (55.8%) since 2012 vs closing lines at a 4+ point edge.
 - **rmolnar10**: Redesign merged (PR #3): Inter type, neutral light/dark palette, bottom tabs Props · Games ·
   My picks · Record (Record = the app's graded Top 10, moved out of My picks), Soccer in the sport switch,
   Props split into Top picks / Touchdowns / Trends / All props. Light/dark switch in the header (PR #4,

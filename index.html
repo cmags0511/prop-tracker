@@ -754,6 +754,17 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .learn .books th:first-child,.learn .books td:first-child{width:38%;white-space:normal;line-height:1.3}
 .learn .books td,.learn .books th{padding-inline:4px}
 .learn .books small{display:block;font-size:11px}
+/* the Record tab's hidden link and the Walters page */
+.poopy{align-self:center;border:0;background:none;color:var(--muted);font:500 12px var(--f-body);opacity:.7;padding:6px 10px;cursor:pointer}
+.poopy:hover{opacity:1;color:var(--accent)}
+.wgames{display:flex;flex-direction:column;gap:8px}
+.wg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.wg.on{border-color:var(--accent);background:var(--accent-soft)}
+.wg1{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.wg2{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13.5px;color:var(--ink2)}.wg2 b{color:var(--ink)}
+.wg3{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;margin-top:2px}
+.wpk{color:var(--accent);font-weight:700;white-space:nowrap}
+.wnotes{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--ink2);font-size:13.5px}
 /* compact header on phones */
 @media (max-width:600px){
   .brand{gap:8px}
@@ -842,6 +853,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
   </div>
 </main>
@@ -1198,16 +1210,18 @@ function render(){
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;
+  const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt";
   document.getElementById("market").hidden=noBoard;
-  document.querySelector(".toolbar").hidden=S.view==="rec";  // soccer keeps the sport switch
+  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
+  if(S.view==="walt"){renderWalters();return}
   const rows=boardRows(), m=mkt();
   renderBest();
   renderTop();
@@ -1510,6 +1524,56 @@ function renderAppRecord(){
     Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   if(SOCR)html+=`<p class="note">This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the DraftKings price shown then; void when he doesn't play. Not betting advice.</p>`;
   else html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.</p>`;
+  html+=`<button class="poopy" data-goto="walt">poopy?</button>`;  // the Walters-style NFL page
+  el.innerHTML=html;
+}
+// ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
+// DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
+let WAL=null,walLoading=false;
+function renderWalters(){
+  const el=document.getElementById("view-walt");
+  if(!WAL){if(!walLoading){walLoading=true;jget("walters.json").then(d=>{WAL=d||{games:[]};walLoading=false;if(S.view==="walt")renderWalters()})}
+    el.innerHTML=`<section class="top"><p class="topnote">Loading…</p></section>`;return}
+  const G=WAL.games||[],bt=WAL.backtest||{},P=WAL.params||{};
+  const ln=v=>v==null?"–":v===0?"PK":(v>0?"+":"")+fmt(v);
+  const sideLine=(e,side)=>side==="home"?e.line:-e.line;
+  const priceOf=e=>e.pick==="home"?e.price_h:e.price_a;
+  const pickTxt=e=>e.pick?`${e.pick==="home"?e.home:e.away} ${ln(sideLine(e,e.pick))}`:"";
+  const graded=G.filter(e=>e.pick&&["win","loss","push"].includes(e.status));
+  const w=graded.filter(e=>e.status==="win").length,l=graded.filter(e=>e.status==="loss").length,pu=graded.filter(e=>e.status==="push").length;
+  const units=graded.reduce((x,e)=>x+(e.units_won||0),0);
+  const tierRate=e=>{const t=(bt.tiers||{})[e.edge>=(P.edge2||5)?"5+":"4-5"];return t&&t[0]+t[1]?t[0]/(t[0]+t[1]):null};
+  const now=Date.now(),up=G.filter(e=>new Date(e.t)>now-4*3600e3&&e.status==="pending").sort((a,b)=>(b.pick?1:0)-(a.pick?1:0)||new Date(a.t)-new Date(b.t));
+  const bw=(bt.all||[0,0])[0],bl=(bt.all||[0,0])[1];
+  let html=`<section class="top"><div class="tophead"><h2>Walters-style NFL lines</h2><button class="linkbtn" data-goto="app">‹ Record</button></div>
+    <p class="topsub">A fair point spread for every NFL game, built the way Billy Walters describes in <i>Gambler</i>: slow-moving power ratings, a QB value, home field, and the line priced against the key numbers. A pick needs the model ${fmt(P.edge||4)}+ points off DraftKings. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>
+    <div class="strip">
+      <div><div class="k">This season</div><div class="v">${w}-${l}${pu?`-${pu}`:""}</div><div class="s">${graded.length?`${pct(w/Math.max(1,w+l))} · picks since this page started`:"first picks lock in this week"}</div></div>
+      <div><div class="k">Units</div><div class="v" style="color:${!graded.length?"var(--ink)":units>=0?"var(--hit)":"var(--miss)"}">${graded.length?unitsTxt(units):"–"}</div><div class="s">at DraftKings' price</div></div>
+      <div><div class="k">Backtest</div><div class="v">${pct(bw/Math.max(1,bw+bl))}</div><div class="s">${bw}-${bl} since ${bt.from||2012}, vs closing lines</div></div>
+      <div><div class="k">Backtest units</div><div class="v" style="color:${(bt.all||[])[2]>=0?"var(--hit)":"var(--miss)"}">${bt.all?unitsTxt(bt.all[2]):"–"}</div><div class="s">at -110, 1u at 4-5 pts, 2u at 5+</div></div>
+    </div></section>`;
+  // this week: picks first, then every other game with the model's number
+  html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">DK = DraftKings' spread for the home team; fair = the model's</p><div class="wgames">${
+    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg${e.pick?" on":""}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
+      <div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Fair <b class="mono">${e.home} ${ln(e.fair)}</b></span>${e.edge!=null?`<span class="pteam">${fmt(e.edge)} pts off</span>`:""}</div>
+      ${(e.qb_note||[]).length?`<div class="pteam">${esc(e.qb_note.join(" · "))}</div>`:""}
+      ${e.pick?`<div class="wg3"><span class="wpk">${esc(pickTxt(e))}</span><span class="pteam">${e.units}u${priceOf(e)!=null?` at ${amFmt(priceOf(e))}`:""}${tierRate(e)!=null?` · this edge won ${pct(tierRate(e))} in the backtest`:""}</span></div>`:""}</div>`}).join("")
+    :`<p class="topnote">No NFL games on the board yet.</p>`}</div></section>`;
+  // graded picks
+  if(graded.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
+    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${[...graded].reverse().map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(pickTxt(e))} <small class="pteam">${e.units}u${priceOf(e)!=null?` at ${amFmt(priceOf(e))}`:""}</small></div><div class="pteam">${e.away} @ ${e.home} · ${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} · ${(e.score||[]).join("–")}</div></td><td class="num mono" style="color:${(e.units_won||0)>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(e.units_won||0)}</td><td class="num">${badge[e.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}
+  // backtest by season and the current ratings
+  const yrs=Object.entries(bt.seasons||{});
+  html+=`<section class="top"><div class="rsplit"><div><h4>Backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>`<tr><td>${y}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono">${pct(v[0]/Math.max(1,v[0]+v[1]))}</td><td class="num mono" style="color:${v[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v[2])}</td></tr>`).join("")}</tbody></table></div>
+      <p class="pteam" style="margin:6px 0 0">${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't picks.</p></div>
+    <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
+      <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div></div></section>`;
+  html+=`<section class="top"><h4 style="margin:0">How it works</h4><ul class="wnotes">
+    <li><b>From Walters:</b> ratings that move slowly (each game nudges a team's rating, it doesn't reset it), a QB worth several points, a small home-field edge (he says it's fallen under a point lately), key numbers 3 and 7, and sizing bets by edge.</li>
+    <li><b>Ours, because his numbers aren't public:</b> the market-based part of the rating, a QB swing of ${fmt(P.qb||4)} points (his "about a touchdown" tested worse because the market already moves for most of it), ${fmt(P.hfa||1.5)} points of home field, and the 4-point threshold. All chosen by backtest on every regular-season game since 2012.</li>
+    <li><b>QB changes:</b> nflverse's projected starters, plus ESPN's injury report for each team's next game (a starter listed Out or Doubtful counts as a backup starting).</li>
+    <li>Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}. Results at -110 in the backtest; live picks at DraftKings' price.</li></ul></section>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -2814,7 +2878,7 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
-  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;  // "walt" is its own view
   const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
     if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
     setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
@@ -2824,6 +2888,8 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
+  document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
+    const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
   const saveRf=()=>{try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}renderRecord()};
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
