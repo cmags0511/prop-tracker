@@ -742,6 +742,18 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .subnav::-webkit-scrollbar{display:none}
 .subnav button{flex:none;border:0;background:var(--panel);color:var(--ink2);font:600 13.5px var(--f-body);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer}
 .subnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+/* record filters: a scrolling row of pill-shaped selects */
+.rfbar{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
+.rfbar::-webkit-scrollbar{display:none}
+.rf{flex:none;position:relative}.rf .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.rf select{border:1px solid var(--line2);background-color:var(--panel);color:var(--ink);font:500 13px var(--f-body);border-radius:999px;padding:6px 30px 6px 12px;max-width:220px}
+.rf.on select{background-color:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rfclear{flex:none;border:0;background:none;color:var(--accent);font:600 13px var(--f-body);padding:6px 8px;cursor:pointer}
+@media (max-width:600px){.rf select{font-size:16px!important;padding:4px 26px 4px 12px;max-width:160px}}
+.learn .books{width:100%;table-layout:fixed}
+.learn .books th:first-child,.learn .books td:first-child{width:38%;white-space:normal;line-height:1.3}
+.learn .books td,.learn .books th{padding-inline:4px}
+.learn .books small{display:block;font-size:11px}
 /* compact header on phones */
 @media (max-width:600px){
   .brand{gap:8px}
@@ -1405,19 +1417,59 @@ function calibHtml(){
     ${tn>=5?`<p class="pteam" style="margin:6px 0 0">Top 10 picks only: predicted ${pct(sum(top,3)/tn)}, hit ${pct(sum(top,4)/tn)} (${tn} graded).</p>`:""}
     <p class="pteam" style="margin:6px 0 0">Covers every prop on the slate, graded on the side the app leans. A bar reaching its tick means that band is well calibrated.</p></div>`;
 }
+// ---- Record filters and splits: slice the record by price, the app's chance, edge, side, prop and date ----
+// a pick's sportsbook price (American) and the chance it implies; soccer always has DraftKings' price
+const recPrice=e=>e.price!=null?e.price:null;
+const recImp=e=>{const a=recPrice(e);return a==null?null:a>0?100/(a+100):-a/(-a+100)};
+const ODDS_B=[["fav","Favorites (minus odds)",a=>a<0],["dog","Underdogs (plus odds)",a=>a>0],["m150","\u2212150 or shorter",a=>a<=-150],
+  ["m101","\u2212149 to \u2212100",a=>a>-150&&a<=-100],["p100","+100 to +199",a=>a>=100&&a<200],["p200","+200 to +499",a=>a>=200&&a<500],["p500","+500 or longer",a=>a>=500]];
+const PROB_B=[["lt30","Under 30%",p=>p<.3],["30","30\u201350%",p=>p>=.3&&p<.5],["50","50\u201360%",p=>p>=.5&&p<.6],["60","60% or more",p=>p>=.6]];
+const RF_KEYS=["odds","prob","edge","side","prop","days"];
+S.rf={};try{S.rf=JSON.parse(localStorage.getItem("ptRecF")||"{}")||{}}catch(e){S.rf={}}
+function rfPass(e){
+  const f=S.rf||{},a=recPrice(e),p=e.prob;
+  if(f.odds){const b=ODDS_B.find(x=>x[0]===f.odds);if(!b||a==null||!b[2](a))return false}
+  if(f.prob){const b=PROB_B.find(x=>x[0]===f.prob);if(!b||p==null||!b[2](p))return false}
+  if(f.edge){const i=recImp(e);if(i==null||p==null||(f.edge==="pos")!==(p>i))return false}
+  if(f.side&&e.lg!=="SOC"&&e.side!==f.side)return false;
+  if(f.prop&&(e.lg==="SOC"?e.label:SHORT[e.market]||e.label)!==f.prop)return false;
+  if(f.days&&Date.now()-new Date(e.t)>f.days*864e5)return false;
+  return true;
+}
+function recFilterBar(list,soc){
+  const f=S.rf||{},sel=(k,label,opts)=>`<label class="rf${f[k]?" on":""}"><span class="sr">${label}</span><select data-rf="${k}" aria-label="${label}"><option value="">${label}</option>${opts.map(([v,t])=>`<option value="${v}"${String(f[k]||"")===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
+  const props=[...new Set(list.map(e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label))].sort();
+  const n=RF_KEYS.filter(k=>f[k]).length;
+  return`<div class="rfbar">${sel("odds","Odds",ODDS_B.map(b=>[b[0],b[1]]))}${sel("prob","App's chance",PROB_B.map(b=>[b[0],b[1]]))}${sel("edge","Value",[["pos","App saw value"],["neg","No value"]])}${soc?"":sel("side","Side",[["over","Overs"],["under","Unders"]])}${sel("prop","Prop",props.map(p=>[p,p]))}${sel("days","Dates",[[7,"Last 7 days"],[30,"Last 30 days"]])}${n?`<button class="rfclear" data-rfclear="1">Clear ${n}</button>`:""}</div>`;
+}
+// W-L, hit rate (vs the price's break-even) and units for each odds range and each band of the app's chance
+function splitsHtml(done){
+  const priced=done.filter(e=>recPrice(e)!=null);if(priced.length<3)return"";
+  const row=(lab,a)=>{if(!a.length)return"";const t=appTally(a),be=a.reduce((x,e)=>x+(recImp(e)||0),0)/a.length;
+    return`<tr><td>${lab}</td><td class="num mono">${t.w}-${t.l}${t.p?`-${t.p}`:""}</td><td class="num mono">${pct(t.pct)} <small class="pteam">vs ${pct(be)}</small></td><td class="num mono" style="color:${t.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</td></tr>`};
+  const tbl=(title,rows)=>rows.join("")?`<div><h4>${title}</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit · needed</th><th class="num">Units</th></tr></thead><tbody>${rows.join("")}</tbody></table></div></div>`:"";
+  const ranges=ODDS_B.slice(2).map(b=>row(b[1],priced.filter(e=>b[2](recPrice(e)))));
+  const side=[row("Favorites",priced.filter(e=>recPrice(e)<0)),row("Underdogs",priced.filter(e=>recPrice(e)>0))];
+  const probs=PROB_B.map(b=>row(b[1],priced.filter(e=>e.prob!=null&&b[2](e.prob))));
+  const edge=[row("App saw value",priced.filter(e=>e.prob!=null&&e.prob>recImp(e))),row("No value",priced.filter(e=>e.prob!=null&&e.prob<=recImp(e)))];
+  return`<div class="learn"><h4>Splits</h4><p class="pteam" style="margin:0 0 8px">Graded picks with a price. "Needed" is the hit rate those prices needed to break even. "App saw value" means the app's chance was higher than the price implied.</p><div class="rsplit">${tbl("Favorites vs underdogs",side)}${tbl("By odds",ranges)}${tbl("By the app's chance",probs)}${tbl("By edge",edge)}</div></div>`;
+}
 function renderAppRecord(){
   const el=document.getElementById("view-rec");
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
   const all=SOCR?((RECORD&&RECORD.soccer)||[]):((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
-  const P=SOCR?all:all.filter(e=>lgf==="all"||e.lg===lgf);
+  const P0=SOCR?all:all.filter(e=>lgf==="all"||e.lg===lgf);
+  const P=P0.filter(rfPass);  // the record filters (odds, probability, edge, side, prop, dates)
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const chips=`<div class="cats" style="margin:0">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`;
   let html=SOCR?`<section class="top"><div class="tophead"><h2>Record <small class="h2sub">Soccer</small></h2></div><p class="topsub">Every pick on the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff and graded at DraftKings' price</p>${chips}`
     :`<section class="top"><div class="tophead"><h2>Record${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${chips}`;
+  if(P0.length)html+=recFilterBar(P0,SOCR);
+  if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
   if(!P.length){el.innerHTML=html+`<p class="topnote">${SOCR?"No soccer picks recorded yet. The Soccer Top 10s lock in as each match kicks off."
     :lgf==="all"?"No picks recorded yet. The Top 10 is locked in as each game kicks off."
     :`No ${lgf} picks recorded yet. The ${lgf} Top 10 locks in as each game ${lgf==="NBA"?"tips":"kicks"} off.`}</p></section>`;return}
@@ -1429,6 +1481,7 @@ function renderAppRecord(){
       return`<div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null||pr==null?"var(--ink)":T.pct>=pr?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">${pr==null?"":`predicted ${pct(pr)}`}</div></div>`})()}
     <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${SOCR?" at DraftKings' price":P.some(e=>e.price)?" at real prices":" at -110"}</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
+  html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
   else{
   // what the app has learned from graded results (tune.py)
@@ -2771,6 +2824,10 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
+  const saveRf=()=>{try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}renderRecord()};
+  document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
+    S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
+  document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf()}});
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
