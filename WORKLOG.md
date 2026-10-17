@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-17
+- **cmags0511**: Slimmer daily research to stay under the usage limit (RESEARCH.md budget; research_packets.py
+  defaults: 3 batches, 60h window, college only within 36h, fact-check 6 calls) + a 10:34 AM backup research run
+  that only works when the 7:34 run didn't publish.
 - **cmags0511**: A photo (added at the owner's request) at the bottom of every page (`footer.jpg`, `.sitefoot` after `#srcnote` in index.html).
 - **rmolnar10**: Walters page: totals (wind unders, 12-19 mph outdoors, backtest 287-212) and non-QB injuries
   listed per game from nflverse snap counts (shown, not weighted: they didn't beat closing lines). PR.

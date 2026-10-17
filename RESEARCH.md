@@ -8,10 +8,12 @@ The owner prefers **overs**; the app shows overs by default. Spend most of the e
 honest: if the research says under, say under.
 
 **Budget.** Research runs once a day in full (7:34 AM ET) plus quick news checks, on the owner's Claude usage, and an earlier version that researched every
-prop in every game used it all up. Stay inside these limits: at most 4 NFL/NBA researchers plus 1
-college researcher and 1 fact-checker, about 4 searches per game for the game-level picture plus 1-2 per target prop
-(the college researcher gets about 25),
-and open only the articles that matter. Quality over volume: a few specific, sourced findings beat
+prop in every game used it all up. Runs have been stopping on the usage limit, so stay well inside these limits: at most 3 NFL/NBA
+researchers (research_packets.py makes at most 3 batches), 1 college researcher only when college games
+start within 36 hours (Friday and Saturday mornings), 1 soccer researcher (about 10 searches) and 1
+fact-checker (the 6 calls that matter most); about 3 searches per game for the game-level picture plus 1 per
+target prop (the college researcher gets about 15), and open only the articles that matter. Games more than
+60 hours away wait for a later run. Quality over volume: a few specific, sourced findings beat
 seven vague angles.
 
 ## Steps
@@ -35,7 +37,7 @@ seven vague angles.
    If the Agent tool isn't available, do the batches yourself, soonest games first.
 5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
-6. **Fact-check the strongest calls.** Collect the 10 calls that will matter most: every note with
+6. **Fact-check the strongest calls.** Collect the 6 calls that will matter most: every note with
    adj +2 or conf high, the `best_candidate`s and the anytime-TD notes. Start ONE fact-checker (Agent
    tool) with that list (key, player, side, note, sources). For each call it identifies the one or two
    facts the call rests on (he's starting, he practiced fully, the defender is out, his snap share) and

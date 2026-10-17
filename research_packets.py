@@ -17,8 +17,9 @@ import json, os, sys, shutil, datetime as dt
 
 ARGS = dict(zip(sys.argv[1::2], sys.argv[2::2]))
 FULL_H = float(ARGS.get("--hours", 60))
-QUICK_H = float(ARGS.get("--quick-hours", 96))
-N_BATCH = int(ARGS.get("--batches", 4))
+QUICK_H = float(ARGS.get("--quick-hours", 60))  # was 96: games 3-4 days out wait for a later run (usage limit)
+N_BATCH = int(ARGS.get("--batches", 3))          # was 4
+CFB_H = float(ARGS.get("--cfb-hours", 36))       # the college researcher only runs the day before / day of
 MAX_TARGETS = {"NFL": 36, "NBA": 24}
 OUT_ST = {"Out", "Doubtful", "Injured Reserve", "Suspension"}
 FIELDS = ("key", "name", "team", "pos", "depth", "label", "line", "avg10", "l10_over", "n10", "matchup", "gap", "lean",
@@ -106,7 +107,7 @@ def td_candidates(lg, teams, kickoff, data, mkts, picks=None):
 def cfb_packet(cfb, now):
     """this week's college games and each team's main players (by this season's volume)"""
     cols = cfb.get("cols", [])
-    ups = [u for u in cfb.get("upcoming", []) if 0 < (dt.datetime.fromisoformat(u[0]) - now).total_seconds() / 3600 <= FULL_H]
+    ups = [u for u in cfb.get("upcoming", []) if 0 < (dt.datetime.fromisoformat(u[0]) - now).total_seconds() / 3600 <= CFB_H]
     if not ups or not cols:
         return None
     teams = {t for u in ups for t in (u[1], u[2])}
@@ -230,7 +231,7 @@ def main():
     cp = cfb_packet(cfb, now) if cfb else None
     if cp:
         json.dump(cp, open("research/packets/CFB-week.json", "w"), indent=1)
-        print(f"CFB-week: {len(cp['games'])} college games in the next {FULL_H:.0f} hours")
+        print(f"CFB-week: {len(cp['games'])} college games in the next {CFB_H:.0f} hours")
     sp = soccer_packet(load("soccer.json"), now)
     if sp:
         json.dump(sp, open("research/packets/SOCCER-day.json", "w"), indent=1)
