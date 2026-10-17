@@ -1202,7 +1202,13 @@ function renderDetail(r){
 }
 
 // ---- The app's own Top 10 record (locked at kickoff, graded on the server) ----
-function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}}
+// the record counts from the day real prices started (record.py priced_from), so units are never a mix of real
+// prices and assumed -110; soccer always had DraftKings prices and keeps its full history
+function priced(R){if(!R||!R.priced_from)return R;const f=new Date(R.priced_from),keep=e=>new Date(e.t)>f;
+  ["picks","best","research","td"].forEach(k=>{if(R[k])R[k]=R[k].filter(keep)});return Object.assign(R,{started:etDay(f)})}
+// units won on a 1u bet at the price saved with the pick (American odds); -110 when no price was quoted
+const payout=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
+function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+payout(e),0)-l}}
 const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
 const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",market:"Market",research:"Research",usage:"Usage"};
@@ -1280,7 +1286,7 @@ function renderAppRecord(){
   html+=`<div class="strip">
     <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
     <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
-    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${MY.some(e=>e.price)?"":" at -110"}</div></div>
+    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${done.some(e=>e.price)?"":" at -110"}</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
@@ -1304,8 +1310,8 @@ function renderAppRecord(){
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}`}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
-  html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units assume 1 unit per pick at -110. Not betting advice.</p>`;
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+  html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.</p>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -1361,8 +1367,7 @@ function renderRecord(){
   const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
   const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
-    const pay=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
-    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+pay(e),0)-l}};
+    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+payout(e),0)-l}};
   const T=tally(done);
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
@@ -2636,7 +2641,7 @@ const jget=f=>fetch(f,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>
 const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json"),usageLoad=jget("usage.json"),closeLoad=jget("closing.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=await recLoad;CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;USAGE=await usageLoad;CLOSE=await closeLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=priced(await recLoad);CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;USAGE=await usageLoad;CLOSE=await closeLoad;
   // current team from ESPN's depth charts (trades and signings since his last game)
   try{if(CTX&&CTX.depth)for(const lg of ["NFL","NBA"])if(DATA[lg]&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3)for(const p of DATA[lg]){const d=(CTX.depth[lg]||{})[String(p.espn||p.id)];if(d&&d.t&&d.t!==p.team)p.team=d.t}}catch(e){}
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)

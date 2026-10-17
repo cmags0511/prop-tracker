@@ -50,6 +50,10 @@ jobs:
         id: tune
         run: python tune.py tuning.json
         continue-on-error: true
+      - name: Sportsbook prices for player props (Pinnacle's public odds, no key needed)
+        id: fetch_prices
+        run: python fetch_prices.py odds.json
+        continue-on-error: true
       - name: Rank top picks
         id: picks
         run: python picks.py picks.json

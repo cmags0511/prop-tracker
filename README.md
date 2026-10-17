@@ -47,7 +47,12 @@ the soccer Top 10s. `soccer_close.json` holds the last price before kickoff (clo
 ## Records and tracking
 
 `record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box
-score; `calib.json` grades every slate prop for the Probability check; `closing.json` keeps kickoff lines. My picks and
+score; `calib.json` grades every slate prop for the Probability check; `closing.json` keeps kickoff lines. Units use the sportsbook price saved with each pick: `fetch_prices.py` reads
+Pinnacle's public odds (no key) for every NFL, NBA and college prop it lists, and FanDuel's for what Pinnacle doesn't
+price (rush + rec yards, kicking points from FanDuel's team ladders) or prices at a different line. Prices are always
+for DraftKings' line: when a book's line differs, usually by a yard or two on yardage props, its price is moved to
+DraftKings' line and marked ≈. The record
+counts from `priced_from`, the first run with real prices, so units never mix real prices with an assumed -110. My picks and
 parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.
 
 ## Usage signals (build_usage.py)

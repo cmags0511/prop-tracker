@@ -454,9 +454,10 @@ def main():
                     continue
                 od = ODDS.get(f"{lg}|{p['id']}|{mid}")
                 if od and od.get("line") is not None:
-                    # a sportsbook quote straight from the book beats ESPN's copy: use its line and prices
+                    # a sportsbook quote straight from the book beats ESPN's copy: use its line and prices (est_over / est_under:
+                    # a price fetch_prices.py worked out for this line rather than one the book quoted at it)
                     dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
-                              books=od.get("books"), book=od.get("book"))
+                              books=od.get("books"), book=od.get("book"), est_over=od.get("est_over"), est_under=od.get("est_under"))
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
@@ -682,6 +683,7 @@ def main():
                     "gap": round(gap, 2),
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
                     "researched": bool(exact), "price": price, "price_other": dk.get("price_under") if over else dk.get("price_over"),
+                    "price_est": bool(price is not None and dk.get("est_over" if over else "est_under")),
                     "books": dk.get("books"), "break_even": round(be, 3) if be else None, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
                     "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,

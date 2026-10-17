@@ -53,6 +53,22 @@ def main():
 
     entries = {(e["key"], e["t"]): e for e in rec["picks"]}
 
+    # the sportsbook price (American odds) for each side at its line, when one was quoted, so units are graded
+    # at the price the app showed instead of assuming -110
+    prices = {}
+    for c in [c for lk in ("picks", "picksOver") for c in picks.get(lk, [])] + \
+             [c for bk in ("byMarket", "byMarketOver") for v in picks.get(bk, {}).values() for c in v]:
+        if c.get("price") is not None:
+            prices[(c["key"], c["side"], c["line"])] = (c["price"], bool(c.get("price_est")))
+
+    def price_for(key, side, line, old):
+        """the current price for this side at this line (price_est: Pinnacle's price moved to this line, see
+        fetch_prices.py); if the quote dropped out but the line hasn't moved, keep the last one"""
+        p, est = prices.get((key, side, line), (None, False))
+        if p is None and old.get("side") == side and old.get("line") == line:
+            p, est = old.get("price"), bool(old.get("price_est"))
+        return {"price": p, "price_est": est}
+
     # 1. current pre-game Top 10 per league ("Best overall": best play per player across all props),
     #    once over every side and once overs only (the app's default view); each entry notes which lists it was in
     out_ids = set()
@@ -104,7 +120,8 @@ def main():
             entries[k] = {
                 "key": c["key"], "lg": lg, "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                 "home": c["home"], "t": c["t"], "market": c["market"], "label": c["label"], "side": c["side"],
-                "line": c["line"], "score": c["score"], "l10": c["l10"], "sets": sets, "status": "pending", "result": None,
+                "line": c["line"], **price_for(c["key"], c["side"], c["line"], old),
+                "score": c["score"], "l10": c["l10"], "sets": sets, "status": "pending", "result": None,
                 "factors": c.get("factors"), "prob": c.get("prob"),  # why it was picked, so tune.py can learn
                 "line0": first, "t0": old.get("t0") if first == old.get("line0") and old.get("t0") else now.isoformat(timespec="minutes"),
             }
@@ -120,10 +137,12 @@ def main():
         for k, e in list(best.items()):
             if e["status"] == "pending" and start(e) > now:
                 del best[k]
+        old = best.get((b["key"], b["t"])) or {}
         best[(b["key"], b["t"])] = {
             "key": b["key"], "lg": b["lg"], "id": b["id"], "name": b["name"], "team": b["team"], "opp": b["opp"],
             "home": b["home"], "t": b["t"], "market": b["market"], "label": b["label"], "side": b["side"],
-            "line": b["line"], "score": b["score"], "why": b.get("why_research", ""), "status": "pending", "result": None,
+            "line": b["line"], **price_for(b["key"], b["side"], b["line"], old),
+            "score": b["score"], "why": b.get("why_research", ""), "status": "pending", "result": None,
         }
 
     # 1c. the research's own calls: every researched prop with a side, as it stood before kickoff, so the
@@ -154,12 +173,14 @@ def main():
             t = dt.datetime.fromisoformat(p["t"])
             if t <= now:
                 continue
+            old = {}
             for kk, e in list(research.items()):  # replace an earlier pending call on the same prop and game
                 if e["key"] == k and e["t"] == p["t"] and e["status"] == "pending":
-                    del research[kk]
+                    old = research.pop(kk)
             lg, pid, mid = k.split("|")
             research[(k, p["t"])] = {"key": k, "lg": lg, "id": pid, "name": p["name"], "team": p["team"], "opp": p["opp"],
                                      "t": p["t"], "market": mid, "label": p["label"], "side": firm[k][0], "line": p["line"],
+                                     **price_for(k, firm[k][0], p["line"], old),
                                      "adj": firm[k][1], "conf": n.get("conf", "medium"), "flag": n.get("flag"),
                                      "lean": p.get("lean"), "status": "pending", "result": None,
                                      "factors": next((c.get("factors") for c in picks.get("picks", []) + picks.get("picksOver", [])
@@ -201,7 +222,7 @@ def main():
         lists = sorted(set(old.get("lists", [])) | {c.get("list", "likely")}) if old else [c.get("list", "likely")]
         tds[k] = {"key": c["key"], "lg": "NFL", "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                   "home": c["home"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
-                  "prob": c["prob"], "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
+                  "prob": c["prob"], "price": c.get("price") if c.get("price") is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
                   "status": "pending", "result": None}
 
     # 1f. soccer: the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff with
@@ -370,6 +391,10 @@ def main():
     rec["soccer"] = sorted(soc.values(), key=lambda e: (e["t"], -e["ev"]))
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
+    # the day real sportsbook prices started (fetch_prices.py): the app counts its record from here, so units are
+    # never a mix of real prices and assumed -110; earlier picks stay in the file for tune.py to learn from
+    if "priced_from" not in rec and any(e.get("price") is not None for e in rec["picks"] if e["status"] == "pending"):
+        rec["priced_from"] = now.isoformat(timespec="minutes")  # games kicking off after this
     json.dump(rec, open(OUT, "w"), separators=(",", ":"))
     c = {}
     for e in rec["picks"]:
