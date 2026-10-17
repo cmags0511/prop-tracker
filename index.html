@@ -1202,7 +1202,9 @@ function renderDetail(r){
 }
 
 // ---- The app's own Top 10 record (locked at kickoff, graded on the server) ----
-function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:w*(100/110)-l}}
+// units won on a 1u bet at the price saved with the pick (American odds); -110 when no price was quoted
+const payout=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
+function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+payout(e),0)-l}}
 const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
 const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",market:"Market",research:"Research",usage:"Usage"};
@@ -1280,7 +1282,7 @@ function renderAppRecord(){
   html+=`<div class="strip">
     <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
     <div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>
-    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${MY.some(e=>e.price)?"":" at -110"}</div></div>
+    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${done.some(e=>e.price)?"":" at -110"}</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
@@ -1304,8 +1306,8 @@ function renderAppRecord(){
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}`}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
-  html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units assume 1 unit per pick at -110. Not betting advice.</p>`;
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
+  html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the sportsbook price saved with it when the game kicked off, or -110 when no price was quoted. Not betting advice.</p>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -1361,8 +1363,7 @@ function renderRecord(){
   const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
   const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
-    const pay=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
-    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+pay(e),0)-l}};
+    return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+payout(e),0)-l}};
   const T=tally(done);
   const u=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
   const wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
