@@ -597,7 +597,11 @@ def main():
                 if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
                     score *= .85
                 slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "p_over": round(prob, 3),
-                              "x": round(raw_lin, 3), "f": fraw, "name": p["n"], "team": p["t"], "pos": p.get("p"),
+                              "x": round(raw_lin, 3), "f": fraw,
+                              # the sportsbook's prices at this line (fetch_prices.py), kept with the graded props so the
+                              # market-anchored ranking (PR #2) can be tested on real results
+                              **({"po": dk.get("price_over"), "pu": dk.get("price_under"), "pb": dk.get("book"),
+                                  "pe": bool(dk.get("est_over") or dk.get("est_under"))} if dk.get("price_over") or dk.get("price_under") else {}), "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
                               "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
