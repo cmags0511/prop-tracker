@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-17
+- **rmolnar10** — **IN PROGRESS** (branch `redesign`, touches `index.html`, `sw.js`): app redesign (Inter type,
+  neutral palette, five-tab bottom nav with a new Record tab, Props split into Top picks / Touchdowns / Trends /
+  All props), then a Record tab overhaul that tracks Top 10 and soccer bets. Please hold off on `index.html`
+  changes until it's merged, or note them here so we can fold them in.
 - **cmags0511**: slate.json and calib.json now keep each prop's sportsbook prices (`po`/`pu` over/under, `pb` book,
   `pe` estimated) so PR #2 can be judged on real results. PR #2 stays open until ~Oct 27 (two more NFL weekends).
 - **cmags0511**: Navigation redesign mockup tried and dropped; the app keeps its current layout. Nothing in
