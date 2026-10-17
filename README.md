@@ -65,3 +65,14 @@ are used, at half their backtested weight. Team pace, pass rate over expected, o
 backup QB starting, and rest / short weeks did not improve them and carry no weight. NBA: team pace helped
 slightly and is used; back-to-backs, blowout risk and usage-rate trends did not. tune.py re-weights the usage
 factor from real graded results like every other factor.
+
+## Walters-style NFL lines (hidden page)
+
+`walters.py` (hourly, `lines.yml` → `walters.json`) makes a fair point spread for every NFL game in the structure
+Billy Walters describes in *Gambler* (2023): slow-moving power ratings, a QB value, home field, and lines priced
+against the key numbers. His actual numbers aren't public, so the parts are fit by a walk-forward backtest on
+every regular-season game since 2012 (nflverse results and closing spreads): ratings are 80% market-implied
+(solved from recent closing spreads) and 20% results (his 90/10 update), a QB change is worth 4 points, home field
+1.5. A pick needs the model 4+ points off DraftKings' spread (1 unit at 4-5, 2 at 5+); smaller gaps were a coin
+flip. Backtest: 440-349 (55.8%), +90.4u at -110. Picks lock at kickoff and are graded at the DraftKings price
+ESPN shows. The page is reached from the "poopy?" link at the bottom of the Record tab.
