@@ -3,6 +3,15 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-18
+- **cmags0511**: "Since your last visit" box at the top of Props (Top 10 changes, your picks' injury news and line
+  moves, new research; `wcSnap`/`wcDiff`/`renderWhatChanged` in index.html, kept in localStorage `ptSeen`).
+  DraftKings line history: new `line_hist.py` → `line_hist.json` (step `line_hist` after fetch_lines in both
+  workflows), a "Line moves" tab on each prop and a "DK ▼4 since open" chip on Top picks. College Top 5 box is now a
+  Top 10 for the next college game day, filled with labeled leans (`renderCfbTop`). index.html edits are all new
+  functions plus small hooks in renderDetail tabs, the Top pick chips, the view-board click handler and boot, so they
+  shouldn't collide with the Record tab work. sw.js pt-v68.
+
 ## 2026-10-17
 - **cmags0511**: Slimmer daily research to stay under the usage limit (RESEARCH.md budget; research_packets.py
   defaults: 3 batches, 60h window, college only within 36h, fact-check 6 calls) + a 10:34 AM backup research run

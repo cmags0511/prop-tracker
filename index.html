@@ -779,6 +779,19 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
   .toolbar label.chk{justify-content:flex-end}
   .props button{padding:6px 12px;font-size:13.5px}
 }
+
+/* since your last visit */
+.wchg{border:1px solid var(--accent);background:var(--panel);border-radius:10px;padding:10px 12px}
+.wchead{display:flex;align-items:baseline;gap:8px}.wchead b{font-size:14px}.wcx{margin-left:auto;border:0;background:none;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;padding:0 4px}
+.wchg ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.wchg li{font-size:13px;line-height:1.4;padding-left:10px;border-left:3px solid var(--line)}
+.wchg li.bad{border-left-color:var(--miss)}.wchg li.good{border-left-color:var(--hit)}
+.wcgo{border:0;background:none;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-align:left}
+.wcrow{color:var(--ink);width:100%}.wcrow:hover{color:var(--accent)}
+/* line history */
+.lhsvg{width:100%;height:auto;max-height:150px;display:block;margin:4px 0 8px}
+.lhpath{fill:none;stroke:var(--accent);stroke-width:2}.lhdot{fill:var(--accent)}
+.lhline{stroke:var(--muted);stroke-dasharray:4 3;stroke-width:1}.lhlbl{font:600 10px var(--f-mono,monospace);fill:var(--ink)}
 </style>
 </head>
 <body>
@@ -819,6 +832,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 <main>
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
+    <section class="wchg" id="wchg" hidden aria-live="polite"></section>
     <div class="subnav" role="group" aria-label="Section" id="subnav">
       <button data-sec="picks">Top picks</button><button data-sec="td">Touchdowns</button><button data-sec="trends">Trends</button><button data-sec="all">All props</button>
     </div>
@@ -1128,29 +1142,34 @@ function renderTdValue(){
 function renderCfbTop(){
   const el=document.getElementById("cfb5");if(!el)return;
   if(S.league!=="CFB"||!DATA||!DATA.CFBmeta||S.team){el.hidden=true;el.innerHTML="";return}
-  const now=Date.now(),soon=now+40*3600e3,ups=(DATA.CFBmeta.upcoming||[]).filter(x=>x.t.getTime()>now-15*60e3&&x.t.getTime()<soon);
+  // the next college game day (Tuesday through Saturday nights count as one slate)
+  const now=Date.now(),all=(DATA.CFBmeta.upcoming||[]).filter(x=>x.t.getTime()>now-15*60e3).sort((a,b)=>a.t-b.t);
+  const soon=all.length?Math.max(now+40*3600e3,all[0].t.getTime()+2.5*864e5):now,ups=all.filter(x=>x.t.getTime()<soon);
+  const memoKey=[OVERS(),ups.length,Math.floor(now/120e3),PICKS&&PICKS.built].join("|");
+  if(renderCfbTop.memo&&renderCfbTop.memo.k===memoKey&&renderCfbTop.memo.d===DATA){el.hidden=renderCfbTop.memo.hidden;el.innerHTML=renderCfbTop.memo.html;return}
   const gameOf=c=>ups.find(x=>(x.away===c.team||x.home===c.team)&&Math.abs(x.t.getTime()-new Date(c.t).getTime())<12*3600e3);
   const pool=new Map();
   for(const c of [...(PICKS&&PICKS.picks||[]),...(PICKS&&PICKS.games||[]),...Object.entries(PICKS&&PICKS.byMarket||{}).filter(([k])=>k.startsWith("CFB|")).flatMap(([,v])=>v)])
     if(c.lg==="CFB"&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote("CFB",c.id)&&gameOf(c))pool.set(c.key,c);
   const out=[],seen=new Set(),perM={};
   for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){
-    if(seen.has(c.id)||(perM[c.market]||0)>=2)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;
+    if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;
     out.push({app:true,x:gameOf(c),key:c.id+"|"+c.market,name:c.name,side:c.side,line:c.line,mk:SHORT[c.market]||c.label,why:(c.why||"").split(/(?<=\.)\s/)[0],prob:c.prob});
-    if(out.length===5)break;
+    if(out.length===10)break;
   }
-  if(out.length<5){
-    const leans=[];
+  // fill the rest with leans against each player's typical game (games with no real lines), at most 2 per game
+  if(out.length<10){
+    const leans=[],perG={};
     for(const x of ups){let bets=gameBets(x);if(bets.some(r=>!r.m.fixed&&r.dk))continue;bets=gameBets(x,true);
       for(const c of estTop5(x,bets))leans.push(Object.assign(c,{x}))}
     leans.sort((a,b)=>b.s-a.s);
-    for(const c of leans){if(out.length>=5)break;if(seen.has(c.r.p.id)||(perM[c.r.m.id]||0)>=2)continue;seen.add(c.r.p.id);perM[c.r.m.id]=(perM[c.r.m.id]||0)+1;
+    for(const c of leans){if(out.length>=10)break;const gk=gameId(c.x);if(seen.has(c.r.p.id)||(perM[c.r.m.id]||0)>=3||(perG[gk]||0)>=2)continue;seen.add(c.r.p.id);perM[c.r.m.id]=(perM[c.r.m.id]||0)+1;perG[gk]=(perG[gk]||0)+1;
       out.push({app:false,x:c.x,key:c.r.key,name:c.r.p.name,side:c.side,line:c.line,mk:SHORT[c.r.m.id]||c.r.m.label,why:c.why})}
   }
-  if(!out.length){el.hidden=true;el.innerHTML="";return}
+  const keep=(hidden,html)=>{renderCfbTop.memo={k:memoKey,d:DATA,hidden,html};el.hidden=hidden;el.innerHTML=html};
+  if(!out.length){keep(true,"");return}
   const nApp=out.filter(c=>c.app).length,day=d=>d.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
-  el.hidden=false;
-  el.innerHTML=`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span>${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+  keep(false,`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span>${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol>${nApp<out.length?`<p class="pteam" style="margin:6px 0 0">A <b>lean</b> has no sportsbook line in the feed yet: the line shown is his typical game this season, and the lean comes from the matchup, his last 3 games and the expected score. Check your book's number before using one.</p>`:""}</section>`);
 }
 function renderTop(){
   renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
@@ -1190,10 +1209,105 @@ function renderTop(){
       <div class="pk1"><span class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${lcls}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${lineMoveChip(c)}${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
 }
+
+// ---- DraftKings line history (line_hist.json, saved every hour) ----
+let LH=null;
+function lhOf(lg,p,m,dk){
+  const e=LH&&LH.props&&LH.props[`${lg}|${p.espn||p.id}|${m.id}`];
+  if(!e||!e.h||!e.h.length)return null;
+  if(dk&&dk.d&&e.d&&Math.abs(new Date(e.d)-new Date(dk.d))>12*3600e3)return null;  // a different game
+  return e;
+}
+function lineMovesHtml(e,m,line){
+  const h=e.h.map(([t,v])=>({t:t?new Date(t):null,v})),cur=h[h.length-1].v,op=e.o!=null?e.o:h[0].v,d=cur-op;
+  const u=(SHORT[m.id]||m.label).toLowerCase(),tf=t=>t?t.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"}):"Opening";
+  const sum=h.length<2&&d===0?`DraftKings opened this at <b>${fmt(op)}</b> and it hasn't moved since we started saving it.`
+    :`Opened at <b>${fmt(op)}</b>, now <b>${fmt(cur)}</b> (${d>0?"▲ up":d<0?"▼ down":"back to even,"} ${d?fmt(Math.abs(d)):""}). ${d>0?"A rising line usually means bettors (or news) pushed the over: the over is a harder number to clear now, the under an easier one.":d<0?"A falling line usually means bettors (or news) pushed the under: the over is an easier number to clear now, the under a harder one.":"It moved and came back."}`;
+  // step chart, evenly spaced points (the opening line has no time), the dashed line is the line you're looking at
+  const W=320,H=110,pad=18,vs=[...h.map(x=>x.v),line],lo=Math.min(...vs),hi=Math.max(...vs),span=Math.max(hi-lo,m.step?2:1);
+  const y=v=>H-pad-(v-(lo-(span*.15)))/(span*1.3)*(H-2*pad),n=h.length,x=i=>pad+(n<2?W/2-pad:i*(W-2*pad)/(n-1));
+  let path=`M${x(0)},${y(h[0].v)}`;for(let i=1;i<n;i++)path+=` H${x(i)} V${y(h[i].v)}`;if(n<2)path+=` H${W-pad}`;
+  const svg=`<svg class="lhsvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="DraftKings line from ${fmt(op)} to ${fmt(cur)}">
+    <line x1="${pad}" x2="${W-pad}" y1="${y(line)}" y2="${y(line)}" class="lhline"/>
+    <path d="${path}" class="lhpath"/>${h.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.v)}" r="3.5" class="lhdot"/><text x="${x(i)}" y="${Math.max(10,y(p.v)-8)}" text-anchor="${n>1&&i===n-1?"end":n>1&&i===0?"start":"middle"}" class="lhlbl">${fmt(p.v)}</text>`).join("")}</svg>`;
+  const rows=h.map((p,i)=>{const dv=i?p.v-h[i-1].v:null;return`<tr><td>${i===1&&!h[0].t?"By "+tf(p.t):tf(p.t)}</td><td class="num mono">${fmt(p.v)}</td><td class="num mono">${dv==null?"–":(dv>0?"▲ ":"▼ ")+fmt(Math.abs(dv))}</td></tr>`}).reverse().join("");
+  return`<p class="ptitle"><span>DraftKings ${esc(u)} line since it opened</span></p><p class="pteam" style="margin:0 0 6px">${sum}</p>${svg}
+    <div class="log"><table class="books"><thead><tr><th>When</th><th class="num">Line</th><th class="num">Move</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">Saved every hour from ESPN's DraftKings feed, so a quick move and move back between checks won't show.</p>`;
+}
+function lineMoveChip(c){
+  const p=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id);if(!p)return"";
+  const d=LINES&&LINES[c.lg]&&LINES[c.lg][p.espn]&&LINES[c.lg][p.espn][c.market];if(!d||d.open==null||d.line==null||d.open===d.line)return"";
+  if(d.d&&Math.abs(new Date(d.d)-new Date(c.t))>12*3600e3)return"";
+  const up=d.line>d.open,with_=(c.side==="over")===up;  // the line moving toward the pick's side: the market leans the same way
+  return`<span class="fx nt" title="DraftKings opened this at ${fmt(d.open)} and it's now ${fmt(d.line)}. ${with_?`The market has moved toward the ${c.side} too (bettors or news), so the number is harder than at the open.`:`The market has moved away from the ${c.side} (bettors or news), so the number is easier than at the open, but check why it moved.`} Tap the pick and open Line moves for the history.">DK ${up?"\u25b2":"\u25bc"}${fmt(Math.abs(d.line-d.open))} since open</span>`;
+}
+
+// ---- "Since your last visit": what changed in the Top 10s, your picks and the research ----
+const SEEN_GAP=20*60e3;  // opening the app again within 20 minutes counts as the same visit
+function wcLine(lg,pid,mid){const p=DATA[lg]&&DATA[lg].find(x=>x.id===pid);const d=p&&LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][mid];return d&&d.line!=null?d.line:null}
+function wcTop(lg){
+  if(!PICKS||!DATA||!DATA[lg])return[];
+  const now=Date.now(),PL=OVERS()&&PICKS.picksOver?PICKS.picksOver:PICKS.picks,BM=OVERS()&&PICKS.byMarketOver?PICKS.byMarketOver:PICKS.byMarket,pool=new Map();
+  for(const c of [...(PL||[]),...Object.entries(BM||{}).filter(([k])=>k.startsWith(lg+"|")).flatMap(([,v])=>v)])
+    if(c.lg===lg&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote(lg,c.id))pool.set(c.key,c);
+  const out=[],seen=new Set(),perM={};
+  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;out.push(c);if(out.length===10)break}
+  return out;
+}
+function wcSnap(){
+  const s={t:Date.now(),side:S.side,res:NOTES&&NOTES.updated||null,top:{},lines:{},inj:{}};
+  const watch=(lg,pid,mid)=>{const l=wcLine(lg,pid,mid);if(l!=null)s.lines[`${lg}|${pid}|${mid}`]=l;const i=injOf(lg,pid);s.inj[`${lg}|${pid}`]=outNote(lg,pid)?"Out":i?i.s:""};
+  for(const lg of ["NFL","NBA","CFB"]){const t=wcTop(lg);if(t.length)s.top[lg]=t.map(c=>[c.key,c.id,c.market,c.name,c.side,c.line]);t.forEach(c=>watch(lg,c.id,c.market))}
+  for(const e of MY)if(new Date(e.t).getTime()>Date.now()&&DATA[e.lg])watch(e.lg,e.pid,e.market);
+  return s;
+}
+const wcBig=(a,b)=>{const d=Math.abs(a-b);return d>=(Math.max(a,b)<10?1:Math.max(a,b)<40?2:Math.max(5,Math.max(a,b)*.04))};
+function wcDiff(prev,cur){
+  const items=[],now=Date.now(),go=(lg,pid,mid)=>`data-wlg="${lg}" data-wm="${mid}" data-wid="${esc(pid+"|"+mid)}"`;
+  const lbl=(lg,mid)=>{const mk=(MK[lg]||[]).find(x=>x.id===mid);return SHORT[mid]||(mk&&mk.label)||mid};
+  // your picks: injury news and big line moves
+  for(const e of MY){if(new Date(e.t).getTime()<=now||!DATA[e.lg])continue;
+    const k=`${e.lg}|${e.pid}`,was=prev.inj[k],is=cur.inj[k];
+    if(was!==undefined&&is&&is!==was&&(is==="Out"||OUT_ST.has(is)||(SHAKY_ST.has(is)&&!was)))items.push({w:3,cls:"bad",h:`<b>Your pick:</b> ${esc(e.name)} is now <b>${esc(is)}</b>`,go:go(e.lg,e.pid,e.market)});
+    const lk=`${e.lg}|${e.pid}|${e.market}`,a=prev.lines[lk],b=cur.lines[lk];
+    if(a!=null&&b!=null&&a!==b&&wcBig(a,b)){const help=(e.side==="over")===(b<a);items.push({w:2,cls:help?"good":"bad",h:`<b>Your pick:</b> ${esc(e.name)} ${esc(lbl(e.lg,e.market))} line ${fmt(a)} → <b>${fmt(b)}</b> (${help?"easier":"harder"} for your ${e.side})`,go:go(e.lg,e.pid,e.market)})}}
+  // the Top 10s
+  if(prev.side===cur.side)for(const lg of ["NFL","NBA","CFB"]){
+    const A=prev.top[lg]||[],B=cur.top[lg]||[];if(!A.length||!B.length)continue;
+    const ak=new Set(A.map(x=>x[0])),bk=new Set(B.map(x=>x[0]));
+    const add=B.filter(x=>!ak.has(x[0])),drop=A.filter(x=>!bk.has(x[0]));
+    if(add.length)items.push({w:1,h:`<b>${lg} Top 10:</b> ${add.length} new — ${add.slice(0,4).map(x=>`<button class="wcgo" ${go(lg,x[1],x[2])}>${esc(x[3])} ${x[4]==="over"?"o":"u"}${fmt(x[5])} ${esc(lbl(lg,x[2]))}</button>`).join(", ")}${add.length>4?` and ${add.length-4} more`:""}`});
+    if(drop.length)items.push({w:1,h:`<b>${lg} dropped out:</b> ${drop.slice(0,4).map(x=>`${esc(x[3])}${outNote(lg,x[1])?" (ruled out)":""}`).join(", ")}${drop.length>4?` and ${drop.length-4} more`:""}`});
+    for(const x of B){if(!ak.has(x[0]))continue;const lk=`${lg}|${x[1]}|${x[2]}`,a=prev.lines[lk],b=cur.lines[lk];
+      if(a!=null&&b!=null&&a!==b&&wcBig(a,b)&&!MY.some(e=>e.lg===lg&&e.pid===x[1]&&e.market===x[2]))items.push({w:.5,h:`${esc(x[3])} ${esc(lbl(lg,x[2]))} line moved ${fmt(a)} → <b>${fmt(b)}</b>`,go:go(lg,x[1],x[2])})}
+    for(const x of B){const k=`${lg}|${x[1]}`,was=prev.inj[k],is=cur.inj[k];if(ak.has(x[0])&&is&&is!==was&&!was)items.push({w:.8,cls:"bad",h:`${esc(x[3])} (Top 10) is <b>${esc(is)}</b> on the injury report`,go:go(lg,x[1],x[2])})}
+  }
+  if(cur.res&&cur.res!==prev.res)items.push({w:.7,h:`<b>New research</b> from ${new Date(cur.res).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}: the notes on each pick are updated`});
+  return items.sort((a,b)=>b.w-a.w);
+}
+let WC=null;
+function renderWhatChanged(){
+  const el=document.getElementById("wchg");if(!el)return;
+  if(!WC||!WC.items.length||WC.closed){el.hidden=true;el.innerHTML="";return}
+  const ago=h=>h<1?"less than an hour ago":h<36?`${Math.round(h)}h ago`:`${Math.round(h/24)} days ago`,list=WC.all?WC.items:WC.items.slice(0,5);
+  el.hidden=false;
+  el.innerHTML=`<div class="wchead"><b>Since your last visit</b><span class="pteam">${ago((Date.now()-WC.since)/3600e3)}</span><button class="wcx" aria-label="Dismiss">×</button></div>
+    <ul>${list.map(i=>`<li class="${i.cls||""}">${i.go?`<button class="wcgo wcrow" ${i.go}>${i.h}</button>`:i.h}</li>`).join("")}</ul>${WC.items.length>5?`<button class="linkbtn wcall">${WC.all?"Show fewer":`Show all ${WC.items.length}`}</button>`:""}`;
+}
+function initWhatChanged(){
+  let st=null;try{st=JSON.parse(localStorage.getItem("ptSeen")||"null")}catch(e){}
+  const cur=wcSnap();let prev=st&&st.prev,last=st&&st.cur;
+  if(last&&Date.now()-last.t>SEEN_GAP)prev=last;  // a new visit: compare with how things looked last time
+  if(prev){const items=wcDiff(prev,cur);WC={items,since:prev.t}}
+  try{localStorage.setItem("ptSeen",JSON.stringify({prev:prev||cur,cur}))}catch(e){}
+  renderWhatChanged();
+}
+function dismissWhatChanged(){WC&&(WC.closed=true);renderWhatChanged();try{const cur=wcSnap();localStorage.setItem("ptSeen",JSON.stringify({prev:cur,cur}))}catch(e){}}
 
 function renderMovers(rows){
   const el=document.getElementById("movers");
@@ -1268,7 +1382,8 @@ function renderDetail(r){
   const trackbar=m.fixed?"":ng?`<div class="trackbar"><span class="pteam">Track for ${ng.home===p.team?"vs "+ng.away:"@ "+ng.home} ${ng.t.toLocaleDateString("en-US",{weekday:"short"})}:</span>
     ${["over","under"].map(sd=>{const on=mine&&mine.side===sd&&mine.line===line,sl=slipHas(S.league,p.id,m.id,sd,line);return`<button class="trk ${on||sl?"on":""}" data-track="${sd}">${on&&sl?"\u2713 Straight + parlay":on?"\u2713 Tracking":sl?"\u2713 In parlay":"+ Track"} ${sd} ${fmt(line)}</button>`}).join("")}</div>`:"";
   const dkbar=dk&&dk.book?`<div class="dkbar"><span class="dk">${esc(dk.book.slice(0,2).toUpperCase())}</span>${esc(dk.book)} <b>${fmt(dk.line)}</b><span class="mv">found by the research in a published preview \u00b7 check the current line</span>${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use this line</button>`:""}</div>`:dk?`<div class="dkbar"><span class="dk">DK</span>DraftKings <b>${fmt(dk.line)}</b>${dk.po!=null?`<span class="px">O ${amFmt(dk.po)}${dk.pu!=null?` / U ${amFmt(dk.pu)}`:""}</span>`:""}${lineAge(dk)}${dk.books?Object.entries(dk.books).filter(([b])=>b!=="DraftKings").map(([b,v])=>`<span class="mv">${esc(b)} ${fmt(v.line)} ${amFmt(v.over)}${v.under!=null?"/"+amFmt(v.under):""}</span>`).join(""):""}${dk.open!=null&&dk.open!==dk.line?`<span class="mv">${dk.line>dk.open?"▲":"▼"} ${fmt(Math.abs(dk.line-dk.open))} from open ${fmt(dk.open)}</span>`:`<span class="mv">unchanged since open</span>`}${line!==dk.line?`<button class="linkbtn" data-set="${dk.line}">Use DK line</button>`:""}${dk.open!=null&&dk.open!==dk.line&&line!==dk.open?`<button class="linkbtn" data-set="${dk.open}">Try opening line</button>`:""}</div>`:"";
-  const tabs=[["chart","Chart"],["splits","Splits"],["props","All props"],["alt","Alt lines"],["log","Log"]];
+  const lh=dk&&!dk.book?lhOf(S.league,p,m,dk):null;
+  const tabs=[["chart","Chart"],...(lh?[["line","Line moves"]]:[]),["splits","Splits"],["props","All props"],["alt","Alt lines"],["log","Log"]];
   const nextOpp=ng?(ng.home===p.team?ng.away:ng.home):null;
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab="chart";
   el.innerHTML=`<div class="dcard">
@@ -1303,6 +1418,8 @@ function renderDetail(r){
         <div class="legend"><span><i class="sw" style="background:var(--hit)"></i>Over</span><span><i class="sw" style="background:var(--miss)"></i>Under</span><span><i class="dash"></i>Line ${fmt(line)}</span>${sub.length>=6?`<span><i class="avgsw"></i>5-game average</span>`:""}${hasOpp?`<span><i class="oppsw"></i>vs ${nextOpp}</span>`:""}</div>`;
       drawChart(panel.querySelector(".chart"),sub,m,line,nextOpp);
       panel.querySelector("[aria-label='Games shown']").onclick=e=>{const b=e.target.closest("[data-crange]");if(b){S.crange=b.dataset.crange;save();draw()}};
+    }else if(S.dtab==="line"){
+      panel.innerHTML=lineMovesHtml(lh,m,line);
     }else if(S.dtab==="alt"){
       const rungs=m.fixed?[.5,1.5,2.5]:[-3,-2,-1,0,1,2,3].map(k=>line+k*step).filter(v=>v>0);
       const l10=vals.slice(-10);
@@ -1797,6 +1914,7 @@ let MY=[];try{MY=JSON.parse(localStorage.getItem("ptMyPicks")||"[]")}catch(e){MY
 function updMyCount(){const n=MY.filter(e=>new Date(e.t)>Date.now()).length+PARLAYS.filter(p=>p.legs.some(l=>new Date(l.t)>Date.now())).length,c=document.getElementById("mycnt");if(c){c.textContent=n;c.hidden=!n}}
 function saveMy(){try{localStorage.setItem("ptMyPicks",JSON.stringify(MY))}catch(e){toast("Couldn't save on this device")}}
 // ESPN injury report (context.json, refreshed every 3 hours)
+const SHAKY_ST=new Set(["Questionable","Day-To-Day"]);
 const OUT_ST=new Set(["Out","Doubtful","Injured Reserve","Suspension","Physically Unable to Perform","Not Active"]);
 function injOf(lg,p){
   if(!CTX||!CTX.injuries||Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()>30*3600e3)return null;
@@ -2867,6 +2985,10 @@ function wire(){
     if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[]),...(PICKS.tdAll||[])].find(x=>x.key===tk.dataset.tk);
       const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
       if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()},c.t);return}
+    if(e.target.closest(".wcx")){dismissWhatChanged();return}
+    if(e.target.closest(".wcall")){WC.all=!WC.all;renderWhatChanged();return}
+    const wg=e.target.closest(".wcgo");
+    if(wg){const lg=wg.dataset.wlg;if(S.league!==lg){S.league=lg;if(!switchLeague(lg))return}S.market=isAll()?S.market:wg.dataset.wm;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(wg.dataset.wid,true);return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("view-board").addEventListener("change",e=>{const i=e.target.closest("[data-tdodds]");if(!i)return;
@@ -2948,7 +3070,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   // a warning when a data step failed in the latest run, or the daily research hasn't run for a day and a half
   Promise.all([jget("health_update.json"),jget("health_lines.json")]).then(([hu,hl])=>{
-    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data"};
+    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history"};
     const bad=[];for(const h of [hu,hl])if(h&&h.steps&&Date.now()-new Date(h.at).getTime()<12*3600e3)for(const[k,v]of Object.entries(h.steps))if(v==="failure"&&KEY[k]&&!bad.includes(KEY[k]))bad.push(KEY[k]);
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
@@ -2958,6 +3080,8 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
   setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);
+  try{initWhatChanged()}catch(e){}
+  jget("line_hist.json").then(d=>{LH=d;if(S.view==="board"&&S.sel)rerenderInPlace()});
   if(startLg==="CFB"){S.league="CFB";if(switchLeague("CFB")){setupControls();render()}}
 }).catch(err=>{
   document.getElementById("chips").innerHTML="";
