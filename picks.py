@@ -10,7 +10,8 @@ Each prop gets a probability-style score from:
   minutes   minutes trend, last 3 vs last 15 games (NBA)
   news      injury reports (context.json, every 3 hours): his own status, and for NBA the share of the
             team's production held by regulars who are ruled out (backtested: overs hit more often)
-  weather   wind at kickoff for outdoor football (backtested: passing overs suffer above ~15 mph)
+  weather   kickoff wind and cold for outdoor football (backtested: QB passing overs suffer above ~15 mph and
+            below ~40 F, receiving a little in strong wind, kickers in the cold)
   research  injuries, role, game plan and news from the daily research check (notes.json)
 Weights come from a walk-forward backtest on 2025 NFL / 2025-26 NBA games (see README).
 Players ruled out by the injury report or the research check are dropped.
@@ -29,8 +30,12 @@ OUT_STATUS = {"Out", "Doubtful", "Injured Reserve", "Suspension", "Physically Un
 SHAKY = {"Questionable", "Day-To-Day"}
 VAC_W_NFL = .25  # NFL catches / carries left by a ruled-out teammate (game-day inactives included); tune.py re-weights "news"
 VAC_W = .4      # NBA: log-odds per unit of team production vacated by ruled-out regulars (backtest coef ~.38)
-WIND_W = -.25   # NFL/CFB passing props: log-odds per 5 mph of wind above 12 mph, capped at -.6
-                # (backtest: no drop at 10-15 mph, passing overs ~39% vs ~49% above 15 mph)
+WIND_W = -.25   # NFL/CFB QB passing props: log-odds per 5 mph of wind above 12 mph, capped at -.6
+                # (backtest: no drop at 10-15 mph, passing overs ~39% vs ~49% above 15 mph; 2023-26 refit -.30)
+WIND_W_REC = -.1  # receptions / receiving yards: a weaker effect (refit -.04 overall, -.15 in 2025-26; overs 39.5% -> 34% at 16+ mph)
+COLD_W = {"pyd": -.1, "cmp": -.1, "att": -.1, "ptd": -.1,  # per 10 F below 40 at kickoff, outdoors (2023-24 -.12, 2025-26 -.12)
+          "fgm": -.2, "pat": -.2, "kpts": -.2}  # kickers: kicking points overs 47% above 45 F, 31% below freezing (shrunk: small sample)
+QB_M = {"pyd", "cmp", "att", "ptd"}
 # backtest by prop type: yardage overs were close to a coin flip even when the form score was confident
 # (receiving 49%, rushing 52%, rush+rec 52%), so their form signal is shrunk toward the over side
 YARD_OVER_SHRINK = {"recyd": .7, "ryd": .7, "rry": .7}
@@ -509,7 +514,13 @@ def main():
                 vac, vac_who = vacated(p, VAC_KEY.get(mid))
                 news = (VAC_W * min(vac, .6) if lg == "NBA" else VAC_W_NFL * min(vac, .5) if lg == "NFL" else 0.0) - (.1 if me_inj and me_inj["s"] in SHAKY else 0.0)
                 wind = (wx or {}).get("wind")
-                weather = max(-.6, WIND_W * max(0.0, (wind - 12) / 5)) if (wind is not None and mid in PASS_M and not wx.get("indoor")) else 0.0
+                weather = 0.0
+                if wx and not wx.get("indoor") and lg in ("NFL", "CFB"):
+                    if wind is not None and mid in PASS_M:
+                        weather += (WIND_W if mid in QB_M else WIND_W_REC) * max(0.0, (wind - 12) / 5)
+                    if wx.get("temp") is not None and mid in COLD_W:
+                        weather += COLD_W[mid] * max(0.0, (40 - wx["temp"]) / 10)
+                    weather = max(-.6, weather)
                 parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
                 pc = meta.get("pace") or {}
