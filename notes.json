@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T12:00:44Z",
+ "updated": "2026-10-18T15:36:43Z",
  "summary": "Lamar Jackson is out again, so Tyler Huntley starts for Baltimore; the Jets (Breece Hall), Bears (Kyle Monangai) and Cardinals (Jeremiyah Love) are all without a lead back, pushing carries to Braelon Allen, D'Andre Swift and Tyler Allgeier.",
  "notes": {
   "NBA|4066354|ra": {
@@ -275,7 +275,7 @@
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Judkins is questionable with an ankle/foot injury after DNP, DNP and a limited Friday; Dylan Sampson is also out, so if Judkins plays the backfield is his, but his limits are unclear.",
+   "note": "Judkins is questionable with an ankle/foot injury after DNP, DNP and a limited Friday; Dylan Sampson is also out, so if Judkins plays the backfield is his, but his limits are unclear. He is set for a pregame workout before Cleveland decides on his status.",
    "sources": [
     "https://www.clevelandbrowns.com/news/quinshon-judkins-questionable-for-week-6-vs-ravens-injury-report"
    ],
@@ -921,9 +921,9 @@
   "NFL|00-0033090|rec": {
    "side": "over",
    "flag": "caution",
-   "adj": 0,
+   "adj": -1,
    "conf": "medium",
-   "note": "A.J. Brown's possible return from IR could take targets from Henry, but Brown's conditioning is unproven and his snaps may be limited.",
+   "note": "A.J. Brown's possible return from IR could take targets from Henry, but Brown's conditioning is unproven and his snaps may be limited. A.J. Brown is now expected to be active and play a good share of snaps.",
    "sources": [
     "https://www.bostonglobe.com/2026/10/16/sports/patriots-aj-brown-mike-vrabel-jets-game/",
     "https://mynews13.com/fl/orlando/sports/2026/10/16/patriots-on-upset-alert-as-geno-smith-brings-a-no-int-streak-into-jets-matchup-with-patriots"
@@ -1609,6 +1609,72 @@
    "sources": [
     "https://www.draftsharks.com/fantasy-football-news/83357/omarion-hamptons-role-keeps-shrinking"
    ]
+  },
+  "NFL|00-0036973|td": {
+   "side": "over",
+   "flag": "out",
+   "adj": 0,
+   "conf": "high",
+   "note": "Etienne has been on injured reserve with a hamstring injury since Oct. 1 and is not eligible to play against the Giants.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-01/saints-place-travis-etienne-hamstring-on-ir"
+   ],
+   "detail": {
+    "availability": "On IR (hamstring)."
+   }
+  },
+  "NFL|00-0037228|td": {
+   "side": "over",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Rico Dowdle (toe) is slated to play after missing three games, which cuts into Warren's carries and goal-line work in a low-total game.",
+   "sources": [
+    "https://clutchpoints.com/nfl/pittsburgh-steelers/steelers-news-rico-dowdle-injury-update-jaylen-warren-dominates-absence"
+   ],
+   "detail": {
+    "role": "Dowdle back as the second back.",
+    "script": "Total 38.5 with gusty wind in Tampa."
+   }
+  },
+  "NFL|00-0039919|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Odunze is off the injury report and starting at WR1, but he has topped 3.5 catches only once in his last ten games, and Chicago's offense runs heavily through D'Andre Swift.",
+   "sources": [],
+   "detail": {
+    "availability": "No injury designation.",
+    "role": "Averaging 2.8 catches over his last ten; Burden and Loveland share targets."
+   }
+  },
+  "NFL|00-0040676|ptd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Ward has three TD passes in five starts, so he has been held without one in at least two games; Indy's weak pass defense and a likely trailing script help the over.",
+   "sources": [
+    "https://www.si.com/betting/titans-vs-colts-prediction-odds-spread-injuries-trends-for-nfl-week-6-2026"
+   ],
+   "detail": {
+    "role": "3 TD, 3 INT through five starts.",
+    "script": "Colts -6.5, total 44.5."
+   }
+  },
+  "NFL|00-0037238|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "London is not on Atlanta's injury report and starts at WR1, but he has no touchdowns through five games and has scored in two of his last ten; the Falcons lean on Bijan Robinson near the goal line.",
+   "sources": [
+    "https://www.bleachernation.com/bears/2026/10/16/falcons-injury-report-3/"
+   ],
+   "detail": {
+    "availability": "No designation."
+   }
   }
  },
  "games": {
