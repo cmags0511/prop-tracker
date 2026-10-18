@@ -11,6 +11,8 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   Top 10 for the next college game day, filled with labeled leans (`renderCfbTop`). index.html edits are all new
   functions plus small hooks in renderDetail tabs, the Top pick chips, the view-board click handler and boot, so they
   shouldn't collide with the Record tab work. sw.js pt-v68.
+- **cmags0511**: PR #9 (waiting on review): weather for more props. Cold for QB and kicker props, a lighter wind
+  weight on receiving (`picks.py` COLD_W / WIND_W_REC, `backtest_weather.py`).
 
 ## 2026-10-17
 - **cmags0511**: Slimmer daily research to stay under the usage limit (RESEARCH.md budget; research_packets.py
