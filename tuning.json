@@ -1,83 +1,82 @@
 {
- "built": "2026-10-17T21:40+00:00",
- "graded_picks": 44,
- "graded_research": 79,
+ "built": "2026-10-18T00:57+00:00",
+ "graded_picks": 51,
+ "graded_research": 80,
  "market": {},
  "factors": {},
  "research_conf": {
-  "medium": 0.94,
   "low": 0.462
  },
  "notes": [
-  "Medium-confidence research calls are 32-32: their weight goes from 1.0 to 0.94",
   "Low-confidence research calls are 4-7: their weight goes from 0.6 to 0.462",
-  "Across 801 graded props the app's chances averaged 61% but 54% hit: its percentages are now pulled toward 50% (confidence x0.67)",
+  "Across 813 graded props the app's chances averaged 61% but 54% hit: its percentages are now pulled toward 50% (confidence x0.67)",
   "Overs it backed hit 49%, unders 58%: every prop now gets a small nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL receptions: trusted less (x0.90): its edges have played out smaller than predicted",
+  "NFL receiving yards: an extra nudge toward the under",
   "NFL tackles: trusted less (x0.90): its edges have played out smaller than predicted",
   "NFL rushing yards: an extra nudge toward the under"
  ],
  "calibration": {
-  "n": 801,
+  "n": 813,
   "days": 4,
   "trust": 0.67,
-  "c": -0.097,
-  "b": 0.67,
+  "c": -0.091,
+  "b": 0.671,
   "per": {
    "NFL|rec": [
-    0.045,
+    0.043,
     0.895
    ],
    "NFL|recyd": [
-    -0.049,
+    -0.051,
     0.938
    ],
    "NFL|ryd": [
-    -0.074,
+    -0.075,
     1.009
    ],
    "NFL|sck": [
-    -0.136,
+    -0.137,
     0.956
    ],
    "NFL|tkl": [
-    0.007,
+    0.006,
     0.895
    ]
   }
  },
  "calib": {
-  "n": 801,
+  "n": 813,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    211,
+    216,
     0.524,
-    0.536
+    0.528
    ],
    [
     0.55,
     0.6,
-    204,
+    207,
     0.574,
-    0.534
+    0.531
    ],
    [
     0.6,
     0.65,
-    141,
+    144,
     0.623,
-    0.518
+    0.528
    ],
    [
     0.65,
     0.7,
-    110,
+    111,
     0.675,
-    0.591
+    0.586
    ],
    [
     0.7,
@@ -128,22 +127,22 @@
    [
     0.5,
     0.55,
-    1,
+    2,
     0.528,
-    1.0
+    0.5
    ],
    [
     0.55,
     0.6,
-    2,
-    0.576,
-    0.5
+    5,
+    0.573,
+    0.4
    ],
    [
     0.6,
     0.65,
-    2,
-    0.623,
+    5,
+    0.628,
     1.0
    ],
    [
