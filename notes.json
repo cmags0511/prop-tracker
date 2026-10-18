@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T15:36:43Z",
+ "updated": "2026-10-18T18:46:43Z",
  "summary": "Lamar Jackson is out again, so Tyler Huntley starts for Baltimore; the Jets (Breece Hall), Bears (Kyle Monangai) and Cardinals (Jeremiyah Love) are all without a lead back, pushing carries to Braelon Allen, D'Andre Swift and Tyler Allgeier.",
  "notes": {
   "NBA|4066354|ra": {
@@ -1675,6 +1675,48 @@
    "detail": {
     "availability": "No designation."
    }
+  },
+  "NFL|00-0040122|car": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Jeanty says he is ready after an ankle injury since preseason and a more recent foot issue, but he was held to 10 carries last week and Las Vegas has discussed giving him a week off at some point.",
+   "sources": [
+    "https://bleacherreport.com/articles/25511830-raiders-ashton-jeanty-gives-injury-update-ahead-bills-game-says-hes-ready-go"
+   ]
+  },
+  "NFL|00-0029604|att": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No late injury news for Cousins; Buffalo's secondary has two cornerbacks questionable, which could invite more throws if the Raiders trail.",
+   "sources": []
+  },
+  "NFL|00-0038134|rec": {
+   "side": "neutral",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Walker has no injury designation; with Rashee Rice out, Kansas City has fewer pass-catchers, which could keep his target share steady.",
+   "sources": []
+  },
+  "NFL|00-0036355|ptd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Herbert has no designation, but the Chargers are without LT Joe Alt and WR Tre' Harris, and two receivers are questionable.",
+   "sources": []
+  },
+  "NFL|00-0034857|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Allen has no injury designation and handles short-yardage runs in Buffalo; Las Vegas is missing DT Tonka Hemingway (concussion).",
+   "sources": []
   }
  },
  "games": {
