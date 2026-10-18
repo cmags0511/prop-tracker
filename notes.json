@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T18:46:43Z",
+ "updated": "2026-10-18T20:36:45Z",
  "summary": "Lamar Jackson is out again, so Tyler Huntley starts for Baltimore; the Jets (Breece Hall), Bears (Kyle Monangai) and Cardinals (Jeremiyah Love) are all without a lead back, pushing carries to Braelon Allen, D'Andre Swift and Tyler Allgeier.",
  "notes": {
   "NBA|4066354|ra": {
@@ -1717,6 +1717,145 @@
    "conf": "low",
    "note": "Allen has no injury designation and handles short-yardage runs in Buffalo; Las Vegas is missing DT Tonka Hemingway (concussion).",
    "sources": []
+  },
+  "NFL|00-0036264|ptd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Dallas is without CB Cobie Durant and LB DeMarvion Overshown and elevated a depth corner for nickel, with Joey Porter questionable but expected to play; a 53.5 total supports two scoring throws.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0036264|cmp": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury concern for Love, and the banged-up Dallas secondary could raise his volume, which works against the under; no clear edge either way.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0036388|tkl": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Green Bay has only four healthy defensive tackles, and Dallas leans on Javonte Williams, so more runs should reach the safeties; McKinney is healthy and off the report.",
+   "sources": [
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html",
+    "https://www.packers.com/news/packers-list-five-questionable-rule-out-four-vs-cowboys-week-6-injury-report-2026"
+   ]
+  },
+  "NFL|00-0037692|kpts": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Aubrey is healthy; Lambeau wind around 10 mph with gusts near 20 is a mild drag on long kicks, offset by a high 53.5 total.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026"
+   ]
+  },
+  "NFL|00-0037692|pat": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "A 53.5 total implies about three Dallas touchdowns, right at the line; no injury news changes the outlook.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026"
+   ]
+  },
+  "NFL|00-0037275|tkl": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "With Cobie Durant out and Porter at less than full health, Bland should stay on the field for every snap; nothing on the report for him.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0039410|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Flournoy stays the third receiver with Lamb (thigh) cleared and off the report, so his role is unchanged; the line is well below his recent average and nothing explains the gap.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0036997|car": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He handles nearly all Dallas RB carries and Green Bay is down to four healthy defensive tackles, which argues for a heavy workload rather than the under; no injury concern.",
+   "sources": [
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html",
+    "https://www.dallascowboys.com/news/updates-october-2026"
+   ]
+  },
+  "NFL|00-0038041|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Ferguson is healthy and off the report; with Lamb and Pickens both active his target share is unchanged, and nothing new moves this line.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-october-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0034967|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gary is healthy; with Micah Parsons still out he draws the main protection attention, and Dallas is missing T Drew Shelton, so this cuts both ways.",
+   "sources": [
+    "https://www.packers.com/news/packers-list-five-questionable-rule-out-four-vs-cowboys-week-6-injury-report-2026",
+    "https://www.dallascowboys.com/news/updates-october-2026"
+   ]
+  },
+  "NFL|00-0035718|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news for Williams; Green Bay may be without LG Aaron Banks and C/G Jacob Monk (both questionable), which slightly helps interior pressure.",
+   "sources": [
+    "https://www.packers.com/news/packers-list-five-questionable-rule-out-four-vs-cowboys-week-6-injury-report-2026",
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
+  },
+  "NFL|00-0039811|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "With Josh Jacobs on the Commissioner's Exempt List until Monday, Lloyd is again the lead back, including near the goal line.",
+   "sources": [
+    "https://www.packers.com/news/packers-list-five-questionable-rule-out-four-vs-cowboys-week-6-injury-report-2026"
+   ]
+  },
+  "NFL|00-0036997|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He has been inefficient and the line is above his recent output, but Green Bay is down to four healthy defensive tackles; the two cancel out, and there is no injury concern.",
+   "sources": [
+    "https://sports.yahoo.com/articles/packers-cowboys-final-injury-report-205604345.html"
+   ]
   }
  },
  "games": {
