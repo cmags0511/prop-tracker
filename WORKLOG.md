@@ -4,7 +4,7 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
-- **cmags0511**: PR "book-guard" (waiting on review): after Skattebo's 0-carry benching, picks the sportsbook strongly
+- **cmags0511**: Merged (PR #13, owner approved): after Skattebo's 0-carry benching, picks the sportsbook strongly
   disagrees with (model 12+ points above the book's no-vig price: score x .5) or whose DraftKings line moved 12%+
   against them since open (x .6) drop out of the Top lists, and research can't override either. New `book_p`/`open`
   in slate + research packets, RESEARCH.md tells researchers to explain big moves, "Book disagrees" / "Line moved
@@ -26,7 +26,7 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   Top 10 for the next college game day, filled with labeled leans (`renderCfbTop`). index.html edits are all new
   functions plus small hooks in renderDetail tabs, the Top pick chips, the view-board click handler and boot, so they
   shouldn't collide with the Record tab work. sw.js pt-v68.
-- **cmags0511**: PR #9 (waiting on review): weather for more props. Cold for QB and kicker props, a lighter wind
+- **cmags0511**: Merged (PR #9, owner approved 10/19): weather for more props. Cold for QB and kicker props, a lighter wind
   weight on receiving (`picks.py` COLD_W / WIND_W_REC, `backtest_weather.py`).
 
 ## 2026-10-17
