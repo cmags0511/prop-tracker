@@ -123,6 +123,11 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 > - **market**: Kalshi vs the 52.4% break-even of a -110 bet, line moves, consensus. If Kalshi is under
 >   45% for the side you like, find out why. If the line quoted in current previews differs from the packet's
 >   `line` (ESPN's DraftKings feed can lag a day or more), say so and give the current number.
+>   **When the packet shows `open` far from `line` (moved 12%+ away from the side you'd back), or `book_p`
+>   (the sportsbook's no-vig chance) is well below the app's, assume the book knows something and find
+>   out what before backing it: a benching, a timeshare, a starter returning, a coach's comment.** If you
+>   can't explain the move, set `unc` and don't call it `support`. (Oct 18: Skattebo's carries line fell
+>   15.5 -> 11.5 because Najee Harris was starting after Skattebo's fumbles; the note missed it and he had 0 carries.)
 > - **experts**: what credible previews say and why, in your own words.
 > **Team news flows to every prop it touches.** When a game-level finding changes a team's outlook (a
 > QB change or limited QB, a top receiver or back out or questionable, offensive-line injuries, a new
