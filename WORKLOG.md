@@ -4,6 +4,11 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **rmolnar10**: Walters weather (PR): new `walters_wx.py` + `walters_wx.json` (Open-Meteo kickoff weather for every
+  outdoor game since 2009; walters.py tops it up hourly and lines.yml now commits it). Rain unders (2mm+ forecast,
+  backtest 114-74) join the wind unders as "Weather unders"; his rain factor now uses forecast mm instead of
+  chance of rain. Snow, wind vs pass rate and QB weather records tested at zero, so they're listed on cards at 0
+  points. Guide wording for star sizing fixed (it's per game); How it works spells out each factor's values. sw.js pt-v74.
 - **cmags0511**: Audit fixes. Best bet is skipped when the sportsbook's no-vig price or Kalshi gives its side under
   50%, or the line moved against it (`picks.py`, end of main). Anytime-TD research calls that drop off `tdPicks`
   before kickoff (e.g. ruled inactive) are withdrawn from the research record (`record.py` 1d).

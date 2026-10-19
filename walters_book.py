@@ -48,7 +48,7 @@ RIVAL = [({"TB", "JAX", "MIA"}, 1), ({"DAL", "HOU"}, 1), ({"ATL", "CAR"}, 1), ({
 KEY = {1: 3, 2: 3, 3: 8, 4: 3, 5: 3, 6: 5, 7: 6, 8: 3, 9: 2, 10: 4, 11: 2, 12: 2, 13: 2, 14: 5, 15: 2, 16: 3, 17: 3, 18: 3}
 STARS = [(15, 3), (13, 2.5), (11, 2), (9, 1.5), (7, 1), (5.5, .5)]
 PER = .2           # points per factor point
-QB_W = .15         # (not used: needs each QB's weather splits)
+QB_W = .15         # his QB weather W-factors: tested at zero, so walters_wx.py only lists the records
 
 
 def grass(s):
@@ -114,8 +114,8 @@ class Schedule:
                 hist[g["a"]].append(g)
 
     def factors(self, g, rating=lambda t: 0.0, temp=None, rain=None):
-        """[(side 'h'/'a', points in his units, label)] for game g; rating(team) sizes byes; temp/rain override the
-        schedule's kickoff weather (forecasts for coming games)"""
+        """[(side 'h'/'a', points in his units, label)] for game g; rating(team) sizes byes; temp overrides the
+        schedule's kickoff temperature (forecasts for coming games); rain is mm over kickoff + 3 hours (walters_wx.py)"""
         h, a, out = g["h"], g["a"], []
         rh, ra = g.get("rh", h), g.get("ra", a)    # the abbreviation at the time, for where the team played
         prev = self.before.get(g["id"], {})
@@ -209,8 +209,8 @@ class Schedule:
             elif ra in COLD_DOME and dome_team:
                 v = next((v for lim, v in ((10, .75), (20, .5), (30, .25)) if t_ <= lim), 0)
                 add("h", v, f"{a} dome team in the cold ({t_:.0f}F)")
-        if rain is not None and rain >= 60:
-            add("a", .25, "rain")
+        if rain is not None and rain >= 2:
+            add("a", .25, f"rain ({rain:.0f}mm)")
         # E-factors (1 each = 0.2 points)
         streak = {}
         for s in ("h", "a"):
