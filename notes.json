@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T11:57:23Z",
+ "updated": "2026-10-19T20:35:35Z",
  "summary": "Monday night's Commanders-49ers game is shaped by injuries: Washington's lead back Croskey-Merritt is out, and San Francisco is without Deebo Samuel with Mike Evans and Christian Kirk questionable, which pushes targets to Kittle. The NBA season opens this week with several new roles, including the Spurs' three-guard lineup and Franz Wagner's shoulder in Orlando.",
  "notes": {
   "NBA|4432573|ra": {
@@ -908,6 +908,37 @@
     "availability": "No injury designation.",
     "role": "Averaging 2.8 catches over his last ten; Burden and Loveland share targets."
    }
+  },
+  "NFL|00-0035659|rec": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "McLaurin is playing through a hamstring issue, sat Friday practice and played only 58% of snaps last week; Diggs remains a game-time decision, so a bigger target share is possible but his snap count is the risk.",
+   "sources": [
+    "https://sports.yahoo.com/articles/commanders-final-injury-report-four-211527650.html",
+    "https://www.cbssports.com/nfl/news/is-stefon-diggs-playing-tonight-injury-update-commanders-vs-49ers/"
+   ]
+  },
+  "NFL|00-0033280|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McCaffrey is healthy and the lead back; with Samuel out and Evans questionable, short targets could flow his way, but Kittle is the clear top option, so nothing found beyond the numbers.",
+   "sources": [
+    "https://heavy.com/sports/nfl/san-francisco-49ers/mike-evans-injury-announcement-commanders/"
+   ]
+  },
+  "NBA|4065648|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Tatum is expected to play in the opener at Detroit after resting the last preseason game, with no minutes limit reported; in 16 games back from his Achilles injury last season he averaged about 27 points plus assists in under 33 minutes.",
+   "sources": [
+    "https://www.rotowire.com/basketball/headlines/jayson-tatum-news-expected-to-suit-up-tuesday-534991"
+   ]
   }
  },
  "games": {
@@ -990,7 +1021,7 @@
    ]
   },
   "NFL-WAS-at-SF-1020": {
-   "summary": "Washington is without RB1 Croskey-Merritt (groin), so White and Ekeler split the backfield and previews expect Daniels, back from a two-game elbow absence with 9 carries for 103 yards last week, to carry more of the run game. San Francisco is missing Bosa, Samuel, safety Sigle and LB Wallow; Mike Evans (ribs, calf) did not practice all week and is a game-time call, pushing targets toward Kittle against a Washington defense that is among the worst versus tight ends. Line SF -7.5; total moved from 49.5 lookahead to 52.5 (some books 51.5); forecast low-to-high 60s with 8-12 mph wind, gusts near\u2026",
+   "summary": "Washington is without RB1 Croskey-Merritt (groin), so White and Ekeler split the backfield and previews expect Daniels, back from a two-game elbow absence with 9 carries for 103 yards last week, to carry more of the run game. San Francisco is missing Bosa, Samuel, safety Sigle and LB Wallow; Mike Evans (ribs, calf) did not practice all week and is a game-time call, pushing targets toward Kittle against a Washington defense that is among the worst versus tight ends. Line SF -7.5; total moved from 49.5 lookahead to 52.5 (some books 51.5); forecast low-to-high 60s with 8-12 mph wind, gusts near…",
    "sources": [
     "https://sports.yahoo.com/articles/commanders-rule-four-injured-players-043853976.html",
     "https://sports.yahoo.com/articles/commanders-vs-49ers-friday-injury-220940997.html",
