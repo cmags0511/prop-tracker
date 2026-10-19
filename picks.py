@@ -134,6 +134,8 @@ def allowed_tables(players, cols, lg):
     return get
 
 
+BOOK_GAP = .12   # model more than this above the sportsbook's no-vig chance: halve the score (keeps it out of the Top lists)
+LINE_MOVE = .12  # DraftKings line moved this share of the opening line away from the pick: score x .6
 MKT_W = .8  # log-odds weight on the Kalshi market's probability of the over at DraftKings' line (capped ±.6)
 MONTHS = {m: i + 1 for i, m in enumerate(["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
 
@@ -593,6 +595,25 @@ def main():
                 line_off = exact.get("line_now") is not None and abs(float(exact["line_now"]) - line) >= max(1, .05 * line)
                 if line_off:
                     score *= .7
+                # the sportsbook strongly disagrees: when the model is 12+ points more confident than the book's no-vig price,
+                # the book usually knows something (benching, role change). Oct 17-18 graded props: model 15+ points above the
+                # book hit 4 of 17 (24%), 5-15 points above hit 47% vs the 60% the model expected. Research can't override this.
+                book_p = book_gap = None
+                po_, pu_ = dk.get("price_over"), dk.get("price_under")
+                if po_ is not None and pu_ is not None and not (dk.get("est_over") or dk.get("est_under")):
+                    imp_ = lambda a: 100 / (a + 100) if a > 0 else -a / (-a + 100)
+                    bo = imp_(po_) / (imp_(po_) + imp_(pu_))
+                    book_p = bo if over else 1 - bo
+                    book_gap = (prob if over else 1 - prob) - book_p
+                    if book_gap > BOOK_GAP:
+                        score *= .5
+                # DraftKings has moved the line hard away from this side since it opened (Skattebo: 15.5 -> 11.5 carries
+                # before he was benched): news the stats can't see yet. Research can't override this either.
+                d0 = e.get(mid) or {}
+                mv = (d0["line"] - d0["open"]) if d0.get("open") is not None and d0.get("line") is not None else 0
+                moved_against = (mv < 0 if over else mv > 0) and abs(mv) >= max(1.0, LINE_MOVE * d0["open"]) if mv else False
+                if moved_against:
+                    score *= .6
                 # rank props the research hasn't looked at a little lower than ones it has (when research is current)
                 if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
                     score *= .85
@@ -603,7 +624,8 @@ def main():
                               **({"po": dk.get("price_over"), "pu": dk.get("price_under"), "pb": dk.get("book"),
                                   "pe": bool(dk.get("est_over") or dk.get("est_under"))} if dk.get("price_over") or dk.get("price_under") else {}), "name": p["n"], "team": p["t"], "pos": p.get("p"),
                               "opp": opp, "t": game["t"].isoformat(), "market": mid, "label": LABEL[mid], "line": line,
-                              "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10),
+                              "avg10": round(avg, 1), "l10_over": hits(l10), "n10": len(l10), "open": d0.get("open"),
+                              "book_p": round(book_p, 3) if book_p is not None else None,
                               "matchup": f"{mu['rank']}/{mu['n']}" if mu else None, "gap": round(gap, 2),
                               "missed_last": missed, "lean": "over" if stats_over else "under", "score": round(score, 3),
                               "status": me_inj["s"] if me_inj else None, "teammates_out": vac_who[:3], "vacated": round(vac, 2),
@@ -667,6 +689,13 @@ def main():
                     why += (f" Heads up: this DraftKings line hasn't updated in {age_h / 24:.0f} day{'s' if age_h >= 36 else ''} and Kalshi's market"
                             f" centers near {fmt(round(med * 2) / 2)}, so the live line has probably moved." if age_h else
                             f" Heads up: Kalshi's market centers near {fmt(round(med * 2) / 2)}, so check the live line.")
+                if book_gap is not None and book_gap > BOOK_GAP:
+                    why += (f" Warning: the sportsbook's price gives the {'over' if over else 'under'} only about {book_p * 100:.0f}%,"
+                            f" well below this model's {(prob if over else 1 - prob) * 100:.0f}%. Big disagreements like this have"
+                            f" usually gone the book's way, so this pick is weighted down.")
+                if moved_against:
+                    why += (f" Warning: DraftKings moved this line {'down' if mv < 0 else 'up'} {fmt(abs(mv))} from {fmt(d0['open'])},"
+                            f" against this pick; a move that size usually means role or injury news.")
                 if line_off:
                     why += f" Current odds pages show {fmt(float(exact['line_now']))}, so check the live line before betting."
                 if p_mkt is not None:
@@ -692,6 +721,7 @@ def main():
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
                     "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,
                     "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,
+                    "book_p": round(book_p, 3) if book_p is not None else None, "moved_against": moved_against,
                 })
     slate.sort(key=lambda s: (s["t"], -s["score"]))
     json.dump({"built": now.isoformat(timespec="minutes"),

@@ -23,7 +23,7 @@ CFB_H = float(ARGS.get("--cfb-hours", 36))       # the college researcher only r
 MAX_TARGETS = {"NFL": 36, "NBA": 24}
 OUT_ST = {"Out", "Doubtful", "Injured Reserve", "Suspension"}
 FIELDS = ("key", "name", "team", "pos", "depth", "label", "line", "avg10", "l10_over", "n10", "matchup", "gap", "lean",
-          "score", "market_over", "status", "teammates_out", "missed_last")
+          "score", "market_over", "status", "teammates_out", "missed_last", "open", "book_p")
 
 
 def load(f, d=None):
