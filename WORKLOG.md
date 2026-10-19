@@ -4,6 +4,12 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: PR "soccer-top" (waiting on owner): DraftKings soccer props carry a much bigger margin than assumed,
+  so `soccer_data.py` now turns the price into a real chance with a fitted `BOOK_CAL` (replaces `MARGIN`). Soccer
+  tab lists are now Top picks (20 likeliest goals/shots/SOT for likely starters, price -250 or longer) and Value
+  bets (EV +3%+, capped at +500, no saves/cards); Plus money and Goalscorers retired (still in the record).
+  Touches renderSoccer/socCard/socRecordHtml/socFind in index.html and one line in record.py's soccer list loop
+  (rmolnar10: your Record overhaul may touch the same record lines). sw.js pt-v73.
 - **cmags0511**: Merged (PR #13, owner approved): after Skattebo's 0-carry benching, picks the sportsbook strongly
   disagrees with (model 12+ points above the book's no-vig price: score x .5) or whose DraftKings line moved 12%+
   against them since open (x .6) drop out of the Top lists, and research can't override either. New `book_p`/`open`
