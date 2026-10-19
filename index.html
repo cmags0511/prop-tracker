@@ -501,6 +501,10 @@ body.hasslip .totop{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .strip .k{font:600 10px var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .strip .v{font:700 1.45rem/1.15 var(--f-display);font-variant-numeric:tabular-nums}
 .strip .s{font:400 11px var(--f-mono);color:var(--muted)}
+.strip.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wtiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.wtile h3{font:600 13px var(--f-body);margin:0 0 6px}
+@media (max-width:760px){.wtiles{grid-template-columns:1fr}}
 @media (max-width:520px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}.strip>div:nth-child(3){border-left:0}.strip>div:nth-child(n+3){border-top:1px solid var(--line)}}
 .dkbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2)}
 .dkbar .dk{font:700 11px var(--f-display);letter-spacing:.08em;color:var(--hit);background:var(--hit-soft);padding:2px 7px;border-radius:4px}
@@ -1710,13 +1714,16 @@ function renderWalters(){
   let html=`<section class="top"><div class="tophead"><h2>Walters-style NFL lines</h2><button class="linkbtn" data-goto="app">‹ Record</button></div>
     <button class="wguide" data-wguide="1"><span class="wgi">i</span><span><b>3 models on this page</b><small>Walters \u00b7 Model \u00b7 Weather under: what each one is</small></span><span class="wgo">\u203a</span></button>
     <p class="topsub">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}\u2013${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>
-    <div class="strip">
-      <div><div class="k">Walters picks this season</div><div class="v">${bw2}-${bl2}</div><div class="s">${bgr.length?`<b style="color:${bunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(bunits)}</b> (units = stars)`:"first picks lock in this week"}</div></div>
-      <div><div class="k">Walters backtest</div><div class="v">${pct(bka[0]/Math.max(1,bka[0]+bka[1]))}</div><div class="s">${bka[0]}-${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}</div></div>
-      <div><div class="k">Model picks this season</div><div class="v">${w}-${l}${pu?`-${pu}`:""}</div><div class="s">${graded.length?`<b style="color:${units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(units)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
-      <div><div class="k">Weather unders this season</div><div class="v">${tw}-${tl}</div><div class="s">${tg.length?`<b style="color:${tunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(tunits)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
-      <div><div class="k">Model backtest</div><div class="v">${pct(bw/Math.max(1,bw+bl))}</div><div class="s">${bw}-${bl} since ${bt.from||2012} \u00b7 ${bt.all?unitsTxt(bt.all[2]):""} at -110</div></div>
-      <div><div class="k">Weather unders backtest</div><div class="v">${pct(tb[0]/Math.max(1,tb[0]+tb[1]))}</div><div class="s">${tb[0]}-${tb[1]} since ${btt.from||2012} \u00b7 ${unitsTxt(tb[2]||0)} at -110</div></div>
+    <div class="wtiles">
+      <div class="wtile"><h3>Walters picks</h3><div class="strip two">
+        <div><div class="k">This season</div><div class="v">${bw2}-${bl2}</div><div class="s">${bgr.length?`<b style="color:${bunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(bunits)}</b> (units = stars)`:"first picks lock in this week"}</div></div>
+        <div><div class="k">Backtest</div><div class="v">${pct(bka[0]/Math.max(1,bka[0]+bka[1]))}</div><div class="s">${bka[0]}-${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}</div></div></div></div>
+      <div class="wtile"><h3>Model picks</h3><div class="strip two">
+        <div><div class="k">This season</div><div class="v">${w}-${l}${pu?`-${pu}`:""}</div><div class="s">${graded.length?`<b style="color:${units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(units)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
+        <div><div class="k">Backtest</div><div class="v">${pct(bw/Math.max(1,bw+bl))}</div><div class="s">${bw}-${bl} since ${bt.from||2012} \u00b7 ${bt.all?unitsTxt(bt.all[2]):""} at -110</div></div></div></div>
+      <div class="wtile"><h3>Weather unders</h3><div class="strip two">
+        <div><div class="k">This season</div><div class="v">${tw}-${tl}</div><div class="s">${tg.length?`<b style="color:${tunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(tunits)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
+        <div><div class="k">Backtest</div><div class="v">${pct(tb[0]/Math.max(1,tb[0]+tb[1]))}</div><div class="s">${tb[0]}-${tb[1]} since ${btt.from||2012} \u00b7 ${unitsTxt(tb[2]||0)} at -110</div></div></div></div>
     </div></section>`;
   // this week: picks first, then every other game with the model's number
   // 3-star plays: the only Walters tier that beat the closing line in both halves of the backtest (2012-18, 2019-)

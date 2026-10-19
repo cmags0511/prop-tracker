@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **rmolnar10**: Walters page: the top stat strip is now three labeled groups (Walters picks, Model picks, Weather
+  unders), each with this season + backtest (`.wtiles` in renderWalters). sw.js pt-v75.
 - **rmolnar10**: Walters weather (PR): new `walters_wx.py` + `walters_wx.json` (Open-Meteo kickoff weather for every
   outdoor game since 2009; walters.py tops it up hourly and lines.yml now commits it). Rain unders (2mm+ forecast,
   backtest 114-74) join the wind unders as "Weather unders"; his rain factor now uses forecast mm instead of
