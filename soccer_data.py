@@ -63,7 +63,16 @@ ATTACK = {"g", "a", "sh", "sot"}
 # opponent-strength boost isn't in that backtest; the first saves picks went 0-6
 MKT_W_M = {"sv": .7}
 MKT_W = .5               # log-odds weight on DraftKings' price (margin removed) in the final chance
-MARGIN = {"g": .10, "sh": .07, "sot": .08, "a": .10, "sv": .07, "fc": .07, "card": .10}  # typical book margin
+# DraftKings' soccer player props are one-sided ("yes" only), and their margin is far bigger than the 7-10% assumed
+# before: across 22,000 graded props (Oct 11-18, players who started) 1+ shots priced at 73% happened 55% of the time,
+# anytime goals priced at 20% happened 15%. The book's price is turned into a real chance with this per-market fit
+# (logit(chance) = a + b * logit(price's implied chance)); fit Oct 11-14, it held on Oct 15-18 (shots 32% vs 29%
+# happened, shots on target 24% vs 21%, goals 16% vs 14%). The model on its own was already close for starters.
+BOOK_CAL = {"g": (-.22, 1.128), "sh": (-.877, .911), "sot": (-.697, .978), "a": (-.108, 1.21), "fc": (-.766, .978),
+            "card": (-.45, .911), "sv": (-.368, .868)}
+TOP_N = 20               # the Top picks: lots of matches, so more than 10
+TOP_M = {"g", "sh", "sot"}  # goals, shots and shots on target only (saves, cards, fouls and assists went 0-14 at first)
+TOP_MIN_PRICE = -250     # shorter than this pays too little to be worth listing
 K_START, K_SUB = 4, 3    # shrinkage (pseudo-appearances) toward the position average
 
 
@@ -522,7 +531,8 @@ def main():
                 if r_adj and m != "fc":
                     p_mod = sig(logit(p_mod) + r_adj)
                 q = 1 / dec
-                q_fair = min(.97, q / (1 + MARGIN.get(m, .08)))
+                ca, cb = BOOK_CAL.get(m, (-.6, .95))
+                q_fair = min(.97, sig(ca + cb * logit(min(.99, q))))
                 mw = MKT_W_M.get(m, MKT_W)
                 prob = sig((1 - mw) * logit(p_mod) + mw * logit(q_fair))
                 ev = prob * dec - 1
@@ -561,9 +571,10 @@ def main():
         matches.append(mt)
         for r in rows:
             cands.append(dict(r, lg=u["lg"], league=mt["league"], ev_id=u["ev"], t=mt["t"]))
-    # Top 10s: best expected profit (one bet per player, at most 2 per match, chance at least 15%), and the
-    # likeliest anytime scorers
-    def top(pool, key, per_match=2):
+    # Top picks: the likeliest hits (goals, shots, shots on target) for players who start or almost always do, one bet per
+    # player and at most 2 per match. Value bets: the few props whose real chance beats DraftKings' price (with the book's
+    # margin taken out properly, that's rare), long shots capped at +500.
+    def top(pool, key, n=10, per_match=2):
         out, seen, pm = [], set(), {}
         for c in sorted(pool, key=key):
             if c["pid"] in seen or pm.get(c["ev_id"], 0) >= per_match:
@@ -571,21 +582,23 @@ def main():
             seen.add(c["pid"])
             pm[c["ev_id"]] = pm.get(c["ev_id"], 0) + 1
             out.append(c)
-            if len(out) == 10:
+            if len(out) == n:
                 break
         return out
-    # a model chance far above the book's (more than 1.75x, or 15+ points) usually means the book knows something the
-    # box scores don't (injury, rotation, a different role), so those stay off the Top lists
-    sane = lambda c: c["model"] <= (1.35 if c["m"] == "sv" else 1.75) * c["fair_book"] and c["model"] - c["fair_book"] <= .15 \
+    # a model chance far above the book's real chance usually means the book knows something the box scores don't
+    # (injury, rotation, a different role), so those stay off both lists
+    sane = lambda c: c["model"] <= (1.35 if c["m"] == "sv" else 1.6) * c["fair_book"] and c["model"] - c["fair_book"] <= .12 \
         and not c.get("stale")
-    value = top([c for c in cands if c["ev"] >= .05 and c["prob"] >= .2 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
-    plus = top([c for c in cands if c["ev"] >= .05 and c["price"] >= 100 and c["prob"] >= .12 and c["hits"][1] >= 5 and sane(c)], lambda c: -c["ev"])
-    scorers = top([c for c in cands if c["m"] == "g" and c["k"] == 1 and not c.get("stale")], lambda c: -c["prob"], per_match=3)
+    starts = lambda c: c.get("lineup") != "bench" and (c.get("lineup") == "start" or (c.get("start_rate") or 0) >= .7)
+    tops = top([c for c in cands if c["m"] in TOP_M and c["price"] >= TOP_MIN_PRICE and c["hits"][1] >= 5 and starts(c)
+                and sane(c)], lambda c: -c["prob"], n=TOP_N)
+    value = top([c for c in cands if c["ev"] >= .03 and c["prob"] >= .15 and c["price"] <= 500 and c["m"] not in ("sv", "card")
+                 and c["hits"][1] >= 5 and starts(c) and sane(c)], lambda c: -c["ev"])
     matches.sort(key=lambda m: m["t"])
     cut = (now - dt.timedelta(days=10)).isoformat(timespec="minutes")
     json.dump({k: v for k, v in closing.items() if v[1] >= cut}, open(CLOSE, "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "skipped": skip, "matches": matches,
-               "value": value, "plus": plus, "scorers": scorers},
+               "top": tops, "value": value},
               open(OUT, "w"), separators=(",", ":"))
     print("players skipped:", skip)
     evs = sorted(c["ev"] for c in cands)
@@ -593,7 +606,7 @@ def main():
         print("EV distribution: median %.3f, 90th %.3f, share above +5%%: %.1f%%" % (evs[len(evs) // 2], evs[int(len(evs) * .9)],
               100 * sum(1 for e in evs if e >= .05) / len(evs)))
     print(f"wrote {OUT}: {len(matches)} matches with props, {len(cands)} priced props, "
-          f"top value {[(c['name'], c['label'], c['price'], c['prob'], c['model'], c['ev']) for c in value[:6]]} plus {[(c['name'], c['label'], c['price'], c['ev']) for c in plus[:4]]}")
+          f"top {[(c['name'], c['label'], c['price'], c['prob']) for c in tops[:6]]} value {[(c['name'], c['label'], c['price'], c['prob'], c['ev']) for c in value[:6]]}")
 
 
 if __name__ == "__main__":

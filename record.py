@@ -186,7 +186,13 @@ def main():
                                      "factors": next((c.get("factors") for c in picks.get("picks", []) + picks.get("picksOver", [])
                                                       if c["key"] == k), None)}
 
-    # 1d. the research's anytime-TD picks are research calls too (line 0.5 = scores at least once)
+    # 1d. the research's anytime-TD picks are research calls too (line 0.5 = scores at least once); one that drops off
+    #     the research's list before kickoff (e.g. ruled inactive, like Judkins on Oct 18) is withdrawn
+    td_now = {(c["key"], c["t"]) for c in picks.get("tdPicks", [])}
+    if picks.get("tdPicks") is not None:
+        for kk, e in list(research.items()):
+            if e["status"] == "pending" and e.get("market") == "td" and start(e) > now and kk not in td_now:
+                del research[kk]
     for c in picks.get("tdPicks", []):
         if start(c) > now:
             research[(c["key"], c["t"])] = {"key": c["key"], "lg": c["lg"], "id": c["id"], "name": c["name"], "team": c["team"],
@@ -225,12 +231,12 @@ def main():
                   "prob": c["prob"], "price": c.get("price") if c.get("price") is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
                   "status": "pending", "result": None}
 
-    # 1f. soccer: the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff with
+    # 1f. soccer: the Soccer tab's lists (Top picks, Value bets), locked at kickoff with
     #     DraftKings' price, so the record shows real profit at the prices the app showed
     soc = {(e["key"], e["t"]): e for e in rec.get("soccer", [])}
     sfile = load("soccer.json", {})
     cur_s = {}
-    for lst in ("value", "plus", "scorers"):
+    for lst in ("top", "value", "plus", "scorers"):  # plus / scorers retired Oct 19 (kept for older soccer.json)
         for c in sfile.get(lst, []):
             if start(c) > now:
                 cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)

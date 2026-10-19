@@ -832,8 +832,13 @@ def main():
     # the research check's single best bet of the day
     if best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)
-        if c and dt.datetime.fromisoformat(c["t"]) > now:
+        # not when the markets lean the other way: the sportsbook's no-vig price or Kalshi's chance below the 52.4% a
+        # -110 bet needs, or the line moved against it (Oct 19: Daniels over with Kalshi at 44%)
+        mk = [x for x in (c.get("book_p"), c.get("mkt")) if x is not None] if c else []
+        if c and dt.datetime.fromisoformat(c["t"]) > now and not c.get("moved_against") and all(x >= .5 for x in mk):
             out["best"] = dict(c, why_research=best_note.get("why", ""), sources=best_note.get("sources", []))
+        elif c:
+            print(f"best bet {c['name']} {c['market']} skipped: markets {mk}, moved against {c.get('moved_against')}")
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: {len(out['picks'])} candidates")
 

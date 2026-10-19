@@ -1541,7 +1541,7 @@ function socRecordHtml(){
   const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
     return`<tr><td>${lab}</td><td class="num mono">${w}-${a.length-w}</td><td class="num mono">${pct(w/a.length)} <small class="pteam">vs ${pct(pr)}</small></td><td class="num mono" style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"\u2212"}${Math.abs(u).toFixed(1)}u</td></tr>`};
   const L=k=>T.filter(e=>(e.lists||[]).includes(k));
-  return`<div class="learn"><h4>Soccer Top 10s</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Best value",L("value"))}${row("Plus money",L("plus"))}${row("Goalscorers",L("scorers"))}</tbody></table></div>
+  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Top picks",L("top"))}${row("Value bets",L("value"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
     <p class="pteam" style="margin:6px 0 0">1 unit per pick at the DraftKings price when it was listed; void when he doesn't play.</p></div>`;
 }
 function tdRecordHtml(){
@@ -1620,7 +1620,7 @@ function renderAppRecord(){
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const chips=`<div class="cats" style="margin:0">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`;
-  let html=SOCR?`<section class="top"><div class="tophead"><h2>Record <small class="h2sub">Soccer</small></h2></div><p class="topsub">Every pick on the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff and graded at DraftKings' price</p>${chips}`
+  let html=SOCR?`<section class="top"><div class="tophead"><h2>Record <small class="h2sub">Soccer</small></h2></div><p class="topsub">Every pick on the Soccer tab's lists (Top picks and Value bets; Plus money and Goalscorers until Oct 19), locked at kickoff and graded at DraftKings' price</p>${chips}`
     :`<section class="top"><div class="tophead"><h2>Record${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${chips}`;
   if(P0.length)html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
@@ -2740,7 +2740,7 @@ function socCard(c,i,mt){
   const open=S.socPl===c.key+"|"+c.ev_id;
   return`<div class="pick soc${open?" open":""}" data-socpl="${esc(c.key+"|"+c.ev_id)}" role="button" tabindex="0" aria-expanded="${open}"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.price)}</b><small>${esc(c.label)}</small></span></div>
-    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}); DraftKings' price implies ${Math.round(c.book*100)}%. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${c.ev>0?`Expected profit <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.`:""}</div>
+    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}); DraftKings' price implies ${Math.round(c.book*100)}%. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${c.ev>0?`Expected profit <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.`:`At this price it loses about $${(-c.ev*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</div>
     ${rs}<div class="pkmeta">${socSpark(vals,c.k)}${socLineup(c)}${mv}<button class="trk sm ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}">${tr?"\u2713 Tracking":"+ Track"}</button></div>
     ${open?socPlayerHtml(c.pid,mt):`<span class="socmore">Tap for his last 10 matches and every bet on him \u25be</span>`}</div>`;
 }
@@ -2780,7 +2780,7 @@ function socProps(mt){
 }
 function socAll(){return(SOC&&SOC.matches||[]).filter(m=>new Date(m.t).getTime()>Date.now()-5*60e3).map(m=>(socProps(m),m))}
 function socFind(key,ev){for(const m of socAll())if(m.ev===ev){const p=m.props.find(x=>x.key===key);if(p)return Object.assign({},p,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t})}
-  for(const l of ["value","plus","scorers"])for(const c of (SOC&&SOC[l])||[])if(c.key===key&&c.ev_id===ev)return c;return null}
+  for(const l of ["top","value"])for(const c of (SOC&&SOC[l])||[])if(c.key===key&&c.ev_id===ev)return c;return null}
 function socTrack(c){
   const ex=MY.find(x=>x.lg==="SOC"&&x.key===c.key&&x.ev===c.ev_id);
   if(ex){if(new Date(ex.t).getTime()<=Date.now()){toast("Game has started");return}MY=MY.filter(x=>x!==ex);saveMy();toast("Removed from My picks");updMyCount();return}
@@ -2796,18 +2796,18 @@ function renderSoccer(){
   if(!ms.length){el.innerHTML=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2></div><p class="pteam">No priced matches in the next three days yet. DraftKings posts player props a day or two before kickoff.</p></section>`;return}
   const lgs=[...new Map(ms.map(m=>[m.lg,m.league])).entries()];
   const lf=lgs.some(([k])=>k===S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
-  const list=S.socList||"value";
+  const list=["top","value"].includes(S.socList)?S.socList:"top";
   const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
   const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
-  const sub={value:"Best expected profit at DraftKings' price: the app's chance (from his recent matches, his team's expected goals and the price itself) times the payout",
-    plus:"Plus-money bets with the best expected profit",scorers:"The players most likely to score, with DraftKings' anytime-goal price"}[list];
-  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["value","Best value"],["plus","Plus money"],["scorers","Goalscorers"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
+  const sub={top:`The ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest hits across every match: goals, shots and shots on target for players who start (or almost always do), at most 2 per match`,
+    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500"}[list];
+  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Top picks"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
     <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
     ${S.socQ?socSearchHtml(ms):""}
     <p class="topsub">${sub}. Prices: DraftKings via ESPN, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
     ${pool.length?`<div class="tdpicks">${pool.map((c,i)=>socCard(c,i,mtOf(c))).join("")}</div>`:`<p class="pteam">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`}
-    <p class="topnote" style="margin:0">Expected profit is an average over many bets, not a promise. The app's chances were checked against 14,000 past appearances and are calibrated (when it says 25%, about 25% happened); they're blended with DraftKings' price because the book knows about injuries and rotation the box scores don't. If he doesn't play, DraftKings voids the bet.</p></section>`;
+    <p class="topnote" style="margin:0">DraftKings' soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app's chances take that margin out, and most Top picks are likely to hit but still cost money on average at DraftKings' price. Each pick shows the fair price; shop for that price or better. Expected profit is an average over many bets, not a promise. If he doesn't play, DraftKings voids the bet.</p></section>`;
   // matches
   const days={};ms.filter(inLg).forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
   html+=`<section class="top"><div class="tophead"><h2>Matches</h2></div>${Object.entries(days).map(([d,list])=>`<h3 class="tdh3">${d}</h3>`+list.map(m=>{
