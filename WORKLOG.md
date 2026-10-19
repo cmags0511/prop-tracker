@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **rmolnar10**: Walters page: "3 models on this page" guide (bottom sheet, `openWalGuide`), green/red This week cards
+  with a legend, How it works rewritten as short bullet groups (`WAL_MODELS`/`WAL_HOW` in `renderWalters`). sw.js pt-v71.
 - **rmolnar10**: Walters page: "3-star plays" section (Walters picks at 15%+, 1u each, own record + backtest tier). Front end
   only, inside `renderWalters`. sw.js pt-v70.
 - **rmolnar10**: Walters page: the book's full method (PR). New `walters_book.py` (his chapter 22 game factors and
