@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Audit fixes. Best bet is skipped when the sportsbook's no-vig price or Kalshi gives its side under
+  50%, or the line moved against it (`picks.py`, end of main). Anytime-TD research calls that drop off `tdPicks`
+  before kickoff (e.g. ruled inactive) are withdrawn from the research record (`record.py` 1d).
 - **cmags0511**: Merged (PR #15, owner approved): DraftKings soccer props carry a much bigger margin than assumed,
   so `soccer_data.py` now turns the price into a real chance with a fitted `BOOK_CAL` (replaces `MARGIN`). Soccer
   tab lists are now Top picks (20 likeliest goals/shots/SOT for likely starters, price -250 or longer) and Value
