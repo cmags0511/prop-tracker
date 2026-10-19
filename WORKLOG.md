@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **rmolnar10**: Walters page: "3-star plays" section (Walters picks at 15%+, 1u each, own record + backtest tier). Front end
+  only, inside `renderWalters`. sw.js pt-v70.
 - **rmolnar10**: Walters page: the book's full method (PR). New `walters_book.py` (his chapter 22 game factors and
   key-number star sizing, computed from the nflverse schedule) used by `walters.py`; each game gets a Walters line,
   its factor list and a star-sized Walters pick, graded alongside the tuned Model picks (`bpick`/`bstars`/`bstatus`
