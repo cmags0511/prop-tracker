@@ -83,3 +83,16 @@ the totals pick (1 unit, kickoff wind from the Open-Meteo forecast in context.js
 price). Non-QB injuries (ESPN Out / Doubtful starters, valued Walters-style by position x recent snap share from
 nflverse snap counts, x1.5 for two starters out in a unit) are listed per game but don't move the line: at several
 weights they didn't beat the closing line (`INJ_K` = 0 in walters.py turns them on).
+
+Walters picks (the book's full method, `walters_book.py`): his chapter 22 lists his game factors with values (end of
+2022) and his bet sizing, so each game also gets a "Walters" line: the same ratings plus every injury at full value
+and his S-, W- and E-factors at 0.2 points each (turf, division, conference, prime-time home games, coming off Monday
+night or overtime, 3rd road game in 4, byes by team strength, Super Bowl hangovers, 2000+ mile trips, short-trip
+rivalries, body clock, back-to-back long trips, 19+/29+ point bounce-backs, warm/dome teams in the cold, rain,
+losing streaks, revenge, coach/QB vs old team), all computed from the nflverse schedule plus the Open-Meteo forecast.
+The pick is sized by his key-number table (share of games landing between his number and the line, DK's price
+shifting the line ~1/8 point per 5 cents): under 5.5% no play, then 0.5-3 stars, units = stars. Backtest since 2012:
+1318-1222 (51.9%), +160u; only 3-star plays (15%+) were clearly ahead (481-372, 56%). Against the closing line the
+factors were worth about their full value in 2012-18 and nothing since 2019, so the tuned Model picks leave them out.
+Not computed: his per-player/coach values, matchup "variable" factors, snow and wind on the side, each QB's weather
+splits, playoff stakes.

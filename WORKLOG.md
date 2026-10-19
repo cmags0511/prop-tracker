@@ -3,6 +3,12 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-19
+- **rmolnar10**: Walters page: the book's full method (PR). New `walters_book.py` (his chapter 22 game factors and
+  key-number star sizing, computed from the nflverse schedule) used by `walters.py`; each game gets a Walters line,
+  its factor list and a star-sized Walters pick, graded alongside the tuned Model picks (`bpick`/`bstars`/`bstatus`
+  in walters.json, `backtest_book`). index.html changes are inside `renderWalters` plus `.wfac` styles. sw.js pt-v69.
+
 ## 2026-10-18
 - **cmags0511**: "Since your last visit" box at the top of Props (Top 10 changes, your picks' injury news and line
   moves, new research; `wcSnap`/`wcDiff`/`renderWhatChanged` in index.html, kept in localStorage `ptSeen`).

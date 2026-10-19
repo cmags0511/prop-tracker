@@ -27,6 +27,11 @@ unders at outdoor games with 12-19 mph wind at kickoff went 57% (both halves of 
 pick, 1 unit, graded at DraftKings' under price. Non-QB injuries are listed per game (see POS_PTS) without moving
 the line.
 
+Walters picks: a second line per game with the book's full method (walters_book.py): the same ratings plus every
+injury at full value and his game factors at 0.2 points each, sized by his key-number stars (units = stars). In the
+backtest the factors beat the closing line in 2012-18 but not since 2019, and only 3-star plays clearly won, so the
+tuned picks above leave them out; both are tracked.
+
 Data: nflverse schedule (results, closing spreads and totals, kickoff wind, starting QBs) and snap counts, ESPN
 scoreboard (DraftKings spread, total and prices, final scores), context.json (ESPN injuries; Open-Meteo kickoff wind).
 Output: walters.json {built, params, backtest, ratings, games}
@@ -35,6 +40,7 @@ Usage: python walters.py [walters.json]
 import csv, io, json, sys, datetime as dt, collections as C
 import urllib.request
 from zoneinfo import ZoneInfo
+import walters_book as B
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "walters.json"
 NFLV = "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv"
@@ -202,6 +208,19 @@ def injury_points(losses):
     return sum(sum(p for p, _ in v) * (1.5 if sum(sh >= .6 for _, sh in v) >= 2 else 1) for v in by.values())
 
 
+def fl(x):
+    return float(x) if x not in ("", "NA", None) else None
+
+
+def book_pick(mu, line, price_h, price_a):
+    """Walters' bet strength: (side, % of games landing between his number and the line, stars). `mu` = expected
+    home margin, `line` = the home spread (negative = home favored)"""
+    side = "home" if mu > -line else "away"
+    sp, pr, fair = (line, price_h, mu) if side == "home" else (-line, price_a, -mu)
+    pct = B.value(fair, -B.implicit(sp, pr))
+    return side, pct, B.stars(pct)
+
+
 def payout(price):
     return price / 100 if price > 0 else 100 / -price
 
@@ -227,10 +246,18 @@ def main():
                       "total": float(r["total_line"]) if r["total_line"] else None,
                       "pts": float(r["total"]) if r["total"] else None, "outdoor": r["roof"] in ("outdoors", "open"),
                       "wind": float(r["wind"]) if r["wind"] else None,
-                      "qbn_h": r["home_qb_name"], "qbn_a": r["away_qb_name"]})
+                      "qbn_h": r["home_qb_name"], "qbn_a": r["away_qb_name"],
+                      # for the book's game factors (walters_book.py)
+                      "id": r["game_id"], "weekday": r["weekday"], "rh": r["home_team"], "ra": r["away_team"],
+                      "ot": r["overtime"] == "1", "rest_h": fl(r["home_rest"]), "rest_a": fl(r["away_rest"]),
+                      "surface": r["surface"], "roof": r["roof"], "temp": fl(r["temp"]), "stadium_id": r["stadium_id"],
+                      "coach_h": r["home_coach"], "coach_a": r["away_coach"],
+                      "sp_h": fl(r["home_spread_odds"]), "sp_a": fl(r["away_spread_odds"])})
     games.sort(key=lambda g: (g["day"], g["time"]))
     done = [g for g in games if g["margin"] is not None]
     table = cover_table(done)
+    sched = B.Schedule(games)
+    sched.prep()
 
     # 1. replay every completed game: ratings as they stood before each week, and the backtest record
     M, season = Model(), None
@@ -240,6 +267,9 @@ def main():
     bt = C.defaultdict(lambda: [0, 0, 0.0])  # season -> wins, losses, units at -110
     btt = C.defaultdict(lambda: [0, 0, 0.0])  # the same for wind unders
     tiers = {"4-5": [0, 0], "5+": [0, 0]}
+    btb = C.defaultdict(lambda: [0, 0, 0.0])  # the book line (game factors + star sizing), units = stars
+    stars = C.defaultdict(lambda: [0, 0])
+    rating = lambda t: ALPHA * M.mkt[t] + (1 - ALPHA) * M.perf[t]
     for wk in sorted(weeks):
         if wk[0] != season:
             season = wk[0]
@@ -257,6 +287,13 @@ def main():
                         s[0 if r > 0 else 1] += 1
                         s[2] += u * (100 / 110) if r > 0 else -u
                         tiers["5+" if abs(d) >= EDGE2 else "4-5"][0 if r > 0 else 1] += 1
+                side, pct, st = book_pick(mu + B.net(sched.factors(g, rating)), -g["spread"], g["sp_h"], g["sp_a"])
+                r = (g["margin"] - g["spread"]) * (1 if side == "home" else -1)
+                if st and r:
+                    s = btb[g["season"]]
+                    s[0 if r > 0 else 1] += 1
+                    s[2] += st * payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -st
+                    stars[st][0 if r > 0 else 1] += 1
             wind = g.get("wind")
             if g["season"] >= BT_FROM and g["type"] == "REG" and g["total"] is not None and g["outdoor"] \
                     and wind is not None and WIND_LO <= wind < WIND_HI and g["pts"] != g["total"]:
@@ -329,6 +366,12 @@ def main():
             la = injury_losses(snaps, a, wk_n, out_nonqb.get(a, [])) if nxt.get(a) == ev["id"] else []
             ih, ia = injury_points(lh), injury_points(la)
             mu = M.expect(h, a, bool(c.get("neutralSite")), ph - INJ_K * ih, pa - INJ_K * ia)
+            # the book line: the same ratings plus every injury at full value and Walters' game factors
+            wx0 = weather.get(f"NFL|{a}@{h}|{t:%Y-%m-%d}") or {}
+            out_door = not (wx0.get("indoor") or (c.get("venue") or {}).get("indoor"))
+            fs = sched.factors(ug, rating, temp=wx0.get("temp") if out_door else None,
+                               rain=wx0.get("rain") if out_door else None) if ug.get("id") else []
+            mu_b = M.expect(h, a, bool(c.get("neutralSite")), ph - ih, pa - ia) + B.net(fs)
             # totals: DraftKings' total and prices; the under when the kickoff forecast has 12-19 mph wind outdoors
             tot = o.get("total") or {}
             wx = weather.get(f"NFL|{a}@{h}|{t:%Y-%m-%d}") or {}
@@ -351,6 +394,9 @@ def main():
                 p = p_cover(table, mu, line)
                 e.update({"edge": round(abs(d), 1), "pick": pick, "units": (2 if abs(d) >= EDGE2 else 1) if pick else 0,
                           "prob": round(p if pick != "away" else 1 - p, 3)})
+                side, pct, st = book_pick(mu_b, line, e["price_h"], e["price_a"])
+                e.update({"bfair": round(-mu_b, 1), "bpct": round(pct, 1), "bpick": side if st else None, "bstars": st,
+                          "factors": [[s_, v, why] for s_, v, why in fs], "fnet": round(B.net(fs), 2)})
             rec[ev["id"]] = e
         elif state == "post" and e.get("status") == "pending" and ev["id"] in rec:
             hs, as_ = float(side["home"].get("score") or 0), float(side["away"].get("score") or 0)
@@ -362,6 +408,11 @@ def main():
                 e["units_won"] = round(e["units"] * payout(price), 2) if r > 0 else -e["units"] if r < 0 else 0
             else:
                 e["status"] = "nopick"
+            if e.get("bpick") and e.get("line") is not None:
+                r = (hs - as_ + e["line"]) * (1 if e["bpick"] == "home" else -1)
+                price = e.get("price_h" if e["bpick"] == "home" else "price_a") or -110
+                e["bstatus"] = "win" if r > 0 else "loss" if r < 0 else "push"
+                e["bunits_won"] = round(e["bstars"] * payout(price), 2) if r > 0 else -e["bstars"] if r < 0 else 0
             if e.get("tpick") and e.get("tline") is not None:
                 r = e["tline"] - (hs + as_)  # > 0: under wins
                 price = e.get("tprice_u") or -110
@@ -380,6 +431,10 @@ def main():
            "params": {"alpha": ALPHA, "w": W, "hfa": HFA, "qb": QB_PTS, "edge": EDGE, "edge2": EDGE2, "cap": CAP, "inj_k": INJ_K},
            "backtest": {"from": BT_FROM, "all": [allw, alll, round(sum(v[2] for v in bt.values()), 1)],
                         "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(bt.items())}, "tiers": tiers},
+           "backtest_book": {"from": BT_FROM, "all": [sum(v[0] for v in btb.values()), sum(v[1] for v in btb.values()),
+                                                      round(sum(v[2] for v in btb.values()), 1)],
+                             "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btb.items())},
+                             "stars": {str(k): v for k, v in sorted(stars.items())}},
            "backtest_totals": {"from": BT_FROM, "wind": [WIND_LO, WIND_HI],
                                "all": [sum(v[0] for v in btt.values()), sum(v[1] for v in btt.values()), round(sum(v[2] for v in btt.values()), 1)],
                                "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btt.items())}},
