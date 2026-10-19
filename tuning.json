@@ -1,5 +1,5 @@
 {
- "built": "2026-10-19T07:00+00:00",
+ "built": "2026-10-19T09:51+00:00",
  "graded_picks": 85,
  "graded_research": 108,
  "market": {
@@ -16,22 +16,22 @@
   "NFL receptions overs are 5-5: ranked lower (x0.968)",
   "Medium-confidence research calls are 43-45: their weight goes from 1.0 to 0.907",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 1489 graded props the app's chances averaged 60% but 52% hit: its percentages are now pulled toward 50% (confidence x0.48)",
-  "Overs it backed hit 49%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
+  "Across 1492 graded props the app's chances averaged 60% but 52% hit: its percentages are now pulled toward 50% (confidence x0.48)",
+  "Overs it backed hit 48%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
   "NFL rushing yards: an extra nudge toward the under",
-  "NFL tackles: trusted less (x0.90): its edges have played out smaller than predicted",
   "NFL receiving yards: an extra nudge toward the under",
+  "NFL tackles: trusted less (x0.90): its edges have played out smaller than predicted",
   "NFL passing yards: an extra nudge toward the over",
   "NFL pass attempts: an extra nudge toward the over",
-  "Recent form has been over-weighted across 833 graded props: weighted x0.91"
+  "Recent form has been over-weighted across 836 graded props: weighted x0.91"
  ],
  "calibration": {
-  "n": 1489,
+  "n": 1492,
   "days": 6,
   "trust": 0.75,
-  "c": -0.104,
+  "c": -0.106,
   "b": 0.479,
   "per": {
    "NFL|att": [
@@ -43,49 +43,49 @@
     0.954
    ],
    "NFL|pat": [
-    -0.048,
+    -0.047,
     1.009
    ],
    "NFL|pyd": [
-    0.096,
+    0.097,
     0.965
    ],
    "NFL|rec": [
-    0.037,
-    0.902
+    0.034,
+    0.901
    ],
    "NFL|recyd": [
-    -0.058,
+    -0.06,
     0.915
    ],
    "NFL|rry": [
-    -0.009,
+    -0.008,
     0.936
    ],
    "NFL|ryd": [
-    -0.131,
+    -0.13,
     0.979
    ],
    "NFL|sck": [
-    -0.208,
+    -0.214,
     0.937
    ],
    "NFL|tkl": [
-    -0.041,
-    0.898
+    -0.04,
+    0.899
    ]
   }
  },
  "calib": {
-  "n": 1489,
+  "n": 1492,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    517,
+    520,
     0.523,
-    0.528
+    0.529
    ],
    [
     0.55,
@@ -120,9 +120,9 @@
    [
     0.5,
     0.55,
-    360,
+    361,
     0.518,
-    0.506
+    0.504
    ],
    [
     0.55,
@@ -226,7 +226,7 @@
   {
    "d": "2026-10-19",
    "notes": [
-    "Overs it backed hit 49%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
+    "Overs it backed hit 48%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
     "NFL pass attempts: an extra nudge toward the over"
    ]
   }
