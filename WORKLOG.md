@@ -4,7 +4,7 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
-- **cmags0511**: PR "soccer-top" (waiting on owner): DraftKings soccer props carry a much bigger margin than assumed,
+- **cmags0511**: Merged (PR #15, owner approved): DraftKings soccer props carry a much bigger margin than assumed,
   so `soccer_data.py` now turns the price into a real chance with a fitted `BOOK_CAL` (replaces `MARGIN`). Soccer
   tab lists are now Top picks (20 likeliest goals/shots/SOT for likely starters, price -250 or longer) and Value
   bets (EV +3%+, capped at +500, no saves/cards); Plus money and Goalscorers retired (still in the record).
