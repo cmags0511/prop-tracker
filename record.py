@@ -225,12 +225,12 @@ def main():
                   "prob": c["prob"], "price": c.get("price") if c.get("price") is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
                   "status": "pending", "result": None}
 
-    # 1f. soccer: the Soccer tab's Top 10 lists (best value, plus money, likeliest scorers), locked at kickoff with
+    # 1f. soccer: the Soccer tab's lists (Top picks, Value bets), locked at kickoff with
     #     DraftKings' price, so the record shows real profit at the prices the app showed
     soc = {(e["key"], e["t"]): e for e in rec.get("soccer", [])}
     sfile = load("soccer.json", {})
     cur_s = {}
-    for lst in ("value", "plus", "scorers"):
+    for lst in ("top", "value", "plus", "scorers"):  # plus / scorers retired Oct 19 (kept for older soccer.json)
         for c in sfile.get(lst, []):
             if start(c) > now:
                 cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)
