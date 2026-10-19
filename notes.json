@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T20:35:35Z",
+ "updated": "2026-10-19T22:46:43Z",
  "summary": "Monday night's Commanders-49ers game is shaped by injuries: Washington's lead back Croskey-Merritt is out, and San Francisco is without Deebo Samuel with Mike Evans and Christian Kirk questionable, which pushes targets to Kittle. The NBA season opens this week with several new roles, including the Spurs' three-guard lineup and Franz Wagner's shoulder in Orlando.",
  "notes": {
   "NBA|4432573|ra": {
@@ -588,11 +588,12 @@
    "flag": "caution",
    "adj": 1,
    "conf": "medium",
-   "note": "Evans has rib and calf injuries, did not practice at all this week and is questionable; even if active, his workload is at risk.",
+   "note": "Evans has rib and calf injuries, did not practice at all this week and is questionable; even if active, his workload is at risk. Late Monday the 49ers were reported optimistic he plays, with a final call after pregame warmups.",
    "sources": [
     "https://sports.yahoo.com/articles/49ers-wr-mike-evans-play-103124819.html",
     "https://www.49erswebzone.com/articles/204279-commanders-injury-report-juszczyk-return/",
-    "https://sports.yahoo.com/articles/commanders-49ers-injury-report-stefon-110937599.html"
+    "https://sports.yahoo.com/articles/commanders-49ers-injury-report-stefon-110937599.html",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-19/schefty-niners-optimistic-evans-plays-vs-wsh"
    ],
    "detail": {
     "availability": "Questionable (ribs, calf); Shanahan said the decision comes Monday; he only did side conditioning Saturday.",
@@ -938,6 +939,17 @@
    "note": "Tatum is expected to play in the opener at Detroit after resting the last preseason game, with no minutes limit reported; in 16 games back from his Achilles injury last season he averaged about 27 points plus assists in under 33 minutes.",
    "sources": [
     "https://www.rotowire.com/basketball/headlines/jayson-tatum-news-expected-to-suit-up-tuesday-534991"
+   ]
+  },
+  "NFL|00-0039910|pyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Daniels is off the injury report and averaging about 172 passing yards over his last ten, but Diggs is expected to play, Bosa is out for San Francisco and a 7.5-point underdog role could push Washington into more late passing.",
+   "sources": [
+    "https://www.rotoballer.com/player-news/jayden-daniels-set-for-return-against-giants-in-week-5/1962886",
+    "https://www.espn.com/nfl/story/_/id/50205015/san-francisco-49ers-rule-de-nick-bosa-monday-night"
    ]
   }
  },
