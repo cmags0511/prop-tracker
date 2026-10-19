@@ -768,6 +768,24 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .wpk{color:var(--accent);font-weight:700;white-space:nowrap}
 .wfac summary{cursor:pointer;list-style:none}.wfac summary::-webkit-details-marker{display:none}.wfac summary::before{content:"\25B8 ";font-size:10px}.wfac[open] summary::before{content:"\25BE "}
 .wfac .pteam{margin:2px 0 0 12px}
+.wg.go{border-color:var(--hit);background:var(--hit-soft)}
+.wg.no{border-color:var(--miss-strong);background:var(--miss-soft)}
+.wleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2);margin:2px 0 10px}
+.wleg span{display:inline-flex;align-items:center;gap:6px}
+.wsw{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid}
+.wsw.go{background:var(--hit-soft);border-color:var(--hit)}.wsw.no{background:var(--miss-soft);border-color:var(--miss-strong)}
+.wguide{display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 2px;padding:10px 12px;border:1px solid var(--line2);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.wguide:hover{border-color:var(--accent)}
+.wguide b{display:block;font-size:14px}.wguide small{display:block;font-size:12px;color:var(--muted)}
+.wgi{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:700 13px/1 var(--f-body)}
+.wgo{margin-left:auto;font-size:20px;color:var(--muted)}
+.wgh{margin:4px 0 0;font:700 13px var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.wmods{display:flex;flex-direction:column;gap:8px}
+.wmod{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.wmodh{display:flex;align-items:baseline;gap:8px}.wmodh b{font-size:15px}
+.wmod ul,.whow ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;line-height:1.4;color:var(--ink2)}
+.whow h5{margin:12px 0 0;font:600 13px var(--f-body);color:var(--ink)}
+.whow h5:first-child{margin-top:4px}
 .wnotes{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--ink2);font-size:13.5px}
 /* compact header on phones */
 @media (max-width:600px){
@@ -1651,7 +1669,14 @@ function renderAppRecord(){
 }
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
-let WAL=null,walLoading=false;
+let WAL=null,walLoading=false,WAL_MODELS="",WAL_HOW="";
+function openWalGuide(){
+  document.getElementById("sheet")?.remove();
+  const d=document.createElement("div");d.className="sharebox apbox";d.id="sheet";
+  d.innerHTML=`<div class="apcard" role="dialog" aria-label="Page guide"><div class="aphead"><b>Page guide</b><button class="apx" aria-label="Close">\u2715</button></div><div class="apbody"><h4 class="wgh">The 3 models</h4>${WAL_MODELS}<h4 class="wgh">How it works</h4>${WAL_HOW}</div></div>`;
+  document.body.appendChild(d);
+  d.addEventListener("click",e=>{if(e.target===d||e.target.closest(".apx"))d.remove()});
+}
 function renderWalters(){
   const el=document.getElementById("view-walt");
   if(!WAL){if(!walLoading){walLoading=true;jget("walters.json").then(d=>{WAL=d||{games:[]};walLoading=false;if(S.view==="walt")renderWalters()})}
@@ -1682,6 +1707,7 @@ function renderWalters(){
   const now=Date.now(),up=G.filter(e=>new Date(e.t)>now-4*3600e3&&e.status==="pending").sort((a,b)=>(b.pick?1:0)-(a.pick?1:0)||new Date(a.t)-new Date(b.t));
   const bw=(bt.all||[0,0])[0],bl=(bt.all||[0,0])[1];
   let html=`<section class="top"><div class="tophead"><h2>Walters-style NFL lines</h2><button class="linkbtn" data-goto="app">‹ Record</button></div>
+    <button class="wguide" data-wguide="1"><span class="wgi">i</span><span><b>3 models on this page</b><small>Walters \u00b7 Model \u00b7 Wind under: what each one is</small></span><span class="wgo">\u203a</span></button>
     <p class="topsub">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under in ${wb[0]}\u2013${wb[1]-1} mph wind outdoors. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>
     <div class="strip">
       <div><div class="k">Walters picks this season</div><div class="v">${bw2}-${bl2}</div><div class="s">${bgr.length?`<b style="color:${bunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(bunits)}</b> (units = stars)`:"first picks lock in this week"}</div></div>
@@ -1700,9 +1726,10 @@ function renderWalters(){
     <p class="topsub">Walters picks where 15%+ of games land between his number and DraftKings' line. The only tier that won in both halves of the backtest; the smaller stars were a coin flip. 1 unit each here.</p>
     <div class="strip"><div><div class="k">This season</div><div class="v">${s3w}-${s3l}</div><div class="s">${s3g.length?`<b style="color:${s3u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(s3u)}</b> at DraftKings' price`:"none graded yet"}</div></div>
       <div><div class="k">Backtest</div><div class="v">${pct(s3bt[0]/Math.max(1,s3bt[0]+s3bt[1]))}</div><div class="s">${s3bt[0]}-${s3bt[1]} since ${bb.from||2012}</div></div></div>
-    <div class="wgames" style="margin-top:10px">${s3up.length?s3up.map(e=>{const t=new Date(e.t);return`<div class="wg on"><div class="wg1"><span class="wpk">${esc(bPickTxt(e))}${bPrice(e)!=null?` <small class="pteam">${amFmt(bPrice(e))}</small>`:""}</span><span class="pteam">${e.away} @ ${e.home} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div><div class="pteam">Walters ${e.home} ${ln(e.bfair)} vs DK ${ln(e.line)} \u00b7 ${fmt(e.bpct)}% between</div></div>`}).join(""):`<p class="topnote">No 3-star plays on the board right now.</p>`}</div></section>`;
-  html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">Spreads for the home team: DK = DraftKings', Walters = his full method, Model = the tuned version</p><div class="wgames">${
-    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg${e.pick||e.tpick||e.bpick?" on":""}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
+    <div class="wgames" style="margin-top:10px">${s3up.length?s3up.map(e=>{const t=new Date(e.t);return`<div class="wg go"><div class="wg1"><span class="wpk">${esc(bPickTxt(e))}${bPrice(e)!=null?` <small class="pteam">${amFmt(bPrice(e))}</small>`:""}</span><span class="pteam">${e.away} @ ${e.home} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div><div class="pteam">Walters ${e.home} ${ln(e.bfair)} vs DK ${ln(e.line)} \u00b7 ${fmt(e.bpct)}% between</div></div>`}).join(""):`<p class="topnote">No 3-star plays on the board right now.</p>`}</div></section>`;
+  html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">Spreads for the home team: DK = DraftKings', Walters = his full method, Model = the tuned version</p>
+    <div class="wleg"><span><i class="wsw go"></i>Play: at least one pick</span><span><i class="wsw no"></i>No play</span></div><div class="wgames">${
+    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg ${e.pick||e.tpick||e.bpick?"go":"no"}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
       <div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Walters <b class="mono">${e.home} ${ln(e.bfair)}</b></span><span>Model <b class="mono">${e.home} ${ln(e.fair)}</b></span></div>
       ${facTxt(e)}
       <div class="wg2"><span>Total <b class="mono">${e.tline!=null?fmt(e.tline):"\u2013"}</b></span><span class="pteam">${e.indoor?"indoors":e.wind!=null?`wind ${Math.round(e.wind)} mph`:"no forecast yet"}</span></div>
@@ -1724,15 +1751,63 @@ function renderWalters(){
       <p class="pteam" style="margin:6px 0 0">${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't Model picks.<br>Walters by stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${k}\u2605 ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}</p></div>
     <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
       <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div></div></section>`;
-  html+=`<section class="top"><h4 style="margin:0">How it works</h4><ul class="wnotes">
-    <li><b>Walters picks, his numbers:</b> each game factor is worth 0.2 points (5 factor points = 1 point of spread), at his end-of-2022 values: same turf +1 visitor, different turf +1 home, division game +1 visitor, other conference +1 home, home on Thursday / Sunday / Monday night +2 / +4 / +2, opponent of a team coming off Monday night +4 to +8 and off overtime +2 to +4, 3rd road game in 4 +2 home, byes +4 to +8 (more for better teams and on the road), Super Bowl winner +4 / +2 and loser's opponent +4 / +2 early next season, 2000+ mile trips +1 home, short-trip rivalries +1 or +2 visitor, body clock (west teams in 1 p.m. ET games, east and central teams at night), 2nd straight game 2+ time zones away +2 home, bounce-back after a 19+ / 29+ point loss +2 / +4, warm-weather and dome teams in the cold +0.25 to +1.75, rain +0.25 visitor, and 1 each for a 2-game losing streak, losing the last meeting, and a coach or QB facing his old team. Injuries count at full value. Bet size comes from his key-number table: the share of games that land between his number and the line (3 = 8%, 7 = 6%, 6 and 14 = 5%, 10 = 4%...), with half for a line on the number and DraftKings' price moving the line about 1/8 point per 5 cents. Under 5.5% is no play, 5.5% is \u00bd star, 15%+ is 3 stars.</li>
-    <li><b>Not in it:</b> his own player-by-player and coach values and preseason bookkeeping (the ratings here stand in for them), matchup "variable" factors, snow and heavy wind on the side, each QB's personal weather record, playoff stakes, and his timing (betting before the market moves). In the backtest his factors beat the closing line in 2012\u201318 but not since 2019, and only his 3-star plays were clearly profitable; that's why the tuned Model ignores them.</li>
-    <li><b>From Walters:</b> ratings that move slowly (each game nudges a team's rating, it doesn't reset it), a QB worth several points, a small home-field edge (he says it's fallen under a point lately), key numbers 3 and 7, and sizing bets by edge.</li>
-    <li><b>Ours, because his numbers aren't public:</b> the market-based part of the rating, a QB swing of ${fmt(P.qb||4)} points (his "about a touchdown" tested worse because the market already moves for most of it), ${fmt(P.hfa||1.5)} points of home field, and the 4-point threshold. All chosen by backtest on every regular-season game since 2012.</li>
-    <li><b>Totals:</b> no ratings-based totals model beat the closing total (47\u201350% in the backtest), but Walters' weather factor did: unders at outdoor games with ${wb[0]}\u2013${wb[1]-1} mph wind at kickoff (Open-Meteo forecast) won about 57%, in both halves of the sample. Calm games and 20+ mph storms didn't pay; the market already prices obvious weather.</li>
-    <li><b>Injuries:</b> starters listed Out or Doubtful are shown with Walters-style point values (a full-time starter: OL 0.6, WR 0.8, TE 0.5, RB 0.3, DL 0.6, LB 0.3, CB 0.7, S 0.4, times his recent snap share, \u00d71.5 when two starters in a unit are out). They don't move the line: tested at several weights, they didn't beat the closing line, because by kickoff the market has the injury report too. Walters' edge was betting before it reacted.</li>
-    <li><b>QB changes:</b> nflverse's projected starters, plus ESPN's injury report for each team's next game (a starter listed Out or Doubtful counts as a backup starting).</li>
-    <li>Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}. Results at -110 in the backtest; live picks at DraftKings' price.</li></ul></section>`;
+  // the page guide (sheet) and How it works share this text
+  const wr=v=>v&&v[0]+v[1]?pct(v[0]/(v[0]+v[1])):"–";
+  WAL_MODELS=`<div class="wmods">
+    <div class="wmod"><div class="wmodh"><b>Walters</b><span class="pteam">his full book method</span></div><ul>
+      <li>Ratings + QB + injuries + home field + his game factors</li>
+      <li>A play when ≥5.5% of games land between his line and DK's</li>
+      <li>Sized ½–3 stars (units = stars) · backtest ${wr(bka)}</li>
+      <li><b>3-star plays</b> (15%+) are the strong subset: ${wr(s3bt)} in the backtest, shown in their own section at 1u each</li></ul></div>
+    <div class="wmod"><div class="wmodh"><b>Model</b><span class="pteam">tuned by backtest</span></div><ul>
+      <li>Same ratings, QB and home field, <b>no</b> game factors or non-QB injuries</li>
+      <li>A play at ${fmt(P.edge||4)}+ points off DK's spread</li>
+      <li>1u at ${fmt(P.edge||4)}–${fmt(P.edge2||5)} pts, 2u at ${fmt(P.edge2||5)}+ · backtest ${wr(bt.all)}</li></ul></div>
+    <div class="wmod"><div class="wmodh"><b>Wind under</b><span class="pteam">totals only</span></div><ul>
+      <li>The under when kickoff wind is ${wb[0]}–${wb[1]-1} mph at an outdoor game</li>
+      <li>1u · backtest ${wr(tb)}</li></ul></div>
+    <p class="pteam" style="margin:0">All three lock at kickoff and are graded at DraftKings' price. On the This week cards, green = at least one play, red = no play. Paper record, not betting advice.</p></div>`;
+  WAL_HOW=`<div class="whow">
+    <h5>Ratings</h5><ul>
+      <li>Points vs an average team on a neutral field</li>
+      <li>${Math.round((P.alpha||.8)*100)}% market (solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% results</li>
+      <li>Results use Walters' slow update: each game nudges the rating, it doesn't reset it</li>
+      <li>Stand-in for his private player, coach and preseason values</li></ul>
+    <h5>QB and home field</h5><ul>
+      <li>QB swing: ${fmt(P.qb||4)} pts for a backup starting or the main QB returning (his "about a touchdown" tested worse; the market moves for most of it)</li>
+      <li>Starters from nflverse + ESPN's injury report (Out or Doubtful = backup starts)</li>
+      <li>Home field: ${fmt(P.hfa||1.5)} pts (he says ~2.5 long-run, under 1 lately)</li></ul>
+    <h5>Game factors (Walters only)</h5><ul>
+      <li>Each factor point = 0.2 pts of spread (5 = 1 point)</li>
+      <li><b>Schedule:</b> home on Thu / Sun / Mon night +2 / +4 / +2 · opponent off Monday night +4–8 · off overtime +2–4 · 3rd road game in 4 +2 home · bye +4–8 (more for good teams and on the road)</li>
+      <li><b>Travel:</b> 2000+ miles +1 home · short-trip rivals +1–2 visitor · 2nd straight trip 2+ time zones +2 home</li>
+      <li><b>Body clock:</b> west teams in 1 p.m. ET games, east and central teams at night</li>
+      <li><b>Field and weather:</b> same turf +1 visitor, different turf +1 home · warm or dome team in the cold +0.25–1.75 · rain +0.25 visitor</li>
+      <li><b>Matchup:</b> division +1 visitor · other conference +1 home · Super Bowl winner / loser early next season ±2–4 · after a 19+ / 29+ pt loss +2 / +4</li>
+      <li><b>Emotion</b> (+1 each): 2-game losing streak, lost the last meeting, coach or QB vs his old team</li></ul>
+    <h5>Star sizing (Walters only)</h5><ul>
+      <li>How often games land on each margin: 3 = 8%, 7 = 6%, 6 and 14 = 5%, 10 = 4%, most others 2–3%</li>
+      <li>Add up the numbers between his line and DK's (a line on the number counts half)</li>
+      <li>DK's price moves the line ~⅛ pt per 5¢ off -110</li>
+      <li>5.5% = ½★ · 7% = 1★ · 9% = 1½★ · 11% = 2★ · 13% = 2½★ · 15% = 3★</li></ul>
+    <h5>Injuries</h5><ul>
+      <li>Out / Doubtful starters, valued by position × recent snap share: OL .6, WR .8, TE .5, RB .3, DL .6, LB .3, CB .7, S .4</li>
+      <li>×1.5 when two starters in one unit are out</li>
+      <li>Count in the Walters line; not in the Model (no edge vs the closing line)</li></ul>
+    <h5>Totals</h5><ul>
+      <li>Ratings-based totals models went 47–50%, so there's no totals model</li>
+      <li>Wind ${wb[0]}–${wb[1]-1} mph unders won in both halves of the sample; calm games and 20+ mph storms didn't</li></ul>
+    <h5>What the backtest says</h5><ul>
+      <li>Every regular-season game since ${bt.from||2012}, against closing lines</li>
+      <li>His factors beat the line in 2012–18, not since 2019</li>
+      <li>Walters ½–2½★ plays ≈ coin flip; 3★ ≈ 56% in both eras</li>
+      <li>Model: 55% in 2012–18, 57% since</li></ul>
+    <h5>Not included</h5><ul>
+      <li>His player-by-player and coach values</li>
+      <li>Matchup judgment calls, snow and wind on the side, each QB's weather record, playoff stakes</li>
+      <li>His timing: he bet early, before the market moved</li></ul>
+    <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
+  html+=`<section class="top"><h4 style="margin:0">How it works</h4>${WAL_HOW}</section>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -3053,6 +3128,7 @@ function wire(){
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
+    if(e.target.closest("[data-wguide]")){openWalGuide();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
   const saveRf=()=>{try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}renderRecord()};
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
