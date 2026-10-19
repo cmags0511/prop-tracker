@@ -5,7 +5,9 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
 
 ## 2026-10-19
 - **rmolnar10**: Walters page: the top stat strip is now three labeled groups (Walters picks, Model picks, Weather
-  unders), each with this season + backtest (`.wtiles` in renderWalters). sw.js pt-v75.
+  unders), each with this season + backtest (`.wtiles` in renderWalters). This week cards now show only Walters plays
+  (and weather unders), most stars first, each with a units badge (`.wu`); half stars are a half-filled star icon
+  (`starIc`, `.hst`) everywhere on the page. Model picks still count in their record and graded list. sw.js pt-v75.
 - **rmolnar10**: Walters weather (PR): new `walters_wx.py` + `walters_wx.json` (Open-Meteo kickoff weather for every
   outdoor game since 2009; walters.py tops it up hourly and lines.yml now commits it). Rain unders (2mm+ forecast,
   backtest 114-74) join the wind unders as "Weather unders"; his rain factor now uses forecast mm instead of
