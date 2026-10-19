@@ -78,9 +78,12 @@ flip. Backtest: 440-349 (55.8%), +90.4u at -110. Picks lock at kickoff and are g
 ESPN shows. The page is reached from the "poopy?" link at the bottom of the Record tab.
 
 Totals: no ratings-based totals model beat closing totals (47-50%), but Walters' weather factor did: the under at
-outdoor games with 12-19 mph wind at kickoff went 287-212 (57.5%) since 2012, both halves of the sample, so that's
-the totals pick (1 unit, kickoff wind from the Open-Meteo forecast in context.json, graded at DraftKings' under
-price). Non-QB injuries (ESPN Out / Doubtful starters, valued Walters-style by position x recent snap share from
+outdoor games with 12-19 mph wind at kickoff went 287-212 (57.5%) since 2012, both halves of the sample, and the
+under with 2mm+ of rain over kickoff and the next 3 hours went 114-74 (60.6%; 53% in 2009-17, 64% since), so those
+are the totals picks (1 unit, kickoff wind from the Open-Meteo forecast in context.json, rain from the Open-Meteo
+forecast in `walters_wx.py`, graded at DraftKings' under price). Past kickoff weather is cached in `walters_wx.json`
+from Open-Meteo's archive. The rain backtest uses rain that fell, not a forecast, and 2mm was the best of a few
+cutoffs, so expect live results to run below it. Non-QB injuries (ESPN Out / Doubtful starters, valued Walters-style by position x recent snap share from
 nflverse snap counts, x1.5 for two starters out in a unit) are listed per game but don't move the line: at several
 weights they didn't beat the closing line (`INJ_K` = 0 in walters.py turns them on).
 
@@ -94,5 +97,7 @@ The pick is sized by his key-number table (share of games landing between his nu
 shifting the line ~1/8 point per 5 cents): under 5.5% no play, then 0.5-3 stars, units = stars. Backtest since 2012:
 1318-1222 (51.9%), +160u; only 3-star plays (15%+) were clearly ahead (481-372, 56%). Against the closing line the
 factors were worth about their full value in 2012-18 and nothing since 2019, so the tuned Model picks leave them out.
-Not computed: his per-player/coach values, matchup "variable" factors, snow and wind on the side, each QB's weather
-splits, playoff stakes.
+Tracked at 0 points (listed on each card, no effect on the line): snow, 15+ mph wind against the pass-heavier team
+(nflverse dropback rate) and each QB's cover record in the cold, heat, wind, wet and domes (his 0.15-point QB
+W-factors). Each was backtested against closing lines with 17 years of kickoff weather and came out at about zero.
+Not computed: his per-player/coach values, matchup "variable" factors, playoff stakes.

@@ -23,8 +23,9 @@ bankroll by edge). Units are graded at the DraftKings price
 ESPN shows for that side when the game kicked off. This is a paper record: not betting advice.
 
 Totals: no rating-based totals model beat closing totals in the backtest (47-50%), but Walters' weather factor did:
-unders at outdoor games with 12-19 mph wind at kickoff went 57% (both halves of the sample), so that's the totals
-pick, 1 unit, graded at DraftKings' under price. Non-QB injuries are listed per game (see POS_PTS) without moving
+unders at outdoor games with 12-19 mph wind at kickoff went 57% (both halves of the sample), and so did unders with
+2mm+ of rain over the first 3 hours (walters_wx.py), so those are the totals picks, 1 unit, graded at DraftKings'
+under price. Non-QB injuries are listed per game (see POS_PTS) without moving
 the line.
 
 Walters picks: a second line per game with the book's full method (walters_book.py): the same ratings plus every
@@ -33,7 +34,8 @@ backtest the factors beat the closing line in 2012-18 but not since 2019, and on
 tuned picks above leave them out; both are tracked.
 
 Data: nflverse schedule (results, closing spreads and totals, kickoff wind, starting QBs) and snap counts, ESPN
-scoreboard (DraftKings spread, total and prices, final scores), context.json (ESPN injuries; Open-Meteo kickoff wind).
+scoreboard (DraftKings spread, total and prices, final scores), context.json (ESPN injuries; Open-Meteo kickoff wind), walters_wx.py (Open-Meteo rain, snow and
+temperature at past and coming kickoffs).
 Output: walters.json {built, params, backtest, ratings, games}
 Usage: python walters.py [walters.json]
 """
@@ -41,6 +43,7 @@ import csv, io, json, sys, datetime as dt, collections as C
 import urllib.request
 from zoneinfo import ZoneInfo
 import walters_book as B
+import walters_wx as X
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "walters.json"
 NFLV = "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv"
@@ -258,6 +261,8 @@ def main():
     table = cover_table(done)
     sched = B.Schedule(games)
     sched.prep()
+    wxh = X.history(games, now)
+    rain_of = lambda g: (wxh.get(g["id"]) or {}).get("rain") if g["outdoor"] else None
 
     # 1. replay every completed game: ratings as they stood before each week, and the backtest record
     M, season = Model(), None
@@ -265,7 +270,8 @@ def main():
     for g in done:
         weeks[(g["season"], g["week"])].append(g)
     bt = C.defaultdict(lambda: [0, 0, 0.0])  # season -> wins, losses, units at -110
-    btt = C.defaultdict(lambda: [0, 0, 0.0])  # the same for wind unders
+    btt = C.defaultdict(lambda: [0, 0, 0.0])  # the same for weather unders (wind or rain)
+    btw, btr = [0, 0, 0.0], [0, 0, 0.0]       # each rule on its own
     tiers = {"4-5": [0, 0], "5+": [0, 0]}
     btb = C.defaultdict(lambda: [0, 0, 0.0])  # the book line (game factors + star sizing), units = stars
     stars = C.defaultdict(lambda: [0, 0])
@@ -287,19 +293,22 @@ def main():
                         s[0 if r > 0 else 1] += 1
                         s[2] += u * (100 / 110) if r > 0 else -u
                         tiers["5+" if abs(d) >= EDGE2 else "4-5"][0 if r > 0 else 1] += 1
-                side, pct, st = book_pick(mu + B.net(sched.factors(g, rating)), -g["spread"], g["sp_h"], g["sp_a"])
+                side, pct, st = book_pick(mu + B.net(sched.factors(g, rating, rain=rain_of(g))), -g["spread"], g["sp_h"], g["sp_a"])
                 r = (g["margin"] - g["spread"]) * (1 if side == "home" else -1)
                 if st and r:
                     s = btb[g["season"]]
                     s[0 if r > 0 else 1] += 1
                     s[2] += st * payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -st
                     stars[st][0 if r > 0 else 1] += 1
-            wind = g.get("wind")
+            wind, rain = g.get("wind"), rain_of(g)
+            by_wind = wind is not None and WIND_LO <= wind < WIND_HI
+            by_rain = rain is not None and rain >= X.RAIN_MM
             if g["season"] >= BT_FROM and g["type"] == "REG" and g["total"] is not None and g["outdoor"] \
-                    and wind is not None and WIND_LO <= wind < WIND_HI and g["pts"] != g["total"]:
-                s = btt[g["season"]]
-                s[0 if g["pts"] < g["total"] else 1] += 1
-                s[2] += 100 / 110 if g["pts"] < g["total"] else -1
+                    and (by_wind or by_rain) and g["pts"] != g["total"]:
+                for s, on in ((btt[g["season"]], True), (btw, by_wind), (btr, by_rain)):
+                    if on:
+                        s[0 if g["pts"] < g["total"] else 1] += 1
+                        s[2] += 100 / 110 if g["pts"] < g["total"] else -1
             M.result(g, ph, pa)
         M.close_week(weeks[wk])
 
@@ -338,6 +347,7 @@ def main():
     except Exception as e:
         print(f"snap counts failed: {e}")
     week_of = {(g["h"], g["a"]): g["week"] for g in games if g["season"] == cur}
+    qbs, prate = X.qb_records(done, wxh), X.pass_rates(cur)
     upcoming = {(g["h"], g["a"]): g for g in games if g["margin"] is None}
     nxt = {}  # each team's next game: this week's injury report only speaks for that one
     for ev in sorted(events, key=lambda e: e["date"]):
@@ -369,18 +379,25 @@ def main():
             # the book line: the same ratings plus every injury at full value and Walters' game factors
             wx0 = weather.get(f"NFL|{a}@{h}|{t:%Y-%m-%d}") or {}
             out_door = not (wx0.get("indoor") or (c.get("venue") or {}).get("indoor"))
+            fc = X.forecast(ug, t) if out_door and ug.get("id") else None    # rain and snow amounts at kickoff
             fs = sched.factors(ug, rating, temp=wx0.get("temp") if out_door else None,
-                               rain=wx0.get("rain") if out_door else None) if ug.get("id") else []
+                               rain=(fc or {}).get("rain") if out_door else None) if ug.get("id") else []
             mu_b = M.expect(h, a, bool(c.get("neutralSite")), ph - ih, pa - ia) + B.net(fs)
-            # totals: DraftKings' total and prices; the under when the kickoff forecast has 12-19 mph wind outdoors
+            # totals: DraftKings' total and prices; the under when the kickoff forecast has 12-19 mph wind or 2mm+
+            # of rain outdoors
             tot = o.get("total") or {}
             wx = weather.get(f"NFL|{a}@{h}|{t:%Y-%m-%d}") or {}
             wind = None if wx.get("indoor") or c.get("venue", {}).get("indoor") else wx.get("wind")
             tl = o.get("overUnder")
+            rain = (fc or {}).get("rain") if out_door else None
+            why = [x for x, on in (("wind", wind is not None and WIND_LO <= wind < WIND_HI),
+                                   ("rain", rain is not None and rain >= X.RAIN_MM)) if on]
             e.update({"tline": tl, "tprice_o": num(((tot.get("over") or {}).get("close") or {}).get("odds")),
                       "tprice_u": num(((tot.get("under") or {}).get("close") or {}).get("odds")),
                       "wind": wind, "indoor": bool(wx.get("indoor") or (c.get("venue") or {}).get("indoor")),
-                      "tpick": "under" if tl is not None and wind is not None and WIND_LO <= wind < WIND_HI else None,
+                      "rain": rain, "snow": (fc or {}).get("snow") if out_door else None,
+                      "tpick": "under" if tl is not None and why else None, "twhy": why,
+                      "wnotes": X.notes(ug, fc, not out_door, qbs, prate, tm) if ug.get("id") else [],
                       "inj_h": [[n, g, sh] for n, g, sh in lh], "inj_a": [[n, g, sh] for n, g, sh in la],
                       "injp_h": round(ih, 1), "injp_a": round(ia, 1)})
             e.update({"t": t.isoformat(), "line": line, "open": num(((ps.get("home") or {}).get("open") or {}).get("line")),
@@ -435,7 +452,8 @@ def main():
                                                       round(sum(v[2] for v in btb.values()), 1)],
                              "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btb.items())},
                              "stars": {str(k): v for k, v in sorted(stars.items())}},
-           "backtest_totals": {"from": BT_FROM, "wind": [WIND_LO, WIND_HI],
+           "backtest_totals": {"from": BT_FROM, "wind": [WIND_LO, WIND_HI], "rain_mm": X.RAIN_MM,
+                               "by_wind": [btw[0], btw[1], round(btw[2], 1)], "by_rain": [btr[0], btr[1], round(btr[2], 1)],
                                "all": [sum(v[0] for v in btt.values()), sum(v[1] for v in btt.values()), round(sum(v[2] for v in btt.values()), 1)],
                                "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btt.items())}},
            "ratings": ratings, "games": gl}
