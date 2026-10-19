@@ -1692,6 +1692,15 @@ function renderWalters(){
       <div><div class="k">Wind unders backtest</div><div class="v">${pct(tb[0]/Math.max(1,tb[0]+tb[1]))}</div><div class="s">${tb[0]}-${tb[1]} since ${btt.from||2012} \u00b7 ${unitsTxt(tb[2]||0)} at -110</div></div>
     </div></section>`;
   // this week: picks first, then every other game with the model's number
+  // 3-star plays: the only Walters tier that beat the closing line in both halves of the backtest (2012-18, 2019-)
+  const s3=G.filter(e=>e.bpick&&e.bstars>=3),s3up=s3.filter(e=>e.bstatus==null&&e.status==="pending"&&new Date(e.t)>now-4*3600e3).sort((a,b)=>new Date(a.t)-new Date(b.t));
+  const s3g=s3.filter(e=>["win","loss","push"].includes(e.bstatus)),s3w=s3g.filter(e=>e.bstatus==="win").length,s3l=s3g.filter(e=>e.bstatus==="loss").length;
+  const s3u=s3g.reduce((x,e)=>x+(e.bunits_won||0)/(e.bstars||3),0),s3bt=(bb.stars||{})["3"]||[0,0];
+  html+=`<section class="top"><div class="tophead"><h2>3-star plays</h2></div>
+    <p class="topsub">Walters picks where 15%+ of games land between his number and DraftKings' line. The only tier that won in both halves of the backtest; the smaller stars were a coin flip. 1 unit each here.</p>
+    <div class="strip"><div><div class="k">This season</div><div class="v">${s3w}-${s3l}</div><div class="s">${s3g.length?`<b style="color:${s3u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(s3u)}</b> at DraftKings' price`:"none graded yet"}</div></div>
+      <div><div class="k">Backtest</div><div class="v">${pct(s3bt[0]/Math.max(1,s3bt[0]+s3bt[1]))}</div><div class="s">${s3bt[0]}-${s3bt[1]} since ${bb.from||2012}</div></div></div>
+    <div class="wgames" style="margin-top:10px">${s3up.length?s3up.map(e=>{const t=new Date(e.t);return`<div class="wg on"><div class="wg1"><span class="wpk">${esc(bPickTxt(e))}${bPrice(e)!=null?` <small class="pteam">${amFmt(bPrice(e))}</small>`:""}</span><span class="pteam">${e.away} @ ${e.home} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div><div class="pteam">Walters ${e.home} ${ln(e.bfair)} vs DK ${ln(e.line)} \u00b7 ${fmt(e.bpct)}% between</div></div>`}).join(""):`<p class="topnote">No 3-star plays on the board right now.</p>`}</div></section>`;
   html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">Spreads for the home team: DK = DraftKings', Walters = his full method, Model = the tuned version</p><div class="wgames">${
     up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg${e.pick||e.tpick||e.bpick?" on":""}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
       <div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Walters <b class="mono">${e.home} ${ln(e.bfair)}</b></span><span>Model <b class="mono">${e.home} ${ln(e.fair)}</b></span></div>
