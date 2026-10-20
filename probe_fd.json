@@ -1,0 +1,259 @@
+{
+ "nba_event": "Boston Celtics @ Detroit Pistons",
+ "nba_tabraw": [
+  {
+   "id": 26,
+   "title": "1st Quarter",
+   "cards": [
+    {
+     "id": 26
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 27,
+   "title": "2nd Quarter",
+   "cards": [
+    {
+     "id": 27
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 29,
+   "title": "4th Quarter",
+   "cards": [
+    {
+     "id": 29
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  }
+ ],
+ "nba_tabs": [
+  [
+   "1st Quarter",
+   null,
+   26
+  ],
+  [
+   "2nd Quarter",
+   null,
+   27
+  ],
+  [
+   "4th Quarter",
+   null,
+   29
+  ],
+  [
+   "Half",
+   null,
+   56
+  ],
+  [
+   "Total Parlays",
+   null,
+   58
+  ],
+  [
+   "Player Points",
+   null,
+   168
+  ],
+  [
+   "Player Assists",
+   null,
+   169
+  ],
+  [
+   "Player Rebounds",
+   null,
+   170
+  ],
+  [
+   "Player Combos",
+   null,
+   171
+  ],
+  [
+   "Player Threes",
+   null,
+   172
+  ],
+  [
+   "Player Defense",
+   null,
+   173
+  ],
+  [
+   "Team Props",
+   null,
+   182
+  ],
+  [
+   "Race To",
+   null,
+   200
+  ],
+  [
+   "3rd Quarter",
+   null,
+   202
+  ],
+  [
+   "Margin",
+   null,
+   204
+  ],
+  [
+   "Quick Bets",
+   null,
+   260
+  ],
+  [
+   "Popular",
+   null,
+   292
+  ],
+  [
+   "Same Game Parlay\u2122",
+   null,
+   302
+  ],
+  [
+   "Odd/Even",
+   null,
+   376
+  ]
+ ],
+ "nba_markets": {},
+ "nfl_event": "New England Patriots @ Chicago Bears",
+ "nfl_tabraw": [
+  {
+   "id": 1,
+   "title": "Popular",
+   "cards": [
+    {
+     "id": 1
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": {
+    "title": "Popular",
+    "body": "Popular american football markets",
+    "footer": null
+   }
+  },
+  {
+   "id": 20,
+   "title": "1st Half",
+   "cards": [
+    {
+     "id": 20
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 21,
+   "title": "1st Quarter",
+   "cards": [
+    {
+     "id": 21
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  }
+ ],
+ "nfl_tabs": [
+  [
+   "Popular",
+   null,
+   1
+  ],
+  [
+   "1st Half",
+   null,
+   20
+  ],
+  [
+   "1st Quarter",
+   null,
+   21
+  ],
+  [
+   "2nd Quarter",
+   null,
+   22
+  ],
+  [
+   "3rd Quarter",
+   null,
+   24
+  ],
+  [
+   "4th Quarter",
+   null,
+   25
+  ],
+  [
+   "Same Game Parlay\u2122",
+   null,
+   150
+  ],
+  [
+   "2nd Half",
+   null,
+   151
+  ],
+  [
+   "Scoring",
+   null,
+   214
+  ],
+  [
+   "D/ST",
+   null,
+   215
+  ],
+  [
+   "Passing Props",
+   null,
+   217
+  ],
+  [
+   "Receiving Props",
+   null,
+   218
+  ],
+  [
+   "Rushing Props",
+   null,
+   219
+  ],
+  [
+   "TD Scorer Props",
+   null,
+   220
+  ],
+  [
+   "Quick Bets",
+   null,
+   274
+  ],
+  [
+   "Quarter Props",
+   null,
+   327
+  ]
+ ],
+ "nfl_markets": {}
+}
