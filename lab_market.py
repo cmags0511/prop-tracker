@@ -101,19 +101,22 @@ def price_props(slate, dkp=None):
         over = ev_o >= ev_u
         ev = ev_o if over else ev_u
         price, book = best["over" if over else "under"]
+        # an anchor worked out from the book's price at a nearby line (fetch_prices.py "est") is rougher: half credit when
+        # ranking and for the +2% bar, so a shaky estimate can't top the list
+        rank = ev * (.5 if s.get("pe") else 1)
         out.append({"key": s["key"], "lg": s["lg"], "id": s["id"], "name": s["name"], "team": s["team"], "opp": s["opp"],
                     "t": s["t"], "market": s["market"], "label": s["label"], "line": s["line"],
                     "side": "over" if over else "under", "price": price, "book": book,
                     "anchor": src, "prob": round(p if over else 1 - p, 3), "mkt": round(q_mkt if over else 1 - q_mkt, 3),
                     "app": round(s["p_over"] if over else 1 - s["p_over"], 3), "ev": round(ev, 3),
-                    "est": bool(s.get("pe")), "avg10": s.get("avg10")})
+                    "est": bool(s.get("pe")), "rank": round(rank, 3), "avg10": s.get("avg10")})
     return out
 
 
 def pick10(cands, now):
     out, seen, per = [], set(), {}
-    for c in sorted(cands, key=lambda c: -c["ev"]):
-        if c["ev"] < MIN_EV or dt.datetime.fromisoformat(c["t"]) <= now:
+    for c in sorted(cands, key=lambda c: -c["rank"]):
+        if c["rank"] < MIN_EV or dt.datetime.fromisoformat(c["t"]) <= now:
             continue
         if c["id"] in seen or per.get(c["market"], 0) >= PER_MARKET:
             continue
