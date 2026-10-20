@@ -1,0 +1,607 @@
+{
+ "nba_event": "Boston Celtics @ Detroit Pistons",
+ "nba_tabraw": [
+  {
+   "id": 26,
+   "title": "1st Quarter",
+   "cards": [
+    {
+     "id": 26
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 27,
+   "title": "2nd Quarter",
+   "cards": [
+    {
+     "id": 27
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 29,
+   "title": "4th Quarter",
+   "cards": [
+    {
+     "id": 29
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  }
+ ],
+ "nba_tabs": [
+  [
+   "Player Points",
+   "player-points",
+   168
+  ],
+  [
+   "Player Assists",
+   "player-assists",
+   169
+  ],
+  [
+   "Player Rebounds",
+   "player-rebounds",
+   170
+  ],
+  [
+   "Player Combos",
+   "player-combos",
+   171
+  ],
+  [
+   "Player Threes",
+   "player-threes",
+   172
+  ],
+  [
+   "Player Defense",
+   "player-defense",
+   173
+  ]
+ ],
+ "nba_markets": {
+  "player-points": [
+   61,
+   "1st Qtr Points",
+   "Alt Points",
+   "Moneyline",
+   "Points",
+   "Spread",
+   "To Score 10+ Points",
+   "To Score 12+ Points",
+   "To Score 15+ Points",
+   "To Score 2+ Points",
+   "To Score 20+ Points",
+   "To Score 25+ Points",
+   "To Score 30+ Points",
+   "To Score 35+ Points",
+   "To Score 4+ Points",
+   "To Score 40+ Points",
+   "To Score 45+ Points",
+   "To Score 5+ Points",
+   "To Score 50+ Points",
+   "To Score 6+ Points",
+   "To Score 8+ Points",
+   "Total Points"
+  ],
+  "player-points_example": [
+   {
+    "name": "Paul George - Points",
+    "runners": [
+     [
+      "Paul George Over",
+      15.5,
+      -128
+     ],
+     [
+      "Paul George Under",
+      15.5,
+      -104
+     ]
+    ]
+   },
+   {
+    "name": "1st Quarter - To Score 15+ Points",
+    "runners": [
+     [
+      "Jayson Tatum",
+      0,
+      630
+     ],
+     [
+      "Cade Cunningham",
+      0,
+      2000
+     ]
+    ]
+   }
+  ],
+  "player-assists": [
+   26,
+   "Alt Assists",
+   "Assists",
+   "Moneyline",
+   "Spread",
+   "To Record 10+ Assists",
+   "To Record 12+ Assists",
+   "To Record 14+ Assists",
+   "To Record 2+ Assists",
+   "To Record 4+ Assists",
+   "To Record 6+ Assists",
+   "To Record 8+ Assists",
+   "Total Points"
+  ],
+  "player-assists_example": [
+   {
+    "name": "Derrick White - Assists",
+    "runners": [
+     [
+      "Derrick White Over",
+      4.5,
+      122
+     ],
+     [
+      "Derrick White Under",
+      4.5,
+      -162
+     ]
+    ]
+   },
+   {
+    "name": "Jalen Duren - Assists",
+    "runners": [
+     [
+      "Jalen Duren Over",
+      1.5,
+      -188
+     ],
+     [
+      "Jalen Duren Under",
+      1.5,
+      140
+     ]
+    ]
+   }
+  ],
+  "player-rebounds": [
+   37,
+   "Alt Rebounds",
+   "Moneyline",
+   "Rebounds",
+   "Spread",
+   "To Record 10+ Rebounds",
+   "To Record 12+ Rebounds",
+   "To Record 14+ Rebounds",
+   "To Record 16+ Rebounds",
+   "To Record 4+ Rebounds",
+   "To Record 6+ Rebounds",
+   "To Record 8+ Rebounds",
+   "Total Points"
+  ],
+  "player-rebounds_example": [
+   {
+    "name": "Jordan Walsh - Rebounds",
+    "runners": [
+     [
+      "Jordan Walsh Over",
+      3.5,
+      102
+     ],
+     [
+      "Jordan Walsh Under",
+      3.5,
+      -136
+     ]
+    ]
+   },
+   {
+    "name": "Mitchell Robinson - Rebounds",
+    "runners": [
+     [
+      "Mitchell Robinson Over",
+      8.5,
+      118
+     ],
+     [
+      "Mitchell Robinson Under",
+      8.5,
+      -158
+     ]
+    ]
+   }
+  ],
+  "player-combos": [
+   121,
+   "Alt Pts + Ast",
+   "Alt Pts + Reb",
+   "Alt Pts + Reb + Ast",
+   "Alt Reb + Ast",
+   "Moneyline",
+   "Player Double Double",
+   "Player Triple Double",
+   "Pts + Ast",
+   "Pts + Reb",
+   "Pts + Reb + Ast",
+   "Reb + Ast",
+   "Spread",
+   "To Record 10+ Pts + Ast",
+   "To Record 10+ Pts + Reb",
+   "To Record 10+ Pts + Reb + Ast",
+   "To Record 10+ Reb + Ast",
+   "To Record 15+ Pts + Ast",
+   "To Record 15+ Pts + Reb",
+   "To Record 15+ Pts + Reb + Ast",
+   "To Record 15+ Reb + Ast",
+   "To Record 20+ Pts + Ast",
+   "To Record 20+ Pts + Reb",
+   "To Record 20+ Pts + Reb + Ast",
+   "To Record 20+ Reb + Ast",
+   "To Record 25+ Pts + Ast",
+   "To Record 25+ Pts + Reb",
+   "To Record 25+ Pts + Reb + Ast",
+   "To Record 25+ Reb + Ast",
+   "To Record 30+ Pts + Ast",
+   "To Record 30+ Pts + Reb",
+   "To Record 30+ Pts + Reb + Ast",
+   "To Record 35+ Pts + Ast",
+   "To Record 35+ Pts + Reb",
+   "To Record 35+ Pts + Reb + Ast",
+   "To Record 40+ Pts + Ast",
+   "To Record 40+ Pts + Reb",
+   "To Record 40+ Pts + Reb + Ast",
+   "To Record 45+ Pts + Ast",
+   "To Record 45+ Pts + Reb",
+   "To Record 45+ Pts + Reb + Ast"
+  ],
+  "player-combos_example": [
+   {
+    "name": "Paul Reed - Pts + Reb",
+    "runners": [
+     [
+      "Paul Reed Over",
+      13.5,
+      100
+     ],
+     [
+      "Paul Reed Under",
+      13.5,
+      -132
+     ]
+    ]
+   },
+   {
+    "name": "Jayson Tatum - Reb + Ast",
+    "runners": [
+     [
+      "Jayson Tatum Over",
+      14.5,
+      -120
+     ],
+     [
+      "Jayson Tatum Under",
+      14.5,
+      -110
+     ]
+    ]
+   }
+  ],
+  "player-threes": [
+   18,
+   "1+ Made Threes",
+   "2+ Made Threes",
+   "3+ Made Threes",
+   "4+ Made Threes",
+   "5+ Made Threes",
+   "6+ Made Threes",
+   "7+ Made Threes",
+   "8+ Made Threes",
+   "Made Threes",
+   "Moneyline",
+   "Spread",
+   "Total Points"
+  ],
+  "player-threes_example": [
+   {
+    "name": "Derrick White - Made Threes",
+    "runners": [
+     [
+      "Derrick White Over",
+      2.5,
+      -118
+     ],
+     [
+      "Derrick White Under",
+      2.5,
+      -112
+     ]
+    ]
+   },
+   {
+    "name": "Payton Pritchard - Made Threes",
+    "runners": [
+     [
+      "Payton Pritchard Over",
+      2.5,
+      -128
+     ],
+     [
+      "Payton Pritchard Under",
+      2.5,
+      -104
+     ]
+    ]
+   }
+  ],
+  "player-defense": [
+   19,
+   "Blocks",
+   "Moneyline",
+   "Spread",
+   "Steals",
+   "To Record 1+ Blocks",
+   "To Record 1+ Steals",
+   "To Record 2+ Blocks",
+   "To Record 2+ Steals",
+   "To Record 3+ Blocks",
+   "To Record 3+ Steals",
+   "To Record 4+ Blocks",
+   "To Record 4+ Steals",
+   "To Record 5+ Steals",
+   "Total Points"
+  ],
+  "player-defense_example": [
+   {
+    "name": "Derrick White - Steals",
+    "runners": [
+     [
+      "Derrick White Over",
+      1.5,
+      178
+     ],
+     [
+      "Derrick White Under",
+      1.5,
+      -245
+     ]
+    ]
+   },
+   {
+    "name": "Jayson Tatum - Steals",
+    "runners": [
+     [
+      "Jayson Tatum Over",
+      1.5,
+      130
+     ],
+     [
+      "Jayson Tatum Under",
+      1.5,
+      -174
+     ]
+    ]
+   }
+  ]
+ },
+ "nfl_event": "New England Patriots @ Chicago Bears",
+ "nfl_tabraw": [
+  {
+   "id": 1,
+   "title": "Popular",
+   "cards": [
+    {
+     "id": 1
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": {
+    "title": "Popular",
+    "body": "Popular american football markets",
+    "footer": null
+   }
+  },
+  {
+   "id": 20,
+   "title": "1st Half",
+   "cards": [
+    {
+     "id": 20
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  },
+  {
+   "id": 21,
+   "title": "1st Quarter",
+   "cards": [
+    {
+     "id": 21
+    }
+   ],
+   "isSameGameMulti": false,
+   "description": null
+  }
+ ],
+ "nfl_tabs": [
+  [
+   "Passing Props",
+   "passing-props",
+   217
+  ],
+  [
+   "Receiving Props",
+   "receiving-props",
+   218
+  ],
+  [
+   "Rushing Props",
+   "rushing-props",
+   219
+  ],
+  [
+   "TD Scorer Props",
+   "td-scorer-props",
+   220
+  ]
+ ],
+ "nfl_markets": {
+  "passing-props": [
+   12,
+   "Alt Passing TDs",
+   "Alt Passing Yds",
+   "Moneyline",
+   "Most Passing Yards",
+   "Passing TDs",
+   "Passing Yds",
+   "Spread",
+   "Total Points"
+  ],
+  "passing-props_example": [
+   {
+    "name": "Caleb Williams - Passing TDs",
+    "runners": [
+     [
+      "Caleb Williams Over",
+      1.5,
+      -144
+     ],
+     [
+      "Caleb Williams Under",
+      1.5,
+      108
+     ]
+    ]
+   },
+   {
+    "name": "Caleb Williams - Passing Yds",
+    "runners": [
+     [
+      "Caleb Williams Over",
+      245.5,
+      -114
+     ],
+     [
+      "Caleb Williams Under",
+      245.5,
+      -114
+     ]
+    ]
+   }
+  ],
+  "receiving-props": [
+   46,
+   "Alt Receiving Yds",
+   "Alt Receptions",
+   "Moneyline",
+   "Most Receiving Yards",
+   "Player To Record a 20+ Yard Reception",
+   "Player To Record a 30+ Yard Reception",
+   "Player to Record a 10+ Yard Reception",
+   "Player to Record a 15+ Yard Reception",
+   "Receiving Yds",
+   "Rushing + Receiving Yds",
+   "Spread",
+   "Total Points",
+   "Total Receptions"
+  ],
+  "receiving-props_example": [
+   {
+    "name": "Luther Burden III - Receiving Yds",
+    "runners": [
+     [
+      "Luther Burden III Over",
+      55.5,
+      -114
+     ],
+     [
+      "Luther Burden III Under",
+      55.5,
+      -114
+     ]
+    ]
+   },
+   {
+    "name": "Kalif Raymond - Receiving Yds",
+    "runners": [
+     [
+      "Kalif Raymond Over",
+      25.5,
+      -114
+     ],
+     [
+      "Kalif Raymond Under",
+      25.5,
+      -114
+     ]
+    ]
+   }
+  ],
+  "rushing-props": [
+   16,
+   "Alt Rushing Yds",
+   "Moneyline",
+   "Most Rushing Yards",
+   "Rushing + Receiving Yds",
+   "Rushing Yds",
+   "Spread",
+   "Total Points"
+  ],
+  "rushing-props_example": [
+   {
+    "name": "Rhamondre Stevenson - Rushing + Receiving Yds",
+    "runners": [
+     [
+      "Rhamondre Stevenson Over",
+      67.5,
+      -114
+     ],
+     [
+      "Rhamondre Stevenson Under",
+      67.5,
+      -114
+     ]
+    ]
+   },
+   {
+    "name": "D'Andre Swift - Rushing + Receiving Yds",
+    "runners": [
+     [
+      "D'Andre Swift Over",
+      86.5,
+      -115
+     ],
+     [
+      "D'Andre Swift Under",
+      86.5,
+      -113
+     ]
+    ]
+   }
+  ],
+  "td-scorer-props": [
+   15,
+   "1st CHI Bears TD Scorer",
+   "1st NE Patriots TD Scorer",
+   "1st Touchdown Scorer",
+   "Any Time Touchdown Scorer",
+   "Anytime 1st Half TD Scorer",
+   "Anytime 2nd Half TD Scorer",
+   "Anytime Touchdown Scorer",
+   "First Touchdown Scorer",
+   "Last Touchdown Scorer",
+   "Moneyline",
+   "Spread",
+   "To Score 2+ Touchdowns",
+   "To Score 3+ Touchdowns",
+   "Total Points"
+  ]
+ }
+}
