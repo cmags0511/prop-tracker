@@ -22,11 +22,12 @@ import sys
 import time
 from statistics import NormalDist
 
-from fetch_odds import norm
+from fetch_odds import TEAM, norm
 from fetch_prices import FD, FD_KEY, MAX_SHIFT, SAME_GAME, SPREAD, get, pinnacle, shift
 from picks import LABEL, stat
 
 ND = NormalDist()
+BOARD = {"props": [], "games": []}  # FanDuel's mapped board, saved to fd_board.json for fwarnk.py
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "lab_market.json"
 ANCHOR_W = {"Pinnacle": .85, "Kalshi": .8}
@@ -69,11 +70,14 @@ FD_NAME = {"Passing Yds": "pyd", "Passing TDs": "ptd", "Pass Completions": "cmp"
            "Pts + Reb + Ast": "pra", "Pts + Reb": "pr", "Pts + Ast": "pa", "Reb + Ast": "ra"}
 
 
-def fd_board(lg, now):
-    """every two-way FanDuel player prop (its own line and prices) for upcoming games: [(name, prop, start, line, o, u)]"""
+def fd_board(lg, now, games=None):
+    """every two-way FanDuel player prop (its own line and prices) for upcoming games: [(name, prop, start, line, o, u)];
+    fills `games` with each game's spread and total: {(start, away name, home name): {"total", "spread_home"}}"""
+    games = {} if games is None else games
     page_id, tabs, days = FD_LAB[lg]
     page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={page_id}&_ak={FD_KEY}&timezone=America%2FNew_York")
     rows = []
+    games.clear()
     for ev in (page.get("attachments") or {}).get("events", {}).values():
         start = dt.datetime.fromisoformat(ev["openDate"].replace("Z", "+00:00"))
         if " @ " not in ev["name"] or "(" in ev["name"] or not now < start < now + dt.timedelta(days=days):
@@ -84,9 +88,20 @@ def fd_board(lg, now):
             except Exception as e:
                 print(f"FanDuel {ev['name']} {tab}: {e}")
                 continue
+            away, _, home = ev["name"].partition(" @ ")
             for m in (d.get("attachments") or {}).get("markets", {}).values():
                 name, _, what = m.get("marketName", "").partition(" - ")
                 rs = m.get("runners") or []
+                # the game's own spread and total come on every tab: kept for fwarnk.py (team totals)
+                if m.get("marketName") in ("Spread", "Total Points") and len(rs) == 2:
+                    gk = (start.isoformat(), away, home)
+                    gm = games.setdefault(gk, {})
+                    for r in rs:
+                        if m["marketName"] == "Total Points" and r.get("runnerName") == "Over":
+                            gm["total"] = r.get("handicap")
+                        elif m["marketName"] == "Spread" and r.get("runnerName") == home:
+                            gm["spread_home"] = r.get("handicap")
+                    continue
                 if what not in FD_NAME or len(rs) != 2:
                     continue
                 odds = lambda r: ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
@@ -132,8 +147,9 @@ def price_props(now):
         def who(name, start):
             ps = [(p, opp) for p in by_name.get(norm(name), []) for t, opp in games.get(p["t"], []) if abs(t - start) < SAME_GAME]
             return ps[0] if len(ps) == 1 else (None, None)
+        gl = {}
         try:
-            fd = fd_board(lg, now)
+            fd = fd_board(lg, now, gl)
         except Exception as e:
             print(f"{lg} FanDuel failed: {e}")
             continue
@@ -166,6 +182,7 @@ def price_props(now):
             app = move_p(s["p_over"], s["line"], line, mid) if s.get("p_over") is not None else None
             base = {"key": key, "lg": lg, "id": p["id"], "name": p["n"], "team": p["t"], "opp": opp,
                     "t": start.isoformat(), "market": mid, "label": LABEL[mid], "line": line, "book": "FanDuel"}
+            BOARD["props"].append(dict(base, over=fo, under=fu))
             if app is not None:
                 # method B, stats only: the app's own chance against FanDuel's price, no market check at all
                 eo, eu = app * dec(fo) - 1, (1 - app) * dec(fu) - 1
@@ -189,6 +206,10 @@ def price_props(now):
                         "mkt": round(anchor if over else 1 - anchor, 3),
                         "app": round(app if over else 1 - app, 3) if app is not None else None,
                         "ev": round(ev, 3), "est": est, "rank": round(rank, 3)})
+        inv = {v: k for k, v in TEAM.get(lg, {}).items()}
+        for (t, away, home), gm in gl.items():
+            if inv.get(away) and inv.get(home) and gm.get("total") is not None:
+                BOARD["games"].append({"lg": lg, "t": t, "away": inv[away], "home": inv[home], **gm})
         print(f"{lg}: FanDuel {len(fd)} props, {sum(1 for c in out if c['lg'] == lg)} with a market to anchor on, "
               f"{sum(1 for c in stats if c['lg'] == lg)} with the app's chance")
     return out, stats
@@ -281,6 +302,8 @@ def main():
     # A: market-anchored (Pinnacle / Kalshi, the app's stats tilt it); B: the app's stats alone, no market check
     top, record, summ, n = run(anchored, old.get("picks"), old.get("record", []), now, grade, "market-anchored")
     top_b, record_b, summ_b, n_b = run(stats_only, old.get("picks_stats"), old.get("record_stats", []), now, grade, "stats only")
+    if BOARD["props"]:
+        json.dump(dict(BOARD, built=now.isoformat(timespec="minutes")), open("fd_board.json", "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
                "started_stats": old.get("started_stats") or now.date().isoformat(),
                "picks": top, "n_priced": n, "record": record, "summary": summ,

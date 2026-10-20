@@ -22,6 +22,14 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   rows with a Details sheet (`gameSheet`), "No play" list shortened. Poopy / anus hole links and footer photo
   untouched. Tested in Chromium only (Safari not available here). sw.js pt-v82.
 
+## 2026-10-20
+- **cmags0511**: fwarnk (owner's request): third hidden page next to "poopy?" / "anus hole" (`view-fw`, `renderFw`).
+  `fwarnk.py` → `fwarnk.json`, step `fwarnk` after `lab_market` in both workflows. "The math has to add up": NFL, a
+  team's top-4 FanDuel receiving lines / its QB's passing line vs the usual share (learned; .69 to start) → top-2
+  receivers over when cheap, under when pricey; NBA, top-6 points lines / team points from FanDuel's total and spread
+  (learned; no NBA picks until 10 team-games). `lab_market.py` now saves FanDuel's mapped board plus each game's
+  spread/total to `fd_board.json`, so FanDuel is read once an hour for both pages. sw.js pt-v85.
+
 ## 2026-10-19
 - **cmags0511**: Record tab and My picks pick logs: dates collapse/expand like the Lab's (`dayOpen`, `.dayk`, one
   document-level click handler; two-line edits in renderAppRecord / renderRecord's day rows). rmolnar10: if your Record
