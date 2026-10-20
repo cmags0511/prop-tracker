@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Lab pick log: each date collapses/expands (tap the day row; the newest day and days with locked picks
+  start open; each day row shows its W-L and units). `S.labOpen`, `.labday`. sw.js pt-v80.
 - **cmags0511**: Lab #2 page now runs two methods side by side on FanDuel props, each with its own record: market-anchored
   and "stats only" (the app's own chance vs FanDuel's price, no market check; `picks_stats`/`record_stats` in
   lab_market.json). Comparison table, method switch (`S.labM`) and a "How it works" section (`.labhow`). sw.js pt-v79.

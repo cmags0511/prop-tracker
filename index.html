@@ -765,6 +765,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .poopy{align-self:center;border:0;background:none;color:var(--muted);font:500 12px var(--f-body);opacity:.7;padding:6px 10px;cursor:pointer}
 .poopy:hover{opacity:1;color:var(--accent)}
 .secret{display:flex;justify-content:center;gap:4px}
+.labday{cursor:pointer}.labday .chev{display:inline-block;width:1em;color:var(--muted)}
 .labhow h3{margin:0 0 6px;font-size:16px}.labhow p{margin:0 0 10px;font-size:13.5px;line-height:1.5;color:var(--ink)}.labhow p:last-child{margin-bottom:0}
 .wgames{display:flex;flex-direction:column;gap:8px}
 .wg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
@@ -1715,7 +1716,8 @@ function renderLab(){
     ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">Nothing from this method clears +2% right now.${cur.n?` Checked ${cur.n} FanDuel props.`:""}</p>`}
     <p class="pteam" style="margin:6px 0 0">Updated ${LAB.built?new Date(LAB.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}, every hour.</p></section>
     ${cur.rec.length?`<section class="board"><div class="bhead"><h2>Pick log · ${cur.name}</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>`<tr class="dayrow"><td colspan="4">${d}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")}${e.est?" ≈":""} · ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")).join("")}</tbody></table></div></section>`:""}
+      Object.entries(days).map(([d,list],i)=>{const t=tally(list),open=S.labOpen&&d in S.labOpen?S.labOpen[d]:i===0||list.some(e=>e.status==="pending");
+        return`<tr class="dayrow labday" data-labday="${esc(d)}" role="button" tabindex="0" aria-expanded="${open}"><td colspan="4"><span class="chev">${open?"\u25be":"\u25b8"}</span> ${d}<b>${t.n?`${t.w}-${t.l} \u00b7 ${uTxt(t.u)}`:t.pend?`${t.pend} locked`:""}</b></td></tr>`+(open?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")}${e.est?" ≈":""} · ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div></section>`:""}
     <section class="top labhow"><h3>How it works</h3>
       <p><b>The bets.</b> Every hour the lab reads FanDuel's player props for upcoming NFL and NBA games: its own line and its price on both sides (NFL passing, rushing and receiving yards, passing TDs, completions, attempts, receptions, rush + rec yards; NBA points, rebounds, assists, threes and the combos). Every pick is a real FanDuel bet at the line and price FanDuel showed.</p>
       <p><b>Why a bet can be worth it.</b> A price is a chance: −110 means you need to win 52.4% of the time to break even. A bet is worth making when the real chance is higher than the price asks for. The two methods disagree about how to judge the real chance.</p>
@@ -3209,7 +3211,9 @@ function wire(){
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
   document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
-    const lm=e.target.closest("[data-labm]");if(lm){S.labM=lm.dataset.labm;renderLab()}});
+    const lm=e.target.closest("[data-labm]");if(lm){S.labM=lm.dataset.labm;renderLab();return}
+    const ld=e.target.closest("[data-labday]");if(ld){S.labOpen=S.labOpen||{};S.labOpen[ld.dataset.labday]=ld.getAttribute("aria-expanded")!=="true";renderLab()}});
+  document.getElementById("view-lab").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-labday]")){e.preventDefault();e.target.click()}});
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     if(e.target.closest("[data-wguide]")){openWalGuide();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
