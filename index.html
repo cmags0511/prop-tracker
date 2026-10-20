@@ -29,31 +29,32 @@ try{var t=localStorage.getItem("ptTheme");if(t==="light"||t==="dark")document.do
 <meta name="description" content="Free NBA and NFL player prop tracker: hit rates, alt lines, splits and upcoming games, updated automatically.">
 <title>Prop Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
 <style>
-/* Design: one sans (Inter) with tabular numbers, neutral surfaces, soft cards, color only where it means something
-   (green = over / win, red = under / loss, blue = actions). A light header, and a bottom tab bar on phones. */
+/* Design ("Mist"): one rounded sans (Manrope) with tabular numbers, a tinted ground with lighter cards, color only where
+   it means something (green = over / win, red = under / loss, indigo = actions). Cards stay short: the full data and
+   reasoning sit one tap away in bottom sheets (openSheet). A real top nav, and a bottom tab bar on phones. */
 :root{
-  --bg:#f4f5f7; --panel:#ffffff; --ink:#0e1116; --ink2:#4a5261; --muted:#8a92a0;
-  --line:#e9ebef; --line2:#d9dde4; --accent:#2f6bff; --accent-soft:#eaf0ff; --on-accent:#ffffff;
-  --band:#ffffff; --band-ink:#0e1116; --band-muted:#6b7381; --band-line:#e9ebef; --band-field:#f1f3f6;
-  --hit:#12a150; --hit-soft:#e3f6ea; --hit-strong:#bfe9d0; --miss:#e5484d; --miss-soft:#fdebec; --miss-strong:#f8c9cb; --push:#8a92a0; --warn:#b46a00; --warn-soft:#fdf1dc;
-  --shadow:0 1px 2px rgb(16 24 40 / .04),0 1px 3px rgb(16 24 40 / .06);
+  --bg:#e8ecf2; --panel:#fbfcfd; --ink:#1b2130; --ink2:#3a4252; --muted:#6b7487;
+  --line:#e3e8ef; --line2:#d3dae5; --accent:#3f4bc4; --accent-soft:#e7e9fa; --on-accent:#ffffff;
+  --band:#fbfcfd; --band-ink:#1b2130; --band-muted:#6b7487; --band-line:#dfe4ec; --band-field:#eef1f6;
+  --hit:#137a48; --hit-soft:#dff0e6; --hit-strong:#bfe3cd; --miss:#b23a2e; --miss-soft:#f6e2df; --miss-strong:#efc4be; --push:#6b7487; --warn:#9a4f0c; --warn-soft:#fbeee0;
+  --shadow:0 1px 2px rgb(27 33 48 / .06),0 2px 8px rgb(27 33 48 / .04);
   --radius:16px;
-  --f-display:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
-  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
-  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
+  --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
+  --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
-  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
-  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
+  --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
+  --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}
 *{box-sizing:border-box}
@@ -821,6 +822,49 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .lhsvg{width:100%;height:auto;max-height:150px;display:block;margin:4px 0 8px}
 .lhpath{fill:none;stroke:var(--accent);stroke-width:2}.lhdot{fill:var(--accent)}
 .lhline{stroke:var(--muted);stroke-dasharray:4 3;stroke-width:1}.lhlbl{font:600 10px var(--f-mono,monospace);fill:var(--ink)}
+/* ---- Mist: header, cards and the sheet CTAs ---- */
+.tag,#chips{display:none}
+.hstat{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:999px;border:0;background:var(--band-field);color:var(--band-muted);font:700 12px var(--f-body);cursor:pointer}
+.hstat i{width:7px;height:7px;border-radius:50%;background:var(--hit)}
+.hstat.warn{background:var(--warn-soft);color:var(--warn)}.hstat.warn i{background:#d9822b}
+.stchips{display:flex!important;flex-wrap:wrap;gap:6px}.stchips .chip{font-size:12.5px;padding:5px 10px}
+.toolbar .seg{flex:1 1 100%;display:flex;background:none;border:0;padding:0;gap:22px;border-radius:0}
+.toolbar .seg button{background:none!important;box-shadow:none!important;border-radius:0;padding:10px 0 8px;border-bottom:2.5px solid transparent;font:600 15px var(--f-body);letter-spacing:0;color:var(--band-muted)}
+.toolbar .seg button[aria-pressed="true"]{color:var(--band-ink);font-weight:800;border-bottom-color:var(--accent)}
+.filtbtn{display:none;align-items:center;gap:6px;height:38px;padding:0 12px;border:0;border-radius:10px;background:var(--band-field);color:var(--band-ink);font:700 13px var(--f-body);cursor:pointer}
+.filtbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.filtbtn[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent)}
+@media (max-width:700px){.filtbtn{display:inline-flex}.toolbar:not(.fopen) #team,.toolbar:not(.fopen) #search,.toolbar:not(.fopen) #activeWrap{display:none}.toolbar #pos{flex:1 1 auto}}
+.top,.board,.bestbet,.learn{border-color:transparent!important;box-shadow:var(--shadow)}
+.pick{border:0!important;box-shadow:var(--shadow);border-radius:16px;padding:14px 14px 0}
+.pick .rank{color:#9aa3b5}
+.pksum{grid-column:2;font:600 12.5px var(--f-body);color:var(--muted)}
+.pksum b{font-weight:800}.pksum .support{color:var(--hit)}.pksum .caution{color:var(--warn)}
+.shc{display:none}
+.pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
+.pkcta .trk,.pkcta .live{margin:0 12px 0 0}
+.seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
+.seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
+.shcta.sm{flex:none;min-height:36px;padding:0 4px 0 10px}
+.rowcta{margin:-4px -16px}.rowcta .shcta{width:100%;padding:0 16px}
+.slatew{display:flex;align-items:center;gap:6px;background:var(--panel);box-shadow:var(--shadow);border-radius:12px;padding:2px 2px 2px 12px}
+.slatew .slate{flex:1;min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;padding:0;border:0}
+.wgcta{margin:6px -12px -12px;width:calc(100% + 24px);border-top:1px solid var(--line)}
+.shtop{display:flex;flex-direction:column;gap:2px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.shtop b{font:800 18px var(--f-body);color:var(--hit)}.shtop span{font-size:13px;color:var(--muted);font-weight:600}
+#sheet .why{font-size:14.5px;line-height:1.55;color:var(--ink2)}
+#sheet .pkmeta{margin:0}
+#sheet .shgo{margin-top:6px;min-height:46px;font-weight:800}
+#sheet .wfac summary{pointer-events:none;list-style:none}
+.titlerow h1{white-space:nowrap;font-size:clamp(18px,5.4vw,24px)}
+#top{background:none!important;box-shadow:none!important;padding:0!important;border:0!important}
+#top>.tophead,#top>.topsub{padding-inline:2px}
+.subnav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:var(--band-field);border-radius:12px;padding:4px;margin-inline:0}
+.subnav button{box-shadow:none;background:none;border-radius:9px;padding:8px 4px;font-size:13px;color:var(--ink2)}
+.subnav button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgb(27 33 48/.1)}
+.wg>.wg3>.pteam{display:none}
+.wg{padding-bottom:12px}
+@media (max-width:420px){.hstat{font-size:0;gap:0;width:32px;padding:0;justify-content:center}.hbtns{gap:6px}}
 </style>
 </head>
 <body>
@@ -831,7 +875,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     <div class="brand">
       <div class="titlerow">
         <h1><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7"/><path d="M7 16.5v-3M12 16.5v-6M17 16.5v-9"/></svg>Prop Tracker</h1>
-        <div class="hbtns"><button class="install ico" id="shareBtn" type="button" aria-label="Share app" title="Share app">&#x21aa;</button><div class="themesw" role="group" aria-label="Appearance"><button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></button><button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg></button></div><button class="install" id="installBtn" hidden aria-label="Install app">&#x2b07;<span class="hide-sm"> Install app</span></button></div>
+        <div class="hbtns"><button class="hstat" id="statusBtn" type="button" aria-label="Data status"><i></i>Status</button><button class="install ico" id="shareBtn" type="button" aria-label="Share app" title="Share app">&#x21aa;</button><div class="themesw" role="group" aria-label="Appearance"><button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></button><button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg></button></div><button class="install" id="installBtn" hidden aria-label="Install app">&#x2b07;<span class="hide-sm"> Install app</span></button></div>
       </div>
       <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
       <div class="chips" id="chips"><span class="chip">Loading game logs&#x2026;</span></div>
@@ -847,6 +891,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
       <select id="team" aria-label="Team"></select>
       <input id="search" class="grow" type="search" placeholder="Search player" aria-label="Search player">
       <label class="chk" id="activeWrap"><input type="checkbox" id="active" checked> <span id="activeLbl">Played this season</span></label>
+      <button class="filtbtn" id="filtBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Filter</button>
     </div>
     <div class="props" id="market" role="group" aria-label="Prop type"></div>
     <div class="tabs" role="tablist" aria-label="View">
@@ -1228,20 +1273,24 @@ function renderTop(){
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
   el.innerHTML=`${head}<p class="topsub">${S.league} · ${range} · ranked against the DraftKings line${CTX&&CTX.built?" · injuries checked "+new Date(CTX.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):""}${notesOk?` · researched ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p>
-  ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
+  ${notesOk&&NOTES.summary?`<div class="shw slatew"><p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p><button class="shcta sm" data-sheet="Today's news">Read</button><div class="shc"><p style="margin:0;line-height:1.55">${esc(NOTES.summary)}</p></div></div>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const rd=researchDir(n),agrees=rd.side===c.side,against=rd.side&&rd.side!==c.side;
     const lbl=against?"Research disagrees":agrees?"Research":rd.unc?"Caution":"News";
     const lcls=against||rd.unc?"caution":agrees?"support":"neutral";
     const inSlip=slipHas(c.lg,c.id,c.market,c.side,c.line);
     const tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market===c.market&&x.t===new Date(c.t).toISOString()&&x.side===c.side&&x.line===c.line);
-    return`<div class="pick" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
+    const trk=t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`;
+    return`<div class="pick shw" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
+      <div class="pksum">L10 ${c.l10[0]}/${c.l10[1]} \u00b7 Avg ${(+c.avg10).toFixed(1)}${n&&n.note?` \u00b7 <b class="${lcls}">${lbl}</b>`:""}</div>
+      <div class="shc"><div class="shtop"><b>${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label||"")}</b><span>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
       <div class="why">${esc(c.why)}</div>
       ${n&&n.note?`<div class="news"><b class="${lcls}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${lineMoveChip(c)}${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
+      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${lineMoveChip(c)}${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}</div></div>
+      <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}">See my reasoning</button>${trk}</div></div>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
+  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
 
 // ---- DraftKings line history (line_hist.json, saved every hour) ----
@@ -1652,6 +1701,7 @@ function renderAppRecord(){
       return`<div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null||pr==null?"var(--ink)":T.pct>=pr?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">${pr==null?"":`predicted ${pct(pr)}`}</div></div>`})()}
     <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${SOCR?" at DraftKings' price":P.some(e=>e.price)?" at real prices":" at -110"}</div></div>
     <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
+  const k0=html.length;
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
   else{
@@ -1673,6 +1723,7 @@ function renderAppRecord(){
     html+=`<div class="rsplit">${table("By pick strength",["0.8+","0.5–0.8","0.3–0.5","Under 0.3"].map(k=>[k,bk[k]||[]]))}${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${table("By prop",Object.entries(by(e=>(used.length>1?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
   }
   }
+  {const deep=html.slice(k0);html=html.slice(0,k0)+shcta("View all splits and stats",`<p class="pteam" style="margin:0">Splits by odds, favorite vs underdog, the app's chance and edge; closing-line value; touchdown and soccer records; the probability check; what the app is learning; research calls; strength, side and prop splits.</p>${deep}`,"rowcta")}
   html+=`</section>`;
   const days={};
   [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
@@ -1736,6 +1787,20 @@ function renderLab(){
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
 let WAL=null,walLoading=false,WAL_MODELS="",WAL_HOW="";
+// Bottom sheets: a card keeps its full data in a hidden .shc; its CTA ([data-sheet]) opens that in a sheet
+let SHEET_FROM=null;
+function openSheet(title,body,from){
+  document.getElementById("sheet")?.remove();SHEET_FROM=from||null;
+  const go=from&&from.matches(".pick[data-id]")?`<button class="btn shgo">Game log, splits and matchup</button>`:"";
+  const d=document.createElement("div");d.className="sharebox apbox";d.id="sheet";
+  d.innerHTML=`<div class="apcard" role="dialog" aria-label="${esc(title)}"><div class="aphead"><b>${esc(title)}</b><button class="apx" aria-label="Close">\u2715</button></div><div class="apbody">${body}${go}</div></div>`;
+  document.body.appendChild(d);d.querySelector(".apx").focus();
+  d.addEventListener("click",e=>{if(e.target===d||e.target.closest(".apx"))d.remove();else if(e.target.closest(".shgo")){d.remove();SHEET_FROM&&SHEET_FROM.click()}});
+}
+const shcta=(label,html,cls="")=>html&&html.trim()?`<div class="shw ${cls}"><button class="shcta" data-sheet="${esc(label)}">${label}</button><div class="shc">${html}</div></div>`:"";
+document.addEventListener("click",e=>{const b=e.target.closest("[data-sheet]");if(!b||b.closest("#sheet"))return;e.preventDefault();e.stopPropagation();
+  const w=b.closest(".shw"),c=w&&w.querySelector(".shc");openSheet(b.dataset.sheet,c?c.innerHTML:"",w)},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("sheet")?.remove()});
 function openWalGuide(){
   document.getElementById("sheet")?.remove();
   const d=document.createElement("div");d.className="sharebox apbox";d.id="sheet";
@@ -1777,7 +1842,7 @@ function renderWalters(){
   const bw=(bt.all||[0,0])[0],bl=(bt.all||[0,0])[1];
   let html=`<section class="top"><div class="tophead"><h2>Walters-style NFL lines</h2><button class="linkbtn" data-goto="app">‹ Record</button></div>
     <button class="wguide" data-wguide="1"><span class="wgi">i</span><span><b>3 models on this page</b><small>Walters \u00b7 Model \u00b7 Weather under: what each one is</small></span><span class="wgo">\u203a</span></button>
-    <p class="topsub">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}\u2013${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>
+    ${shcta("About this page",`<p class="topsub" style="margin:0">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}\u2013${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>`,"rowcta")}
     <div class="wtiles">
       <div class="wtile"><h3>Walters picks</h3><div class="strip two">
         <div><div class="k">This season</div><div class="v">${bw2}-${bl2}</div><div class="s">${bgr.length?`<b style="color:${bunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(bunits)}</b> (units = stars)`:"first picks lock in this week"}</div></div>
@@ -1801,28 +1866,35 @@ function renderWalters(){
     <div class="wgames" style="margin-top:10px">${s3up.length?s3up.map(e=>{const t=new Date(e.t);return`<div class="wg go"><div class="wg1"><span class="wpk">${esc(bPickTxt(e))} ${starIc(3)}<span class="wu">1u</span>${bPrice(e)!=null?` <small class="pteam">${amFmt(bPrice(e))}</small>`:""}</span><span class="pteam">${e.away} @ ${e.home} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div><div class="pteam">Walters ${e.home} ${ln(e.bfair)} vs DK ${ln(e.line)} \u00b7 ${fmt(e.bpct)}% between</div></div>`}).join(""):`<p class="topnote">No 3-star plays on the board right now.</p>`}</div></section>`;
   html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">Walters plays only (his full method, sized by stars: units = stars) plus the weather under. Spreads are for the home team: DK = DraftKings', Walters = his number.</p>
     <div class="wleg"><span><i class="wsw go"></i>Play: at least one pick</span><span><i class="wsw no"></i>No play</span></div><div class="wgames">${
-    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg ${e.tpick||e.bpick?"go":"no"}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
+    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg shw ${e.tpick||e.bpick?"go":"no"}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
       <div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Walters <b class="mono">${e.home} ${ln(e.bfair)}</b></span></div>
-      ${facTxt(e)}
+      <div class="shc"><div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Walters <b class="mono">${e.home} ${ln(e.bfair)}</b></span><span>Model <b class="mono">${e.home} ${ln(e.fair)}</b></span></div>
+      ${e.bpct!=null?`<div class="pteam">The gap to DK covers ${fmt(e.bpct)}% of NFL final margins${e.bstars?"":" (under 5.5%: no play)"}</div>`:""}
+      ${facTxt(e).replace('<details class="wfac">','<details class="wfac" open>')}
       <div class="wg2"><span>Total <b class="mono">${e.tline!=null?fmt(e.tline):"\u2013"}</b></span><span class="pteam">${e.indoor?"indoors":e.wind!=null?`wind ${Math.round(e.wind)} mph${e.rain!=null?` \u00b7 rain ${fmt(e.rain)}mm`:""}`:"no forecast yet"}</span></div>
       ${(e.qb_note||[]).length?`<div class="pteam">${esc(e.qb_note.join(" \u00b7 "))}</div>`:""}
       ${injTxt(e.away,e.inj_a,e.injp_a)}${injTxt(e.home,e.inj_h,e.injp_h)}
       ${e.tpick?`<div class="wg3"><span class="wpk">Under ${fmt(e.tline)}<span class="wu">1u</span></span><span class="pteam">Weather under${e.tprice_u!=null?` at ${amFmt(e.tprice_u)}`:""} \u00b7 ${(e.twhy||["wind"]).join(" + ")} \u00b7 ${(e.twhy||[]).includes("rain")&&!(e.twhy||[]).includes("wind")?`rain unders won ${wr(tbr)}`:`wind unders won ${wr(tbw)}`} in the backtest</span></div>`:""}
+      ${e.bpick?`<div class="wg3"><span class="wpk">${esc(bPickTxt(e))} ${starIc(e.bstars)}<span class="wu">${fmt(e.bstars)}u</span></span><span class="pteam">Walters \u00b7 ${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"} (the gap to DK covers ${fmt(e.bpct)}% of final margins)${bPrice(e)!=null?` at ${amFmt(bPrice(e))}`:""}${starRate(e.bstars)!=null?` \u00b7 ${pct(starRate(e.bstars))} in the backtest`:""}</span></div>`:""}</div>
+      ${e.tpick?`<div class="wg3"><span class="wpk">Under ${fmt(e.tline)}<span class="wu">1u</span></span><span class="pteam">Weather under${e.tprice_u!=null?` at ${amFmt(e.tprice_u)}`:""} \u00b7 ${(e.twhy||["wind"]).join(" + ")} \u00b7 ${(e.twhy||[]).includes("rain")&&!(e.twhy||[]).includes("wind")?`rain unders won ${wr(tbr)}`:`wind unders won ${wr(tbw)}`} in the backtest</span></div>`:""}
       ${e.bpick?`<div class="wg3"><span class="wpk">${esc(bPickTxt(e))} ${starIc(e.bstars)}<span class="wu">${fmt(e.bstars)}u</span></span><span class="pteam">Walters \u00b7 ${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"} (the gap to DK covers ${fmt(e.bpct)}% of final margins)${bPrice(e)!=null?` at ${amFmt(bPrice(e))}`:""}${starRate(e.bstars)!=null?` \u00b7 ${pct(starRate(e.bstars))} in the backtest`:""}</span></div>`:""}
-</div>`}).join("")
+<button class="shcta wgcta" data-sheet="${e.away} @ ${e.home}">Details</button></div>`}).join("")
     :`<p class="topnote">No NFL games on the board yet.</p>`}</div></section>`;
   // graded picks
   const gl=[...bgr.map(e=>({e,txt:`${bPickTxt(e)} \u00b7 Walters`,u:e.bstars,price:bPrice(e),won:e.bunits_won||0,st:e.bstatus})),
     ...graded.map(e=>({e,txt:`${pickTxt(e)} \u00b7 Model`,u:e.units,price:priceOf(e),won:e.units_won||0,st:e.status})),
     ...tg.map(e=>({e,txt:`Under ${fmt(e.tline)}`,u:1,price:e.tprice_u,won:e.tunits_won||0,st:e.tstatus}))].sort((a,b)=>new Date(b.e.t)-new Date(a.e.t));
   if(gl.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
-    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`}
+    const g0=html.length;
+    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
+    html=html.slice(0,g0)+`<section class="top">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"rowcta")}</section>`}
   // backtest by season and the current ratings
-  const yrs=Object.entries(bt.seasons||{});
+  const yrs=Object.entries(bt.seasons||{}),b0=html.length;
   html+=`<section class="top"><div class="rsplit"><div><h4>Backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Walters</th><th class="num">Units</th><th class="num">Model</th><th class="num">Units</th><th class="num">Weather unders</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>{const t=(btt.seasons||{})[y]||[0,0,0],b=(bb.seasons||{})[y]||[0,0,0];return`<tr><td>${y}</td><td class="num mono">${b[0]}-${b[1]}</td><td class="num mono" style="color:${b[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(b[2])}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono" style="color:${v[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v[2])}</td><td class="num mono">${t[0]}-${t[1]}</td><td class="num mono" style="color:${t[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t[2])}</td></tr>`}).join("")}</tbody></table></div>
       <p class="pteam" style="margin:6px 0 0">${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't Model picks.<br>Walters by stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${starIc(+k)} ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}</p></div>
     <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
       <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div></div></section>`;
+  html=html.slice(0,b0)+`<section class="top">${shcta("Backtest by season and power ratings",html.slice(b0),"rowcta")}</section>`;
   // the page guide (sheet) and How it works share this text
   WAL_MODELS=`<div class="wmods">
     <div class="wmod"><div class="wmodh"><b>Walters</b><span class="pteam">his full book method</span></div><ul>
@@ -1895,7 +1967,7 @@ function renderWalters(){
       <li>Matchup judgment calls and playoff stakes: no rule to backtest</li>
       <li>His timing: he bet early, before the market moved; these lock at kickoff</li></ul>
     <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
-  html+=`<section class="top"><h4 style="margin:0">How it works</h4>${WAL_HOW}</section>`;
+  html+=`<section class="top">${shcta("How it works",WAL_HOW,"rowcta")}</section>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -3198,6 +3270,8 @@ function wire(){
   document.getElementById("subnav").addEventListener("click",e=>{const b=e.target.closest("[data-sec]");if(!b||b.dataset.sec===S.sec)return;
     S.sec=b.dataset.sec;try{localStorage.setItem("ptSec",S.sec)}catch(_){}render();window.scrollTo({top:0})});
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
+  document.getElementById("filtBtn").onclick=e=>{const tb=e.currentTarget.closest(".toolbar"),on=tb.classList.toggle("fopen");e.currentTarget.setAttribute("aria-expanded",on)};
+  document.getElementById("statusBtn").onclick=()=>openSheet("Data status",`<div class="chips stchips">${document.getElementById("chips").innerHTML}</div>${[...document.querySelectorAll("#chips .warnchip")].map(c=>`<p class="pteam" style="margin:0">${esc(c.title||"")}</p>`).join("")}`);
   document.getElementById("moreBtn").onclick=()=>{shown+=PAGE;render()};
   document.querySelector("#boardT thead").onclick=e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;FROZEN=null;S.dir=S.sort===k?-S.dir:(k==="name"?1:-1);S.sort=k;render()};
   const b=document.getElementById("board");
@@ -3271,6 +3345,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
     document.addEventListener("click",e=>{const w=e.target.closest(".warnchip");if(w)toast(w.title)});
+    if(msg.length)document.getElementById("statusBtn").classList.add("warn");
     if(msg.length)document.getElementById("chips").insertAdjacentHTML("beforeend",`<span class="chip warnchip" title="${esc(msg.join(" "))}" tabindex="0" role="note">\u26a0 ${bad.length?"Data issue":"Research from "+new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short"})}</span>`);
   });
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
