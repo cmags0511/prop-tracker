@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-20
+- **rmolnar10**: The footer photo is hidden on the Walters page only (one line in `render()`); every other page still
+  shows it. sw.js pt-v85.
 - **rmolnar10**: Direct link to the hidden Walters page: `https://cmags0511.github.io/prop-tracker/#walters` opens it
   (`waltersLink` at startup and on hashchange; the hash is removed once open, so a reload goes to the normal app).
   sw.js pt-v84.
