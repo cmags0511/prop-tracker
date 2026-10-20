@@ -1,25 +1,28 @@
 import json, datetime as dt
 from fetch_prices import get, FD, FD_KEY
 out = {}
+now = dt.datetime.now(dt.timezone.utc)
 for lg in ("nba", "nfl"):
-    try:
-        page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={lg}&_ak={FD_KEY}&timezone=America%2FNew_York")
-    except Exception as e:
-        out[lg] = str(e); continue
-    evs = [ev for ev in (page.get("attachments") or {}).get("events", {}).values() if " @ " in ev["name"]]
-    out[lg + "_events"] = [(e["name"], e["openDate"]) for e in evs[:20]]
-    if not evs: continue
+    page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={lg}&_ak={FD_KEY}&timezone=America%2FNew_York")
+    evs = [ev for ev in (page.get("attachments") or {}).get("events", {}).values()
+           if " @ " in ev["name"] and "(" not in ev["name"] and dt.datetime.fromisoformat(ev["openDate"].replace("Z", "+00:00")) > now + dt.timedelta(hours=2)]
     ev = sorted(evs, key=lambda e: e["openDate"])[0]
+    out[lg + "_event"] = ev["name"]
     d = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={ev['eventId']}")
-    lay = d.get("layout") or {}
-    out[lg + "_tabs"] = [(t.get("title"), t.get("seoIdentifier") or t.get("id")) for t in (lay.get("tabs") or {}).values()] if isinstance(lay.get("tabs"), dict) else str(lay.get("tabs"))[:2000]
+    tabs = (d.get("layout") or {}).get("tabs") or {}
+    out[lg + "_tabraw"] = list(tabs.values())[:3] if isinstance(tabs, dict) else str(tabs)[:1500]
+    seo = [(t.get("title"), t.get("seoIdentifier"), t.get("id")) for t in (tabs.values() if isinstance(tabs, dict) else [])]
+    out[lg + "_tabs"] = seo
     names = {}
-    for tab in [t[1] for t in out[lg + "_tabs"]] if isinstance(out[lg + "_tabs"], list) else []:
+    for title, s, i in seo:
+        if not s: continue
         try:
-            dd = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={ev['eventId']}&tab={tab}")
+            dd = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={ev['eventId']}&tab={s}")
         except Exception as e:
-            names[tab] = str(e); continue
-        ms = (dd.get("attachments") or {}).get("markets", {}).values()
-        names[tab] = sorted({m.get("marketName", "").partition(" - ")[2] or m.get("marketName", "") for m in ms})[:60]
+            names[s] = str(e); continue
+        ms = list((dd.get("attachments") or {}).get("markets", {}).values())
+        names[s] = [len(ms)] + sorted({m.get("marketName", "") for m in ms})[:25]
+        ex = [m for m in ms if len(m.get("runners") or []) == 2 and " - " in m.get("marketName", "")][:2]
+        if ex: names[s + "_example"] = [{"name": m["marketName"], "runners": [(r.get("runnerName"), r.get("handicap"), ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")) for r in m["runners"]]} for m in ex]
     out[lg + "_markets"] = names
 json.dump(out, open("probe_fd.json", "w"), indent=1)
