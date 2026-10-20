@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-20
+- **rmolnar10**: Direct link to the hidden Walters page: `https://cmags0511.github.io/prop-tracker/#poopy` opens it
+  (`poopyLink` at startup and on hashchange; the hash is removed once open, so a reload goes to the normal app).
+  sw.js pt-v84.
 - **rmolnar10**: Best bet is now a scratch-off card (`renderBest`, `scratchCard`, `.bbs` CSS). A silver foil covers the
   pick; drag a finger across it (or tap Reveal) and past about half cleared it falls away with a small burst. Once
   revealed it stays revealed on that device for that pick (`ptScratch` in localStorage). The why, sources, "See my
