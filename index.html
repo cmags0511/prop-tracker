@@ -1688,6 +1688,7 @@ function render(){
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
+  document.querySelector(".sitefoot").hidden=S.view==="walt";  // no footer photo on the Walters page
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
