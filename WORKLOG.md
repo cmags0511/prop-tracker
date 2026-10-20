@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Lab #2 page now runs two methods side by side on FanDuel props, each with its own record: market-anchored
+  and "stats only" (the app's own chance vs FanDuel's price, no market check; `picks_stats`/`record_stats` in
+  lab_market.json). Comparison table, method switch (`S.labM`) and a "How it works" section (`.labhow`). sw.js pt-v79.
 - **cmags0511**: Lab #2 now bets FanDuel's own player props (line and price) for NFL and NBA, from FanDuel's public
   feed (`fd_board` in lab_market.py: NFL passing/receiving/rushing tabs, NBA player-points/-rebounds/-assists/
   -combos/-threes), anchored on Pinnacle moved to FanDuel's line (`fetch_prices.shift`), else Kalshi at the same

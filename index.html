@@ -765,6 +765,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .poopy{align-self:center;border:0;background:none;color:var(--muted);font:500 12px var(--f-body);opacity:.7;padding:6px 10px;cursor:pointer}
 .poopy:hover{opacity:1;color:var(--accent)}
 .secret{display:flex;justify-content:center;gap:4px}
+.labhow h3{margin:0 0 6px;font-size:16px}.labhow p{margin:0 0 10px;font-size:13.5px;line-height:1.5;color:var(--ink)}.labhow p:last-child{margin-bottom:0}
 .wgames{display:flex;flex-direction:column;gap:8px}
 .wg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
 .wg.on{border-color:var(--accent);background:var(--accent-soft)}
@@ -1686,29 +1687,44 @@ function renderLab(){
   const el=document.getElementById("view-lab");
   if(!LAB){if(!labLoading){labLoading=true;jget("lab_market.json").then(d=>{LAB=d||{picks:[],record:[]};labLoading=false;if(S.view==="lab")renderLab()})}
     el.innerHTML=`<section class="top"><p class="pteam">Loading…</p></section>`;return}
-  const R=LAB.record||[],done=R.filter(e=>e.status==="win"||e.status==="loss"),w=done.filter(e=>e.status==="win").length,l=done.length-w;
-  const dec=a=>1+(a>0?a/100:100/-a),units=done.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0);
-  const exp=done.reduce((x,e)=>x+e.prob,0),evAvg=done.length?done.reduce((x,e)=>x+e.ev,0)/done.length:null;
-  const now=Date.now(),live=(LAB.picks||[]).filter(c=>new Date(c.t).getTime()>now);
+  const M={mkt:{name:"Market-anchored",picks:LAB.picks||[],rec:LAB.record||[],since:LAB.started,n:LAB.n_priced},
+    stats:{name:"Stats only",picks:LAB.picks_stats||[],rec:LAB.record_stats||[],since:LAB.started_stats||LAB.started,n:LAB.n_stats}};
+  const mk=M[S.labM]?S.labM:"mkt",cur=M[mk],now=Date.now();
+  const dec=a=>1+(a>0?a/100:100/-a);
+  const tally=R=>{const d=R.filter(e=>e.status==="win"||e.status==="loss"),w=d.filter(e=>e.status==="win").length;
+    return{w,l:d.length-w,n:d.length,u:d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0),exp:d.reduce((x,e)=>x+e.prob,0),ev:d.length?d.reduce((x,e)=>x+e.ev,0)/d.length:null,pend:R.filter(e=>e.status==="pending").length}};
+  const T={mkt:tally(M.mkt.rec),stats:tally(M.stats.rec)};
+  const uTxt=u=>`<span style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"−"}${Math.abs(u).toFixed(1)}u</span>`;
+  const row=(lab,f)=>`<tr><td>${lab}</td><td class="num mono">${f(T.mkt)}</td><td class="num mono">${f(T.stats)}</td></tr>`;
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   const day=t=>new Date(t).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
+  const why=c=>c.anchor?`FanDuel ${c.side==="over"?"Over":"Under"} ${fmt(c.line)} at <b>${amFmt(c.price)}</b>${c.other!=null?` (other side ${amFmt(c.other)})`:""}. ${esc(c.anchor)}${c.est?" (its price moved from a nearby line, so rougher)":""} says <b>${Math.round(c.mkt*100)}%</b>${c.app!=null?`, the app's stats ${Math.round(c.app*100)}%, blended <b>${Math.round(c.prob*100)}%</b>`:""}.`
+    :`FanDuel ${c.side==="over"?"Over":"Under"} ${fmt(c.line)} at <b>${amFmt(c.price)}</b>${c.other!=null?` (other side ${amFmt(c.other)})`:""}. The app's stats alone say <b>${Math.round(c.prob*100)}%</b>; no market check.`;
   const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.name)} <span class="lgtag">${c.lg}</span><small>${esc(c.team)} vs ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
-    <div class="why">FanDuel ${c.side==="over"?"Over":"Under"} ${fmt(c.line)} at <b>${amFmt(c.price)}</b>${c.other!=null?` (other side ${amFmt(c.other)})`:""}. ${esc(c.anchor)}${c.est?" (its price moved from a nearby line, so rougher)":""} says <b>${Math.round(c.mkt*100)}%</b>${c.app!=null?`, the app's stats ${Math.round(c.app*100)}%, blended <b>${Math.round(c.prob*100)}%</b>`:""}. That's about <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10 on average.</div></div>`;
-  const days={};[...R].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  el.innerHTML=`<section class="top"><div class="tophead"><h2>Lab <span>FanDuel, market-anchored</span></h2><button class="linkbtn" data-goto="app">← Record</button></div>
-    <p class="topsub">A side project, separate from the app's Top 10. Every bet is a FanDuel player prop at FanDuel's own line and price (NFL and NBA). Each chance starts from the sharpest betting market (Pinnacle's price with its margin taken out, moved to FanDuel's line if they differ; else Kalshi's) and the app's stats only nudge it (15\u201325%). It lists the bets that beat FanDuel's price by +2% or more. Locked at kickoff and graded at FanDuel's price. Paper record, not betting advice.</p>
-    <div class="strip">
-      <div><div class="k">Record</div><div class="v">${w}-${l}</div><div class="s">since ${esc(LAB.started||"")}</div></div>
-      <div><div class="k">Units</div><div class="v" style="color:${units>=0?"var(--hit)":"var(--miss)"}">${units>=0?"+":"−"}${Math.abs(units).toFixed(1)}u</div><div class="s">1u a pick at the real price</div></div>
-      <div><div class="k">Hit rate</div><div class="v">${done.length?pct(w/done.length):"–"}</div><div class="s">${done.length?`expected ${pct(exp/done.length)}`:"first picks lock at kickoff"}</div></div>
-      <div><div class="k">Avg edge</div><div class="v">${evAvg==null?"–":"+"+(evAvg*100).toFixed(1)+"%"}</div><div class="s">what it expected per bet</div></div>
-    </div></section>
-    <section class="top"><div class="tophead"><h2>Picks <span>${live.length}</span></h2></div>
-    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">Nothing clears +2% right now. With the sharpest price as the starting point, real edges are small and rare: most days this list will be short or empty, and that's the honest answer. ${LAB.n_priced?`Checked ${LAB.n_priced} props with a market price.`:""}</p>`}
-    <p class="pteam" style="margin:6px 0 0">Updated ${LAB.built?new Date(LAB.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}.</p></section>
-    ${R.length?`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list])=>`<tr class="dayrow"><td colspan="4">${d}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")}${e.est?" \u2248":""} \u00b7 ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")).join("")}</tbody></table></div></section>`:""}`;
+    <div class="why">${why(c)} Expected about <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.</div></div>`;
+  const live=cur.picks.filter(c=>new Date(c.t).getTime()>now);
+  const days={};[...cur.rec].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
+  el.innerHTML=`<section class="top"><div class="tophead"><h2>Lab <span>FanDuel props</span></h2><button class="linkbtn" data-goto="app">← Record</button></div>
+    <p class="topsub">Two ways of finding FanDuel player props worth betting, run side by side on paper with real FanDuel lines and prices, so the results can show which one works. Separate from the app's Top 10. Not betting advice; how each works is at the bottom.</p>
+    <div class="log"><table class="books"><thead><tr><th></th><th class="num">Market<br>anchored</th><th class="num">Stats<br>only</th></tr></thead><tbody>
+      ${row("Record",t=>`${t.w}-${t.l}`)}${row("Units",t=>uTxt(t.u))}${row("Hit rate <small class=\"pteam\">(expected)</small>",t=>t.n?`${pct(t.w/t.n)} <small class="pteam">(${pct(t.exp/t.n)})</small>`:"–")}${row("Avg edge expected",t=>t.ev==null?"–":"+"+(t.ev*100).toFixed(1)+"%")}${row("Locked, waiting",t=>t.pend)}
+    </tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">1 unit a pick at FanDuel's price. Market-anchored since ${esc(M.mkt.since||"")}, stats only since ${esc(M.stats.since||"")}.</p></section>
+    <section class="top"><div class="tophead"><h2>Picks <span>${live.length}</span></h2><div class="seg2" role="group" aria-label="Method">${[["mkt","Market-anchored"],["stats","Stats only"]].map(([k,l])=>`<button data-labm="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div></div>
+    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">Nothing from this method clears +2% right now.${cur.n?` Checked ${cur.n} FanDuel props.`:""}</p>`}
+    <p class="pteam" style="margin:6px 0 0">Updated ${LAB.built?new Date(LAB.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}, every hour.</p></section>
+    ${cur.rec.length?`<section class="board"><div class="bhead"><h2>Pick log · ${cur.name}</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
+      Object.entries(days).map(([d,list])=>`<tr class="dayrow"><td colspan="4">${d}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")}${e.est?" ≈":""} · ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")).join("")}</tbody></table></div></section>`:""}
+    <section class="top labhow"><h3>How it works</h3>
+      <p><b>The bets.</b> Every hour the lab reads FanDuel's player props for upcoming NFL and NBA games: its own line and its price on both sides (NFL passing, rushing and receiving yards, passing TDs, completions, attempts, receptions, rush + rec yards; NBA points, rebounds, assists, threes and the combos). Every pick is a real FanDuel bet at the line and price FanDuel showed.</p>
+      <p><b>Why a bet can be worth it.</b> A price is a chance: −110 means you need to win 52.4% of the time to break even. A bet is worth making when the real chance is higher than the price asks for. The two methods disagree about how to judge the real chance.</p>
+      <p><b>Market-anchored.</b> Starts from Pinnacle, the sharpest sportsbook: it takes the biggest bets, welcomes winning bettors and moves its line when they bet, so its price is the best public read of the real chance. The lab takes Pinnacle's price, removes its small cut, and moves it to FanDuel's line when the two books' lines differ (a rougher estimate, so those count half). When Pinnacle doesn't list the prop, Kalshi traders' chance is used if it's at the same line. The app's own stats then nudge the number by 15–25%. If FanDuel pays better than that chance by 2% or more, it's a pick. The catch: it can only judge props Pinnacle or Kalshi also list.</p>
+      <p><b>Stats only.</b> The control group. It uses only the app's own chance for each prop (recent form, matchup, usage, injuries, game script and the research, the same numbers behind the Top 10, moved to FanDuel's line) and compares it with FanDuel's price, with no market check. It can judge almost every prop, but the app has been overconfident so far (picks it called 71% hit about 54%), so expect more picks with bigger promised edges.</p>
+      <p><b>The lists.</b> Each method keeps its 10 best bets: +2% expected profit or more, one bet per player, at most 3 of any one prop type. Lists update every hour until kickoff, then the picks lock.</p>
+      <p><b>Grading.</b> After the game, each locked pick is graded from the box score at the FanDuel price it locked at: 1 unit per pick, a win pays at that price, a loss costs 1 unit, a push is returned, and a player who doesn't play is void (books refund those). Losses stay on the record as plainly as wins.</p>
+      <p><b>Reading the results.</b> "Expected" next to the hit rate is what the method's own chances said would happen; if it keeps hitting below that, the method is overconfident. A few weeks and a few hundred picks are needed before either record means much. The method that wins over time can then be considered for the main picks.</p>
+    </section>`;
 }
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
@@ -3192,7 +3208,8 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
-  document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go)setView(go.dataset.goto)});
+  document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
+    const lm=e.target.closest("[data-labm]");if(lm){S.labM=lm.dataset.labm;renderLab()}});
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     if(e.target.closest("[data-wguide]")){openWalGuide();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
