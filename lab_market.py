@@ -27,7 +27,7 @@ from fetch_prices import FD, FD_KEY, MAX_SHIFT, SAME_GAME, SPREAD, get, pinnacle
 from picks import LABEL, stat
 
 ND = NormalDist()
-BOARD = {"props": [], "games": []}  # FanDuel's mapped board, saved to fd_board.json for fwarnk.py
+BOARD = {"props": [], "games": [], "pin": {}}  # FanDuel's mapped board, saved to fd_board.json for fwarnk.py
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "lab_market.json"
 ANCHOR_W = {"Pinnacle": .85, "Kalshi": .8}
@@ -159,6 +159,7 @@ def price_props(now):
                 p, _ = who(name, start)
                 if p:
                     pin[(p["id"], mid)] = (line, o, u)
+                    BOARD["pin"][f"{lg}|{p['id']}|{mid}"] = [line, o, u]  # for fwarnk.py's Pinnacle check
         except Exception as e:
             print(f"{lg} Pinnacle failed: {e}")
             pin = {}
