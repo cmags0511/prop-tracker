@@ -11,7 +11,7 @@ for lg in ("nba", "nfl"):
     d = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={ev['eventId']}")
     tabs = (d.get("layout") or {}).get("tabs") or {}
     out[lg + "_tabraw"] = list(tabs.values())[:3] if isinstance(tabs, dict) else str(tabs)[:1500]
-    seo = [(t.get("title"), t.get("seoIdentifier"), t.get("id")) for t in (tabs.values() if isinstance(tabs, dict) else [])]
+    seo = [(t.get("title"), (t.get("title") or "").lower().replace(" ", "-"), t.get("id")) for t in (tabs.values() if isinstance(tabs, dict) else []) if (t.get("title") or "").lower().startswith(("player", "passing", "receiving", "rushing", "td scorer"))]
     out[lg + "_tabs"] = seo
     names = {}
     for title, s, i in seo:
@@ -21,7 +21,7 @@ for lg in ("nba", "nfl"):
         except Exception as e:
             names[s] = str(e); continue
         ms = list((dd.get("attachments") or {}).get("markets", {}).values())
-        names[s] = [len(ms)] + sorted({m.get("marketName", "") for m in ms})[:25]
+        names[s] = [len(ms)] + sorted({m.get("marketName", "").partition(" - ")[2] or m.get("marketName", "") for m in ms})[:40]
         ex = [m for m in ms if len(m.get("runners") or []) == 2 and " - " in m.get("marketName", "")][:2]
         if ex: names[s + "_example"] = [{"name": m["marketName"], "runners": [(r.get("runnerName"), r.get("handicap"), ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")) for r in m["runners"]]} for m in ex]
     out[lg + "_markets"] = names
