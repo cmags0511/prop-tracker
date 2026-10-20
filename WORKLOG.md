@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Record tab and My picks pick logs: dates collapse/expand like the Lab's (`dayOpen`, `.dayk`, one
+  document-level click handler; two-line edits in renderAppRecord / renderRecord's day rows). rmolnar10: if your Record
+  overhaul rewrites those logs, keep `dayOpen` or drop it there. sw.js pt-v81.
 - **cmags0511**: Lab pick log: each date collapses/expands (tap the day row; the newest day and days with locked picks
   start open; each day row shows its W-L and units). `S.labOpen`, `.labday`. sw.js pt-v80.
 - **cmags0511**: Lab #2 page now runs two methods side by side on FanDuel props, each with its own record: market-anchored
