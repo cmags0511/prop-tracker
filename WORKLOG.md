@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **rmolnar10**: Walters page: the top stat strip is now three labeled groups (Walters picks, Model picks, Weather
+  unders), each with this season + backtest (`.wtiles` in renderWalters). This week cards now show only Walters plays
+  (and weather unders), most stars first, each with a units badge (`.wu`); half stars are a half-filled star icon
+  (`starIc`, `.hst`) everywhere on the page. Model picks still count in their record and graded list. sw.js pt-v77.
 - **cmags0511**: Lab #2 "anus hole" (owner's request): hidden page next to "poopy?" at the bottom of the Record tab
   (`.secret` row, `view-lab`, `renderLab`). New `lab_market.py` → `lab_market.json`, step `lab_market` after
   record in both workflows: chance anchored on Pinnacle/FanDuel no-vig (Kalshi a quarter, or alone), the app's
