@@ -491,6 +491,8 @@ def main():
                 continue  # last seen on another team (transfer); skip until he has a match for this one
             home = tid == hid
             opp_id = aid_ if home else hid
+            # the side he plays for in this match (a player seen only with his national team has no club "t")
+            team_ab = (u["home"] if home else u["away"]).get("abbreviation", "") or p.get("t", "")
             # recent availability: in how many of his team's last 5 matches did he play / start?
             tg = [r[1] for r in (hist["teams"].get(tid) or {}).get("g", [])][-5:]
             mine = {r[2]: r for r in p["g"]}
@@ -540,7 +542,7 @@ def main():
                 si = {"g": 8, "a": 9, "sh": 10, "sot": 11, "fc": 12, "yc": 13, "sv": 15, "card": 13}[m]
                 hits = sum(1 for r in g10 if (r[si] or 0) >= k)
                 rows.append({"key": f"SOC|{aid}|{m}|{k}", "pid": aid, "name": p["n"], "pos": pos_group(p.get("pos")),
-                             "team": p["t"], "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
+                             "team": team_ab, "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
                              "home": home, "m": m, "k": k, "label": (f"{k}+ goals" if m == "g" else f"{k}+ {LABEL[m].lower()}") if m not in ("g", "card") or k > 1 else LABEL[m],
                              "price": am, "dec": round(dec, 3), "prob": round(prob, 3), "model": round(p_mod, 3),
                              "book": round(q, 3), "fair_book": round(q_fair, 3), "ev": round(ev, 3), "hits": [hits, len(g10)],
@@ -550,7 +552,7 @@ def main():
                 if u["t"] > now:
                     closing[f"SOC|{aid}|{m}|{k}|{u['ev']}"] = [round(dec, 3), u["t"].isoformat(timespec="minutes")]
                 if aid not in pinfo:
-                    pinfo[aid] = {"n": p["n"], "pos": pos_group(p.get("pos")), "team": p["t"], "lineup": status,
+                    pinfo[aid] = {"n": p["n"], "pos": pos_group(p.get("pos")), "team": team_ab, "lineup": status,
                                   "sr": round(s_start, 2), "dates": [r[0][5:] for r in g10], "opp": [r[4] for r in g10],
                                   "comp": [r[1] for r in g10], "home": home, "st": [r[6] for r in g10],
                                   "v": {s_: [r[i_] or 0 for r in g10] for s_, i_ in (("g", 8), ("a", 9), ("sh", 10), ("sot", 11), ("sv", 15), ("fc", 12), ("yc", 13))

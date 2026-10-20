@@ -4,8 +4,8 @@ ESPN's scoreboard and odds feeds are free and need no key, but they are not an o
 documented API: ESPN can change or remove them at any time. If a fetch fails, the existing
 lines.json is kept so the app keeps showing the last good lines.
 
-What ESPN provides: the current DraftKings line and the opening line for each player prop.
-It does not include the odds (prices) for player props.
+What ESPN provides: the current DraftKings line and the opening line for each player prop, and for NBA props
+DraftKings' over / under prices (po / pu; the NFL feed has no prices).
 
 Optional settings (environment variables):
   LINES_DAYS_NFL   look this many days ahead for NFL games (default 7)
@@ -132,6 +132,7 @@ def main():
             except Exception as e:
                 print(f"{lg} {ev.get('shortName')}: props failed ({e})"); log(f"{lg} {ev.get('shortName')}: {e}")
                 continue
+            px = {}  # DraftKings' prices: ESPN lists each line as two items, the over first, then the under (NBA has them; NFL doesn't)
             for it in items:
                 ref = (it.get("athlete") or {}).get("$ref", "")
                 m = re.search(r"/athletes/(\d+)", ref)
@@ -139,6 +140,12 @@ def main():
                 cur = ((it.get("current") or {}).get("target") or {}).get("value")
                 if not m or not prop or cur is None:
                     continue
+                am = ((it.get("odds") or {}).get("american") or {}).get("value")
+                if am not in (None, ""):
+                    try:
+                        px.setdefault((m.group(1), prop, cur), []).append(int(float(str(am).replace("+", ""))))
+                    except ValueError:
+                        pass
                 opn = ((it.get("open") or {}).get("target") or {}).get("value")
                 rec = out[lg].setdefault(m.group(1), {})
                 prev = rec.get(prop)
@@ -146,6 +153,10 @@ def main():
                 if prev is None or upd > prev.get("u", ""):
                     rec[prop] = {"line": cur, "open": opn, "u": upd, "g": ev.get("shortName", ""), "d": ev.get("date", "")}
                     got += prev is None
+            for (aid, prop, cur), v in px.items():
+                r = out[lg].get(aid, {}).get(prop)
+                if r and r["line"] == cur and len(v) == 2:
+                    r["po"], r["pu"] = v
             time.sleep(0.2)
         print(f"{lg}: {len(events)} upcoming games, {got} player lines"); log(f"{lg}: {len(sb.get('events', []))} games on scoreboard, {len(events)} upcoming, {got} lines")
     if not any_ok:
