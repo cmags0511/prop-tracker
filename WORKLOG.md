@@ -4,6 +4,11 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-20
+- **cmags0511**: fwarnk tweaks (only fwarnk files + one line in lab_market.py saving Pinnacle quotes to fd_board.json
+  `pin`): NFL now counts only unders on "pricey" teams; overs on "cheap" teams are tracked but don't count; a new
+  "NFL unders + Pinnacle" record (same unders, only when Pinnacle leans under at FanDuel's line); teams skipped when a
+  key player is on the injury report (NFL receiver 30+ yds, NBA scorer 15+ pts) and NBA second nights of back-to-backs.
+  Records are keyed by method. sw.js pt-v86.
 - **rmolnar10**: Direct link to the hidden Walters page: `https://cmags0511.github.io/prop-tracker/#walters` opens it
   (`waltersLink` at startup and on hashchange; the hash is removed once open, so a reload goes to the normal app).
   sw.js pt-v84.
