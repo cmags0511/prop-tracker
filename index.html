@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#1b2130" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141922" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -996,6 +996,20 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .tiles2>div{background:var(--panel);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column}
 .tiles2 span{font:700 12px var(--f-body);color:var(--muted)}.tiles2 b{font:800 28px var(--f-body);letter-spacing:-.02em;margin-top:2px}.tiles2 small{font:600 12px var(--f-body);color:var(--muted)}
 #view-rec>.recw .rfbar{margin:0}
+/* sheets never get wider than the screen: wide tables scroll inside their own card (Safari sized the grid to them) */
+.apbox{grid-template-columns:minmax(0,1fr)}
+.apcard{min-width:0;max-width:min(480px,100vw);justify-self:center}
+.apbody{min-width:0;overflow-x:hidden}.apbody>*{min-width:0;max-width:100%}
+.shsec .log,.shsec .bwrap,#sheet .rsplit .log{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#sheet .rsplit{grid-template-columns:minmax(0,1fr)}
+/* dark top nav in both themes */
+:root{--band:#1b2130;--band-ink:#f3f5f9;--band-muted:#a3abbb;--band-line:#2a3242;--band-field:#283041;--band-accent:#8b95ff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--band:#141922;--band-ink:#eef1f6;--band-muted:#8a93a5;--band-line:#232a36;--band-field:#1e2430}}
+:root[data-theme="dark"]{--band:#141922;--band-ink:#eef1f6;--band-muted:#8a93a5;--band-line:#232a36;--band-field:#1e2430}
+.band{border-bottom:0}
+.toolbar .seg button[aria-pressed="true"]{border-bottom-color:var(--band-accent)}
+.hico[aria-expanded="true"]{background:var(--band-field);color:var(--band-ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 </style>
 </head>
 <body>
@@ -3621,7 +3635,7 @@ function shareBox(){
 {const dark=matchMedia("(prefers-color-scheme: dark)");
   const eff=()=>document.documentElement.dataset.theme||(dark.matches?"dark":"light");
   const paint=()=>{const t=eff();document.querySelectorAll("[data-theme-set]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.themeSet===t));
-    document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.content=t==="dark"?"#0b0c0f":"#ffffff")};
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.content=t==="dark"?"#141922":"#1b2130")};
   document.querySelector(".themesw").addEventListener("click",e=>{const b=e.target.closest("[data-theme-set]");if(!b)return;
     document.documentElement.dataset.theme=b.dataset.themeSet;try{localStorage.setItem("ptTheme",b.dataset.themeSet)}catch(_){}paint()});
   dark.addEventListener("change",paint);paint()}
