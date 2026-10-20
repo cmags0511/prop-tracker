@@ -3,6 +3,17 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-20
+- **rmolnar10**: "Mist" redesign (index.html only, no data or model changes). Dark top nav in both themes; light mode is
+  the default (dark only if picked in the new gear menu, which also holds Share/Install). Props: two dropdowns
+  (section, prop type) drive the old `#subnav`/`#market` buttons; Top cards open a reasoning sheet (`reasonHtml`,
+  `openSheet`) with the numbers, market, factors, splits, matchup, news and game log; phones show 5 picks until "Show
+  all 10". Record (`renderAppRecord`): sport tabs, a hero card, Splits and Recent lists; the full stats and full pick log
+  open in sheets. The Record tab's log is now all dates expanded inside that sheet, so `dayOpen` is no longer used
+  there (My picks keeps it; Lab day rows unchanged). Walters (`renderWalters`): tabs for Walters/Model/Weather, two stat tiles, play
+  rows with a Details sheet (`gameSheet`), "No play" list shortened. Poopy / anus hole links and footer photo
+  untouched. Tested in Chromium only (Safari not available here). sw.js pt-v82.
+
 ## 2026-10-19
 - **cmags0511**: Record tab and My picks pick logs: dates collapse/expand like the Lab's (`dayOpen`, `.dayk`, one
   document-level click handler; two-line edits in renderAppRecord / renderRecord's day rows). rmolnar10: if your Record
