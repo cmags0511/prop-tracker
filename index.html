@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="Props">
 <link rel="manifest" href="manifest.webmanifest">
 <script>/* the appearance chosen in the header switch, applied before the page draws so it doesn't flash */
-try{var t=localStorage.getItem("ptTheme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+var t="light";try{if(localStorage.getItem("ptTheme")==="dark")t="dark"}catch(e){}document.documentElement.dataset.theme=t;</script>
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
