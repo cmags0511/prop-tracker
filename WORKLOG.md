@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Lab #2 now bets FanDuel's own player props (line and price) for NFL and NBA, from FanDuel's public
+  feed (`fd_board` in lab_market.py: NFL passing/receiving/rushing tabs, NBA player-points/-rebounds/-assists/
+  -combos/-threes), anchored on Pinnacle moved to FanDuel's line (`fetch_prices.shift`), else Kalshi at the same
+  line. App chance from slate.json moved to FanDuel's line. One request per game and tab, hourly.
 - **rmolnar10**: Walters page: the top stat strip is now three labeled groups (Walters picks, Model picks, Weather
   unders), each with this season + backtest (`.wtiles` in renderWalters). This week cards now show only Walters plays
   (and weather unders), most stars first, each with a units badge (`.wu`); half stars are a half-filled star icon

@@ -1,14 +1,15 @@
-"""Lab #2, market-anchored picks: a side project that runs next to the main Top 10 and never changes it.
+"""Lab #2, market-anchored picks on FanDuel: a side project that runs next to the main Top 10 and never changes it.
 
-Each prop's chance starts from the betting market and the app's stats only tilt it:
-  - Pinnacle's price with its margin taken out (the sharpest book), else FanDuel's, with Kalshi blended in at a quarter
-    when it has a price; with no sportsbook price, Kalshi alone; with no market at all the prop is skipped
-  - final log-odds = W x market + (1 - W) x the app's own chance (slate.json p_over); W = .85 Pinnacle, .75 FanDuel,
-    .8 Kalshi, .1 less when the book's price was worked out from a nearby line
-Then it takes whichever side has the better expected profit at the best real price on offer (the anchor book's own
-quote, or DraftKings' price at the same line from ESPN's feed, NBA only) and lists the 10 best (expected profit
-+2% or more, one per player, at most 3 per prop type). Picks lock at kickoff and are graded from the box scores at the
-price shown, in lab_market.json, so the method can be judged on its own record.
+Every bet is a FanDuel player prop at FanDuel's own line and price (NFL: passing, rushing, receiving; NBA: points,
+rebounds, assists, combos, threes), read from FanDuel's public odds feed. Each prop's chance starts from the market
+and the app's stats only tilt it:
+  - Pinnacle's price with its margin taken out (the sharpest book), moved to FanDuel's line with fetch_prices.shift
+    when the two lines differ; else Kalshi's chance when its line is FanDuel's; with no market at all it's skipped
+  - final log-odds = W x market + (1 - W) x the app's own chance (slate.json p_over, moved to FanDuel's line);
+    W = .85 Pinnacle, .8 Kalshi, .1 less when Pinnacle's price was moved from another line
+Then it takes the side with the better expected profit at FanDuel's price and lists the 10 best (expected profit +2%
+or more, half credit for a moved Pinnacle price; one per player, at most 3 per prop type). Picks lock at kickoff and
+are graded from the box scores at FanDuel's price, in lab_market.json, so the method can be judged on its own record.
 Runs hourly after record.py. This is the same idea as PR #2, tried live instead of replacing the main ranking.
 """
 import datetime as dt
@@ -16,10 +17,17 @@ import json
 import math
 import sys
 
-from picks import stat
+import time
+from statistics import NormalDist
+
+from fetch_odds import norm
+from fetch_prices import FD, FD_KEY, MAX_SHIFT, SAME_GAME, SPREAD, get, pinnacle, shift
+from picks import LABEL, stat
+
+ND = NormalDist()
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "lab_market.json"
-ANCHOR_W = {"Pinnacle": .85, "FanDuel": .75, "Kalshi": .8}
+ANCHOR_W = {"Pinnacle": .85, "Kalshi": .8}
 ANCHOR_EST = .1
 MIN_EV = .02
 TOP = 10
@@ -50,66 +58,127 @@ def load(f, d):
         return d
 
 
-def dk_prices():
-    """DraftKings' own over / under prices from lines.json (NBA), keyed like slate.json"""
-    lines, data = load("lines.json", {}), load("props_data.json", {})
-    out = {}
-    for lg in ("NFL", "NBA"):
-        ids = {str(p.get("espn") or p["id"]): p["id"] for p in (data.get(lg) or {}).get("players", [])}
-        for eid, mk in (lines.get(lg) or {}).items():
-            for m, r in (mk or {}).items():
-                if isinstance(r, dict) and r.get("po") and r.get("pu"):
-                    out[f"{lg}|{ids.get(eid, eid)}|{m}"] = (r["line"], r["po"], r["pu"])
-    return out
+FD_LAB = {  # FanDuel page, player-prop tabs, days ahead
+    "NFL": ("nfl", ("passing-props", "receiving-props", "rushing-props"), 8),
+    "NBA": ("nba", ("player-points", "player-rebounds", "player-assists", "player-combos", "player-threes"), 2)}
+FD_NAME = {"Passing Yds": "pyd", "Passing TDs": "ptd", "Pass Completions": "cmp", "Pass Attempts": "att",
+           "Rushing Yds": "ryd", "Rushing Attempts": "car", "Receiving Yds": "recyd", "Total Receptions": "rec",
+           "Rushing + Receiving Yds": "rry", "Points": "pts", "Rebounds": "reb", "Assists": "ast", "Made Threes": "3pm",
+           "Pts + Reb + Ast": "pra", "Pts + Reb": "pr", "Pts + Ast": "pa", "Reb + Ast": "ra"}
 
 
-def price_props(slate, dkp=None):
-    dkp = dkp or {}
+def fd_board(lg, now):
+    """every two-way FanDuel player prop (its own line and prices) for upcoming games: [(name, prop, start, line, o, u)]"""
+    page_id, tabs, days = FD_LAB[lg]
+    page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={page_id}&_ak={FD_KEY}&timezone=America%2FNew_York")
+    rows = []
+    for ev in (page.get("attachments") or {}).get("events", {}).values():
+        start = dt.datetime.fromisoformat(ev["openDate"].replace("Z", "+00:00"))
+        if " @ " not in ev["name"] or "(" in ev["name"] or not now < start < now + dt.timedelta(days=days):
+            continue  # (names in brackets are FanDuel's simulated games)
+        for tab in tabs:
+            try:
+                d = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={ev['eventId']}&tab={tab}")
+            except Exception as e:
+                print(f"FanDuel {ev['name']} {tab}: {e}")
+                continue
+            for m in (d.get("attachments") or {}).get("markets", {}).values():
+                name, _, what = m.get("marketName", "").partition(" - ")
+                rs = m.get("runners") or []
+                if what not in FD_NAME or len(rs) != 2:
+                    continue
+                odds = lambda r: ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
+                o = next((r for r in rs if r["runnerName"].endswith(" Over")), None)
+                u = next((r for r in rs if r["runnerName"].endswith(" Under")), None)
+                if o and u and odds(o) and odds(u) and o.get("handicap") == u.get("handicap"):
+                    rows.append((name, FD_NAME[what], start, o["handicap"], int(odds(o)), int(odds(u))))
+            time.sleep(.15)
+    return rows
+
+
+def novig(o, u):
+    return imp(o) / (imp(o) + imp(u))
+
+
+def move_p(p, frm, to, mid):
+    """the chance of the over at line `frm`, moved to line `to` (normal model, as fetch_prices.shift); None if too far"""
+    sd = SPREAD.get(mid, .5) * max(frm, to, 1)
+    if abs(to - frm) > MAX_SHIFT * sd:
+        return None
+    return min(.98, max(.02, 1 - ND.cdf(ND.inv_cdf(min(.98, max(.02, 1 - p))) + (to - frm) / sd)))
+
+
+def price_props(now):
+    """FanDuel's board, each prop's chance anchored on Pinnacle (moved to FanDuel's line when they differ), else Kalshi
+    when its line is FanDuel's; the app's own chance (slate.json, moved to FanDuel's line) tilts it"""
+    data = load("props_data.json", {})
+    slate = {s["key"]: s for s in load("slate.json", {"props": []})["props"]}
     out = []
-    for s in slate:
-        po, pu = s.get("po"), s.get("pu")
-        anchor, src, w = None, None, 0.0
-        if isinstance(po, (int, float)) and isinstance(pu, (int, float)) and po and pu:
-            qb = imp(po) / (imp(po) + imp(pu))
-            src = s.get("pb") or "Pinnacle"
-            w = ANCHOR_W.get(src, .75) - (ANCHOR_EST if s.get("pe") else 0)
-            anchor = lg_(qb)
-            if s.get("market_over") is not None:
-                anchor = .75 * anchor + .25 * lg_(s["market_over"])
-        elif s.get("market_over") is not None:
-            src, w, anchor = "Kalshi", ANCHOR_W["Kalshi"], lg_(s["market_over"])
-        if anchor is None or s.get("p_over") is None:
+    for lg in FD_LAB:
+        meta = data.get(lg)
+        if not meta:
             continue
-        p = sig(w * anchor + (1 - w) * lg_(s["p_over"]))
-        q_mkt = sig(anchor)
-        # the price we'd get: the better of the anchor book's own price and DraftKings' (same line), per side.
-        # Only real quoted prices count: none made up from Kalshi or assumed at -110.
-        offers = {"over": [], "under": []}
-        if isinstance(po, (int, float)) and po and not s.get("pe"):
-            offers["over"].append((po, src))
-        if isinstance(pu, (int, float)) and pu and not s.get("pe"):
-            offers["under"].append((pu, src))
-        d = dkp.get(s["key"])
-        if d and d[0] == s["line"]:
-            offers["over"].append((d[1], "DraftKings"))
-            offers["under"].append((d[2], "DraftKings"))
-        best = {k: max(v, key=lambda x: dec(x[0])) for k, v in offers.items() if v}
-        if not best:
+        games = {}  # team -> [(start, opponent)]
+        for u in meta.get("upcoming", []):
+            t = dt.datetime.fromisoformat(u[0])
+            games.setdefault(u[1], []).append((t, u[2]))
+            games.setdefault(u[2], []).append((t, u[1]))
+        by_name = {}
+        for p in meta["players"]:
+            by_name.setdefault(norm(p["n"]), []).append(p)
+
+        def who(name, start):
+            ps = [(p, opp) for p in by_name.get(norm(name), []) for t, opp in games.get(p["t"], []) if abs(t - start) < SAME_GAME]
+            return ps[0] if len(ps) == 1 else (None, None)
+        try:
+            fd = fd_board(lg, now)
+        except Exception as e:
+            print(f"{lg} FanDuel failed: {e}")
             continue
-        ev_o = p * dec(best["over"][0]) - 1 if "over" in best else -1
-        ev_u = (1 - p) * dec(best["under"][0]) - 1 if "under" in best else -1
-        over = ev_o >= ev_u
-        ev = ev_o if over else ev_u
-        price, book = best["over" if over else "under"]
-        # an anchor worked out from the book's price at a nearby line (fetch_prices.py "est") is rougher: half credit when
-        # ranking and for the +2% bar, so a shaky estimate can't top the list
-        rank = ev * (.5 if s.get("pe") else 1)
-        out.append({"key": s["key"], "lg": s["lg"], "id": s["id"], "name": s["name"], "team": s["team"], "opp": s["opp"],
-                    "t": s["t"], "market": s["market"], "label": s["label"], "line": s["line"],
-                    "side": "over" if over else "under", "price": price, "book": book,
-                    "anchor": src, "prob": round(p if over else 1 - p, 3), "mkt": round(q_mkt if over else 1 - q_mkt, 3),
-                    "app": round(s["p_over"] if over else 1 - s["p_over"], 3), "ev": round(ev, 3),
-                    "est": bool(s.get("pe")), "rank": round(rank, 3), "avg10": s.get("avg10")})
+        try:
+            pin = {}
+            for name, mid, start, line, o, u in pinnacle(lg, now):
+                p, _ = who(name, start)
+                if p:
+                    pin[(p["id"], mid)] = (line, o, u)
+        except Exception as e:
+            print(f"{lg} Pinnacle failed: {e}")
+            pin = {}
+        for name, mid, start, line, fo, fu in fd:
+            p, opp = who(name, start)
+            if not p or mid not in LABEL:
+                continue
+            key = f"{lg}|{p['id']}|{mid}"
+            s = slate.get(key) or {}
+            anchor, src, est = None, None, False
+            pq = pin.get((p["id"], mid))
+            if pq:
+                if pq[0] == line:
+                    anchor, src = novig(pq[1], pq[2]), "Pinnacle"
+                else:
+                    mv = shift(pq[0], pq[1], pq[2], line, mid)
+                    if mv:
+                        anchor, src, est = novig(*mv), "Pinnacle", True
+            if anchor is None and s.get("market_over") is not None and s.get("line") == line:
+                anchor, src = s["market_over"], "Kalshi"
+            if anchor is None:
+                continue
+            app = move_p(s["p_over"], s["line"], line, mid) if s.get("p_over") is not None else None
+            w = ANCHOR_W[src] - (ANCHOR_EST if est else 0)
+            pr = sig(w * lg_(anchor) + (1 - w) * lg_(app)) if app is not None else anchor
+            ev_o, ev_u = pr * dec(fo) - 1, (1 - pr) * dec(fu) - 1
+            over = ev_o >= ev_u
+            ev = ev_o if over else ev_u
+            # an anchor moved from Pinnacle's nearby line is rougher: half credit for ranking and the +2% bar
+            rank = ev * (.5 if est else 1)
+            out.append({"key": key, "lg": lg, "id": p["id"], "name": p["n"], "team": p["t"], "opp": opp,
+                        "t": start.isoformat(), "market": mid, "label": LABEL[mid], "line": line,
+                        "side": "over" if over else "under", "price": fo if over else fu, "book": "FanDuel",
+                        "other": fu if over else fo, "anchor": src, "prob": round(pr if over else 1 - pr, 3),
+                        "mkt": round(anchor if over else 1 - anchor, 3),
+                        "app": round(app if over else 1 - app, 3) if app is not None else None,
+                        "ev": round(ev, 3), "est": est, "rank": round(rank, 3)})
+        print(f"{lg}: FanDuel {len(fd)} props, {sum(1 for c in out if c['lg'] == lg)} with a market to anchor on")
     return out
 
 
@@ -166,10 +235,12 @@ def grader(now):
 
 def main():
     now = dt.datetime.now(dt.timezone.utc)
-    slate = load("slate.json", {"props": []})["props"]
     old = load(OUT, {})
     rec = {(e["key"], e["t"]): e for e in old.get("record", [])}
-    cands = price_props(slate, dk_prices())
+    cands = price_props(now)
+    if not cands and old.get("picks"):
+        print("no FanDuel or Pinnacle prices this run; keeping the previous list")
+        cands = [c for c in old["picks"] if dt.datetime.fromisoformat(c["t"]) > now]
     top = pick10(cands, now)
     # pending picks that haven't started are replaced by the current list; started ones stay locked
     for k, e in list(rec.items()):
@@ -194,7 +265,7 @@ def main():
     print(f"lab_market: {len(cands)} props with a market price, {len(top)} picks; record "
           f"{sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
     for c in top[:5]:
-        print(f"  {c['name']} {c['side']} {c['line']} {c['label']} {c['price']:+d} prob {c['prob']} mkt {c['mkt']} app {c['app']} ev {c['ev']:+.3f}")
+        print(f"  {c['name']} {c['side']} {c['line']} {c['label']} {c['price']:+d} prob {c['prob']} mkt {c['mkt']} app {c['app']} ev {c['ev']:+.3f}{' est' if c['est'] else ''}")
 
 
 if __name__ == "__main__":
