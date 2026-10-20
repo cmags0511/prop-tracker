@@ -4,6 +4,11 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-20
+- **rmolnar10**: Best bet is now a scratch-off card (`renderBest`, `scratchCard`, `.bbs` CSS). A silver foil covers the
+  pick; drag a finger across it (or tap Reveal) and past about half cleared it falls away with a small burst. Once
+  revealed it stays revealed on that device for that pick (`ptScratch` in localStorage). The why, sources, "See my
+  reasoning" sheet (`reasonHtml`) and + Track show after the reveal; `openSheet` now also gives the Best bet sheet
+  "Add to my picks". Same pick and data as before. Light mode comment updated. sw.js pt-v83.
 - **rmolnar10**: "Mist" redesign (index.html only, no data or model changes). Dark top nav in both themes; light mode is
   the default (dark only if picked in the new gear menu, which also holds Share/Install). Props: two dropdowns
   (section, prop type) drive the old `#subnav`/`#market` buttons; Top cards open a reasoning sheet (`reasonHtml`,
