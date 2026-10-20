@@ -893,6 +893,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 /* pick cards */
 #top .picks{gap:10px}
 #top .pick{display:flex;flex-direction:column;align-items:stretch;padding:0!important;gap:0;overflow:hidden}
+@media (max-width:600px){#top .picks.short .pick:nth-child(n+6){display:none}}
 .pkm{display:flex;align-items:center;gap:12px;padding:14px 16px 12px}
 .pkl{flex:1;min-width:0}.pkl .who{font:800 16px var(--f-body);display:block}
 .pkl .pksum{font:600 13px var(--f-body);color:var(--muted);margin-top:2px}
