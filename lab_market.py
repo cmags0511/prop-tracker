@@ -10,6 +10,8 @@ and the app's stats only tilt it:
 Then it takes the side with the better expected profit at FanDuel's price and lists the 10 best (expected profit +2%
 or more, half credit for a moved Pinnacle price; one per player, at most 3 per prop type). Picks lock at kickoff and
 are graded from the box scores at FanDuel's price, in lab_market.json, so the method can be judged on its own record.
+Method B, "stats only", runs beside it as a control: the app's own chance (no market check) against FanDuel's price,
+same +2% bar and list rules, its own record (picks_stats / record_stats), so the two can be compared on results.
 Runs hourly after record.py. This is the same idea as PR #2, tried live instead of replacing the main ranking.
 """
 import datetime as dt
@@ -20,11 +22,12 @@ import sys
 import time
 from statistics import NormalDist
 
-from fetch_odds import norm
+from fetch_odds import TEAM, norm
 from fetch_prices import FD, FD_KEY, MAX_SHIFT, SAME_GAME, SPREAD, get, pinnacle, shift
 from picks import LABEL, stat
 
 ND = NormalDist()
+BOARD = {"props": [], "games": []}  # FanDuel's mapped board, saved to fd_board.json for fwarnk.py
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "lab_market.json"
 ANCHOR_W = {"Pinnacle": .85, "Kalshi": .8}
@@ -67,11 +70,14 @@ FD_NAME = {"Passing Yds": "pyd", "Passing TDs": "ptd", "Pass Completions": "cmp"
            "Pts + Reb + Ast": "pra", "Pts + Reb": "pr", "Pts + Ast": "pa", "Reb + Ast": "ra"}
 
 
-def fd_board(lg, now):
-    """every two-way FanDuel player prop (its own line and prices) for upcoming games: [(name, prop, start, line, o, u)]"""
+def fd_board(lg, now, games=None):
+    """every two-way FanDuel player prop (its own line and prices) for upcoming games: [(name, prop, start, line, o, u)];
+    fills `games` with each game's spread and total: {(start, away name, home name): {"total", "spread_home"}}"""
+    games = {} if games is None else games
     page_id, tabs, days = FD_LAB[lg]
     page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={page_id}&_ak={FD_KEY}&timezone=America%2FNew_York")
     rows = []
+    games.clear()
     for ev in (page.get("attachments") or {}).get("events", {}).values():
         start = dt.datetime.fromisoformat(ev["openDate"].replace("Z", "+00:00"))
         if " @ " not in ev["name"] or "(" in ev["name"] or not now < start < now + dt.timedelta(days=days):
@@ -82,9 +88,20 @@ def fd_board(lg, now):
             except Exception as e:
                 print(f"FanDuel {ev['name']} {tab}: {e}")
                 continue
+            away, _, home = ev["name"].partition(" @ ")
             for m in (d.get("attachments") or {}).get("markets", {}).values():
                 name, _, what = m.get("marketName", "").partition(" - ")
                 rs = m.get("runners") or []
+                # the game's own spread and total come on every tab: kept for fwarnk.py (team totals)
+                if m.get("marketName") in ("Spread", "Total Points") and len(rs) == 2:
+                    gk = (start.isoformat(), away, home)
+                    gm = games.setdefault(gk, {})
+                    for r in rs:
+                        if m["marketName"] == "Total Points" and r.get("runnerName") == "Over":
+                            gm["total"] = r.get("handicap")
+                        elif m["marketName"] == "Spread" and r.get("runnerName") == home:
+                            gm["spread_home"] = r.get("handicap")
+                    continue
                 if what not in FD_NAME or len(rs) != 2:
                     continue
                 odds = lambda r: ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
@@ -113,7 +130,7 @@ def price_props(now):
     when its line is FanDuel's; the app's own chance (slate.json, moved to FanDuel's line) tilts it"""
     data = load("props_data.json", {})
     slate = {s["key"]: s for s in load("slate.json", {"props": []})["props"]}
-    out = []
+    out, stats = [], []
     for lg in FD_LAB:
         meta = data.get(lg)
         if not meta:
@@ -130,8 +147,9 @@ def price_props(now):
         def who(name, start):
             ps = [(p, opp) for p in by_name.get(norm(name), []) for t, opp in games.get(p["t"], []) if abs(t - start) < SAME_GAME]
             return ps[0] if len(ps) == 1 else (None, None)
+        gl = {}
         try:
-            fd = fd_board(lg, now)
+            fd = fd_board(lg, now, gl)
         except Exception as e:
             print(f"{lg} FanDuel failed: {e}")
             continue
@@ -161,9 +179,19 @@ def price_props(now):
                         anchor, src, est = novig(*mv), "Pinnacle", True
             if anchor is None and s.get("market_over") is not None and s.get("line") == line:
                 anchor, src = s["market_over"], "Kalshi"
+            app = move_p(s["p_over"], s["line"], line, mid) if s.get("p_over") is not None else None
+            base = {"key": key, "lg": lg, "id": p["id"], "name": p["n"], "team": p["t"], "opp": opp,
+                    "t": start.isoformat(), "market": mid, "label": LABEL[mid], "line": line, "book": "FanDuel"}
+            BOARD["props"].append(dict(base, over=fo, under=fu))
+            if app is not None:
+                # method B, stats only: the app's own chance against FanDuel's price, no market check at all
+                eo, eu = app * dec(fo) - 1, (1 - app) * dec(fu) - 1
+                ov = eo >= eu
+                stats.append(dict(base, side="over" if ov else "under", price=fo if ov else fu, other=fu if ov else fo,
+                                  anchor=None, prob=round(app if ov else 1 - app, 3), mkt=None, app=round(app if ov else 1 - app, 3),
+                                  ev=round(eo if ov else eu, 3), est=False, rank=round(eo if ov else eu, 3)))
             if anchor is None:
                 continue
-            app = move_p(s["p_over"], s["line"], line, mid) if s.get("p_over") is not None else None
             w = ANCHOR_W[src] - (ANCHOR_EST if est else 0)
             pr = sig(w * lg_(anchor) + (1 - w) * lg_(app)) if app is not None else anchor
             ev_o, ev_u = pr * dec(fo) - 1, (1 - pr) * dec(fu) - 1
@@ -178,8 +206,13 @@ def price_props(now):
                         "mkt": round(anchor if over else 1 - anchor, 3),
                         "app": round(app if over else 1 - app, 3) if app is not None else None,
                         "ev": round(ev, 3), "est": est, "rank": round(rank, 3)})
-        print(f"{lg}: FanDuel {len(fd)} props, {sum(1 for c in out if c['lg'] == lg)} with a market to anchor on")
-    return out
+        inv = {v: k for k, v in TEAM.get(lg, {}).items()}
+        for (t, away, home), gm in gl.items():
+            if inv.get(away) and inv.get(home) and gm.get("total") is not None:
+                BOARD["games"].append({"lg": lg, "t": t, "away": inv[away], "home": inv[home], **gm})
+        print(f"{lg}: FanDuel {len(fd)} props, {sum(1 for c in out if c['lg'] == lg)} with a market to anchor on, "
+              f"{sum(1 for c in stats if c['lg'] == lg)} with the app's chance")
+    return out, stats
 
 
 def pick10(cands, now):
@@ -233,22 +266,18 @@ def grader(now):
     return grade
 
 
-def main():
-    now = dt.datetime.now(dt.timezone.utc)
-    old = load(OUT, {})
-    rec = {(e["key"], e["t"]): e for e in old.get("record", [])}
-    cands = price_props(now)
-    if not cands and old.get("picks"):
-        print("no FanDuel or Pinnacle prices this run; keeping the previous list")
-        cands = [c for c in old["picks"] if dt.datetime.fromisoformat(c["t"]) > now]
+def run(cands, old_picks, old_record, now, grade, label):
+    if not cands and old_picks:
+        print(f"{label}: no prices this run; keeping the previous list")
+        cands = [c for c in old_picks if dt.datetime.fromisoformat(c["t"]) > now]
     top = pick10(cands, now)
+    rec = {(e["key"], e["t"]): e for e in old_record}
     # pending picks that haven't started are replaced by the current list; started ones stay locked
     for k, e in list(rec.items()):
         if e["status"] == "pending" and dt.datetime.fromisoformat(e["t"]) > now:
             del rec[k]
     for c in top:
         rec[(c["key"], c["t"])] = dict(c, status="pending", result=None, locked=None)
-    grade = grader(now)
     for e in rec.values():
         if e["status"] == "pending" and dt.datetime.fromisoformat(e["t"]) <= now:
             e["locked"] = e.get("locked") or e["t"]
@@ -257,15 +286,29 @@ def main():
     record = sorted(rec.values(), key=lambda e: (e["t"], -e["ev"]))
     done = [e for e in record if e["status"] in ("win", "loss")]
     units = sum((dec(e["price"]) - 1) if e["status"] == "win" else -1 for e in done)
-    json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
-               "picks": top, "n_priced": len(cands), "record": record,
-               "summary": {"w": sum(e["status"] == "win" for e in done), "l": sum(e["status"] == "loss" for e in done),
-                           "units": round(units, 2)}},
-              open(OUT, "w"), separators=(",", ":"))
-    print(f"lab_market: {len(cands)} props with a market price, {len(top)} picks; record "
-          f"{sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
+    summ = {"w": sum(e["status"] == "win" for e in done), "l": len(done) - sum(e["status"] == "win" for e in done),
+            "units": round(units, 2)}
+    print(f"{label}: {len(cands)} candidates, {len(top)} picks; record {summ['w']}-{summ['l']} ({units:+.2f}u)")
     for c in top[:5]:
         print(f"  {c['name']} {c['side']} {c['line']} {c['label']} {c['price']:+d} prob {c['prob']} mkt {c['mkt']} app {c['app']} ev {c['ev']:+.3f}{' est' if c['est'] else ''}")
+    return top, record, summ, len(cands)
+
+
+def main():
+    now = dt.datetime.now(dt.timezone.utc)
+    old = load(OUT, {})
+    anchored, stats_only = price_props(now)
+    grade = grader(now)
+    # A: market-anchored (Pinnacle / Kalshi, the app's stats tilt it); B: the app's stats alone, no market check
+    top, record, summ, n = run(anchored, old.get("picks"), old.get("record", []), now, grade, "market-anchored")
+    top_b, record_b, summ_b, n_b = run(stats_only, old.get("picks_stats"), old.get("record_stats", []), now, grade, "stats only")
+    if BOARD["props"]:
+        json.dump(dict(BOARD, built=now.isoformat(timespec="minutes")), open("fd_board.json", "w"), separators=(",", ":"))
+    json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
+               "started_stats": old.get("started_stats") or now.date().isoformat(),
+               "picks": top, "n_priced": n, "record": record, "summary": summ,
+               "picks_stats": top_b, "n_stats": n_b, "record_stats": record_b, "summary_stats": summ_b},
+              open(OUT, "w"), separators=(",", ":"))
 
 
 if __name__ == "__main__":
