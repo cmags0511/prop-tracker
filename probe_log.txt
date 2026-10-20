@@ -1,0 +1,8 @@
+upcoming: 100 matches
+Traceback (most recent call last):
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_data.py", line 613, in <module>
+    main()
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_data.py", line 543, in main
+    "team": p["t"], "opp": (u["away"] if home else u["home"]).get("abbreviation", ""),
+            ~^^^^^
+KeyError: 't'
