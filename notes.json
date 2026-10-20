@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T11:57:34Z",
+ "updated": "2026-10-20T20:36:54Z",
  "summary": "NBA opening week: rosters reshuffled by big moves (LeBron and Jaylen Brown in Philadelphia, Giannis in Miami, Mitchell Robinson to Boston, Lillard back in Portland), so last season's numbers misjudge several roles. Spurs start Harper over Champagnie; Clippers open without Beal, Strus and Ingram; Franz Wagner is questionable for Orlando.",
  "notes": {
   "CFB|5124334|ryd": {
@@ -586,7 +586,7 @@
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No injury or minutes limit reported for the opener; starts at center. The only Spurs absences are Harris (questionable) and Quaintance (out), which do not change his role.",
+   "note": "No injury or minutes limit reported for the opener; starts at center. The only Spurs absences are Harris (now out, calf) and Quaintance (out), which do not change his role.",
    "sources": [
     "https://sports.yahoo.com/articles/san-antonio-spurs-announce-starting-175207983.html",
     "https://www.sportsmole.co.uk/basketball/san-antonio-spurs/preview/san-antonio-spurs-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607184.html"
@@ -707,6 +707,156 @@
    "sources": [
     "https://kstp.com/minnesota-sports/timberwolves-land-27-national-tv-games-in-2026-27-regular-season-naz-reid-returns-in-january/",
     "https://www.rotoballer.com/?p=1960233"
+   ]
+  },
+  "NBA|4066259|ast": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Healthy and starting, but Harper now starts next to him and Castle, so the ball-handling is split three ways; no clear lean on assists.",
+   "sources": [
+    "https://clutchpoints.com/nba/thunder-vs-spurs-nba-opening-night-injury-report-tobias-harris-3-okc-youngsters-out"
+   ]
+  },
+  "NBA|4222252|pa": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on OKC's opening-night injury report (only Oweh, Sorber and Topic are out) and Holmgren is available; nothing beyond the numbers.",
+   "sources": [
+    "https://clutchpoints.com/nba/thunder-vs-spurs-nba-opening-night-injury-report-tobias-harris-3-okc-youngsters-out"
+   ]
+  },
+  "NBA|4395630|pra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Confirmed in the starting five and Harris (calf) is out, but Harper's promotion adds another guard to share touches; no clear edge.",
+   "sources": [
+    "https://clutchpoints.com/nba/thunder-vs-spurs-nba-opening-night-injury-report-tobias-harris-3-okc-youngsters-out"
+   ]
+  },
+  "NBA|3934719|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Coach says the Knicks are fully healthy with no practice limits; Robinson's exit frees some rebounds but Hart and Towns take most of them.",
+   "sources": [
+    "https://www.phillyvoice.com/sixers-vs-knicks-injury-report-news-analysis-lebron-james-joel-embiid-dean-wade-anfernee-simons-dominick-barlow-nba/"
+   ]
+  },
+  "NBA|4845367|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Healthy starter in a three-guard lineup; Harris is out with a calf strain, which may add some frontcourt minutes but no clear edge either way.",
+   "sources": [
+    "https://clutchpoints.com/nba/thunder-vs-spurs-nba-opening-night-injury-report-tobias-harris-3-okc-youngsters-out"
+   ]
+  },
+  "NBA|4278073|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Listed as available with no injury designation or minutes limit; OKC's only absences are three young reserves.",
+   "sources": [
+    "https://clutchpoints.com/nba/thunder-vs-spurs-nba-opening-night-injury-report-tobias-harris-3-okc-youngsters-out"
+   ]
+  },
+  "CFB|4685436|car": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "MTSU's lead back; no injury news found before the FIU game.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|5146722|car": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "FIU's lead back at just over four yards a carry; MTSU allows about 199 rushing yards a game and FIU is a 10-point favorite, which works against the under, but no role news.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|5194626|car": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found for the MTSU quarterback; nothing beyond the numbers.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|5217200|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found for him before the FIU game.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|5306988|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Change-of-pace back behind Antonio Martin; no injury or role news found.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|4685356|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Maguire Anderson is FIU's clear top receiver (534 yards) with JJ Kohl at quarterback; nothing found that expands Gaines' role.",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|4879999|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "FIU's leading receiver with 534 yards; no injury news. His catches have swung widely (8, 1, 3 in the last three).",
+   "sources": [
+    "https://mtsusidelines.com/2026/10/19/the-other-sideline-previewing-middle-tennessees-matchup-against-fiu/"
+   ]
+  },
+  "CFB|5148858|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or game-plan news found for the South Alabama quarterback; the Jaguars lean on Phillips and Martin to run.",
+   "sources": [
+    "https://herdzone.com/news/2026/10/16/marshall-football-hosts-south-alabama-at-7-30-pm-on-tuesday"
+   ]
+  },
+  "CFB|5161776|ryd": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Made his first career start last week and ran 12 times for 124 yards and a score, so his season average understates his new role; the higher line reflects that.",
+   "sources": [
+    "https://herdzone.com/news/2026/10/16/marshall-football-hosts-south-alabama-at-7-30-pm-on-tuesday"
    ]
   }
  },
@@ -837,7 +987,7 @@
    ]
   },
   "NFL-WAS-at-SF-1020": {
-   "summary": "Washington is without RB1 Croskey-Merritt (groin), so White and Ekeler split the backfield and previews expect Daniels, back from a two-game elbow absence with 9 carries for 103 yards last week, to carry more of the run game. San Francisco is missing Bosa, Samuel, safety Sigle and LB Wallow; Mike Evans (ribs, calf) did not practice all week and is a game-time call, pushing targets toward Kittle against a Washington defense that is among the worst versus tight ends. Line SF -7.5; total moved from 49.5 lookahead to 52.5 (some books 51.5); forecast low-to-high 60s with 8-12 mph wind, gusts near\u2026",
+   "summary": "Washington is without RB1 Croskey-Merritt (groin), so White and Ekeler split the backfield and previews expect Daniels, back from a two-game elbow absence with 9 carries for 103 yards last week, to carry more of the run game. San Francisco is missing Bosa, Samuel, safety Sigle and LB Wallow; Mike Evans (ribs, calf) did not practice all week and is a game-time call, pushing targets toward Kittle against a Washington defense that is among the worst versus tight ends. Line SF -7.5; total moved from 49.5 lookahead to 52.5 (some books 51.5); forecast low-to-high 60s with 8-12 mph wind, gusts near…",
    "sources": [
     "https://sports.yahoo.com/articles/commanders-rule-four-injured-players-043853976.html",
     "https://sports.yahoo.com/articles/commanders-vs-49ers-friday-injury-220940997.html",
