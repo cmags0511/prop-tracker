@@ -3649,11 +3649,11 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
   setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);
-  // a direct link to the hidden Walters page: .../prop-tracker/#poopy (the hash is dropped once it's open, so a reload
+  // a direct link to the hidden Walters page: .../prop-tracker/#walters (the hash is dropped once it's open, so a reload
   // goes back to the normal app)
-  const poopyLink=()=>{if(location.hash.toLowerCase()!=="#poopy")return;history.replaceState(null,"",location.pathname+location.search);
+  const waltersLink=()=>{if(location.hash.toLowerCase()!=="#walters")return;history.replaceState(null,"",location.pathname+location.search);
     if(S.view!=="walt"){S.view="walt";S.game=null;setupControls();render()}window.scrollTo({top:0})};
-  poopyLink();addEventListener("hashchange",poopyLink);
+  waltersLink();addEventListener("hashchange",waltersLink);
   try{initWhatChanged()}catch(e){}
   jget("line_hist.json").then(d=>{LH=d;if(S.view==="board"&&S.sel)rerenderInPlace()});
   if(startLg==="CFB"){S.league="CFB";if(switchLeague("CFB")){setupControls();render()}}
