@@ -4,6 +4,14 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-19
+- **cmags0511**: Lab #2 "anus hole" (owner's request): hidden page next to "poopy?" at the bottom of the Record tab
+  (`.secret` row, `view-lab`, `renderLab`). New `lab_market.py` → `lab_market.json`, step `lab_market` after
+  record in both workflows: chance anchored on Pinnacle/FanDuel no-vig (Kalshi a quarter, or alone), the app's
+  slate p_over at 15-25%, side with better EV at the best real price (anchor book or DraftKings), +2% EV, Top 10,
+  locked at kickoff and graded in its own record. Never changes picks.json. `fetch_lines.py` now also saves
+  DraftKings' NBA prices from ESPN (`po`/`pu` in lines.json; ESPN lists the over first; NFL items have no prices).
+- **cmags0511**: Fix: soccer_data crashed (KeyError 't') on players seen only with a national team; team now comes
+  from the match. Soccer had been failing since ~Oct 19 evening.
 - **rmolnar10**: Walters weather (PR): new `walters_wx.py` + `walters_wx.json` (Open-Meteo kickoff weather for every
   outdoor game since 2009; walters.py tops it up hourly and lines.yml now commits it). Rain unders (2mm+ forecast,
   backtest 114-74) join the wind unders as "Weather unders"; his rain factor now uses forecast mm instead of

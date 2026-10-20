@@ -758,6 +758,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 /* the Record tab's hidden link and the Walters page */
 .poopy{align-self:center;border:0;background:none;color:var(--muted);font:500 12px var(--f-body);opacity:.7;padding:6px 10px;cursor:pointer}
 .poopy:hover{opacity:1;color:var(--accent)}
+.secret{display:flex;justify-content:center;gap:4px}
 .wgames{display:flex;flex-direction:column;gap:8px}
 .wg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
 .wg.on{border-color:var(--accent);background:var(--accent-soft)}
@@ -890,6 +891,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-lab" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
     <footer class="sitefoot"><img src="footer.jpg" alt="" width="120" height="160" loading="lazy" decoding="async"></footer>
   </div>
@@ -1348,17 +1350,19 @@ function render(){
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"?"board":S.view;
+  const vl=document.getElementById("view-lab");vl.hidden=S.view!=="lab";vl.style.display=S.view==="lab"?"flex":"none";
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"?"app":S.view==="soc"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab";
   document.getElementById("market").hidden=noBoard;
-  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt";  // soccer keeps the sport switch
+  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
   if(S.view==="walt"){renderWalters();return}
+  if(S.view==="lab"){renderLab();return}
   const rows=boardRows(), m=mkt();
   renderBest();
   renderTop();
@@ -1664,8 +1668,41 @@ function renderAppRecord(){
     Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div></section>`;
   if(SOCR)html+=`<p class="note">This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the DraftKings price shown then; void when he doesn't play. Not betting advice.</p>`;
   else html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.</p>`;
-  html+=`<button class="poopy" data-goto="walt">poopy?</button>`;  // the Walters-style NFL page
+  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button></div>`;  // the Walters-style NFL page; the market-anchored lab
   el.innerHTML=html;
+}
+// ---- Lab: market-anchored picks (lab_market.py -> lab_market.json), a side project that never touches the main
+// Top 10. Each chance starts from Pinnacle's (else FanDuel's, else Kalshi's) price with the margin removed, the app's
+// stats only tilt it, and it bets the side with the better expected profit at the best real price. Reached from the
+// Record tab's "anus hole" link ----
+let LAB=null,labLoading=false;
+function renderLab(){
+  const el=document.getElementById("view-lab");
+  if(!LAB){if(!labLoading){labLoading=true;jget("lab_market.json").then(d=>{LAB=d||{picks:[],record:[]};labLoading=false;if(S.view==="lab")renderLab()})}
+    el.innerHTML=`<section class="top"><p class="pteam">Loading…</p></section>`;return}
+  const R=LAB.record||[],done=R.filter(e=>e.status==="win"||e.status==="loss"),w=done.filter(e=>e.status==="win").length,l=done.length-w;
+  const dec=a=>1+(a>0?a/100:100/-a),units=done.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0);
+  const exp=done.reduce((x,e)=>x+e.prob,0),evAvg=done.length?done.reduce((x,e)=>x+e.ev,0)/done.length:null;
+  const now=Date.now(),live=(LAB.picks||[]).filter(c=>new Date(c.t).getTime()>now);
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
+  const day=t=>new Date(t).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
+  const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
+    <div class="pk1"><span class="who">${esc(c.name)} <span class="lgtag">${c.lg}</span><small>${esc(c.team)} vs ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
+    <div class="why">${esc(c.anchor)}'s price says <b>${Math.round(c.mkt*100)}%</b>, the app's stats say ${Math.round(c.app*100)}%, blended <b>${Math.round(c.prob*100)}%</b>. At ${amFmt(c.price)} (${esc(c.book)}) that's about <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10 on average.</div></div>`;
+  const days={};[...R].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
+  el.innerHTML=`<section class="top"><div class="tophead"><h2>Lab <span>market-anchored</span></h2><button class="linkbtn" data-goto="app">← Record</button></div>
+    <p class="topsub">A side project, separate from the app's Top 10. Each prop's chance starts from the sharpest betting market (Pinnacle's price with its margin taken out, else FanDuel's, else Kalshi's) and the app's stats only nudge it (15–25%). It lists the bets whose blended chance beats the best real price on offer (that book, or DraftKings' price on NBA props), +2% expected profit or better. Locked at kickoff and graded at that price. Paper record, not betting advice.</p>
+    <div class="strip">
+      <div><div class="k">Record</div><div class="v">${w}-${l}</div><div class="s">since ${esc(LAB.started||"")}</div></div>
+      <div><div class="k">Units</div><div class="v" style="color:${units>=0?"var(--hit)":"var(--miss)"}">${units>=0?"+":"−"}${Math.abs(units).toFixed(1)}u</div><div class="s">1u a pick at the real price</div></div>
+      <div><div class="k">Hit rate</div><div class="v">${done.length?pct(w/done.length):"–"}</div><div class="s">${done.length?`expected ${pct(exp/done.length)}`:"first picks lock at kickoff"}</div></div>
+      <div><div class="k">Avg edge</div><div class="v">${evAvg==null?"–":"+"+(evAvg*100).toFixed(1)+"%"}</div><div class="s">what it expected per bet</div></div>
+    </div></section>
+    <section class="top"><div class="tophead"><h2>Picks <span>${live.length}</span></h2></div>
+    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">Nothing clears +2% right now. With the sharpest price as the starting point, real edges are small and rare: most days this list will be short or empty, and that's the honest answer. ${LAB.n_priced?`Checked ${LAB.n_priced} props with a market price.`:""}</p>`}
+    <p class="pteam" style="margin:6px 0 0">Updated ${LAB.built?new Date(LAB.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}.</p></section>
+    ${R.length?`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
+      Object.entries(days).map(([d,list])=>`<tr class="dayrow"><td colspan="4">${d}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")} · ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")).join("")}</tbody></table></div></section>`:""}`;
 }
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
@@ -3144,6 +3181,7 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
+  document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go)setView(go.dataset.goto)});
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     if(e.target.closest("[data-wguide]")){openWalGuide();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
@@ -3191,7 +3229,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   // a warning when a data step failed in the latest run, or the daily research hasn't run for a day and a half
   Promise.all([jget("health_update.json"),jget("health_lines.json")]).then(([hu,hl])=>{
-    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history"};
+    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history",lab_market:"lab picks"};
     const bad=[];for(const h of [hu,hl])if(h&&h.steps&&Date.now()-new Date(h.at).getTime()<12*3600e3)for(const[k,v]of Object.entries(h.steps))if(v==="failure"&&KEY[k]&&!bad.includes(KEY[k]))bad.push(KEY[k]);
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
