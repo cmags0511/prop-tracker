@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#1b2130" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141922" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Props">
 <link rel="manifest" href="manifest.webmanifest">
 <script>/* the appearance chosen in the header switch, applied before the page draws so it doesn't flash */
-try{var t=localStorage.getItem("ptTheme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+var t="light";try{if(localStorage.getItem("ptTheme")==="dark")t="dark"}catch(e){}document.documentElement.dataset.theme=t;</script>
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
@@ -29,31 +29,32 @@ try{var t=localStorage.getItem("ptTheme");if(t==="light"||t==="dark")document.do
 <meta name="description" content="Free NBA and NFL player prop tracker: hit rates, alt lines, splits and upcoming games, updated automatically.">
 <title>Prop Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
 <style>
-/* Design: one sans (Inter) with tabular numbers, neutral surfaces, soft cards, color only where it means something
-   (green = over / win, red = under / loss, blue = actions). A light header, and a bottom tab bar on phones. */
+/* Design ("Mist"): one rounded sans (Manrope) with tabular numbers, a tinted ground with lighter cards, color only where
+   it means something (green = over / win, red = under / loss, indigo = actions). Cards stay short: the full data and
+   reasoning sit one tap away in bottom sheets (openSheet). A real top nav, and a bottom tab bar on phones. */
 :root{
-  --bg:#f4f5f7; --panel:#ffffff; --ink:#0e1116; --ink2:#4a5261; --muted:#8a92a0;
-  --line:#e9ebef; --line2:#d9dde4; --accent:#2f6bff; --accent-soft:#eaf0ff; --on-accent:#ffffff;
-  --band:#ffffff; --band-ink:#0e1116; --band-muted:#6b7381; --band-line:#e9ebef; --band-field:#f1f3f6;
-  --hit:#12a150; --hit-soft:#e3f6ea; --hit-strong:#bfe9d0; --miss:#e5484d; --miss-soft:#fdebec; --miss-strong:#f8c9cb; --push:#8a92a0; --warn:#b46a00; --warn-soft:#fdf1dc;
-  --shadow:0 1px 2px rgb(16 24 40 / .04),0 1px 3px rgb(16 24 40 / .06);
+  --bg:#e8ecf2; --panel:#fbfcfd; --ink:#1b2130; --ink2:#3a4252; --muted:#6b7487;
+  --line:#e3e8ef; --line2:#d3dae5; --accent:#3f4bc4; --accent-soft:#e7e9fa; --on-accent:#ffffff;
+  --band:#fbfcfd; --band-ink:#1b2130; --band-muted:#6b7487; --band-line:#dfe4ec; --band-field:#eef1f6;
+  --hit:#137a48; --hit-soft:#dff0e6; --hit-strong:#bfe3cd; --miss:#b23a2e; --miss-soft:#f6e2df; --miss-strong:#efc4be; --push:#6b7487; --warn:#9a4f0c; --warn-soft:#fbeee0;
+  --shadow:0 1px 2px rgb(27 33 48 / .06),0 2px 8px rgb(27 33 48 / .04);
   --radius:16px;
-  --f-display:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
-  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
-  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
+  --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
+  --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0b0c0f; --panel:#15171c; --ink:#f2f4f7; --ink2:#b3bac6; --muted:#7c8494;
-  --line:#23262d; --line2:#30343d; --accent:#5b8cff; --accent-soft:#18213a; --on-accent:#0b0c0f;
-  --band:#0b0c0f; --band-ink:#f2f4f7; --band-muted:#8a92a0; --band-line:#1d2026; --band-field:#1a1d23;
+  --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
+  --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
+  --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}
 *{box-sizing:border-box}
@@ -821,6 +822,194 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .lhsvg{width:100%;height:auto;max-height:150px;display:block;margin:4px 0 8px}
 .lhpath{fill:none;stroke:var(--accent);stroke-width:2}.lhdot{fill:var(--accent)}
 .lhline{stroke:var(--muted);stroke-dasharray:4 3;stroke-width:1}.lhlbl{font:600 10px var(--f-mono,monospace);fill:var(--ink)}
+/* ---- Mist: header, cards and the sheet CTAs ---- */
+.tag,#chips{display:none}
+.hstat{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:999px;border:0;background:var(--band-field);color:var(--band-muted);font:700 12px var(--f-body);cursor:pointer}
+.hstat i{width:7px;height:7px;border-radius:50%;background:var(--hit)}
+.hstat.warn{background:var(--warn-soft);color:var(--warn)}.hstat.warn i{background:#d9822b}
+.stchips{display:flex!important;flex-wrap:wrap;gap:6px}.stchips .chip{font-size:12.5px;padding:5px 10px}
+.toolbar .seg{flex:1 1 100%;display:flex;background:none;border:0;padding:0;gap:22px;border-radius:0}
+.toolbar .seg button{background:none!important;box-shadow:none!important;border-radius:0;padding:10px 0 8px;border-bottom:2.5px solid transparent;font:600 15px var(--f-body);letter-spacing:0;color:var(--band-muted)}
+.toolbar .seg button[aria-pressed="true"]{color:var(--band-ink);font-weight:800;border-bottom-color:var(--accent)}
+.filtbtn{display:none;align-items:center;gap:6px;height:38px;padding:0 12px;border:0;border-radius:10px;background:var(--band-field);color:var(--band-ink);font:700 13px var(--f-body);cursor:pointer}
+.filtbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.filtbtn[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent)}
+@media (max-width:700px){.filtbtn{display:inline-flex}.toolbar:not(.fopen) #team,.toolbar:not(.fopen) #search,.toolbar:not(.fopen) #activeWrap{display:none}.toolbar #pos{flex:1 1 auto}}
+.top,.board,.bestbet,.learn{border-color:transparent!important;box-shadow:var(--shadow)}
+.pick{border:0!important;box-shadow:var(--shadow);border-radius:16px;padding:14px 14px 0}
+.pick .rank{color:#9aa3b5}
+.pksum{grid-column:2;font:600 12.5px var(--f-body);color:var(--muted)}
+.pksum b{font-weight:800}.pksum .support{color:var(--hit)}.pksum .caution{color:var(--warn)}
+.shc{display:none}
+.pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
+.pkcta .trk,.pkcta .live{margin:0 12px 0 0}
+.seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
+.seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
+.shcta.sm{flex:none;min-height:36px;padding:0 4px 0 10px}
+.rowcta{margin:-4px -16px}.rowcta .shcta{width:100%;padding:0 16px}
+.slatew{display:flex;align-items:center;gap:6px;background:var(--panel);box-shadow:var(--shadow);border-radius:12px;padding:2px 2px 2px 12px}
+.slatew .slate{flex:1;min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;padding:0;border:0}
+.wgcta{margin:6px -12px -12px;width:calc(100% + 24px);border-top:1px solid var(--line)}
+.shtop{display:flex;flex-direction:column;gap:2px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.shtop b{font:800 18px var(--f-body);color:var(--hit)}.shtop span{font-size:13px;color:var(--muted);font-weight:600}
+#sheet .why{font-size:14.5px;line-height:1.55;color:var(--ink2)}
+#sheet .pkmeta{margin:0}
+#sheet .shgo{margin-top:6px;min-height:46px;font-weight:800}
+#sheet .wfac summary{pointer-events:none;list-style:none}
+.titlerow h1{white-space:nowrap;font-size:clamp(18px,5.4vw,24px)}
+#top{background:none!important;box-shadow:none!important;padding:0!important;border:0!important}
+#top>.tophead,#top>.topsub{padding-inline:2px}
+.subnav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:var(--band-field);border-radius:12px;padding:4px;margin-inline:0}
+.subnav button{box-shadow:none;background:none;border-radius:9px;padding:8px 4px;font-size:13px;color:var(--ink2)}
+.subnav button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgb(27 33 48/.1)}
+.wg>.wg3>.pteam{display:none}
+.wg{padding-bottom:12px}
+@media (max-width:420px){.hstat{font-size:0;gap:0;width:32px;padding:0;justify-content:center}.hbtns{gap:6px}}
+/* ---- Mist, all screens: header menu, dropdowns, sheets, record hero, list cards, Walters ---- */
+:root{--tint:#f3f5f9;--sheet:#f2f5f9;--card:#ffffff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--tint:#1a202a;--sheet:#12161d;--card:#1b212b}}
+:root[data-theme="dark"]{--tint:#1a202a;--sheet:#12161d;--card:#1b212b}
+.hbtns{position:relative}
+.hico{width:40px;height:40px;border:0;background:none;color:var(--band-muted);display:grid;place-items:center;cursor:pointer;border-radius:10px}
+.hico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hico[aria-expanded="true"]{background:var(--band-field);color:var(--band-ink)}
+.hmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;width:230px;background:var(--panel);border-radius:14px;box-shadow:0 10px 30px rgb(16 24 40/.18);padding:6px;display:flex;flex-direction:column}
+.hmrow{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font:700 13.5px var(--f-body);color:var(--ink)}
+.hmbtn{display:flex;justify-content:space-between;align-items:center;border:0;background:none;padding:10px 8px;border-radius:9px;font:700 13.5px var(--f-body);color:var(--ink);cursor:pointer;text-align:left}
+.hmbtn:hover{background:var(--band-field)}.hmbtn span{color:var(--muted)}
+#market,#subnav{display:none!important}
+.ddrow{display:flex;gap:8px;flex-wrap:wrap}
+.dd{position:relative}.dd .sr,.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.dd select{height:40px;border:0;border-radius:12px;background-color:var(--panel);box-shadow:var(--shadow);color:var(--ink);font:700 14px var(--f-body)!important;padding:0 32px 0 14px!important;max-width:min(62vw,260px)}
+.tophead.mh{align-items:center}.tophead.mh h2{font:800 20px var(--f-body)}
+.tophead.mh+.topsub{margin-top:-8px;font-weight:600}
+.sidesw{flex:none}.sidesw button{font:700 12px var(--f-body)!important;padding:6px 10px!important}
+/* news row */
+.slatew{background:none;box-shadow:none;padding:0;border-radius:14px}
+.slatebtn{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--tint);border:1px solid var(--line2);color:var(--ink2);font:500 13px/1.4 var(--f-body);cursor:pointer;text-align:left}
+.slatebtn svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.slatebtn .slate{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;padding:0;margin:0}
+.slatebtn .slate b{color:var(--ink)}.slatebtn em{font:800 13px var(--f-body);color:var(--accent);font-style:normal}
+/* pick cards */
+#top .picks{gap:10px}
+#top .pick{display:flex;flex-direction:column;align-items:stretch;padding:0!important;gap:0;overflow:hidden}
+@media (max-width:600px){#top .picks.short .pick:nth-child(n+6){display:none}}
+.pkm{display:flex;align-items:center;gap:12px;padding:14px 16px 12px}
+.pkl{flex:1;min-width:0}.pkl .who{font:800 16px var(--f-body);display:block}
+.pkl .pksum{font:600 13px var(--f-body);color:var(--muted);margin-top:2px}
+.pkr{text-align:right;flex:none}
+.pkline{font:800 17px var(--f-body);color:var(--hit)}.pkline.under{color:var(--miss)}.pkline small{font-size:12px;font-weight:700}
+.pkprice{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+#top .pkcta{margin:0;border-top:1px solid var(--line)}
+#top .pkcta .seewhy{min-height:44px;padding:0 16px}
+.pkadd{flex:none;height:44px;min-width:52px;margin:0!important;border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:none!important;color:var(--ink2)!important;font:700 12.5px var(--f-body)!important;padding:0 12px!important}
+.pkadd.on{color:var(--accent)!important}
+#top .pkcta .live{margin:0 14px;font:700 12px var(--f-body);color:var(--warn)}
+.arline{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:12px 14px;border:0;border-radius:14px;background:var(--panel);box-shadow:var(--shadow);color:var(--ink);font:600 13px var(--f-body);cursor:pointer;text-align:left}
+.arl1{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}.arl1>span{color:var(--muted)}
+.arline .arlast{display:flex;gap:3px;flex:1}.arline em{font:800 13px var(--f-body);color:var(--accent);font-style:normal}
+#apprec{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+/* sheets */
+.apcard{background:var(--sheet);border-radius:22px 22px 0 0;position:relative}
+.shandle{display:block;width:40px;height:4px;border-radius:2px;background:var(--line2);margin:8px auto 0;flex:none}
+.aphead{border:0;padding:8px 10px 6px 20px;align-items:flex-start}
+.aphead>div{display:flex;flex-direction:column;min-width:0}
+.aphead small{font:700 12px var(--f-body);color:var(--muted)}
+.aphead b{font:800 22px/1.2 var(--f-body)!important;text-transform:none!important;letter-spacing:-.01em!important;margin-top:2px}
+.aphead>div>span{font:600 13px var(--f-body);color:var(--muted);margin-top:2px}
+.apx{background:none;width:44px;height:44px;font-size:17px;color:var(--ink2)}
+.apbody{padding:10px 16px 24px;gap:12px}
+.shsec{background:var(--card);border-radius:16px;overflow:hidden;flex:none}
+.shsec>:not(.shk):not(.shrow):not(.shgrid):not(.log):not(table){margin-inline:16px}
+.shsec>:first-child:not(.shk):not(.shrow):not(.shgrid){margin-top:14px}.shsec>:last-child:not(.shrow):not(.shgrid){margin-bottom:14px}
+.shsec>.log,.shsec>.bwrap{margin:0!important;border:0;border-radius:0}
+.shsec .resbox,.shsec .newsbox,.shsec .mktbox,.shsec .mubox{border:0!important;background:none!important;padding:0!important;box-shadow:none!important}
+.shk{display:flex;justify-content:space-between;gap:8px;padding:14px 16px 6px;font:800 12px var(--f-body);color:var(--muted)}
+.shk>span:first-child{text-transform:uppercase;letter-spacing:.06em}
+.shrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line);font:600 14px var(--f-body)}
+.shrow b{font-weight:800;text-align:right;white-space:nowrap}.shrow small{color:var(--muted);font-weight:600}
+.shrow.up b{color:var(--hit)}.shrow.dn b{color:var(--miss)}
+.shnote{padding:11px 16px;border-top:1px solid var(--line);font:600 13px/1.5 var(--f-body);color:var(--muted);margin:0!important}
+.shsec>.shnote:first-child{border-top:0}
+.shp{font:500 14px/1.55 var(--f-body);color:var(--ink2)}
+.shgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.shgrid>div{padding:10px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column}.shgrid>div:nth-child(2n){border-left:1px solid var(--line)}
+.shgrid span{font:600 12px var(--f-body);color:var(--muted)}.shgrid b{font:800 17px var(--f-body)}
+.shpick{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.shpick>div{display:flex;flex-direction:column}.shpick>div:last-child{text-align:right;align-items:flex-end}
+.shpick span{font:700 12px var(--f-body);color:var(--muted)}.shpick b{font:800 22px var(--f-body)}.shpick b small{font-size:13px}
+.shpick b.over{color:var(--hit)}.shpick b.under{color:var(--miss)}.shpick>div>small{font:600 12px var(--f-body);color:var(--muted)}
+.shpr{gap:4px}.stars{color:#c27c0e;letter-spacing:1px;font-size:14px}
+.shchart{display:block;width:calc(100% - 32px);height:auto;margin:6px 16px 14px!important}
+.shchart .bh{fill:var(--hit)}.shchart .bm{fill:var(--line2)}.shchart .bl{stroke:var(--ink2);stroke-dasharray:4 3;stroke-width:1.2}
+.shchart text{font:700 9px var(--f-body);fill:var(--muted)}.shchart .blt{font-weight:600}
+.shmore summary{padding:12px 0;font:800 13px var(--f-body);color:var(--accent);cursor:pointer}
+#sheet .books{width:100%}#sheet .books tr.on td{background:var(--accent-soft)}
+#sheet .rsplit,#sheet .learn,#sheet section.top{background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:none!important;border:0!important}
+#sheet .shsec section.top{padding:0}
+/* list cards (Record, Walters) */
+.recw{display:flex;flex-direction:column;gap:12px}
+.utabs{display:flex;gap:22px;align-items:center;border-bottom:1px solid var(--line2);overflow-x:auto;scrollbar-width:none}
+.utabs::-webkit-scrollbar{display:none}
+.utabs button{flex:none;border:0;background:none;height:40px;padding:0;border-bottom:2.5px solid transparent;margin-bottom:-1px;font:600 15px var(--f-body);color:var(--muted);cursor:pointer}
+.utabs button[aria-pressed="true"]{color:var(--ink);font-weight:800;border-bottom-color:var(--accent)}
+.utabs .utool{margin-left:auto;width:40px;display:grid;place-items:center;border:0!important;color:var(--ink2)}
+.utool svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.utool.on,.utool[aria-expanded="true"]{color:var(--accent)}
+.hero{background:var(--panel);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
+.hero1{display:flex;justify-content:space-between;align-items:center;gap:8px;font:700 13px var(--f-body);color:var(--muted)}
+.hero2{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.hero2>div{display:flex;flex-direction:column}
+.hbig{font:800 44px/1 var(--f-body);letter-spacing:-.03em}
+.hero2 span{font:600 13px var(--f-body);color:var(--muted);margin-top:6px}
+.hero2 .hr{text-align:right;align-items:flex-end}.hero2 .hr b{font:800 24px var(--f-body);letter-spacing:-.02em}.hero2 .hr span{margin-top:0;font-size:12px}
+.hbar{height:8px;border-radius:4px;background:var(--band-field);position:relative}
+.hbar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.hbar em{position:absolute;top:-4px;width:2px;height:16px;background:var(--muted)}
+.hfoot{margin:-6px 0 0;font:600 12px var(--f-body);color:var(--muted)}
+.lh{margin:8px 2px 0;font:800 16px var(--f-body)}.lh small{display:block;font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+.lcard{background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.lcard.muted{background:var(--tint);box-shadow:none}
+.lrow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);font:700 14px var(--f-body);color:var(--ink)}
+.lcard>.lrow:last-child,.lcard>.shw:last-child .lrow:last-child{border-bottom:0}
+.lrow>span:first-child{flex:1}.lrow .lv{width:60px;text-align:right;font-weight:600;color:var(--ink2);flex:none}.lrow>b{min-width:58px;text-align:right}
+.lmid{flex:1;min-width:0;display:flex;flex-direction:column}.lmid b{font-weight:800}.lmid span{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+.lmuted{font:600 13px/1.45 var(--f-body);color:var(--muted)}
+.rc{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 12px var(--f-body);font-style:normal;background:var(--band-field);color:var(--muted)}
+.rc.win{background:var(--hit-soft);color:var(--hit)}.rc.loss{background:var(--miss-soft);color:var(--miss)}
+.rc.pending::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.lcta{width:100%;min-height:44px;padding:0 16px!important;border-bottom:1px solid var(--line)!important}
+.lcard>.lcta:last-child,.lcard>.shw:last-child>.lcta,.wrow:last-child>.lcta{border-bottom:0!important}
+.wrow .lrow{border-bottom:0;padding-bottom:10px}
+.wrow{border-bottom:1px solid var(--line)}.wrow:last-child{border-bottom:0}.wrow .lcta{border-top:1px solid var(--line);border-bottom:0!important}
+.wr{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.wr .wu{margin:0;background:var(--ink);color:var(--panel);font-size:12px;padding:3px 10px}
+.np{width:100%;border:0;background:none;cursor:pointer;text-align:left;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--line2)}
+.np span{color:var(--muted);font-weight:600}
+.lmore{width:100%;height:44px;border:0;background:none;font:700 13px var(--f-body);color:var(--accent);cursor:pointer}
+.lcw{border-bottom:1px solid var(--line)}.lcw:last-child{border-bottom:0}.lcw .shcta{width:100%;padding:0 16px;min-height:48px}
+.whead{display:flex;align-items:center;justify-content:space-between;margin:-4px -8px 0}
+.whead b{font:800 17px var(--f-body)}
+.wico{width:44px;height:44px;border:0;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.wico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tiles2>div{background:var(--panel);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.tiles2 span{font:700 12px var(--f-body);color:var(--muted)}.tiles2 b{font:800 28px var(--f-body);letter-spacing:-.02em;margin-top:2px}.tiles2 small{font:600 12px var(--f-body);color:var(--muted)}
+#view-rec>.recw .rfbar{margin:0}
+/* sheets never get wider than the screen: wide tables scroll inside their own card (Safari sized the grid to them) */
+.apbox{grid-template-columns:minmax(0,1fr)}
+.apcard{min-width:0;max-width:min(480px,100vw);justify-self:center}
+.apbody{min-width:0;overflow-x:hidden}.apbody>*{min-width:0;max-width:100%}
+.shsec .log,.shsec .bwrap,#sheet .rsplit .log{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#sheet .rsplit{grid-template-columns:minmax(0,1fr)}
+/* dark top nav in both themes */
+:root{--band:#1b2130;--band-ink:#f3f5f9;--band-muted:#a3abbb;--band-line:#2a3242;--band-field:#283041;--band-accent:#8b95ff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--band:#141922;--band-ink:#eef1f6;--band-muted:#8a93a5;--band-line:#232a36;--band-field:#1e2430}}
+:root[data-theme="dark"]{--band:#141922;--band-ink:#eef1f6;--band-muted:#8a93a5;--band-line:#232a36;--band-field:#1e2430}
+.band{border-bottom:0}
+.toolbar .seg button[aria-pressed="true"]{border-bottom-color:var(--band-accent)}
+.hico[aria-expanded="true"]{background:var(--band-field);color:var(--band-ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 </style>
 </head>
 <body>
@@ -831,7 +1020,8 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
     <div class="brand">
       <div class="titlerow">
         <h1><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7"/><path d="M7 16.5v-3M12 16.5v-6M17 16.5v-9"/></svg>Prop Tracker</h1>
-        <div class="hbtns"><button class="install ico" id="shareBtn" type="button" aria-label="Share app" title="Share app">&#x21aa;</button><div class="themesw" role="group" aria-label="Appearance"><button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></button><button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg></button></div><button class="install" id="installBtn" hidden aria-label="Install app">&#x2b07;<span class="hide-sm"> Install app</span></button></div>
+        <div class="hbtns"><button class="hstat" id="statusBtn" type="button" aria-label="Data status"><i></i>Status</button><button class="hico" id="setBtn" type="button" aria-label="Settings" aria-expanded="false" aria-controls="hmenu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></button>
+          <div class="hmenu" id="hmenu" hidden><div class="hmrow"><span>Appearance</span><div class="themesw" role="group" aria-label="Appearance"><button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></button><button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg></button></div></div><button class="hmbtn" id="shareBtn" type="button">Share app<span>&#x21aa;</span></button><button class="hmbtn" id="installBtn" type="button" hidden>Install app<span>&#x2b07;</span></button></div></div></div>
       </div>
       <p class="tag">Real game logs for every NFL and NBA player prop. Enter the book's line, see how often he clears it.</p>
       <div class="chips" id="chips"><span class="chip">Loading game logs&#x2026;</span></div>
@@ -847,6 +1037,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
       <select id="team" aria-label="Team"></select>
       <input id="search" class="grow" type="search" placeholder="Search player" aria-label="Search player">
       <label class="chk" id="activeWrap"><input type="checkbox" id="active" checked> <span id="activeLbl">Played this season</span></label>
+      <button class="filtbtn" id="filtBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Filter</button>
     </div>
     <div class="props" id="market" role="group" aria-label="Prop type"></div>
     <div class="tabs" role="tablist" aria-label="View">
@@ -862,6 +1053,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
     <section class="wchg" id="wchg" hidden aria-live="polite"></section>
+    <div class="ddrow" id="ddrow"><label class="dd"><span class="sr">Section</span><select id="secSel"><option value="picks">Top picks</option><option value="td">Touchdowns</option><option value="trends">Trends</option><option value="all">All props</option></select></label><label class="dd"><span class="sr">Prop type</span><select id="mktSel"></select></label></div>
     <div class="subnav" role="group" aria-label="Section" id="subnav">
       <button data-sec="picks">Top picks</button><button data-sec="td">Touchdowns</button><button data-sec="trends">Trends</button><button data-sec="all">All props</button>
     </div>
@@ -1201,6 +1393,66 @@ function renderCfbTop(){
   const nApp=out.filter(c=>c.app).length,day=d=>d.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
   keep(false,`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span>${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol>${nApp<out.length?`<p class="pteam" style="margin:6px 0 0">A <b>lean</b> has no sportsbook line in the feed yet: the line shown is his typical game this season, and the lean comes from the matchup, his last 3 games and the expected score. Check your book's number before using one.</p>`:""}</section>`);
 }
+// "See my reasoning": the pick, the why, the numbers with the last 10 games against the line, the market and the
+// model's factors, each in its own card
+function reasonHtml(c,n,lbl,lcls){
+  const side=c.side==="over"?"Over":"Under",book=c.book||"DraftKings",up=v=>c.side==="over"?v>c.line:v<c.line;
+  const p=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=p&&MK[c.lg].find(x=>x.id===c.market);
+  const vals=p&&mk?p.games.slice(-10).map(mk.f).filter(v=>v!=null&&!isNaN(v)):[];
+  let chart="";
+  if(vals.length){const W=320,H=104,top=16,bot=16,hi=Math.max(c.line,...vals)*1.12||1,bw=(W-8)/vals.length,y=v=>top+(H-top-bot)*(1-v/hi);
+    chart=`<svg class="shchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Last ${vals.length} games against the ${fmt(c.line)} line">${vals.map((v,i)=>`<rect x="${4+i*bw+bw*.18}" y="${y(v)}" width="${bw*.64}" height="${Math.max(1,H-bot-y(v))}" rx="3" class="${up(v)?"bh":"bm"}"/><text x="${4+i*bw+bw/2}" y="${y(v)-4}" text-anchor="middle">${fmt(v)}</text>`).join("")}<line x1="0" x2="${W}" y1="${y(c.line)}" y2="${y(c.line)}" class="bl"/><text x="${W-2}" y="${H-3}" text-anchor="end" class="blt">line ${fmt(c.line)} · oldest → newest</text></svg>`}
+  const dk=LINES&&p&&LINES[c.lg]&&LINES[c.lg][p.espn]&&LINES[c.lg][p.espn][c.market],mv=dk&&dk.open!=null&&dk.line!=null&&dk.open!==dk.line?dk.line-dk.open:null;
+  const mrows=[shRow(`${esc(book)} line`,fmt(c.line)),
+    c.open!=null&&c.open!==c.line?shRow("Opened at",fmt(c.open)):"",
+    mv!=null?shRow("DraftKings since open",`${mv>0?"▲":"▼"} ${fmt(Math.abs(mv))}`):"",
+    c.price!=null?shRow(`${side} price`,`${amFmt(c.price)}${c.break_even?` <small>needs ${Math.round(c.break_even*100)}%</small>`:""}`):"",
+    ...(c.books?Object.entries(c.books).map(([b,v])=>shRow(esc(b),`${fmt(v.line)} ${amFmt(c.side==="over"?v.over:v.under)}`)):[]),
+    c.mkt!=null?shRow("Kalshi",`${Math.round(c.mkt*100)}% <small>fair ${decToAm(1/Math.min(.99,Math.max(.01,c.mkt)))}</small>`):"",
+    c.book_p!=null?shRow("Book's chance",Math.round(c.book_p*100)+"%"):""].join("");
+  const fx=c.factors?Object.entries(c.factors).filter(([k])=>k!=="market").filter(([,v])=>Math.abs(v)>=.03).map(([k,v])=>shRow(FXNAME[k]||k,v>0?"▲ For":"▼ Against",v>0?"up":"dn")):[];
+  const flags=[c.role==="backup"?`Listed as a backup (${esc(c.slot||"")}) on the depth chart`:"",c.book_p!=null&&c.prob-c.book_p>.12?`The book's price gives about ${Math.round(c.book_p*100)}%, well below the app's ${Math.round(c.prob*100)}%, so the pick is weighted down`:"",
+    c.moved_against?"DraftKings moved this line hard against the pick since it opened":"",c.gap>.25?"The line is far from his recent average, often a sign of role or injury news":"",
+    c.moved!=null?`This line hasn't updated in a while and Kalshi centers near ${fmt(Math.round(c.moved*2)/2)}: the live line has probably moved`:c.age_h>48?`ESPN's DraftKings feed hasn't changed this line in ${Math.round(c.age_h/24)} days`:"",
+    c.lowline?"Lines of 0.5 or 1.5 are usually priced well above -110; check the odds":""].filter(Boolean);
+  const mu=!c.factors&&p&&mk?matchup(c.lg,p,mk,c.opp):null;
+  return shSec("",`<div class="shpick"><div><span>The pick</span><b class="${c.side}">${side} ${fmt(c.line)} <small>${esc(SHORT[c.market]||c.label||"")}</small></b></div><div><span>${esc(book)}</span><b>${c.price!=null?amFmt(c.price):fmt(c.line)}</b></div></div>`)
+    +shSec("Why",`<p class="shp">${esc(c.why)}</p>`)
+    +(p&&mk?researchHtml(c.lg,p,mk):"")
+    +shSec("Numbers",shGrid([["Last 10",`${c.l10[0]} of ${c.l10[1]}`],["Average (L10)",(+c.avg10).toFixed(1)],["App's chance",c.prob!=null?Math.round(c.prob*100)+"%":"–"],["Line vs average",((c.avg10-c.line)>=0?"+":"")+(c.avg10-c.line).toFixed(1)]])+chart)
+    +shSec("Market",mrows)
+    +(fx.length||flags.length||mu?shSec("Model factors",fx.join("")+(mu?shRow(`${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}`,`${rankWords(mu.r.rank,mu.n)} of ${mu.n}`):"")+flags.map(f=>shNote("⚠ "+f)).join("")):"")
+    +(p&&mk?deepHtml(c,p,mk):"");
+}
+// everything the player page had for this prop, inside the sheet: splits, alt lines, matchup, news, the Kalshi
+// ladder, DraftKings line moves and the full game log (newest first)
+function deepHtml(c,p,m){
+  const g=p.games,line=c.line,lg=c.lg,nfl=FB(lg),ng=nextGame(p,lg),nextOpp=ng?(ng.home===p.team?ng.away:ng.home):null;
+  if(!g.length)return"";
+  const cs=DATA[lg+"meta"].curStart,vals=g.map(m.f),cur=g.filter(x=>x.date>=cs).map(m.f);
+  const sp=(label,arr)=>{if(!arr.length)return"";const v=arr.map(m.f),av=v.reduce((a,b)=>a+b,0)/v.length,hr=v.filter(x=>x>line).length/v.length;return`<tr><td>${label}</td><td class="num mono">${v.length}</td><td class="num mono">${av.toFixed(1)}</td><td class="num"><span class="heat ${heat(hr)}">${pct(hr)}</span></td></tr>`};
+  const sub=t=>`<tr class="subhd"><td colspan="4">${t}</td></tr>`,ly=g.filter(x=>x.date<cs&&(new Date(cs)-x.d)<400*864e5);
+  let rows=sub("Recent")+sp("Last 3 games",g.slice(-3))+sp("Last 10 games",g.slice(-10))+sp("This season",g.filter(x=>x.date>=cs))+sp("Last season",ly);
+  if(nextOpp)rows+=sp(`vs ${nextOpp} (next game)`,g.filter(x=>x.opp===nextOpp));
+  const tm=teammateSplits(lg,p);
+  if(tm.length)rows+=sub("Teammates (this season)")+tm.map(t=>sp(`With ${t.short}`,t.with)+sp(`Without ${t.short}${t.out?` <span class="pill u sm">${t.out==="Out"?"out next game":esc(t.out.toLowerCase())}</span>`:""}`,t.without)).join("");
+  rows+=sub("Situation")+sp("Home",g.filter(x=>x.home))+sp("Away",g.filter(x=>!x.home));
+  if(nfl)rows+=sp("Team favored",g.filter(x=>x.spread!=null&&x.spread<0))+sp("Underdog",g.filter(x=>x.spread!=null&&x.spread>0))+sp("Game total 45+",g.filter(x=>x.total>=45))+sp("Game total under 45",g.filter(x=>x.total!=null&&x.total<45));
+  else rows+=sp("30+ minutes",g.filter(x=>x.min>=30))+sp("Under 30 minutes",g.filter(x=>x.min<30))+sp("Playoffs",g.filter(x=>x.po));
+  const splits=`<div class="log"><table class="books"><thead><tr><th>Split</th><th class="num">Games</th><th class="num">Avg</th><th class="num">Over ${fmt(line)}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  const step=m.step||1,l10=vals.slice(-10),rungs=m.fixed?[.5,1.5,2.5]:[-3,-2,-1,0,1,2,3].map(k=>line+k*step).filter(v=>v>0);
+  const alt=`<div class="log"><table class="books"><thead><tr><th>Line</th><th class="num">Last 10</th><th class="num">${DATA[lg+"meta"].season}</th><th class="num">All games</th></tr></thead><tbody>${rungs.map(L=>{
+    const a=l10.filter(v=>v>L).length/l10.length,cc=cur.length?cur.filter(v=>v>L).length/cur.length:null,al=vals.filter(v=>v>L).length/vals.length;
+    return`<tr class="${L===line?"on":""}"><td class="mono">${fmt(L)}+</td><td class="num"><span class="heat ${heat(a)}">${pct(a)}</span></td><td class="num"><span class="heat ${heat(cc)}">${pct(cc)}</span></td><td class="num mono">${pct(al)}</td></tr>`}).join("")}</tbody></table></div>`;
+  const gr=x=>`<tr><td>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"2-digit"})}</td><td>${x.home?"vs":"@"} ${esc(x.opp||"")}</td>${nfl?"":`<td class="num mono">${x.min!=null?Math.round(x.min):"–"}</td>`}<td class="num mono" style="font-weight:700;color:${m.f(x)>line?"var(--hit)":"var(--miss)"}">${fmt(m.f(x))}</td></tr>`;
+  const rev=[...g].reverse(),head=`<thead><tr><th>Date</th><th>Opp</th>${nfl?"":`<th class="num">Min</th>`}<th class="num">${esc(SHORT[m.id]||m.label)}</th></tr></thead>`;
+  const glog=`<div class="log"><table class="books">${head}<tbody>${rev.slice(0,15).map(gr).join("")}</tbody></table></div>${rev.length>15?`<details class="shmore"><summary>All ${rev.length} games</summary><div class="log"><table class="books">${head}<tbody>${rev.slice(15).map(gr).join("")}</tbody></table></div></details>`:""}`;
+  const lh=lhOf(lg,p,m,LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][m.id]);
+  return shSec("Splits",splits,`over ${fmt(line)}`)+shSec("Alt lines",alt,"how often he clears each")
+    +[matchupHtml(lg,p,m,line,ng),newsHtml(lg,p,m,ng),marketHtml(lg,p,m,line,ng)].filter(Boolean).map(h=>shSec("",h)).join("")
+    +(lh?shSec("",lineMovesHtml(lh,m,line)):"")
+    +shSec("Game log",glog,`${g.length} games`);
+}
 function renderTop(){
   renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
   const el=document.getElementById("top");
@@ -1227,21 +1479,27 @@ function renderTop(){
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
   const range=dfm(a)===dfm(b)?dfm(a):`${dfm(a)} – ${dfm(b)}`;
-  el.innerHTML=`${head}<p class="topsub">${S.league} · ${range} · ranked against the DraftKings line${CTX&&CTX.built?" · injuries checked "+new Date(CTX.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):""}${notesOk?` · researched ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}</p>
-  ${notesOk&&NOTES.summary?`<p class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</p>`:""}
+  const ttl=OVERS()?"Top overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):"Top "+esc(m.label.toLowerCase());
+  const meta=`${S.league} · ${range} · ranked against the DraftKings line${CTX&&CTX.built?" · injuries checked "+new Date(CTX.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):""}${notesOk?` · researched ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}`;
+  const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+  el.innerHTML=`<div class="tophead mh"><h2>${ttl}${S.team?` <small class="h2sub">${esc(S.team)}</small>`:""}</h2>${sideSwitch()}</div><p class="topsub">${range}</p>
+  ${notesOk&&NOTES.summary?`<div class="shw slatew"><button class="slatebtn" data-sheet="Today's news"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><span class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</span><em>Read</em></button><div class="shc">${shSec("",`<p class="shp">${esc(NOTES.summary)}</p>`)}</div></div>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const rd=researchDir(n),agrees=rd.side===c.side,against=rd.side&&rd.side!==c.side;
     const lbl=against?"Research disagrees":agrees?"Research":rd.unc?"Caution":"News";
     const lcls=against||rd.unc?"caution":agrees?"support":"neutral";
     const inSlip=slipHas(c.lg,c.id,c.market,c.side,c.line);
     const tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market===c.market&&x.t===new Date(c.t).toISOString()&&x.side===c.side&&x.line===c.line);
-    return`<div class="pick" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}"><span class="rank">${i+1}</span>
-      <div class="pk1"><span class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} · ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}${isAll()?" "+(SHORT[c.market]||c.label):""}</span></div>
-      <div class="why">${esc(c.why)}</div>
-      ${n&&n.note?`<div class="news"><b class="${lcls}">${lbl}</b><span>${esc(n.note)}</span></div>`:""}
-      <div class="pkmeta"><span>L10 ${c.l10[0]}/${c.l10[1]}</span><span>Avg ${(+c.avg10).toFixed(1)}</span><span>${bookTag(c)} ${fmt(c.line)}</span>${lineMoveChip(c)}${c.factors?fxChips(c):""}${c.factors?"":(()=>{const pl=DATA[c.lg]&&DATA[c.lg].find(x=>x.id===c.id),mk=MK[c.lg].find(x=>x.id===c.market),mu=pl&&mk&&matchup(c.lg,pl,mk,c.opp);if(!mu)return"";const fav=c.side==="over"?mu.tone==="good":mu.tone==="tough",bad=c.side==="over"?mu.tone==="tough":mu.tone==="good";return`<span class="muchip ${fav?"good":bad?"tough":""}" title="${GROUPNAME[mu.grp]||"Players"} vs ${c.opp}: ${rankWords(mu.r.rank,mu.n)} of ${mu.n}">${fav?"Good":bad?"Tough":"Avg"} matchup</span>`})()}${t.getTime()<=Date.now()?`<span class="live">Underway</span>`:`<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button>`}</div></div>`}).join("")}</div>
+    const trk=t.getTime()<=Date.now()?`<span class="live">Live</span>`:`<button class="trk pkadd ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}" aria-label="${tracked&&inSlip?"Tracking: straight + parlay":tracked?"Tracking":inSlip?"In parlay":"Add to my picks"}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button>`;
+    const side=c.side==="over"?"Over":"Under",mtx=`${c.team} ${c.home?"vs":"@"} ${c.opp}`;
+    return`<article class="pick shw" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}">
+      <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}</div>
+        <div class="pksum">${mtx} · ${c.l10[0]} of last ${c.l10[1]}${n&&n.note?` · <b class="${lcls}">${lbl}</b>`:""}</div></div>
+        <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",c.prob!=null?Math.round(c.prob*100)+"%":""].filter(Boolean).join(" · ")}</div></div></div>
+      <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
+      <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  <p class="topnote">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`;
+  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
 
 // ---- DraftKings line history (line_hist.json, saved every hour) ----
@@ -1535,13 +1793,7 @@ function renderAppBox(){
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),open=P.filter(e=>e.status==="pending").length,T=appTally(done);
   const last=[...done].sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,10);
   el.hidden=false;
-  el.innerHTML=`<div class="arhead"><div><b>${OVERS()?"Overs Top 10 record":"Top 10 record"}</b><span class="pteam">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, graded automatically</span></div><button class="linkbtn" data-goto-app style="white-space:nowrap">Full record ›</button></div>
-    <div class="arstats"><div><span class="k">Record</span><span class="v">${T.w}-${T.l}${T.p?`-${T.p}`:""}</span></div>
-    <div><span class="k">Hit rate</span><span class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</span></div>
-    <div><span class="k">Units</span><span class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</span></div>
-    <div><span class="k">Pending</span><span class="v">${open}</span></div></div>
-    ${(()=>{const B=(RECORD.best||[]).filter(e=>["win","loss","push"].includes(e.status));if(!B.length)return"";const t=appTally(B);return`<p class="pteam" style="margin:0">\u2605 Best bets: <b style="color:var(--ink)">${t.w}-${t.l}${t.p?`-${t.p}`:""}</b> \u00b7 ${t.n?unitsTxt(t.units):""}</p>`})()}
-    ${last.length?`<div class="arlast"><span class="pteam">Last ${last.length}:</span>${last.map(e=>`<i class="${e.status}" title="${esc(e.name)} ${e.side} ${fmt(e.line)} ${SHORT[e.market]||e.label}: ${e.status}"></i>`).join("")}</div>`:`<p class="pteam" style="margin:0">First results post after this week's games. Picks lock in at kickoff.</p>`}`;
+  el.innerHTML=`<button class="arline" data-goto-app><span class="arl1"><b>${OVERS()?"Overs Top 10 record":"Top 10 record"}</b><span>${T.w}\u2013${T.l}${T.p?`\u2013${T.p}`:""} \u00b7 <b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"\u2013"}</b> \u00b7 ${open} pending${(()=>{const B=(RECORD.best||[]).filter(e=>["win","loss","push"].includes(e.status));if(!B.length)return"";const t=appTally(B);return` \u00b7 \u2605 Best bets ${t.w}\u2013${t.l}${t.p?`\u2013${t.p}`:""}`})()}</span></span>${last.length?`<span class="arlast">${last.map(e=>`<i class="${e.status}" title="${esc(e.name)} ${e.side} ${fmt(e.line)} ${SHORT[e.market]||e.label}: ${e.status}"></i>`).join("")}</span>`:""}<em>Full record</em></button>`;
 }
 // Probability check: when the app gives a side 60%, does it hit about 60% of the time? Every slate prop counts, not
 // just the Top 10, so the sample builds fast. Kalshi's own odds are graded the same way for comparison.
@@ -1636,22 +1888,21 @@ function renderAppRecord(){
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
-  const chips=`<div class="cats" style="margin:0">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button class="cat" data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</div>`;
-  let html=SOCR?`<section class="top"><div class="tophead"><h2>Record <small class="h2sub">Soccer</small></h2></div><p class="topsub">Every pick on the Soccer tab's lists (Top picks and Value bets; Plus money and Goalscorers until Oct 19), locked at kickoff and graded at DraftKings' price</p>${chips}`
-    :`<section class="top"><div class="tophead"><h2>Record${OVERS()?' <small class="h2sub">Overs</small>':""}</h2>${sideSwitch()}</div><p class="topsub">Every ${OVERS()?"overs":"Best-overall"} Top 10 pick, locked at kickoff and graded against the box score${since&&!OVERS()?` · since ${since}`:""}</p>${chips}`;
-  if(P0.length)html+=recFilterBar(P0,SOCR);
+  const rfOn=Object.values(S.rf||{}).some(Boolean);
+  let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
+  if(P0.length&&(S.rfOpen||rfOn))html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
   if(!P.length){el.innerHTML=html+`<p class="topnote">${SOCR?"No soccer picks recorded yet. The Soccer Top 10s lock in as each match kicks off."
     :lgf==="all"?"No picks recorded yet. The Top 10 is locked in as each game kicks off."
     :`No ${lgf} picks recorded yet. The ${lgf} Top 10 locks in as each game ${lgf==="NBA"?"tips":"kicks"} off.`}</p></section>`;return}
-  html+=`<div class="strip">
-    <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
-    ${(()=>{if(!SOCR)return`<div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null?"var(--ink)":T.pct>=.524?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">break-even 52.4%</div></div>`;
-      // soccer prices are mostly plus money: the hit rate is judged against what the app predicted, not 52.4%
-      const pr=done.length?done.reduce((x,e)=>x+e.prob,0)/done.length:null;
-      return`<div><div class="k">Hit rate</div><div class="v" style="color:${T.pct==null||pr==null?"var(--ink)":T.pct>=pr?"var(--hit)":"var(--miss)"}">${pct(T.pct)}</div><div class="s">${pr==null?"":`predicted ${pct(pr)}`}</div></div>`})()}
-    <div><div class="k">Units</div><div class="v" style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</div><div class="s">1u per pick${SOCR?" at DraftKings' price":P.some(e=>e.price)?" at real prices":" at -110"}</div></div>
-    <div><div class="k">Pending</div><div class="v">${pend.length}</div><div class="s">locked, waiting on games</div></div></div>`;
+  // soccer prices are mostly plus money: the hit rate is judged against what the app predicted, not 52.4%
+  const need=SOCR?(done.length?done.reduce((x,e)=>x+e.prob,0)/done.length:null):.524;
+  html+=`<div class="hero"><div class="hero1"><span>${SOCR?"Soccer Top 10s":OVERS()?"Top 10 overs":"Top 10 picks"}</span>${SOCR?"":sideSwitch()}</div>
+    <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
+      <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
+    <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at DraftKings' price":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+  const k0=html.length;
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
   else{
@@ -1673,15 +1924,25 @@ function renderAppRecord(){
     html+=`<div class="rsplit">${table("By pick strength",["0.8+","0.5–0.8","0.3–0.5","Under 0.3"].map(k=>[k,bk[k]||[]]))}${table("Over vs under",[["Overs",done.filter(e=>e.side==="over")],["Unders",done.filter(e=>e.side==="under")]])}${table("By prop",Object.entries(by(e=>(used.length>1?e.lg+" ":"")+(SHORT[e.market]||e.label))).sort((a,b)=>b[1].length-a[1].length).slice(0,6))}</div>`;
   }
   }
-  html+=`</section>`;
+  const deep=html.slice(k0);html=html.slice(0,k0);
+  const pr=done.filter(e=>recPrice(e)!=null),fav=pr.filter(e=>recPrice(e)<0),dog=pr.filter(e=>recPrice(e)>0);
+  const srow=(k,a)=>{const t=appTally(a);return`<div class="lrow"><span>${k}</span><span class="lv">${wl(t)}</span><b style="color:${t.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</b></div>`};
+  html+=`<h3 class="lh">Splits</h3><div class="lcard shw">${fav.length?srow("Favorites",fav):""}${dog.length?srow("Underdogs",dog):""}${!fav.length&&!dog.length?`<div class="lrow"><span>Over vs under, odds, the app's chance, edge, props</span></div>`:""}<button class="shcta lcta" data-sheet="All splits" data-sub="Graded picks with a price · need = break-even hit rate">View all splits and stats</button><div class="shc">${deep}</div></div>`;
+  // recent picks as a short list; the whole log by day is one tap away
+  const sorted=[...P].sort((a,b)=>new Date(b.t)-new Date(a.t));
+  const won=e=>e.status==="win"?payout(e):e.status==="loss"?-1:0;
+  const what=e=>e.lg==="SOC"?`${esc(e.label)}${e.price?` at ${amFmt(e.price)}`:""}`:`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
+  const circ={win:"W",loss:"L",push:"P",void:"V",pending:""};
+  html+=`<h3 class="lh">Recent</h3><div class="lcard shw">${sorted.slice(0,8).map(e=>`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${circ[e.status]||""}</i><div class="lmid"><b>${esc(e.name)}</b><span>${what(e)} · ${e.lg==="SOC"?esc(e.league||"Soccer"):e.lg} · ${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span></div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(won(e))}</b></div>`).join("")}`;
   const days={};
-  [...P].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
+  sorted.forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  html+=`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list],i)=>{const t=appTally(list),dk="app|"+d,op=dayOpen(dk,i,list);return`<tr class="dayrow dayk" data-dayk="${esc(dk)}" role="button" tabindex="0" aria-expanded="${op}"><td colspan="4"><span class="chev">${op?"\u25be":"\u25b8"}</span> ${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+(op?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div></section>`;
-  if(SOCR)html+=`<p class="note">This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the DraftKings price shown then; void when he doesn't play. Not betting advice.</p>`;
-  else html+=`<p class="note">This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.</p>`;
-  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button></div>`;  // the Walters-style NFL page; the market-anchored lab
+  const note=SOCR?`This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the DraftKings price shown then; void when he doesn't play. Not betting advice.`
+    :`This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.`;
+  const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
+  html+=`<button class="shcta lcta" data-sheet="Pick log" data-sub="${P.length} picks · ${pend.length} locked">View full pick log</button><div class="shc">${log}</div></div>`;
+  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
   el.innerHTML=html;
 }
 // ---- Lab: market-anchored picks (lab_market.py -> lab_market.json), a side project that never touches the main
@@ -1736,13 +1997,28 @@ function renderLab(){
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
 let WAL=null,walLoading=false,WAL_MODELS="",WAL_HOW="";
-function openWalGuide(){
-  document.getElementById("sheet")?.remove();
+// Bottom sheets: a card keeps its full data in a hidden .shc; its CTA ([data-sheet]) opens that in a sheet
+let SHEET_FROM=null;
+function openSheet(title,body,from,kick,sub){
+  document.getElementById("sheet")?.remove();SHEET_FROM=from||null;
+  const pk=from&&from.matches(".pick[data-id]"),trk=pk&&from.querySelector(".trk");
+  const go=pk?`${trk?`<button class="btn shadd">${trk.classList.contains("on")?"\u2713 "+esc(trk.textContent.replace(/^\u2713\s*/,""))+" \u00b7 change":"Add to my picks"}</button>`:""}`:"";
   const d=document.createElement("div");d.className="sharebox apbox";d.id="sheet";
-  d.innerHTML=`<div class="apcard" role="dialog" aria-label="Page guide"><div class="aphead"><b>Page guide</b><button class="apx" aria-label="Close">\u2715</button></div><div class="apbody"><h4 class="wgh">The 3 models</h4>${WAL_MODELS}<h4 class="wgh">How it works</h4>${WAL_HOW}</div></div>`;
-  document.body.appendChild(d);
-  d.addEventListener("click",e=>{if(e.target===d||e.target.closest(".apx"))d.remove()});
+  d.innerHTML=`<div class="apcard" role="dialog" aria-label="${esc(title)}"><i class="shandle" aria-hidden="true"></i><div class="aphead"><div>${kick?`<small>${esc(kick)}</small>`:""}<b>${esc(title)}</b>${sub?`<span>${esc(sub)}</span>`:""}</div><button class="apx" aria-label="Close">\u2715</button></div><div class="apbody">${body}${go}</div></div>`;
+  document.body.appendChild(d);d.querySelector(".apx").focus();
+  d.addEventListener("click",e=>{if(e.target===d||e.target.closest(".apx"))d.remove();else if(e.target.closest(".shgo")){d.remove();SHEET_FROM&&SHEET_FROM.click()}
+    else if(e.target.closest(".shadd")){d.remove();SHEET_FROM&&SHEET_FROM.querySelector(".trk")?.click()}});
 }
+const shcta=(label,html,cls="")=>html&&html.trim()?`<div class="shw ${cls}"><button class="shcta" data-sheet="${esc(label)}">${label}</button><div class="shc">${html}</div></div>`:"";
+document.addEventListener("click",e=>{const b=e.target.closest("[data-sheet]");if(!b||b.closest("#sheet"))return;e.preventDefault();e.stopPropagation();
+  const w=b.closest(".shw"),c=w&&w.querySelector(".shc");openSheet(b.dataset.sheet,c?c.innerHTML:"",w,b.dataset.kick,b.dataset.sub)},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("sheet")?.remove()});
+// sheet building blocks: a white section card with a small heading, label/value rows and a 2-up number grid
+const shSec=(h,inner,right="")=>`<div class="shsec">${h?`<div class="shk"><span>${h}</span>${right?`<span>${right}</span>`:""}</div>`:""}${inner}</div>`;
+const shRow=(k,v,cls="")=>`<div class="shrow ${cls}"><span>${k}</span><b>${v}</b></div>`;
+const shNote=t=>`<div class="shnote">${t}</div>`;
+const shGrid=cells=>`<div class="shgrid">${cells.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join("")}</div>`;
+function openWalGuide(){openSheet("How it works",`${shSec("The 3 models",WAL_MODELS)}${shSec("The method",WAL_HOW)}`,null,"Walters NFL")}
 // Walters stars as icons: whole stars plus a half-filled star for the half
 const starIc=n=>"\u2605".repeat(Math.floor(n))+(n%1?'<span class="hst" aria-hidden="true">\u2606</span>':"");
 function renderWalters(){
@@ -1775,54 +2051,64 @@ function renderWalters(){
   const injTxt=(team,list,p)=>list&&list.length?`<div class="pteam">${team} out: ${list.map(x=>`${esc(x[0])} <small>(${x[1]}, ${Math.round(x[2]*100)}% snaps)</small>`).join(", ")} \u00b7 \u2248${fmt(p)} pts</div>`:"";
   const now=Date.now(),up=G.filter(e=>new Date(e.t)>now-4*3600e3&&e.status==="pending").sort((a,b)=>(b.bstars&&b.bpick?b.bstars:0)-(a.bstars&&a.bpick?a.bstars:0)||(b.tpick?1:0)-(a.tpick?1:0)||new Date(a.t)-new Date(b.t));
   const bw=(bt.all||[0,0])[0],bl=(bt.all||[0,0])[1];
-  let html=`<section class="top"><div class="tophead"><h2>Walters-style NFL lines</h2><button class="linkbtn" data-goto="app">‹ Record</button></div>
-    <button class="wguide" data-wguide="1"><span class="wgi">i</span><span><b>3 models on this page</b><small>Walters \u00b7 Model \u00b7 Weather under: what each one is</small></span><span class="wgo">\u203a</span></button>
-    <p class="topsub">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}\u2013${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>
-    <div class="wtiles">
-      <div class="wtile"><h3>Walters picks</h3><div class="strip two">
-        <div><div class="k">This season</div><div class="v">${bw2}-${bl2}</div><div class="s">${bgr.length?`<b style="color:${bunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(bunits)}</b> (units = stars)`:"first picks lock in this week"}</div></div>
-        <div><div class="k">Backtest</div><div class="v">${pct(bka[0]/Math.max(1,bka[0]+bka[1]))}</div><div class="s">${bka[0]}-${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}</div></div></div></div>
-      <div class="wtile"><h3>Model picks</h3><div class="strip two">
-        <div><div class="k">This season</div><div class="v">${w}-${l}${pu?`-${pu}`:""}</div><div class="s">${graded.length?`<b style="color:${units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(units)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
-        <div><div class="k">Backtest</div><div class="v">${pct(bw/Math.max(1,bw+bl))}</div><div class="s">${bw}-${bl} since ${bt.from||2012} \u00b7 ${bt.all?unitsTxt(bt.all[2]):""} at -110</div></div></div></div>
-      <div class="wtile"><h3>Weather unders</h3><div class="strip two">
-        <div><div class="k">This season</div><div class="v">${tw}-${tl}</div><div class="s">${tg.length?`<b style="color:${tunits>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(tunits)}</b> at DraftKings' price`:"first picks lock in this week"}</div></div>
-        <div><div class="k">Backtest</div><div class="v">${pct(tb[0]/Math.max(1,tb[0]+tb[1]))}</div><div class="s">${tb[0]}-${tb[1]} since ${btt.from||2012} \u00b7 ${unitsTxt(tb[2]||0)} at -110</div></div></div></div>
-    </div></section>`;
-  // this week: picks first, then every other game with the model's number
+  const tab=["walters","model","weather"].includes(S.walTab)?S.walTab:"walters";
+  const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+  const uc=(n,v,txt)=>n?`<b style="color:${v>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v)}</b> ${txt}`:"first picks lock in this week";
+  const T={walters:[`${bw2}–${bl2}`,uc(bgr.length,bunits,"(units = stars)"),wr(bka),`${bka[0]}–${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}`],
+    model:[`${w}–${l}${pu?`–${pu}`:""}`,uc(graded.length,units,"at DraftKings' price"),pct(bw/Math.max(1,bw+bl)),`${bw}–${bl} since ${bt.from||2012} · ${bt.all?unitsTxt(bt.all[2]):""} at -110`],
+    weather:[`${tw}–${tl}`,uc(tg.length,tunits,"at DraftKings' price"),wr(tb),`${tb[0]}–${tb[1]} since ${btt.from||2012} · ${unitsTxt(tb[2]||0)} at -110`]}[tab];
+  let html=`<section class="recw"><div class="whead"><button class="wico" data-goto="app" aria-label="Back to Record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><b>Walters NFL</b><button class="wico" data-wguide="1" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button></div>
+    <nav class="utabs" aria-label="Model">${[["walters","Walters"],["model","Model"],["weather","Weather unders"]].map(([k,t])=>`<button data-wtab="${k}" aria-pressed="${k===tab}">${t}</button>`).join("")}</nav>
+    <div class="tiles2"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
+  // one game's sheet: every pick on it, the three lines, the factors, injuries and QBs, the total and weather
+  const gameSheet=e=>{
+    const picks=[e.bpick?[`Walters play`,bPickTxt(e),bPrice(e),`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,`${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"}${starRate(e.bstars)!=null?` · ${pct(starRate(e.bstars))} in the backtest`:""}`]:null,
+      e.pick?[`Model play`,pickTxt(e),priceOf(e),`<span class="wu">${fmt(e.units)}u</span>`,`${fmt(Math.abs(e.fair-e.line))} pts off DraftKings`]:null,
+      e.tpick?[`Weather under`,`Under ${fmt(e.tline)}`,e.tprice_u,`<span class="wu">1u</span>`,`${(e.twhy||["wind"]).join(" + ")} · ${(e.twhy||[]).includes("rain")&&!(e.twhy||[]).includes("wind")?`rain unders won ${wr(tbr)}`:`wind unders won ${wr(tbw)}`} in the backtest`]:null].filter(Boolean);
+    const f=e.factors||[],side=s=>s==="h"?e.home:e.away,ftxt=x=>{const t=side(x[0]);const v=x[2].startsWith(t+" ")?x[2].slice(t.length+1):x[2];return esc(v.charAt(0).toUpperCase()+v.slice(1))};
+    const inj=(team,list,pp)=>list&&list.length?list.map(x=>shRow(`${team} out: ${esc(x[0])} <small>(${x[1]}, ${Math.round(x[2]*100)}% snaps)</small>`,"")).join("")+shRow(`${team} injuries total`,`≈${fmt(pp)} pts`):"";
+    return (picks.length?picks.map(([k,t,pr,r,note])=>shSec("",`<div class="shpick"><div><span>${k}</span><b class="over">${esc(t)}</b><small>${pr!=null?`${amFmt(pr)} at DraftKings`:"DraftKings"}</small></div><div class="shpr">${r}</div></div><div class="shnote">${note}</div>`)).join(""):shSec("",shNote("No play on this game in any of the three models.")))
+      +shSec("Lines (home team)",shRow("DraftKings",`${e.home} ${ln(e.line)}`)+shRow("Walters",`${e.home} ${ln(e.bfair)}`)+shRow("Model",`${e.home} ${ln(e.fair)}`)
+        +(e.bpct!=null?shNote(`The gap to DraftKings covers ${fmt(e.bpct)}% of NFL final margins${e.bstars?`, a ${starIc(e.bstars)} play`:" (under 5.5%: no Walters play)"}.`):""))
+      +shSec("Game factors",(f.length?f.map(x=>shRow(`${ftxt(x)} · ${side(x[0])}`,`+${fmt(x[1])}`)).join(""):shNote("No game factors on this one."))+((e.wnotes||[]).length?shNote(`Tracked at 0 pts: ${e.wnotes.map(esc).join(", ")}`):""),f.length?`${e.fnet>0?e.home:e.away} ${e.fnet?"+"+fmt(Math.abs(e.fnet))+" pts net":"even"}`:"")
+      +shSec("Injuries and QBs",(inj(e.away,e.inj_a,e.injp_a)+inj(e.home,e.inj_h,e.injp_h)||shNote("No starters out."))+shNote(`QB changes: ${(e.qb_note||[]).length?esc(e.qb_note.join(" · ")):"none"}`))
+      +shSec("Total and weather",shRow("DraftKings total",e.tline!=null?fmt(e.tline):"–")+shRow("Kickoff forecast",e.indoor?"indoors":e.wind!=null?`${Math.round(e.wind)} mph${e.rain!=null?` · ${fmt(e.rain)}mm rain`:""}`:"no forecast yet")
+        +shNote(e.tpick?`Weather under: ${(e.twhy||["wind"]).join(" + ")}.`:`No weather under: needs ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ rain outdoors.`));
+  };
+  const kick=(e,lab)=>`${lab} · ${when(new Date(e.t))}`;
+  const playRow=(e,t,meta,right,lab)=>`<div class="shw wrow"><div class="lrow"><div class="lmid"><b>${t}</b><span>${e.away} at ${e.home} · ${when(new Date(e.t))}${meta?` · ${meta}`:""}</span></div><div class="wr">${right}</div></div><button class="shcta lcta" data-sheet="${e.away} at ${e.home}" data-kick="${kick(e,lab)}">Details</button><div class="shc">${gameSheet(e)}</div></div>`;
+  const has={walters:e=>e.bpick,model:e=>e.pick,weather:e=>e.tpick}[tab];
+  const plays=up.filter(has).sort(tab==="walters"?(a,b)=>b.bstars-a.bstars||new Date(a.t)-new Date(b.t):tab==="model"?(a,b)=>b.units-a.units||new Date(a.t)-new Date(b.t):(a,b)=>new Date(a.t)-new Date(b.t));
+  const row=e=>tab==="walters"?playRow(e,esc(bPickTxt(e)),`Walters ${e.home} ${ln(e.bfair)}`,`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,"Walters play")
+    :tab==="model"?playRow(e,esc(pickTxt(e)),`Model ${e.home} ${ln(e.fair)}`,`<span class="wu">${fmt(e.units)}u</span>`,"Model play")
+    :playRow(e,`Under ${fmt(e.tline)}`,(e.twhy||["wind"]).join(" + "),`<span class="wu">1u</span>`,"Weather under");
   // 3-star plays: the only Walters tier that beat the closing line in both halves of the backtest (2012-18, 2019-)
   const s3=G.filter(e=>e.bpick&&e.bstars>=3),s3up=s3.filter(e=>e.bstatus==null&&e.status==="pending"&&new Date(e.t)>now-4*3600e3).sort((a,b)=>new Date(a.t)-new Date(b.t));
   const s3g=s3.filter(e=>["win","loss","push"].includes(e.bstatus)),s3w=s3g.filter(e=>e.bstatus==="win").length,s3l=s3g.filter(e=>e.bstatus==="loss").length;
   const s3u=s3g.reduce((x,e)=>x+(e.bunits_won||0)/(e.bstars||3),0),s3bt=(bb.stars||{})["3"]||[0,0];
-  html+=`<section class="top"><div class="tophead"><h2>3-star plays</h2></div>
-    <p class="topsub">Walters picks where the gap between his number and DraftKings' line covers 15%+ of NFL final margins. The only tier that won in both halves of the backtest; the smaller stars were a coin flip. 1 unit each here.</p>
-    <div class="strip"><div><div class="k">This season</div><div class="v">${s3w}-${s3l}</div><div class="s">${s3g.length?`<b style="color:${s3u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(s3u)}</b> at DraftKings' price`:"none graded yet"}</div></div>
-      <div><div class="k">Backtest</div><div class="v">${pct(s3bt[0]/Math.max(1,s3bt[0]+s3bt[1]))}</div><div class="s">${s3bt[0]}-${s3bt[1]} since ${bb.from||2012}</div></div></div>
-    <div class="wgames" style="margin-top:10px">${s3up.length?s3up.map(e=>{const t=new Date(e.t);return`<div class="wg go"><div class="wg1"><span class="wpk">${esc(bPickTxt(e))} ${starIc(3)}<span class="wu">1u</span>${bPrice(e)!=null?` <small class="pteam">${amFmt(bPrice(e))}</small>`:""}</span><span class="pteam">${e.away} @ ${e.home} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div><div class="pteam">Walters ${e.home} ${ln(e.bfair)} vs DK ${ln(e.line)} \u00b7 ${fmt(e.bpct)}% between</div></div>`}).join(""):`<p class="topnote">No 3-star plays on the board right now.</p>`}</div></section>`;
-  html+=`<section class="top"><div class="tophead"><h2>This week</h2></div><p class="topsub">Walters plays only (his full method, sized by stars: units = stars) plus the weather under. Spreads are for the home team: DK = DraftKings', Walters = his number.</p>
-    <div class="wleg"><span><i class="wsw go"></i>Play: at least one pick</span><span><i class="wsw no"></i>No play</span></div><div class="wgames">${
-    up.length?up.map(e=>{const t=new Date(e.t);return`<div class="wg ${e.tpick||e.bpick?"go":"no"}"><div class="wg1"><b>${e.away} @ ${e.home}</b><span class="pteam">${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span></div>
-      <div class="wg2"><span>DK <b class="mono">${e.home} ${ln(e.line)}</b></span><span>Walters <b class="mono">${e.home} ${ln(e.bfair)}</b></span></div>
-      ${facTxt(e)}
-      <div class="wg2"><span>Total <b class="mono">${e.tline!=null?fmt(e.tline):"\u2013"}</b></span><span class="pteam">${e.indoor?"indoors":e.wind!=null?`wind ${Math.round(e.wind)} mph${e.rain!=null?` \u00b7 rain ${fmt(e.rain)}mm`:""}`:"no forecast yet"}</span></div>
-      ${(e.qb_note||[]).length?`<div class="pteam">${esc(e.qb_note.join(" \u00b7 "))}</div>`:""}
-      ${injTxt(e.away,e.inj_a,e.injp_a)}${injTxt(e.home,e.inj_h,e.injp_h)}
-      ${e.tpick?`<div class="wg3"><span class="wpk">Under ${fmt(e.tline)}<span class="wu">1u</span></span><span class="pteam">Weather under${e.tprice_u!=null?` at ${amFmt(e.tprice_u)}`:""} \u00b7 ${(e.twhy||["wind"]).join(" + ")} \u00b7 ${(e.twhy||[]).includes("rain")&&!(e.twhy||[]).includes("wind")?`rain unders won ${wr(tbr)}`:`wind unders won ${wr(tbw)}`} in the backtest</span></div>`:""}
-      ${e.bpick?`<div class="wg3"><span class="wpk">${esc(bPickTxt(e))} ${starIc(e.bstars)}<span class="wu">${fmt(e.bstars)}u</span></span><span class="pteam">Walters \u00b7 ${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"} (the gap to DK covers ${fmt(e.bpct)}% of final margins)${bPrice(e)!=null?` at ${amFmt(bPrice(e))}`:""}${starRate(e.bstars)!=null?` \u00b7 ${pct(starRate(e.bstars))} in the backtest`:""}</span></div>`:""}
-</div>`}).join("")
-    :`<p class="topnote">No NFL games on the board yet.</p>`}</div></section>`;
+  if(tab==="walters")html+=`<h3 class="lh">3-star plays <small>${s3w}–${s3l} this season${s3g.length?` · ${unitsTxt(s3u)}`:""} · backtest ${wr(s3bt)} (${s3bt[0]}–${s3bt[1]})</small></h3>
+    <div class="lcard">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">1u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
+    <div class="lrow"><span class="lmuted">The gap between his number and DraftKings' covers 15%+ of NFL final margins: the only tier that won in both halves of the backtest. 1 unit each here.</span></div></div>`;
+  html+=`<h3 class="lh">Plays this week</h3><div class="lcard">${plays.length?plays.map(row).join(""):`<div class="lrow"><span class="lmuted">${up.length?"No plays this week yet.":"No NFL games on the board yet."}</span></div>`}</div>`;
+  const np=up.filter(e=>!has(e)).sort((a,b)=>new Date(a.t)-new Date(b.t)),npShow=S.walAll?np:np.slice(0,3);
+  if(np.length)html+=`<h3 class="lh">No play</h3><div class="lcard muted">${npShow.map(e=>`<div class="shw"><button class="lrow np" data-sheet="${e.away} at ${e.home}" data-kick="${kick(e,"Game")}"><b>${e.away} at ${e.home}</b><span>DK ${e.home} ${ln(e.line)} · ${tab==="model"?"M":"W"} ${e.home} ${ln(tab==="model"?e.fair:e.bfair)}</span></button><div class="shc">${gameSheet(e)}</div></div>`).join("")}${np.length>3?`<button class="lmore" data-walall>${S.walAll?"Show fewer":`View all ${np.length} games`}</button>`:""}</div>`;
+  html+=`</section>`;
+  const about=`<p class="shp">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>`;
   // graded picks
   const gl=[...bgr.map(e=>({e,txt:`${bPickTxt(e)} \u00b7 Walters`,u:e.bstars,price:bPrice(e),won:e.bunits_won||0,st:e.bstatus})),
     ...graded.map(e=>({e,txt:`${pickTxt(e)} \u00b7 Model`,u:e.units,price:priceOf(e),won:e.units_won||0,st:e.status})),
     ...tg.map(e=>({e,txt:`Under ${fmt(e.tline)}`,u:1,price:e.tprice_u,won:e.tunits_won||0,st:e.tstatus}))].sort((a,b)=>new Date(b.e.t)-new Date(a.e.t));
   if(gl.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
-    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`}
+    const g0=html.length;
+    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
+    html=html.slice(0,g0)+`<div class="lcard wlinks">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"lcw")}`}else html+=`<div class="lcard wlinks">`;
   // backtest by season and the current ratings
-  const yrs=Object.entries(bt.seasons||{});
+  const yrs=Object.entries(bt.seasons||{}),b0=html.length;
   html+=`<section class="top"><div class="rsplit"><div><h4>Backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Walters</th><th class="num">Units</th><th class="num">Model</th><th class="num">Units</th><th class="num">Weather unders</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>{const t=(btt.seasons||{})[y]||[0,0,0],b=(bb.seasons||{})[y]||[0,0,0];return`<tr><td>${y}</td><td class="num mono">${b[0]}-${b[1]}</td><td class="num mono" style="color:${b[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(b[2])}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono" style="color:${v[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v[2])}</td><td class="num mono">${t[0]}-${t[1]}</td><td class="num mono" style="color:${t[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t[2])}</td></tr>`}).join("")}</tbody></table></div>
       <p class="pteam" style="margin:6px 0 0">${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't Model picks.<br>Walters by stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${starIc(+k)} ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}</p></div>
     <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
       <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div></div></section>`;
+  html=html.slice(0,b0)+shcta("Backtest by season and power ratings",html.slice(b0),"lcw");
   // the page guide (sheet) and How it works share this text
   WAL_MODELS=`<div class="wmods">
     <div class="wmod"><div class="wmodh"><b>Walters</b><span class="pteam">his full book method</span></div><ul>
@@ -1895,7 +2181,7 @@ function renderWalters(){
       <li>Matchup judgment calls and playoff stakes: no rule to backtest</li>
       <li>His timing: he bet early, before the market moved; these lock at kickoff</li></ul>
     <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
-  html+=`<section class="top"><h4 style="margin:0">How it works</h4>${WAL_HOW}</section>`;
+  html+=shcta("How it works",shSec("",WAL_HOW),"lcw")+shcta("About this page",shSec("",about),"lcw")+`</div>`;
   el.innerHTML=html;
 }
 function recTypeSwitch(){
@@ -3180,6 +3466,7 @@ function wire(){
     if(e.target.closest(".wcall")){WC.all=!WC.all;renderWhatChanged();return}
     const wg=e.target.closest(".wcgo");
     if(wg){const lg=wg.dataset.wlg;if(S.league!==lg){S.league=lg;if(!switchLeague(lg))return}S.market=isAll()?S.market:wg.dataset.wm;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(wg.dataset.wid,true);return}
+    const sw=e.target.closest("#top .pick.shw");if(sw){sw.querySelector(".seewhy")?.click();return}
     const b=e.target.closest(".pick");if(!b)return;
     S.league=b.dataset.lg;if(!isAll())S.market=b.dataset.m;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();open(b.dataset.id,true)});
   document.getElementById("view-board").addEventListener("change",e=>{const i=e.target.closest("[data-tdodds]");if(!i)return;
@@ -3198,6 +3485,23 @@ function wire(){
   document.getElementById("subnav").addEventListener("click",e=>{const b=e.target.closest("[data-sec]");if(!b||b.dataset.sec===S.sec)return;
     S.sec=b.dataset.sec;try{localStorage.setItem("ptSec",S.sec)}catch(_){}render();window.scrollTo({top:0})});
   document.getElementById("active").onchange=e=>{S.active=e.target.checked;reset();save();render()};
+  document.getElementById("filtBtn").onclick=e=>{const tb=e.currentTarget.closest(".toolbar"),on=tb.classList.toggle("fopen");e.currentTarget.setAttribute("aria-expanded",on)};
+  document.getElementById("statusBtn").onclick=()=>openSheet("Data status",`<div class="chips stchips">${document.getElementById("chips").innerHTML}</div>${[...document.querySelectorAll("#chips .warnchip")].map(c=>`<p class="pteam" style="margin:0">${esc(c.title||"")}</p>`).join("")}`);
+  // settings menu (appearance, share, install) behind the gear
+  const hm=document.getElementById("hmenu"),sb=document.getElementById("setBtn");
+  sb.onclick=e=>{e.stopPropagation();hm.hidden=!hm.hidden;sb.setAttribute("aria-expanded",!hm.hidden)};
+  document.addEventListener("click",e=>{if(!hm.hidden&&!e.target.closest("#hmenu")){hm.hidden=true;sb.setAttribute("aria-expanded","false")}});
+  // the section and prop-type dropdowns drive the hidden section bar and prop row, so every existing handler still runs
+  const secSel=document.getElementById("secSel"),mktSel=document.getElementById("mktSel"),mrowEl=document.getElementById("market"),subEl=document.getElementById("subnav");
+  const syncDd=()=>{const on=subEl.querySelector('[aria-pressed="true"]');if(on)secSel.value=on.dataset.sec;
+    const bs=[...mrowEl.querySelectorAll("button[data-m]")];
+    mktSel.innerHTML=bs.map(b=>`<option value="${b.dataset.m}"${b.getAttribute("aria-pressed")==="true"?" selected":""}>${b.dataset.m==="all"?"All prop types":esc(b.textContent)}</option>`).join("");
+    mktSel.parentNode.hidden=mrowEl.hidden||!bs.length||(on&&on.dataset.sec==="trends")};
+  new MutationObserver(syncDd).observe(mrowEl,{childList:true,subtree:true,attributes:true,attributeFilter:["aria-pressed","hidden"]});
+  new MutationObserver(syncDd).observe(subEl,{subtree:true,attributes:true,attributeFilter:["aria-pressed"]});
+  secSel.onchange=()=>subEl.querySelector(`[data-sec="${secSel.value}"]`)?.click();
+  mktSel.onchange=()=>mrowEl.querySelector(`[data-m="${mktSel.value}"]`)?.click();
+  syncDd();
   document.getElementById("moreBtn").onclick=()=>{shown+=PAGE;render()};
   document.querySelector("#boardT thead").onclick=e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;FROZEN=null;S.dir=S.sort===k?-S.dir:(k==="name"?1:-1);S.sort=k;render()};
   const b=document.getElementById("board");
@@ -3221,11 +3525,14 @@ function wire(){
   document.getElementById("view-lab").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-labday]")){e.preventDefault();e.target.click()}});
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     if(e.target.closest("[data-wguide]")){openWalGuide();return}
+    const wt=e.target.closest("[data-wtab]");if(wt){S.walTab=wt.dataset.wtab;S.walAll=false;renderWalters();return}
+    if(e.target.closest("[data-walall]")){S.walAll=!S.walAll;renderWalters();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
   const saveRf=()=>{try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}renderRecord()};
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
-  document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf()}});
+  document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
+    if(e.target.closest("[data-rftoggle]")){S.rfOpen=!(S.rfOpen||Object.values(S.rf||{}).some(Boolean));if(!S.rfOpen)S.rf={};saveRf()}});
   document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
@@ -3271,6 +3578,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
     document.addEventListener("click",e=>{const w=e.target.closest(".warnchip");if(w)toast(w.title)});
+    if(msg.length)document.getElementById("statusBtn").classList.add("warn");
     if(msg.length)document.getElementById("chips").insertAdjacentHTML("beforeend",`<span class="chip warnchip" title="${esc(msg.join(" "))}" tabindex="0" role="note">\u26a0 ${bad.length?"Data issue":"Research from "+new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short"})}</span>`);
   });
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
@@ -3327,7 +3635,7 @@ function shareBox(){
 {const dark=matchMedia("(prefers-color-scheme: dark)");
   const eff=()=>document.documentElement.dataset.theme||(dark.matches?"dark":"light");
   const paint=()=>{const t=eff();document.querySelectorAll("[data-theme-set]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.themeSet===t));
-    document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.content=t==="dark"?"#0b0c0f":"#ffffff")};
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.content=t==="dark"?"#141922":"#1b2130")};
   document.querySelector(".themesw").addEventListener("click",e=>{const b=e.target.closest("[data-theme-set]");if(!b)return;
     document.documentElement.dataset.theme=b.dataset.themeSet;try{localStorage.setItem("ptTheme",b.dataset.themeSet)}catch(_){}paint()});
   dark.addEventListener("change",paint);paint()}
