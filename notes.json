@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T11:54:09Z",
+ "updated": "2026-10-21T20:36:19Z",
  "summary": "NBA opening week dominates: Charlotte opens without Coby White and Kon Knueppel, Haliburton returns for Indiana, and Avdija is questionable for Portland. On Thursday night the Bears again expect to be without Monangai while the Patriots' backfield gets Henderson back at full practice.",
  "notes": {
   "CFB|5222671|ryd": {
@@ -336,13 +336,14 @@
   },
   "NBA|4066261|reb": {
    "side": "over",
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Adebayo sat the final two preseason games with groin tightness; he expects to play but said he would be careful, so minutes could be trimmed.",
+   "note": "Adebayo sat the final two preseason games with groin tightness; he expects to play but said he would be careful, so minutes could be trimmed. He is not on Miami's injury report for the opener.",
    "sources": [
     "https://bolavip.com/en/nba/bam-adebayo-provides-major-injury-update-ahead-of-heat-vs-timberwolves-2026-nba-season-opener",
-    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/"
+    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/",
+    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
    ],
    "detail": {
     "availability": "Missed last two preseason games (right groin tightness); says he should be ready for the opener."
@@ -669,6 +670,57 @@
    "note": "With Beal and Strus out, Hachimura stays a main scoring option after leading the Clippers in preseason; nothing found that argues for the under.",
    "sources": [
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-05/rui-hachimura-drops-21-in-clippers-debut"
+   ]
+  },
+  "NBA|4433247|3pm": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kuminga is not on the injury report for the opener; Minnesota's only listed absence is DiVincenzo (out), which removes a perimeter shooter but no source confirms more threes for Kuminga.",
+   "sources": [
+    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
+   ]
+  },
+  "NBA|4278053|3pm": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell is not on Miami's injury report (only Goldin is questionable); nothing found that changes his role or three-point volume for the opener.",
+   "sources": [
+    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
+   ]
+  },
+  "NBA|3032977|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Giannis is not on Miami's injury report for his Heat debut; no minutes limit reported, so nothing here supports pressing the under beyond the numbers.",
+   "sources": [
+    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
+   ]
+  },
+  "NBA|4997536|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "With Porzingis, Butler and Moody out, Santos is in line for a bigger frontcourt role (he started a preseason game against the Lakers), which argues against the under.",
+   "sources": [
+    "https://sportssd.iheart.com/content/2026-10-21-warriors-vs-lakers-injury-report-oct-21/",
+    "https://www.rotoballer.com/?p=1959974"
+   ]
+  },
+  "NBA|4701230|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Johnson is not listed for Atlanta, whose absences are frontcourt reserves Gueye and Veesaar; nothing found that limits his role, so the under rests on the numbers alone.",
+   "sources": [
+    "https://hottakes.com/articles/the-nbas-october-21-injury-report-is-already-a-cvs-receipt-a750a470-4301-4951-92ee-64fcc34f40ef"
    ]
   }
  },
