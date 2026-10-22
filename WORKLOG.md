@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters 3-star plays get their own row under Locked early on the Walters tab (`s3Row`: this season at 1u
+  each, backtest record and units) and their own table in the Walters backtest sheet (`seasonTbl`). `walters.py` now
+  writes `backtest_book.all3` / `seasons3` (3-star plays only, 1u each at the closing price; 481-372, +74.0u since 2012).
+  sw.js pt-v96.
 - **rmolnar10**: Walters page: the bottom links follow the open tab. Graded picks list only that model's picks; the
   backtest sheet is one table for that model (W-L, win %, units, an All row, its tier/star/wind-rain note) with power
   ratings on the Walters and Model tabs only; How it works shows only that model's sections (`howFor`, `data-t` tags in
