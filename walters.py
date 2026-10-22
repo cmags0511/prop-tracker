@@ -1,4 +1,5 @@
-"""A Walters-structured NFL side model: a fair point spread for every game, locked at kickoff and graded.
+"""A Walters-structured NFL side model: a fair point spread for every game, locked at kickoff and graded. Each
+side play is also locked the first hour it shows up (Walters bet early) and graded separately as the early record.
 
 Billy Walters' book (Gambler, 2023) lays out the structure but not his numbers: neutral-field team power ratings
 updated slowly (each week keeps 90% of the old rating and adds 10% of how the team actually played), player
@@ -414,6 +415,15 @@ def main():
                 side, pct, st = book_pick(mu_b, line, e["price_h"], e["price_a"])
                 e.update({"bfair": round(-mu_b, 1), "bpct": round(pct, 1), "bpick": side if st else None, "bstars": st,
                           "factors": [[s_, v, why] for s_, v, why in fs], "fnet": round(B.net(fs), 2)})
+                # early locks, Walters' timing: the first hour a play shows up, its line and price are kept and graded
+                # on their own (the main record still locks at kickoff, when injuries and weather are settled)
+                at = now.isoformat(timespec="minutes")
+                if pick and not e.get("epick"):
+                    e.update({"epick": pick, "eline": line, "eprice": e["price_h" if pick == "home" else "price_a"],
+                              "eunits": e["units"], "et": at})
+                if e["bpick"] and not e.get("ebpick"):
+                    e.update({"ebpick": e["bpick"], "ebline": line, "ebprice": e["price_h" if e["bpick"] == "home" else "price_a"],
+                              "ebstars": st, "ebt": at})
             rec[ev["id"]] = e
         elif state == "post" and e.get("status") == "pending" and ev["id"] in rec:
             hs, as_ = float(side["home"].get("score") or 0), float(side["away"].get("score") or 0)
@@ -430,6 +440,15 @@ def main():
                 price = e.get("price_h" if e["bpick"] == "home" else "price_a") or -110
                 e["bstatus"] = "win" if r > 0 else "loss" if r < 0 else "push"
                 e["bunits_won"] = round(e["bstars"] * payout(price), 2) if r > 0 else -e["bstars"] if r < 0 else 0
+            # early locks: graded at the line and price they locked at; clv = points the line moved their way by kickoff
+            for k, n in (("e", "eunits"), ("eb", "ebstars")):
+                if e.get(k + "pick") and e.get(k + "line") is not None:
+                    sg = 1 if e[k + "pick"] == "home" else -1
+                    r = (hs - as_ + e[k + "line"]) * sg
+                    e[k + "status"] = "win" if r > 0 else "loss" if r < 0 else "push"
+                    e[k + "units_won"] = round(e[n] * payout(e.get(k + "price") or -110), 2) if r > 0 else -e[n] if r < 0 else 0
+                    if e.get("line") is not None:
+                        e[k + "clv"] = round((e[k + "line"] - e["line"]) * sg, 1)
             if e.get("tpick") and e.get("tline") is not None:
                 r = e["tline"] - (hs + as_)  # > 0: under wins
                 price = e.get("tprice_u") or -110
