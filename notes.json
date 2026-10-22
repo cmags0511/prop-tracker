@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-22T11:52:11Z",
+ "updated": "2026-10-22T20:36:50Z",
  "summary": "Caleb Williams returns at full strength for Thursday night against a Patriots secondary missing three cornerbacks, with Kyle Monangai out again for Chicago; in the NBA, Jarrett Allen's knee leaves Cleveland's frontcourt in doubt at a big-man-short Philadelphia.",
  "notes": {
   "CFB|5222671|ryd": {
@@ -170,10 +170,11 @@
    "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "Philadelphia is missing three bigs, and if Allen sits Mobley plays center; two previews back his rebounds, and their consensus line is 9.5, a point above the packet.",
+   "note": "Philadelphia is missing three bigs, and if Allen sits Mobley plays center; two previews back his rebounds, and their consensus line is 9.5, a point above the packet. Allen is now expected to play after shootaround, so Mobley likely stays at power forward.",
    "sources": [
     "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
-    "https://www.sportsmole.co.uk/basketball/cleveland-cavaliers/preview/cleveland-cavaliers-vs-philadelphia-76ers-player-props-injury-report-and-prediction--nba_607342.html"
+    "https://www.sportsmole.co.uk/basketball/cleveland-cavaliers/preview/cleveland-cavaliers-vs-philadelphia-76ers-player-props-injury-report-and-prediction--nba_607342.html",
+    "https://basketnews.com/news-257894-jarrett-allen-final-status-vs-76ers-revealed.html"
    ],
    "detail": {
     "availability": "Allen questionable (patellar tendinopathy) and Diop out leave Mobley as Cleveland's main big if Allen sits.",
@@ -778,6 +779,99 @@
    "note": "Duke's run defense has struggled this season, which cuts against the under; no availability or role news either way.",
    "sources": [
     "https://www.si.com/betting/duke-vs-virginia-prediction-odds-and-key-players-to-watch-for-college-football-week-8-2026"
+   ]
+  },
+  "NBA|4683692|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Wallace is not on Oklahoma City's injury report for the opener; no news on a change to his ball-handling role.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|4593803|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jalen Williams is not on the Thunder's injury report; no usage news either way for the opener.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|3064290|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gordon is not on Denver's injury report (only Strawther out and Spencer Jones questionable); no role change reported.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|3138196|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cameron Johnson is not on Denver's injury report; with Strawther out for weeks his wing minutes look secure, which leans slightly against the under.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|3112335|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jokic is not on Denver's injury report for the opener; no minutes limit reported.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|4278073|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gilgeous-Alexander is not on the Thunder's injury report; Topic and Sorber are out, which keeps his on-ball load full.",
+   "sources": [
+    "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
+   ]
+  },
+  "NBA|4066328|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Allen was questionable with a knee issue but went through shootaround work and is expected to play, with no minutes limit reported; any late scratch would void the prop.",
+   "sources": [
+    "https://basketnews.com/news-257894-jarrett-allen-final-status-vs-76ers-revealed.html",
+    "https://sports.yahoo.com/articles/cavs-vs-76ers-injury-report-160657818.html"
+   ]
+  },
+  "NBA|4431678|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Maxey is not on Philadelphia's injury report for the home opener; no role change reported.",
+   "sources": [
+    "https://basketnews.com/news-257894-jarrett-allen-final-status-vs-76ers-revealed.html",
+    "https://sports.yahoo.com/articles/cavs-vs-76ers-injury-report-160657818.html"
+   ]
+  },
+  "NBA|3059318|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Embiid is not on Philadelphia's injury report; the 76ers are thin up front with three bigs out, so his minutes should be full.",
+   "sources": [
+    "https://basketnews.com/news-257894-jarrett-allen-final-status-vs-76ers-revealed.html",
+    "https://sports.yahoo.com/articles/cavs-vs-76ers-injury-report-160657818.html"
    ]
   }
  },
