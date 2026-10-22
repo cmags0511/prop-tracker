@@ -1172,7 +1172,7 @@ function dkLine(p,m){
   if(!LINES||!LINES[S.league])return null;const e=LINES[S.league][p.espn];const d=e&&e[m.id];
   // ignore a line whose game has already been played (e.g. if a refresh failed)
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
-let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"over"};
+let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"all"};
 try{if(localStorage.getItem("ptWkOpen")==="0")S.wkOpen=false}catch(e){}
 // the Props tab shows one section at a time: Top picks, Touchdowns (NFL), Trends or All props (the full table)
 S.sec="picks";try{const sc=localStorage.getItem("ptSec");if(["picks","td","trends","all"].includes(sc))S.sec=sc}catch(e){}
@@ -1182,7 +1182,8 @@ function applySec(){
   document.body.classList.toggle("sec-table",S.view==="board"&&S.sec==="all"||S.view==="up");  // category / team / search filter the table and the games list
   document.querySelectorAll("#subnav [data-sec]").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.sec===S.sec);if(b.dataset.sec==="td")b.hidden=S.league!=="NFL"});
 }
-try{const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
+// opens on Overs + unders (Oct 22: picks only on the overs list went 16-26); a choice made after that is remembered
+try{if(localStorage.getItem("ptSideV")!=="2"){localStorage.setItem("ptSideV","2");localStorage.removeItem("ptSide")}const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
 const OVERS=()=>S.side==="over";
 const sideSwitch=()=>`<div class="seg2 sidesw" role="group" aria-label="Which picks"><button data-side="over" aria-pressed="${OVERS()}">Overs</button><button data-side="all" aria-pressed="${!OVERS()}">Overs + unders</button></div>`;
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
@@ -1378,7 +1379,7 @@ function renderTdTop(){
   const fair=p=>decToAm(1/Math.max(.01,p));
   const buzz={high:"Popular pick online",some:"Some buzz online"};
   el.innerHTML=`<div class="tophead"><h2>Top 10 <span>Anytime TDs</span></h2><div class="seg2 sidesw" role="group" aria-label="TD list"><button data-tdl="likely" aria-pressed="${which==="likely"}">Likeliest</button><button data-tdl="long" aria-pressed="${which==="long"}">Plus money</button></div></div>
-    <p class="topsub">${which==="likely"?"The players most likely to score":"Longer shots (fair odds better than even), leaning to players the stats or research rate above the market"}: the app's touchdown model, blended with Kalshi traders' price and the daily research</p>
+    <p class="topsub">${which==="likely"?"The players most likely to score":"Longer shots (fair odds better than even), listed only when Kalshi traders' chance beats the sportsbook's price, so the list is often short or empty"}: the app's touchdown model, blended with Kalshi traders' price and the daily research</p>
     ${L.length?`<div class="tdpicks">${L.map((c,i)=>{const t=new Date(c.t),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString()),inSlip=slipHas(c.lg,c.id,"td","over",.5);
     const st=c.status?" "+QPILL(c.status):"";
     return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
@@ -1565,7 +1566,7 @@ function renderTop(){
       <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
       <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
+  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
 
 // ---- DraftKings line history (line_hist.json, saved every hour) ----
