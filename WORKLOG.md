@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters page (PR, replaces #20): a 4-step tour on the first visit (`walTour`, `WAL_TOUR`, `.wtour`
+  CSS, `ptWalTour` in localStorage): the three model tabs, This season vs Backtest, the play rows and Details, and where
+  to read more (ⓘ, How it works). Steps point at `data-tour` attributes in `renderWalters`; "Take the page tour" in the
+  ⓘ sheet replays it. Also the footer photo is hidden on the Walters page (one line in `render()`). sw.js pt-v89.
 - **cmags0511**: NBA form uses this season's games only (owner's call), like college: `nba_early` in picks.py, a player
   needs 3 games this season before his recent results count (form = 0 until then; replaces this morning's 40% scaling).
   Until then the NBA Top 10 is usually empty, and the page explains it (renderTop). sw.js pt-v88.
