@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **cmags0511**: NBA form uses this season's games only (owner's call), like college: `nba_early` in picks.py, a player
+  needs 3 games this season before his recent results count (form = 0 until then; replaces this morning's 40% scaling).
+  Until then the NBA Top 10 is usually empty, and the page explains it (renderTop). sw.js pt-v88.
 - **cmags0511**: Pick fixes from the first two weeks of results (owner approved, PR merged):
   - The app opens on Overs + unders (`ptSideV` resets old saved choices once); record.py locks only the full list
     (picks only on the overs list went 16-26, -12.3u; the full list 59-51, -0.3u). The Overs view still works.
