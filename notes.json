@@ -1,533 +1,595 @@
 {
- "updated": "2026-10-21T20:36:19Z",
- "summary": "NBA opening week dominates: Charlotte opens without Coby White and Kon Knueppel, Haliburton returns for Indiana, and Avdija is questionable for Portland. On Thursday night the Bears again expect to be without Monangai while the Patriots' backfield gets Henderson back at full practice.",
+ "updated": "2026-10-22T11:52:11Z",
+ "summary": "Caleb Williams returns at full strength for Thursday night against a Patriots secondary missing three cornerbacks, with Kyle Monangai out again for Chicago; in the NBA, Jarrett Allen's knee leaves Cleveland's frontcourt in doubt at a big-man-short Philadelphia.",
  "notes": {
   "CFB|5222671|ryd": {
    "side": "over",
    "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "Clear lead back for the nation's 8th-ranked rushing offense, 23 carries last week, facing a middling ECU run defense as a 10.5-point home favorite with the total rising.",
+   "note": "Carter had 19 and 23 carries the last two games (132, 135 yards) and averages 111 rush yards; Memphis is a double-digit home favorite. FanDuel 89.5 sits below DraftKings 99.5.",
    "sources": [
     "https://www.covers.com/sport/football/ncaaf/player-props",
-    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173",
-    "https://www.wagertalk.com/news/college-football/east-carolina-vs-memphis-prediction-picks-odds-october-22-2026/",
     "https://roundtable.io/sports/ncaa/memphis/players/takeaways-from-memphis-14-point-loss-against-tulane",
-    "https://abcnews.com/Sports/wireStory/carter-memphis-pull-uab-3rd-win-38-13-137168624"
+    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173"
    ],
    "detail": {
-    "availability": "Not on any injury list in previews; Memphis questionables are the backup QB and kicker, while ECU lists RB Ashton Gray and WR Jeremiah Melvin as questionable.",
-    "role": "Took 23 carries for 135 yards at Tulane and leads the team with 112 carries (16 per game) and 8 rushing TDs; Memphis averages about 238 rushing yards a game.",
-    "matchup": "ECU allows about 139 rushing yards a game (63rd nationally), roughly league-average, and just gave up 30 points to UAB.",
-    "script": "Memphis opened -9.5 and moved to -10.5 with the total up a point; a lead plus ECU's short possessions (26:57 time of possession, 132nd) favors a run-heavy second half after last week's six-turnover passing game.",
-    "market": "Consensus line 89.5 with books ranging up to 99.5 (FanDuel 89.5 at -114); his season average is 111 and he has cleared 89.5 in 5 of 7 games.",
-    "experts": "Previews single out Carter alongside Stokes and Tipton as the core of the Memphis offense; no injury or usage concerns raised."
+    "availability": "No injury listed in the AP preview or post-Tulane recap.",
+    "role": "Lead back: 23 carries for 135 at Tulane, team ran for 176; 780 yards on 112 carries this season.",
+    "matchup": "ECU's run defense ranks mid-pack (71st of 139 in rush yards allowed per the app).",
+    "script": "Memphis favored by 9.5-10.5, so a lead would keep the run game going.",
+    "conditions": "No weather concern found for the Thursday night home game.",
+    "market": "Books split: FanDuel/Caesars/Fanatics 89.5, DraftKings/theScore 99.5.",
+    "experts": "None read."
    }
   },
-  "NBA|4432573|ra": {
+  "CFB|5079354|recyd": {
    "side": "over",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Black being out removes a ball handler, which could put more playmaking on Banchero, but no source quantifies a role change and the line already dropped from 14.5 to 13.5.",
+   "note": "Burnside has cleared 37.5 in four of six games and caught 7 for 151 at Tulane; rising catch count (3, 4, 7 in recent games).",
    "sources": [
-    "https://sports.yahoo.com/articles/magic-rule-4-players-season-224516038.html",
-    "https://www.si.com/betting/hawks-vs-magic-prediction-odds-and-best-prop-bets-for-nba-season-opener-2026"
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://roundtable.io/sports/ncaa/memphis/players/takeaways-from-memphis-14-point-loss-against-tulane"
    ],
    "detail": {
-    "availability": "Banchero is not on the injury report.",
-    "role": "Anthony Black (ankle) is ruled out after missing all preseason; no replacement starter has been named.",
-    "market": "Line opened 14.5 and is now 13.5; no clear reason found for the move."
+    "availability": "No injury report found.",
+    "role": "Recent targets trending up per app logs; 151 yards last game.",
+    "matchup": "ECU allows about league-average receiving yardage (88th of 139).",
+    "script": "Memphis favored; Stokes threw 37 times at Tulane when trailing, fewer if Memphis leads.",
+    "conditions": "None found.",
+    "market": "FanDuel 37.5, DraftKings 41.5, Fanatics 39.5.",
+    "experts": "None read."
    }
   },
-  "NBA|4066320|ra": {
+  "CFB|5165807|pyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Stokes is over 219.5 in five of seven games (avg 263) and threw for 306 at Tulane despite seven sacks; 1,841 yards and 18 TDs this season.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://roundtable.io/sports/ncaa/memphis/players/takeaways-from-memphis-14-point-loss-against-tulane",
+    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173"
+   ],
+   "detail": {
+    "availability": "Starter; no injury listed.",
+    "role": "Full-time starter.",
+    "matchup": "ECU pass defense slightly better than average by the app's numbers (105th of 139 in yards allowed).",
+    "script": "A comfortable Memphis lead could cut his attempts (21 attempts vs UAB, 164 yards).",
+    "conditions": "None found.",
+    "market": "DraftKings 219.5 (+102 over).",
+    "experts": "None read."
+   }
+  },
+  "CFB|5075800|pyd": {
    "side": "under",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Nothing found that changes Bane's role for the opener; Black's absence could add a little ball-handling for him, which argues against pressing the under.",
+   "note": "Williams threw for 143 and 126 in his two FBS starts (Rice, UAB); his 341 came against FCS NC Central. Line 187.5 looks inflated by that game.",
    "sources": [
-    "https://sports.yahoo.com/articles/magic-rule-4-players-season-224516038.html"
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173"
    ],
    "detail": {
-    "availability": "Not on the injury report.",
-    "role": "Orlando is thin at guard with Black out."
+    "availability": "Starter the last three games per app logs.",
+    "role": "655 yards, 7 TDs on the season; 27-31 attempts in recent starts.",
+    "matchup": "Memphis pass defense allows about 180 per game to opposing QBs by the app's numbers.",
+    "script": "ECU a 10-point underdog may throw more if behind, the main risk.",
+    "conditions": "None found.",
+    "market": "FanDuel 187.5, DraftKings 179.5, Fanatics 199.5: wide spread between books.",
+    "experts": "None read."
    }
   },
-  "NBA|2490149|3pm": {
+  "NBA|3992|ra": {
    "side": "under",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "McCollum starts at point guard, but a preview notes he may not reach 35 minutes; nothing concrete on his three-point volume.",
+   "note": "No concrete news on Harden's role for the opener; the only swing factor is Allen's status, which could change Cleveland's pick-and-roll partner but not clearly his volume.",
    "sources": [
-    "https://www.si.com/betting/hawks-vs-magic-prediction-odds-and-best-prop-bets-for-nba-season-opener-2026"
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-21/jarrett-allen-knee-questionable-vs-philadelphia"
    ],
    "detail": {
-    "role": "Starting point guard and Atlanta's second on-ball creator behind Jalen Johnson.",
-    "market": "Kalshi gives the over about 37%.",
-    "experts": "A betting preview likes his scoring, citing his 18-plus points per game with Atlanta last season and Orlando's weakened guard defense without Black."
+    "availability": "Harden is not on Cleveland's injury report for the season opener.",
+    "role": "If Allen sits, Mobley shifts to center and Jaylon Tyson starts, removing Harden's main lob/roll target.",
+    "script": "Market has Cleveland a 3-point road underdog with a total near 236, a near-average-pace game per the preview."
    }
   },
-  "NBA|4566434|pts": {
-   "side": "under",
+  "NBA|4432158|pts": {
+   "side": "over",
    "flag": "caution",
    "adj": 0,
-   "conf": "medium",
-   "note": "Wagner left the preseason finale with a right shoulder injury and the coach said he was still being evaluated after only light work; confirm he plays and has no limit.",
-   "sources": [
-    "https://www.eurohoops.net/en/nba-news/2022805/franz-wagner-noah-penda-updates-orlando-magic-nba/",
-    "https://sports.yahoo.com/articles/magic-rule-4-players-season-224516038.html"
-   ],
-   "detail": {
-    "availability": "Not on the posted injury list, but the shoulder was described as still under evaluation two days before the opener."
-   }
-  },
-  "NBA|3032979|3pm": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Coby White and Kon Knueppel are both ruled out of the opener, so Schroder is expected to step into the starting backcourt with far more minutes than a bench role; one made three clears the line.",
-   "sources": [
-    "https://roundtable.io/sports/nba/hornets/news/what-dennis-schroder-trade-means-for-hornets-rookie-christian-anderson-jr",
-    "https://tixel.com/us/news/2026/10/07/brooklyn-nets-secure-92-73-victory-over-charlotte",
-    "https://www.scoresandstats.com/?p=463516",
-    "https://www.nba.com/news/kon-knueppel-out-season-opener",
-    "https://www.wmbfnews.com/2026/10/21/3-key-hornets-ruled-out-season-opener-against-brooklyn-nets/"
-   ],
-   "detail": {
-    "availability": "Healthy. White (calf) and Knueppel (hamstring) are ruled out for the opener.",
-    "role": "He was acquired in August as White's backup. He is projected to start alongside Grayson Allen, and the packet shows him moved up to starter.",
-    "script": "The Nets are favored by 3.5 with a 219.5 total, a normal-paced game.",
-    "market": "Kalshi has the over at about 65%, above the 52.4% break-even. His assists line of 6.5 shows the book also expects starter minutes."
-   }
-  },
-  "NBA|4395625|pr": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
    "conf": "low",
-   "note": "Barrett carried the scoring in preseason, but Leonard's return adds a high-usage wing and a near double-digit spread brings blowout minutes risk; no clear edge either way.",
+   "note": "Line rose a point from the open against the app's under, likely tied to Allen's questionable tag; if Allen sits, Mobley plays center with more touches, so don't back the under before status is known.",
    "sources": [
-    "https://www.sportsmole.co.uk/basketball/toronto-raptors/preview/chicago-bulls-vs-toronto-raptors-player-props-injury-report-and-prediction--nba_607231.html",
-    "https://roundtable.io/sports/nba/raptors/news/toronto-raptors-bounce-back-against-la-clippers-in-second-preseason-game",
-    "https://www.actionnetwork.com/nba-game/bulls-raptors-score-odds-october-21-2026/295289",
-    "https://www.tsn.ca/nba/article/leonard-available-to-make-first-appearance-in-second-run-with-raptors-on-tuesday/"
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-21/jarrett-allen-knee-questionable-vs-philadelphia"
    ],
    "detail": {
-    "role": "Scored 20 in a preseason win over the Clippers while Leonard sat; averaged about 18 points across four preseason games per a preview.",
-    "script": "Raptors -9.5 and rising; a lopsided game could cut starters' fourth-quarter minutes.",
-    "market": "Line moved up from 23.5 to 24.5, away from the over; points line around 18.5.",
-    "experts": "One preview leans toward Barrett's points over on preseason form and an expected heavy early workload."
-   }
-  },
-  "NBA|2595516|ast": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Chicago is short-handed (Claxton and Hawkins out), but Giddey runs the offense and nothing specific points to more creation from Powell.",
-   "sources": [
-    "https://www.sportsmole.co.uk/basketball/toronto-raptors/preview/chicago-bulls-vs-toronto-raptors-player-props-injury-report-and-prediction--nba_607231.html",
-    "https://www.actionnetwork.com/nba-game/bulls-raptors-score-odds-october-21-2026/295289"
-   ],
-   "detail": {
-    "availability": "Powell has no designation; Claxton (hamstring) and Hawkins (illness) are out.",
-    "market": "Kalshi about 56% over, above break-even, with no line move."
-   }
-  },
-  "NBA|1966|pra": {
-   "side": "under",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "In his 76ers debut, LeBron shared the ball with Maxey, Brown and Embiid and finished with 30 PRA (14/9/7) in 34 minutes, under 30.5. His last-10 average of 37.2 reflects a bigger Lakers role.",
-   "sources": [
-    "https://www.cbssports.com/nba/news/lebron-james-76ers-debut-grades-knicks-banner-rings-nba-opening-night/",
-    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more"
-   ],
-   "detail": {
-    "availability": "Healthy. He played 34 minutes on Tuesday, and Thursday's game comes after one day of rest.",
-    "role": "He was introduced as the fifth starter and worked as a secondary initiator. He took 13 shots while Maxey led the scoring with 28.",
-    "market": "The line rose from 29.5 to 30.5, and the market's component lines (15.5 points) already show a smaller scoring role."
+    "availability": "Mobley is healthy; teammate Jarrett Allen is questionable with right patellar tendinopathy and Khalifa Diop is out, thinning Cleveland's frontcourt.",
+    "role": "Rotoworld/NBC and TheSpread both project Mobley sliding to center if Allen is out, with Tyson entering the lineup.",
+    "matchup": "Philadelphia is missing Hukporti, Barlow and Fall, leaving Embiid, Bona and Jabari Walker as the bigs, with LeBron used at center in spots.",
+    "market": "Packet line moved 17.5 to 18.5 toward the over, which fits the Allen uncertainty; Kalshi near 41% still leans under, so the two signals conflict."
    }
   },
   "NBA|3917376|pr": {
    "side": "over",
    "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "Brown had 19 points and 8 rebounds (27 Pts + Reb) in the opener, clearing 25.5. Sharing usage with three other stars makes his Boston-era average of 32.2 an overstatement. No clear edge.",
-   "sources": [
-    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more"
-   ],
-   "detail": {
-    "role": "He started and took a secondary scoring role behind Maxey, finishing with 19 points, 8 rebounds and 6 assists."
-   }
-  },
-  "NBA|3202|pa": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Durant is healthy and started the preseason opener (15 points, 2 assists in 23 minutes). VanVleet's return likely trims the assist load behind his last-10 average, and the line dropped from 28.5 to 27.5.",
-   "sources": [
-    "https://www.si.com/nba/rockets/onsi/update-on-kevin-durant-for-rockets-second-preseason-game-01m4h5xgc45r",
-    "https://lastwordonsports.com/basketball/2026/10/09/rockets-preseason-dal/"
-   ],
-   "detail": {
-    "availability": "He sat the second preseason game by the coach's decision, with no injury reported.",
-    "role": "VanVleet is back running the offense, and Sengun had a triple-double in the preseason opener, so Durant's playmaking role from last season, played without VanVleet, may shrink.",
-    "market": "The line fell from 28.5 to 27.5. His assists line is 3.5, against a last-10 average of 6.6."
-   }
-  },
-  "NBA|4432639|pra": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
    "conf": "low",
-   "note": "Smith starts, but his last-10 average of 27.5 came without VanVleet, and Tari Eason is back as the first big off the bench. The book's component lines (12.5 points) suggest a smaller role. No edge either way.",
+   "note": "In the opener Brown shared usage with Maxey, Embiid and LeBron yet still rebounded well; PHI's big-man shortage helps his boards, but nothing concrete beyond one game.",
    "sources": [
-    "https://lastwordonsports.com/basketball/2026/10/09/rockets-preseason-dal/"
+    "https://thesportsencounter.com/2026/10/21/76ers-knicks-106-100-maxey-brown-banner-night-october-2026/",
+    "https://nbcsportsphiladelphia.com/nba/philadelphia-76ers/sixers-vs-knicks-nba-opening-night-analysis-tyrese-maxey-lebron-james/760141"
    ],
    "detail": {
-    "role": "VanVleet's return and a healthy Eason add touches and frontcourt minutes that were not there for most of last season.",
-    "market": "The line is unchanged at 20.5, well under his last-10 average, which suggests the book expects a lower usage share."
+    "availability": "Brown is not on Philadelphia's injury report.",
+    "role": "In the opener at New York he went 19 points, 8 rebounds and 6 assists as one of four high-usage starters, with Maxey taking the most shots.",
+    "matchup": "Philadelphia has three bigs out, which leaves wings like Brown to help on the glass.",
+    "market": "Line moved from 25.5 to 26.5, toward the over."
    }
   },
-  "NBA|3936299|reb": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Murray is healthy and Strawther's absence trims Denver's guard depth slightly, but nothing points to a change in his rebounding role.",
-   "sources": [
-    "https://www.cbssports.com/nba/teams/DEN/denver-nuggets/"
-   ],
-   "detail": {
-    "availability": "No injury concerns; scored a team-high 21 in the preseason finale.",
-    "script": "OKC -8.5; a lopsided game could cut starters' minutes."
-   }
-  },
-  "NBA|4593803|3pm": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Williams played in the opener (12 points on 5-of-16) after returning from injury; no minutes restriction was reported.",
-   "sources": [
-    "https://sports.yahoo.com/articles/healthy-thunder-statement-beat-spurs-052144907.html",
-    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
-    "https://www.news9.com/oklahoma-city-thunder/okc-thunder-spurs-116-104-shai-gilgeous-alexander-season-opener-2026"
-   ],
-   "detail": {
-    "role": "Starting; described as returning in the opener; McCain's six threes show other shooters getting looks."
-   }
-  },
-  "NBA|4278073|ast": {
+  "NBA|5124612|pa": {
    "side": "under",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Gilgeous-Alexander had 4 assists in the opener while scoring 32, and Kalshi is under 45% on the over; one game is not enough for a call.",
+   "note": "Opening-night coverage praised Edgecombe's defense on Brunson and Anunoby but said he is still finding his spots on offense next to four ball-dominant stars.",
    "sources": [
-    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
-    "https://www.news9.com/oklahoma-city-thunder/okc-thunder-spurs-116-104-shai-gilgeous-alexander-season-opener-2026"
+    "https://www.inquirer.com/sixers/live/sixers-knicks-updates-news-lebron-james-jalen-brunson-schedule-highlights-20261020.html",
+    "https://nbcsportsphiladelphia.com/nba/philadelphia-76ers/sixers-vs-knicks-nba-opening-night-analysis-tyrese-maxey-lebron-james/760141"
    ],
    "detail": {
-    "role": "Took 27 shots in the opener and had 4 assists; McCain's six threes show secondary scoring off the bench.",
-    "market": "Kalshi 44% on the over, below the app; line steady at 6.5."
+    "role": "Recaps of the opener highlight his defensive assignment rather than his scoring, and Simons took a big bench shooting load (13 points), which crowds the backcourt.",
+    "experts": "Inquirer live coverage described him as still searching for offensive spots in the new lineup."
    }
   },
-  "NBA|4066436|ast": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "With Podziemski out Melton should get extra guard minutes, but no source confirmed he starts or what his role will be.",
-   "sources": [
-    "https://www.newsweek.com/sports/nba/warriors-make-stephen-curry-injury-announcement-before-lakers-opener-12597114",
-    "https://ftnfantasy.com/nba/player/deanthony-melton/news"
-   ],
-   "detail": {
-    "availability": "Melton is not on the injury report; Podziemski (back) is out.",
-    "role": "Re-signed on a two-year deal in July; made 24 starts in 49 games last season at about 23 minutes."
-   }
-  },
-  "NBA|4395628|ast": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Dejounte Murray is expected back from a toe injury to run the offense, and Zion played 22 minutes in his last preseason game; no concrete sign his playmaking role is growing or shrinking.",
-   "sources": [
-    "https://fieldlevelmedia.com/nba/tyrese-haliburton-to-make-regular-season-return-as-pacers-face-pelicans/"
-   ],
-   "detail": {
-    "availability": "Zion is not on the injury report.",
-    "role": "Mosley has pushed Zion to shoot more threes; nothing reported on his passing role.",
-    "script": "Indiana's coach expects a physical, fast-paced game."
-   }
-  },
-  "NBA|4395712|ast": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Haliburton is cleared and back as the lead playmaker, which cuts into Nembhard's assists, but backup point guard McConnell and Nesmith are out, which may keep his ball-handling minutes up.",
-   "sources": [
-    "https://sports.yahoo.com/articles/pacers-lose-2-rotation-players-214133768.html",
-    "https://fieldlevelmedia.com/nba/tyrese-haliburton-to-make-regular-season-return-as-pacers-face-pelicans/"
-   ],
-   "detail": {
-    "availability": "Haliburton is off the injury report after playing the last two exhibitions (24 and 17 points); McConnell is also out, which keeps some backup handling with Nembhard.",
-    "role": "Haliburton, Nembhard, Siakam and Zubac were the projected core starters, with Nesmith out.",
-    "market": "Kalshi gives the over about 40%."
-   }
-  },
-  "NBA|4277905|ra": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Young played as a pass-first initiator in preseason, with 8 first-quarter assists in 23 minutes against Detroit. The line rose from 11.5 to 12.5, against the app's under. No clear edge.",
-   "sources": [
-    "https://roundtable.io/sports/nba/wizards/players/trae-youngs-early-playmaking-shines-in-wizards-preseason-win"
-   ],
-   "detail": {
-    "availability": "No injury listed. Dybantsa (ankle) is out for Washington.",
-    "role": "In the Oct 10 preseason game he had 8 assists, all in the first quarter, over 23 minutes, and the coach praised his willingness to push the ball ahead.",
-    "market": "The line opened 11.5 and is now 12.5. That move runs against the app's under lean, and his last-10 sample comes from a disrupted 2025-26 season."
-   }
-  },
-  "NBA|2528210|pr": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Projected first guard off the bench as a spacer; Klay Thompson's cold preseason and Larsson's illness could open minutes, but nothing concrete on his minutes yet.",
-   "sources": [
-    "https://fansided.com/nba/projected-miami-heat-starting-lineup-rotation-with-klay-thompson-joining-giannis-company",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-03/tim-hardaway-jr-doesnt-miss-vs-toronto",
-    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/",
-    "https://www.actionnetwork.com/nba-game/timberwolves-heat-score-odds-october-21-2026/295139"
-   ],
-   "detail": {
-    "availability": "No injury designation for Hardaway; Larsson (illness) and Adebayo (groin) both expected to play.",
-    "role": "Previews project him as the first backcourt reserve signed for spacing next to Giannis and Adebayo; he went 4-for-4 in his preseason debut.",
-    "script": "Near pick'em with a 243.5 total, so no blowout minutes risk is priced in.",
-    "market": "Line opened 12.5 and is now 11.5, a move toward the over; no Kalshi price."
-   }
-  },
-  "NBA|6475|3pm": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Thompson went 3-for-20 from three in preseason, though Spoelstra backed his role and he stays in the lineup; slump alone is thin evidence.",
-   "sources": [
-    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/"
-   ],
-   "detail": {
-    "role": "Starting at shooting guard; coach publicly supportive after the cold preseason.",
-    "market": "Kalshi near 50% on the over."
-   }
-  },
-  "NBA|4066261|reb": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Adebayo sat the final two preseason games with groin tightness; he expects to play but said he would be careful, so minutes could be trimmed. He is not on Miami's injury report for the opener.",
-   "sources": [
-    "https://bolavip.com/en/nba/bam-adebayo-provides-major-injury-update-ahead-of-heat-vs-timberwolves-2026-nba-season-opener",
-    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/",
-    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
-   ],
-   "detail": {
-    "availability": "Missed last two preseason games (right groin tightness); says he should be ready for the opener."
-   }
-  },
-  "NBA|4683021|reb": {
+  "NBA|1966|pa": {
    "side": "under",
    "flag": "caution",
    "adj": 0,
-   "conf": "medium",
-   "note": "Avdija is questionable with right ankle soreness and his status is unclear until shootaround; if he plays, minutes could be managed, but there is no basis for a confident call.",
-   "sources": [
-    "https://ripcityproject.com/deni-avdija-injury-force-jrue-holiday-move-forward-blazers",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-20/deni-avdija-ankle-questionable-vs-phoenix",
-    "https://heavy.com/sports/nba/portland-trail-blazers/deni-avdija-injury-suns/"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the official report; practice status not reported.",
-    "role": "Coach Nori calls him the centerpiece; Lillard and Morant now share the ball-handling.",
-    "market": "Book's no-vig chance on the over (53%) sits above Kalshi (43%); rebound line steady at 6.5."
-   }
-  },
-  "NBA|4683021|pa": {
-   "side": "over",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with ankle soreness, and Lillard and Morant returning to share creation; uncertain status means no support for his over.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-20/deni-avdija-ankle-questionable-vs-phoenix",
-    "https://www.bleachernation.com/picks/2026/10/21/trail-blazers-vs-suns-predictions-best-bets-and-odds-wednesday-october-21-2026/",
-    "https://www.thefan1075.com/2026/10/20/damian-lillard-ja-morant-lead-new-look-blazers-vs-suns/"
-   ],
-   "detail": {
-    "availability": "Questionable, right ankle soreness.",
-    "role": "Lillard (back from Achilles) and Morant both start, adding ball-dominant guards.",
-    "market": "Current previews list his points at 21.5, a point below the packet's 22.5."
-   }
-  },
-  "NBA|5105565|ra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
    "conf": "low",
-   "note": "Clingan starts at center; nothing new on his role beyond the projected lineup, though two ball-dominant guards may cap his assist chances.",
+   "note": "The app's average reflects LeBron's Lakers role; in his Sixers debut he finished 14 points and 7 assists as a facilitator behind Maxey, Brown and Embiid, short of this line.",
    "sources": [
-    "https://ripcityproject.com/deni-avdija-injury-force-jrue-holiday-move-forward-blazers",
-    "https://www.thefan1075.com/2026/10/20/damian-lillard-ja-morant-lead-new-look-blazers-vs-suns/"
+    "https://thesportsencounter.com/2026/10/21/76ers-knicks-106-100-maxey-brown-banner-night-october-2026/",
+    "https://www.inquirer.com/sixers/live/sixers-knicks-updates-news-lebron-james-jalen-brunson-schedule-highlights-20261020.html"
    ],
    "detail": {
-    "role": "Projected starter at center alongside Lillard, Morant, Camara and Avdija."
+    "availability": "Not on the injury report; no minutes limit has been reported.",
+    "role": "Opener recaps describe him as mainly a playmaker and rebounder, with Maxey (28) and Brown carrying the scoring; he was at 5 points at halftime.",
+    "market": "Line moved up from 22.5 to 23.5 toward the over, which runs against his first-game role, so treat the app's over with care."
    }
   },
-  "NBA|5105565|3pm": {
+  "NBA|4432158|reb": {
    "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No new information on his three-point volume this preseason; market already near the app.",
-   "sources": [
-    "https://www.thefan1075.com/2026/10/20/damian-lillard-ja-morant-lead-new-look-blazers-vs-suns/"
-   ],
-   "detail": {
-    "market": "Kalshi 62.5% and book 61.7%, in line with each other."
-   }
-  },
-  "NBA|3995|pra": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Holiday comes off the bench behind Lillard and Morant and sat the preseason finale with hand swelling; the low line reflects that, though an Avdija absence could push him into the lineup.",
-   "sources": [
-    "https://www.thefan1075.com/2026/10/20/damian-lillard-ja-morant-lead-new-look-blazers-vs-suns/",
-    "https://ripcityproject.com/deni-avdija-injury-force-jrue-holiday-move-forward-blazers",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-20/deni-avdija-ankle-questionable-vs-phoenix",
-    "https://www.bleachernation.com/picks/2026/10/21/trail-blazers-vs-suns-predictions-best-bets-and-odds-wednesday-october-21-2026/"
-   ],
-   "detail": {
-    "availability": "Missed the preseason finale with right-hand swelling; X-ray negative.",
-    "role": "Bench role now that Lillard is back; likely starter at forward if Avdija sits.",
-    "market": "Current points line 12.5, well below his recent averages, which the guard-heavy rotation explains."
-   }
-  },
-  "NBA|4066648|pr": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Hachimura scored 21 in 15 minutes in his Clippers debut and led the team with 16 in the preseason finale, with Beal and Strus out. The line rose from 24.5 to 25.5, against the app's under. No clear edge.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-05/rui-hachimura-drops-21-in-clippers-debut",
-    "https://www.rotoballer.com/?p=1966836"
-   ],
-   "detail": {
-    "role": "He is a starter and looked like a primary scorer in preseason, with Beal and Strus sidelined.",
-    "matchup": "Sacramento is missing big men Cardwell and Raynaud, which may open rebounds.",
-    "market": "The line rose from 24.5 to 25.5, against the app's under lean."
-   }
-  },
-  "NFL|00-0036875|car": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Stevenson is healthy and keeps the passing-down and goal-line work, but TreVeyon Henderson was a full practice participant Monday and Tuesday, so a three-way split with Kiner can cap his carries.",
-   "sources": [
-    "https://www.bostonglobe.com/2026/10/20/sports/patriots-snap-counts-corey-kiner/",
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-10-18/rhamondre-bottled-up-for-36-yards-vs-jets",
-    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
-    "https://sports.yahoo.com/articles/patriots-vs-bears-tuesday-injury-222804740.html"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; full participant status not in question.",
-    "role": "60% snap share in Week 6 (41 snaps); Henderson fumbled and did not touch the ball again, while Kiner took 8 straight fourth-quarter carries as the hot hand.",
-    "matchup": "Chicago ranks 26th in yards per carry allowed to backs and 27th in explosive run rate; LBs T.J. Edwards and Jack Sanborn did not practice Monday or Tuesday, and Montez Sweat is suspended.",
-    "script": "New England is a 3-point underdog with a 23.75 implied total, so a trailing script could cut late carries.",
-    "conditions": "Mild, low wind at Soldier Field.",
-    "market": "Line fell from 11.5 to 10.5, which fits Kiner's emergence taking a share; book no-vig chance is about 49%."
-   }
-  },
-  "NFL|00-0032464|rec": {
-   "side": "under",
-   "flag": "neutral",
+   "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "Raymond has only 7 catches over the last three games on route rates between 45% and 61%, and Burden, Loveland and Odunze lead the targets now that Williams is back.",
+   "note": "Philadelphia is missing three bigs, and if Allen sits Mobley plays center; two previews back his rebounds, and their consensus line is 9.5, a point above the packet.",
    "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/"
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
+    "https://www.sportsmole.co.uk/basketball/cleveland-cavaliers/preview/cleveland-cavaliers-vs-philadelphia-76ers-player-props-injury-report-and-prediction--nba_607342.html"
    ],
    "detail": {
-    "role": "Two catches for 18 yards in Williams' return; Burden had 8 targets and Loveland 7.",
-    "market": "Kalshi and the book sit near 50% on the over."
+    "availability": "Allen questionable (patellar tendinopathy) and Diop out leave Mobley as Cleveland's main big if Allen sits.",
+    "role": "Rotoworld/NBC and TheSpread both project Mobley at center without Allen.",
+    "matchup": "Hukporti (season-ending Achilles), Barlow (back) and Fall (quad) are out for Philadelphia, which turned to Jabari Walker and LeBron at center in the opener.",
+    "market": "Previews quote 9.5 (10+ at +110) versus the packet's 8.5; Kalshi about 52% on the over at 8.5, right at the break-even.",
+    "experts": "Sports Mole and TheSpread both pick the over, citing Philadelphia's lack of size and Mobley's bigger role if Allen is out; TheSpread notes the angle depends on Allen sitting."
+   }
+  },
+  "NBA|1966|reb": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Philadelphia down three bigs, LeBron played small-ball center stretches and grabbed 9 boards in the opener; the frontcourt shortage is unchanged for Thursday.",
+   "sources": [
+    "https://nbcsportsphiladelphia.com/nba/philadelphia-76ers/sixers-vs-knicks-nba-opening-night-analysis-tyrese-maxey-lebron-james/760141",
+    "https://www.phillyvoice.com/sixers-news-analysis-injury-report-vs-cavs-cavaliers-status-dean-wade-nick-nurse-nba-rumors-schedule-scores/"
+   ],
+   "detail": {
+    "availability": "Barlow, Fall and Hukporti remain out for Philadelphia and Wade is questionable, per the team injury report.",
+    "role": "NBC Sports Philadelphia reports he finished the first half at center and that Nurse may keep using that look; he had 9 rebounds at New York.",
+    "matchup": "Cleveland's frontcourt is thinner if Allen sits, but Mobley remains an elite rebounder."
+   }
+  },
+  "NBA|4066328|pts": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Allen is questionable with right patellar tendinopathy for the opener; check that he is active before acting on any of his props.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-21/jarrett-allen-knee-questionable-vs-philadelphia",
+    "https://www.sportsgambler.com/betting-tips/basketball/cleveland-cavaliers-vs-philadelphia-76ers-prediction-odds-6014364/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right patellar tendinopathy) on Cleveland's report; Rotoworld says Tyson would start if he sits.",
+    "experts": "Sportsgambler picks Allen over 12.5 points, citing his recent road scoring, but the pick predates any status update."
+   }
+  },
+  "NBA|4593803|pra": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Williams went 12/7/2 (21 PRA) in the opener as McCain soaked up perimeter shots, and he is coming off a 33-game season; one preview backs his points under.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
+    "https://www.sportsgambler.com/betting-tips/basketball/denver-nuggets-vs-oklahoma-city-thunder-prediction-odds-6014365/",
+    "https://sports.yahoo.com/articles/jalen-williams-injury-okc-thunder-231254826.html"
+   ],
+   "detail": {
+    "availability": "Healthy since June by his own account at media day, with no restriction mentioned; he played only 33 games last season because of a wrist injury and two hamstring strains.",
+    "role": "He started at SF in the opener and finished with 12 points, 7 rebounds and 2 assists, while McCain hit 6 of 8 threes for 20 points as the second scorer behind Gilgeous-Alexander.",
+    "script": "OKC is about an 8.5-point home favorite, so a comfortable lead could cut starters' fourth-quarter minutes.",
+    "market": "Current previews list his points at 18.5 with the under priced more heavily than the over, which agrees with the app's lean.",
+    "experts": "One betting preview's top prop is his points under, pointing to his low scoring over his last four games."
+   }
+  },
+  "NBA|4278073|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Previews list his points at 29.5-30.5 rather than 31.5, and some pick the over there; the higher number makes this a toss-up, with no news pointing either way.",
+   "sources": [
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html",
+    "https://www.sportsgambler.com/betting-tips/basketball/denver-nuggets-vs-oklahoma-city-thunder-prediction-odds-6014365/"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "He scored 32 on 27 shots in the opener, and with Dort, Wiggins and Joe gone, previews expect even more of the scoring to run through him.",
+    "script": "As an 8.5-point favorite, OKC could rest him late if the game gets out of hand, which caps his ceiling.",
+    "market": "The packet line is 31.5, up from a 30.5 open, while current previews quote 30.5 and 29.5; Kalshi has the over at 43% at 31.5, below break-even.",
+    "experts": "One preview takes his over at 29.5, citing his MVP scoring rate and the thinner roster; nobody argues for the over at 31.5."
+   }
+  },
+  "NBA|3138196|pts": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He is a confirmed starter and the line dropped a point, but he averaged only 10 in the preseason and DeRozan now leads the bench's shot-taking.",
+   "sources": [
+    "https://roundtable.io/sports/nba/nuggets/players/predicting-nuggets-full-rotation-for-opening-night-vs-thunder",
+    "https://www.denverstiffs.com/preview-denver-nuggets-open-the-season-against-the-oklahoma-city-thunder/",
+    "https://www.lineups.com/articles/nuggets-thunder-nba-picks-predictions-odds-for-thursday-october-22-2026/"
+   ],
+   "detail": {
+    "availability": "Healthy, and projected to start at SF in every preview.",
+    "role": "He averaged 10 points in the preseason; DeRozan comes off the bench as the main scorer when Jokic sits, which competes for the same shots.",
+    "matchup": "OKC had the league's best defense by points per 100 possessions last season.",
+    "market": "The line opened at 13.5 and is now 12.5, moving toward the over."
+   }
+  },
+  "NBA|4431767|reb": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Several previews confirm Braun is starting, he averaged 4 rebounds in the preseason, OKC was a weak rebounding team last year, and Kalshi has the over at 57%.",
+   "sources": [
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html",
+    "https://roundtable.io/sports/nba/nuggets/players/predicting-nuggets-full-rotation-for-opening-night-vs-thunder",
+    "https://si.com/betting/nba-best-bets-today-predictions-prop-bets-for-nikola-jokic-nuggets-vs-thunder-tyrese-maxey"
+   ],
+   "detail": {
+    "availability": "Healthy; injuries limited him last season but he is not on the report.",
+    "role": "Multiple previews list him in Denver's starting five next to Murray, Johnson, Gordon and Jokic; he averaged 4.0 rebounds in the preseason despite some debate about his spot.",
+    "matchup": "OKC ranked 22nd in rebound percentage last season and gave up 13 boards to Wembanyama in its opener.",
+    "market": "Kalshi has the over at 57%, above the 52.4% break-even, and the line has not moved from its open."
+   }
+  },
+  "NBA|4593803|pts": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "He scored 12 in the opener while McCain took a bigger scoring role, and a preview's top prop is this under at 18.5, where the under is the more expensive side.",
+   "sources": [
+    "https://www.sportsgambler.com/betting-tips/basketball/denver-nuggets-vs-oklahoma-city-thunder-prediction-odds-6014365/",
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players"
+   ],
+   "detail": {
+    "role": "He scored 12 in the opener while McCain scored 20 on 6-of-8 from three.",
+    "market": "The under at 18.5 is priced around -123 against -110 for the over.",
+    "experts": "One preview picks the under, citing his recent scoring dip."
+   }
+  },
+  "NBA|3112335|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "SI's preview takes the over because OKC rebounds poorly, but Jokic played only about 21 minutes a game in the preseason, so his opener workload is unclear.",
+   "sources": [
+    "https://si.com/betting/nba-best-bets-today-predictions-prop-bets-for-nikola-jokic-nuggets-vs-thunder-tyrese-maxey",
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html"
+   ],
+   "detail": {
+    "matchup": "OKC ranked 22nd in rebound percentage last season; Jokic averaged 13.5 rebounds over his last 10 games against them.",
+    "conditions": "This is Denver's opener, and he played only about 21 minutes per preseason game.",
+    "experts": "SI's best-bets column takes the over at 12.5."
+   }
+  },
+  "NBA|3978|pts": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "In his first season off the bench, DeRozan is set to run the second unit as its main scorer, but how many minutes he gets is unknown before the opener.",
+   "sources": [
+    "https://www.denverstiffs.com/preview-denver-nuggets-open-the-season-against-the-oklahoma-city-thunder/",
+    "https://roundtable.io/sports/nba/nuggets/players/predicting-nuggets-full-rotation-for-opening-night-vs-thunder"
+   ],
+   "detail": {
+    "role": "Previews describe him as the focus of Denver's bench offense and the secondary creator when Jokic sits; he outscored Braun in the preseason.",
+    "market": "Kalshi has the over at 48.6%, close to a coin flip."
+   }
+  },
+  "NBA|4845367|ra": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "In the three-guard lineup Fox and Harper handle the ball, and Castle had 7 rebounds but 1 assist in the opener while scoring 24.",
+   "sources": [
+    "https://www.espn.com/nba/story/_/id/50199096/spurs-start-3-guard-lineup-season-opener-vs-thunder",
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players"
+   ],
+   "detail": {
+    "role": "Starts next to Fox and Harper; coach Mitch Johnson wants his five best players starting, so this structure likely holds while Harris is out.",
+    "experts": "Box-score recaps show Castle as the scorer and Fox/Harper as playmakers (7 and 5 assists)."
+   }
+  },
+  "NBA|4395630|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Vassell started but managed 7 points and 3 rebounds in 31 minutes, and Rotowire flags that Castle, Harper and Fox's large roles could cut his shots; it's only one game.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/basketball/players/3041409/devin-vassell",
+    "https://www.espn.com/nba/story/_/id/50199096/spurs-start-3-guard-lineup-season-opener-vs-thunder"
+   ],
+   "detail": {
+    "availability": "No injury designation.",
+    "role": "Fourth on the team in minutes (31) but 2-of-8 shooting; the three-guard group takes a big share of the shots.",
+    "experts": "Rotowire (via CBS) notes his shot volume may shrink this season."
+   }
+  },
+  "NBA|4066259|ra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Fox had 7 rebounds and 7 assists as lead handler in the opener; it's one game, so no edge yet.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players"
+   ],
+   "detail": {
+    "role": "Primary playmaker in the three-guard starting group."
+   }
+  },
+  "NBA|4065648|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Tatum shot 6 of 23 in the opener while George scored 38, but a preview treats 20.5 as his points line, far below 26.5, so the number needs checking.",
+   "sources": [
+    "https://sports.yahoo.com/articles/jayson-tatums-rough-celtics-opener-104916551.html",
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html"
+   ],
+   "detail": {
+    "availability": "No restriction reported; he is back from the Achilles injury that cost him the first 62 games last season.",
+    "role": "Opener: 13 points on 6-of-23 (0-of-7 from three) with 11 assists, while George had a franchise-record 38 in his Celtics debut; Tatum averaged 21 in two preseason games.",
+    "script": "The total is about 223.5 and the Celtics are favored by 2.5, which points to a slower, lower-scoring game.",
+    "market": "One preview treats Tatum points over 20.5 as a prop to watch, well below the packet's 26.5; Kalshi has the over at 45% at 26.5. Confirm the live line before acting.",
+    "experts": "Sportsmole leaves him out of its picks and only flags the over at 20.5 if his shooting improves."
+   }
+  },
+  "NBA|3136195|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Towns had 19 and 12 in only about 24 foul-limited minutes in the opener; the slow projected script favors the under, but a clean game would push him past it.",
+   "sources": [
+    "https://thekotshow.substack.com/p/knicks-vs-76ers-player-stats-breakdown-oct-20-2026",
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html"
+   ],
+   "detail": {
+    "availability": "Healthy; foul trouble held him to about 23.5 minutes in the opener.",
+    "role": "Opener: 19 points and 12 rebounds; Drummond played 24 minutes and grabbed 14 rebounds while Towns sat.",
+    "script": "The total of 223.5 is low, and Sportsmole picks the under on it.",
+    "market": "The line moved up from 30.5 to 31.5, away from the under.",
+    "experts": "Sportsmole picks Towns over 10.5 rebounds."
+   }
+  },
+  "NBA|3062679|ast": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hart had 3 assists in the opener, and with Drummond running offense from the elbow there is no fresh news on his playmaking role.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more",
+    "https://thekotshow.substack.com/p/knicks-vs-76ers-player-stats-breakdown-oct-20-2026"
+   ],
+   "detail": {
+    "role": "Opener: 14 points, 7 rebounds and 3 assists; when Towns sat, Mike Brown ran the offense through Drummond at the elbow.",
+    "market": "Kalshi has the over at 60%, above break-even."
+   }
+  },
+  "NBA|3147657|ra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "I found no role or availability news for Bridges beyond a quiet 4-point opener on 8 shots.",
+   "sources": [
+    "https://thekotshow.substack.com/p/knicks-vs-76ers-player-stats-breakdown-oct-20-2026"
+   ],
+   "detail": {
+    "role": "He scored 4 points on 8 shots in the opener; I found no rebound or assist numbers for him."
+   }
+  },
+  "NBA|4066354|ra": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "As sixth man in the opener Pritchard had 17 points and 8 assists, and with Devin Carter out with mono Boston has one fewer backup guard.",
+   "sources": [
+    "https://sports.yahoo.com/articles/celtics-notebook-mitchell-robinson-status-103042871.html",
+    "https://www.nbcsportsboston.com/nba/boston-celtics/live-updates-celtics-pistons-highlights-video-jayson-tatum/808480/",
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html"
+   ],
+   "detail": {
+    "availability": "Healthy.",
+    "role": "The beat notebook says he is back in the sixth-man role and was one of Boston's best players in the opener, with 17 points and 8 assists; Carter, another backup guard, is out indefinitely with mononucleosis.",
+    "script": "The spread is close, about 2.5 points, so a blowout is unlikely to cut his minutes.",
+    "conditions": "Both teams had two days off after Tuesday openers."
+   }
+  },
+  "NBA|4066354|ast": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Pritchard had 8 assists running the second unit in the opener, and Carter's absence keeps the backup ball-handling with him.",
+   "sources": [
+    "https://sports.yahoo.com/articles/celtics-notebook-mitchell-robinson-status-103042871.html"
+   ],
+   "detail": {
+    "role": "8 assists in the opener as sixth man.",
+    "market": "Kalshi has the over at 57%, above break-even."
+   }
+  },
+  "NBA|4065648|ast": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Tatum handed out 11 assists in the opener while his shot was off, and George's scoring gives him another target to pass to.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513682-paul-george-sets-celtics-record-debut-vs-pistons-box-score-stats-highlights-tatum-cade",
+    "https://sports.yahoo.com/articles/jayson-tatums-rough-celtics-opener-104916551.html"
+   ],
+   "detail": {
+    "role": "He had 11 assists against Detroit next to George's 38-point debut.",
+    "market": "Kalshi has the over at 56.5%, above break-even."
+   }
+  },
+  "NBA|4351852|reb": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Robinson played only 18 minutes with 3 rebounds in the opener, behind Queta's 22, and tweaked his ankle, though he said it was minor.",
+   "sources": [
+    "https://sports.yahoo.com/articles/celtics-notebook-mitchell-robinson-status-103042871.html",
+    "https://bleacherreport.com/articles/25513682-paul-george-sets-celtics-record-debut-vs-pistons-box-score-stats-highlights-tatum-cade"
+   ],
+   "detail": {
+    "availability": "He rolled his ankle early in the opener but stayed in, and the team describes it as minor.",
+    "role": "He started but played 18 minutes, with Queta at 22 and Garza at 8; he finished with 3 rebounds."
+   }
+  },
+  "NFL|00-0039919|rec": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Odunze has three or fewer catches in all but one 2026 game and drew just 4 targets in Williams' 30-of-36 return as Burden and Loveland soaked up the short work.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/643282/rome-odunze-quiet-day-despite-qbs-success/",
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/",
+    "https://ats.io/nfl/patriots-vs-bears-thursday-night-football-player-props-10-22-2026/"
+   ],
+   "detail": {
+    "role": "In Week 6 Burden went 8-for-8 and Loveland had 7 targets while Odunze caught 3 of 4; he is the deep option (about 14.7-yard aDOT), which caps catch volume.",
+    "matchup": "New England is down three corners, so a softer secondary is the main risk to the under, but Gonzalez is healthy and the likely assignment for the top outside receiver.",
+    "market": "Kalshi has the over near 40%; book_p near 59% suggests the sportsbook price leans over, so the sides disagree and this is not a strong call.",
+    "experts": "A model preview likes his deep-ball TD chance rather than catch volume; a fantasy writeup called his output modest given the QB's big day."
    }
   },
   "NFL|00-0039918|cmp": {
    "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Williams completed 30 of 36 in his return on a screen-heavy, short-throw plan, but the line already rose from 19.5 to 20.5 to reflect it.",
-   "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://ats.io/nfl/patriots-vs-bears-thursday-night-football-player-props-10-22-2026/"
-   ],
-   "detail": {
-    "availability": "Healthy and starting after missing Weeks 3 to 5.",
-    "role": "Screens on 22% of plays and a league-low 2.9 air yards per attempt last week.",
-    "matchup": "New England ranks 25th in completion rate allowed (66.2%).",
-    "market": "Line moved up a full completion since open."
-   }
-  },
-  "NFL|00-0035676|recyd": {
-   "side": "over",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Brown was limited Monday and Tuesday with the ankle, though he says he will play; he drew a third of targets in his return but caught 3 for 27 with two drops.",
-   "sources": [
-    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
-    "https://sports.yahoo.com/articles/patriots-j-brown-playing-vs-000113904.html",
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/"
-   ],
-   "detail": {
-    "availability": "Limited both days on the official report; told reporters he is good to go.",
-    "role": "Ran a route on 97% of dropbacks with 10 targets in Week 6.",
-    "matchup": "Chicago allows a league-high 11.8 yards per target to outside receivers."
-   }
-  },
-  "NFL|00-0040734|car": {
-   "side": "under",
-   "flag": "neutral",
+   "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "Henderson lost a third-quarter fumble and never touched the ball again as Kiner took over late work; he played only 24% of snaps.",
+   "note": "New England has ruled out three cornerbacks and may drop to base or three-safety looks, and Williams completed 30 of 36 in his first game back.",
    "sources": [
-    "https://www.bostonglobe.com/2026/10/20/sports/patriots-snap-counts-corey-kiner/",
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-five-players-for-thursday-night-football-vs-the-bears",
+    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/",
+    "https://www.covers.com/nfl/patriots-vs-bears-prediction-picks-odds-early-leans-week-7-2026"
+   ],
+   "detail": {
+    "availability": "Not on the Bears' injury report this week after returning from the hamstring in Week 6.",
+    "matchup": "Patriots CBs Davis, Prunty and Canada are out (Davis a third straight game); remaining corners are Gonzalez, Marcus Jones, Charles Woods and Kindle Vildor, and safeties Byard and Woodson are questionable.",
+    "script": "Bears are short home favorites and also want to run with Swift, so expect a balanced plan rather than a pass-heavy one; Covers expects Chicago to run effectively.",
+    "market": "Line opened 19.5 and is now 20.5, so the market has already moved toward the over; Kalshi about 53.5%."
+   }
+  },
+  "NFL|00-0040126|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Loveland has 21 targets over the last three games with six catches in two of them, and Williams' return plus Chicago's heavy multi-tight-end usage keeps him central.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/",
+    "https://bettorsinsider.com/sports-betting/2026/10/21/3-skill-position-props-to-back-for-patriots-vs-bears-on-tnf/",
+    "https://ats.io/nfl/patriots-vs-bears-thursday-night-football-player-props-10-22-2026/",
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-five-players-for-thursday-night-football-vs-the-bears"
+   ],
+   "detail": {
+    "role": "Six catches on 7 targets with a TD and another end-zone look in Williams' return; 30 targets on the season, 21 in the last three games.",
+    "matchup": "New England is thin at corner and may play more base defense against Chicago's multi-TE sets; one model notes NE has held tight ends under 44 yards in four of six games, which matters more for yards than catches.",
+    "market": "At least one book (BetMGM) hangs 4.5 receptions with the over at plus money, so 3.5 at the packet's price is the softer number; Kalshi near 60%.",
+    "experts": "A Bettors Insider preview backs his yardage over, citing his late-2025 chemistry with Williams; ats.io's model leans under on yardage because of his shorter aDOT."
+   }
+  },
+  "NFL|00-0039147|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gonzalez returned from his shoulder injury with 6 tackles against the Jets, but his 2026 games have been 2, 4, 2, 6, so nothing clear beyond the stats.",
+   "sources": [
+    "https://www.patriots.com/team/players-roster/christian-gonzalez/logs",
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-five-players-for-thursday-night-football-vs-the-bears"
+   ],
+   "detail": {
+    "availability": "Back from the Week 3 shoulder injury; not on this week's injury report.",
+    "role": "With three other corners out, the Patriots' remaining corners stay on the field all game; Gonzalez is the top cover man.",
+    "matchup": "Chicago leans on the run and multi-TE sets, which can limit corner tackle chances, while Burden's quick catches add some."
+   }
+  },
+  "NFL|00-0040734|rec": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Henderson practiced fully on his ankle, but he played through a reported high-ankle sprain in Week 6, lost a fumble and saw one target as Corey Kiner took 11 carries.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/643275/rhamondre-stevenson-stonewalled-by-jets-in-win/",
     "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears"
    ],
    "detail": {
-    "availability": "Full participant with an ankle note on the official report.",
-    "role": "Seven carries on 16 snaps in Week 6; Vrabel cited riding the hot hand with Kiner."
+    "availability": "Listed full all week with an ankle injury and no game designation.",
+    "role": "Week 6 carries went Stevenson 14, Kiner 11, Henderson 7; Henderson had 1 target. A fumble plus Kiner's emergence clouds his snap share.",
+    "market": "Kalshi has the over around 63%, which already assumes a normal role."
    }
   },
   "NFL|00-0036275|td": {
@@ -535,239 +597,274 @@
    "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "Monangai is doubtful again, leaving Swift as the lead back for an offense with the league's highest share of rushing touchdowns; he scored twice last week.",
+   "note": "Swift has 26 red-zone carries and six rushing TDs, and with Monangai ruled out he stays the lead back for a home favorite implied for about 26-27 points.",
    "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://heavy.com/sports/nfl/chicago-bears/kyle-monangai-injury-update-patriots-game-2/",
-    "https://www.oddsshopper.com/articles/expert-picks/new-england-patriots-vs-chicago-bears-anytime-td-picks-2026-10-22"
+    "https://bettorsinsider.com/sports-betting/2026/10/21/3-skill-position-props-to-back-for-patriots-vs-bears-on-tnf/",
+    "https://www.thefantasyfootballers.com/news/643198/roschon-johnson-totals-85-yards-td-in-week-6-win/",
+    "https://www.covers.com/nfl/patriots-vs-bears-props-best-bets-week-7-2026",
+    "https://www.nbcchicago.com/news/local/the-chicago-bears-injury-report-has-been-released-ahead-of-patriots-game/4005619/"
    ],
-   "buzz": "high",
+   "buzz": "some",
    "detail": {
-    "role": "Swift played 77.5% of snaps and had 18 of 25 backfield touches through three quarters in Week 6; Roschon Johnson also scored late.",
-    "matchup": "Chicago's implied total is 26.75; 72% of its touchdowns have come on the ground.",
-    "market": "Shortest anytime price in the game (about 59% implied), so the edge over the market is small."
+    "availability": "Healthy; Monangai is out for a third straight week.",
+    "role": "Swift played 45 snaps to Roschon Johnson's 31 in Week 6, and both scored; Johnson's work plus Williams' red-zone runs (six in 2.5 games) are the risks.",
+    "matchup": "New England's red-zone defense has allowed a 40% TD rate over the last three games (Covers), and the Patriots are playing without both starting guards.",
+    "market": "Kalshi about 56.5%, close to the app.",
+    "experts": "Previews back his rushing volume; TD previews focus more on Loveland, Brown and Williams."
    }
   },
   "NFL|00-0036875|td": {
    "side": "over",
    "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "Stevenson is described as New England's top goal-line option, but Kiner and Henderson are both getting carries and the line is patched, so no edge over the roughly 47-49% market price.",
+   "conf": "low",
+   "note": "Stevenson leads a three-way backfield, but Kiner's 11 carries in Week 6 dilute short-yardage work; no sourced goal-line role to back him even against Chicago's depleted linebackers.",
    "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://www.oddsshopper.com/articles/expert-picks/new-england-patriots-vs-chicago-bears-anytime-td-picks-2026-10-22"
-   ],
-   "buzz": "some",
-   "detail": {
-    "role": "Holds passing-down work (15 routes, 11 pass-block snaps last week) and goal-line priority.",
-    "matchup": "Chicago allows 4.4 yards per carry to backs (26th).",
-    "market": "Kalshi 46.5%; best book price about +105."
-   }
-  },
-  "NFL|00-0040236|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "high",
-   "note": "Monangai has not practiced since his Week 4 toe injury, missed Weeks 5 and 6, and is listed doubtful; Swift and Roschon Johnson handle the backfield.",
-   "sources": [
-    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
-    "https://heavy.com/sports/nfl/chicago-bears/kyle-monangai-injury-update-patriots-game-2/"
+    "https://www.thefantasyfootballers.com/news/643275/rhamondre-stevenson-stonewalled-by-jets-in-win/",
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-five-players-for-thursday-night-football-vs-the-bears",
+    "https://www.nbcchicago.com/news/local/the-chicago-bears-injury-report-has-been-released-ahead-of-patriots-game/4005619/"
    ],
    "buzz": "none",
    "detail": {
-    "availability": "DNP Monday and Tuesday on the official report; coach called it week to week."
+    "role": "Week 6: Stevenson 14 carries for 36 yards, Kiner 11, Henderson 7.",
+    "matchup": "Chicago is without LB Jack Sanborn, and T.J. Edwards is doubtful; New England's stated plan is to run and use play-action.",
+    "script": "Patriots are road underdogs with a patched offensive line (both guards out, RT Moses questionable)."
    }
   },
-  "NBA|3975|reb": {
-   "side": "under",
+  "NFL|00-0040126|td": {
+   "side": "over",
    "flag": "neutral",
    "adj": 0,
+   "conf": "low",
+   "note": "Loveland drew multiple end-zone targets and scored in Williams' return, but he has one TD this season and the price already reflects the buzz.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/",
+    "https://www.si.com/betting/patriots-vs-bears-best-anytime-touchdown-scorer-picks-for-thursday-night-football-in-nfl-week-7-2026"
+   ],
+   "buzz": "some",
+   "detail": {
+    "role": "Scored from 14 yards and just missed a second end-zone throw in Week 6.",
+    "experts": "SI's TD picks like him at about +170; Kalshi near 33.5%, matching the app."
+   }
+  },
+  "NFL|00-0036275|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
    "conf": "medium",
-   "note": "Curry sprained his right ankle in Sunday practice but practiced fully Monday and Kerr says he will play; no minutes limit reported, so nothing moves his rebounding.",
+   "note": "Swift has 10 targets and 8 catches over the last two games, and New England allows the fifth-most receiving yards to running backs.",
    "sources": [
-    "https://www.nbcsportsbayarea.com/nba/golden-state-warriors/steph-curry-status-season-opener-lakers/1972096/",
-    "https://www.newsweek.com/sports/nba/warriors-make-stephen-curry-injury-announcement-before-lakers-opener-12597114"
+    "https://www.covers.com/nfl/patriots-vs-bears-props-best-bets-week-7-2026",
+    "https://sports.yahoo.com/articles/patriots-vs-bears-player-props-020033120.html"
+   ],
+   "detail": {
+    "role": "Four catches on five targets in each of the last two games with Monangai out.",
+    "matchup": "NE ranks 22nd in pass-defense DVOA against backs (FTN, via Covers).",
+    "market": "Kalshi around 54.5% on the over.",
+    "experts": "Covers and Yahoo both back Swift's receiving props for the same matchup reason."
+   }
+  },
+  "NFL|00-0036275|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Monangai out again Swift has had 16 and 20 carries the past two games, and Chicago runs on roughly half its plays against a Patriots run defense previews call soft.",
+   "sources": [
+    "https://bettorsinsider.com/sports-betting/2026/10/21/3-skill-position-props-to-back-for-patriots-vs-bears-on-tnf/",
+    "https://www.covers.com/nfl/patriots-vs-bears-prediction-picks-odds-early-leans-week-7-2026",
+    "https://www.thefantasyfootballers.com/news/643198/roschon-johnson-totals-85-yards-td-in-week-6-win/"
+   ],
+   "detail": {
+    "role": "94 of Chicago's 216 carries; Roschon Johnson took 13 in Week 6, which is the cap on this.",
+    "script": "Bears are home favorites; Covers expects Chicago's ground game to control the game.",
+    "experts": "Bettors Insider prefers the attempts market over yardage because his efficiency is poor."
+   }
+  },
+  "NFL|00-0039918|ryd": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Previews expect Williams to run more, but in his first game back from the hamstring he ran four times for three yards.",
+   "sources": [
+    "https://www.covers.com/nfl/patriots-vs-bears-props-best-bets-week-7-2026",
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/"
+   ],
+   "detail": {
+    "availability": "Returned from a hamstring strain in Week 6.",
+    "experts": "Covers leans toward 20+ rushing yards because NE blitzes often; his actual return showed little running."
+   }
+  },
+  "NBA|1966|pra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report. His Sixers debut produced 30 PRA (14/9/7) as a facilitator, right at this 30.5 line; PHI's missing bigs help his rebounding, but no edge either way.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more",
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/"
    ]
   },
-  "NBA|4066457|pr": {
+  "NBA|5124612|ra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Healthy, but he had only 4 rebounds and 1 assist (5 R+A) in the opener next to LeBron, Brown, Maxey and Embiid, who all handle and rebound; FanDuel prices the under (-136).",
+   "sources": [
+    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more"
+   ]
+  },
+  "NBA|4251|3pm": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "George now plays for Boston (vs NY, not PHI-CLE). He hit 7 of 12 threes scoring 38 in his debut; FanDuel already shades 2.5 to the over (-172), so value is thinner.",
+   "sources": [
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html"
+   ]
+  },
+  "NBA|4433255|pa": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Healthy starter; had 14 points and 2 assists (16) in the opener, and averaged 17.1 points last season, so 16.5 P+A sits below his usual output. Under has thin support.",
+   "sources": [
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html"
+   ]
+  },
+  "NBA|3934719|reb": {
    "side": "under",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Golden State is without Podziemski, Porzingis, Butler and Moody; nothing found that changes Reaves' role for the opener.",
+   "note": "No Knicks injuries listed. Anunoby had 5 rebounds in the opener while Hart grabbed 7; FanDuel prices the 5.5 under heavily (-174), so most of the edge is already in the price.",
    "sources": [
-    "https://www.newsweek.com/sports/nba/warriors-make-stephen-curry-injury-announcement-before-lakers-opener-12597114"
+    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more",
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html"
    ]
   },
-  "NBA|4066648|pra": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "With Beal and Strus out, Hachimura stays a main scoring option after leading the Clippers in preseason; nothing found that argues for the under.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-05/rui-hachimura-drops-21-in-clippers-debut"
-   ]
-  },
-  "NBA|3032976|reb": {
+  "CFB|4685696|pyd": {
    "side": "under",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No injury or role news found for Gobert ahead of the opener in Miami; nothing beyond the numbers.",
+   "note": "Game is Friday. No injury reported; Pribula has 1,217 passing yards in seven games (about 174 per game), while Duke allows 200 passing yards per game. Fanatics posts 174.5, DraftKings 179.5.",
    "sources": [
-    "https://www.actionnetwork.com/nba-game/timberwolves-heat-score-odds-october-21-2026/295139"
-   ]
-  },
-  "NBA|4432165|ast": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Anthony Black is out with an ankle sprain, removing a ball handler, which leans slightly against an assists under for Suggs; no source quantifies his role.",
-   "sources": [
-    "https://sports.yahoo.com/articles/magic-rule-4-players-season-224516038.html"
-   ]
-  },
-  "NFL|00-0039919|rec": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Odunze shares the target lead with Burden and Loveland in a short, screen-heavy passing plan; nothing concrete beyond the numbers.",
-   "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/"
-   ]
-  },
-  "CFB|5165807|pyd": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Memphis is a double-digit home favorite with the total rising to 54.5; no injury or role news found for Stokes.",
-   "sources": [
-    "https://www.covers.com/sport/football/ncaaf/player-props",
-    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173"
-   ]
-  },
-  "CFB|5075800|pyd": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Williams appears to be a recent starter with 341, 143 and 126 yards in his last three games, so his season average understates him; not enough to back the under.",
-   "sources": [
+    "https://abc11.com/post/duke-visits-virginia-acc-matchup/19952065/",
     "https://www.covers.com/sport/football/ncaaf/player-props"
    ]
   },
-  "NBA|4066648|pts": {
+  "NBA|4433255|pra": {
    "side": "over",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "With Beal and Strus out, Hachimura stays a main scoring option after leading the Clippers in preseason; nothing found that argues for the under.",
+   "note": "Healthy starter with no listed limitation; nothing concrete found that argues for the under beyond the numbers.",
    "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-05/rui-hachimura-drops-21-in-clippers-debut"
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html"
    ]
   },
-  "NBA|4433247|3pm": {
+  "CFB|5121721|ryd": {
    "side": "over",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Kuminga is not on the injury report for the opener; Minnesota's only listed absence is DiVincenzo (out), which removes a perimeter shooter but no source confirms more threes for Kuminga.",
+   "note": "Duke's run defense has struggled this season, which cuts against the under; no availability or role news either way.",
    "sources": [
-    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
-   ]
-  },
-  "NBA|4278053|3pm": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Mitchell is not on Miami's injury report (only Goldin is questionable); nothing found that changes his role or three-point volume for the opener.",
-   "sources": [
-    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
-   ]
-  },
-  "NBA|3032977|pra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Giannis is not on Miami's injury report for his Heat debut; no minutes limit reported, so nothing here supports pressing the under beyond the numbers.",
-   "sources": [
-    "https://sports.iheart.com/content/2026-10-21-timberwolves-vs-heat-injury-report-oct-21/"
-   ]
-  },
-  "NBA|4997536|reb": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "With Porzingis, Butler and Moody out, Santos is in line for a bigger frontcourt role (he started a preseason game against the Lakers), which argues against the under.",
-   "sources": [
-    "https://sportssd.iheart.com/content/2026-10-21-warriors-vs-lakers-injury-report-oct-21/",
-    "https://www.rotoballer.com/?p=1959974"
-   ]
-  },
-  "NBA|4701230|pra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Johnson is not listed for Atlanta, whose absences are frontcourt reserves Gueye and Veesaar; nothing found that limits his role, so the under rests on the numbers alone.",
-   "sources": [
-    "https://hottakes.com/articles/the-nbas-october-21-injury-report-is-already-a-cvs-receipt-a750a470-4301-4951-92ee-64fcc34f40ef"
+    "https://www.si.com/betting/duke-vs-virginia-prediction-odds-and-key-players-to-watch-for-college-football-week-8-2026"
    ]
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "Only four small-conference midweek games fall in the window (NMSU at Sam Houston Wed; JMU at App State, Liberty at Kennesaw State, ECU at Memphis Thu), and as of Wednesday the reputable odds pages post player props only for ECU at Memphis. Memphis is coming off a six-turnover loss at Tulane but still leads FBS-level offenses in rushing volume, and the market has moved toward the Tigers (-9.5 to -10.5, total 53.5 to 54.5).",
+   "summary": "Thin prop board: only ECU-Memphis and Duke-Virginia had posted player lines (Covers odds table, 10 lines). Memphis is a 9.5-10.5 point home favorite; Jaylin Carter's workload (19 and 23 carries the last two games) is the clearest volume edge, with Burnside and Stokes overs and an Emory Williams passing-yards under as smaller plays.",
    "sources": [
     "https://www.covers.com/sport/football/ncaaf/player-props",
-    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173",
-    "https://www.wagertalk.com/news/college-football/east-carolina-vs-memphis-prediction-picks-odds-october-22-2026/",
     "https://roundtable.io/sports/ncaa/memphis/players/takeaways-from-memphis-14-point-loss-against-tulane",
-    "https://abcnews.com/Sports/wireStory/cusa-matchup-features-liberty-kennesaw-state-137365174",
-    "https://fanduel.com/research/new-mexico-state-vs-sam-houston-college-football-odds-picks-best-bets-for-10-21-2026",
-    "https://www.dimers.com/cfb/predictions/2026_8_kenn_lib"
-   ]
-  },
-  "NBA-ATL-at-ORL-1021": {
-   "summary": "Season opener in Orlando with the Magic about 3.5-point favorites and a 236.5 total. Orlando is without Anthony Black (ankle), Jonathan Isaac, Noah Penda and Izaiyah Nelson, and Franz Wagner was still being evaluated for a right shoulder issue from the preseason finale. Atlanta's only notable absences are bigs Veesaar and Gueye.",
-   "sources": [
-    "https://www.si.com/betting/hawks-vs-magic-prediction-odds-and-best-prop-bets-for-nba-season-opener-2026",
-    "https://sports.yahoo.com/articles/magic-rule-4-players-season-224516038.html",
-    "https://www.eurohoops.net/en/nba-news/2022805/franz-wagner-noah-penda-updates-orlando-magic-nba/"
-   ]
-  },
-  "NBA-CHA-at-BKN-1021": {
-   "summary": "Charlotte opens shorthanded: Coby White (calf), Kon Knueppel (hamstring), Grant Williams and Kylan Boswell are out, which pushes Dennis Schroder into the starting backcourt with Grayson Allen. The Nets are 3.5-point favorites, moved from an opening Nets +4.5, and the total is 219.5.",
-   "sources": [
-    "https://www.scoresandstats.com/?p=463516",
-    "https://tixel.com/us/news/2026/10/07/brooklyn-nets-secure-92-73-victory-over-charlotte",
-    "https://roundtable.io/sports/nba/hornets/news/what-dennis-schroder-trade-means-for-hornets-rookie-christian-anderson-jr"
-   ]
-  },
-  "NBA-CHI-at-TOR-1021": {
-   "summary": "Toronto opens at home as a 9.5-point favorite (opened 8.5; total 236.5 from 235.5) with Kawhi Leonard making his regular-season debut after a cautious preseason ramp-up; Brandon Ingram is out. Chicago is thin up front with Nic Claxton out (Jalen Smith starts) and Jordan Hawkins out ill.",
-   "sources": [
-    "https://www.actionnetwork.com/nba-game/bulls-raptors-score-odds-october-21-2026/295289",
-    "https://www.sportsmole.co.uk/basketball/toronto-raptors/preview/chicago-bulls-vs-toronto-raptors-player-props-injury-report-and-prediction--nba_607231.html",
-    "https://www.tsn.ca/nba/article/leonard-available-to-make-first-appearance-in-second-run-with-raptors-on-tuesday/",
-    "https://roundtable.io/sports/nba/raptors/news/toronto-raptors-bounce-back-against-la-clippers-in-second-preseason-game"
+    "https://abcnews.com/Sports/wireStory/memphis-hosts-east-carolina-aac-play-137365173",
+    "https://www.si.com/college/duke/blue-devils-grading-every-football-position-group-after-loss-north-carolina",
+    "https://www.si.com/college/duke/blue-devils-football-injury-report-latest-updates-potential-replacements",
+    "https://www.si.com/betting/duke-vs-virginia-prediction-odds-and-key-players-to-watch-for-college-football-week-8-2026"
    ]
   },
   "NBA-CLE-at-PHI-1022": {
-   "summary": "Philadelphia beat the Knicks 106-100 in the opener with four stars sharing the ball: Maxey had 28 points, Brown 19 points and 8 rebounds, LeBron 14/9/7 in 34 minutes, and Embiid 13/11/6. The app's last-10 averages for LeBron and Brown come from their old teams, where each carried more usage. Cleveland has Harden and Mitchell together.",
+   "summary": "Philadelphia's home opener comes two nights after a 106-100 win at New York in which LeBron James played as a facilitator and rebounder rather than a main scorer. Cleveland opens its season with Jarrett Allen questionable (right patellar tendinopathy); if he sits, Mobley moves to center and Tyson starts. Philadelphia is still without three bigs (Hukporti, Barlow, Fall), and Wade is questionable. Market has PHI around -3 (opened -4.5) with the total up from 233.5 to about 236.",
+   "sources": [
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
+    "https://www.sportsmole.co.uk/basketball/cleveland-cavaliers/preview/cleveland-cavaliers-vs-philadelphia-76ers-player-props-injury-report-and-prediction--nba_607342.html",
+    "https://www.phillyvoice.com/sixers-news-analysis-injury-report-vs-cavs-cavaliers-status-dean-wade-nick-nurse-nba-rumors-schedule-scores/",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-21/jarrett-allen-knee-questionable-vs-philadelphia",
+    "https://nbcsportsphiladelphia.com/nba/philadelphia-76ers/sixers-vs-knicks-nba-opening-night-analysis-tyrese-maxey-lebron-james/760141",
+    "https://thesportsencounter.com/2026/10/21/76ers-knicks-106-100-maxey-brown-banner-night-october-2026/",
+    "https://www.inquirer.com/sixers/live/sixers-knicks-updates-news-lebron-james-jalen-brunson-schedule-highlights-20261020.html",
+    "https://www.sportsgambler.com/betting-tips/basketball/cleveland-cavaliers-vs-philadelphia-76ers-prediction-odds-6014364/"
+   ]
+  },
+  "NBA-DEN-at-OKC-1023": {
+   "summary": "OKC hosts Denver after a 116-104 opening win at San Antonio Tuesday (one day of rest, no back-to-back); Denver is playing its first game. Previews have OKC -8.5 with a total near 235.5, both starting fives healthy, Strawther out and Spencer Jones questionable for Denver, Topic, Sorber and Oweh out for OKC. OKC lost Dort, Wiggins and Joe this offseason, and McCain (20 points) and Wallace (starting at SG) have taken on bigger roles.",
+   "sources": [
+    "https://www.lineups.com/articles/nuggets-thunder-nba-picks-predictions-odds-for-thursday-october-22-2026/",
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html",
+    "https://www.denverstiffs.com/preview-denver-nuggets-open-the-season-against-the-oklahoma-city-thunder/",
+    "https://www.sportsgambler.com/betting-tips/basketball/denver-nuggets-vs-oklahoma-city-thunder-prediction-odds-6014365/",
+    "https://si.com/betting/nba-best-bets-today-predictions-prop-bets-for-nikola-jokic-nuggets-vs-thunder-tyrese-maxey",
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
+    "https://si.com/nba/thunder/onsi/okc-thunder-make-starting-lineup-decision-for-season-opener-vs-spurs-",
+    "https://roundtable.io/sports/nba/nuggets/players/predicting-nuggets-full-rotation-for-opening-night-vs-thunder"
+   ]
+  },
+  "NBA-HOU-at-SA-1024": {
+   "summary": "San Antonio opened with a coach-confirmed three-guard lineup (Fox, Castle, Harper) plus Vassell and Wembanyama while Tobias Harris (calf) sat, and lost 116-104 to OKC. Fox and Harper shared playmaking (7 and 5 assists), leaving Castle as a scorer (24 pts, 1 ast) and Vassell squeezed (7 pts, 3 reb). Harris's return date is open, which could shift roles again.",
+   "sources": [
+    "https://www.espn.com/nba/story/_/id/50199096/spurs-start-3-guard-lineup-season-opener-vs-thunder",
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
+    "https://www.cbssports.com/fantasy/basketball/players/3041409/devin-vassell",
+    "https://clutchpoints.com/nba/san-antonio-spurs/spurs-news-mitch-johnson-cryptic-tobias-harris-injury-update-hints-could-miss-start-season"
+   ]
+  },
+  "NBA-NY-at-BOS-1023": {
+   "summary": "Both teams lost their openers Tuesday: Boston blew a 22-point lead at Detroit, and the champion Knicks lost 106-100 to Philadelphia. The Celtics are about 2.5-point home favorites with a total near 223.5. Boston traded Jaylen Brown for Paul George (38 in his debut) and keeps Pritchard as sixth man; Carter (mono) is out, Robinson tweaked an ankle but called it minor, and the Knicks have no injuries listed.",
+   "sources": [
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html",
+    "https://sports.yahoo.com/articles/jayson-tatums-rough-celtics-opener-104916551.html",
+    "https://sports.yahoo.com/articles/celtics-notebook-mitchell-robinson-status-103042871.html",
+    "https://bleacherreport.com/articles/25513682-paul-george-sets-celtics-record-debut-vs-pistons-box-score-stats-highlights-tatum-cade",
+    "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more",
+    "https://thekotshow.substack.com/p/knicks-vs-76ers-player-stats-breakdown-oct-20-2026",
+    "https://www.nbcsportsboston.com/nba/boston-celtics/live-updates-celtics-pistons-highlights-video-jayson-tatum/808480/",
+    "https://www.dimers.com/nba/predictions/2026_4_bos_nyk"
+   ]
+  },
+  "NFL-NE-at-CHI-1023": {
+   "summary": "Caleb Williams is back from his hamstring (30/36 in his return), Monangai is out again, and New England is without three cornerbacks (Davis, Prunty, Canada) and both starting guards, so the Patriots may live in base/three-safety looks. Chicago is missing LBs Sanborn and Edwards (doubtful) and Montez Sweat (suspension); Bears about -2.5/-3, total 50.5, mild weather.",
+   "sources": [
+    "https://www.covers.com/nfl/patriots-vs-bears-prediction-picks-odds-early-leans-week-7-2026",
+    "https://www.covers.com/nfl/patriots-vs-bears-props-best-bets-week-7-2026",
+    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-five-players-for-thursday-night-football-vs-the-bears",
+    "https://www.nbcchicago.com/news/local/the-chicago-bears-injury-report-has-been-released-ahead-of-patriots-game/4005619/",
+    "https://www.thefantasyfootballers.com/news/643282/rome-odunze-quiet-day-despite-qbs-success/",
+    "https://www.thefantasyfootballers.com/news/643280/colston-loveland-narrowly-misses-two-td-day/",
+    "https://www.thefantasyfootballers.com/news/643198/roschon-johnson-totals-85-yards-td-in-week-6-win/"
+   ]
+  },
+  "fix": {
+   "summary": "Quality-gate checks",
    "sources": [
     "https://bleacherreport.com/articles/25513917-lebron-brown-win-76ers-debut-vs-knicks-box-score-stats-highlights-brunson-embiid-more",
-    "https://www.cbssports.com/nba/news/lebron-james-76ers-debut-grades-knicks-banner-rings-nba-opening-night/",
-    "https://www.nbcsports.com/nba/news/knicks-v-76ers-recap-results-maxey-stars-as-philadelphia-wins-opener-lebron-james-jaylen-brown"
+    "https://www.thespread.com/nba-articles/cavaliers-vs-76ers-prediction-october-22-2026/",
+    "https://www.sportsmole.co.uk/basketball/new-york-knicks/preview/new-york-knicks-vs-boston-celtics-player-props-injury-report-and-prediction--nba_607354.html",
+    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
+    "https://www.sportsmole.co.uk/basketball/preview/denver-nuggets-vs-oklahoma-city-thunder-player-props-injury-report-and-prediction--nba_607345.html",
+    "https://abc11.com/post/duke-visits-virginia-acc-matchup/19952065/",
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://www.rotowire.com/basketball/headlines/jarrett-allen-injury-questionable-versus-philadelphia-535367"
    ]
   },
   "NBA-DAL-at-HOU-1022": {
@@ -775,15 +872,6 @@
    "sources": [
     "https://lastwordonsports.com/basketball/2026/10/09/rockets-preseason-dal/",
     "https://www.si.com/nba/rockets/onsi/update-on-kevin-durant-for-rockets-second-preseason-game-01m4h5xgc45r"
-   ]
-  },
-  "NBA-DEN-at-OKC-1023": {
-   "summary": "OKC's home opener after a 116-104 win at San Antonio; the Thunder are 8.5-point favorites. Denver is missing Julian Strawther (six weeks, knee), so Tyus Jones takes backcourt minutes; Jokic and Murray had no injury concerns in preseason. In the opener, Jared McCain hit six threes and Jalen Williams went 5-of-16 in his return.",
-   "sources": [
-    "https://www.cbssports.com/nba/teams/DEN/denver-nuggets/",
-    "https://www.news9.com/oklahoma-city-thunder/okc-thunder-spurs-116-104-shai-gilgeous-alexander-season-opener-2026",
-    "https://bleacherreport.com/articles/25513971-thunder-dominate-spurs-opener-box-score-stats-highlights-wemby-sga-chet-top-players",
-    "https://sports.yahoo.com/articles/healthy-thunder-statement-beat-spurs-052144907.html"
    ]
   },
   "NBA-GS-at-LAL-1022": {
@@ -798,22 +886,6 @@
    "sources": [
     "https://fieldlevelmedia.com/nba/tyrese-haliburton-to-make-regular-season-return-as-pacers-face-pelicans/",
     "https://sports.yahoo.com/articles/pacers-lose-2-rotation-players-214133768.html"
-   ]
-  },
-  "NBA-MIL-at-WSH-1021": {
-   "summary": "Season opener in Washington. The Wizards are without No. 1 pick AJ Dybantsa (ankle) and Tristan Vukcevic (hip), and Trae Young now plays next to Anthony Davis on a much deeper roster. Young leaned into passing in preseason. Nothing found shifts the Reb + Ast line clearly either way.",
-   "sources": [
-    "https://roundtable.io/sports/nba/wizards/players/trae-youngs-early-playmaking-shines-in-wizards-preseason-win"
-   ]
-  },
-  "NBA-MIN-at-MIA-1021": {
-   "summary": "Season opener in Miami, near pick'em (Heat -1.5, total 243.5, no visible move). Bam Adebayo missed the last two preseason games with groin tightness but expects to play; Pelle Larsson has been ill for about two weeks but is expected to play; Klay Thompson shot 3-for-20 from three in preseason but keeps his starting spot per Spoelstra.",
-   "sources": [
-    "https://bolavip.com/en/nba/bam-adebayo-provides-major-injury-update-ahead-of-heat-vs-timberwolves-2026-nba-season-opener",
-    "https://www.eurohoops.net/en/nba-news/2022800/pelle-larsson-injury-update-miami-heat-nba/",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-03/tim-hardaway-jr-doesnt-miss-vs-toronto",
-    "https://www.actionnetwork.com/nba-game/timberwolves-heat-score-odds-october-21-2026/295139",
-    "https://fansided.com/nba/projected-miami-heat-starting-lineup-rotation-with-klay-thompson-joining-giannis-company"
    ]
   },
   "NBA-PHX-at-POR-1022": {
@@ -832,80 +904,87 @@
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-05/rui-hachimura-drops-21-in-clippers-debut",
     "https://www.rotoballer.com/?p=1966836"
    ]
-  },
-  "NFL-NE-at-CHI-1023": {
-   "summary": "Caleb Williams returned last week from a three-game absence in a screen-heavy, quick-passing plan. Chicago is a 3-point favorite with a 26.75 implied total and Kyle Monangai again doubtful, so Swift leads the backfield. New England's line is patched (Ben Brown and Vera-Tucker doubtful, Moses limited), and its backfield split three ways last week after Henderson fumbled and Kiner took fourth-quarter work.",
-   "sources": [
-    "https://www.patriots.com/news/week-7-injury-report-patriots-at-bears",
-    "https://www.sharpfootballanalysis.com/fantasy/patriots-bears-week-7-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://www.bostonglobe.com/2026/10/20/sports/patriots-snap-counts-corey-kiner/",
-    "https://heavy.com/sports/nfl/chicago-bears/kyle-monangai-injury-update-patriots-game-2/",
-    "https://sports.yahoo.com/articles/patriots-j-brown-playing-vs-000113904.html"
-   ]
-  },
-  "fix": {
-   "summary": "Quick checks on Top 10 picks not covered by the batch researchers.",
-   "sources": []
-  },
-  "NBA-OKC-at-SA-1021": {
-   "summary": "Mitch Johnson confirmed a three-guard start (Fox, Castle, Harper with Vassell and Wembanyama), so Julian Champagnie is not starting as the packet assumed; Tobias Harris (calf) is out. OKC returns its core with Jalen Williams and Ajay Mitchell healthy, but Dort, Joe and Wiggins are gone, opening more minutes for Wallace, Mitchell and McCain.",
-   "sources": [
-    "https://www.kens5.com/article/sports/nba/spurs/dylan-harper-start-spurs-okc-thunder-regular-season-san-antonio-nba/273-a0afae33-9499-411b-9ff5-610493e8aac5",
-    "https://sports.yahoo.com/articles/san-antonio-spurs-announce-starting-175207983.html",
-    "https://www.ksat.com/sports/2026/10/20/short-offseason-big-expectations-as-spurs-face-thunder-on-opening-night/",
-    "https://bleacherreport.com/articles/25510415-wemby-weighs-spurs-3-guard-lineup-after-nba-preseason-win-vs-suns-makes-things-easier",
-    "https://www.newsweek.com/sports/nba/spurs-may-have-unlocked-their-roster-with-bold-starting-lineup-12573647",
-    "https://sports.yahoo.com/articles/wembanyama-spurs-face-thunder-heavyweight-211637676.html",
-    "https://okcfox.com/news/local/thunder-tip-off-26-27-season-at-spurs-on-nbc-then-host-nuggets-in-home-opener",
-    "https://www.si.com/nba/thunder/onsi/okc-thunder-roll-into-2026-27-with-plenty-of-lineup-combination-01kz09qttmcx"
-   ]
   }
  },
  "cfb_lines": {
-  "CFB|5075800|pyd": {
-   "line": 174.5,
-   "book": "consensus",
-   "t": "2026-10-22T23:30:00+00:00",
-   "opp": "MEM",
-   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
-  },
   "CFB|5222671|ryd": {
    "line": 89.5,
-   "book": "consensus",
-   "t": "2026-10-22T23:30:00+00:00",
-   "opp": "ECU",
-   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
-  },
-  "CFB|5165807|pyd": {
-   "line": 224.5,
-   "book": "consensus",
+   "book": "FanDuel",
    "t": "2026-10-22T23:30:00+00:00",
    "opp": "ECU",
    "source": "https://www.covers.com/sport/football/ncaaf/player-props"
   },
   "CFB|5079354|recyd": {
-   "line": 39.5,
-   "book": "consensus",
+   "line": 37.5,
+   "book": "FanDuel",
    "t": "2026-10-22T23:30:00+00:00",
    "opp": "ECU",
    "source": "https://www.covers.com/sport/football/ncaaf/player-props"
   },
   "CFB|5220352|recyd": {
    "line": 35.5,
-   "book": "consensus",
+   "book": "FanDuel",
    "t": "2026-10-22T23:30:00+00:00",
    "opp": "ECU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5075800|pyd": {
+   "line": 187.5,
+   "book": "FanDuel",
+   "t": "2026-10-22T23:30:00+00:00",
+   "opp": "MEM",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5165807|pyd": {
+   "line": 219.5,
+   "book": "DraftKings",
+   "t": "2026-10-22T23:30:00+00:00",
+   "opp": "ECU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4685696|pyd": {
+   "line": 179.5,
+   "book": "FanDuel",
+   "t": "2026-10-23T23:00:00+00:00",
+   "opp": "DUKE",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4685696|ryd": {
+   "line": 25.5,
+   "book": "FanDuel",
+   "t": "2026-10-23T23:00:00+00:00",
+   "opp": "DUKE",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5121721|ryd": {
+   "line": 69.5,
+   "book": "FanDuel",
+   "t": "2026-10-23T23:00:00+00:00",
+   "opp": "DUKE",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4694149|pyd": {
+   "line": 201.5,
+   "book": "FanDuel",
+   "t": "2026-10-23T23:00:00+00:00",
+   "opp": "UVA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4869728|recyd": {
+   "line": 30.5,
+   "book": "FanDuel",
+   "t": "2026-10-23T23:00:00+00:00",
+   "opp": "UVA",
    "source": "https://www.covers.com/sport/football/ncaaf/player-props"
   }
  },
  "best": {
-  "key": "CFB|5222671|ryd",
+  "key": "NFL|00-0036275|car",
   "side": "over",
-  "why": "Carter is Memphis' clear lead back with 23 carries for 135 yards and 19 for 132 in his last two games, and no injury news. ECU's run defense ranks mid-pack, and Memphis is a 10.5-point home favorite with the total moving up, which points to steady volume.",
+  "why": "Monangai is ruled out for a third straight game, and Swift has handled 16 and 20 carries as the lead back in that stretch. Chicago is a short home favorite that leans on the run, and previews favor his attempts over his yardage because his efficiency has been uneven. Roschon Johnson's share is the main risk.",
   "sources": [
-   "https://www.covers.com/sport/football/ncaaf/player-props",
-   "https://abcnews.com/Sports/wireStory/carter-memphis-pull-uab-3rd-win-38-13-137168624",
-   "https://www.wagertalk.com/news/college-football/east-carolina-vs-memphis-prediction-picks-odds-october-22-2026/"
+   "https://bettorsinsider.com/sports-betting/2026/10/21/3-skill-position-props-to-back-for-patriots-vs-bears-on-tnf/",
+   "https://www.covers.com/nfl/patriots-vs-bears-prediction-picks-odds-early-leans-week-7-2026"
   ]
  }
 }
