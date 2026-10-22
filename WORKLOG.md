@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters tour step 2 is back to its original, more specific text;
+  the card still sits below the highlighted section. sw.js pt-v93.
 - **rmolnar10**: Walters tour fix: the step card covered the highlighted area on phones when it was tall (tiles + Locked
   early). The tour now scrolls the highlighted area and the card into view together, one above the other, and shortens the highlight when both can't fit
   (`spotH`/`vhNow` in `walTour`, uses visualViewport for Safari's toolbars). Step 2 text shortened. sw.js pt-v92.

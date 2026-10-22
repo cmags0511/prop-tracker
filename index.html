@@ -2339,7 +2339,7 @@ const walTourSeen=()=>{if(WT_SEEN)return true;try{return localStorage.getItem("p
 const WAL_TOUR=[
   ["tabs","Three models","<b>Walters</b> is his full book method, sized in stars. <b>Model</b> is a simpler version tuned on the backtest. <b>Weather unders</b> are totals in wind or rain. Each tab has its own picks and record."],
   ["tiles","How it's doing",()=>WAL_BT?.tab==="weather"?"<b>This season</b> is the real record: unders lock at kickoff, when the forecast is firm, and are graded at DraftKings' price. Losses count just like wins."
-    :"<b>This season</b> is the real record at DraftKings' price. Walters bet as early as he could, before lines moved. Our injury and weather sources settle late in the week, so these lock at kickoff. <b>Locked early</b> tracks his timing."],
+    :"<b>This season</b> is the real record, graded at DraftKings' price. Walters bet as early as he could, before the line moved, but our injury and weather sources only settle late in the week, so these lock at kickoff. <b>Locked early</b> keeps each play from the first hour it shows up, to see what his timing would add."],
   ["bt","Up and down",()=>{const b=WAL_BT,ss=b.seasons;if(!ss.length)return"";
     const up=ss.filter(x=>x[1]>0).length,dn=ss.filter(x=>x[1]<0).length,best=ss.reduce((a,x)=>x[1]>a[1]?x:a),worst=ss.reduce((a,x)=>x[1]<a[1]?x:a);
     const name={walters:"Walters' method",model:"The Model",weather:"The weather under"}[b.tab];
