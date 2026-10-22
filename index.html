@@ -994,6 +994,8 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .wico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .tiles2>div{background:var(--panel);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.wearly{background:var(--panel);border-radius:16px;padding:10px 16px;box-shadow:var(--shadow);margin-top:10px;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px}
+.wearly span{font:700 12px var(--f-body);color:var(--muted)}.wearly b{font:800 17px var(--f-body)}.wearly small{flex-basis:100%;font:600 12px var(--f-body);color:var(--muted)}
 .tiles2 span{font:700 12px var(--f-body);color:var(--muted)}.tiles2 b{font:800 28px var(--f-body);letter-spacing:-.02em;margin-top:2px}.tiles2 small{font:600 12px var(--f-body);color:var(--muted)}
 #view-rec>.recw .rfbar{margin:0}
 /* sheets never get wider than the screen: wide tables scroll inside their own card (Safari sized the grid to them) */
@@ -2194,12 +2196,18 @@ function renderWalters(){
   // the open tab's backtest, season by season, for the tour's "up X units since 2012" step
   const [bs,bu,bfrom]={walters:[bb.seasons,bka[2],bb.from],model:[bt.seasons,(bt.all||[])[2],bt.from],weather:[btt.seasons,tb[2],btt.from]}[tab];
   WAL_BT={tab,units:bu||0,from:bfrom||2012,seasons:Object.entries(bs||{}).map(([y,v])=>[+y,v[2]||0])};
+  // early locks (Walters' timing): each side play kept from the first hour it showed up, graded on its own
+  const ek=tab==="walters"?"eb":tab==="model"?"e":null;let earlyRow="";
+  if(ek){const eg=G.filter(e=>e[ek+"pick"]&&["win","loss","push"].includes(e[ek+"status"])),ew=eg.filter(e=>e[ek+"status"]==="win").length,el=eg.filter(e=>e[ek+"status"]==="loss").length;
+    const eu=eg.reduce((x,e)=>x+(e[ek+"units_won"]||0),0),cl=eg.filter(e=>e[ek+"clv"]!=null),clv=cl.length?cl.reduce((x,e)=>x+e[ek+"clv"],0)/cl.length:null;
+    const pend=G.filter(e=>e[ek+"pick"]&&!e[ek+"status"]).length;
+    earlyRow=`<div class="wearly"><span>Locked early</span><b>${ew}–${el}</b><small>${eg.length?`<b style="font:inherit;color:${eu>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(eu)}</b>${clv!=null?` · the line moved ${clv>=0?"":"−"}${fmt(Math.abs(Math.round(clv*10)/10))} pts ${clv>=0?"their way":"against them"} by kickoff, on average`:""}`:pend?`${pend} play${pend===1?"":"s"} locked at the first line seen; first grades after this week's games`:"first early locks come in with this week's lines"}</small></div>`}
   const T={walters:[`${bw2}–${bl2}`,uc(bgr.length,bunits,"(units = stars)"),wr(bka),`${bka[0]}–${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}`],
     model:[`${w}–${l}${pu?`–${pu}`:""}`,uc(graded.length,units,"at DraftKings' price"),pct(bw/Math.max(1,bw+bl)),`${bw}–${bl} since ${bt.from||2012} · ${bt.all?unitsTxt(bt.all[2]):""} at -110`],
     weather:[`${tw}–${tl}`,uc(tg.length,tunits,"at DraftKings' price"),wr(tb),`${tb[0]}–${tb[1]} since ${btt.from||2012} · ${unitsTxt(tb[2]||0)} at -110`]}[tab];
   let html=`<section class="recw"><div class="whead"><button class="wico" data-goto="app" aria-label="Back to Record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><b>Walters NFL</b><button class="wico" data-wguide="1" data-tour="guide" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button></div>
     <nav class="utabs" aria-label="Model" data-tour="tabs">${[["walters","Walters"],["model","Model"],["weather","Weather unders"]].map(([k,t])=>`<button data-wtab="${k}" aria-pressed="${k===tab}">${t}</button>`).join("")}</nav>
-    <div class="tiles2" data-tour="tiles"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div data-tour="bt"><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
+    <div data-tour="tiles"><div class="tiles2"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div data-tour="bt"><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>${earlyRow}</div>`;
   // one game's sheet: every pick on it, the three lines, the factors, injuries and QBs, the total and weather
   const gameSheet=e=>{
     const picks=[e.bpick?[`Walters play`,bPickTxt(e),bPrice(e),`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,`${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"}${starRate(e.bstars)!=null?` · ${pct(starRate(e.bstars))} in the backtest`:""}`]:null,
@@ -2208,7 +2216,7 @@ function renderWalters(){
     const f=e.factors||[],side=s=>s==="h"?e.home:e.away,ftxt=x=>{const t=side(x[0]);const v=x[2].startsWith(t+" ")?x[2].slice(t.length+1):x[2];return esc(v.charAt(0).toUpperCase()+v.slice(1))};
     const inj=(team,list,pp)=>list&&list.length?list.map(x=>shRow(`${team} out: ${esc(x[0])} <small>(${x[1]}, ${Math.round(x[2]*100)}% snaps)</small>`,"")).join("")+shRow(`${team} injuries total`,`≈${fmt(pp)} pts`):"";
     return (picks.length?picks.map(([k,t,pr,r,note])=>shSec("",`<div class="shpick"><div><span>${k}</span><b class="over">${esc(t)}</b><small>${pr!=null?`${amFmt(pr)} at DraftKings`:"DraftKings"}</small></div><div class="shpr">${r}</div></div><div class="shnote">${note}</div>`)).join(""):shSec("",shNote("No play on this game in any of the three models.")))
-      +shSec("Lines (home team)",shRow("DraftKings",`${e.home} ${ln(e.line)}`)+shRow("Walters",`${e.home} ${ln(e.bfair)}`)+shRow("Model",`${e.home} ${ln(e.fair)}`)
+      +shSec("Lines (home team)",shRow("DraftKings",`${e.home} ${ln(e.line)}`)+[["eb","Walters"],["e","Model"]].filter(([k])=>e[k+"pick"]).map(([k,n])=>shRow(`${n} locked early · ${when(new Date(e[k+"t"]))}`,`${e[k+"pick"]==="home"?e.home:e.away} ${ln(sideLine({line:e[k+"line"]},e[k+"pick"]))}${e[k+"price"]!=null?` (${amFmt(e[k+"price"])})`:""}`)).join("")+shRow("Walters",`${e.home} ${ln(e.bfair)}`)+shRow("Model",`${e.home} ${ln(e.fair)}`)
         +(e.bpct!=null?shNote(`The gap to DraftKings covers ${fmt(e.bpct)}% of NFL final margins${e.bstars?`, a ${starIc(e.bstars)} play`:" (under 5.5%: no Walters play)"}.`):""))
       +shSec("Game factors",(f.length?f.map(x=>shRow(`${ftxt(x)} · ${side(x[0])}`,`+${fmt(x[1])}`)).join(""):shNote("No game factors on this one."))+((e.wnotes||[]).length?shNote(`Tracked at 0 pts: ${e.wnotes.map(esc).join(", ")}`):""),f.length?`${e.fnet>0?e.home:e.away} ${e.fnet?"+"+fmt(Math.abs(e.fnet))+" pts net":"even"}`:"")
       +shSec("Injuries and QBs",(inj(e.away,e.inj_a,e.injp_a)+inj(e.home,e.inj_h,e.injp_h)||shNote("No starters out."))+shNote(`QB changes: ${(e.qb_note||[]).length?esc(e.qb_note.join(" · ")):"none"}`))
@@ -2233,7 +2241,7 @@ function renderWalters(){
   const np=up.filter(e=>!has(e)).sort((a,b)=>new Date(a.t)-new Date(b.t)),npShow=S.walAll?np:np.slice(0,3);
   if(np.length)html+=`<h3 class="lh">No play</h3><div class="lcard muted">${npShow.map(e=>`<div class="shw"><button class="lrow np" data-sheet="${e.away} at ${e.home}" data-kick="${kick(e,"Game")}"><b>${e.away} at ${e.home}</b><span>DK ${e.home} ${ln(e.line)} · ${tab==="model"?"M":"W"} ${e.home} ${ln(tab==="model"?e.fair:e.bfair)}</span></button><div class="shc">${gameSheet(e)}</div></div>`).join("")}${np.length>3?`<button class="lmore" data-walall>${S.walAll?"Show fewer":`View all ${np.length} games`}</button>`:""}</div>`;
   html+=`</section>`;
-  const about=`<p class="shp">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price. Paper record, not betting advice.</p>`;
+  const about=`<p class="shp">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price; Walters and Model plays are also tracked from the first hour they show up (Locked early). Paper record, not betting advice.</p>`;
   // graded picks
   const gl=[...bgr.map(e=>({e,txt:`${bPickTxt(e)} \u00b7 Walters`,u:e.bstars,price:bPrice(e),won:e.bunits_won||0,st:e.bstatus})),
     ...graded.map(e=>({e,txt:`${pickTxt(e)} \u00b7 Model`,u:e.units,price:priceOf(e),won:e.units_won||0,st:e.status})),
@@ -2263,7 +2271,7 @@ function renderWalters(){
     <div class="wmod"><div class="wmodh"><b>Weather under</b><span class="pteam">totals only</span></div><ul>
       <li>The under at an outdoor game with ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain forecast for kickoff</li>
       <li>1u · backtest ${wr(tb)} (wind ${wr(tbw)}, rain ${wr(tbr)})</li></ul></div>
-    <p class="pteam" style="margin:0">All three lock at kickoff and are graded at DraftKings' price. This week shows only Walters plays and weather unders: green = a play, red = no play. Paper record, not betting advice.</p></div>`;
+    <p class="pteam" style="margin:0">All three lock at kickoff and are graded at DraftKings' price. Walters and Model plays are also locked the first hour they show up and graded separately as <b>Locked early</b>. This week shows only Walters plays and weather unders: green = a play, red = no play. Paper record, not betting advice.</p></div>`;
   WAL_HOW=`<div class="whow">
     <h5>Ratings</h5><ul>
       <li>Points vs an average team on a neutral field</li>
@@ -2319,7 +2327,7 @@ function renderWalters(){
     <h5>Not included</h5><ul>
       <li>His player-by-player and coach values (private)</li>
       <li>Matchup judgment calls and playoff stakes: no rule to backtest</li>
-      <li>His timing: he bet early, before the market moved; these lock at kickoff</li></ul>
+      <li>His timing as the main record: he bet as early as he could, before the market moved. Our injury and weather sources only settle late in the week, so the main record locks at kickoff; <b>Locked early</b> tracks each play from the first hour it shows up and how far the line moved by kickoff</li></ul>
     <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
   html+=shcta("How it works",shSec("",WAL_HOW),"lcw")+shcta("About this page",shSec("",about),"lcw")+`</div>`;
   el.innerHTML=html;
@@ -2330,7 +2338,8 @@ let WT_SEEN=false;
 const walTourSeen=()=>{if(WT_SEEN)return true;try{return localStorage.getItem("ptWalTour")==="1"}catch(e){return false}};
 const WAL_TOUR=[
   ["tabs","Three models","<b>Walters</b> is his full book method, sized in stars. <b>Model</b> is a simpler version tuned on the backtest. <b>Weather unders</b> are totals in wind or rain. Each tab has its own picks and record."],
-  ["tiles","How it's doing","<b>This season</b> is the real record: picks lock at kickoff and are graded at DraftKings' price. <b>Backtest</b> is the same rules on every game since 2012. Losses count just like wins."],
+  ["tiles","How it's doing",()=>WAL_BT?.tab==="weather"?"<b>This season</b> is the real record: unders lock at kickoff, when the forecast is firm, and are graded at DraftKings' price. Losses count just like wins."
+    :"<b>This season</b> is the real record, graded at DraftKings' price. Walters bet as early as he could, before the line moved, but our injury and weather sources only settle late in the week, so these lock at kickoff. <b>Locked early</b> keeps each play from the first hour it shows up, to see what his timing would add."],
   ["bt","Up and down",()=>{const b=WAL_BT,ss=b.seasons;if(!ss.length)return"";
     const up=ss.filter(x=>x[1]>0).length,dn=ss.filter(x=>x[1]<0).length,best=ss.reduce((a,x)=>x[1]>a[1]?x:a),worst=ss.reduce((a,x)=>x[1]<a[1]?x:a);
     const name={walters:"Walters' method",model:"The Model",weather:"The weather under"}[b.tab];
@@ -2346,7 +2355,7 @@ function seasonBars(ss){const W=300,H=64,n=ss.length,bw=W/n,m=Math.max(1,...ss.m
 function walTour(){
   WT_SEEN=true;try{localStorage.setItem("ptWalTour","1")}catch(e){}
   document.querySelector(".wtour")?.remove();
-  const steps=WAL_TOUR.filter(([k,,t])=>document.querySelector(`#view-walt [data-tour="${k}"]`)&&(typeof t!="function"||WAL_BT?.seasons.length));if(!steps.length)return;
+  const steps=WAL_TOUR.filter(([k,,t])=>document.querySelector(`#view-walt [data-tour="${k}"]`)&&(k!=="bt"||WAL_BT?.seasons.length));if(!steps.length)return;
   const ov=document.createElement("div");ov.className="wtour";
   ov.innerHTML=`<div class="wtspot"></div><div class="wtcard" role="dialog" aria-modal="true" aria-labelledby="wtt"><small></small><b id="wtt"></b><p></p><div class="wtdots">${steps.map(()=>"<i></i>").join("")}</div><div class="wtnav"><button class="wtskip">Skip</button><button class="btn wtback">Back</button><button class="btn wtnext"></button></div></div>`;
   document.body.appendChild(ov);

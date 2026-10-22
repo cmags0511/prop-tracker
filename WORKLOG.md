@@ -4,6 +4,13 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters early locks (PR, record logic). `walters.py` now also locks each Walters and Model side play the
+  first hour it shows up (`epick`/`eline`/`eprice`/`eunits`/`et`, Walters `eb*` with `ebstars`) and grades it at that
+  line and price (`estatus`/`eunits_won`, `ebstatus`/`ebunits_won`), plus `eclv`/`ebclv` = points the line moved its way
+  by kickoff. The kickoff record is unchanged and still the main one. Page: a "Locked early" row under the tiles
+  (Walters and Model tabs), the early line in each game's Details, and the tour / How it works / About say Walters bet
+  as early as he could but our injury and weather sources settle late, so the main record locks at kickoff. Weather
+  unders stay kickoff-only. The first early locks are this week's plays at today's lines. sw.js pt-v91.
 - **rmolnar10**: Walters tour step 3 "Up and down" (PR): the open tab's backtest total since 2012, a small bar per season
   (units won/lost, `seasonBars`) and the count of winning vs losing seasons with the best and worst year. Reads
   `WAL_BT`, set in `renderWalters` from walters.json, so the numbers follow the data. sw.js pt-v90.
