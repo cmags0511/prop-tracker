@@ -1032,6 +1032,19 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 @keyframes spark{from{transform:translate(-50%,-50%) rotate(0);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy) + 40px)) rotate(var(--r));opacity:0}}
 @keyframes bbin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.foil,.bbs.open .bbrest{transition:none;animation:none}}
+/* Walters page tour: a spotlight cut out of a dim layer, and a step card next to it */
+.wtour{position:fixed;inset:0;z-index:45}
+.wtspot{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgb(5 10 18 / .6);outline:2px solid var(--accent);outline-offset:2px;pointer-events:none;transition:top .25s,left .25s,width .25s,height .25s}
+.wtcard{position:fixed;left:16px;right:16px;max-width:360px;margin:0 auto;background:var(--panel);color:var(--ink);border-radius:16px;padding:14px 16px 12px;box-shadow:0 12px 36px rgb(0 0 0 / .35)}
+.wtcard small{display:block;font:700 11.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.wtcard>b{display:block;font:800 16px var(--f-body);margin:2px 0 6px}
+.wtcard p{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}.wtcard p b{color:var(--ink)}
+.wtnav{display:flex;align-items:center;gap:8px;margin-top:12px}
+.wtnav .wtskip{margin-right:auto;border:0;background:none;color:var(--muted);font:600 13px var(--f-body);padding:8px 4px;cursor:pointer;min-height:40px}
+.wtnav .btn{min-height:40px}
+.wtnav .wtnext{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.wtdots{display:flex;gap:5px;margin-top:10px}.wtdots i{width:6px;height:6px;border-radius:50%;background:var(--line2)}.wtdots i.on{background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.wtspot{transition:none}}
 </style>
 </head>
 <body>
@@ -1693,6 +1706,7 @@ function render(){
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab"||S.view==="fw";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
+  document.querySelector(".sitefoot").hidden=S.view==="walt";  // no footer photo on the Walters page
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
@@ -2140,7 +2154,7 @@ const shSec=(h,inner,right="")=>`<div class="shsec">${h?`<div class="shk"><span>
 const shRow=(k,v,cls="")=>`<div class="shrow ${cls}"><span>${k}</span><b>${v}</b></div>`;
 const shNote=t=>`<div class="shnote">${t}</div>`;
 const shGrid=cells=>`<div class="shgrid">${cells.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join("")}</div>`;
-function openWalGuide(){openSheet("How it works",`${shSec("The 3 models",WAL_MODELS)}${shSec("The method",WAL_HOW)}`,null,"Walters NFL")}
+function openWalGuide(){openSheet("How it works",`<button class="btn ghost" data-wtour style="width:100%;margin-bottom:10px">Take the page tour</button>${shSec("The 3 models",WAL_MODELS)}${shSec("The method",WAL_HOW)}`,null,"Walters NFL")}
 // Walters stars as icons: whole stars plus a half-filled star for the half
 const starIc=n=>"\u2605".repeat(Math.floor(n))+(n%1?'<span class="hst" aria-hidden="true">\u2606</span>':"");
 function renderWalters(){
@@ -2179,9 +2193,9 @@ function renderWalters(){
   const T={walters:[`${bw2}–${bl2}`,uc(bgr.length,bunits,"(units = stars)"),wr(bka),`${bka[0]}–${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}`],
     model:[`${w}–${l}${pu?`–${pu}`:""}`,uc(graded.length,units,"at DraftKings' price"),pct(bw/Math.max(1,bw+bl)),`${bw}–${bl} since ${bt.from||2012} · ${bt.all?unitsTxt(bt.all[2]):""} at -110`],
     weather:[`${tw}–${tl}`,uc(tg.length,tunits,"at DraftKings' price"),wr(tb),`${tb[0]}–${tb[1]} since ${btt.from||2012} · ${unitsTxt(tb[2]||0)} at -110`]}[tab];
-  let html=`<section class="recw"><div class="whead"><button class="wico" data-goto="app" aria-label="Back to Record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><b>Walters NFL</b><button class="wico" data-wguide="1" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button></div>
-    <nav class="utabs" aria-label="Model">${[["walters","Walters"],["model","Model"],["weather","Weather unders"]].map(([k,t])=>`<button data-wtab="${k}" aria-pressed="${k===tab}">${t}</button>`).join("")}</nav>
-    <div class="tiles2"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
+  let html=`<section class="recw"><div class="whead"><button class="wico" data-goto="app" aria-label="Back to Record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><b>Walters NFL</b><button class="wico" data-wguide="1" data-tour="guide" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button></div>
+    <nav class="utabs" aria-label="Model" data-tour="tabs">${[["walters","Walters"],["model","Model"],["weather","Weather unders"]].map(([k,t])=>`<button data-wtab="${k}" aria-pressed="${k===tab}">${t}</button>`).join("")}</nav>
+    <div class="tiles2" data-tour="tiles"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
   // one game's sheet: every pick on it, the three lines, the factors, injuries and QBs, the total and weather
   const gameSheet=e=>{
     const picks=[e.bpick?[`Walters play`,bPickTxt(e),bPrice(e),`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,`${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"}${starRate(e.bstars)!=null?` · ${pct(starRate(e.bstars))} in the backtest`:""}`]:null,
@@ -2211,7 +2225,7 @@ function renderWalters(){
   if(tab==="walters")html+=`<h3 class="lh">3-star plays <small>${s3w}–${s3l} this season${s3g.length?` · ${unitsTxt(s3u)}`:""} · backtest ${wr(s3bt)} (${s3bt[0]}–${s3bt[1]})</small></h3>
     <div class="lcard">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">1u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
     <div class="lrow"><span class="lmuted">The gap between his number and DraftKings' covers 15%+ of NFL final margins: the only tier that won in both halves of the backtest. 1 unit each here.</span></div></div>`;
-  html+=`<h3 class="lh">Plays this week</h3><div class="lcard">${plays.length?plays.map(row).join(""):`<div class="lrow"><span class="lmuted">${up.length?"No plays this week yet.":"No NFL games on the board yet."}</span></div>`}</div>`;
+  html+=`<h3 class="lh">Plays this week</h3><div class="lcard" data-tour="plays">${plays.length?plays.map(row).join(""):`<div class="lrow"><span class="lmuted">${up.length?"No plays this week yet.":"No NFL games on the board yet."}</span></div>`}</div>`;
   const np=up.filter(e=>!has(e)).sort((a,b)=>new Date(a.t)-new Date(b.t)),npShow=S.walAll?np:np.slice(0,3);
   if(np.length)html+=`<h3 class="lh">No play</h3><div class="lcard muted">${npShow.map(e=>`<div class="shw"><button class="lrow np" data-sheet="${e.away} at ${e.home}" data-kick="${kick(e,"Game")}"><b>${e.away} at ${e.home}</b><span>DK ${e.home} ${ln(e.line)} · ${tab==="model"?"M":"W"} ${e.home} ${ln(tab==="model"?e.fair:e.bfair)}</span></button><div class="shc">${gameSheet(e)}</div></div>`).join("")}${np.length>3?`<button class="lmore" data-walall>${S.walAll?"Show fewer":`View all ${np.length} games`}</button>`:""}</div>`;
   html+=`</section>`;
@@ -2305,7 +2319,42 @@ function renderWalters(){
     <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
   html+=shcta("How it works",shSec("",WAL_HOW),"lcw")+shcta("About this page",shSec("",about),"lcw")+`</div>`;
   el.innerHTML=html;
+  if(!walTourSeen())setTimeout(()=>{if(S.view==="walt"&&!document.querySelector(".wtour,#sheet"))walTour()},350);
 }
+// First-visit tour of the Walters page (ptWalTour in localStorage); "Take the page tour" in the ⓘ sheet replays it
+let WT_SEEN=false;
+const walTourSeen=()=>{if(WT_SEEN)return true;try{return localStorage.getItem("ptWalTour")==="1"}catch(e){return false}};
+const WAL_TOUR=[
+  ["tabs","Three models","<b>Walters</b> is his full book method, sized in stars. <b>Model</b> is a simpler version tuned on the backtest. <b>Weather unders</b> are totals in wind or rain. Each tab has its own picks and record."],
+  ["tiles","How it's doing","<b>This season</b> is the real record: picks lock at kickoff and are graded at DraftKings' price. <b>Backtest</b> is the same rules on every game since 2012. Losses count just like wins."],
+  ["plays","This week's plays","Each row is a pick: the team and spread, with stars and units on the right (1 star = 1 unit). Tap <b>Details</b> for the lines, game factors, injuries and weather behind it."],
+  ["guide","Read more anytime","Tap <b>ⓘ</b> for the three models and the full method. <b>How it works</b> and the backtest by season are also at the bottom of the page. Paper record, not betting advice."]];
+function walTour(){
+  WT_SEEN=true;try{localStorage.setItem("ptWalTour","1")}catch(e){}
+  document.querySelector(".wtour")?.remove();
+  const steps=WAL_TOUR.filter(([k])=>document.querySelector(`#view-walt [data-tour="${k}"]`));if(!steps.length)return;
+  const ov=document.createElement("div");ov.className="wtour";
+  ov.innerHTML=`<div class="wtspot"></div><div class="wtcard" role="dialog" aria-modal="true" aria-labelledby="wtt"><small></small><b id="wtt"></b><p></p><div class="wtdots">${steps.map(()=>"<i></i>").join("")}</div><div class="wtnav"><button class="wtskip">Skip</button><button class="btn wtback">Back</button><button class="btn wtnext"></button></div></div>`;
+  document.body.appendChild(ov);
+  const spot=ov.querySelector(".wtspot"),card=ov.querySelector(".wtcard");let i=0;
+  const place=()=>{const t=document.querySelector(`#view-walt [data-tour="${steps[i][0]}"]`);if(!t)return;
+    const r=t.getBoundingClientRect(),vh=innerHeight,pad=6,h=Math.min(r.height,vh*.42);
+    spot.style.cssText=`top:${r.top-pad}px;left:${r.left-pad}px;width:${r.width+pad*2}px;height:${h+pad*2}px`;
+    const ch=card.offsetHeight,below=r.top+h+pad+12;
+    card.style.top=(below+ch<vh-8?below:Math.max(8,r.top-pad-12-ch))+"px"};
+  const show=n=>{i=n;const [k,title,txt]=steps[i],t=document.querySelector(`#view-walt [data-tour="${k}"]`);
+    card.querySelector("small").textContent=`${i+1} of ${steps.length}`;card.querySelector("b").textContent=title;card.querySelector("p").innerHTML=txt;
+    card.querySelectorAll(".wtdots i").forEach((d,j)=>d.classList.toggle("on",j===i));
+    card.querySelector(".wtback").hidden=i===0;card.querySelector(".wtnext").textContent=i===steps.length-1?"Done":"Next";
+    const r=t.getBoundingClientRect();scrollTo({top:Math.max(0,r.top+scrollY-(r.height>innerHeight*.42?90:innerHeight*.3)),behavior:"instant"});
+    place();card.querySelector(".wtnext").focus()};
+  const end=()=>{ov.remove();removeEventListener("resize",place);removeEventListener("scroll",place);document.removeEventListener("keydown",key,true)};
+  const key=e=>{if(e.key==="Escape"){e.stopPropagation();end()}else if(e.key==="ArrowRight"&&i<steps.length-1)show(i+1);else if(e.key==="ArrowLeft"&&i>0)show(i-1)};
+  ov.addEventListener("click",e=>{if(e.target.closest(".wtskip"))end();else if(e.target.closest(".wtback"))show(i-1);else if(e.target.closest(".wtnext"))i<steps.length-1?show(i+1):end()});
+  addEventListener("resize",place);addEventListener("scroll",place,{passive:true});document.addEventListener("keydown",key,true);
+  show(0);
+}
+document.addEventListener("click",e=>{if(e.target.closest("#sheet [data-wtour]")){document.getElementById("sheet")?.remove();walTour()}});
 function recTypeSwitch(){
   const openP=PARLAYS.length,st=MY.length;
   return`<div class="seg2" role="group" aria-label="Bet type"><button data-rtype="straight" aria-pressed="${S.recType!=="parlay"&&S.recType!=="app"}">Straight bets${st?`<small>${st}</small>`:""}</button><button data-rtype="parlay" aria-pressed="${S.recType==="parlay"}">Parlays${openP?`<small>${openP}</small>`:""}</button></div>`;
