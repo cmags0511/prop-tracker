@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters tour fix: the step card covered the highlighted area on phones when it was tall (tiles + Locked
+  early). The tour now scrolls the highlighted area and the card into view together, one above the other, and shortens the highlight when both can't fit
+  (`spotH`/`vhNow` in `walTour`, uses visualViewport for Safari's toolbars). Step 2 text shortened. sw.js pt-v92.
 - **rmolnar10**: Walters early locks (PR, record logic). `walters.py` now also locks each Walters and Model side play the
   first hour it shows up (`epick`/`eline`/`eprice`/`eunits`/`et`, Walters `eb*` with `ebstars`) and grades it at that
   line and price (`estatus`/`eunits_won`, `ebstatus`/`ebunits_won`), plus `eclv`/`ebclv` = points the line moved its way

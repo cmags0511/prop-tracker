@@ -2339,7 +2339,7 @@ const walTourSeen=()=>{if(WT_SEEN)return true;try{return localStorage.getItem("p
 const WAL_TOUR=[
   ["tabs","Three models","<b>Walters</b> is his full book method, sized in stars. <b>Model</b> is a simpler version tuned on the backtest. <b>Weather unders</b> are totals in wind or rain. Each tab has its own picks and record."],
   ["tiles","How it's doing",()=>WAL_BT?.tab==="weather"?"<b>This season</b> is the real record: unders lock at kickoff, when the forecast is firm, and are graded at DraftKings' price. Losses count just like wins."
-    :"<b>This season</b> is the real record, graded at DraftKings' price. Walters bet as early as he could, before the line moved, but our injury and weather sources only settle late in the week, so these lock at kickoff. <b>Locked early</b> keeps each play from the first hour it shows up, to see what his timing would add."],
+    :"<b>This season</b> is the real record at DraftKings' price. Walters bet as early as he could, before lines moved. Our injury and weather sources settle late in the week, so these lock at kickoff. <b>Locked early</b> tracks his timing."],
   ["bt","Up and down",()=>{const b=WAL_BT,ss=b.seasons;if(!ss.length)return"";
     const up=ss.filter(x=>x[1]>0).length,dn=ss.filter(x=>x[1]<0).length,best=ss.reduce((a,x)=>x[1]>a[1]?x:a),worst=ss.reduce((a,x)=>x[1]<a[1]?x:a);
     const name={walters:"Walters' method",model:"The Model",weather:"The weather under"}[b.tab];
@@ -2360,16 +2360,20 @@ function walTour(){
   ov.innerHTML=`<div class="wtspot"></div><div class="wtcard" role="dialog" aria-modal="true" aria-labelledby="wtt"><small></small><b id="wtt"></b><p></p><div class="wtdots">${steps.map(()=>"<i></i>").join("")}</div><div class="wtnav"><button class="wtskip">Skip</button><button class="btn wtback">Back</button><button class="btn wtnext"></button></div></div>`;
   document.body.appendChild(ov);
   const spot=ov.querySelector(".wtspot"),card=ov.querySelector(".wtcard");let i=0;
+  // spotlight + card are stacked; a target too tall for both is cut down so the card always fits beside it
+  const pad=6,vhNow=()=>window.visualViewport?.height||innerHeight,spotH=(r,ch)=>Math.min(r.height,Math.max(60,vhNow()-ch-2*pad-36));
   const place=()=>{const t=document.querySelector(`#view-walt [data-tour="${steps[i][0]}"]`);if(!t)return;
-    const r=t.getBoundingClientRect(),vh=innerHeight,pad=6,h=Math.min(r.height,vh*.42);
+    const r=t.getBoundingClientRect(),vh=vhNow(),ch=card.offsetHeight,h=spotH(r,ch);
     spot.style.cssText=`top:${r.top-pad}px;left:${r.left-pad}px;width:${r.width+pad*2}px;height:${h+pad*2}px`;
-    const ch=card.offsetHeight,below=r.top+h+pad+12;
-    card.style.top=(below+ch<vh-8?below:Math.max(8,r.top-pad-12-ch))+"px"};
+    // the card goes under the spotlight, else over it; it only covers the target when the page can't scroll far enough
+    const below=r.top+h+pad+12,above=r.top-pad-12-ch;
+    card.style.top=(below+ch<=vh-8?below:above>=8?above:Math.max(8,vh-ch-8))+"px"};
   const show=n=>{i=n;const [k,title,tx]=steps[i],txt=typeof tx=="function"?tx():tx,t=document.querySelector(`#view-walt [data-tour="${k}"]`);
     card.querySelector("small").textContent=`${i+1} of ${steps.length}`;card.querySelector("b").textContent=title;card.querySelector("p").innerHTML=txt;
     card.querySelectorAll(".wtdots i").forEach((d,j)=>d.classList.toggle("on",j===i));
     card.querySelector(".wtback").hidden=i===0;card.querySelector(".wtnext").textContent=i===steps.length-1?"Done":"Next";
-    const r=t.getBoundingClientRect();scrollTo({top:Math.max(0,r.top+scrollY-(r.height>innerHeight*.42?90:innerHeight*.3)),behavior:"instant"});
+    const r=t.getBoundingClientRect(),ch=card.offsetHeight,stack=spotH(r,ch)+2*pad+12+ch;
+    scrollTo({top:Math.max(0,r.top+scrollY-pad-Math.max(8,(vhNow()-stack)/2)),behavior:"instant"});
     place();card.querySelector(".wtnext").focus()};
   const end=()=>{ov.remove();removeEventListener("resize",place);removeEventListener("scroll",place);document.removeEventListener("keydown",key,true)};
   const key=e=>{if(e.key==="Escape"){e.stopPropagation();end()}else if(e.key==="ArrowRight"&&i<steps.length-1)show(i+1);else if(e.key==="ArrowLeft"&&i>0)show(i-1)};
