@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters early locks now wait for an hour with a real DraftKings price (walters.py, two conditions), so
+  an early pick can't be stuck at an assumed -110. In the history so far, a missing price only happened when DK had the
+  line off the board 5-7 days out, never near kickoff. No front-end change.
 - **rmolnar10**: Walters tour step 2 is back to its original, more specific text;
   the card still sits below the highlighted section. sw.js pt-v93.
 - **rmolnar10**: Walters tour fix: the step card covered the highlighted area on phones when it was tall (tiles + Locked
