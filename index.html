@@ -2167,6 +2167,11 @@ const shRow=(k,v,cls="")=>`<div class="shrow ${cls}"><span>${k}</span><b>${v}</b
 const shNote=t=>`<div class="shnote">${t}</div>`;
 const shGrid=cells=>`<div class="shgrid">${cells.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join("")}</div>`;
 function openWalGuide(){openSheet("How it works",`<button class="btn ghost" data-wtour style="width:100%;margin-bottom:10px">Take the page tour</button>${shSec("The 3 models",WAL_MODELS)}${shSec("The method",WAL_HOW)}`,null,"Walters NFL")}
+// How it works for one tab: drops the sections and lines tagged (data-t) for the other models
+function howFor(html,t){const d=document.createElement("div");d.innerHTML=html;
+  d.querySelectorAll("[data-t]").forEach(n=>{if(n.dataset.t.includes(t))return;if(n.tagName==="H5")n.nextElementSibling?.remove();n.remove()});
+  d.querySelectorAll("ul").forEach(u=>{if(!u.children.length){if(u.previousElementSibling?.tagName==="H5")u.previousElementSibling.remove();u.remove()}});
+  return d.innerHTML}
 // Walters stars as icons: whole stars plus a half-filled star for the half
 const starIc=n=>"\u2605".repeat(Math.floor(n))+(n%1?'<span class="hst" aria-hidden="true">\u2606</span>':"");
 function renderWalters(){
@@ -2251,21 +2256,25 @@ function renderWalters(){
   if(np.length)html+=`<h3 class="lh">No play</h3><div class="lcard muted">${npShow.map(e=>`<div class="shw"><button class="lrow np" data-sheet="${e.away} at ${e.home}" data-kick="${kick(e,"Game")}"><b>${e.away} at ${e.home}</b><span>DK ${e.home} ${ln(e.line)} · ${tab==="model"?"M":"W"} ${e.home} ${ln(tab==="model"?e.fair:e.bfair)}</span></button><div class="shc">${gameSheet(e)}</div></div>`).join("")}${np.length>3?`<button class="lmore" data-walall>${S.walAll?"Show fewer":`View all ${np.length} games`}</button>`:""}</div>`;
   html+=`</section>`;
   const about=`<p class="shp">Billy Walters' NFL method from <i>Gambler</i> (ch. 22) on every game: power ratings, QB and injuries, home field, his game factors (schedule, travel, body clock, turf, byes, weather, emotion) and his key-number star sizing. <b>Walters picks</b> use all of it, sized by his stars. <b>Model picks</b> are the backtest-tuned version without the factors, ${fmt(P.edge||4)}+ points off DraftKings. The totals pick is his weather factor, the under outdoors in ${wb[0]}–${wb[1]-1} mph wind or ${fmt(rmm)}mm+ of rain. Locked at kickoff and graded at DraftKings' price; Walters and Model plays are also tracked from the first hour they show up (Locked early). Paper record, not betting advice.</p>`;
-  // graded picks
-  const gl=[...bgr.map(e=>({e,txt:`${bPickTxt(e)} \u00b7 Walters`,u:e.bstars,price:bPrice(e),won:e.bunits_won||0,st:e.bstatus})),
-    ...graded.map(e=>({e,txt:`${pickTxt(e)} \u00b7 Model`,u:e.units,price:priceOf(e),won:e.units_won||0,st:e.status})),
-    ...tg.map(e=>({e,txt:`Under ${fmt(e.tline)}`,u:1,price:e.tprice_u,won:e.tunits_won||0,st:e.tstatus}))].sort((a,b)=>new Date(b.e.t)-new Date(a.e.t));
+  // graded picks, backtest and How it works below are for the open tab only
+  const tabName={walters:"Walters",model:"Model",weather:"Weather under"}[tab];
+  const gl=({walters:()=>bgr.map(e=>({e,txt:bPickTxt(e),u:e.bstars,price:bPrice(e),won:e.bunits_won||0,st:e.bstatus})),
+    model:()=>graded.map(e=>({e,txt:pickTxt(e),u:e.units,price:priceOf(e),won:e.units_won||0,st:e.status})),
+    weather:()=>tg.map(e=>({e,txt:`Under ${fmt(e.tline)}`,u:1,price:e.tprice_u,won:e.tunits_won||0,st:e.tstatus}))})[tab]().sort((a,b)=>new Date(b.e.t)-new Date(a.e.t));
   if(gl.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
     const g0=html.length;
-    html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
+    html+=`<section class="board"><div class="bhead"><h2>${tabName} graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
     html=html.slice(0,g0)+`<div class="lcard wlinks" data-tour="links">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"lcw")}`}else html+=`<div class="lcard wlinks" data-tour="links">`;
-  // backtest by season and the current ratings
-  const yrs=Object.entries(bt.seasons||{}),b0=html.length;
-  html+=`<section class="top"><div class="rsplit"><div><h4>Backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Walters</th><th class="num">Units</th><th class="num">Model</th><th class="num">Units</th><th class="num">Weather unders</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>{const t=(btt.seasons||{})[y]||[0,0,0],b=(bb.seasons||{})[y]||[0,0,0];return`<tr><td>${y}</td><td class="num mono">${b[0]}-${b[1]}</td><td class="num mono" style="color:${b[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(b[2])}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono" style="color:${v[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v[2])}</td><td class="num mono">${t[0]}-${t[1]}</td><td class="num mono" style="color:${t[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t[2])}</td></tr>`}).join("")}</tbody></table></div>
-      <p class="pteam" style="margin:6px 0 0">${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't Model picks.<br>Walters by stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${starIc(+k)} ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}</p></div>
-    <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
-      <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div></div></section>`;
-  html=html.slice(0,b0)+shcta("Backtest by season and power ratings",html.slice(b0),"lcw");
+  // backtest by season (this tab's model) and, for the side models, the current ratings
+  const [sb,sAll,sNote]={walters:[bb.seasons,bka,`By stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${starIc(+k)} ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Units = stars at the closing price.`],
+    model:[bt.seasons,bt.all||[0,0,0],`${Object.entries(bt.tiers||{}).map(([k,v])=>`${k} pts off: ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Smaller gaps were a coin flip, so they aren't Model picks. Units at -110.`],
+    weather:[btt.seasons,tb,`Wind ${wb[0]}–${wb[1]-1} mph: ${tbw[0]}-${tbw[1]} (${wr(tbw)}) · rain ${fmt(rmm)}mm+: ${tbr[0]}-${tbr[1]} (${wr(tbr)}). A game with both counts once in the total. Units at -110.`]}[tab];
+  const yrs=Object.entries(sb||{}),b0=html.length,uc2=v=>`style="color:${v>=0?"var(--hit)":"var(--miss)"}"`;
+  html+=`<section class="top"><div class="rsplit"><div><h4>${tabName} backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Win %</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>`<tr><td>${y}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono">${wr(v)}</td><td class="num mono" ${uc2(v[2])}>${unitsTxt(v[2])}</td></tr>`).join("")}<tr><td><b>All</b></td><td class="num mono"><b>${sAll[0]}-${sAll[1]}</b></td><td class="num mono"><b>${wr(sAll)}</b></td><td class="num mono" ${uc2(sAll[2]||0)}><b>${unitsTxt(sAll[2]||0)}</b></td></tr></tbody></table></div>
+      <p class="pteam" style="margin:6px 0 0">${sNote}</p></div>
+${tab!=="weather"?`    <div><h4>Power ratings</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Rating</th><th class="num">Market</th><th class="num">Results</th></tr></thead><tbody>${(WAL.ratings||[]).map(r=>`<tr><td>${r[0]}</td><td class="num mono"><b>${ln(r[1])}</b></td><td class="num mono">${ln(r[2])}</td><td class="num mono">${ln(r[3])}</td></tr>`).join("")}</tbody></table></div>
+      <p class="pteam" style="margin:6px 0 0">Points vs an average team on a neutral field. ${Math.round((P.alpha||.8)*100)}% from the market (each team's rating solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% from results, updated a little each week the way Walters does.</p></div>`:""}</div></section>`;
+  html=html.slice(0,b0)+shcta(tab==="weather"?"Backtest by season":"Backtest by season and power ratings",html.slice(b0),"lcw");
   // the page guide (sheet) and How it works share this text
   WAL_MODELS=`<div class="wmods">
     <div class="wmod"><div class="wmodh"><b>Walters</b><span class="pteam">his full book method</span></div><ul>
@@ -2282,16 +2291,16 @@ function renderWalters(){
       <li>1u · backtest ${wr(tb)} (wind ${wr(tbw)}, rain ${wr(tbr)})</li></ul></div>
     <p class="pteam" style="margin:0">All three lock at kickoff and are graded at DraftKings' price. Walters and Model plays are also locked the first hour they show up and graded separately as <b>Locked early</b>. This week shows only Walters plays and weather unders: green = a play, red = no play. Paper record, not betting advice.</p></div>`;
   WAL_HOW=`<div class="whow">
-    <h5>Ratings</h5><ul>
+    <h5 data-t="wm">Ratings</h5><ul>
       <li>Points vs an average team on a neutral field</li>
       <li>${Math.round((P.alpha||.8)*100)}% market (solved from recent closing spreads), ${Math.round((1-(P.alpha||.8))*100)}% results</li>
       <li>Results use Walters' slow update: each game nudges the rating, it doesn't reset it</li>
       <li>Stand-in for his private player, coach and preseason values</li></ul>
-    <h5>QB and home field</h5><ul>
+    <h5 data-t="wm">QB and home field</h5><ul>
       <li>QB swing: ${fmt(P.qb||4)} pts for a backup starting or the main QB returning (his "about a touchdown" tested worse; the market moves for most of it)</li>
       <li>Starters from nflverse + ESPN's injury report (Out or Doubtful = backup starts)</li>
       <li>Home field: ${fmt(P.hfa||1.5)} pts (he says ~2.5 long-run, under 1 lately)</li></ul>
-    <h5>Game factors (Walters only)</h5><ul>
+    <h5 data-t="w">Game factors (Walters only)</h5><ul>
       <li>Each factor point = 0.2 pts of spread (5 = 1 point)</li>
       <li>Where a factor shows a range, his chart sets the value by the situation; none are judgment calls:</li>
       <li><b>Prime time:</b> home on Thu / Sun / Mon night +2 / +4 / +2</li>
@@ -2308,37 +2317,38 @@ function renderWalters(){
       <li><b>Super Bowl teams:</b> winner +4 in week 1, +2 in weeks 2–4; loser's opponent gets the same</li>
       <li><b>Blowout loss last week:</b> +2 after losing by 19–28, +4 after 29+</li>
       <li><b>Emotion</b> (+1 each): 2-game losing streak, lost the last meeting, coach or QB vs his old team</li></ul>
-    <h5>Star sizing (Walters only)</h5><ul>
+    <h5 data-t="w">Star sizing (Walters only)</h5><ul>
       <li>How often games land on each margin: 3 = 8%, 7 = 6%, 6 and 14 = 5%, 10 = 4%, most others 2–3%</li>
       <li>Add up the numbers between his line and DK's (a line on the number counts half)</li>
       <li>DK's price moves the line ~⅛ pt per 5¢ off -110</li>
       <li>${[[5.5,.5],[7,1],[9,1.5],[11,2],[13,2.5],[15,3]].map(([p,n])=>`${p}% = ${starIc(n)}`).join(" · ")}</li></ul>
-    <h5>Injuries</h5><ul>
+    <h5 data-t="wm">Injuries</h5><ul>
       <li>Out / Doubtful starters, valued by position × recent snap share: OL .6, WR .8, TE .5, RB .3, DL .6, LB .3, CB .7, S .4</li>
       <li>×1.5 when two starters in one unit are out</li>
       <li>Count in the Walters line; not in the Model (no edge vs the closing line)</li></ul>
-    <h5>Totals</h5><ul>
+    <h5 data-t="x">Totals</h5><ul>
       <li>Ratings-based totals models went 47–50%, so there's no totals model</li>
       <li>Wind ${wb[0]}–${wb[1]-1} mph unders won in both halves of the sample; calm games and 20+ mph storms didn't</li>
       <li>Rain unders (${fmt(rmm)}mm+ over kickoff and the next 3 hours): ${tbr[0]}–${tbr[1]}, stronger since 2018</li>
       <li>Rain caveats: the backtest uses rain that actually fell, live picks use a forecast; and ${fmt(rmm)}mm was the best of a few cutoffs tried, so expect a bit less</li></ul>
-    <h5>What the backtest says</h5><ul>
-      <li>Every regular-season game since ${bt.from||2012}, against closing lines</li>
-      <li>His factors beat the line in 2012–18, not since 2019</li>
-      <li>Walters ${starIc(.5)} to ${starIc(2.5)} plays ≈ coin flip; ${starIc(3)} ≈ 56% in both eras</li>
-      <li>Model: 55% in 2012–18, 57% since</li></ul>
-    <h5>Tracked at 0 points</h5><ul>
-      <li>He weighs these but publishes no value (or a tiny one); against 17 years of kickoff weather and closing lines, each came out at about zero, so they're listed under Game factors with no effect on the line</li>
-      <li><b>Snow:</b> only ~40 snow games since 2009, with no effect on the side</li>
-      <li><b>Wind vs the pass-heavier team</b> (15+ mph): the closing line already has it</li>
-      <li><b>Each QB's weather record</b> (cold, heat, wind, wet, domes; his ±0.15 pts): a QB's past record in a condition didn't predict his next game in it</li>
-      <li>Non-QB injuries in the Model: no edge vs closing lines (the market has the Friday report)</li></ul>
-    <h5>Not included</h5><ul>
+    <h5 data-t="wmx">What the backtest says</h5><ul>
+      <li data-t="wmx">Every regular-season game since ${bt.from||2012}, against closing lines</li>
+      <li data-t="w">His factors beat the line in 2012–18, not since 2019</li>
+      <li data-t="w">Walters ${starIc(.5)} to ${starIc(2.5)} plays ≈ coin flip; ${starIc(3)} ≈ 56% in both eras</li>
+      <li data-t="m">Model: 55% in 2012–18, 57% since</li>
+      <li data-t="x">Weather unders ${wr(tb)}: wind ${wr(tbw)}, rain ${wr(tbr)}</li></ul>
+    <h5 data-t="wm">Tracked at 0 points</h5><ul>
+      <li data-t="w">He weighs these but publishes no value (or a tiny one); against 17 years of kickoff weather and closing lines, each came out at about zero, so they're listed under Game factors with no effect on the line</li>
+      <li data-t="w"><b>Snow:</b> only ~40 snow games since 2009, with no effect on the side</li>
+      <li data-t="w"><b>Wind vs the pass-heavier team</b> (15+ mph): the closing line already has it</li>
+      <li data-t="w"><b>Each QB's weather record</b> (cold, heat, wind, wet, domes; his ±0.15 pts): a QB's past record in a condition didn't predict his next game in it</li>
+      <li data-t="m">Non-QB injuries in the Model: no edge vs closing lines (the market has the Friday report)</li></ul>
+    <h5 data-t="wm">Not included</h5><ul>
       <li>His player-by-player and coach values (private)</li>
       <li>Matchup judgment calls and playoff stakes: no rule to backtest</li>
       <li>His timing as the main record: he bet as early as he could, before the market moved. Our injury and weather sources only settle late in the week, so the main record locks at kickoff; <b>Locked early</b> tracks each play from the first hour it shows up and how far the line moved by kickoff</li></ul>
     <p class="pteam" style="margin:8px 0 0">Built ${WAL.built?new Date(WAL.built).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"–"}.</p></div>`;
-  html+=shcta("How it works",shSec("",WAL_HOW),"lcw")+shcta("About this page",shSec("",about),"lcw")+`</div>`;
+  html+=shcta("How it works",shSec("",howFor(WAL_HOW,{walters:"w",model:"m",weather:"x"}[tab])),"lcw")+shcta("About this page",shSec("",about),"lcw")+`</div>`;
   el.innerHTML=html;
   if(!walTourSeen())setTimeout(()=>{if(S.view==="walt"&&!document.querySelector(".wtour,#sheet"))walTour()},350);
 }
@@ -2355,9 +2365,9 @@ const WAL_TOUR=[
     return`How cool! ${name} is <b>${b.units>=0?"up":"down"} ${fmt(Math.abs(Math.round(b.units)))} units</b> since ${b.from} in the backtest.${seasonBars(ss)}But progress isn't linear: <b>${up} seasons won, ${dn} lost</b>. Best ${best[0]} ${unitsTxt(best[1])}, worst ${worst[0]} ${unitsTxt(worst[1])}.`}],
   ["plays","This week's plays","Each row is a pick: the team and spread, with stars and units on the right (1 star = 1 unit). Tap <b>Details</b> for the lines, game factors, injuries and weather behind it."],
   ["links","At the bottom",()=>{const has=t=>[...document.querySelectorAll('#view-walt [data-tour="links"] .shcta')].some(b=>b.textContent.startsWith(t));
-    return[has("View graded picks")?"<b>View graded picks</b> lists every pick this season with its final score and the units won or lost.":"<b>Graded picks</b> show up here once this season's first plays finish.",
-      "<b>Backtest by season and power ratings</b> has every year since 2012 for all three models, and each team's current rating.",
-      "<b>How it works</b> and <b>About this page</b> explain the method in full."].join(" ")}],
+    return["These follow the tab you're on.",has("View graded picks")?"<b>View graded picks</b> lists this season's picks with the final score and the units won or lost.":"<b>Graded picks</b> show up here once this season's first plays finish.",
+      has("Backtest by season and power ratings")?"<b>Backtest by season and power ratings</b> has every year since 2012 and each team's current rating.":"<b>Backtest by season</b> has every year since 2012.",
+      "<b>How it works</b> explains the method, and <b>About this page</b> covers all three models."].join(" ")}],
   ["guide","Read more anytime","Tap <b>ⓘ</b> anytime for the three models, the full method, or to replay this tour. Paper record, not betting advice."]];
 // units won or lost each backtest season as bars above/below zero (hover or long-press a bar for its number)
 function seasonBars(ss){const W=300,H=64,n=ss.length,bw=W/n,m=Math.max(1,...ss.map(x=>Math.abs(x[1]))),z=H/2,r=2;
