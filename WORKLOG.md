@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **cmags0511**: Parlay checker at the bottom of My picks (both views): `parlayCheckerHtml`, `pcRun` etc. Saved parlays
+  not yet started (+ the slip); each leg's chance (Kalshi, else the app's pick, else hit rate), links between legs in the
+  same game (shared games history, shrunk; else pairNote ±.15; opposite sides share one outcome), 20,000 simulated
+  slates → each parlay's chance, at least one / all / none, "if A misses, B hits". Front end only. sw.js pt-v101.
 - **cmags0511**: "All" in the sport switch (`lg-ALL`, `view-every`, `renderEvery`/`everyTop`): each sport's top 5
   (NFL, NBA, college, soccer Top picks) on one page, same ranking rules, tap → that sport's Top picks. Also: the NBA
   minutes trend now uses this season's games only (from a player's 4th game); it was still mixing in last season.

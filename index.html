@@ -770,6 +770,9 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .poopy:hover{opacity:1;color:var(--accent)}
 .secret{display:flex;justify-content:center;gap:4px}
 .labday,.dayk{cursor:pointer}
+.pcpick{display:flex;flex-direction:column;gap:6px;margin:4px 0 10px}.pcpick .chk{align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.4}
+.pclist{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;line-height:1.45}
+.pcdet{margin-top:10px}.pcdet summary{cursor:pointer;font-weight:600;font-size:13.5px}
 .pick.evp{width:100%}.labday .chev,.dayk .chev{display:inline-block;width:1em;color:var(--muted)}
 .labhow h3{margin:0 0 6px;font-size:16px}.labhow p{margin:0 0 10px;font-size:13.5px;line-height:1.5;color:var(--ink)}.labhow p:last-child{margin-bottom:0}
 .wgames{display:flex;flex-direction:column;gap:8px}
@@ -2530,7 +2533,7 @@ function renderRecord(){
   let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Graded automatically against the box score after each game</p></div>${recTypeSwitch()}${chips}<button class="btn ghost addpbtn" data-addpast="1">+ Add a bet you already placed</button>${weekHtml()}`;
   if(!MY.length){
     html+=`<div class="rempty"><p>You don't have any straight bets yet. Tap <b>+ Track</b> on a Top 10 pick, or open any player on the board and tap <b>Track over</b> or <b>Track under</b>, then choose <b>Straight bet</b>. Each pick is graded once the box score is posted, usually by the next morning.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
-    el.innerHTML=html;return;
+    html+=parlayCheckerHtml();el.innerHTML=html;return;
   }
   html+=`<div class="strip">
       <div><div class="k">Record</div><div class="v">${wl(T)}</div><div class="s">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""}</div></div>
@@ -2553,6 +2556,7 @@ function renderRecord(){
       Object.entries(days).map(([d,list],i)=>{const t=tally(list),dk="my|"+d,op=dayOpen(dk,i,list);return`<tr class="dayrow dayk" data-dayk="${esc(dk)}" role="button" tabindex="0" aria-expanded="${op}"><td colspan="4"><span class="chev">${op?"\u25be":"\u25b8"}</span> ${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} open</b>`:""}</td></tr>`+(op?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${e.late?'<span class="late" title="Added after kickoff">added late</span>':""}${lgf==="all"&&chips?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} \u00b7 <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}`}${e.status==="pending"?` · ${new Date(e.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`:""}</div>${e.status==="live"||e.early?sweatHtml(e):""}${clvChip(e)}</td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}${e.status==="pending"?`<button class="rm" data-unmy="${e.id}" aria-label="Remove this pick" title="Remove">✕</button>`:""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div></section>`;
   }
   html+=`<p class="note">Picks are saved in this browser on this device (or in the installed app), not in an account. Units assume 1 unit per pick at -110; real prices vary. Not betting advice.</p>`;
+  html+=parlayCheckerHtml();
   el.innerHTML=html;
 }
 
@@ -2568,7 +2572,7 @@ function renderParlayRecord(){
   let html=`<section class="top"><div class="tophead"><h2>My <span>picks</span></h2><p>Parlays win only if every leg hits; pushed or void legs drop out</p></div>${recTypeSwitch()}<button class="btn ghost addpbtn" data-addpast="1">+ Add a parlay you already placed</button>`;
   if(!G.length){
     html+=`<div class="rempty"><p>No parlays yet. Tap <b>+ Track</b> on any pick and choose <b>Add to parlay</b>. Legs collect in the parlay slip at the bottom of the screen; open it to enter your book's odds and save the parlay.</p><button class="btn" data-goto="board">Browse today's top picks</button></div></section>`;
-    el.innerHTML=html;return;
+    html+=parlayCheckerHtml();el.innerHTML=html;return;
   }
   html+=`<div class="strip">
       <div><div class="k">Record</div><div class="v">${w}-${l}${p?`-${p}`:""}</div><div class="s">${done.length} graded</div></div>
@@ -2587,10 +2591,116 @@ function renderParlayRecord(){
     return`<section class="board pcard st-${g.status}"><div class="bhead"><h2>${g.legs.length}-leg parlay</h2><p><span class="mono">${price}</span> · ${d} ${badge[g.status]||""}${g.status==="live"?` <span class="pteam">${g.legs.filter(x=>x.status==="win").length} of ${g.legs.length} legs in</span>`:""}${g.status==="win"?` <b class="mono" style="color:var(--hit)">${u(g.units)}</b>`:g.status==="loss"?` <b class="mono" style="color:var(--miss)">−1.0u</b>`:""}${!g.started?`<button class="rm" data-unparlay="${g.pl.id}" aria-label="Delete this parlay" title="Delete">✕</button>`:""}</p></div>
       <div class="bwrap"><table class="rlog"><tbody>${g.legs.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.name)}</div><div class="pteam">${x.team} ${x.home?"vs":"@"} ${x.opp} · <b style="color:${x.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${x.side==="over"?"Over":"Under"}</b> ${SHORT[x.market]||x.label}</div>${x.status==="live"||x.early?sweatHtml(x):""}${clvChip(x)}</td><td class="num mono">${fmt(x.line)}</td><td class="num mono" style="font-weight:600">${x.result==null?"–":fmt(x.result)}</td><td class="num">${x.status==="live"?'<span class="pill live">Live</span>':badge[x.status]||""}</td></tr>`).join("")}</tbody></table></div></section>`}).join("");
   html+=`<p class="note">Parlays are saved on this device. Without odds entered, payouts assume -110 per leg. A parlay can be deleted until its first game starts. Not betting advice.</p>`;
+  html+=parlayCheckerHtml();
   el.innerHTML=html;
 }
 
 
+// ---- Parlay checker (bottom of My picks): several parlays as a set. Each leg's chance, how legs move together
+// (the same leg, the same player, two players' history in the same games, or the pairNote football rules), then
+// 20,000 simulated slates: each parlay's chance, the chance at least one / all of them hit, and "if A misses, B hits".
+const PCHK={sel:null,res:null,key:""};
+function pcLegs(){  // the parlays it can check: saved ones whose games haven't started, and the slip
+  const now=Date.now(),out=PARLAYS.filter(pl=>pl.legs.length&&pl.legs.every(l=>new Date(l.t).getTime()>now)).map((pl,i)=>({id:pl.id,name:`Parlay ${i+1}`,legs:pl.legs,odds:pl.odds}));
+  if(SLIP.length>=2&&SLIP.every(l=>new Date(l.t).getTime()>now))out.push({id:"slip",name:"Parlay slip (not saved)",legs:SLIP,odds:null});
+  return out;
+}
+function pcProb(l){  // the leg's chance: Kalshi's price, else the app's chance, else his hit rate this season at the line
+  const f=legFair(l);if(f!=null)return{p:f,src:"Kalshi"};
+  if(PICKS){const k=`${l.lg}|${l.pid}|${l.market}`;
+    for(const c of [...(PICKS.picks||[]),...Object.values(PICKS.byMarket||{}).flat(),...(PICKS.games||[]),...(PICKS.tdTop||[]),...(PICKS.tdAll||[])])
+      if(c.key===k&&c.line===l.line&&Math.abs(new Date(c.t)-new Date(l.t))<12*3600e3)return{p:c.side===l.side?c.prob:1-c.prob,src:"app"}}
+  const p=(DATA[l.lg]||[]).find(x=>x.id===l.pid),m=MK[l.lg]&&MK[l.lg].find(x=>x.id===l.market);
+  if(p&&m){const gs=p.games.filter(g=>g.date>=DATA[l.lg+"meta"].curStart),use=gs.length>=3?gs:p.games.slice(-10),v=use.map(m.f).filter(x=>x!=null);
+    if(v.length){const h=v.filter(x=>l.side==="over"?x>l.line:x<l.line).length;return{p:(h+1)/(v.length+2),src:"history"}}}
+  return{p:.5,src:"none"};
+}
+function pcRho(a,b){  // how two legs move together, as a correlation (positive: they tend to hit together)
+  if(a.lg===b.lg&&a.pid===b.pid&&a.market===b.market&&a.t===b.t)return a.side===b.side?1:-1;
+  if(a.lg!==b.lg||a.t!==b.t)return 0;  // different games: unrelated
+  const P=DATA[a.lg]||[],pa=P.find(x=>x.id===a.pid),pb=P.find(x=>x.id===b.pid),ma=MK[a.lg].find(x=>x.id===a.market),mb=MK[b.lg].find(x=>x.id===b.market);
+  let rho=null;
+  if(pa&&pb&&ma&&mb){  // their history in the same games (same team, or this matchup), shrunk toward 0 when it's short
+    const hit=(m,g,l)=>{const v=m.f(g);return v==null?null:(l.side==="over"?v>l.line:v<l.line)},byDate=new Map(pb.games.map(g=>[g.date,g]));
+    let n=0,both=0,ha=0,hb=0;
+    for(const g of pa.games.slice(-40)){const h=byDate.get(g.date);if(!h)continue;
+      if(a.pid!==b.pid&&(a.team===b.team?h.opp!==g.opp:!(g.opp===b.team&&h.opp===a.team)))continue;
+      const x=hit(ma,g,a),y=hit(mb,h,b);if(x==null||y==null)continue;n++;both+=x&&y;ha+=x;hb+=y}
+    if(n>=8){const pA=ha/n,pB=hb/n,den=Math.sqrt(pA*(1-pA)*pB*(1-pB));if(den>0)rho=((both/n-pA*pB)/den)*n/(n+20)}
+  }
+  const note=pairNote(a,b);  // the football rules (QB and his receivers, backs splitting carries...) when history is thin
+  if(rho==null&&note)rho=note.good?.15:-.15;
+  else if(rho!=null&&note)rho=.7*rho+.3*(note.good?.15:-.15);
+  return Math.max(-.8,Math.min(.8,rho||0));
+}
+const pcPhi=x=>{const t=1/(1+.2316419*Math.abs(x)),d=.3989423*Math.exp(-x*x/2),p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p};
+function pcChol(S){  // Cholesky; when the guessed correlations don't fit together, shrink them until they do
+  for(let k=0;k<12;k++){const n=S.length,L=S.map(()=>Array(n).fill(0));let ok=true;
+    for(let i=0;i<n&&ok;i++)for(let j=0;j<=i;j++){let s=S[i][j];for(let q=0;q<j;q++)s-=L[i][q]*L[j][q];
+      if(i===j){if(s<=1e-9){ok=false;break}L[i][i]=Math.sqrt(s)}else L[i][j]=s/L[j][j]}
+    if(ok)return L;S=S.map((r,i)=>r.map((v,j)=>i===j?v:v*.85))}
+  return S.map((r,i)=>r.map((_,j)=>i===j?1:0));
+}
+function pcRun(set){
+  // one simulated outcome per player-prop-game ("base"): an over hits when it lands low, an under when it lands high,
+  // so the two sides of the same prop (or the same leg in two parlays) can never disagree
+  const uniq=[],idx=set.map(pl=>pl.legs.map(l=>{let k=uniq.findIndex(u=>u.lg===l.lg&&u.pid===l.pid&&u.market===l.market&&u.t===l.t&&u.side===l.side&&u.line===l.line);if(k<0){uniq.push(l);k=uniq.length-1}return k}));
+  const bases=[],bOf=uniq.map(l=>{let k=bases.findIndex(b=>b.lg===l.lg&&b.pid===l.pid&&b.market===l.market&&b.t===l.t);if(k<0){bases.push(Object.assign({},l,{side:"over"}));k=bases.length-1}return k});
+  const pr=uniq.map(pcProb),n=bases.length,S=bases.map((a,i)=>bases.map((b,j)=>i===j?1:pcRho(a,b))),L=pcChol(S);
+  const N=20000,hits=Array(set.length).fill(0),pairMiss=set.map(()=>set.map(()=>[0,0]));let any=0,all=0;
+  let seed=12345;const rnd=()=>{seed=(seed*1103515245+12345)%2147483648;return(seed+.5)/2147483648};  // fixed seed: the same answer every time
+  const z=Array(n),v=Array(n),u=Array(uniq.length);
+  for(let s=0;s<N;s++){
+    for(let i=0;i<n;i++){const r1=rnd(),r2=rnd();z[i]=Math.sqrt(-2*Math.log(r1))*Math.cos(2*Math.PI*r2)}
+    for(let i=0;i<n;i++){let x=0;for(let j=0;j<=i;j++)x+=L[i][j]*z[j];v[i]=pcPhi(x)}
+    for(let k=0;k<uniq.length;k++)u[k]=uniq[k].side==="over"?v[bOf[k]]<pr[k].p:v[bOf[k]]>1-pr[k].p;
+    const h=idx.map(ix=>ix.every(k=>u[k]));let c=0;
+    h.forEach((x,i)=>{if(x){hits[i]++;c++}});if(c)any++;if(c===set.length)all++;
+    for(let a=0;a<set.length;a++)if(!h[a])for(let b=0;b<set.length;b++)if(a!==b){pairMiss[a][b][0]++;if(h[b])pairMiss[a][b][1]++}
+  }
+  const indep=idx.map(ix=>ix.reduce((x,k)=>x*pr[k].p,1));
+  return{uniq,pr,idx,p:hits.map(x=>x/N),indep,any:any/N,all:all/N,cond:pairMiss.map(r=>r.map(([m,h])=>m?h/m:null)),S};
+}
+function parlayCheckerHtml(){
+  const sets=pcLegs();
+  const head=`<section class="top pchk"><div class="tophead"><h2>Parlay <span>checker</span></h2></div>
+    <p class="topsub">Check several parlays as a set: each one's chance, the chance at least one hits, and whether they fail together or back each other up. Uses each leg's chance (Kalshi's price, else the app's) and how the legs' players have done together in the same games.</p>`;
+  if(sets.length<2)return head+`<p class="pteam">Save at least two parlays whose games haven't started (or have two or more legs in the parlay slip) to compare them. ${sets.length===1?`You have one: ${esc(sets[0].name)}.`:""}</p></section>`;
+  if(!PCHK.sel)PCHK.sel=new Set(sets.slice(0,5).map(x=>x.id));
+  [...PCHK.sel].forEach(id=>{if(!sets.some(x=>x.id===id))PCHK.sel.delete(id)});
+  const chosen=sets.filter(x=>PCHK.sel.has(x.id)).slice(0,5);
+  const legTxt=l=>`${esc(l.name)} ${l.market==="td"?"TD":`${l.side==="over"?"o":"u"}${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}`}`;
+  let html=head+`<div class="pcpick">${sets.map(x=>`<label class="chk"><input type="checkbox" data-pcchk="${esc(x.id)}" ${PCHK.sel.has(x.id)?"checked":""}> <b>${esc(x.name)}</b> <span class="pteam">${x.legs.length} legs: ${x.legs.map(legTxt).join(", ")}</span></label>`).join("")}</div>`;
+  if(chosen.length<2)return html+`<p class="pteam">Pick at least two to compare.</p></section>`;
+  const key=JSON.stringify(chosen.map(x=>[x.id,x.legs.map(l=>[l.pid,l.market,l.side,l.line,l.t])]));
+  if(PCHK.key!==key){PCHK.res=pcRun(chosen);PCHK.key=key}
+  const R=PCHK.res,pc=v=>v==null?"–":v===0?"0%":v<.01?"<1%":Math.round(v*100)+"%";
+  const dec=x=>x.odds!=null?amToDec(x.odds):Math.pow(LEGDEC,x.legs.length);
+  const rows=chosen.map((x,i)=>{const d=dec(x),ev=R.p[i]*d-1;
+    return`<tr><td>${esc(x.name)}<div class="pteam">${x.legs.length} legs · ${x.odds!=null?amFmt(x.odds):decToAm(d)+" est."}</div></td><td class="num mono">${pc(R.p[i])}</td><td class="num mono">${pc(R.indep[i])}</td><td class="num mono" style="color:${ev>=0?"var(--hit)":"var(--miss)"}">${ev>=0?"+":"−"}$${Math.abs(ev*10).toFixed(2)}</td></tr>`}).join("");
+  // the pairs: does a miss on one make the other more or less likely?
+  const pairs=[];for(let a=0;a<chosen.length;a++)for(let b=0;b<chosen.length;b++)if(a!==b&&R.cond[a][b]!=null){const lift=R.cond[a][b]-R.p[b];pairs.push({a,b,c:R.cond[a][b],base:R.p[b],lift})}
+  const notes=[];
+  for(let a=0;a<chosen.length;a++)for(let b=a+1;b<chosen.length;b++){
+    const shared=chosen[a].legs.filter(l=>chosen[b].legs.some(m=>sameLeg(l,m)&&l.side===m.side&&l.line===m.line));
+    const opp=chosen[a].legs.filter(l=>chosen[b].legs.some(m=>sameLeg(l,m)&&(l.side!==m.side)));
+    if(shared.length)notes.push(`<b>${esc(chosen[a].name)}</b> and <b>${esc(chosen[b].name)}</b> share ${shared.length} leg${shared.length>1?"s":""} (${shared.map(legTxt).join(", ")}): if ${shared.length>1?"one of those misses":"it misses"}, both lose.`);
+    if(opp.length)notes.push(`<b>${esc(chosen[a].name)}</b> and <b>${esc(chosen[b].name)}</b> take opposite sides of ${opp.map(legTxt).join(", ")}: they can't both hit.`);
+  }
+  const big=pairs.filter(x=>Math.abs(x.lift)>=.02).sort((x,y)=>Math.abs(y.lift)-Math.abs(x.lift));
+  const pairTxt=x=>`If <b>${esc(chosen[x.a].name)}</b> misses, <b>${esc(chosen[x.b].name)}</b> hits ${pc(x.c)} of the time (${pc(x.base)} normally): ${x.lift<0?"they tend to fail together":"it works as a backup"}.`;
+  const lo=Math.min(...pairs.map(x=>x.lift)),hi=Math.max(...pairs.map(x=>x.lift));
+  const verdict=big.length?(lo<-.02&&hi<=.02?"These parlays mostly fail together: when one misses, the others usually do too. Spreading the legs over different games would make them more independent."
+      :hi>.02&&lo>=-.02?"These parlays back each other up a little: when one misses, another is more likely to hit.":"Mixed: some of these parlays fail together and some back each other up (below).")
+    :"These parlays are close to independent: one missing says little about the others.";
+  html+=`<div class="log"><table class="books"><thead><tr><th></th><th class="num">Chance</th><th class="num" title="If the legs had nothing to do with each other">If<br>unrelated</th><th class="num" title="Average profit per $10 at the odds entered (else -110 a leg)">Avg<br>per $10</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="strip" style="margin-top:10px"><div><div class="k">At least one hits</div><div class="v">${pc(R.any)}</div><div class="s">of these ${chosen.length}</div></div><div><div class="k">All hit</div><div class="v">${pc(R.all)}</div><div class="s">every parlay</div></div><div><div class="k">None hit</div><div class="v">${pc(1-R.any)}</div><div class="s">all ${chosen.length} lose</div></div></div>
+    <p class="slate" style="margin:10px 0 0"><b>Together:</b> ${verdict}</p>
+    ${big.length||notes.length?`<ul class="pclist">${[...notes,...big.slice(0,6).map(pairTxt)].map(t=>`<li>${t}</li>`).join("")}</ul>`:""}
+    <details class="pcdet"><summary>Each leg's chance</summary><div class="log"><table class="books"><thead><tr><th>Leg</th><th class="num">Chance</th><th class="num">From</th></tr></thead><tbody>${R.uniq.map((l,i)=>`<tr><td>${legTxt(l)} <span class="pteam">${esc(l.team)} vs ${esc(l.opp)}</span></td><td class="num mono">${pc(R.pr[i].p)}</td><td class="num pteam">${R.pr[i].src==="Kalshi"?"Kalshi":R.pr[i].src==="app"?"the app":R.pr[i].src==="history"?"his hit rate":"no data (50%)"}</td></tr>`).join("")}</tbody></table></div></details>
+    <p class="pteam" style="margin:8px 0 0">How it works: each leg gets a chance (Kalshi traders' price when there is one, else the app's chance, else how often he's cleared the line this season). Legs in the same game get a link from how those players have done together in the same games (shrunk when there are few) or the football rules the slip uses; different games are treated as unrelated. Then the whole set is played out 20,000 times. "Avg per $10" uses the odds you entered, else −110 a leg; the app's chances have run high, so treat it as a rough guide. Spreading parlays out changes how often you lose everything, not whether the bets are good value. Not betting advice.</p></section>`;
+  return html;
+}
 // ---- Live sweat: ESPN's live box scores, read in the browser, for picks whose games are under way ----
 const LIVE={},LIVE_EV={};let liveTimer=null,liveBusy=false;
 const ESPN_PATH={NFL:"football/nfl",NBA:"basketball/nba",CFB:"football/college-football"};
@@ -3818,6 +3928,7 @@ function wire(){
     if(e.target.closest("[data-walall]")){S.walAll=!S.walAll;renderWalters();return}
     const wy=e.target.closest("[data-wyr]");if(wy){S.wOpen=S.wOpen===wy.dataset.wyr?null:wy.dataset.wyr;renderWalters()}});
   const saveRf=()=>{try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}renderRecord()};
+  document.getElementById("view-rec").addEventListener("change",e=>{const pc=e.target.closest("[data-pcchk]");if(pc){if(!PCHK.sel)PCHK.sel=new Set();pc.checked?PCHK.sel.add(pc.dataset.pcchk):PCHK.sel.delete(pc.dataset.pcchk);renderRecord();return}});
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
   document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
