@@ -477,8 +477,11 @@ def main():
                     continue
                 line = dk["line"]
                 cur = [stat(g, mid) for g in games if g["date"] >= meta["curStart"]]
-                # college rosters and roles change a lot between seasons: judge college form on this season alone
-                l10 = cur[-10:] if lg == "CFB" and len(cur) >= 3 else vals[-10:]
+                # college rosters and roles change a lot between seasons: judge college form on this season alone.
+                # NBA too (from Oct 22): lines are set for this season's roles, so last season's games don't count;
+                # until he has 3 games this season his recent results aren't used at all (nba_early)
+                nba_early = lg == "NBA" and len(cur) < 3
+                l10 = cur[-10:] if lg in ("CFB", "NBA") and len(cur) >= 3 else vals[-10:]
                 l5 = l10[-5:]
                 hits = lambda a: sum(v > line for v in a)
                 sh = lambda a: (hits(a) + 1) / (len(a) + 2)
@@ -526,10 +529,7 @@ def main():
                     if wx.get("temp") is not None and mid in COLD_W:
                         weather += COLD_W[mid] * max(0.0, (40 - wx["temp"]) / 10)
                     weather = max(-.6, weather)
-                # NBA opening weeks: "form" is mostly last season's games while the lines already reflect this season's roles
-                # (opening week Top 10: 22-26), so it counts for 40% with no games this season, growing to full after 5
-                f_scale = min(1.0, .4 + .12 * len(cur)) if lg == "NBA" else 1.0
-                parts = {"form": f_scale * trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
+                parts = {"form": 0.0 if nba_early else trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
                 pc = meta.get("pace") or {}
                 if lg == "NBA" and pc.get(p["t"]) and pc.get(opp):
@@ -658,11 +658,17 @@ def main():
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
                 last = re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", p["n"]).split()[-1]
-                why = (f"{last} has gone {'over' if over else 'under'} {fmt(line)} in {side_hits(l10)} of his last "
-                       f"{len(l10)}")
-                if len(cur) >= 2:
-                    why += f" and {side_hits(cur)} of {len(cur)} this season"
-                why += f", averaging {avg:.1f} {UNIT[mid]} over the last 10."
+                if nba_early:
+                    why = (f"{last} has played {len(cur)} game{'' if len(cur) == 1 else 's'} this season"
+                           + (f" ({', '.join(str(v) for v in cur)} {UNIT[mid]})" if cur else "")
+                           + ", so his recent numbers don't count yet: this pick comes from the matchup, the pace, the market"
+                           " and the news, not last season's games.")
+                else:
+                    why = (f"{last} has gone {'over' if over else 'under'} {fmt(line)} in {side_hits(l10)} of his last "
+                           f"{len(l10)}{' this season' if lg in ('CFB', 'NBA') and len(cur) >= 3 else ''}")
+                    if len(cur) >= 2 and not (lg in ("CFB", "NBA") and len(cur) >= 3 and len(cur) <= 10):
+                        why += f" and {side_hits(cur)} of {len(cur)} this season"
+                    why += f", averaging {avg:.1f} {UNIT[mid]} over {'those games' if len(l10) < 10 else 'the last 10'}."
                 vs = [stat(g, mid) for g in games if g["opp"] == opp]
                 if vs:
                     why += f" Against {opp}: {', '.join(str(v) for v in vs)}."
@@ -729,7 +735,8 @@ def main():
                     "key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "name": p["n"], "team": p["t"],
                     "pos": p.get("p"), "opp": opp, "home": home, "t": game["t"].isoformat(), "market": mid,
                     "label": LABEL[mid], "side": "over" if over else "under", "line": line, "open": dk.get("open"), "book": dk.get("book") or "DraftKings",
-                    "l10": [side_hits(l10), len(l10)], "avg10": round(avg, 1), "score": round(score, 3), "why": why,
+                    "l10": [side_hits(cur), len(cur)] if nba_early else [side_hits(l10), len(l10)],
+                    "avg10": round(sum(cur) / len(cur), 1) if nba_early and cur else round(avg, 1), "score": round(score, 3), "why": why,
                     "prob": round(prob if over else 1 - prob, 3),
                     "factors": {k: round(v if over else -v, 3) for k, v in parts.items()},
                     "gap": round(gap, 2),
