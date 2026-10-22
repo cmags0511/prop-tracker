@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters "3 star plays only": the gold box (`.s3ban`) now holds the whole section (heading, banner text and
+  the plays card); its text styles are scoped to `.s3claim` so the play rows look like everywhere else. The banner's
+  "most profitable" copy needs `backtest_book.all3`, which arrives with the first hourly walters run after PR #31.
+  sw.js pt-v98.
 - **rmolnar10**: Walters 3-star plays get their own row under Locked early on the Walters tab (`s3Row`: this season and
   the backtest) and their own table in the Walters backtest sheet (`seasonTbl`). They're now 3 units each everywhere
   (his sizing, units = stars; was 1u in the 3-star section). `walters.py` writes `backtest_book.all3` / `seasons3`
