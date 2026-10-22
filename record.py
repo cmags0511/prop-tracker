@@ -87,7 +87,9 @@ def main():
     espn = {lg: {p["id"]: str(p.get("e") or p["id"]) for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
     for lg in [l for l in ("NFL", "NBA", "CFB") if l in data]:
         tops = {}
-        for setname, lk, bk in (("all", "picks", "byMarket"), ("over", "picksOver", "byMarketOver")):
+        # only the full (overs + unders) list is locked: picks that were only on the overs list went 16-26 (-12.3u)
+        # through Oct 21, the full list 59-51 (-0.3u); the overs list is still on the page but no longer counted
+        for setname, lk, bk in (("all", "picks", "byMarket"),):
             pool = {}
             for c in list(picks.get(lk, [])) + [c for k, v in picks.get(bk, {}).items() if k.startswith(lg + "|") for c in v]:
                 if c["lg"] == lg and (setname == "all" or c["side"] == "over"):
@@ -159,7 +161,8 @@ def main():
         for k, n in (nfile.get("notes") or {}).items():
             p = slate.get(k)
             fav, adj, _ = research_dir(n)
-            if p and fav and n.get("flag") != "out":
+            # low-confidence calls went 4-12: they stay as notes but aren't recorded as research picks (from Oct 22)
+            if p and fav and n.get("flag") != "out" and n.get("conf", "medium") != "low":
                 firm[k] = (fav, adj)
         # a pending call whose note no longer makes a firm call (or changed sides) is withdrawn before kickoff
         for kk, e in list(research.items()):
@@ -188,13 +191,13 @@ def main():
 
     # 1d. the research's anytime-TD picks are research calls too (line 0.5 = scores at least once); one that drops off
     #     the research's list before kickoff (e.g. ruled inactive, like Judkins on Oct 18) is withdrawn
-    td_now = {(c["key"], c["t"]) for c in picks.get("tdPicks", [])}
+    td_now = {(c["key"], c["t"]) for c in picks.get("tdPicks", []) if c.get("conf") != "low"}
     if picks.get("tdPicks") is not None:
         for kk, e in list(research.items()):
             if e["status"] == "pending" and e.get("market") == "td" and start(e) > now and kk not in td_now:
                 del research[kk]
     for c in picks.get("tdPicks", []):
-        if start(c) > now:
+        if start(c) > now and c.get("conf") != "low":
             research[(c["key"], c["t"])] = {"key": c["key"], "lg": c["lg"], "id": c["id"], "name": c["name"], "team": c["team"],
                                            "opp": c["opp"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over",
                                            "line": .5, "adj": None, "conf": c.get("conf"), "flag": None, "lean": None,

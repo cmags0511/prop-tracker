@@ -3,6 +3,17 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-22
+- **cmags0511**: Pick fixes from the first two weeks of results (owner approved, PR merged):
+  - The app opens on Overs + unders (`ptSideV` resets old saved choices once); record.py locks only the full list
+    (picks only on the overs list went 16-26, -12.3u; the full list 59-51, -0.3u). The Overs view still works.
+  - picks.py `BOOK_GAP` .12 → .05 (Top 10 picks 5-10 points above the book's no-vig hit 35%, 10+ 38%).
+  - NBA form counts 40% with no current-season games, +12% a game, full at 5 (opening week 22-26).
+  - Low-confidence research no longer moves picks (`CONF["low"] = 0`) and isn't recorded as research picks
+    (4-12); low-confidence TD research calls aren't recorded either.
+  - TD plus-money list only when Kalshi's chance beats the sportsbook price (was 10-15, -5.8u); often empty.
+  sw.js pt-v87.
+
 ## 2026-10-20
 - **cmags0511**: fwarnk tweaks (only fwarnk files + one line in lab_market.py saving Pinnacle quotes to fd_board.json
   `pin`): NFL now counts only unders on "pricey" teams; overs on "cheap" teams are tracked but don't count; a new

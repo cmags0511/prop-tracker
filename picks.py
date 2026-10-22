@@ -139,7 +139,8 @@ def allowed_tables(players, cols, lg):
     return get
 
 
-BOOK_GAP = .12   # model more than this above the sportsbook's no-vig chance: halve the score (keeps it out of the Top lists)
+BOOK_GAP = .05   # model more than this above the sportsbook's no-vig chance: halve the score (keeps it out of the Top lists)
+                # (was .12; Oct 17-21 Top 10 picks 5-10 points above the book hit 35%, 10+ points 38%, within 5 points 56%)
 LINE_MOVE = .12  # DraftKings line moved this share of the opening line away from the pick: score x .6
 MKT_W = .8  # log-odds weight on the Kalshi market's probability of the over at DraftKings' line (capped ±.6)
 MONTHS = {m: i + 1 for i, m in enumerate(["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
@@ -300,7 +301,10 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
     top = pick10(res)
     # plus-money list: fair odds better than even (20-48%), ranked toward players the stats or research rate above
     # the market's price, since that's where a longer-shot TD bet can carry value
-    lng = sorted((c for c in res if .2 <= c["prob"] < .48 and (c["kalshi"] is None or c["kalshi"] < .48)),
+    # only when two markets disagree in the bet's favor: Kalshi's chance beats the sportsbook price on offer (the old
+    # list, with no price check, went 10-15 for -5.8 units)
+    priced = lambda c: c.get("price") and c["kalshi"] is not None and c["kalshi"] * (1 + (c["price"] / 100 if c["price"] > 0 else 100 / -c["price"])) >= 1.0
+    lng = sorted((c for c in res if .2 <= c["prob"] < .48 and c["kalshi"] is not None and c["kalshi"] < .48 and priced(c)),
                  key=lambda c: -(c["prob"] + (1.0 * max(0, c["stat"] - c["kalshi"]) if c["kalshi"] is not None else 0)
                                  + .05 * max(0, c["radj"] or 0) * (1 if c["research"] else 0)))
     for c in top:
@@ -358,6 +362,7 @@ def main():
     # self-correction (tune.py, from every graded slate prop): logit P(over) = c + b * raw logit, plus per prop type
     CALB = TUNE.get("calibration") or {}
     CONF = {"low": .6, "medium": 1.0, "high": 1.2, **(TUNE.get("research_conf") or {})}
+    CONF["low"] = 0.0  # low-confidence research calls went 4-12: shown as notes, but they no longer move picks
     try:  # Kalshi prediction-market prices (fetch_markets.py); stale prices are ignored
         MKTS = json.load(open("markets.json"))
         if now - dt.datetime.fromisoformat(MKTS["fetched"]) > dt.timedelta(hours=8):
@@ -521,7 +526,10 @@ def main():
                     if wx.get("temp") is not None and mid in COLD_W:
                         weather += COLD_W[mid] * max(0.0, (40 - wx["temp"]) / 10)
                     weather = max(-.6, weather)
-                parts = {"form": trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
+                # NBA opening weeks: "form" is mostly last season's games while the lines already reflect this season's roles
+                # (opening week Top 10: 22-26), so it counts for 40% with no games this season, growing to full after 5
+                f_scale = min(1.0, .4 + .12 * len(cur)) if lg == "NBA" else 1.0
+                parts = {"form": f_scale * trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
                          "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
                 pc = meta.get("pace") or {}
                 if lg == "NBA" and pc.get(p["t"]) and pc.get(opp):
