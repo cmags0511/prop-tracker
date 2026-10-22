@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters tour step 3 "Up and down" (PR): the open tab's backtest total since 2012, a small bar per season
+  (units won/lost, `seasonBars`) and the count of winning vs losing seasons with the best and worst year. Reads
+  `WAL_BT`, set in `renderWalters` from walters.json, so the numbers follow the data. sw.js pt-v90.
 - **rmolnar10**: Walters page (PR, replaces #20): a 4-step tour on the first visit (`walTour`, `WAL_TOUR`, `.wtour`
   CSS, `ptWalTour` in localStorage): the three model tabs, This season vs Backtest, the play rows and Details, and where
   to read more (ⓘ, How it works). Steps point at `data-tour` attributes in `renderWalters`; "Take the page tour" in the
