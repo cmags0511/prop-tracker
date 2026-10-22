@@ -416,12 +416,13 @@ def main():
                 e.update({"bfair": round(-mu_b, 1), "bpct": round(pct, 1), "bpick": side if st else None, "bstars": st,
                           "factors": [[s_, v, why] for s_, v, why in fs], "fnet": round(B.net(fs), 2)})
                 # early locks, Walters' timing: the first hour a play shows up, its line and price are kept and graded
-                # on their own (the main record still locks at kickoff, when injuries and weather are settled)
+                # on their own (the main record still locks at kickoff, when injuries and weather are settled); only an
+                # hour with a real price locks, so an early pick is never stuck at an assumed -110
                 at = now.isoformat(timespec="minutes")
-                if pick and not e.get("epick"):
+                if pick and not e.get("epick") and e["price_h" if pick == "home" else "price_a"] is not None:
                     e.update({"epick": pick, "eline": line, "eprice": e["price_h" if pick == "home" else "price_a"],
                               "eunits": e["units"], "et": at})
-                if e["bpick"] and not e.get("ebpick"):
+                if e["bpick"] and not e.get("ebpick") and e["price_h" if e["bpick"] == "home" else "price_a"] is not None:
                     e.update({"ebpick": e["bpick"], "ebline": line, "ebprice": e["price_h" if e["bpick"] == "home" else "price_a"],
                               "ebstars": st, "ebt": at})
             rec[ev["id"]] = e
