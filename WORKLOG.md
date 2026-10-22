@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters page: the bottom links follow the open tab. Graded picks list only that model's picks; the
+  backtest sheet is one table for that model (W-L, win %, units, an All row, its tier/star/wind-rain note) with power
+  ratings on the Walters and Model tabs only; How it works shows only that model's sections (`howFor`, `data-t` tags in
+  `WAL_HOW`: w/m/x). The ⓘ sheet still has the whole method. Tour step 5 text updated to match. sw.js pt-v95.
 - **rmolnar10**: Walters page: (1) tour step 5 "At the bottom" points at the links card (`data-tour="links"`: graded
   picks, backtest by season and power ratings, How it works, About); the ⓘ step mentions replaying the tour. (2)
   `#walters` now stays in the address bar while the page is open, so a bookmark or reload comes back to it (`syncHash`
