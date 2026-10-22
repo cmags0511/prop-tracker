@@ -1043,6 +1043,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .wtnav .wtskip{margin-right:auto;border:0;background:none;color:var(--muted);font:600 13px var(--f-body);padding:8px 4px;cursor:pointer;min-height:40px}
 .wtnav .btn{min-height:40px}
 .wtnav .wtnext{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.wtbars{display:block;width:100%;height:64px;margin:10px 0 2px}.wtyrs{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:8px}
 .wtdots{display:flex;gap:5px;margin-top:10px}.wtdots i{width:6px;height:6px;border-radius:50%;background:var(--line2)}.wtdots i.on{background:var(--accent)}
 @media (prefers-reduced-motion:reduce){.wtspot{transition:none}}
 </style>
@@ -2132,7 +2133,7 @@ function renderFw(){
 }
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
-let WAL=null,walLoading=false,WAL_MODELS="",WAL_HOW="";
+let WAL=null,walLoading=false,WAL_MODELS="",WAL_HOW="",WAL_BT=null;
 // Bottom sheets: a card keeps its full data in a hidden .shc; its CTA ([data-sheet]) opens that in a sheet
 let SHEET_FROM=null;
 function openSheet(title,body,from,kick,sub){
@@ -2190,12 +2191,15 @@ function renderWalters(){
   const tab=["walters","model","weather"].includes(S.walTab)?S.walTab:"walters";
   const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
   const uc=(n,v,txt)=>n?`<b style="color:${v>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v)}</b> ${txt}`:"first picks lock in this week";
+  // the open tab's backtest, season by season, for the tour's "up X units since 2012" step
+  const [bs,bu,bfrom]={walters:[bb.seasons,bka[2],bb.from],model:[bt.seasons,(bt.all||[])[2],bt.from],weather:[btt.seasons,tb[2],btt.from]}[tab];
+  WAL_BT={tab,units:bu||0,from:bfrom||2012,seasons:Object.entries(bs||{}).map(([y,v])=>[+y,v[2]||0])};
   const T={walters:[`${bw2}–${bl2}`,uc(bgr.length,bunits,"(units = stars)"),wr(bka),`${bka[0]}–${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}`],
     model:[`${w}–${l}${pu?`–${pu}`:""}`,uc(graded.length,units,"at DraftKings' price"),pct(bw/Math.max(1,bw+bl)),`${bw}–${bl} since ${bt.from||2012} · ${bt.all?unitsTxt(bt.all[2]):""} at -110`],
     weather:[`${tw}–${tl}`,uc(tg.length,tunits,"at DraftKings' price"),wr(tb),`${tb[0]}–${tb[1]} since ${btt.from||2012} · ${unitsTxt(tb[2]||0)} at -110`]}[tab];
   let html=`<section class="recw"><div class="whead"><button class="wico" data-goto="app" aria-label="Back to Record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><b>Walters NFL</b><button class="wico" data-wguide="1" data-tour="guide" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button></div>
     <nav class="utabs" aria-label="Model" data-tour="tabs">${[["walters","Walters"],["model","Model"],["weather","Weather unders"]].map(([k,t])=>`<button data-wtab="${k}" aria-pressed="${k===tab}">${t}</button>`).join("")}</nav>
-    <div class="tiles2" data-tour="tiles"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
+    <div class="tiles2" data-tour="tiles"><div><span>This season</span><b>${T[0]}</b><small>${T[1]}</small></div><div data-tour="bt"><span>Backtest</span><b>${T[2]}</b><small>${T[3]}</small></div></div>`;
   // one game's sheet: every pick on it, the three lines, the factors, injuries and QBs, the total and weather
   const gameSheet=e=>{
     const picks=[e.bpick?[`Walters play`,bPickTxt(e),bPrice(e),`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,`${fmt(e.bstars)} star${e.bstars===1?"":"s"} = ${fmt(e.bstars)} unit${e.bstars===1?"":"s"}${starRate(e.bstars)!=null?` · ${pct(starRate(e.bstars))} in the backtest`:""}`]:null,
@@ -2327,12 +2331,22 @@ const walTourSeen=()=>{if(WT_SEEN)return true;try{return localStorage.getItem("p
 const WAL_TOUR=[
   ["tabs","Three models","<b>Walters</b> is his full book method, sized in stars. <b>Model</b> is a simpler version tuned on the backtest. <b>Weather unders</b> are totals in wind or rain. Each tab has its own picks and record."],
   ["tiles","How it's doing","<b>This season</b> is the real record: picks lock at kickoff and are graded at DraftKings' price. <b>Backtest</b> is the same rules on every game since 2012. Losses count just like wins."],
+  ["bt","Up and down",()=>{const b=WAL_BT,ss=b.seasons;if(!ss.length)return"";
+    const up=ss.filter(x=>x[1]>0).length,dn=ss.filter(x=>x[1]<0).length,best=ss.reduce((a,x)=>x[1]>a[1]?x:a),worst=ss.reduce((a,x)=>x[1]<a[1]?x:a);
+    const name={walters:"Walters' method",model:"The Model",weather:"The weather under"}[b.tab];
+    return`How cool! ${name} is <b>${b.units>=0?"up":"down"} ${fmt(Math.abs(Math.round(b.units)))} units</b> since ${b.from} in the backtest.${seasonBars(ss)}But progress isn't linear: <b>${up} seasons won, ${dn} lost</b>. Best ${best[0]} ${unitsTxt(best[1])}, worst ${worst[0]} ${unitsTxt(worst[1])}.`}],
   ["plays","This week's plays","Each row is a pick: the team and spread, with stars and units on the right (1 star = 1 unit). Tap <b>Details</b> for the lines, game factors, injuries and weather behind it."],
   ["guide","Read more anytime","Tap <b>ⓘ</b> for the three models and the full method. <b>How it works</b> and the backtest by season are also at the bottom of the page. Paper record, not betting advice."]];
+// units won or lost each backtest season as bars above/below zero (hover or long-press a bar for its number)
+function seasonBars(ss){const W=300,H=64,n=ss.length,bw=W/n,m=Math.max(1,...ss.map(x=>Math.abs(x[1]))),z=H/2,r=2;
+  const bar=([y,u],j)=>{const x=j*bw+1,w=bw-2,h=Math.max(1.5,Math.abs(u)/m*(z-2)),c=u>=0?"var(--hit)":"var(--miss)";
+    const d=u>=0?`M${x} ${z}V${z-h+r}q0 -${r} ${r} -${r}h${w-2*r}q${r} 0 ${r} ${r}V${z}Z`:`M${x} ${z}V${z+h-r}q0 ${r} ${r} ${r}h${w-2*r}q${r} 0 ${r} -${r}V${z}Z`;
+    return`<g><title>${y}${j===n-1&&y===new Date().getFullYear()?" (so far)":""}: ${unitsTxt(u)}</title><rect x="${j*bw}" y="0" width="${bw}" height="${H}" fill="transparent"/><path d="${d}" fill="${c}"/></g>`};
+  return`<svg class="wtbars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Units by season: ${ss.map(x=>`${x[0]} ${unitsTxt(x[1])}`).join(", ")}">${ss.map(bar).join("")}<line x1="0" x2="${W}" y1="${z}" y2="${z}" stroke="var(--line2)" stroke-width="1"/></svg><span class="wtyrs"><span>${ss[0][0]}</span><span>${ss[n-1][0]}</span></span>`}
 function walTour(){
   WT_SEEN=true;try{localStorage.setItem("ptWalTour","1")}catch(e){}
   document.querySelector(".wtour")?.remove();
-  const steps=WAL_TOUR.filter(([k])=>document.querySelector(`#view-walt [data-tour="${k}"]`));if(!steps.length)return;
+  const steps=WAL_TOUR.filter(([k,,t])=>document.querySelector(`#view-walt [data-tour="${k}"]`)&&(typeof t!="function"||WAL_BT?.seasons.length));if(!steps.length)return;
   const ov=document.createElement("div");ov.className="wtour";
   ov.innerHTML=`<div class="wtspot"></div><div class="wtcard" role="dialog" aria-modal="true" aria-labelledby="wtt"><small></small><b id="wtt"></b><p></p><div class="wtdots">${steps.map(()=>"<i></i>").join("")}</div><div class="wtnav"><button class="wtskip">Skip</button><button class="btn wtback">Back</button><button class="btn wtnext"></button></div></div>`;
   document.body.appendChild(ov);
@@ -2342,7 +2356,7 @@ function walTour(){
     spot.style.cssText=`top:${r.top-pad}px;left:${r.left-pad}px;width:${r.width+pad*2}px;height:${h+pad*2}px`;
     const ch=card.offsetHeight,below=r.top+h+pad+12;
     card.style.top=(below+ch<vh-8?below:Math.max(8,r.top-pad-12-ch))+"px"};
-  const show=n=>{i=n;const [k,title,txt]=steps[i],t=document.querySelector(`#view-walt [data-tour="${k}"]`);
+  const show=n=>{i=n;const [k,title,tx]=steps[i],txt=typeof tx=="function"?tx():tx,t=document.querySelector(`#view-walt [data-tour="${k}"]`);
     card.querySelector("small").textContent=`${i+1} of ${steps.length}`;card.querySelector("b").textContent=title;card.querySelector("p").innerHTML=txt;
     card.querySelectorAll(".wtdots i").forEach((d,j)=>d.classList.toggle("on",j===i));
     card.querySelector(".wtback").hidden=i===0;card.querySelector(".wtnext").textContent=i===steps.length-1?"Done":"Next";
