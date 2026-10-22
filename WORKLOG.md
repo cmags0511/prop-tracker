@@ -4,6 +4,11 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters page: (1) tour step 5 "At the bottom" points at the links card (`data-tour="links"`: graded
+  picks, backtest by season and power ratings, How it works, About); the ⓘ step mentions replaying the tour. (2)
+  `#walters` now stays in the address bar while the page is open, so a bookmark or reload comes back to it (`syncHash`
+  at the top of `render()`, enabled by `waltersLink` at boot; other pages drop it; replaceState, so no extra history).
+  (3) No auto "Add to Home Screen" tip on the Walters page (the gear menu's Install still shows it). sw.js pt-v94.
 - **rmolnar10**: Walters early locks now wait for an hour with a real DraftKings price (walters.py, two conditions), so
   an early pick can't be stuck at an assumed -110. In the history so far, a missing price only happened when DK had the
   line off the board 5-7 days out, never near kickoff. No front-end change.

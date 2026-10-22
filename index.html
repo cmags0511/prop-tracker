@@ -1048,6 +1048,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .wtbars{display:block;width:100%;height:64px;margin:10px 0 2px}.wtyrs{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:8px}
 .wtdots{display:flex;gap:5px;margin-top:10px}.wtdots i{width:6px;height:6px;border-radius:50%;background:var(--line2)}.wtdots i.on{background:var(--accent)}
 @media (prefers-reduced-motion:reduce){.wtspot{transition:none}}
+body:has(.wtour) .totop{display:none}
 </style>
 </head>
 <body>
@@ -1695,7 +1696,14 @@ function renderMovers(rows){
     +card("Longest streaks","var(--accent)",streak,r=>r.streak>0?`<span class="pill o">O${r.streak}</span>`:`<span class="pill u">U${-r.streak}</span>`);
 }
 
+// the Walters page keeps #walters in the address bar, so a bookmark or reload comes back to it; other pages drop it.
+// Off until boot has read the starting hash (waltersLink), so the first render doesn't erase it.
+let hashSync=false;
+function syncHash(){if(!hashSync)return;const on=location.hash.toLowerCase()==="#walters";
+  if(S.view==="walt"&&!on)history.replaceState(null,"",location.pathname+location.search+"#walters");
+  else if(S.view!=="walt"&&on)history.replaceState(null,"",location.pathname+location.search)}
 function render(){
+  syncHash();
   document.getElementById("view-board").style.display=S.view==="board"?"flex":"none";
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
@@ -1710,6 +1718,7 @@ function render(){
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab"||S.view==="fw";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   document.querySelector(".sitefoot").hidden=S.view==="walt";  // no footer photo on the Walters page
+  if(S.view==="walt")document.getElementById("iostip")?.remove();  // nor the install tip
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="up"){renderUpcoming();return}
@@ -2249,7 +2258,7 @@ function renderWalters(){
   if(gl.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
     const g0=html.length;
     html+=`<section class="board"><div class="bhead"><h2>Graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
-    html=html.slice(0,g0)+`<div class="lcard wlinks">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"lcw")}`}else html+=`<div class="lcard wlinks">`;
+    html=html.slice(0,g0)+`<div class="lcard wlinks" data-tour="links">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"lcw")}`}else html+=`<div class="lcard wlinks" data-tour="links">`;
   // backtest by season and the current ratings
   const yrs=Object.entries(bt.seasons||{}),b0=html.length;
   html+=`<section class="top"><div class="rsplit"><div><h4>Backtest by season</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">Walters</th><th class="num">Units</th><th class="num">Model</th><th class="num">Units</th><th class="num">Weather unders</th><th class="num">Units</th></tr></thead><tbody>${yrs.map(([y,v])=>{const t=(btt.seasons||{})[y]||[0,0,0],b=(bb.seasons||{})[y]||[0,0,0];return`<tr><td>${y}</td><td class="num mono">${b[0]}-${b[1]}</td><td class="num mono" style="color:${b[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(b[2])}</td><td class="num mono">${v[0]}-${v[1]}</td><td class="num mono" style="color:${v[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v[2])}</td><td class="num mono">${t[0]}-${t[1]}</td><td class="num mono" style="color:${t[2]>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(t[2])}</td></tr>`}).join("")}</tbody></table></div>
@@ -2345,7 +2354,11 @@ const WAL_TOUR=[
     const name={walters:"Walters' method",model:"The Model",weather:"The weather under"}[b.tab];
     return`How cool! ${name} is <b>${b.units>=0?"up":"down"} ${fmt(Math.abs(Math.round(b.units)))} units</b> since ${b.from} in the backtest.${seasonBars(ss)}But progress isn't linear: <b>${up} seasons won, ${dn} lost</b>. Best ${best[0]} ${unitsTxt(best[1])}, worst ${worst[0]} ${unitsTxt(worst[1])}.`}],
   ["plays","This week's plays","Each row is a pick: the team and spread, with stars and units on the right (1 star = 1 unit). Tap <b>Details</b> for the lines, game factors, injuries and weather behind it."],
-  ["guide","Read more anytime","Tap <b>ⓘ</b> for the three models and the full method. <b>How it works</b> and the backtest by season are also at the bottom of the page. Paper record, not betting advice."]];
+  ["links","At the bottom",()=>{const has=t=>[...document.querySelectorAll('#view-walt [data-tour="links"] .shcta')].some(b=>b.textContent.startsWith(t));
+    return[has("View graded picks")?"<b>View graded picks</b> lists every pick this season with its final score and the units won or lost.":"<b>Graded picks</b> show up here once this season's first plays finish.",
+      "<b>Backtest by season and power ratings</b> has every year since 2012 for all three models, and each team's current rating.",
+      "<b>How it works</b> and <b>About this page</b> explain the method in full."].join(" ")}],
+  ["guide","Read more anytime","Tap <b>ⓘ</b> anytime for the three models, the full method, or to replay this tour. Paper record, not betting advice."]];
 // units won or lost each backtest season as bars above/below zero (hover or long-press a bar for its number)
 function seasonBars(ss){const W=300,H=64,n=ss.length,bw=W/n,m=Math.max(1,...ss.map(x=>Math.abs(x[1]))),z=H/2,r=2;
   const bar=([y,u],j)=>{const x=j*bw+1,w=bw-2,h=Math.max(1.5,Math.abs(u)/m*(z-2)),c=u>=0?"var(--hit)":"var(--miss)";
@@ -3783,9 +3796,8 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
   setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);
-  // a direct link to the hidden Walters page: .../prop-tracker/#walters (the hash is dropped once it's open, so a reload
-  // goes back to the normal app)
-  const waltersLink=()=>{if(location.hash.toLowerCase()!=="#walters")return;history.replaceState(null,"",location.pathname+location.search);
+  // a direct link to the hidden Walters page: .../prop-tracker/#walters (the hash stays while it's open, see syncHash)
+  const waltersLink=()=>{hashSync=true;if(location.hash.toLowerCase()!=="#walters")return;
     if(S.view!=="walt"){S.view="walt";S.game=null;setupControls();render()}window.scrollTo({top:0})};
   waltersLink();addEventListener("hashchange",waltersLink);
   try{initWhatChanged()}catch(e){}
@@ -3813,7 +3825,7 @@ function showIosTip(){
   document.body.appendChild(d);
 }
 const isIos=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
-if(isIos&&!standalone){document.getElementById("installBtn").hidden=false;let seen=null;try{seen=localStorage.getItem("ptIosTip")}catch(e){}if(!seen)setTimeout(showIosTip,2500)}
+if(isIos&&!standalone){document.getElementById("installBtn").hidden=false;let seen=null;try{seen=localStorage.getItem("ptIosTip")}catch(e){}if(!seen)setTimeout(()=>{if(S.view!=="walt")showIosTip()},2500)}
 // reopening the app after a while pulls fresh numbers
 let loadedAt=Date.now();
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&Date.now()-loadedAt>30*60e3)location.reload()});
