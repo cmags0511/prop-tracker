@@ -44,18 +44,21 @@ var t="light";try{if(localStorage.getItem("ptTheme")==="dark")t="dark"}catch(e){
   --f-display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gold:#9a5f00; --gold-soft:#fdf3dc;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
   --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
   --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
+  --gold:#f4bd4f; --gold-soft:#2a2110;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f131a; --panel:#181d26; --ink:#eef1f6; --ink2:#b7bfcc; --muted:#8a93a5;
   --line:#252c38; --line2:#323a48; --accent:#8b95ff; --accent-soft:#232a4d; --on-accent:#0f131a;
   --band:#141922; --band-ink:#eef1f6; --band-muted:#8a93a5; --band-line:#232a36; --band-field:#1e2430;
   --hit:#34c46e; --hit-soft:#10291a; --hit-strong:#17402a; --miss:#ff6369; --miss-soft:#33161a; --miss-strong:#4f1f24; --push:#8a92a0; --warn:#f0b45a; --warn-soft:#33270f;
+  --gold:#f4bd4f; --gold-soft:#2a2110;
   --shadow:0 0 0 1px rgb(255 255 255 / .02); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -967,7 +970,16 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .hbar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
 .hbar em{position:absolute;top:-4px;width:2px;height:16px;background:var(--muted)}
 .hfoot{margin:-6px 0 0;font:600 12px var(--f-body);color:var(--muted)}
-.lh{margin:8px 2px 0;font:800 16px var(--f-body)}.lh small{display:block;font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+.lh{margin:8px 2px 0;font:800 16px var(--f-body)}
+/* Walters "3 star plays only": the backtest's best method gets a gold banner, a glowing heading and a lit card */
+.s3ban{display:flex;gap:10px;align-items:flex-start;margin-top:4px;padding:12px 14px;border-radius:16px;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);background:linear-gradient(135deg,var(--gold-soft),var(--panel))}
+.s3ban svg{flex:none;width:22px;height:22px;fill:var(--gold);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--gold) 60%,transparent))}
+.s3ban b{display:block;font:800 14px var(--f-body);color:var(--gold)}.s3ban span{display:block;font-size:13px;line-height:1.45;color:var(--ink2);margin-top:2px}
+.s3h{color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 45%,transparent);animation:s3glow 2.4s ease-in-out infinite alternate}
+.s3h small{text-shadow:none}
+@keyframes s3glow{from{text-shadow:0 0 4px color-mix(in srgb,var(--gold) 30%,transparent)}to{text-shadow:0 0 14px color-mix(in srgb,var(--gold) 70%,transparent)}}
+.s3card{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--gold) 50%,transparent),0 0 18px color-mix(in srgb,var(--gold) 22%,transparent)}
+@media (prefers-reduced-motion:reduce){.s3h{animation:none}}.lh small{display:block;font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
 .lcard{background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
 .lcard.muted{background:var(--tint);box-shadow:none}
 .lrow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);font:700 14px var(--f-body);color:var(--ink)}
@@ -2222,7 +2234,7 @@ function renderWalters(){
   const s3u=s3g.reduce((x,e)=>x+(e.bunits_won||0),0),s3bt=(bb.stars||{})["3"]||[0,0];
   // its own row under Locked early: this season at 3u each (units = stars), and the backtest (walters.py backtest_book all3 / seasons3)
   const a3=bb.all3||[s3bt[0],s3bt[1],0];
-  const s3Row=tab==="walters"?`<div class="wearly"><span>3-star plays</span><b>${s3w}–${s3l}</b><small>${s3g.length?`<b style="font:inherit;color:${s3u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(s3u)}</b> · `:""}backtest ${wr(a3)} (${a3[0]}–${a3[1]})${bb.all3?` · ${unitsTxt(a3[2])}`:""} since ${bb.from||2012}, 3u each</small></div>`:"";
+  const s3Row=tab==="walters"?`<div class="wearly"><span>3 star plays only</span><b>${s3w}–${s3l}</b><small>${s3g.length?`<b style="font:inherit;color:${s3u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(s3u)}</b> · `:""}backtest ${wr(a3)} (${a3[0]}–${a3[1]})${bb.all3?` · ${unitsTxt(a3[2])}`:""} since ${bb.from||2012}, 3u each</small></div>`:"";
   const T={walters:[`${bw2}–${bl2}`,uc(bgr.length,bunits,"(units = stars)"),wr(bka),`${bka[0]}–${bka[1]} since ${bb.from||2012} · ${unitsTxt(bka[2]||0)}`],
     model:[`${w}–${l}${pu?`–${pu}`:""}`,uc(graded.length,units,"at DraftKings' price"),pct(bw/Math.max(1,bw+bl)),`${bw}–${bl} since ${bt.from||2012} · ${bt.all?unitsTxt(bt.all[2]):""} at -110`],
     weather:[`${tw}–${tl}`,uc(tg.length,tunits,"at DraftKings' price"),wr(tb),`${tb[0]}–${tb[1]} since ${btt.from||2012} · ${unitsTxt(tb[2]||0)} at -110`]}[tab];
@@ -2251,8 +2263,13 @@ function renderWalters(){
   const row=e=>tab==="walters"?playRow(e,esc(bPickTxt(e)),`Walters ${e.home} ${ln(e.bfair)}`,`<span class="stars">${starIc(e.bstars)}</span><span class="wu">${fmt(e.bstars)}u</span>`,"Walters play")
     :tab==="model"?playRow(e,esc(pickTxt(e)),`Model ${e.home} ${ln(e.fair)}`,`<span class="wu">${fmt(e.units)}u</span>`,"Model play")
     :playRow(e,`Under ${fmt(e.tline)}`,(e.twhy||["wind"]).join(" + "),`<span class="wu">1u</span>`,"Weather under");
-  if(tab==="walters")html+=`<h3 class="lh">3-star plays <small>${s3w}–${s3l} this season${s3g.length?` · ${unitsTxt(s3u)}`:""} · backtest ${wr(s3bt)} (${s3bt[0]}–${s3bt[1]})</small></h3>
-    <div class="lcard">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">3u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
+  // the banner only claims "most profitable" while its backtest units really beat Walters overall, the Model and the weather unders
+  const s3yrs=Math.max(...Object.keys(bb.seasons3||bb.seasons||{}).map(Number))-(bb.from||2012),s3best=bb.all3&&a3[2]>Math.max(bka[2]||0,(bt.all||[])[2]||0,tb[2]||0);
+  if(tab==="walters")html+=`<div class="s3ban"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/></svg><div>${s3best
+      ?`<b>The most profitable method on this page</b><span>According to the ${s3yrs}-year backtest, 3 star plays only won ${unitsTxt(a3[2])} (${wr(a3)}), more than Walters overall (${unitsTxt(bka[2]||0)}), the Model (${unitsTxt((bt.all||[])[2]||0)}) or weather unders (${unitsTxt(tb[2]||0)}). Past results, not a promise.</span>`
+      :`<b>3 star plays only</b><span>Backtest ${wr(a3)} (${a3[0]}–${a3[1]})${bb.all3?`, ${unitsTxt(a3[2])}`:""} since ${bb.from||2012}.</span>`}</div></div>
+    <h3 class="lh s3h">3 star plays only <small>${s3w}–${s3l} this season${s3g.length?` · ${unitsTxt(s3u)}`:""} · backtest ${wr(s3bt)} (${s3bt[0]}–${s3bt[1]})</small></h3>
+    <div class="lcard s3card">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">3u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
     <div class="lrow"><span class="lmuted">The gap between his number and DraftKings' covers 15%+ of NFL final margins: the only tier that won in both halves of the backtest. 3 units each (units = stars).</span></div></div>`;
   html+=`<h3 class="lh">Plays this week</h3><div class="lcard" data-tour="plays">${plays.length?plays.map(row).join(""):`<div class="lrow"><span class="lmuted">${up.length?"No plays this week yet.":"No NFL games on the board yet."}</span></div>`}</div>`;
   const np=up.filter(e=>!has(e)).sort((a,b)=>new Date(a.t)-new Date(b.t)),npShow=S.walAll?np:np.slice(0,3);

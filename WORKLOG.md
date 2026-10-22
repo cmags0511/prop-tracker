@@ -7,7 +7,11 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
 - **rmolnar10**: Walters 3-star plays get their own row under Locked early on the Walters tab (`s3Row`: this season and
   the backtest) and their own table in the Walters backtest sheet (`seasonTbl`). They're now 3 units each everywhere
   (his sizing, units = stars; was 1u in the 3-star section). `walters.py` writes `backtest_book.all3` / `seasons3`
-  (3-star plays at 3u at the closing price: 481-372, +221.9u since 2012). sw.js pt-v96.
+  (3-star plays at 3u at the closing price: 481-372, +221.9u since 2012). The section is renamed "3 star plays
+  only" with a gold banner (`.s3ban`), a glowing heading (`.s3h`, no pulse under reduced motion) and a gold-ringed card
+  (`.s3card`); new `--gold`/`--gold-soft` tokens in both themes. The banner says "most profitable method on this page"
+  only while its backtest units beat Walters overall, the Model and weather unders (`s3best`); weather unders return
+  slightly more per unit staked (9.1% vs 8.7%), so the claim is about units won. sw.js pt-v97.
 - **rmolnar10**: Walters page: the bottom links follow the open tab. Graded picks list only that model's picks; the
   backtest sheet is one table for that model (W-L, win %, units, an All row, its tier/star/wind-rain note) with power
   ratings on the Walters and Model tabs only; How it works shows only that model's sections (`howFor`, `data-t` tags in
