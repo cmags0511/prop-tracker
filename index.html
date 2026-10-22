@@ -769,7 +769,8 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .poopy{align-self:center;border:0;background:none;color:var(--muted);font:500 12px var(--f-body);opacity:.7;padding:6px 10px;cursor:pointer}
 .poopy:hover{opacity:1;color:var(--accent)}
 .secret{display:flex;justify-content:center;gap:4px}
-.labday,.dayk{cursor:pointer}.labday .chev,.dayk .chev{display:inline-block;width:1em;color:var(--muted)}
+.labday,.dayk{cursor:pointer}
+.pick.evp{width:100%}.labday .chev,.dayk .chev{display:inline-block;width:1em;color:var(--muted)}
 .labhow h3{margin:0 0 6px;font-size:16px}.labhow p{margin:0 0 10px;font-size:13.5px;line-height:1.5;color:var(--ink)}.labhow p:last-child{margin-bottom:0}
 .wgames{display:flex;flex-direction:column;gap:8px}
 .wg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
@@ -1081,6 +1082,7 @@ body:has(.wtour) .totop{display:none}
     </div>
     <div class="toolbar">
       <div class="seg" role="group" aria-label="League">
+        <button id="lg-ALL" aria-pressed="false" title="Top picks from every sport">All</button>
         <button id="lg-NFL" aria-pressed="true">NFL</button>
         <button id="lg-NBA" aria-pressed="false">NBA</button>
         <button id="lg-CFB" aria-pressed="false" title="College football (FBS)">CFB</button>
@@ -1143,6 +1145,7 @@ body:has(.wtour) .totop{display:none}
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-every" role="tabpanel" aria-labelledby="lg-ALL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-lab" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-fw" hidden style="flex-direction:column;gap:14px"></div>
@@ -1293,8 +1296,9 @@ function compute(p,m){
 function setupControls(){
   if(!DATA[S.league])S.league="NFL";
   // Soccer sits in the sport switch but is its own view (soccer.json), not a league in DATA
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.league===l));
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.view!=="every"&&S.league===l));
   document.getElementById("lg-SOC").setAttribute("aria-pressed",S.view==="soc");
+  document.getElementById("lg-ALL").setAttribute("aria-pressed",S.view==="every");
   const players=DATA[S.league];
   if(S.cat&&!CATS[S.cat])S.cat="";
   const catSel=document.getElementById("pos");
@@ -1722,12 +1726,13 @@ function render(){
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
+  const ve=document.getElementById("view-every");ve.hidden=S.view!=="every";ve.style.display=S.view==="every"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
   const vl=document.getElementById("view-lab");vl.hidden=S.view!=="lab";vl.style.display=S.view==="lab"?"flex":"none";
   const vf=document.getElementById("view-fw");vf.hidden=S.view!=="fw";vf.style.display=S.view==="fw"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"||S.view==="fw"?"app":S.view==="soc"?"board":S.view;
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"||S.view==="fw"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab"||S.view==="fw";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab"||S.view==="fw"||S.view==="every";
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab"||S.view==="fw";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
@@ -1735,6 +1740,7 @@ function render(){
   if(S.view==="walt")document.getElementById("iostip")?.remove();  // nor the install tip
   applySec();
   if(S.view==="soc"){renderSoccer();return}
+  if(S.view==="every"){renderEvery();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
   if(S.view==="walt"){renderWalters();return}
@@ -2104,6 +2110,39 @@ function renderLab(){
       <p><b>Grading.</b> After the game, each locked pick is graded from the box score at the FanDuel price it locked at: 1 unit per pick, a win pays at that price, a loss costs 1 unit, a push is returned, and a player who doesn't play is void (books refund those). Losses stay on the record as plainly as wins.</p>
       <p><b>Reading the results.</b> "Expected" next to the hit rate is what the method's own chances said would happen; if it keeps hitting below that, the method is overconfident. A few weeks and a few hundred picks are needed before either record means much. The method that wins over time can then be considered for the main picks.</p>
     </section>`;
+}
+// ---- "All" in the sport switch: each sport's top picks on one page (S.view "every") ----
+function everyTop(lg){
+  if(!PICKS)return[];
+  const now=Date.now(),PL=OVERS()&&PICKS.picksOver?PICKS.picksOver:PICKS.picks,BM=OVERS()&&PICKS.byMarketOver?PICKS.byMarketOver:PICKS.byMarket,pool=new Map();
+  for(const c of [...(PL||[]),...Object.entries(BM||{}).filter(([k])=>k.startsWith(lg+"|")).flatMap(([,v])=>v)])
+    if(c.lg===lg&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote(lg,c.id))pool.set(c.key,c);
+  const out=[],seen=new Set(),perM={};  // same rules as each sport's Top 10: one per player, at most 3 of a prop type
+  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;out.push(c);if(out.length===10)break}
+  return out;
+}
+function renderEvery(){
+  const el=document.getElementById("view-every");
+  if(!SOC&&!socLoading)loadSoccer().then(()=>{if(S.view==="every")renderEvery()});
+  const N=5,day=t=>new Date(t).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
+  const first=s=>(s||"").split(/(?<=\.)\s/)[0];
+  const card=(c,i,lg)=>`<button class="pick evp" data-evlg="${lg}" type="button"><span class="rank">${i+1}</span>
+    <div class="pk1"><span class="who">${esc(c.name)}<small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
+    <div class="why">${esc(first(c.why))}</div>
+    <div class="pkmeta"><span>${Math.round((c.prob||0)*100)}% chance</span>${c.price!=null?`<span>${c.book&&c.book!=="DraftKings"?esc(c.book):"DK"} ${amFmt(c.price)}</span>`:""}${c.l10?`<span>L10 ${c.l10[0]}/${c.l10[1]}</span>`:""}</div></button>`;
+  const socCard=(c,i)=>`<button class="pick evp" data-evlg="SOC" type="button"><span class="rank">${i+1}</span>
+    <div class="pk1"><span class="who">${esc(c.name)}<small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${day(c.t)}</small></span><span class="bet over">${esc(c.label)}</span></div>
+    <div class="pkmeta"><span>${Math.round(c.prob*100)}% chance</span><span>DK ${amFmt(c.price)}</span><span>fair ${decToAm(1/Math.max(.01,c.prob))}</span></div></button>`;
+  const sec=(lg,title,list,empty,mk)=>`<section class="top evsec"><div class="tophead"><h2>${title} <span>${list.length?`Top ${Math.min(N,list.length)}`:""}</span></h2><button class="linkbtn" data-evlg="${lg}">See all →</button></div>
+    ${list.length?`<div class="picks">${list.slice(0,N).map(mk).join("")}</div>`:`<p class="pteam">${empty}</p>`}</section>`;
+  const nba=everyTop("NBA"),nbaEmpty=LINES&&LINES.NBA&&Object.keys(LINES.NBA).length?"NBA picks use this season's games only and start once players have 3 games, this weekend for most teams.":"No NBA lines are posted for upcoming games yet; DraftKings usually posts them the afternoon of each game.";
+  const soc=((SOC&&SOC.top)||[]).filter(c=>new Date(c.t).getTime()>Date.now());
+  el.innerHTML=`<section class="top"><div class="tophead"><h2>Top picks <span>every sport</span></h2>${sideSwitch()}</div>
+      <p class="topsub">The best ${N} from each sport's Top picks, ranked the same way as on each sport's page. Tap a pick or "See all" for that sport's full list, research and prices. Not betting advice.</p></section>
+    ${sec("NFL","NFL",everyTop("NFL"),"No NFL picks right now.",(c,i)=>card(c,i,"NFL"))}
+    ${sec("NBA","NBA",nba,nbaEmpty,(c,i)=>card(c,i,"NBA"))}
+    ${sec("CFB","College",everyTop("CFB"),"No college picks right now: college lines come from the research before each game day.",(c,i)=>card(c,i,"CFB"))}
+    ${sec("SOC","Soccer",soc,SOC?"No soccer Top picks right now.":"Loading soccer…",socCard)}`;
 }
 // ---- fwarnk: "the math has to add up" (fwarnk.py -> fwarnk.json). FanDuel player props bet when a team's own player
 // lines don't add up to the team's line. Reached from the Record tab's "fwarnk" link ----
@@ -3695,7 +3734,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-ltd]");if(
 
 function wire(){
   document.addEventListener("click",e=>{const b=e.target.closest("[data-side]");if(!b||b.dataset.side===S.side)return;S.side=b.dataset.side;try{localStorage.setItem("ptSide",S.side)}catch(err){}
-    if(S.view==="up")renderUpcoming();else if(S.view==="rec")renderRecord();else{renderTop();renderAppBox()}});
+    if(S.view==="up")renderUpcoming();else if(S.view==="rec")renderRecord();else if(S.view==="every")renderEvery();else{renderTop();renderAppBox()}});
   const tt=document.getElementById("totop");let ttOn=false;
   addEventListener("scroll",()=>{const on=scrollY>700;if(on!==ttOn){ttOn=on;tt.classList.toggle("show",on)}},{passive:true});
   tt.onclick=()=>window.scrollTo({top:0,behavior:reduceMo()});
@@ -3721,7 +3760,11 @@ function wire(){
   document.getElementById("apprec").addEventListener("click",e=>{if(e.target.closest("[data-goto-app]")){S.recType="app";S.recLg="all";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0})}});
   document.getElementById("view-board").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("pick")){e.preventDefault();e.target.click()}});
   const reset=()=>{S.sel=null;shown=PAGE;FROZEN=null};
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  document.getElementById("lg-ALL").onclick=()=>{if(S.view==="every")return;S.view="every";setupControls();render();window.scrollTo({top:0})};
+  document.getElementById("view-every").addEventListener("click",e=>{const b=e.target.closest("[data-evlg]");if(!b)return;const lg=b.dataset.evlg;
+    if(lg==="SOC"){document.getElementById("lg-SOC").click();return}
+    S.view="board";S.sec="picks";S.market="all";document.getElementById("lg-"+lg).click();setupControls();render();window.scrollTo({top:0})});
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc"||S.view==="every")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
   document.getElementById("lg-SOC").onclick=()=>{if(S.view==="soc")return;scrollMem[tabOf()]=window.scrollY;S.view="soc";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
@@ -3754,7 +3797,7 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
-  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"?"board":S.view;  // "walt" is its own view
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"||S.view==="every"?"board":S.view;  // "walt" is its own view
   const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
     if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
     setupControls();render();window.scrollTo({top:scrollMem[v]||0})};

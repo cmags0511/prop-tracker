@@ -498,8 +498,10 @@ def main():
                     tot = (game["total"] / 2 - tsp / 2 - (22.5 if lg == "NFL" else 28)) / 4
                 mtr = 0.0
                 # a minutes trend from last season's final weeks (rest days, tanking) says nothing about opening week
-                if lg == "NBA" and len(games) >= 8 and (now.date() - dt.date.fromisoformat(games[-1]["date"])).days <= 30:
-                    mins = [g["min"] for g in games]
+                # (this season's games only, like the rest of NBA form: from a player's 4th game)
+                cur_g = [g for g in games if g["date"] >= meta["curStart"]]
+                if lg == "NBA" and len(cur_g) >= 4:
+                    mins = [g["min"] for g in cur_g]
                     base15 = sum(mins[-15:]) / len(mins[-15:])
                     mtr = max(-.5, min(.5, (sum(mins[-3:]) / 3 - base15) / max(base15, 10)))
                 note = notes.get(f"{lg}|{p['id']}|{mid}") or {}
