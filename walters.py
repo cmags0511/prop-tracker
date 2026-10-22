@@ -276,6 +276,7 @@ def main():
     tiers = {"4-5": [0, 0], "5+": [0, 0]}
     btb = C.defaultdict(lambda: [0, 0, 0.0])  # the book line (game factors + star sizing), units = stars
     stars = C.defaultdict(lambda: [0, 0])
+    bt3 = C.defaultdict(lambda: [0, 0, 0.0])  # 3-star plays only, at his sizing (3 stars = 3 units), as the page's 3-star section
     rating = lambda t: ALPHA * M.mkt[t] + (1 - ALPHA) * M.perf[t]
     for wk in sorted(weeks):
         if wk[0] != season:
@@ -301,6 +302,10 @@ def main():
                     s[0 if r > 0 else 1] += 1
                     s[2] += st * payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -st
                     stars[st][0 if r > 0 else 1] += 1
+                    if st >= 3:
+                        s = bt3[g["season"]]
+                        s[0 if r > 0 else 1] += 1
+                        s[2] += st * payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -st
             wind, rain = g.get("wind"), rain_of(g)
             by_wind = wind is not None and WIND_LO <= wind < WIND_HI
             by_rain = rain is not None and rain >= X.RAIN_MM
@@ -471,7 +476,9 @@ def main():
            "backtest_book": {"from": BT_FROM, "all": [sum(v[0] for v in btb.values()), sum(v[1] for v in btb.values()),
                                                       round(sum(v[2] for v in btb.values()), 1)],
                              "seasons": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(btb.items())},
-                             "stars": {str(k): v for k, v in sorted(stars.items())}},
+                             "stars": {str(k): v for k, v in sorted(stars.items())},
+                             "all3": [sum(v[0] for v in bt3.values()), sum(v[1] for v in bt3.values()), round(sum(v[2] for v in bt3.values()), 1)],
+                             "seasons3": {s: [v[0], v[1], round(v[2], 1)] for s, v in sorted(bt3.items())}},
            "backtest_totals": {"from": BT_FROM, "wind": [WIND_LO, WIND_HI], "rain_mm": X.RAIN_MM,
                                "by_wind": [btw[0], btw[1], round(btw[2], 1)], "by_rain": [btr[0], btr[1], round(btr[2], 1)],
                                "all": [sum(v[0] for v in btt.values()), sum(v[1] for v in btt.values()), round(sum(v[2] for v in btt.values()), 1)],
