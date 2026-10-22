@@ -4,6 +4,8 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **rmolnar10**: Walters 3 star banner copy: "following only the 3 star plays won +221.9u (56%)", bold with a gold
+  underline (`.s3em`). sw.js pt-v99.
 - **rmolnar10**: Walters "3 star plays only": the gold box (`.s3ban`) now holds the whole section (heading, banner text and
   the plays card); its text styles are scoped to `.s3claim` so the play rows look like everywhere else. The banner's
   "most profitable" copy needs `backtest_book.all3`, which arrives with the first hourly walters run after PR #31.
