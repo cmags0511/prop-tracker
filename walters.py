@@ -276,7 +276,7 @@ def main():
     tiers = {"4-5": [0, 0], "5+": [0, 0]}
     btb = C.defaultdict(lambda: [0, 0, 0.0])  # the book line (game factors + star sizing), units = stars
     stars = C.defaultdict(lambda: [0, 0])
-    bt3 = C.defaultdict(lambda: [0, 0, 0.0])  # 3-star plays only, 1 unit each (as the page's 3-star section bets them)
+    bt3 = C.defaultdict(lambda: [0, 0, 0.0])  # 3-star plays only, at his sizing (3 stars = 3 units), as the page's 3-star section
     rating = lambda t: ALPHA * M.mkt[t] + (1 - ALPHA) * M.perf[t]
     for wk in sorted(weeks):
         if wk[0] != season:
@@ -305,7 +305,7 @@ def main():
                     if st >= 3:
                         s = bt3[g["season"]]
                         s[0 if r > 0 else 1] += 1
-                        s[2] += payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -1
+                        s[2] += st * payout(g["sp_h" if side == "home" else "sp_a"] or -110) if r > 0 else -st
             wind, rain = g.get("wind"), rain_of(g)
             by_wind = wind is not None and WIND_LO <= wind < WIND_HI
             by_rain = rain is not None and rain >= X.RAIN_MM
