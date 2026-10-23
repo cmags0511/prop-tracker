@@ -1,0 +1,90 @@
+{
+ "fd_soccer": "HTTP Error 404: Not Found",
+ "fd_premier-league": "HTTP Error 404: Not Found",
+ "fd_epl": "HTTP Error 404: Not Found",
+ "pin_leagues": [
+  [
+   1980,
+   "England - Premier League"
+  ],
+  [
+   2196,
+   "Spain - La Liga"
+  ],
+  [
+   2627,
+   "UEFA - Champions League"
+  ],
+  [
+   2436,
+   "Italy - Serie A"
+  ],
+  [
+   1842,
+   "Germany - Bundesliga"
+  ]
+ ],
+ "pin_England - Premier League": {
+  "Team Props": [
+   478,
+   [
+    "Crystal Palace Goals Odd/Even",
+    "First Team To Score",
+    "Fulham To Win To Nil",
+    "Newcastle United Goals 1st Half",
+    "3-Way Handicap Sunderland +3",
+    "Brighton To Win To Nil 1st Half",
+    "Draw No Bet 1st Half",
+    "Either Team To Score?"
+   ]
+  ],
+  "Futures": [
+   1,
+   [
+    "England - Premier League 2026/27 Winner"
+   ]
+  ]
+ },
+ "pin_Spain - La Liga": {
+  "Team Props": [
+   476,
+   [
+    "Odd/Even and Total Goals",
+    "Draw No Bet 1st Half",
+    "3-Way Handicap Barcelona -3",
+    "Both Teams To Score and Total Goals",
+    "3-Way Handicap Racing Santander -1",
+    "First Team To Score",
+    "Odd/Even and Total Goals",
+    "3-Way Handicap Barcelona -6"
+   ]
+  ],
+  "Futures": [
+   1,
+   [
+    "Spain - La Liga 2026/27 Winner"
+   ]
+  ]
+ },
+ "pin_UEFA - Champions League": {
+  "Team Props": [
+   54,
+   [
+    "Double Chance",
+    "Double Chance",
+    "Double Chance 1st Half",
+    "Double Chance",
+    "Double Chance 1st Half",
+    "Double Chance",
+    "Double Chance 1st Half",
+    "Moneyline and Total Goals"
+   ]
+  ],
+  "Futures": [
+   1,
+   [
+    "UEFA - Champions League 2026/27 Winner"
+   ]
+  ]
+ }
+}
