@@ -1,27 +1,29 @@
-import json, datetime as dt
+import json, re, time, datetime as dt
 from fetch_prices import get, FD, FD_KEY
-out = {}
 now = dt.datetime.now(dt.timezone.utc)
 page = get(f"{FD}/content-managed-page?page=SPORT&eventTypeId=1&_ak={FD_KEY}&timezone=America%2FNew_York")
-evs = [e for e in (page.get("attachments") or {}).get("events", {}).values() if e.get("competitionId") == 10932509 and dt.datetime.fromisoformat(e["openDate"].replace("Z", "+00:00")) > now]
+comps = {c.get("competitionId") or k: c.get("name") for k, c in ((page.get("attachments") or {}).get("competitions") or {}).items()}
+want = {"English Premier League", "Spanish La Liga", "German Bundesliga", "Italian Serie A", "French Ligue 1", "UEFA Champions League", "UEFA Europa League"}
+evs = [e for e in (page.get("attachments") or {}).get("events", {}).values()
+       if dt.datetime.fromisoformat(e["openDate"].replace("Z", "+00:00")) > now and str(comps.get(e.get("competitionId")) or comps.get(str(e.get("competitionId")))) in want]
 evs.sort(key=lambda e: e["openDate"])
-for e in evs[:2]:
-    d = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={e['eventId']}")
-    tabs = (d.get("layout") or {}).get("tabs") or {}
-    titles = [t.get("title") for t in (tabs.values() if isinstance(tabs, dict) else [])]
-    rec = {"tabs": titles, "markets": {}}
-    for t in titles:
-        if not t or not any(w in t.lower() for w in ("player", "shot", "scorer", "card", "assist")):
-            continue
-        slug = t.lower().replace(" ", "-").replace("/", "-")
+rows = []
+MK = {"Player To Have 1 Or More Shots": ("sh", 1), "Player To Have 2 Or More Shots": ("sh", 2), "Player To Have 3 Or More Shots": ("sh", 3),
+      "Player To Have 4 Or More Shots": ("sh", 4), "Player To Have 1 Or More Shots On Target": ("sot", 1),
+      "Player To Have 2 Or More Shots On Target": ("sot", 2), "Anytime Goalscorer": ("g", 1), "To Score 2 or More Goals": ("g", 2), "Anytime Assist": ("a", 1)}
+for e in evs[:30]:
+    for tab in ("shots", "shots-on-target", "goal-scorer", "assists"):
         try:
-            dd = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={e['eventId']}&tab={slug}")
-        except Exception as ex:
-            rec["markets"][slug] = str(ex); continue
-        ms = list((dd.get("attachments") or {}).get("markets", {}).values())
-        names = sorted({m.get("marketName") for m in ms})
-        ex = [{"name": m.get("marketName"), "runners": [(r.get("runnerName"), r.get("handicap"), ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")) for r in (m.get("runners") or [])[:12]]}
-              for m in ms if any(w in (m.get("marketName") or "").lower() for w in ("shot", "goalscorer", "to score"))][:4]
-        rec["markets"][slug] = {"names": names[:30], "examples": ex}
-    out[e["name"]] = rec
-json.dump(out, open("probe_soc.json", "w"), indent=1)
+            d = get(f"{FD}/event-page?_ak={FD_KEY}&eventId={e['eventId']}&tab={tab}")
+        except Exception:
+            continue
+        for m in (d.get("attachments") or {}).get("markets", {}).values():
+            if m.get("marketName") in MK:
+                mk, k = MK[m["marketName"]]
+                for r in m.get("runners") or []:
+                    am = ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
+                    if am is not None:
+                        rows.append([e["name"], e["openDate"], comps.get(e.get("competitionId")), r["runnerName"], mk, k, am])
+        time.sleep(.1)
+json.dump({"events": len(evs[:30]), "rows": rows}, open("probe_soc.json", "w"))
+print(len(evs), len(rows))
