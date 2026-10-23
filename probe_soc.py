@@ -3,9 +3,9 @@ from fetch_prices import get, FD, FD_KEY, PIN, PIN_KEY
 out = {}
 now = dt.datetime.now(dt.timezone.utc)
 # FanDuel: soccer page -> an upcoming big-league match -> tabs -> player markets
-for pid in ("soccer", "premier-league", "epl"):
+for pid, url in (("sport1", "page=SPORT&eventTypeId=1"), ("epl", "page=COMPETITION&competitionId=10932509"), ("ucl", "page=COMPETITION&competitionId=228"), ("custom-soccer", "page=CUSTOM&customPageId=soccer-home")):
     try:
-        page = get(f"{FD}/content-managed-page?page=CUSTOM&customPageId={pid}&_ak={FD_KEY}&timezone=America%2FNew_York")
+        page = get(f"{FD}/content-managed-page?{url}&_ak={FD_KEY}&timezone=America%2FNew_York")
     except Exception as e:
         out["fd_" + pid] = str(e); continue
     evs = [ev for ev in (page.get("attachments") or {}).get("events", {}).values() if " v " in ev.get("name", "") or " @ " in ev.get("name", "")]
@@ -33,8 +33,10 @@ for pid in ("soccer", "premier-league", "epl"):
                 mk[slug] = [{"name": m.get("marketName"), "runners": [(r.get("runnerName"), r.get("handicap"), ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")) for r in (m.get("runners") or [])[:6]]} for m in ms[:8]]
             out["fd_markets"] = mk
             break
+out.pop("pin_leagues", None)
 # Pinnacle: soccer leagues, then player props for one big league
 try:
+    raise Exception("skipped (no player props)")
     head = {"X-API-Key": PIN_KEY}
     lgs = get(f"{PIN}/sports/29/leagues?all=false", **head)
     big = [l for l in lgs if l.get("name") in ("England - Premier League", "Spain - La Liga", "Germany - Bundesliga", "Italy - Serie A", "UEFA - Champions League")]
