@@ -2024,7 +2024,7 @@ function renderAppRecord(){
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at DraftKings' price · Top picks and Value bets since Oct 19 (the lists retired that day are under View all splits and stats)":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the better of DraftKings' and FanDuel's price (DraftKings' before Oct 23) · Top picks and Value bets since Oct 19 (the lists retired that day are under View all splits and stats)":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
   const k0=html.length;
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
@@ -2060,7 +2060,7 @@ function renderAppRecord(){
   const days={};
   sorted.forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const note=SOCR?`This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the DraftKings price shown then; void when he doesn't play. Not betting advice.`
+  const note=SOCR?`This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the price shown then (from Oct 23, the better of DraftKings' and FanDuel's); void when he doesn't play. Not betting advice.`
     :`This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.`;
   const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
     Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
@@ -2148,7 +2148,7 @@ function renderEvery(){
     ${sec("NFL","NFL",everyTop("NFL"),"No NFL picks right now.",(c,i)=>card(c,i,"NFL"))}
     ${sec("NBA","NBA",nba,nbaEmpty,(c,i)=>card(c,i,"NBA"))}
     ${sec("CFB","College",everyTop("CFB"),"No college picks right now: college lines come from the research before each game day.",(c,i)=>card(c,i,"CFB"))}
-    ${sec("SOC","Soccer",soc,SOC?"No soccer Top picks right now.":"Loading soccer…",socCard)}`;
+    ${sec("SOC","Soccer <small class=\"h2sub\">most likely, not value</small>",soc,SOC?"No soccer Top picks right now.":"Loading soccer…",socCard)}`;
 }
 // ---- fwarnk: "the math has to add up" (fwarnk.py -> fwarnk.json). FanDuel player props bet when a team's own player
 // lines don't add up to the team's line. Reached from the Record tab's "fwarnk" link ----
@@ -3493,8 +3493,8 @@ function socCard(c,i,mt){
   const rs=c.research?`<div class="news"><b class="${c.rflag==="caution"?"caution":c.rflag==="support"?"support":"neutral"}">${c.rflag==="caution"?"Caution":c.rflag==="support"?"Research":"News"}</b><span>${esc(c.research)}</span></div>`:"";
   const open=S.socPl===c.key+"|"+c.ev_id;
   return`<div class="pick soc${open?" open":""}" data-socpl="${esc(c.key+"|"+c.ev_id)}" role="button" tabindex="0" aria-expanded="${open}"><span class="rank">${i+1}</span>
-    <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.price)}</b><small>${esc(c.label)}</small></span></div>
-    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}); DraftKings' price implies ${Math.round(c.book*100)}%. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${c.ev>0?`Expected profit <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.`:`At this price it loses about $${(-c.ev*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</div>
+    <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.bp??c.price)}</b><small>${esc(c.label)}${c.bb==="FanDuel"?" \u00b7 FanDuel":""}</small></span></div>
+    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}). DraftKings ${amFmt(c.price)}${c.fd!=null?` \u00b7 FanDuel ${amFmt(c.fd)}${c.bb==="FanDuel"?" (better)":c.fd===c.price?"":" (DraftKings better)"}`:""}. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${(c.ev_best??c.ev)>0?`Expected profit <b class="good">+$${((c.ev_best??c.ev)*10).toFixed(2)}</b> per $10 at the better price.`:`At the better price it still loses about $${(-(c.ev_best??c.ev)*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</div>
     ${rs}<div class="pkmeta">${socSpark(vals,c.k)}${socLineup(c)}${mv}<button class="trk sm ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}">${tr?"\u2713 Tracking":"+ Track"}</button></div>
     ${open?socPlayerHtml(c.pid,mt):`<span class="socmore">Tap for his last 10 matches and every bet on him \u25be</span>`}</div>`;
 }
@@ -3553,13 +3553,14 @@ function renderSoccer(){
   const list=["top","value"].includes(S.socList)?S.socList:"top";
   const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
   const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
-  const sub={top:`The ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest hits across every match: goals, shots and shots on target for players who start (or almost always do), at most 2 per match`,
+  const sub={top:`Most likely to happen: the ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest goals, shots and shots on target across every match, for players who start (or almost always do), at most 2 per match. These are likely outcomes, not value bets`,
     value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500"}[list];
-  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Top picks"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
+  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Most likely"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
     <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
     ${S.socQ?socSearchHtml(ms):""}
-    <p class="topsub">${sub}. Prices: DraftKings via ESPN, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
+    <p class="slate" style="margin:0"><b>Heads up:</b> soccer player props at DraftKings and FanDuel are "yes only" bets with a big built-in cut (about 25\u201345%), so even likely outcomes usually cost money at these prices. Use this tab to see what's likely to happen (handy for parlay legs and following games); each pick shows both books' prices and the record grades it at the better one.</p>
+    <p class="topsub">${sub}. Prices: DraftKings via ESPN and FanDuel, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
     ${pool.length?`<div class="tdpicks">${pool.map((c,i)=>socCard(c,i,mtOf(c))).join("")}</div>`:`<p class="pteam">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`}
     <p class="topnote" style="margin:0">DraftKings' soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app's chances take that margin out, and most Top picks are likely to hit but still cost money on average at DraftKings' price. Each pick shows the fair price; shop for that price or better. Expected profit is an average over many bets, not a promise. If he doesn't play, DraftKings voids the bet.</p></section>`;
   // matches

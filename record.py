@@ -249,7 +249,10 @@ def main():
     for k, (c, lists) in cur_s.items():
         soc[k] = {"key": c["key"], "lg": "SOC", "league": c.get("league"), "comp": c.get("lg"), "ev_id": c["ev_id"],
                   "pid": c["pid"], "name": c["name"], "team": c["team"], "opp": c["opp"], "home": c["home"], "t": c["t"],
-                  "m": c["m"], "k": c["k"], "label": c["label"], "price": c["price"], "dec": c["dec"], "prob": c["prob"],
+                  # graded at the better of DraftKings' and FanDuel's price (soccer_data.py fanduel_prices, from Oct 23)
+                  "m": c["m"], "k": c["k"], "label": c["label"], "price": c.get("bp") or c["price"],
+                  "dec": round(1 + ((c.get("bp") or c["price"]) / 100 if (c.get("bp") or c["price"]) > 0 else 100 / -(c.get("bp") or c["price"])), 3),
+                  "book": c.get("bb") or "DraftKings", "dk": c["price"], "fd": c.get("fd"), "prob": c["prob"],
                   "ev": c["ev"], "lists": sorted(lists), "status": "pending", "result": None}
     try:
         shist = json.load(gzip.open("soccer_hist.json.gz", "rt"))
