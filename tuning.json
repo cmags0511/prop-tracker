@@ -1,5 +1,5 @@
 {
- "built": "2026-10-23T12:56+00:00",
+ "built": "2026-10-23T15:53+00:00",
  "graded_picks": 159,
  "graded_research": 136,
  "market": {
@@ -9,7 +9,7 @@
  "factors": {
   "matchup": 0.861,
   "game": 0.711,
-  "form": 0.865
+  "form": 0.864
  },
  "research_conf": {
   "medium": 0.935,
@@ -22,7 +22,7 @@
   "When game script backed a pick it went 15-19, vs 18-10 when it didn't: weighted x0.711",
   "Medium-confidence research calls are 58-58: their weight goes from 1.0 to 0.935",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 3139 graded props the app's chances averaged 57% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 3146 graded props the app's chances averaged 57% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
@@ -31,15 +31,15 @@
   "NBA threes: an extra nudge toward the under",
   "NFL rushing yards: an extra nudge toward the under",
   "NFL receptions: an extra nudge toward the over",
-  "NBA assists: an extra nudge toward the under",
   "NBA pts + ast: an extra nudge toward the under",
   "NBA rebounds: an extra nudge toward the over",
+  "NBA assists: an extra nudge toward the under",
   "NFL pass attempts: an extra nudge toward the over",
   "NBA pts + reb: an extra nudge toward the under",
-  "Recent form has been over-weighted across 2483 graded props: weighted x0.865"
+  "Recent form has been over-weighted across 2490 graded props: weighted x0.864"
  ],
  "calibration": {
-  "n": 3139,
+  "n": 3146,
   "days": 11,
   "trust": 0.85,
   "c": -0.155,
@@ -50,32 +50,32 @@
     1.02
    ],
    "NBA|ast": [
-    -0.106,
-    1.0
+    -0.098,
+    0.998
    ],
    "NBA|pa": [
-    -0.083,
+    -0.088,
     0.979
    ],
    "NBA|pr": [
-    -0.056,
+    -0.061,
     0.978
    ],
    "NBA|pra": [
-    -0.034,
+    -0.039,
     0.966
    ],
    "NBA|pts": [
-    0.039,
+    0.034,
     0.969
    ],
    "NBA|ra": [
-    -0.047,
-    0.959
+    -0.04,
+    0.957
    ],
    "NBA|reb": [
-    0.064,
-    0.97
+    0.07,
+    0.969
    ],
    "NFL|att": [
     0.071,
@@ -98,11 +98,11 @@
     0.94
    ],
    "NFL|ryd": [
-    -0.142,
+    -0.141,
     0.999
    ],
    "NFL|sck": [
-    -0.204,
+    -0.203,
     0.955
    ],
    "NFL|tkl": [
@@ -112,22 +112,22 @@
   }
  },
  "calib": {
-  "n": 3139,
+  "n": 3146,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    1641,
+    1646,
     0.523,
-    0.541
+    0.542
    ],
    [
     0.55,
     0.6,
-    867,
+    869,
     0.571,
-    0.525
+    0.524
    ],
    [
     0.6,
