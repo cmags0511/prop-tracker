@@ -4,6 +4,9 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **cmags0511**: Record tab, Soccer: the headline and log count the current lists only (Top picks; Value bets from
+  Oct 19 pm). The retired lists (Plus money, Goalscorers, old Best value) keep their rows in socRecordHtml under
+  "View all splits and stats". sw.js pt-v102.
 - **cmags0511**: Parlay checker at the bottom of My picks (both views): `parlayCheckerHtml`, `pcRun` etc. Saved parlays
   not yet started (+ the slip); each leg's chance (Kalshi, else the app's pick, else hit rate), links between legs in the
   same game (shared games history, shrunk; else pairNote ±.15; opposite sides share one outcome), 20,000 simulated

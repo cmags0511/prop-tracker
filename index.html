@@ -1925,7 +1925,7 @@ function socRecordHtml(){
   const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
     return`<tr><td>${lab}</td><td class="num mono">${w}-${a.length-w}</td><td class="num mono">${pct(w/a.length)} <small class="pteam">vs ${pct(pr)}</small></td><td class="num mono" style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"\u2212"}${Math.abs(u).toFixed(1)}u</td></tr>`};
   const L=k=>T.filter(e=>(e.lists||[]).includes(k));
-  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Top picks",L("top"))}${row("Value bets",L("value"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
+  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Top picks",L("top"))}${row("Value bets",L("value").filter(e=>e.t>="2026-10-19T15"))}${row("Best value (retired Oct 19)",L("value").filter(e=>e.t<"2026-10-19T15"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
     <p class="pteam" style="margin:6px 0 0">1 unit per pick at the DraftKings price when it was listed; void when he doesn't play.</p></div>`;
 }
 function tdRecordHtml(){
@@ -2001,7 +2001,10 @@ function renderAppRecord(){
   const el=document.getElementById("view-rec");
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
-  const all=SOCR?((RECORD&&RECORD.soccer)||[]):((RECORD&&RECORD.picks)||[]).filter(inSet);
+  // soccer's headline and log count the current lists (Top picks, Value bets); the lists retired Oct 19 stay in the
+  // table under it (socRecordHtml), so their losses are still shown
+  const SOC_NOW=e=>(e.lists||[]).some(l=>l==="top"||l==="value"&&e.t>="2026-10-19T15");  // the old Best value list had the same name
+  const all=SOCR?((RECORD&&RECORD.soccer)||[]).filter(SOC_NOW):((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
   const P0=SOCR?all:all.filter(e=>lgf==="all"||e.lg===lgf);
   const P=P0.filter(rfPass);  // the record filters (odds, probability, edge, side, prop, dates)
@@ -2017,11 +2020,11 @@ function renderAppRecord(){
     :`No ${lgf} picks recorded yet. The ${lgf} Top 10 locks in as each game ${lgf==="NBA"?"tips":"kicks"} off.`}</p></section>`;return}
   // soccer prices are mostly plus money: the hit rate is judged against what the app predicted, not 52.4%
   const need=SOCR?(done.length?done.reduce((x,e)=>x+e.prob,0)/done.length:null):.524;
-  html+=`<div class="hero"><div class="hero1"><span>${SOCR?"Soccer Top 10s":OVERS()?"Top 10 overs":"Top 10 picks"}</span>${SOCR?"":sideSwitch()}</div>
+  html+=`<div class="hero"><div class="hero1"><span>${SOCR?"Soccer picks":OVERS()?"Top 10 overs":"Top 10 picks"}</span>${SOCR?"":sideSwitch()}</div>
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at DraftKings' price":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at DraftKings' price · Top picks and Value bets since Oct 19 (the lists retired that day are under View all splits and stats)":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
   const k0=html.length;
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
