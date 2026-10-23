@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-22
+- **cmags0511**: Soccer: FanDuel's price for each listed pick (`fanduel_prices` in soccer_data.py: FanDuel's public
+  soccer page + event tabs, only the matches the lists use; Pinnacle has no soccer player props). Picks carry `fd`,
+  `bp`/`bb` (better price and book), `ev_best`; record.py grades soccer at the better price from Oct 23 (`book`, `dk`,
+  `fd` saved). Soccer tab reframed: "Most likely" list + a note on the 25-45% cut; cards show both prices. sw.js pt-v103.
 - **cmags0511**: Record tab, Soccer: the headline and log count the current lists only (Top picks; Value bets from
   Oct 19 pm). The retired lists (Plus money, Goalscorers, old Best value) keep their rows in socRecordHtml under
   "View all splits and stats". sw.js pt-v102.

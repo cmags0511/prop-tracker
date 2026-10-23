@@ -402,6 +402,74 @@ def lineups(lg, ev):
     return res if sum(1 for v in res.values() if v == "start") >= 18 else {}
 
 
+# ---- FanDuel's price for the listed picks (its soccer player bets are the same yes-only kind as DraftKings', with
+# about the same cut; on a given prop either book can be cheaper, so each pick shows both and is graded at the better)
+FD_API = "https://sbapi.nj.sportsbook.fanduel.com/api"
+FD_AK = "FhMFpcPWXMeyZxOx"  # the public app key sportsbook.fanduel.com's own pages send (as in fetch_prices.py)
+FD_TAB = {"sh": "shots", "sot": "shots-on-target", "g": "goal-scorer", "a": "assists"}
+FD_NAME = {("sh", k): f"Player To Have {k} Or More Shots" for k in range(1, 7)}
+FD_NAME.update({("sot", k): f"Player To Have {k} Or More Shots On Target" for k in range(1, 5)})
+FD_NAME.update({("g", 1): "Anytime Goalscorer", ("g", 2): "To Score 2 or More Goals", ("a", 1): "Anytime Assist"})
+
+
+def _norm(n):
+    import re, unicodedata
+    n = unicodedata.normalize("NFKD", n or "").encode("ascii", "ignore").decode().lower()
+    return " ".join(re.sub(r"[.'\-]", " ", n).split())
+
+
+def _fd_get(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/129.0",
+                                               "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read())
+
+
+def fanduel_prices(picks, matches):
+    """adds "fd" (FanDuel's American price), "bp"/"bb" (the better price and its book) to each pick; one request per
+    match and tab, only for the matches the lists use"""
+    try:
+        page = _fd_get(f"{FD_API}/content-managed-page?page=SPORT&eventTypeId=1&_ak={FD_AK}&timezone=America%2FNew_York")
+    except Exception as e:
+        print(f"FanDuel soccer page failed: {e}")
+        return
+    evs = list((page.get("attachments") or {}).get("events", {}).values())
+    mt = {m["ev"]: m for m in matches}
+    cache, got = {}, 0
+    for c in picks:
+        c["bp"], c["bb"] = c["price"], "DraftKings"
+        m = mt.get(c["ev_id"])
+        if not m or (c["m"], c["k"]) not in FD_NAME:
+            continue
+        t = dt.datetime.fromisoformat(m["t"])
+        words = {w for w in _norm(m["home_n"] + " " + m["away_n"]).split() if len(w) > 3}
+        cand = [e for e in evs if " v " in e.get("name", "") and abs(dt.datetime.fromisoformat(e["openDate"].replace("Z", "+00:00")) - t) < dt.timedelta(hours=2)
+                and words & {w for w in _norm(e["name"]).split() if len(w) > 3}]
+        if len(cand) != 1:
+            continue
+        key = (cand[0]["eventId"], FD_TAB[c["m"]])
+        if key not in cache:
+            try:
+                cache[key] = (_fd_get(f"{FD_API}/event-page?_ak={FD_AK}&eventId={key[0]}&tab={key[1]}").get("attachments") or {}).get("markets", {})
+            except Exception:
+                cache[key] = {}
+            time.sleep(.1)
+        for mk in cache[key].values():
+            if mk.get("marketName") != FD_NAME[(c["m"], c["k"])]:
+                continue
+            for r in mk.get("runners") or []:
+                am = ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
+                if am is not None and _norm(r.get("runnerName")) == _norm(c["name"]):
+                    c["fd"] = int(am)
+                    got += 1
+                    dec_fd = 1 + (am / 100 if am > 0 else 100 / -am)
+                    if dec_fd > c["dec"] + .005:  # equal prices stay DraftKings
+                        c["bp"], c["bb"] = int(am), "FanDuel"
+                    c["ev_best"] = round(c["prob"] * max(dec_fd, c["dec"]) - 1, 3)
+    print(f"FanDuel prices for {got} of {len(picks)} listed picks ({sum(1 for c in picks if c.get('bb') == 'FanDuel')} better at FanDuel)")
+
+
+
 def main():
     light = "--light" in sys.argv
     days_back = int(sys.argv[sys.argv.index("--days-back") + 1]) if "--days-back" in sys.argv else 7
@@ -596,6 +664,7 @@ def main():
                 and sane(c)], lambda c: -c["prob"], n=TOP_N)
     value = top([c for c in cands if c["ev"] >= .03 and c["prob"] >= .15 and c["price"] <= 500 and c["m"] not in ("sv", "card")
                  and c["hits"][1] >= 5 and starts(c) and sane(c)], lambda c: -c["ev"])
+    fanduel_prices(tops + value, matches)
     matches.sort(key=lambda m: m["t"])
     cut = (now - dt.timedelta(days=10)).isoformat(timespec="minutes")
     json.dump({k: v for k, v in closing.items() if v[1] >= cut}, open(CLOSE, "w"), separators=(",", ":"))
