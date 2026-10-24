@@ -1,0 +1,4491 @@
+{
+ "pin_leagues": [
+  [
+   199926,
+   "Spain - Tercera Division",
+   58
+  ],
+  [
+   1834,
+   "Brazil - Serie A",
+   58
+  ],
+  [
+   201065,
+   "USA - USL Championship",
+   53
+  ],
+  [
+   210697,
+   "Argentina - Liga Pro",
+   40
+  ],
+  [
+   1835,
+   "Brazil - Serie B",
+   35
+  ],
+  [
+   2359,
+   "Paraguay - Division Profesional",
+   33
+  ],
+  [
+   2663,
+   "USA - Major League Soccer",
+   29
+  ],
+  [
+   215547,
+   "Spain - Segunda Federacion",
+   22
+  ],
+  [
+   5593,
+   "Uruguay - Primera Division",
+   21
+  ],
+  [
+   5598,
+   "Ecuador - Serie A",
+   20
+  ],
+  [
+   2630,
+   "UEFA - Europa League",
+   19
+  ],
+  [
+   2627,
+   "UEFA - Champions League",
+   19
+  ],
+  [
+   2036,
+   "France - Ligue 1",
+   17
+  ],
+  [
+   2436,
+   "Italy - Serie A",
+   16
+  ],
+  [
+   1980,
+   "England - Premier League",
+   16
+  ],
+  [
+   2067,
+   "Germany - Cup",
+   16
+  ],
+  [
+   1739,
+   "Argentina - Primera B Nacional",
+   15
+  ],
+  [
+   2196,
+   "Spain - La Liga",
+   15
+  ],
+  [
+   1842,
+   "Germany - Bundesliga",
+   12
+  ],
+  [
+   1978,
+   "England - National League",
+   12
+  ],
+  [
+   1977,
+   "England - Championship",
+   12
+  ],
+  [
+   9885,
+   "Egypt - Premier League",
+   10
+  ],
+  [
+   201192,
+   "Czech Republic - 3. Liga",
+   10
+  ],
+  [
+   1958,
+   "England - League 2",
+   10
+  ],
+  [
+   2642,
+   "UEFA - Champions League Women",
+   9
+  ],
+  [
+   2027,
+   "France - Ligue 3",
+   9
+  ],
+  [
+   2438,
+   "Italy - Serie B",
+   9
+  ],
+  [
+   1957,
+   "England - League 1",
+   9
+  ],
+  [
+   2159,
+   "Japan - J2 League",
+   9
+  ],
+  [
+   5591,
+   "Colombia - Primera A",
+   9
+  ],
+  [
+   1928,
+   "Netherlands - Eredivisie",
+   8
+  ],
+  [
+   1982,
+   "England - EFL Cup",
+   8
+  ],
+  [
+   2432,
+   "Spain - Segunda Division",
+   8
+  ],
+  [
+   10419,
+   "Saudi Arabia - Pro League",
+   8
+  ],
+  [
+   2037,
+   "France - Ligue 2",
+   7
+  ],
+  [
+   202447,
+   "Belgium - First Amateur Division",
+   7
+  ],
+  [
+   1844,
+   "Germany - 3. Liga",
+   7
+  ],
+  [
+   1981,
+   "England - FA Cup Women",
+   7
+  ],
+  [
+   205322,
+   "USA - USL League One",
+   7
+  ],
+  [
+   217401,
+   "Italy - Serie C Group A",
+   7
+  ],
+  [
+   199211,
+   "Indonesia - Super League",
+   7
+  ],
+  [
+   2228,
+   "Luxembourg - National Division",
+   7
+  ],
+  [
+   2242,
+   "Mexico - Liga MX",
+   7
+  ],
+  [
+   2331,
+   "Norway - 1st Division",
+   7
+  ],
+  [
+   1843,
+   "Germany - Bundesliga 2",
+   7
+  ],
+  [
+   2332,
+   "Norway - 2nd Division",
+   6
+  ],
+  [
+   9320,
+   "Bulgaria - First League",
+   6
+  ],
+  [
+   1929,
+   "Netherlands - Eerste Divisie",
+   6
+  ],
+  [
+   1857,
+   "Chile - Primera Division",
+   6
+  ],
+  [
+   2333,
+   "Norway - Eliteserien",
+   6
+  ],
+  [
+   207552,
+   "Korea Republic - K League 2",
+   6
+  ],
+  [
+   220076,
+   "Spain - Primera Federacion",
+   6
+  ],
+  [
+   2476,
+   "Sweden - Superettan",
+   6
+  ],
+  [
+   2578,
+   "Turkey - 1st League",
+   6
+  ],
+  [
+   215023,
+   "Portugal - Liga 3",
+   6
+  ],
+  [
+   209758,
+   "Mexico - Liga de Expansi\u00f3n MX",
+   6
+  ],
+  [
+   1773,
+   "Austria - 2. Liga",
+   6
+  ],
+  [
+   1728,
+   "Sweden - Allsvenskan",
+   6
+  ],
+  [
+   10078,
+   "Japan - J3 League",
+   6
+  ],
+  [
+   2406,
+   "Russia - Premier League",
+   6
+  ]
+ ],
+ "pin_main_example": [
+  {
+   "ageLimit": 0,
+   "altTeaser": false,
+   "featureOrder": -1,
+   "hasAltSpread": true,
+   "hasAltTotal": true,
+   "hasBetshare": false,
+   "hasLive": true,
+   "hasMarkets": true,
+   "id": 1638676647,
+   "isBetshareEnabled": false,
+   "isFeatured": false,
+   "isHighlighted": false,
+   "isLive": false,
+   "isPromoted": false,
+   "league": {
+    "ageLimit": 0,
+    "featureOrder": 0,
+    "group": "England",
+    "id": 1980,
+    "isFeatured": true,
+    "isHidden": false,
+    "isPromoted": false,
+    "isSticky": false,
+    "matchupCount": 16,
+    "matchupCountSE": 16,
+    "name": "England - Premier League",
+    "sequence": 1,
+    "sport": {
+     "featureOrder": 0,
+     "id": 29,
+     "isFeatured": true,
+     "isHidden": false,
+     "isSticky": false,
+     "matchupCount": 1240,
+     "matchupCountSE": 1231,
+     "name": "Soccer",
+     "primaryMarketType": "moneyline"
+    }
+   },
+   "liveMode": null,
+   "parent": null,
+   "parentId": null,
+   "parlayRestriction": "unique_matchups",
+   "participants": [
+    {
+     "alignment": "home",
+     "name": "Hull City",
+     "order": 0,
+     "stats": [
+      {
+       "period": 0
+      },
+      {
+       "period": 1
+      }
+     ]
+    },
+    {
+     "alignment": "away",
+     "name": "Ipswich Town",
+     "order": 1,
+     "stats": [
+      {
+       "period": 0
+      },
+      {
+       "period": 1
+      }
+     ]
+    }
+   ],
+   "periods": [
+    {
+     "cutoffAt": "2026-10-31T15:00:00Z",
+     "hasMoneyline": true,
+     "hasSpread": true,
+     "hasTeamTotal": true,
+     "hasTotal": true,
+     "period": 0,
+     "status": "open"
+    },
+    {
+     "cutoffAt": "2026-10-31T15:00:00Z",
+     "hasMoneyline": true,
+     "hasSpread": true,
+     "hasTeamTotal": true,
+     "hasTotal": true,
+     "period": 1,
+     "status": "open"
+    }
+   ],
+   "rotation": 35450,
+   "startTime": "2026-10-31T15:00:00Z",
+   "state": {},
+   "status": "pending",
+   "totalMarketCount": 10,
+   "type": "matchup",
+   "units": "Regular",
+   "version": 708398741
+  }
+ ],
+ "pin_market_keys": [
+  [
+   "s;0;m",
+   329
+  ],
+  [
+   "s;1;m",
+   195
+  ],
+  [
+   "s;0;ou",
+   185
+  ],
+  [
+   "s;0;s",
+   175
+  ],
+  [
+   "s;1;s",
+   90
+  ],
+  [
+   "s;1;ou",
+   90
+  ],
+  [
+   "s;0;tt",
+   81
+  ],
+  [
+   "s;1;tt",
+   30
+  ]
+ ],
+ "pin_markets_for_one": [
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": false,
+   "key": "s;0;m",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "price": 163
+    },
+    {
+     "designation": "away",
+     "price": 166
+    },
+    {
+     "designation": "draw",
+     "price": 241
+    }
+   ],
+   "status": "open",
+   "type": "moneyline",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": false,
+   "key": "s;0;tt;1.5;home",
+   "limits": [
+    {
+     "amount": 175,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "over",
+     "points": 1.5,
+     "price": 130
+    },
+    {
+     "designation": "under",
+     "points": 1.5,
+     "price": -165
+    }
+   ],
+   "side": "home",
+   "status": "open",
+   "type": "team_total",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;tt;0.5;home",
+   "limits": [
+    {
+     "amount": 175,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "over",
+     "points": 0.5,
+     "price": -409
+    },
+    {
+     "designation": "under",
+     "points": 0.5,
+     "price": 283
+    }
+   ],
+   "side": "home",
+   "status": "open",
+   "type": "team_total",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": false,
+   "key": "s;0;tt;1.5;away",
+   "limits": [
+    {
+     "amount": 175,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "over",
+     "points": 1.5,
+     "price": 132
+    },
+    {
+     "designation": "under",
+     "points": 1.5,
+     "price": -167
+    }
+   ],
+   "side": "away",
+   "status": "open",
+   "type": "team_total",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;tt;0.5;away",
+   "limits": [
+    {
+     "amount": 175,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "over",
+     "points": 0.5,
+     "price": -402
+    },
+    {
+     "designation": "under",
+     "points": 0.5,
+     "price": 280
+    }
+   ],
+   "side": "away",
+   "status": "open",
+   "type": "team_total",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": false,
+   "key": "s;0;s;0.0",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": 0.0,
+     "price": -109
+    },
+    {
+     "designation": "away",
+     "points": -0.0,
+     "price": -107
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;-1.0",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": -1.0,
+     "price": 337
+    },
+    {
+     "designation": "away",
+     "points": 1.0,
+     "price": -453
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;-0.75",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": -0.75,
+     "price": 219
+    },
+    {
+     "designation": "away",
+     "points": 0.75,
+     "price": -279
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;-0.5",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": -0.5,
+     "price": 162
+    },
+    {
+     "designation": "away",
+     "points": 0.5,
+     "price": -198
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;-0.25",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": -0.25,
+     "price": 127
+    },
+    {
+     "designation": "away",
+     "points": 0.25,
+     "price": -152
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;0.25",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": 0.25,
+     "price": -155
+    },
+    {
+     "designation": "away",
+     "points": -0.25,
+     "price": 130
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "isAlternate": true,
+   "key": "s;0;s;0.5",
+   "limits": [
+    {
+     "amount": 1000,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638676647,
+   "period": 0,
+   "prices": [
+    {
+     "designation": "home",
+     "points": 0.5,
+     "price": -202
+    },
+    {
+     "designation": "away",
+     "points": -0.5,
+     "price": 165
+    }
+   ],
+   "status": "open",
+   "type": "spread",
+   "version": 3778044075
+  }
+ ],
+ "pin_specials_for_one": [
+  {
+   "desc": "Double Chance",
+   "parts": [
+    [
+     1638756257,
+     "Hull City Or Ipswich Town"
+    ],
+    [
+     1638756258,
+     "Draw Or Ipswich Town"
+    ],
+    [
+     1638756259,
+     "Draw Or Hull City"
+    ]
+   ],
+   "id": 1638756256
+  },
+  {
+   "desc": "Moneyline and Total Goals",
+   "parts": [
+    [
+     1638756229,
+     "Hull City & Over 2.5"
+    ],
+    [
+     1638756230,
+     "Hull City & Under 2.5"
+    ],
+    [
+     1638756231,
+     "Draw & Over 2.5"
+    ],
+    [
+     1638756232,
+     "Draw & Under 2.5"
+    ],
+    [
+     1638756233,
+     "Ipswich Town & Over 2.5"
+    ],
+    [
+     1638756234,
+     "Ipswich Town & Under 2.5"
+    ]
+   ],
+   "id": 1638756228
+  },
+  {
+   "desc": "Double Chance 1st Half",
+   "parts": [
+    [
+     1638756197,
+     "Hull City Or Ipswich Town"
+    ],
+    [
+     1638756198,
+     "Draw Or Ipswich Town"
+    ],
+    [
+     1638756199,
+     "Draw Or Hull City"
+    ]
+   ],
+   "id": 1638756192
+  }
+ ],
+ "pin_special_prices": [
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "key": "s;0;m",
+   "limits": [
+    {
+     "amount": 100,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638756228,
+   "period": 0,
+   "prices": [
+    {
+     "participantId": 1638756229,
+     "price": 300
+    },
+    {
+     "participantId": 1638756230,
+     "price": 566
+    },
+    {
+     "participantId": 1638756231,
+     "price": 1007
+    },
+    {
+     "participantId": 1638756232,
+     "price": 347
+    },
+    {
+     "participantId": 1638756233,
+     "price": 303
+    },
+    {
+     "participantId": 1638756234,
+     "price": 575
+    }
+   ],
+   "type": "moneyline",
+   "version": 6540773641
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "key": "s;1;m",
+   "limits": [
+    {
+     "amount": 100,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638756192,
+   "period": 1,
+   "prices": [
+    {
+     "participantId": 1638756197,
+     "price": -167
+    },
+    {
+     "participantId": 1638756198,
+     "price": -287
+    },
+    {
+     "participantId": 1638756199,
+     "price": -292
+    }
+   ],
+   "type": "moneyline",
+   "version": 6540773641
+  },
+  {
+   "cutoffAt": "2026-10-31T15:00:00+00:00",
+   "key": "s;0;m",
+   "limits": [
+    {
+     "amount": 100,
+     "type": "maxRiskStake"
+    }
+   ],
+   "matchupId": 1638756256,
+   "period": 0,
+   "prices": [
+    {
+     "participantId": 1638756257,
+     "price": -309
+    },
+    {
+     "participantId": 1638756258,
+     "price": -202
+    },
+    {
+     "participantId": 1638756259,
+     "price": -206
+    }
+   ],
+   "type": "moneyline",
+   "version": 6540773641
+  }
+ ],
+ "fd_event": "Crystal Palace v Newcastle",
+ "fd_markets": {
+  "popular": [
+   {
+    "name": "Total Goals Bands - 1st Half",
+    "type": "MULTIGOL_-_1ST_HALF",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -380
+     ],
+     [
+      "1-3",
+      0,
+      -310
+     ],
+     [
+      "1-2",
+      0,
+      -185
+     ],
+     [
+      "2-4",
+      0,
+      125
+     ],
+     [
+      "2-3",
+      0,
+      150
+     ],
+     [
+      "0",
+      0,
+      280
+     ],
+     [
+      "3-4",
+      0,
+      490
+     ],
+     [
+      "5+",
+      0,
+      5000
+     ]
+    ]
+   },
+   {
+    "name": "Correct Score Combinations",
+    "type": "CORRECT_SCORE_COMBINATIONS",
+    "runners": [
+     [
+      "Newcastle to win 2-1, 3-1 or 4-1",
+      0,
+      460
+     ],
+     [
+      "Draw 0-0 or 1-1",
+      0,
+      470
+     ],
+     [
+      "Newcastle to win 1-0, 2-0 or 3-0",
+      0,
+      500
+     ],
+     [
+      "Crystal Palace to win 2-1, 3-1 or 4-1",
+      0,
+      550
+     ],
+     [
+      "Crystal Palace to win 1-0, 2-0 or 3-0",
+      0,
+      600
+     ],
+     [
+      "Any Other Draw",
+      0,
+      700
+     ],
+     [
+      "Newcastle to win 3-2, 4-2 or 5-2",
+      0,
+      1200
+     ],
+     [
+      "Crystal Palace to win 3-2, 4-2 or 5-2",
+      0,
+      1400
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Home Team -1.5 Goals",
+    "type": "HOME_TEAM_-1.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace -1.5 Goals",
+      0,
+      500
+     ],
+     [
+      "Newcastle +1.5 Goals",
+      0,
+      -850
+     ]
+    ]
+   },
+   {
+    "name": "Half-Time Result",
+    "type": "HALF-TIME_RESULT",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      220
+     ],
+     [
+      "Draw",
+      0,
+      135
+     ],
+     [
+      "Newcastle",
+      0,
+      175
+     ]
+    ]
+   },
+   {
+    "name": "To Score 2 or More Goals",
+    "type": "TO_SCORE_2_OR_MORE_GOALS",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      850
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      1000
+     ],
+     [
+      "William Osula",
+      0,
+      1000
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      1200
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      1500
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      1500
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      1500
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      4000
+     ]
+    ]
+   },
+   {
+    "name": "Lead at 10-20-30-60 Minutes",
+    "type": "LEAD_AT_10-20-30-60_MINUTES",
+    "runners": [
+     [
+      "Crystal Palace at 10 minutes",
+      0,
+      700
+     ],
+     [
+      "Draw at 10 minutes",
+      0,
+      -475
+     ],
+     [
+      "Newcastle at 10 minutes",
+      0,
+      600
+     ],
+     [
+      "Crystal Palace at 20 minutes",
+      0,
+      380
+     ],
+     [
+      "Draw at 20 minutes",
+      0,
+      -185
+     ],
+     [
+      "Newcastle at 20 minutes",
+      0,
+      330
+     ],
+     [
+      "Crystal Palace at 30 minutes",
+      0,
+      290
+     ],
+     [
+      "Draw at 30 minutes",
+      0,
+      -120
+     ]
+    ]
+   },
+   {
+    "name": "Double Chance",
+    "type": "DOUBLE_CHANCE",
+    "runners": [
+     [
+      "Crystal Palace And Draw",
+      0,
+      -185
+     ],
+     [
+      "Newcastle And Draw",
+      0,
+      -250
+     ],
+     [
+      "Crystal Palace And Newcastle",
+      0,
+      -350
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 0.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_0.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 0.5 Goals",
+      0,
+      -410
+     ],
+     [
+      "1st Half Under 0.5 Goals",
+      0,
+      290
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands",
+    "type": "MULTIGOL_-_MATCH",
+    "runners": [
+     [
+      "1-6",
+      0,
+      -2000
+     ],
+     [
+      "1-5",
+      0,
+      -800
+     ],
+     [
+      "2-6",
+      0,
+      -475
+     ],
+     [
+      "1-4",
+      0,
+      -350
+     ],
+     [
+      "2-5",
+      0,
+      -330
+     ],
+     [
+      "2-4",
+      0,
+      -190
+     ],
+     [
+      "3-6",
+      0,
+      -170
+     ],
+     [
+      "1-3",
+      0,
+      -155
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 1 Or More Shots On Target In 1st Half",
+    "type": "PLAYER_TO_HAVE_1_OR_MORE_SHOTS_ON_TARGET_IN_1ST_HALF",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -115
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      110
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      115
+     ],
+     [
+      "William Osula",
+      0,
+      120
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      120
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      135
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      155
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      230
+     ]
+    ]
+   },
+   {
+    "name": "Correct Score",
+    "type": "CORRECT_SCORE",
+    "runners": [
+     [
+      "1-0",
+      0,
+      1300
+     ],
+     [
+      "2-0",
+      0,
+      1900
+     ],
+     [
+      "2-1",
+      0,
+      950
+     ],
+     [
+      "3-0",
+      0,
+      3500
+     ],
+     [
+      "3-1",
+      0,
+      2000
+     ],
+     [
+      "3-2",
+      0,
+      2000
+     ],
+     [
+      "4-0",
+      0,
+      8000
+     ],
+     [
+      "4-1",
+      0,
+      5000
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 2 Or More Shots On Target In 1st Half",
+    "type": "PLAYER_TO_HAVE_2_OR_MORE_SHOTS_ON_TARGET_IN_1ST_HALF",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      490
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      650
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      650
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      700
+     ],
+     [
+      "William Osula",
+      0,
+      750
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      900
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      1000
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      1800
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 2 Or More Shots",
+    "type": "PLAYER_TO_HAVE_2_OR_MORE_SHOTS",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -600
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      -550
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      -550
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      -450
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      -450
+     ],
+     [
+      "William Osula",
+      0,
+      -450
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      -400
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      -250
+     ]
+    ]
+   },
+   {
+    "name": "Anytime Goalscorer",
+    "type": "TO_SCORE",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      135
+     ],
+     [
+      "William Osula",
+      0,
+      150
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      150
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      175
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      195
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      195
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      200
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      400
+     ]
+    ]
+   },
+   {
+    "name": "To Score Or Assist",
+    "type": "TO_SCORE_OR_ASSIST",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -110
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      -105
+     ],
+     [
+      "William Osula",
+      0,
+      -105
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      105
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      115
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      115
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      125
+     ],
+     [
+      "Jacob Murphy",
+      0,
+      150
+     ]
+    ]
+   },
+   {
+    "name": "To Score a Hat-Trick",
+    "type": "TO_SCORE_A_HAT-TRICK",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      5000
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      6000
+     ],
+     [
+      "William Osula",
+      0,
+      6000
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      8000
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      10000
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      10000
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      10000
+     ]
+    ]
+   },
+   {
+    "name": "Moneyline (3-way) - 2 Up Early Payout",
+    "type": "FULL_TIME_RESULT_-_2_UP",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      165
+     ],
+     [
+      "Draw",
+      0,
+      260
+     ],
+     [
+      "Newcastle",
+      0,
+      120
+     ]
+    ]
+   },
+   {
+    "name": "Moneyline (3-way)",
+    "type": "WIN-DRAW-WIN",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      190
+     ],
+     [
+      "Draw",
+      0,
+      260
+     ],
+     [
+      "Newcastle",
+      0,
+      130
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams To Score",
+    "type": "BOTH_TEAMS_TO_SCORE",
+    "runners": [
+     [
+      "Yes",
+      0,
+      -235
+     ],
+     [
+      "No",
+      0,
+      180
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Away Team -1.5 Goals",
+    "type": "AWAY_TEAM_-1.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace +1.5 Goals",
+      0,
+      -560
+     ],
+     [
+      "Newcastle -1.5 Goals",
+      0,
+      370
+     ]
+    ]
+   },
+   {
+    "name": "Penalty Awarded?",
+    "type": "PENALTY_AWARDED?",
+    "runners": [
+     [
+      "Yes",
+      0,
+      154
+     ]
+    ]
+   },
+   {
+    "name": "Winning Margin",
+    "type": "WINNING_MARGIN",
+    "runners": [
+     [
+      "Score Draw",
+      0,
+      290
+     ],
+     [
+      "Newcastle to win by exactly 1 goal",
+      0,
+      310
+     ],
+     [
+      "Crystal Palace to win by exactly 1 goal",
+      0,
+      370
+     ],
+     [
+      "Newcastle to win by exactly 2 goals",
+      0,
+      650
+     ],
+     [
+      "Crystal Palace to win by exactly 2 goals",
+      0,
+      800
+     ],
+     [
+      "Newcastle to win by exactly 3 goals",
+      0,
+      1500
+     ],
+     [
+      "0-0 Draw",
+      0,
+      1800
+     ],
+     [
+      "Crystal Palace to win by exactly 3 goals",
+      0,
+      2000
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 1.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_1.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 1.5 Goals",
+      0,
+      130
+     ],
+     [
+      "1st Half Under 1.5 Goals",
+      0,
+      -166
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 2.5 Goals",
+    "type": "OVER_UNDER_25",
+    "runners": [
+     [
+      "Over 2.5 Goals",
+      0,
+      -188
+     ],
+     [
+      "Under 2.5 Goals",
+      0,
+      152
+     ]
+    ]
+   },
+   {
+    "name": "Tie No Bet",
+    "type": "DRAW_NO_BET",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      112
+     ],
+     [
+      "Newcastle",
+      0,
+      -130
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 3.5 Goals",
+    "type": "OVER_UNDER_35",
+    "runners": [
+     [
+      "Over 3.5 Goals",
+      0,
+      136
+     ],
+     [
+      "Under 3.5 Goals",
+      0,
+      -168
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 1 Or More Shots On Target",
+    "type": "PLAYER_TO_HAVE_1_OR_MORE_SHOTS_ON_TARGET",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -400
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      -300
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      -290
+     ],
+     [
+      "William Osula",
+      0,
+      -270
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      -270
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      -230
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      -200
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      -120
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 4.5 Goals",
+    "type": "OVER_UNDER_45",
+    "runners": [
+     [
+      "Over 4.5 Goals",
+      0,
+      320
+     ],
+     [
+      "Under 4.5 Goals",
+      0,
+      -430
+     ]
+    ]
+   },
+   {
+    "name": "Anytime Assist",
+    "type": "ANYTIME_ASSIST",
+    "runners": [
+     [
+      "Jacob Murphy",
+      0,
+      250
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      290
+     ],
+     [
+      "Adam Wharton",
+      0,
+      310
+     ],
+     [
+      "Joe Willock",
+      0,
+      340
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      360
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      360
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      390
+     ],
+     [
+      "William Osula",
+      0,
+      390
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 1.5 Goals",
+    "type": "OVER_UNDER_15",
+    "runners": [
+     [
+      "Over 1.5 Goals",
+      0,
+      -650
+     ],
+     [
+      "Under 1.5 Goals",
+      0,
+      440
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 2 Or More Shots On Target",
+    "type": "PLAYER_TO_HAVE_2_OR_MORE_SHOTS_ON_TARGET",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      110
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      155
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      165
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      180
+     ],
+     [
+      "William Osula",
+      0,
+      185
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      210
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      250
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      480
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 3 Or More Shots On Target",
+    "type": "PLAYER_TO_HAVE_3_OR_MORE_SHOTS_ON_TARGET",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      380
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      550
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      600
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      650
+     ],
+     [
+      "William Osula",
+      0,
+      700
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      800
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      1000
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      2200
+     ]
+    ]
+   },
+   {
+    "name": "First Goalscorer",
+    "type": "FIRST_GOAL_SCORER",
+    "runners": [
+     [
+      "Jorgen Strand Larsen",
+      0,
+      500
+     ],
+     [
+      "William Osula",
+      0,
+      500
+     ],
+     [
+      "Jean-Philippe Mateta",
+      0,
+      500
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      600
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      700
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      700
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      700
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      1300
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 1 Or More Shots In 1st Half",
+    "type": "PLAYER_TO_HAVE_1_OR_MORE_SHOTS_IN_1ST_HALF",
+    "runners": [
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -380
+     ],
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      -350
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      -340
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      -320
+     ],
+     [
+      "William Osula",
+      0,
+      -320
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      -320
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      -290
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      -220
+     ]
+    ]
+   },
+   {
+    "name": "Player To Have 1 Or More Shots",
+    "type": "PLAYER_TO_HAVE_1_OR_MORE_SHOTS",
+    "runners": [
+     [
+      "Matias Fernandez-Pardo",
+      0,
+      -4000
+     ],
+     [
+      "Jean-Philippe Mateta",
+      0,
+      -5000
+     ],
+     [
+      "Yoane Wissa",
+      0,
+      -4000
+     ],
+     [
+      "Jorgen Strand Larsen",
+      0,
+      -3000
+     ],
+     [
+      "Ismaila Sarr",
+      0,
+      -3000
+     ],
+     [
+      "William Osula",
+      0,
+      -3000
+     ],
+     [
+      "Harvey Barnes",
+      0,
+      -2500
+     ],
+     [
+      "Yeremy Pino",
+      0,
+      -1250
+     ]
+    ]
+   }
+  ],
+  "goals": [
+   {
+    "name": "1st Half Over/Under 2.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_2.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 2.5 Goals",
+      0,
+      440
+     ],
+     [
+      "1st Half Under 2.5 Goals",
+      0,
+      -700
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - 1st Half",
+    "type": "MULTIGOL_-_1ST_HALF",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -380
+     ],
+     [
+      "1-3",
+      0,
+      -310
+     ],
+     [
+      "1-2",
+      0,
+      -185
+     ],
+     [
+      "2-4",
+      0,
+      125
+     ],
+     [
+      "2-3",
+      0,
+      150
+     ],
+     [
+      "0",
+      0,
+      280
+     ],
+     [
+      "3-4",
+      0,
+      490
+     ],
+     [
+      "5+",
+      0,
+      5000
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Over/Under 4.5 Goals",
+    "type": "HOME_TEAM_OVER/UNDER_4.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      3000
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - Away Team",
+    "type": "MULTIGOL_-_AWAY",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -550
+     ],
+     [
+      "1-3",
+      0,
+      -370
+     ],
+     [
+      "1-2",
+      0,
+      -185
+     ],
+     [
+      "2-4",
+      0,
+      -115
+     ],
+     [
+      "2-3",
+      0,
+      110
+     ],
+     [
+      "3-4",
+      0,
+      330
+     ],
+     [
+      "0",
+      0,
+      420
+     ],
+     [
+      "5+",
+      0,
+      3000
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Over/Under 4.5 Goals",
+    "type": "AWAY_TEAM_OVER/UNDER_4.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      2000
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 5.5 Goals",
+    "type": "OVER_UNDER_55",
+    "runners": [
+     [
+      "Over 5.5 Goals",
+      0,
+      730
+     ],
+     [
+      "Under 5.5 Goals",
+      0,
+      -1300
+     ]
+    ]
+   },
+   {
+    "name": "WDW & O/U 2.5 Goals",
+    "type": "WDW_&_O/U_2.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace And Over 2.5",
+      0,
+      280
+     ],
+     [
+      "Crystal Palace And Under 2.5",
+      0,
+      750
+     ],
+     [
+      "Draw And Over 2.5",
+      0,
+      700
+     ],
+     [
+      "Draw And Under 2.5",
+      0,
+      470
+     ],
+     [
+      "Newcastle And Over 2.5",
+      0,
+      210
+     ],
+     [
+      "Newcastle And Under 2.5",
+      0,
+      600
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands",
+    "type": "MULTIGOL_-_MATCH",
+    "runners": [
+     [
+      "1-6",
+      0,
+      -2000
+     ],
+     [
+      "1-5",
+      0,
+      -800
+     ],
+     [
+      "2-6",
+      0,
+      -475
+     ],
+     [
+      "1-4",
+      0,
+      -350
+     ],
+     [
+      "2-5",
+      0,
+      -330
+     ],
+     [
+      "2-4",
+      0,
+      -190
+     ],
+     [
+      "3-6",
+      0,
+      -170
+     ],
+     [
+      "1-3",
+      0,
+      -155
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 7.5 Goals",
+    "type": "OVER_UNDER_75",
+    "runners": [
+     [
+      "Over 7.5 Goals",
+      0,
+      3000
+     ]
+    ]
+   },
+   {
+    "name": "A Goal Scored In Both Halves",
+    "type": "A_GOAL_SCORED_IN_BOTH_HALVES",
+    "runners": [
+     [
+      "Yes",
+      0,
+      -210
+     ],
+     [
+      "No",
+      0,
+      146
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 4.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_4.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 4.5 Goals",
+      0,
+      3500
+     ]
+    ]
+   },
+   {
+    "name": "Each Half Goals & Corners",
+    "type": "EACH_HALF_GOALS_&_CORNERS",
+    "runners": [
+     [
+      "A Goal in Each Half and 3+ Corners in Each Half",
+      0,
+      -105
+     ],
+     [
+      "A Goal in Each Half and 4+ Corners in Each Half",
+      0,
+      185
+     ],
+     [
+      "A Goal in Each Half and 5+ Corners in Each Half",
+      0,
+      390
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams To Score",
+    "type": "BOTH_TEAMS_TO_SCORE",
+    "runners": [
+     [
+      "Yes",
+      0,
+      -235
+     ],
+     [
+      "No",
+      0,
+      180
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Over/Under 0.5 Goals",
+    "type": "HOME_TEAM_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -520
+     ],
+     [
+      "Under",
+      0,
+      350
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 8.5 Goals",
+    "type": "OVER_UNDER_85",
+    "runners": [
+     [
+      "Over 8.5 Goals",
+      0,
+      7000
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - Home Team",
+    "type": "MULTIGOL_-_HOME",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -450
+     ],
+     [
+      "1-3",
+      0,
+      -340
+     ],
+     [
+      "1-2",
+      0,
+      -185
+     ],
+     [
+      "2-4",
+      0,
+      105
+     ],
+     [
+      "2-3",
+      0,
+      130
+     ],
+     [
+      "0",
+      0,
+      340
+     ],
+     [
+      "3-4",
+      0,
+      400
+     ],
+     [
+      "5+",
+      0,
+      4500
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Over/Under 1.5 Goals",
+    "type": "AWAY_TEAM_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -118
+     ],
+     [
+      "Under",
+      0,
+      -108
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 1.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_1.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 1.5 Goals",
+      0,
+      130
+     ],
+     [
+      "1st Half Under 1.5 Goals",
+      0,
+      -166
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams To Score & O/U 2.5 Goals",
+    "type": "BOTH_TEAMS_TO_SCORE_&_O/U_2.5_GOALS",
+    "runners": [
+     [
+      "Yes & Over 2.5",
+      0,
+      -160
+     ],
+     [
+      "Yes & Under 2.5",
+      0,
+      650
+     ],
+     [
+      "No & Over 2.5",
+      0,
+      1000
+     ],
+     [
+      "No & Under 2.5",
+      0,
+      240
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 2.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      1500
+     ],
+     [
+      "Under",
+      0,
+      -7000
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 0.5 Goals",
+    "type": "OVER_UNDER_05",
+    "runners": [
+     [
+      "Over 0.5 Goals",
+      0,
+      -5000
+     ],
+     [
+      "Under 0.5 Goals",
+      0,
+      1500
+     ]
+    ]
+   },
+   {
+    "name": "Team First Half Goals",
+    "type": "TEAM_FIRST_HALF_GOALS",
+    "runners": [
+     [
+      "Crystal Palace to Score No First Half Goals",
+      0,
+      -125
+     ],
+     [
+      "Crystal Palace to Score Exactly 1 First Half Goal",
+      0,
+      150
+     ],
+     [
+      "Crystal Palace to Score 2 or more First Half Goals",
+      0,
+      500
+     ],
+     [
+      "Newcastle to Score No First Half Goals",
+      0,
+      -110
+     ],
+     [
+      "Newcastle to Score Exactly 1 First Half Goal",
+      0,
+      140
+     ],
+     [
+      "Newcastle to Score 2 or more First Half Goals",
+      0,
+      430
+     ]
+    ]
+   },
+   {
+    "name": "Team To Score the First Goal",
+    "type": "TEAM_TO_SCORE_THE_FIRST_GOAL",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      105
+     ],
+     [
+      "Newcastle",
+      0,
+      -115
+     ],
+     [
+      "No Goals",
+      0,
+      1700
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - 2nd Half",
+    "type": "MULTIGOL_-_2ND_HALF",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -550
+     ],
+     [
+      "1-3",
+      0,
+      -330
+     ],
+     [
+      "1-2",
+      0,
+      -160
+     ],
+     [
+      "2-4",
+      0,
+      -125
+     ],
+     [
+      "2-3",
+      0,
+      110
+     ],
+     [
+      "3-4",
+      0,
+      270
+     ],
+     [
+      "0",
+      0,
+      440
+     ],
+     [
+      "5+",
+      0,
+      2200
+     ]
+    ]
+   },
+   {
+    "name": "To Score in Both Halves",
+    "type": "TO_SCORE_IN_BOTH_HALVES",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      225
+     ],
+     [
+      "Newcastle",
+      0,
+      192
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 3.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_3.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 3.5 Goals",
+      0,
+      1200
+     ],
+     [
+      "1st Half Under 3.5 Goals",
+      0,
+      -4500
+     ]
+    ]
+   },
+   {
+    "name": "Half with Most Goals",
+    "type": "HALF_WITH_MOST_GOALS",
+    "runners": [
+     [
+      "First Half",
+      0,
+      210
+     ],
+     [
+      "Second Half",
+      0,
+      102
+     ],
+     [
+      "Tie",
+      0,
+      290
+     ]
+    ]
+   },
+   {
+    "name": "Correct Score Combinations",
+    "type": "CORRECT_SCORE_COMBINATIONS",
+    "runners": [
+     [
+      "Newcastle to win 2-1, 3-1 or 4-1",
+      0,
+      460
+     ],
+     [
+      "Draw 0-0 or 1-1",
+      0,
+      470
+     ],
+     [
+      "Newcastle to win 1-0, 2-0 or 3-0",
+      0,
+      500
+     ],
+     [
+      "Crystal Palace to win 2-1, 3-1 or 4-1",
+      0,
+      550
+     ],
+     [
+      "Crystal Palace to win 1-0, 2-0 or 3-0",
+      0,
+      600
+     ],
+     [
+      "Any Other Draw",
+      0,
+      700
+     ],
+     [
+      "Newcastle to win 3-2, 4-2 or 5-2",
+      0,
+      1200
+     ],
+     [
+      "Crystal Palace to win 3-2, 4-2 or 5-2",
+      0,
+      1400
+     ]
+    ]
+   },
+   {
+    "name": "WDW & O/U 3.5 Goals",
+    "type": "WDW_&_O/U_3.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace And Over 3.5",
+      0,
+      550
+     ],
+     [
+      "Crystal Palace And Under 3.5",
+      0,
+      340
+     ],
+     [
+      "Draw And Over 3.5",
+      0,
+      700
+     ],
+     [
+      "Draw And Under 3.5",
+      0,
+      470
+     ],
+     [
+      "Newcastle And Over 3.5",
+      0,
+      450
+     ],
+     [
+      "Newcastle And Under 3.5",
+      0,
+      260
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 0.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_0.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 0.5 Goals",
+      0,
+      -410
+     ],
+     [
+      "1st Half Under 0.5 Goals",
+      0,
+      290
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Over/Under 0.5 Goals",
+    "type": "AWAY_TEAM_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -650
+     ],
+     [
+      "Under",
+      0,
+      420
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 5.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_5.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 5.5 Goals",
+      0,
+      8000
+     ]
+    ]
+   },
+   {
+    "name": "WDW & O/U 1.5 Goals",
+    "type": "WDW_&_O/U_1.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace And Over 1.5",
+      0,
+      220
+     ],
+     [
+      "Crystal Palace And Under 1.5",
+      0,
+      1200
+     ],
+     [
+      "Draw And Over 1.5",
+      0,
+      290
+     ],
+     [
+      "Draw And Under 1.5",
+      0,
+      1800
+     ],
+     [
+      "Newcastle And Over 1.5",
+      0,
+      165
+     ],
+     [
+      "Newcastle And Under 1.5",
+      0,
+      1100
+     ]
+    ]
+   },
+   {
+    "name": "Number of Team Goals",
+    "type": "NUMBER_OF_TEAM_GOALS",
+    "runners": [
+     [
+      "Crystal Palace to Score No Goals",
+      0,
+      330
+     ],
+     [
+      "Crystal Palace to Score Exactly 1 Goal",
+      0,
+      165
+     ],
+     [
+      "Crystal Palace to Score Exactly 2 Goals",
+      0,
+      230
+     ],
+     [
+      "Crystal Palace to Score Exactly 3 Goals",
+      0,
+      550
+     ],
+     [
+      "Crystal Palace to Score 4 or More Goals",
+      0,
+      1200
+     ],
+     [
+      "Newcastle to Score No Goals",
+      0,
+      420
+     ],
+     [
+      "Newcastle to Score Exactly 1 Goal",
+      0,
+      180
+     ],
+     [
+      "Newcastle to Score Exactly 2 Goals",
+      0,
+      210
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 6.5 Goals",
+    "type": "OVER_UNDER_65",
+    "runners": [
+     [
+      "Over 6.5 Goals",
+      0,
+      1500
+     ],
+     [
+      "Under 6.5 Goals",
+      0,
+      -5000
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 1.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      440
+     ],
+     [
+      "Under",
+      0,
+      -700
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 0.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -132
+     ],
+     [
+      "Under",
+      0,
+      104
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Over/Under 1.5 Goals",
+    "type": "HOME_TEAM_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      106
+     ],
+     [
+      "Under",
+      0,
+      -136
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 0.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -113
+     ],
+     [
+      "Under",
+      0,
+      -113
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Over/Under 2.5 Goals",
+    "type": "HOME_TEAM_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      360
+     ],
+     [
+      "Under",
+      0,
+      -530
+     ]
+    ]
+   },
+   {
+    "name": "Moneyline (3-way)",
+    "type": "WIN-DRAW-WIN",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      190
+     ],
+     [
+      "Draw",
+      0,
+      260
+     ],
+     [
+      "Newcastle",
+      0,
+      130
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Over/Under 3.5 Goals",
+    "type": "HOME_TEAM_OVER/UNDER_3.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      1060
+     ],
+     [
+      "Under",
+      0,
+      -3500
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 1.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      520
+     ],
+     [
+      "Under",
+      0,
+      -900
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 2.5 Goals",
+    "type": "OVER_UNDER_25",
+    "runners": [
+     [
+      "Over 2.5 Goals",
+      0,
+      -188
+     ],
+     [
+      "Under 2.5 Goals",
+      0,
+      152
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Over/Under 3.5 Goals",
+    "type": "AWAY_TEAM_OVER/UNDER_3.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      900
+     ],
+     [
+      "Under",
+      0,
+      -2500
+     ]
+    ]
+   },
+   {
+    "name": "Result & Both to Score",
+    "type": "RESULT_&_BOTH_TO_SCORE",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      330
+     ],
+     [
+      "Draw",
+      0,
+      290
+     ],
+     [
+      "Newcastle",
+      0,
+      270
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams to Score in the First Half",
+    "type": "BOTH_TEAMS_TO_SCORE_IN_THE_FIRST_HALF",
+    "runners": [
+     [
+      "Yes",
+      0,
+      225
+     ],
+     [
+      "No",
+      0,
+      -340
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Over/Under 2.5 Goals",
+    "type": "AWAY_TEAM_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      300
+     ],
+     [
+      "Under",
+      0,
+      -430
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 2.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      1800
+     ],
+     [
+      "Under",
+      0,
+      -10000
+     ]
+    ]
+   },
+   {
+    "name": "WDW & O/U 4.5 Goals",
+    "type": "WDW_&_O/U_4.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace And Over 4.5",
+      0,
+      850
+     ],
+     [
+      "Crystal Palace And Under 4.5",
+      0,
+      260
+     ],
+     [
+      "Draw And Over 4.5",
+      0,
+      2500
+     ],
+     [
+      "Draw And Under 4.5",
+      0,
+      270
+     ],
+     [
+      "Newcastle And Over 4.5",
+      0,
+      700
+     ],
+     [
+      "Newcastle And Under 4.5",
+      0,
+      200
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 3.5 Goals",
+    "type": "OVER_UNDER_35",
+    "runners": [
+     [
+      "Over 3.5 Goals",
+      0,
+      136
+     ],
+     [
+      "Under 3.5 Goals",
+      0,
+      -168
+     ]
+    ]
+   },
+   {
+    "name": "Half-Time Correct Score",
+    "type": "HALF-TIME_CORRECT_SCORE",
+    "runners": [
+     [
+      "1-0",
+      0,
+      430
+     ],
+     [
+      "2-0",
+      0,
+      1500
+     ],
+     [
+      "2-1",
+      0,
+      1800
+     ],
+     [
+      "3-0",
+      0,
+      6000
+     ],
+     [
+      "3-1",
+      0,
+      7500
+     ],
+     [
+      "3-2",
+      0,
+      10000
+     ],
+     [
+      "4-0",
+      0,
+      10000
+     ],
+     [
+      "4-1",
+      0,
+      10000
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 4.5 Goals",
+    "type": "OVER_UNDER_45",
+    "runners": [
+     [
+      "Over 4.5 Goals",
+      0,
+      320
+     ],
+     [
+      "Under 4.5 Goals",
+      0,
+      -430
+     ]
+    ]
+   },
+   {
+    "name": "Over/Under 1.5 Goals",
+    "type": "OVER_UNDER_15",
+    "runners": [
+     [
+      "Over 1.5 Goals",
+      0,
+      -650
+     ],
+     [
+      "Under 1.5 Goals",
+      0,
+      440
+     ]
+    ]
+   }
+  ],
+  "team-props": [
+   {
+    "name": "To Win to Nil",
+    "type": "TO_WIN_TO_NIL",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      580
+     ],
+     [
+      "Newcastle",
+      0,
+      460
+     ]
+    ]
+   },
+   {
+    "name": "Moneyline (3-way)",
+    "type": "WIN-DRAW-WIN",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      190
+     ],
+     [
+      "Draw",
+      0,
+      260
+     ],
+     [
+      "Newcastle",
+      0,
+      130
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Away Team -1.5 Goals",
+    "type": "AWAY_TEAM_-1.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace +1.5 Goals",
+      0,
+      -560
+     ],
+     [
+      "Newcastle -1.5 Goals",
+      0,
+      370
+     ]
+    ]
+   },
+   {
+    "name": "To Score in Both Halves",
+    "type": "TO_SCORE_IN_BOTH_HALVES",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      225
+     ],
+     [
+      "Newcastle",
+      0,
+      192
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams To Score",
+    "type": "BOTH_TEAMS_TO_SCORE",
+    "runners": [
+     [
+      "Yes",
+      0,
+      -235
+     ],
+     [
+      "No",
+      0,
+      180
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Home Team -1.5 Goals",
+    "type": "HOME_TEAM_-1.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace -1.5 Goals",
+      0,
+      500
+     ],
+     [
+      "Newcastle +1.5 Goals",
+      0,
+      -850
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams To Score & O/U 2.5 Goals",
+    "type": "BOTH_TEAMS_TO_SCORE_&_O/U_2.5_GOALS",
+    "runners": [
+     [
+      "Yes & Over 2.5",
+      0,
+      -160
+     ],
+     [
+      "Yes & Under 2.5",
+      0,
+      650
+     ],
+     [
+      "No & Over 2.5",
+      0,
+      1000
+     ],
+     [
+      "No & Under 2.5",
+      0,
+      240
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Home Team -2.5 Goals",
+    "type": "HOME_TEAM_-2.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace -2.5 Goals",
+      0,
+      1200
+     ],
+     [
+      "Newcastle +2.5 Goals",
+      0,
+      -4500
+     ]
+    ]
+   },
+   {
+    "name": "Lead at 10-20-30-60 Minutes",
+    "type": "LEAD_AT_10-20-30-60_MINUTES",
+    "runners": [
+     [
+      "Crystal Palace at 10 minutes",
+      0,
+      700
+     ],
+     [
+      "Draw at 10 minutes",
+      0,
+      -475
+     ],
+     [
+      "Newcastle at 10 minutes",
+      0,
+      600
+     ],
+     [
+      "Crystal Palace at 20 minutes",
+      0,
+      380
+     ],
+     [
+      "Draw at 20 minutes",
+      0,
+      -185
+     ],
+     [
+      "Newcastle at 20 minutes",
+      0,
+      330
+     ],
+     [
+      "Crystal Palace at 30 minutes",
+      0,
+      290
+     ],
+     [
+      "Draw at 30 minutes",
+      0,
+      -120
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams to Score in the First Half",
+    "type": "BOTH_TEAMS_TO_SCORE_IN_THE_FIRST_HALF",
+    "runners": [
+     [
+      "Yes",
+      0,
+      225
+     ],
+     [
+      "No",
+      0,
+      -340
+     ]
+    ]
+   },
+   {
+    "name": "Team First Half Goals",
+    "type": "TEAM_FIRST_HALF_GOALS",
+    "runners": [
+     [
+      "Crystal Palace to Score No First Half Goals",
+      0,
+      -125
+     ],
+     [
+      "Crystal Palace to Score Exactly 1 First Half Goal",
+      0,
+      150
+     ],
+     [
+      "Crystal Palace to Score 2 or more First Half Goals",
+      0,
+      500
+     ],
+     [
+      "Newcastle to Score No First Half Goals",
+      0,
+      -110
+     ],
+     [
+      "Newcastle to Score Exactly 1 First Half Goal",
+      0,
+      140
+     ],
+     [
+      "Newcastle to Score 2 or more First Half Goals",
+      0,
+      430
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Home Team -3.5 Goals",
+    "type": "HOME_TEAM_-3.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace -3.5 Goals",
+      0,
+      3000
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Away Team -2.5 Goals",
+    "type": "AWAY_TEAM_-2.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace +2.5 Goals",
+      0,
+      -2500
+     ],
+     [
+      "Newcastle -2.5 Goals",
+      0,
+      900
+     ]
+    ]
+   },
+   {
+    "name": "2 Way Spread Away Team -3.5 Goals",
+    "type": "AWAY_TEAM_-3.5_GOALS",
+    "runners": [
+     [
+      "Crystal Palace +3.5 Goals",
+      0,
+      -10000
+     ],
+     [
+      "Newcastle -3.5 Goals",
+      0,
+      1800
+     ]
+    ]
+   },
+   {
+    "name": "Number of Team Goals",
+    "type": "NUMBER_OF_TEAM_GOALS",
+    "runners": [
+     [
+      "Crystal Palace to Score No Goals",
+      0,
+      330
+     ],
+     [
+      "Crystal Palace to Score Exactly 1 Goal",
+      0,
+      165
+     ],
+     [
+      "Crystal Palace to Score Exactly 2 Goals",
+      0,
+      230
+     ],
+     [
+      "Crystal Palace to Score Exactly 3 Goals",
+      0,
+      550
+     ],
+     [
+      "Crystal Palace to Score 4 or More Goals",
+      0,
+      1200
+     ],
+     [
+      "Newcastle to Score No Goals",
+      0,
+      420
+     ],
+     [
+      "Newcastle to Score Exactly 1 Goal",
+      0,
+      180
+     ],
+     [
+      "Newcastle to Score Exactly 2 Goals",
+      0,
+      210
+     ]
+    ]
+   }
+  ],
+  "half": [
+   {
+    "name": "Away Team Corners in Each Half",
+    "type": "AWAY_TEAM_CORNERS_IN_EACH_HALF",
+    "runners": [
+     [
+      "Away Corners 1+ in Each Half",
+      0,
+      -500
+     ],
+     [
+      "Away Corners 2+ in Each Half",
+      0,
+      -105
+     ],
+     [
+      "Away Corners 3+ in Each Half",
+      0,
+      350
+     ],
+     [
+      "Away Corners 4+ in Each Half",
+      0,
+      1200
+     ],
+     [
+      "Away Corners 5+ in Each Half",
+      0,
+      4000
+     ]
+    ]
+   },
+   {
+    "name": "Corners In Each Half",
+    "type": "CORNERS_IN_EACH_HALF",
+    "runners": [
+     [
+      "3+ Corners in Each Half",
+      0,
+      -360
+     ],
+     [
+      "4+ Corners in Each Half",
+      0,
+      -130
+     ],
+     [
+      "5+ Corners in Each Half",
+      0,
+      200
+     ],
+     [
+      "6+ Corners in Each Half",
+      0,
+      500
+     ],
+     [
+      "7+ Corners in Each Half",
+      0,
+      1300
+     ],
+     [
+      "8+ Corners in Each Half",
+      0,
+      3500
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 2.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_2.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 2.5 Goals",
+      0,
+      440
+     ],
+     [
+      "1st Half Under 2.5 Goals",
+      0,
+      -700
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - 1st Half",
+    "type": "MULTIGOL_-_1ST_HALF",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -380
+     ],
+     [
+      "1-3",
+      0,
+      -310
+     ],
+     [
+      "1-2",
+      0,
+      -185
+     ],
+     [
+      "2-4",
+      0,
+      125
+     ],
+     [
+      "2-3",
+      0,
+      150
+     ],
+     [
+      "0",
+      0,
+      280
+     ],
+     [
+      "3-4",
+      0,
+      490
+     ],
+     [
+      "5+",
+      0,
+      5000
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 3.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_3.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 3.5 Goals",
+      0,
+      1200
+     ],
+     [
+      "1st Half Under 3.5 Goals",
+      0,
+      -4500
+     ]
+    ]
+   },
+   {
+    "name": "Half with Most Goals",
+    "type": "HALF_WITH_MOST_GOALS",
+    "runners": [
+     [
+      "First Half",
+      0,
+      210
+     ],
+     [
+      "Second Half",
+      0,
+      102
+     ],
+     [
+      "Tie",
+      0,
+      290
+     ]
+    ]
+   },
+   {
+    "name": "To Win Either Half",
+    "type": "TO_WIN_EITHER_HALF",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      -122
+     ],
+     [
+      "Newcastle",
+      0,
+      -158
+     ]
+    ]
+   },
+   {
+    "name": "Half-Time Result",
+    "type": "HALF-TIME_RESULT",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      220
+     ],
+     [
+      "Draw",
+      0,
+      135
+     ],
+     [
+      "Newcastle",
+      0,
+      175
+     ]
+    ]
+   },
+   {
+    "name": "To be Winning at HT or FT",
+    "type": "TO_BE_WINNING_AT_HT_OR_FT",
+    "runners": [
+     [
+      "Crystal Palace to be Winning at Half Time or Full Time",
+      0,
+      115
+     ],
+     [
+      "Newcastle to be Winning at Half Time or Full Time",
+      0,
+      -115
+     ]
+    ]
+   },
+   {
+    "name": "Lead at 10-20-30-60 Minutes",
+    "type": "LEAD_AT_10-20-30-60_MINUTES",
+    "runners": [
+     [
+      "Crystal Palace at 10 minutes",
+      0,
+      700
+     ],
+     [
+      "Draw at 10 minutes",
+      0,
+      -475
+     ],
+     [
+      "Newcastle at 10 minutes",
+      0,
+      600
+     ],
+     [
+      "Crystal Palace at 20 minutes",
+      0,
+      380
+     ],
+     [
+      "Draw at 20 minutes",
+      0,
+      -185
+     ],
+     [
+      "Newcastle at 20 minutes",
+      0,
+      330
+     ],
+     [
+      "Crystal Palace at 30 minutes",
+      0,
+      290
+     ],
+     [
+      "Draw at 30 minutes",
+      0,
+      -120
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 0.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_0.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 0.5 Goals",
+      0,
+      -410
+     ],
+     [
+      "1st Half Under 0.5 Goals",
+      0,
+      290
+     ]
+    ]
+   },
+   {
+    "name": "To Win Both Halves",
+    "type": "TO_WIN_BOTH_HALVES",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      1000
+     ],
+     [
+      "Newcastle",
+      0,
+      750
+     ]
+    ]
+   },
+   {
+    "name": "Most Corners in Each Half",
+    "type": "MOST_CORNERS_IN_EACH_HALF",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      370
+     ],
+     [
+      "Newcastle",
+      0,
+      380
+     ]
+    ]
+   },
+   {
+    "name": "Half-Time/Full-Time",
+    "type": "HALF-TIME/FULL-TIME",
+    "runners": [
+     [
+      "Crystal Palace / Crystal Palace",
+      0,
+      370
+     ],
+     [
+      "Crystal Palace / Draw",
+      0,
+      1200
+     ],
+     [
+      "Crystal Palace / Newcastle",
+      0,
+      2000
+     ],
+     [
+      "Draw / Crystal Palace",
+      0,
+      650
+     ],
+     [
+      "Draw / Draw",
+      0,
+      550
+     ],
+     [
+      "Draw / Newcastle",
+      0,
+      550
+     ],
+     [
+      "Newcastle / Crystal Palace",
+      0,
+      2200
+     ],
+     [
+      "Newcastle / Draw",
+      0,
+      1100
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 5.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_5.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 5.5 Goals",
+      0,
+      8000
+     ]
+    ]
+   },
+   {
+    "name": "Team Shots On Target in Each Half",
+    "type": "TEAM_SHOTS_ON_TARGET_IN_EACH_HALF",
+    "runners": [
+     [
+      "1+ Shots On Target Each Team in Each Half",
+      0,
+      -220
+     ],
+     [
+      "2+ Shots On Target Each Team in Each Half",
+      0,
+      350
+     ],
+     [
+      "3+ Shots On Target Each Team in Each Half",
+      0,
+      2500
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 1.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      440
+     ],
+     [
+      "Under",
+      0,
+      -700
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 4.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_4.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 4.5 Goals",
+      0,
+      3500
+     ]
+    ]
+   },
+   {
+    "name": "Team Most Shots on Target in Each Half",
+    "type": "TEAM_MOST_SHOTS_ON_TARGET_IN_EACH_HALF",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      500
+     ],
+     [
+      "Newcastle",
+      0,
+      420
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 0.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -132
+     ],
+     [
+      "Under",
+      0,
+      104
+     ]
+    ]
+   },
+   {
+    "name": "Away Team Shots On Target In Each Half",
+    "type": "AWAY_TEAM_SHOTS_ON_TARGET_IN_EACH_HALF",
+    "runners": [
+     [
+      "Newcastle 1+ Shots On Target in Each Half",
+      0,
+      -550
+     ],
+     [
+      "Newcastle 2+ Shots On Target in Each Half",
+      0,
+      100
+     ],
+     [
+      "Newcastle 3+ Shots On Target in Each Half",
+      0,
+      400
+     ],
+     [
+      "Newcastle 4+ Shots On Target in Each Half",
+      0,
+      1600
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Shots On Target In Each Half",
+    "type": "HOME_TEAM_SHOTS_ON_TARGET_IN_EACH_HALF",
+    "runners": [
+     [
+      "Crystal Palace 1+ Shots On Target in Each Half",
+      0,
+      -450
+     ],
+     [
+      "Crystal Palace 2+ Shots On Target in Each Half",
+      0,
+      115
+     ],
+     [
+      "Crystal Palace 3+ Shots On Target in Each Half",
+      0,
+      460
+     ],
+     [
+      "Crystal Palace 4+ Shots On Target in Each Half",
+      0,
+      1700
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 0.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      -113
+     ],
+     [
+      "Under",
+      0,
+      -113
+     ]
+    ]
+   },
+   {
+    "name": "Each Half Goals & Corners",
+    "type": "EACH_HALF_GOALS_&_CORNERS",
+    "runners": [
+     [
+      "A Goal in Each Half and 3+ Corners in Each Half",
+      0,
+      -105
+     ],
+     [
+      "A Goal in Each Half and 4+ Corners in Each Half",
+      0,
+      185
+     ],
+     [
+      "A Goal in Each Half and 5+ Corners in Each Half",
+      0,
+      390
+     ]
+    ]
+   },
+   {
+    "name": "Moneyline (3-way)",
+    "type": "WIN-DRAW-WIN",
+    "runners": [
+     [
+      "Crystal Palace",
+      0,
+      190
+     ],
+     [
+      "Draw",
+      0,
+      260
+     ],
+     [
+      "Newcastle",
+      0,
+      130
+     ]
+    ]
+   },
+   {
+    "name": "Home Team Corners in Each Half",
+    "type": "HOME_TEAM_CORNERS_IN_EACH_HALF",
+    "runners": [
+     [
+      "Home Corners 1+ in Each Half",
+      0,
+      -550
+     ],
+     [
+      "Home Corners 2+ in Each Half",
+      0,
+      -110
+     ],
+     [
+      "Home Corners 3+ in Each Half",
+      0,
+      350
+     ],
+     [
+      "Home Corners 4+ in Each Half",
+      0,
+      1100
+     ],
+     [
+      "Home Corners 5+ in Each Half",
+      0,
+      4000
+     ]
+    ]
+   },
+   {
+    "name": "1st Half Over/Under 1.5 Goals",
+    "type": "1ST_HALF_OVER/UNDER_1.5_GOALS",
+    "runners": [
+     [
+      "1st Half Over 1.5 Goals",
+      0,
+      130
+     ],
+     [
+      "1st Half Under 1.5 Goals",
+      0,
+      -166
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 1.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      520
+     ],
+     [
+      "Under",
+      0,
+      -900
+     ]
+    ]
+   },
+   {
+    "name": "Away Team First Half Over/Under 2.5 Goals",
+    "type": "AWAY_TEAM_FIRST_HALF_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      1500
+     ],
+     [
+      "Under",
+      0,
+      -7000
+     ]
+    ]
+   },
+   {
+    "name": "Both Teams to Score in the First Half",
+    "type": "BOTH_TEAMS_TO_SCORE_IN_THE_FIRST_HALF",
+    "runners": [
+     [
+      "Yes",
+      0,
+      225
+     ],
+     [
+      "No",
+      0,
+      -340
+     ]
+    ]
+   },
+   {
+    "name": "Team First Half Goals",
+    "type": "TEAM_FIRST_HALF_GOALS",
+    "runners": [
+     [
+      "Crystal Palace to Score No First Half Goals",
+      0,
+      -125
+     ],
+     [
+      "Crystal Palace to Score Exactly 1 First Half Goal",
+      0,
+      150
+     ],
+     [
+      "Crystal Palace to Score 2 or more First Half Goals",
+      0,
+      500
+     ],
+     [
+      "Newcastle to Score No First Half Goals",
+      0,
+      -110
+     ],
+     [
+      "Newcastle to Score Exactly 1 First Half Goal",
+      0,
+      140
+     ],
+     [
+      "Newcastle to Score 2 or more First Half Goals",
+      0,
+      430
+     ]
+    ]
+   },
+   {
+    "name": "Home Team First Half Over/Under 2.5 Goals",
+    "type": "HOME_TEAM_FIRST_HALF_OVER/UNDER_2.5",
+    "runners": [
+     [
+      "Over",
+      0,
+      1800
+     ],
+     [
+      "Under",
+      0,
+      -10000
+     ]
+    ]
+   },
+   {
+    "name": "Total Goals Bands - 2nd Half",
+    "type": "MULTIGOL_-_2ND_HALF",
+    "runners": [
+     [
+      "1-4",
+      0,
+      -550
+     ],
+     [
+      "1-3",
+      0,
+      -330
+     ],
+     [
+      "1-2",
+      0,
+      -160
+     ],
+     [
+      "2-4",
+      0,
+      -125
+     ],
+     [
+      "2-3",
+      0,
+      110
+     ],
+     [
+      "3-4",
+      0,
+      270
+     ],
+     [
+      "0",
+      0,
+      440
+     ],
+     [
+      "5+",
+      0,
+      2200
+     ]
+    ]
+   },
+   {
+    "name": "Half-Time Correct Score",
+    "type": "HALF-TIME_CORRECT_SCORE",
+    "runners": [
+     [
+      "1-0",
+      0,
+      430
+     ],
+     [
+      "2-0",
+      0,
+      1500
+     ],
+     [
+      "2-1",
+      0,
+      1800
+     ],
+     [
+      "3-0",
+      0,
+      6000
+     ],
+     [
+      "3-1",
+      0,
+      7500
+     ],
+     [
+      "3-2",
+      0,
+      10000
+     ],
+     [
+      "4-0",
+      0,
+      10000
+     ],
+     [
+      "4-1",
+      0,
+      10000
+     ]
+    ]
+   },
+   {
+    "name": "Each Team Corners in Each Half",
+    "type": "EACH_TEAM_CORNERS_IN_EACH_HALF",
+    "runners": [
+     [
+      "1+ Corners Each Team in Each Half",
+      0,
+      -220
+     ],
+     [
+      "2+ Corners Each Team in Each Half",
+      0,
+      340
+     ],
+     [
+      "3+ Corners Each Team in Each Half",
+      0,
+      2500
+     ]
+    ]
+   }
+  ]
+ }
+}
