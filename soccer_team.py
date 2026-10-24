@@ -18,7 +18,7 @@ Corners, cards, shots and first-scorer bets aren't covered: there's no sharp pri
 Not betting advice; a paper record.
 
 usage: python soccer_team.py [soccer_team.json]"""
-import json, math, re, sys, time, datetime as dt, unicodedata, urllib.request
+import json, math, os, re, sys, time, datetime as dt, unicodedata, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
 PIN = "https://guest.api.arcadia.pinnacle.com/0.1"
@@ -640,6 +640,8 @@ def main():
     print(f"{len(top)} picks; record {sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
     for c in top[:8]:
         print(f"  {c['home']} v {c['away']}: {c['bet']} {c['book']} {c['price']:+d} fair {c['fair']} chance {c['prob']} ev {c['ev']:+.3f} {c['src']}")
+    if os.environ.get("ST_DEBUG"):
+        json.dump(cands, open("st_cands.json", "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
                "picks": top, "games": games, "record": record}, open(out, "w"), separators=(",", ":"))
 

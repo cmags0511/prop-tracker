@@ -12,4 +12,4 @@ jobs:
       - run: |
           git config user.name probe; git config user.email probe@users.noreply.github.com
           git checkout -b probe-out-${{ github.run_id }}
-          git add -f probe_st.json probe_log.txt || git add -f probe_log.txt; git commit -qm probe; git push origin probe-out-${{ github.run_id }}
+          git add -f probe_st.json st_cands.json probe_log.txt || git add -f probe_log.txt; git commit -qm probe; git push origin probe-out-${{ github.run_id }}
