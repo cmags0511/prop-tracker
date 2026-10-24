@@ -1,0 +1,18 @@
+Pinnacle: 22 leagues (England - Championship, France - Ligue 2, England - Premier League, Belgium - Pro League, Mexico - Liga MX, UEFA - Conference League, Germany - Bundesliga, USA - Major League Soccer, England - League 1, Brazil - Serie A, France - Ligue 1, Portugal - Primeira Liga, Spain - La Liga, Saudi Arabia - Pro League, Italy - Serie A, Italy - Serie B, Argentina - Liga Pro, UEFA - Champions League, Netherlands - Eredivisie, UEFA - Europa League, Spain - Segunda Division, Scotland - Premiership)
+FanDuel: 63 soccer matches in the next 3 days
+
+Traceback (most recent call last):
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_team.py", line 648, in <module>
+    main()
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_team.py", line 624, in main
+    cands, games = build(now)
+                   ^^^^^^^^^^
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_team.py", line 540, in build
+    offers += [("DraftKings", m["home"], m["away"]) + o for o in dk_offers(ev, m["home"], m["away"])]
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/prop-tracker/prop-tracker/soccer_team.py", line 467, in dk_offers
+    ml = o.get("moneyline") or {}
+         ^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'
+
+ESPN Sunderland at AFC Bournemouth {'id': '28', 'name': 'STATUS_FULL_TIME', 'state': 'post', 'completed': True, 'description': 'Full Time', 'detail': 'FT', 'shortDetail': 'FT'} [('home', '2', None), ('away', '0', None)]
