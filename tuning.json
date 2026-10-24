@@ -1,5 +1,5 @@
 {
- "built": "2026-10-24T06:54+00:00",
+ "built": "2026-10-24T09:47+00:00",
  "graded_picks": 162,
  "graded_research": 136,
  "market": {
@@ -9,7 +9,7 @@
  "factors": {
   "matchup": 0.805,
   "game": 0.691,
-  "form": 0.862
+  "form": 0.863
  },
  "research_conf": {
   "medium": 0.935,
@@ -22,7 +22,7 @@
   "When game script backed a pick it went 15-20, vs 18-10 when it didn't: weighted x0.691",
   "Medium-confidence research calls are 58-58: their weight goes from 1.0 to 0.935",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 3150 graded props the app's chances averaged 57% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 3153 graded props the app's chances averaged 57% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 56%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
@@ -36,46 +36,42 @@
   "NBA rebounds: an extra nudge toward the over",
   "NFL pass attempts: an extra nudge toward the over",
   "NBA pts + reb: an extra nudge toward the under",
-  "Recent form has been over-weighted across 2494 graded props: weighted x0.862"
+  "Recent form has been over-weighted across 2497 graded props: weighted x0.863"
  ],
  "calibration": {
-  "n": 3150,
+  "n": 3153,
   "days": 11,
   "trust": 0.85,
-  "c": -0.154,
+  "c": -0.155,
   "b": 0.35,
   "per": {
    "NBA|3pm": [
-    -0.124,
+    -0.123,
     1.02
    ],
    "NBA|ast": [
-    -0.099,
+    -0.098,
     0.998
    ],
    "NBA|pa": [
-    -0.089,
+    -0.088,
     0.979
    ],
    "NBA|pr": [
-    -0.061,
-    0.978
+    -0.065,
+    0.979
    ],
    "NBA|pra": [
-    -0.04,
+    -0.039,
     0.966
    ],
-   "NBA|pts": [
-    0.034,
-    0.969
-   ],
    "NBA|ra": [
-    -0.041,
+    -0.04,
     0.957
    ],
    "NBA|reb": [
-    0.069,
-    0.969
+    0.065,
+    0.97
    ],
    "NFL|att": [
     0.071,
@@ -94,38 +90,38 @@
     0.934
    ],
    "NFL|recyd": [
-    -0.022,
+    -0.021,
     0.94
    ],
    "NFL|ryd": [
-    -0.142,
+    -0.141,
     0.999
    ],
    "NFL|sck": [
-    -0.204,
+    -0.203,
     0.955
    ],
    "NFL|tkl": [
-    -0.074,
+    -0.073,
     0.926
    ]
   }
  },
  "calib": {
-  "n": 3150,
+  "n": 3153,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    1647,
+    1649,
     0.523,
     0.542
    ],
    [
     0.55,
     0.6,
-    871,
+    872,
     0.571,
     0.524
    ],
