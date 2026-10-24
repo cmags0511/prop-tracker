@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-24T14:57:24Z",
+ "updated": "2026-10-24T20:36:57Z",
  "summary": "Backup QBs and secondary injuries drive the slate: McCarthy starts for the Giants against a Houston team missing both starting safeties, Lamar Jackson is a game-time decision for Baltimore, and the 49ers play without Mike Evans and Deebo Samuel while the Rams lose Davante Adams for weeks and Nacua is a Sunday decision.",
  "notes": {
   "CFB|5164360|recyd": {
@@ -335,17 +335,18 @@
   "NFL|00-0039064|td": {
    "side": "under",
    "flag": "caution",
-   "adj": 0,
+   "adj": -1,
    "conf": "medium",
-   "note": "Flowers' scoring chance depends on Lamar, who is a game-time decision; Baltimore managed only 10 points with Huntley last week.",
+   "note": "Lamar Jackson has been downgraded to out with his ankle injury, so Baltimore turns to its backup again after scoring only 10 points with Huntley last week.",
    "sources": [
+    "https://www.espn.com/nfl/team/injuries/_/name/bal/baltimore-ravens",
     "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/lamar-jackson-officially-questionable-for-ravens-bengals",
     "https://www.foxsports.com/nfl/week-6-baltimore-ravens-vs-cleveland-browns-oct-18-2026-game-boxscore-11228?tab=news",
     "https://www.sportsline.com/nfl/game-forecast/NFL_20261025_CIN@BAL/prop-picks/"
    ],
    "buzz": "none",
    "detail": {
-    "availability": "QB Lamar Jackson questionable (high ankle sprain), limited all week.",
+    "availability": "QB Lamar Jackson downgraded to out (ankle); backup QB starts.",
     "script": "Baltimore's implied total dropped with the spread and total moves."
    }
   },
@@ -1660,11 +1661,185 @@
    "sources": [
     "https://sports.yahoo.com/articles/full-injury-report-thursdays-nuggets-130203725.html"
    ]
+  },
+  "NBA|4278594|ast": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "Dallas is without Cooper Flagg, Caleb Martin and Santi Aldama, with Kyrie Irving questionable, leaving more of the ball-handling to Marshall.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/dal/dallas-mavericks"
+   ],
+   "detail": {
+    "availability": "Healthy. Teammates out: Flagg (shoulder), Martin (thumb), Aldama (knee), Biberovic (heel); Irving, Christie and Risacher questionable, Howard doubtful."
+   }
+  },
+  "NFL|00-0040583|td": {
+   "side": "yes",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "David Montgomery is ruled out with a groin injury, so Marks moves up to lead back against a Giants defense that just lost Tremaine Edmunds for the season.",
+   "sources": [
+    "https://www.rotoballer.com/?p=1967029",
+    "https://www.espn.com/nfl/team/injuries/_/name/hou/houston-texans"
+   ]
+  },
+  "NFL|00-0040743|cmp": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Shough is set to start while playing through two broken bones in his non-throwing hand; no other change to his role was found.",
+   "sources": [
+    "https://www.tsn.ca/nfl/article/sources-saints-qb-shough-playing-with-two-broken-bones-in-non-throwing-hand-n1-50200514/"
+   ]
+  },
+  "NFL|00-0029607|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Davis is not on the Saints' injury report and nothing found changes his every-down role.",
+   "sources": [
+    "https://www.espn.com/nfl/team/injuries/_/name/no/new-orleans-saints"
+   ]
+  },
+  "NFL|00-0032424|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Reader is not listed on the injury report; no change to his rotational run-stuffing role was found.",
+   "sources": [
+    "https://www.espn.com/nfl/team/injuries/_/name/nyg/new-york-giants"
+   ]
+  },
+  "NFL|00-0037611|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Thibodeaux is not listed on the injury report and has no sacks in recent games; no new role news.",
+   "sources": [
+    "https://www.espn.com/nfl/team/injuries/_/name/nyg/new-york-giants"
+   ]
+  },
+  "NBA|4433249|ast": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Charlotte is missing Coby White, Kon Knueppel and Grant Williams, which could push more playmaking to Diabate, so the under is less safe than the numbers suggest.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/cha/charlotte-hornets"
+   ]
+  },
+  "NBA|2595516|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Powell is not on the injury report; only two games of data this season, so the sample is thin.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/chi/chicago-bulls"
+   ]
+  },
+  "NBA|4432848|pa": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Jaquez is starting for Milwaukee and Philadelphia is without LeBron James and two centers, which may open scoring chances; no injury concern for Jaquez.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/philadelphia-76ers"
+   ]
+  },
+  "NBA|4395630|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Vassell is healthy; San Antonio is without Tobias Harris, which keeps his minutes steady. Price on the under is poor.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/sa/san-antonio-spurs"
+   ]
+  },
+  "CFB|5077060|recyd": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "No injury news found for Thomas, Houston's top receiver (126 yards in one of his last three); the line sits below his season average.",
+   "sources": [
+    "https://www.espn.com/college-football/team/injuries/_/id/248"
+   ]
+  },
+  "CFB|4685574|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Weigman is healthy and starting; he has run for 21-52 yards in his last three, so the line is close to his recent form.",
+   "sources": [
+    "https://www.espn.com/college-football/team/injuries/_/id/248"
+   ]
+  },
+  "NBA|4278078|reb": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Dallas is without Dereck Lively, Santi Aldama and Cooper Flagg, so Washington should log heavy frontcourt minutes, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/dal/dallas-mavericks"
+   ]
+  },
+  "NBA|3202|3pm": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Durant is healthy; with Fred VanVleet out and Reed Sheppard questionable, Houston leans on him even more as a shooter, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/hou/houston-rockets"
+   ]
+  },
+  "CFB|4869422|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news found for Pegan, who has 72 and 86 yards in two of his last three; the line is close to his season average.",
+   "sources": [
+    "https://www.espn.com/college-football/team/injuries/_/id/254"
+   ]
+  },
+  "NBA|4066328|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Allen is off the injury report and starts alongside Mobley, who is being used as the hub; Brooklyn's only absence is Tyler Bilodeau.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/cle/cleveland-cavaliers"
+   ]
+  },
+  "NBA|4278039|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Alexander-Walker is healthy; Atlanta's only absence is Mouhamed Gueye, and Houston is without Fred VanVleet and Steven Adams, nothing that changes his role.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/atl/atlanta-hawks"
+   ]
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "Texas A&M is thin at receiver (Terry Bussey out for the season, Mario Craver and Kelshaun Johnson sat out last week), pushing targets to sophomore TK Norman as a 13.5-point road underdog at Alabama. Oregon's quarterback job is unsettled with Dante Moore out since a Sept. 27 concussion and Dylan Raiola/Brock Thomas splitting time, while Illinois starts freshman Michael Clayton II for the injured Katin Houser. Iowa turns to Jeremy Hecklinski at QB at Minnesota; Tennessee's DeSean Bishop has carried 32-34 times in two of three games since George MacIntyre took over at QB, but no named-book line\u2026",
+   "summary": "Texas A&M is thin at receiver (Terry Bussey out for the season, Mario Craver and Kelshaun Johnson sat out last week), pushing targets to sophomore TK Norman as a 13.5-point road underdog at Alabama. Oregon's quarterback job is unsettled with Dante Moore out since a Sept. 27 concussion and Dylan Raiola/Brock Thomas splitting time, while Illinois starts freshman Michael Clayton II for the injured Katin Houser. Iowa turns to Jeremy Hecklinski at QB at Minnesota; Tennessee's DeSean Bishop has carried 32-34 times in two of three games since George MacIntyre took over at QB, but no named-book line…",
    "sources": [
     "https://www.covers.com/sport/football/ncaaf/player-props",
     "https://www.fanduel.com/research/college-football-props-today-4-best-player-prop-bets-for-saturday-oct-24",
