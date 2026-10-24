@@ -455,7 +455,7 @@ def espn_teams(e):
 def dk_offers(e, home, away):
     """DraftKings' 3-way moneyline and match total from ESPN's odds block, as FanDuel-style bets"""
     _, _, c = espn_teams(e)
-    o = (c.get("odds") or [{}])[0]
+    o = ((c.get("odds") or [{}])[0]) or {}
     cur = lambda d: ((d or {}).get("close") or {}).get("odds") or ((d or {}).get("open") or {}).get("odds")
 
     def p(v):
