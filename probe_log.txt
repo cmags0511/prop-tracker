@@ -1,0 +1,15 @@
+COMPS [('9', 'Austrian Erste Liga'), ('11', 'Dutch Eerste Divisie'), ('13', 'Brazilian Serie A'), ('15', 'Bulgarian A PFG'), ('17', 'Croatian HNL'), ('19', 'Cyprus - 1st Division'), ('23', 'Danish Superliga'), ('25', 'Danish 1st Division'), ('35', 'English Sky Bet League 1'), ('37', 'English Sky Bet League 2'), ('45', 'Finland - Veikkausliiga'), ('55', 'French Ligue 1'), ('57', 'French Ligue 2'), ('59', 'German Bundesliga'), ('61', 'German Bundesliga 2'), ('67', 'Greek Super League'), ('81', 'Italian Serie A'), ('89', 'Japanese J1 League'), ('97', 'Polish Ekstraklasa'), ('99', 'Portuguese Primeira Liga'), ('103', 'Serbian Super League'), ('105', 'Scottish Premiership'), ('107', 'Scottish Championship'), ('115', 'Slovenian Premier League'), ('117', 'Spanish La Liga'), ('129', 'Sweden - Allsvenskan'), ('133', 'Swiss Super League'), ('135', 'Swiss Challenge League'), ('139', 'Ukrainian Premier League'), ('141', 'US MLS'), ('228', 'UEFA Champions League'), ('2005', 'UEFA Europa League'), ('2134', 'English Football League Cup'), ('4905', 'Romanian Liga I'), ('9513', 'Portugal - Segunda Liga'), ('30558', 'English FA Cup'), ('67387', 'Argentinian Primera Division'), ('89219', 'Brazilian Cup'), ('89979', 'Belgian Pro League'), ('175680', 'Turkish 1. Lig')]
+ERR https://sbapi.nj.sportsbook.fanduel.com/api/content-managed-page?page=COMPETITION&competitionId=10932509&event HTTP Error 400: Bad Request
+OK https://sbapi.nj.sportsbook.fanduel.com/api/competition-page?competitionId=10932509&eventTypeId=1&_ak=FhMFpcPW 27 [10932509]
+ERR https://sbapi.nj.sportsbook.fanduel.com/api/content-managed-page?page=CUSTOM&customPageId=premier-league&_ak=F HTTP Error 404: Not Found
+ERR https://sbapi.nj.sportsbook.fanduel.com/api/content-managed-page?page=CUSTOM&customPageId=soccer&_ak=FhMFpcPWX HTTP Error 404: Not Found
+Pinnacle: 22 leagues (England - Championship, France - Ligue 2, England - Premier League, Belgium - Pro League, Mexico - Liga MX, UEFA - Conference League, Germany - Bundesliga, USA - Major League Soccer, England - League 1, Brazil - Serie A, France - Ligue 1, Portugal - Primeira Liga, Spain - La Liga, Saudi Arabia - Pro League, Italy - Serie A, Italy - Serie B, Argentina - Liga Pro, UEFA - Champions League, Netherlands - Eredivisie, UEFA - Europa League, Spain - Segunda Division, Scotland - Premiership)
+FanDuel: 61 soccer matches in the next 3 days
+95 Pinnacle matches, 87 fitted and on ESPN, 34 on FanDuel; 6449 bets priced
+4 picks; record 0-0 (+0.00u)
+  Monaco v Lille: Monaco -1.5 Goals FanDuel +290 fair 267 chance 0.2726 ev +0.063 main
+  Monterrey v Chivas Guadalajara: Monterrey -1.5 Goals FanDuel +370 fair 352 chance 0.2212 ev +0.039 main
+  Crystal Palace v Newcastle United: Newcastle -1.5 Goals FanDuel +370 fair 354 chance 0.2203 ev +0.035 main
+  Genoa v Venezia: Genoa -1.5 Goals FanDuel +350 fair 335 chance 0.23 ev +0.035 main
+
+
