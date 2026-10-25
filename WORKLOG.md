@@ -3,6 +3,13 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-25
+- **cmags0511**: Touchdowns: new default "Research" list on the NFL Touchdowns section (`tdResearchList`/`renderTdTop`):
+  the scorers the research backs (`radj` > 0 in tdAll, plus tdPicks), likeliest first, each with FanDuel's anytime-TD
+  odds, the app's chance, fair odds and whether FanDuel pays more or less than fair. FanDuel TD odds come from
+  lab_market.py (NFL board now reads the `td-scorer-props` tab; saved as `td` in fd_board.json, never Lab picks);
+  the Likeliest / Plus money cards show a "FanDuel" chip too. sw.js pt-v104.
+
 ## 2026-10-22
 - **cmags0511**: Soccer: FanDuel's price for each listed pick (`fanduel_prices` in soccer_data.py: FanDuel's public
   soccer page + event tabs, only the matches the lists use; Pinnacle has no soccer player props). Picks carry `fd`,
