@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T18:48:09Z",
+ "updated": "2026-10-25T20:37:19Z",
  "summary": "Bijan Robinson is Atlanta's only established back with Brian Robinson out against a 49ers front missing Bosa and two linebackers, while Lamar Jackson is out again and Tyler Huntley starts for Baltimore.",
  "notes": {
   "NBA|3133603|3pm": {
@@ -1332,6 +1332,196 @@
    "sources": [
     "https://www.nbcsports.com/nfl/sam-laporta/8289/news"
    ]
+  },
+  "NBA|5124612|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Philadelphia is without Embiid, Barlow and Jabari Walker, and Detroit is without Duren, so Bona starts at center; that frees up rebounds on both sides, and Edgecombe has averaged 8 boards in a three-game sample.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/position"
+   ]
+  },
+  "NBA|5124612|pts": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Edgecombe starts at shooting guard and is healthy; he averages about 12 points so far, and with Brown, Maxey and LeBron taking most shots the market prices 14.5 slightly toward the under.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/position"
+   ]
+  },
+  "NBA|4431678|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Philadelphia is without Embiid, Barlow and Jabari Walker, and Detroit is without Duren, so Bona starts at center; Maxey is healthy and has averaged about 3.7 rebounds, right around the line.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/position"
+   ]
+  },
+  "NBA|4431678|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Maxey is healthy and starting; he has averaged about 8.7 rebounds plus assists over three games, with LeBron and Brown also handling the ball.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/position"
+   ]
+  },
+  "NBA|3917376|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Brown starts at small forward and has no injury designation; he has averaged about 28.7 points plus rebounds so far, below the 32.5 line, even with Embiid out.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/phi/position"
+   ]
+  },
+  "NBA|4431671|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McDaniels starts and is healthy; he has averaged about 2 assists, with Ball and Edwards running most of the offense.",
+   "sources": []
+  },
+  "NBA|4433247|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kuminga starts at power forward for Minnesota with no injury designation; his recent average is near the 16.5 line, so this is a thin edge.",
+   "sources": []
+  },
+  "NBA|4594268|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Edwards is healthy and starting; his recent rebound average (about 5 to 7) sits close to the 5.5 line, and Gobert and Kuminga take most of the boards.",
+   "sources": []
+  },
+  "NBA|4396909|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Nesmith (hamstring) is listed as probable and expected to start; he has averaged 3 to 4 rebounds, with Zubac and Siakam cleaning the glass.",
+   "sources": []
+  },
+  "NBA|4903027|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Coward (left wrist sprain) missed Friday's game and is questionable for Sunday in Sacramento; GG Jackson started in his place, and if he plays his minutes may be limited.",
+   "sources": [
+    "https://www.cbssports.com/nba/players/28955726/coward/fantasy"
+   ]
+  },
+  "NFL|00-0033303|kpts": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Butker is healthy; Kansas City's implied total is only about 20, which caps scoring chances, but he has averaged about 8 kicking points.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0037192|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Karlaftis starts and is healthy; Seattle's line is intact enough that a sack is less than a coin flip for any single rusher.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0039309|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Murphy is a starting interior lineman for Seattle with no injury news; he has averaged a bit over 3 tackles.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0034974|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Love starts at safety with no injury news; Seattle's missing linebackers (Thomas, Surratt) could push more tackles to the safeties, so this under is not a strong one.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0038134|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kansas City is without Rashee Rice and right tackle Jaylon Moore; Kelce (ankle) carries no designation; Walker averages about 2.9 catches and is used mainly as a runner.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0030506|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kansas City is without Rashee Rice and right tackle Jaylon Moore; Kelce (ankle) carries no designation; with Rice out more targets may go to Kelce, so we don't strongly back the under.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0039793|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Barner is Seattle's starting tight end with no injury news; he has averaged about 22 receiving yards behind Smith-Njigba, Shaheed and Kupp.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0037545|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Shaheed starts at WR2 with no injury news; he has averaged under 2 catches a game and is used more as a deep threat.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NFL|00-0038543|td": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Smith-Njigba carries no injury designation and is Seattle's top receiver with 7 TDs in 6 games; Kansas City may be without cornerback Sneed, who did not travel.",
+   "sources": [
+    "https://www.rotowire.com/betting/nfl/game.php?id=2978869"
+   ]
+  },
+  "NBA|4395712|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Nembhard starts at shooting guard and is healthy; McConnell and Sheppard being out could add a few minutes, which makes this under less safe.",
+   "sources": []
   }
  },
  "games": {
