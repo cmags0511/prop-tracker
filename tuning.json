@@ -1,5 +1,5 @@
 {
- "built": "2026-10-25T06:53+00:00",
+ "built": "2026-10-25T09:44+00:00",
  "graded_picks": 192,
  "graded_research": 146,
  "market": {
@@ -30,7 +30,7 @@
   "When game script backed a pick it went 18-22, vs 19-12 when it didn't: weighted x0.758",
   "Medium-confidence research calls are 62-64: their weight goes from 1.0 to 0.913",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 4184 graded props the app's chances averaged 56% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 4185 graded props the app's chances averaged 56% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 55%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
@@ -42,20 +42,20 @@
   "NBA pts + ast: an extra nudge toward the under",
   "NFL pass attempts: an extra nudge toward the over",
   "NBA PRA: an extra nudge toward the under",
-  "CFB receiving yards: an extra nudge toward the over",
   "NBA pts + reb: an extra nudge toward the under",
+  "CFB receiving yards: an extra nudge toward the over",
   "NBA assists: an extra nudge toward the under",
-  "Recent form has been over-weighted across 3528 graded props: weighted x0.855"
+  "Recent form has been over-weighted across 3529 graded props: weighted x0.855"
  ],
  "calibration": {
-  "n": 4184,
+  "n": 4185,
   "days": 12,
   "trust": 0.86,
   "c": -0.148,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
-    0.068,
+    0.059,
     1.01
    ],
    "NBA|3pm": [
@@ -103,7 +103,7 @@
     0.94
    ],
    "NFL|ryd": [
-    -0.147,
+    -0.146,
     0.999
    ],
    "NFL|sck": [
@@ -117,13 +117,13 @@
   }
  },
  "calib": {
-  "n": 4184,
+  "n": 4185,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    2178,
+    2179,
     0.526,
     0.536
    ],
