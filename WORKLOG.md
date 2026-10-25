@@ -4,6 +4,10 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-25
+- **cmags0511**: Props tab: the separate "Touchdowns" section is gone; the NFL TD lists (Research / Likeliest / Plus
+  money, the plus-money pricing box, the live TD tracker) now show under Top picks when the prop type is **Anytime TD**
+  (`applySec` sets `data-sec="td"` for that case; a saved `ptSec=td` migrates to picks + td). The "Live anytime TDs"
+  placeholder box is hidden until a game is live. sw.js pt-v106.
 - **cmags0511**: Touchdowns: new default "Research" list on the NFL Touchdowns section (`tdResearchList`/`renderTdTop`):
   the scorers the research backs (`radj` > 0 in tdAll, plus tdPicks), likeliest first, each with FanDuel's anytime-TD
   odds, the app's chance, fair odds and whether FanDuel pays more or less than fair. FanDuel TD odds come from
