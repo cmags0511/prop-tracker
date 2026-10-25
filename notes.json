@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T15:37:04Z",
+ "updated": "2026-10-25T18:47:24Z",
  "summary": "Bijan Robinson is Atlanta's only established back with Brian Robinson out against a 49ers front missing Bosa and two linebackers, while Lamar Jackson is out again and Tyler Huntley starts for Baltimore.",
  "notes": {
   "NBA|3133603|3pm": {
@@ -1275,6 +1275,53 @@
     "role": "Lead back with no established backup; snap share up over the last two games.",
     "market": "Pinnacle -163 (break-even about 62%); Kalshi 60%."
    }
+  },
+  "NFL|00-0029604|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cousins is a pocket passer with no injury designation; the under has hit in 7 of his last 10, though one scramble or a kneel-down swing can decide a 0.5 line.",
+   "sources": [
+    "https://www.therams.com/news/rams-injury-report-week-7-2026-at-raiders-puka-nacua-trent-mcduffie-questionable-nate-landman-out"
+   ]
+  },
+  "NFL|00-0037615|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Dean starts with no injury designation, but fellow linebacker Quay Walker is questionable with a chest injury, and if Walker sits Dean would likely see more tackle chances, which works against the under.",
+   "sources": [
+    "https://www.fantasypros.com/nfl/news/quay-walker.php"
+   ]
+  },
+  "NFL|00-0037840|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Williams is healthy and the lead back; the line has climbed from 64.5 to 69.5, and with Nacua questionable and Davante Adams on IR the Rams could lean more on the run.",
+   "sources": [
+    "https://www.therams.com/news/rams-injury-report-week-7-2026-at-raiders-puka-nacua-trent-mcduffie-questionable-nate-landman-out",
+    "https://www.si.com/betting/puka-nacua-injury-update-betting-impact-for-rams-vs-raiders-in-nfl-week-7-2026"
+   ]
+  },
+  "NFL|00-0039139|car": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Gibbs is healthy, and with Pacheco on injured reserve he has less competition for carries in a game Detroit is favored in, which raises the risk of a heavy workload against the under.",
+   "sources": []
+  },
+  "NBA|4066336|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current injury news found for Markkanen before tonight's game against the Lakers; he has 3 assists in each of his two games this season, right at the line.",
+   "sources": []
   }
  },
  "games": {
