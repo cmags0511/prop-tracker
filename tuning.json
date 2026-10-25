@@ -1,30 +1,32 @@
 {
- "built": "2026-10-25T00:53+00:00",
- "graded_picks": 181,
- "graded_research": 144,
+ "built": "2026-10-25T03:44+00:00",
+ "graded_picks": 190,
+ "graded_research": 146,
  "market": {
-  "CFB|pyd|under": 0.821,
+  "CFB|pyd|over": 1.121,
+  "CFB|pyd|under": 0.898,
   "NFL|rec|over": 1.031,
   "NFL|tkl|over": 0.898
  },
  "factors": {
-  "matchup": 0.827,
-  "game": 0.717,
-  "form": 0.85
+  "matchup": 0.789,
+  "game": 0.758,
+  "form": 0.856
  },
  "research_conf": {
   "medium": 0.913,
   "low": 0.318
  },
  "notes": [
-  "CFB passing yards unders are 3-5: ranked lower (x0.821)",
+  "CFB passing yards overs are 5-3: ranked higher (x1.121)",
+  "CFB passing yards unders are 4-5: ranked lower (x0.898)",
   "NFL receptions overs are 6-5: ranked higher (x1.031)",
   "NFL tackles overs are 4-5: ranked lower (x0.898)",
-  "When matchup backed a pick it went 16-25, vs 15-15 when it didn't: weighted x0.827",
-  "When game script backed a pick it went 17-21, vs 18-10 when it didn't: weighted x0.717",
-  "Medium-confidence research calls are 61-63: their weight goes from 1.0 to 0.913",
+  "When matchup backed a pick it went 16-26, vs 16-15 when it didn't: weighted x0.789",
+  "When game script backed a pick it went 18-22, vs 19-12 when it didn't: weighted x0.758",
+  "Medium-confidence research calls are 62-64: their weight goes from 1.0 to 0.913",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 4158 graded props the app's chances averaged 56% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 4175 graded props the app's chances averaged 56% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 55%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
@@ -35,100 +37,101 @@
   "NBA threes: an extra nudge toward the under",
   "NBA pts + ast: an extra nudge toward the under",
   "NFL pass attempts: an extra nudge toward the over",
+  "NBA PRA: an extra nudge toward the under",
+  "CFB receiving yards: an extra nudge toward the over",
   "NBA pts + reb: an extra nudge toward the under",
   "NBA assists: an extra nudge toward the under",
-  "CFB receiving yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 3502 graded props: weighted x0.85"
+  "Recent form has been over-weighted across 3519 graded props: weighted x0.856"
  ],
  "calibration": {
-  "n": 4158,
+  "n": 4175,
   "days": 12,
   "trust": 0.86,
-  "c": -0.152,
+  "c": -0.148,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
-    0.05,
-    1.007
+    0.069,
+    1.011
    ],
    "NBA|3pm": [
-    -0.062,
+    -0.06,
     1.037
    ],
    "NBA|ast": [
-    -0.057,
+    -0.059,
     1.009
    ],
    "NBA|pa": [
-    -0.071,
+    -0.073,
     0.982
    ],
    "NBA|pr": [
-    -0.058,
+    -0.056,
     0.978
    ],
    "NBA|pra": [
-    -0.048,
+    -0.05,
     0.968
    ],
    "NFL|att": [
-    0.071,
+    0.07,
     0.982
    ],
    "NFL|cmp": [
-    0.177,
+    0.176,
     0.954
    ],
    "NFL|pyd": [
-    0.167,
+    0.166,
     0.963
    ],
    "NFL|rec": [
-    0.059,
+    0.057,
     0.933
    ],
    "NFL|recyd": [
-    -0.023,
+    -0.025,
     0.94
    ],
    "NFL|ryd": [
-    -0.145,
+    -0.146,
     0.999
    ],
    "NFL|sck": [
-    -0.207,
+    -0.209,
     0.954
    ],
    "NFL|tkl": [
-    -0.076,
+    -0.078,
     0.925
    ]
   }
  },
  "calib": {
-  "n": 4158,
+  "n": 4175,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    2157,
+    2169,
     0.526,
     0.537
    ],
    [
     0.55,
     0.6,
-    1340,
+    1344,
     0.568,
     0.531
    ],
    [
     0.6,
     0.65,
-    318,
+    319,
     0.621,
-    0.519
+    0.52
    ],
    [
     0.65,
@@ -186,23 +189,23 @@
    [
     0.5,
     0.55,
-    33,
-    0.532,
-    0.424
+    40,
+    0.531,
+    0.425
    ],
    [
     0.55,
     0.6,
-    60,
-    0.577,
-    0.433
+    61,
+    0.576,
+    0.443
    ],
    [
     0.6,
     0.65,
-    24,
-    0.624,
-    0.5
+    25,
+    0.625,
+    0.52
    ],
    [
     0.65,
@@ -302,7 +305,9 @@
   {
    "d": "2026-10-25",
    "notes": [
-    "CFB passing yards unders are 3-5: ranked lower (x0.821)"
+    "CFB passing yards overs are 5-3: ranked higher (x1.121)",
+    "CFB passing yards unders are 4-5: ranked lower (x0.898)",
+    "NBA PRA: an extra nudge toward the under"
    ]
   }
  ]
