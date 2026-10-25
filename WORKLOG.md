@@ -3,6 +3,13 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-25
+- **cmags0511**: Touchdowns: new default "Research" list on the NFL Touchdowns section (`tdResearchList`/`renderTdTop`):
+  the scorers the research backs (`radj` > 0 in tdAll, plus tdPicks), likeliest first, each with FanDuel's anytime-TD
+  odds, the app's chance, fair odds and whether FanDuel pays more or less than fair. FanDuel TD odds come from
+  lab_market.py (NFL board now reads the `td-scorer-props` tab; saved as `td` in fd_board.json, never Lab picks);
+  the Likeliest / Plus money cards show a "FanDuel" chip too. sw.js pt-v104.
+
 ## 2026-10-24
 - **cmags0511**: Soccer **Team bets** (third list on the Soccer tab, own record): `soccer_team.py` → `soccer_team.json`,
   new hourly step `soccer_team` in `lines.yml`. Reads Pinnacle's soccer moneyline / every handicap and total line /
@@ -11,7 +18,7 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   goals, margins, goal bands, 1st-half versions) plus DraftKings' moneyline/total from ESPN. Lists bets >=2% over fair
   (markets Pinnacle prices) or >=5% (model-only, max +300), 2 per match, top 25; locks at kickoff, graded from ESPN's
   final / half-time score (summary linescores), cup ties with extra time void. First run: FanDuel averaged 3.5-7%
-  under fair on main markets, so few picks. sw.js pt-v104.
+  under fair on main markets, so few picks. sw.js pt-v105.
 
 ## 2026-10-22
 - **cmags0511**: Soccer: FanDuel's price for each listed pick (`fanduel_prices` in soccer_data.py: FanDuel's public

@@ -27,7 +27,7 @@ from fetch_prices import FD, FD_KEY, MAX_SHIFT, SAME_GAME, SPREAD, get, pinnacle
 from picks import LABEL, stat
 
 ND = NormalDist()
-BOARD = {"props": [], "games": [], "pin": {}}  # FanDuel's mapped board, saved to fd_board.json for fwarnk.py
+BOARD = {"props": [], "games": [], "pin": {}, "td": {}}  # td: FanDuel's anytime-TD price per player (the app's TD lists)
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "lab_market.json"
 ANCHOR_W = {"Pinnacle": .85, "Kalshi": .8}
@@ -62,7 +62,7 @@ def load(f, d):
 
 
 FD_LAB = {  # FanDuel page, player-prop tabs, days ahead
-    "NFL": ("nfl", ("passing-props", "receiving-props", "rushing-props"), 8),
+    "NFL": ("nfl", ("passing-props", "receiving-props", "rushing-props", "td-scorer-props"), 8),
     "NBA": ("nba", ("player-points", "player-rebounds", "player-assists", "player-combos", "player-threes"), 2)}
 FD_NAME = {"Passing Yds": "pyd", "Passing TDs": "ptd", "Pass Completions": "cmp", "Pass Attempts": "att",
            "Rushing Yds": "ryd", "Rushing Attempts": "car", "Receiving Yds": "recyd", "Total Receptions": "rec",
@@ -102,9 +102,12 @@ def fd_board(lg, now, games=None):
                         elif m["marketName"] == "Spread" and r.get("runnerName") == home:
                             gm["spread_home"] = r.get("handicap")
                     continue
+                odds = lambda r: ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
+                if m.get("marketName") == "Any Time Touchdown Scorer":  # yes-only: shown on the app's TD lists, never a Lab pick
+                    rows += [(r["runnerName"], "td", start, .5, int(odds(r)), None) for r in rs if odds(r)]
+                    continue
                 if what not in FD_NAME or len(rs) != 2:
                     continue
-                odds = lambda r: ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds") or {}).get("americanOdds")
                 o = next((r for r in rs if r["runnerName"].endswith(" Over")), None)
                 u = next((r for r in rs if r["runnerName"].endswith(" Under")), None)
                 if o and u and odds(o) and odds(u) and o.get("handicap") == u.get("handicap"):
@@ -165,6 +168,9 @@ def price_props(now):
             pin = {}
         for name, mid, start, line, fo, fu in fd:
             p, opp = who(name, start)
+            if p and mid == "td":
+                BOARD["td"][f"{lg}|{p['id']}|td"] = fo
+                continue
             if not p or mid not in LABEL:
                 continue
             key = f"{lg}|{p['id']}|{mid}"
