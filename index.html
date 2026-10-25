@@ -1111,9 +1111,9 @@ body:has(.wtour) .totop{display:none}
   <div class="in">
     <div id="view-board" role="tabpanel" aria-labelledby="tab-board" style="display:flex;flex-direction:column;gap:14px">
     <section class="wchg" id="wchg" hidden aria-live="polite"></section>
-    <div class="ddrow" id="ddrow"><label class="dd"><span class="sr">Section</span><select id="secSel"><option value="picks">Top picks</option><option value="td">Touchdowns</option><option value="trends">Trends</option><option value="all">All props</option></select></label><label class="dd"><span class="sr">Prop type</span><select id="mktSel"></select></label></div>
+    <div class="ddrow" id="ddrow"><label class="dd"><span class="sr">Section</span><select id="secSel"><option value="picks">Top picks</option><option value="trends">Trends</option><option value="all">All props</option></select></label><label class="dd"><span class="sr">Prop type</span><select id="mktSel"></select></label></div>
     <div class="subnav" role="group" aria-label="Section" id="subnav">
-      <button data-sec="picks">Top picks</button><button data-sec="td">Touchdowns</button><button data-sec="trends">Trends</button><button data-sec="all">All props</button>
+      <button data-sec="picks">Top picks</button><button data-sec="trends">Trends</button><button data-sec="all">All props</button>
     </div>
     <section class="cfb5" id="cfb5" data-sec="picks" hidden></section>
     <section class="bestbet" id="bestbet" data-sec="picks" hidden></section>
@@ -1211,19 +1211,21 @@ function dkLine(p,m){
   if(!d||(d.d&&new Date(d.d).getTime()<Date.now()-5*3600e3))return null;return d}
 let S={cat:"",dtab:"chart",topCat:"all",view:"board",league:"NFL",market:"pyd",pos:"",team:"",q:"",sel:null,sort:"l10",dir:-1,active:true,lines:{},side:"all"};
 try{if(localStorage.getItem("ptWkOpen")==="0")S.wkOpen=false}catch(e){}
-// the Props tab shows one section at a time: Top picks, Touchdowns (NFL), Trends or All props (the full table)
+// the Props tab shows one section at a time: Top picks, Trends or All props (the full table). The NFL touchdown lists
+// (research TDs with FanDuel odds, likeliest, plus money, live tracker) show under Top picks when the prop type is Anytime TD
 S.sec="picks";try{const sc=localStorage.getItem("ptSec");if(["picks","td","trends","all"].includes(sc))S.sec=sc}catch(e){}
 function applySec(){
-  if(S.sec==="td"&&S.league!=="NFL")S.sec="picks";
-  document.getElementById("view-board").dataset.sec=S.sec;
+  if(S.sec==="td")S.sec="picks";
+  document.getElementById("view-board").dataset.sec=S.sec==="picks"&&S.league==="NFL"&&S.market==="td"?"td":S.sec;
   document.body.classList.toggle("sec-table",S.view==="board"&&S.sec==="all"||S.view==="up");  // category / team / search filter the table and the games list
-  document.querySelectorAll("#subnav [data-sec]").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.sec===S.sec);if(b.dataset.sec==="td")b.hidden=S.league!=="NFL"});
+  document.querySelectorAll("#subnav [data-sec]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.sec===S.sec));
 }
 // opens on Overs + unders (Oct 22: picks only on the overs list went 16-26); a choice made after that is remembered
 try{if(localStorage.getItem("ptSideV")!=="2"){localStorage.setItem("ptSideV","2");localStorage.removeItem("ptSide")}const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
 const OVERS=()=>S.side==="over";
 const sideSwitch=()=>`<div class="seg2 sidesw" role="group" aria-label="Which picks"><button data-side="over" aria-pressed="${OVERS()}">Overs</button><button data-side="all" aria-pressed="${!OVERS()}">Overs + unders</button></div>`;
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
+if(S.sec==="td"){S.sec="picks";S.market="td";try{localStorage.setItem("ptSec","picks")}catch(e){}}  // the old Touchdowns section
 function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,cat:S.cat,active:S.active,lines:S.lines}))}catch(e){}}
 
 const pct=v=>v==null?"\u2013":Math.round(v*100)+"%";
@@ -3878,8 +3880,7 @@ function ltdRows(){
 function renderLiveTD(){
   const el=document.getElementById("tdlive");if(!el)return;
   if(S.league!=="NFL"){el.hidden=true;el.innerHTML="";return}
-  if(!LTD.games.length){const nx=((DATA.NFLmeta||{}).upcoming||[]).filter(u=>u.t.getTime()>Date.now()).sort((a,b)=>a.t-b.t)[0];
-    el.hidden=!nx;el.innerHTML=nx?`<div class="ltdidle"><span class="livedot off"></span><b>Live anytime TDs</b><span class="pteam">${LTD.busy?"checking live games\u2026":`appears here during NFL games \u00b7 next: ${nx.away} @ ${nx.home} ${nx.t.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}`}</span></div>`:"";return}
+  if(!LTD.games.length){el.hidden=true;el.innerHTML="";return}  // nothing live: no placeholder box (it shows itself once a game starts)
   const rows=ltdRows(),open=rows.filter(r=>!r.scored).sort((a,b)=>b.p-a.p),scored=rows.filter(r=>r.scored);
   const fair=p=>decToAm(1/Math.max(.01,p));
   el.hidden=false;
