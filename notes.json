@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T20:37:19Z",
+ "updated": "2026-10-25T22:46:33Z",
  "summary": "Bijan Robinson is Atlanta's only established back with Brian Robinson out against a 49ers front missing Bosa and two linebackers, while Lamar Jackson is out again and Tyler Huntley starts for Baltimore.",
  "notes": {
   "NBA|3133603|3pm": {
@@ -1522,6 +1522,107 @@
    "conf": "low",
    "note": "Nembhard starts at shooting guard and is healthy; McConnell and Sheppard being out could add a few minutes, which makes this under less safe.",
    "sources": []
+  },
+  "NFL|00-0039894|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Rashee Rice is inactive again tonight, so Worthy is one of the receivers expected to absorb more targets; that works against the under despite his modest recent average.",
+   "sources": [
+    "https://12thmanrising.com/seahawks-chiefs-week-7-inactives-injury-updates-prediction-storylines-more",
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-seahawks-will-travis-kelce-rashee-rice-play"
+   ]
+  },
+  "NBA|4432166|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cunningham is not on Detroit's injury report; no late news changes his role.",
+   "sources": [
+    "https://heavy.com/sports/nba/detroit-pistons/injury-report-vs-76ers-october-25/"
+   ]
+  },
+  "NBA|3934672|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "The Knicks report no injuries tonight, so Brunson starts in his usual role; no late news.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3934719|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "The Knicks report no injuries tonight, so Anunoby starts in his usual role; no late news.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|4277847|pr": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Banchero and Isaac are out for Orlando, leaving Carter more frontcourt touches and boards; he put up 29 pts + reb in both games so far, well above this line.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|4684742|reb": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Thompson is questionable with a sprained right ankle, and Jalen Duren is out with a hamstring strain, which frees up rebounds if Thompson does play; too uncertain to back.",
+   "sources": [
+    "https://heavy.com/sports/nba/detroit-pistons/injury-report-vs-76ers-october-25/"
+   ]
+  },
+  "NBA|4065733|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news found for Jerome before the Sacramento game; he has started both games so far.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|4593803|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Williams is not on the Thunder injury report; no late news changes his role.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NFL|00-0032762|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jones is not on the Chiefs' final injury report and is active; no late news changes his role.",
+   "sources": [
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-seahawks-will-travis-kelce-rashee-rice-play"
+   ]
+  },
+  "NBA|4278073|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gilgeous-Alexander is not on the Thunder injury report; no late news changes his role.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
   }
  },
  "games": {
