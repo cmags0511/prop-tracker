@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-26T11:53:14Z",
+ "updated": "2026-10-26T20:36:53Z",
  "summary": "Jalen Hurts is on IR, so Tanner McKee starts again for Philadelphia on Monday night against Dallas, with DeVonta Smith and Nolan Smith out and Saquon Barkley expected back; in the NBA, Indiana's Ivica Zubac (ankle) is unlikely to play on the second night of a back-to-back.",
  "notes": {
   "NBA|4684740|reb": {
@@ -809,6 +809,88 @@
    "note": "Gilgeous-Alexander is not on the Thunder injury report; no late news changes his role.",
    "sources": [
     "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NFL|00-0036997|rry": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Williams is healthy and the clear lead back, but his carries fell to 12 and 11 the last two weeks, so the combined yardage line needs receiving work to clear; no new injury or role news.",
+   "sources": [
+    "https://www.galvnews.com/news_reuters/texas/cowboys-eagles-final-injury-update-has-7-ruled-out-including-smith/article_7d29a8ad-19c8-57a9-b6e6-2678dcb4bfea.html"
+   ]
+  },
+  "NFL|00-0033120|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Clark is not on Dallas's final injury report and keeps his interior role; nothing new points to extra pass-rush snaps against an Eagles line with Dickerson questionable.",
+   "sources": [
+    "https://www.galvnews.com/news_reuters/texas/cowboys-eagles-final-injury-update-has-7-ruled-out-including-smith/article_7d29a8ad-19c8-57a9-b6e6-2678dcb4bfea.html"
+   ]
+  },
+  "NFL|00-0037275|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bland is not on the final injury report; Dallas gets Overshown and Durant back, which can spread tackles around the back seven, but no clear role change.",
+   "sources": [
+    "https://www.galvnews.com/news_reuters/texas/cowboys-eagles-final-injury-update-has-7-ruled-out-including-smith/article_7d29a8ad-19c8-57a9-b6e6-2678dcb4bfea.html"
+   ]
+  },
+  "NBA|4684740|ra": {
+   "side": "over",
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Adams is out again and Smart is questionable, keeping Thompson in heavy minutes as a rebounder and secondary handler; VanVleet's return may take a few of his assists.",
+   "sources": [
+    "https://www.espn.com/nba/injuries",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-25/steven-adams-calf-remains-out-monday-vs-hawks"
+   ]
+  },
+  "NBA|4433627|pts": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "George is healthy and not on Utah's injury report; Trey Alexander and Nurkic are out, which keeps the offense running through him, but nothing new beyond the numbers.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4277961|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jackson is not on the injury report; nothing found that changes his passing role.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4433249|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Diabate is healthy, and with Grant Williams out Charlotte's frontcourt minutes stay with him, which argues against leaning hard on the under.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4900671|reb": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "Jalen Williams is out with the ankle injury he suffered Saturday and Cason Wallace is day-to-day, so Mitchell should see more minutes in the backcourt rotation.",
+   "sources": [
+    "https://www.espn.com/nba/injuries",
+    "https://www.nbcsports.com/nba/news/2026-27-nba-news-injury-updates-oct-26-jalen-williams-out-banchero-out-porzingis-on-trade-block"
    ]
   }
  },
