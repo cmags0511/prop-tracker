@@ -1,5 +1,5 @@
 {
- "built": "2026-10-26T06:58+00:00",
+ "built": "2026-10-26T09:56+00:00",
  "graded_picks": 233,
  "graded_research": 170,
  "market": {
@@ -42,7 +42,7 @@
   "When game script backed a pick it went 20-22, vs 19-12 when it didn't: weighted x0.797",
   "Medium-confidence research calls are 69-81: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 5513 graded props the app's chances averaged 56% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 5518 graded props the app's chances averaged 56% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL passing yards: an extra nudge toward the over",
@@ -51,17 +51,17 @@
   "NFL receiving yards: an extra nudge toward the under",
   "NFL rush attempts: an extra nudge toward the under",
   "NFL tackles: an extra nudge toward the under",
-  "NFL extra points: an extra nudge toward the under",
   "NBA rebounds: an extra nudge toward the over",
+  "NFL extra points: an extra nudge toward the under",
   "NBA points: an extra nudge toward the over",
   "CFB receiving yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 4857 graded props: weighted x0.851"
+  "Recent form has been over-weighted across 4862 graded props: weighted x0.851"
  ],
  "calibration": {
-  "n": 5513,
+  "n": 5518,
   "days": 13,
   "trust": 0.87,
-  "c": -0.114,
+  "c": -0.115,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
@@ -69,16 +69,16 @@
     1.01
    ],
    "NBA|pts": [
-    0.054,
-    0.969
+    0.052,
+    0.97
    ],
    "NBA|ra": [
     -0.003,
     0.948
    ],
    "NBA|reb": [
-    0.065,
-    0.973
+    0.069,
+    0.972
    ],
    "NFL|car": [
     -0.053,
@@ -89,7 +89,7 @@
     0.925
    ],
    "NFL|pat": [
-    -0.095,
+    -0.094,
     1.003
    ],
    "NFL|ptd": [
@@ -101,7 +101,7 @@
     0.943
    ],
    "NFL|recyd": [
-    -0.076,
+    -0.075,
     0.948
    ],
    "NFL|rry": [
@@ -109,36 +109,36 @@
     0.946
    ],
    "NFL|ryd": [
-    -0.131,
+    -0.13,
     0.974
    ],
    "NFL|sck": [
-    -0.344,
-    0.967
+    -0.349,
+    0.966
    ],
    "NFL|tkl": [
-    -0.064,
+    -0.063,
     0.946
    ]
   }
  },
  "calib": {
-  "n": 5513,
+  "n": 5518,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    2894,
+    2898,
     0.527,
     0.527
    ],
    [
     0.55,
     0.6,
-    1893,
+    1894,
     0.567,
-    0.513
+    0.514
    ],
    [
     0.6,
@@ -173,7 +173,7 @@
    [
     0.55,
     0.6,
-    512,
+    514,
     0.572,
     0.547
    ],
