@@ -759,6 +759,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .rf{flex:none;position:relative}.rf .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .rf select{border:1px solid var(--line2);background-color:var(--panel);color:var(--ink);font:500 13px var(--f-body);border-radius:999px;padding:6px 30px 6px 12px;max-width:220px}
 .rf.on select{background-color:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gfilt{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:0 16px 10px}
 .rfclear{flex:none;border:0;background:none;color:var(--accent);font:600 13px var(--f-body);padding:6px 8px;cursor:pointer}
 @media (max-width:600px){.rf select{font-size:16px!important;padding:4px 26px 4px 12px;max-width:160px}}
 .learn .books{width:100%;table-layout:fixed}
@@ -2243,6 +2244,10 @@ function openSheet(title,body,from,kick,sub){
   d.addEventListener("click",e=>{if(e.target===d||e.target.closest(".apx"))d.remove();else if(e.target.closest(".shgo")){d.remove();SHEET_FROM&&SHEET_FROM.click()}
     else if(e.target.closest(".shadd")){d.remove();SHEET_FROM&&SHEET_FROM.querySelector(".trk")?.click()}});
 }
+// Walters graded picks: the star filter shows only that tier's rows and its record
+document.addEventListener("change",e=>{const s=e.target.closest("select[data-gstar]");if(!s)return;const b=s.closest(".board");
+  b.querySelectorAll("tr[data-st]").forEach(r=>r.hidden=s.value!=="all"&&r.dataset.st!==s.value);
+  s.closest(".rf").classList.toggle("on",s.value!=="all");b.querySelector(".gsum").innerHTML=s.selectedOptions[0].dataset.sum});
 const shcta=(label,html,cls="")=>html&&html.trim()?`<div class="shw ${cls}"><button class="shcta" data-sheet="${esc(label)}">${label}</button><div class="shc">${html}</div></div>`:"";
 document.addEventListener("click",e=>{const b=e.target.closest("[data-sheet]");if(!b||b.closest("#sheet"))return;e.preventDefault();e.stopPropagation();
   const w=b.closest(".shw"),c=w&&w.querySelector(".shc");openSheet(b.dataset.sheet,c?c.innerHTML:"",w,b.dataset.kick,b.dataset.sub)},true);
@@ -2359,7 +2364,12 @@ function renderWalters(){
     weather:()=>tg.map(e=>({e,txt:`Under ${fmt(e.tline)}`,u:1,price:e.tprice_u,won:e.tunits_won||0,st:e.tstatus}))})[tab]().sort((a,b)=>new Date(b.e.t)-new Date(a.e.t));
   if(gl.length){const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>'};
     const g0=html.length;
-    html+=`<section class="board"><div class="bhead"><h2>${tabName} graded picks</h2><p>Final score away–home</p></div><div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
+    // Walters tab: a star filter (the sheet is a copy of this html, so the change handler is delegated, wired once below)
+    const gsum=l=>{const w=l.filter(x=>x.st==="win").length,lo=l.filter(x=>x.st==="loss").length,pu=l.filter(x=>x.st==="push").length,u=l.reduce((a,x)=>a+x.won,0);
+      return`${w}–${lo}${pu?`–${pu}`:""} · <b style="font:inherit;color:${u>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(u)}</b>`};
+    const gst=tab==="walters"?[...new Set(gl.map(x=>x.u))].sort((a,b)=>b-a):[];
+    const gfilt=gst.length>1?`<div class="gfilt"><label class="rf"><span class="sr">Filter by stars</span><select data-gstar>${[["all","All stars",gl],...gst.map(v=>[String(v),`${fmt(v)} star${v===1?"":"s"}`,gl.filter(x=>x.u===v)])].map(([v,t,l])=>`<option value="${v}" data-sum="${esc(gsum(l))}">${t} (${l.length})</option>`).join("")}</select></label><span class="pteam gsum">${gsum(gl)}</span></div>`:"";
+    html+=`<section class="board"><div class="bhead"><h2>${tabName} graded picks</h2><p>Final score away–home</p></div>${gfilt}<div class="bwrap"><table class="rlog"><tbody>${gl.map(x=>`<tr data-st="${x.u}"><td style="white-space:normal"><div class="pname">${esc(x.txt)} <small class="pteam">${x.u}u${x.price!=null?` at ${amFmt(x.price)}`:""}</small></div><div class="pteam">${x.e.away} @ ${x.e.home} \u00b7 ${new Date(x.e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 ${(x.e.score||[]).join("\u2013")}</div></td><td class="num mono" style="color:${x.won>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(x.won)}</td><td class="num">${badge[x.st]||""}</td></tr>`).join("")}</tbody></table></div></section>`
     html=html.slice(0,g0)+`<div class="lcard wlinks" data-tour="links">${shcta(`View graded picks (${gl.length})`,html.slice(g0),"lcw")}`}else html+=`<div class="lcard wlinks" data-tour="links">`;
   // backtest by season (this tab's model) and, for the side models, the current ratings
   const [sb,sAll,sNote]={walters:[bb.seasons,bka,`By stars: ${Object.entries(bb.stars||{}).map(([k,v])=>`${starIc(+k)} ${v[0]}-${v[1]} (${pct(v[0]/Math.max(1,v[0]+v[1]))})`).join(" · ")}. Units = stars at the closing price.`],

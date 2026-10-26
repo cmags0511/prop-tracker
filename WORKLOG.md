@@ -4,6 +4,12 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-26
+- **rmolnar10**: Walters records audit + star filter (PR). Replayed all 229 hourly walters.json versions (Oct 17–26):
+  every kickoff lock matches the last pre-kickoff line/price, every grade matches the final score (checked against
+  ESPN), nothing vanished or stuck ungraded, and all 28 early locks since the feature went live (Oct 22 18:13 UTC) match
+  the first hour their play showed up. Note: week 8 early locks are from Oct 22, not the true first line (Oct 19).
+  `walters.py` now grades only games ESPN marks `completed`, so a postponed/canceled game can't grade 0–0. Walters
+  graded picks sheet: a star filter (All / 3 / 2.5 / ... with counts) that shows that tier's rows and record. sw.js pt-v108.
 - **rmolnar10**: Walters fixes (PR). `walters.py`: when ESPN drops DraftKings' spread for a while (books pull next
   week's lines during Sunday's games), the game keeps its last line and prices (`lstale: true`) instead of a blank line
   under an old pick ("SEA –"); early locks only take a fresh line. `index.html` Walters page: games after the coming
