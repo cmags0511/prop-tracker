@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-26T20:36:53Z",
+ "updated": "2026-10-26T22:46:40Z",
  "summary": "Jalen Hurts is on IR, so Tanner McKee starts again for Philadelphia on Monday night against Dallas, with DeVonta Smith and Nolan Smith out and Saquon Barkley expected back; in the NBA, Indiana's Ivica Zubac (ankle) is unlikely to play on the second night of a back-to-back.",
  "notes": {
   "NBA|4684740|reb": {
@@ -891,6 +891,57 @@
    "sources": [
     "https://www.espn.com/nba/injuries",
     "https://www.nbcsports.com/nba/news/2026-27-nba-news-injury-updates-oct-26-jalen-williams-out-banchero-out-porzingis-on-trade-block"
+   ]
+  },
+  "NFL|00-0033077|pyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Prescott has no injury designation; Philadelphia is without slot corner Michael Carter II and edge Nolan Smith, but Dallas is also missing Turpin and starting tackle Drew Shelton, so no clear edge on volume.",
+   "sources": [
+    "https://www.footballnationusa.com/post/cowboys-at-eagles-week-7-guide-dallas-passing-edge-meets-philadelphia-s-qb-reset"
+   ]
+  },
+  "NFL|00-0038386|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Carter carries no injury designation and plays as Philadelphia's main interior pass rusher; nothing new on his snap share or tackle role.",
+   "sources": [
+    "https://www.footballnationusa.com/post/cowboys-at-eagles-week-7-guide-dallas-passing-edge-meets-philadelphia-s-qb-reset"
+   ]
+  },
+  "NFL|00-0039888|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell is not on Philadelphia's final injury report and starts outside; with slot corner Michael Carter II out the secondary is thinner, but no clear change to his tackle volume.",
+   "sources": [
+    "https://www.footballnationusa.com/post/cowboys-at-eagles-week-7-guide-dallas-passing-edge-meets-philadelphia-s-qb-reset"
+   ]
+  },
+  "NFL|00-0034844|ryd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Barkley is questionable with a hamstring but practiced fully and is reported set to play as the lead back after missing two games; with Tanner McKee starting for the injured Hurts and Bigsby and Shipley on IR the work is his, but his snaps may be managed in his return.",
+   "sources": [
+    "https://www.si.com/betting/saquon-barkley-injury-update-betting-impact-for-cowboys-vs-eagles-in-nfl-week-7-2026",
+    "https://bolavip.com/en/nfl/is-saquon-barkley-playing-today-for-eagles-vs-cowboys-on-mnf-in-2026-nfl-week-7"
+   ]
+  },
+  "NBA|4431671|pr": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McDaniels is not on Minnesota's injury report and starts at forward; DiVincenzo remains out long term, with no new rotation news for tonight.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/min"
    ]
   }
  },
