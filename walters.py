@@ -437,7 +437,8 @@ def main():
                     e.update({"ebpick": e["bpick"], "ebline": line, "ebprice": e["price_h" if e["bpick"] == "home" else "price_a"],
                               "ebstars": st, "ebt": at})
             rec[ev["id"]] = e
-        elif state == "post" and e.get("status") == "pending" and ev["id"] in rec:
+        # only a finished game grades: postponed and canceled games are "post" too, with no score (it read as 0-0)
+        elif state == "post" and c["status"]["type"].get("completed") and e.get("status") == "pending" and ev["id"] in rec:
             hs, as_ = float(side["home"].get("score") or 0), float(side["away"].get("score") or 0)
             e["score"] = [int(as_), int(hs)]
             if e.get("pick") and e.get("line") is not None:
