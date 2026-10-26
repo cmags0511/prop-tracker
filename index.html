@@ -2291,7 +2291,9 @@ function renderWalters(){
   const now=Date.now(),up=G.filter(e=>new Date(e.t)>now-4*3600e3&&e.status==="pending").sort((a,b)=>(b.bstars&&b.bpick?b.bstars:0)-(a.bstars&&a.bpick?a.bstars:0)||(b.tpick?1:0)-(a.tpick?1:0)||new Date(a.t)-new Date(b.t));
   const bw=(bt.all||[0,0])[0],bl=(bt.all||[0,0])[1];
   const tab=["walters","model","weather"].includes(S.walTab)?S.walTab:"walters";
-  const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+  // the NFL week runs to Tuesday: games after the coming Tuesday get their date too, so next week's "Sun" can't pass for this one
+  const wkEnd=new Date(now);wkEnd.setHours(0,0,0,0);wkEnd.setDate(wkEnd.getDate()+((2-wkEnd.getDay()+7)%7||7));
+  const when=t=>`${t.toLocaleDateString("en-US",t>=wkEnd?{weekday:"short",month:"short",day:"numeric"}:{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
   const uc=(n,v,txt)=>n?`<b style="color:${v>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(v)}</b> ${txt}`:"first picks lock in this week";
   // the open tab's backtest, season by season, for the tour's "up X units since 2012" step
   const [bs,bu,bfrom]={walters:[bb.seasons,bka[2],bb.from],model:[bt.seasons,(bt.all||[])[2],bt.from],weather:[btt.seasons,tb[2],btt.from]}[tab];
@@ -2343,7 +2345,7 @@ function renderWalters(){
     <div class="s3claim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/></svg><div>${s3best
       ?`<b>The most profitable method on this page</b><span>According to the ${s3yrs}-year backtest, <strong class="s3em">following only the 3 star plays won ${unitsTxt(a3[2])} (${wr(a3)})</strong>, more than Walters overall (${unitsTxt(bka[2]||0)}). Past results, not a promise.</span>`
       :`<b>Backtest</b><span>${wr(a3)} (${a3[0]}–${a3[1]})${bb.all3?`, ${unitsTxt(a3[2])}`:""} since ${bb.from||2012}.</span>`}</div></div>
-    <div class="lcard s3card">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">3u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
+    <div class="lcard s3card">${s3up.length?s3up.map(e=>playRow(e,esc(bPickTxt(e)),`${new Date(e.t)<=now?`<span class="pill live">Live</span> `:""}gap covers ${fmt(e.bpct)}%`,`<span class="stars">${starIc(3)}</span><span class="wu">3u</span>`,"3-star play")).join(""):`<div class="lrow"><span class="lmuted">No 3-star plays on the board right now.</span></div>`}
     <div class="lrow"><span class="lmuted">The gap between his number and DraftKings' covers 15%+ of NFL final margins: the only tier that won in both halves of the backtest. 3 units each (units = stars).</span></div></div></div>`;
   html+=`<h3 class="lh">Plays this week</h3><div class="lcard" data-tour="plays">${plays.length?plays.map(row).join(""):`<div class="lrow"><span class="lmuted">${up.length?"No plays this week yet.":"No NFL games on the board yet."}</span></div>`}</div>`;
   const np=up.filter(e=>!has(e)).sort((a,b)=>new Date(a.t)-new Date(b.t)),npShow=S.walAll?np:np.slice(0,3);

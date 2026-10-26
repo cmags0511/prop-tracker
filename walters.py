@@ -373,6 +373,11 @@ def main():
             ps = o.get("pointSpread") or {}
             num = lambda x: float(str(x).replace("+", "")) if x not in (None, "", "OFF", "EVEN") else (0.0 if x == "EVEN" else None)
             line = o.get("spread")
+            # ESPN sometimes drops DraftKings' line for a while (books pull next week's lines during Sunday's games):
+            # keep the last line and prices seen, so the picks stay matched to the line they came from and still grade
+            stale = line is None and e.get("line") is not None
+            if stale:
+                line = e["line"]
             ug = upcoming.get((h, a), {})
             # a listed starter the injury report has Out or Doubtful counts as a backup starting
             ph = -QB_PTS if (h, ug.get("qbn_h")) in out_qb and nxt.get(h) == ev["id"] else M.qb_adj(h, ug.get("qb_h"))
@@ -406,9 +411,10 @@ def main():
                       "wnotes": X.notes(ug, fc, not out_door, qbs, prate, tm) if ug.get("id") else [],
                       "inj_h": [[n, g, sh] for n, g, sh in lh], "inj_a": [[n, g, sh] for n, g, sh in la],
                       "injp_h": round(ih, 1), "injp_a": round(ia, 1)})
-            e.update({"t": t.isoformat(), "line": line, "open": num(((ps.get("home") or {}).get("open") or {}).get("line")),
-                      "price_h": num(((ps.get("home") or {}).get("close") or {}).get("odds")),
-                      "price_a": num(((ps.get("away") or {}).get("close") or {}).get("odds")),
+            e.update({"t": t.isoformat(), "line": line, "lstale": stale,
+                      "open": e.get("open") if stale else num(((ps.get("home") or {}).get("open") or {}).get("line")),
+                      "price_h": e.get("price_h") if stale else num(((ps.get("home") or {}).get("close") or {}).get("odds")),
+                      "price_a": e.get("price_a") if stale else num(((ps.get("away") or {}).get("close") or {}).get("odds")),
                       "fair": round(-mu, 1), "qb_h": ug.get("qbn_h"), "qb_a": ug.get("qbn_a"),
                       "qb_note": [f"{t_} {'QB back' if v > 0 else 'backup QB'} ({v:+.1f})" for t_, v in ((h, ph), (a, pa)) if abs(v) >= .5]})
             if line is not None:
@@ -422,12 +428,12 @@ def main():
                           "factors": [[s_, v, why] for s_, v, why in fs], "fnet": round(B.net(fs), 2)})
                 # early locks, Walters' timing: the first hour a play shows up, its line and price are kept and graded
                 # on their own (the main record still locks at kickoff, when injuries and weather are settled); only an
-                # hour with a real price locks, so an early pick is never stuck at an assumed -110
+                # hour with a real, fresh price locks, so an early pick is never stuck at an assumed -110 or a carried line
                 at = now.isoformat(timespec="minutes")
-                if pick and not e.get("epick") and e["price_h" if pick == "home" else "price_a"] is not None:
+                if pick and not stale and not e.get("epick") and e["price_h" if pick == "home" else "price_a"] is not None:
                     e.update({"epick": pick, "eline": line, "eprice": e["price_h" if pick == "home" else "price_a"],
                               "eunits": e["units"], "et": at})
-                if e["bpick"] and not e.get("ebpick") and e["price_h" if e["bpick"] == "home" else "price_a"] is not None:
+                if e["bpick"] and not stale and not e.get("ebpick") and e["price_h" if e["bpick"] == "home" else "price_a"] is not None:
                     e.update({"ebpick": e["bpick"], "ebline": line, "ebprice": e["price_h" if e["bpick"] == "home" else "price_a"],
                               "ebstars": st, "ebt": at})
             rec[ev["id"]] = e

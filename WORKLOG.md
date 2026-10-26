@@ -3,6 +3,13 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-26
+- **rmolnar10**: Walters fixes (PR). `walters.py`: when ESPN drops DraftKings' spread for a while (books pull next
+  week's lines during Sunday's games), the game keeps its last line and prices (`lstale: true`) instead of a blank line
+  under an old pick ("SEA –"); early locks only take a fresh line. `index.html` Walters page: games after the coming
+  Tuesday show their date ("Sun, Nov 1"), so next week's games don't read as this week's; a 3-star game already
+  under way shows a Live tag. sw.js pt-v107.
+
 ## 2026-10-25
 - **cmags0511**: Props tab: the separate "Touchdowns" section is gone; the NFL TD lists (Research / Likeliest / Plus
   money, the plus-money pricing box, the live TD tracker) now show under Top picks when the prop type is **Anytime TD**
