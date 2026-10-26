@@ -1,7 +1,7 @@
 {
- "built": "2026-10-26T03:47+00:00",
- "graded_picks": 227,
- "graded_research": 169,
+ "built": "2026-10-26T06:58+00:00",
+ "graded_picks": 233,
+ "graded_research": 170,
  "market": {
   "CFB|pyd|over": 1.121,
   "CFB|pyd|under": 0.898,
@@ -13,15 +13,16 @@
   "NBA|pra|under": 0.898,
   "NBA|reb|under": 1.041,
   "NFL|rec|over": 1.031,
-  "NFL|tkl|over": 0.898
+  "NFL|tkl|over": 0.898,
+  "NFL|tkl|under": 1.25
  },
  "factors": {
-  "matchup": 0.852,
+  "matchup": 0.922,
   "game": 0.797,
-  "form": 0.85
+  "form": 0.851
  },
  "research_conf": {
-  "medium": 0.831,
+  "medium": 0.823,
   "low": 0.318
  },
  "notes": [
@@ -36,109 +37,115 @@
   "NBA rebounds unders are 5-4: ranked higher (x1.041)",
   "NFL receptions overs are 6-5: ranked higher (x1.031)",
   "NFL tackles overs are 4-5: ranked lower (x0.898)",
-  "When matchup backed a pick it went 22-30, vs 19-18 when it didn't: weighted x0.852",
+  "NFL tackles unders are 7-1: ranked higher (x1.25)",
+  "When matchup backed a pick it went 25-30, vs 19-19 when it didn't: weighted x0.922",
   "When game script backed a pick it went 20-22, vs 19-12 when it didn't: weighted x0.797",
-  "Medium-confidence research calls are 69-80: their weight goes from 1.0 to 0.831",
+  "Medium-confidence research calls are 69-81: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 5448 graded props the app's chances averaged 56% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 5513 graded props the app's chances averaged 56% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
-  "NFL completions: an extra nudge toward the over",
   "NFL passing yards: an extra nudge toward the over",
+  "NFL completions: an extra nudge toward the over",
   "NFL rushing yards: an extra nudge toward the under",
-  "NFL tackles: an extra nudge toward the under",
   "NFL receiving yards: an extra nudge toward the under",
-  "NBA rebounds: an extra nudge toward the over",
+  "NFL rush attempts: an extra nudge toward the under",
+  "NFL tackles: an extra nudge toward the under",
   "NFL extra points: an extra nudge toward the under",
+  "NBA rebounds: an extra nudge toward the over",
   "NBA points: an extra nudge toward the over",
   "CFB receiving yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 4792 graded props: weighted x0.85"
+  "Recent form has been over-weighted across 4857 graded props: weighted x0.851"
  ],
  "calibration": {
-  "n": 5448,
+  "n": 5513,
   "days": 13,
   "trust": 0.87,
-  "c": -0.112,
+  "c": -0.114,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
-    0.05,
+    0.051,
     1.01
    ],
    "NBA|pts": [
-    0.05,
+    0.054,
     0.969
    ],
    "NBA|ra": [
-    -0.005,
+    -0.003,
     0.948
    ],
    "NBA|reb": [
-    0.06,
+    0.065,
     0.973
    ],
    "NFL|car": [
-    -0.049,
-    0.942
+    -0.053,
+    0.932
    ],
    "NFL|cmp": [
-    0.158,
+    0.14,
     0.925
    ],
    "NFL|pat": [
-    -0.079,
+    -0.095,
     1.003
    ],
    "NFL|ptd": [
-    -0.033,
-    1.01
+    -0.048,
+    1.014
    ],
    "NFL|pyd": [
-    0.164,
-    0.949
+    0.163,
+    0.943
    ],
    "NFL|recyd": [
-    -0.074,
-    0.944
+    -0.076,
+    0.948
+   ],
+   "NFL|rry": [
+    0.022,
+    0.946
    ],
    "NFL|ryd": [
-    -0.14,
-    0.976
+    -0.131,
+    0.974
    ],
    "NFL|sck": [
-    -0.33,
-    0.964
+    -0.344,
+    0.967
    ],
    "NFL|tkl": [
-    -0.067,
-    0.93
+    -0.064,
+    0.946
    ]
   }
  },
  "calib": {
-  "n": 5448,
+  "n": 5513,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    2855,
+    2894,
     0.527,
-    0.528
+    0.527
    ],
    [
     0.55,
     0.6,
-    1876,
+    1893,
     0.567,
     0.513
    ],
    [
     0.6,
     0.65,
-    369,
+    378,
     0.62,
-    0.531
+    0.54
    ],
    [
     0.65,
@@ -159,23 +166,23 @@
    [
     0.5,
     0.55,
-    1118,
+    1131,
     0.521,
-    0.527
+    0.525
    ],
    [
     0.55,
     0.6,
-    504,
+    512,
     0.572,
-    0.546
+    0.547
    ],
    [
     0.6,
     0.65,
-    213,
+    216,
     0.618,
-    0.592
+    0.597
    ],
    [
     0.65,
@@ -203,16 +210,16 @@
    [
     0.55,
     0.6,
-    83,
+    86,
     0.575,
-    0.446
+    0.442
    ],
    [
     0.6,
     0.65,
-    33,
+    36,
     0.623,
-    0.576
+    0.611
    ],
    [
     0.65,
@@ -327,7 +334,8 @@
   {
    "d": "2026-10-26",
    "notes": [
-    "When matchup backed a pick it went 22-30, vs 19-15 when it didn't: weighted x0.785"
+    "NFL tackles unders are 7-1: ranked higher (x1.25)",
+    "NFL rush attempts: an extra nudge toward the under"
    ]
   }
  ]
