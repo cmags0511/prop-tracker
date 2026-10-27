@@ -4,6 +4,12 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-27
+- **cmags0511** (PR): Grades fixed (everything was D). (1) Most NBA picks had no price: picks.py now falls back to
+  DraftKings' own po/pu from lines.json when Pinnacle/FanDuel have no quote (also feeds the book-gap and price
+  checks in the ranking). (2) Estimated (shifted) prices are graded too, C at most; no price = ungraded. (3) Grade
+  model features: under, over, modest app-over-book gap on an under (0-6 pts), big gap (6+ pts, lost in both halves
+  of the graded data); out of sample the worst-graded picks returned -9.7%, the rest -3% to 0%. (4) New F grade
+  (edge below -2%: avoid). sw.js pt-v112.
 - **cmags0511** (PR): Pick grades and suggested units. `picks.py` `grade_model()`/`grade_picks()`: each prop's chance =
   the book's no-vig price (well calibrated on 2,034 graded props with real prices) + learned log-odds adjustments
   for under / over / the app's confidence, refit every run from calib.json with a ridge pull toward the book (first
