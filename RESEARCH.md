@@ -4,15 +4,20 @@ The app's numbers already cover recent form, the opponent's defense against his 
 spread and total, minutes trends, the ESPN injury report and depth chart, kickoff wind and the Kalshi
 market price. **Your job is what the numbers can't see**, for the props people actually look at.
 
-The owner prefers **overs**; the app shows overs by default. Spend most of the effort on overs, but be
-honest: if the research says under, say under.
+**News only (owner's change, Oct 27).** The research's own over/under calls went 81-104 and no longer move
+picks; its news is what helps. So the job is facts: who's out, limited, benched or starting, role and snap
+changes, goal-line work, the current line. Write `side`/`adj` only when a concrete availability or role fact
+moves his volume (never from matchups, previews or "feel"), keep `adj` at +1 at most, and put the effort into
+`flag` (out / caution / support / neutral) and a sourced note. There is no Best bet anymore.
 
 **Budget.** Research runs once a day in full (7:34 AM ET) plus quick news checks, on the owner's Claude usage, and an earlier version that researched every
 prop in every game used it all up. Runs have been stopping on the usage limit, so stay well inside these limits: at most 3 NFL/NBA
 researchers (research_packets.py makes at most 3 batches), 1 college researcher only when college games
-start within 36 hours (Friday and Saturday mornings), 1 soccer researcher (about 10 searches) and 1
-fact-checker (the 6 calls that matter most); about 3 searches per game for the game-level picture plus 1 per
-target prop (the college researcher gets about 15), and open only the articles that matter. Games more than
+start within 36 hours (Friday and Saturday mornings; lines only, see its brief), no soccer researcher (the
+soccer player lists aren't bets anymore; skip `SOCCER-day`) and 1 fact-checker; about 2 searches per game
+(both teams' injury and practice news) plus 1 per target prop only when the news is unclear, and open only
+the articles that matter. The NBA Top 10 is paused until Nov 15: NBA games need an injury/rotation check
+only. Games more than
 60 hours away wait for a later run. Quality over volume: a few specific, sourced findings beat
 seven vague angles.
 
@@ -20,12 +25,7 @@ seven vague angles.
 
 1. **Get the repo.** `add_repo` (owner `cmags0511`, repo `prop-tracker`, access `push`), then
    `git clone --depth 1 https://github.com/cmags0511/prop-tracker` and work inside it.
-2. **Learn from the record.** `record.json` → `"research"` holds every past research call graded
-   win/loss/push, with its `adj`, `conf`, `side` and the stats `lean`. Tally the graded ones by
-   confidence, by strength and by "research went against the stats". Put 2-3 lessons in each brief you
-   hand out (for example "low-confidence calls are 4-9: only make them when the news is concrete" or
-   "calls against the stats are losing: need two sources to go against the numbers"). Skip this when
-   fewer than 20 calls are graded.
+2. **(Retired Oct 27)** No need to tally past research calls: over/under calls no longer move picks.
 3. **Build the packets.** `python research_packets.py`. It prints up to 4 batches of games
    (`research/batches/batch-<n>.json`, each a list of packet ids) and, when college games are within
    60 hours, `CFB-week`. Each game packet (`research/packets/<id>.json`) has the spread/total, weather,
@@ -33,12 +33,12 @@ seven vague angles.
    game Top 5s, Kalshi gaps, teammate-out bumps, each with `why_target`) and up to 8 `other_props`.
 4. **Start the researchers, all in one message (Agent tool), so they run in parallel:** one per batch
    with the "Game researcher brief", plus one with the "College researcher brief" if `CFB-week` exists,
-   plus one with the "Soccer researcher brief" if `SOCCER-day` exists.
+   (No soccer researcher: skip `SOCCER-day`.)
    If the Agent tool isn't available, do the batches yourself, soonest games first.
 5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
-6. **Fact-check the strongest calls.** Collect the 6 calls that will matter most: every note with
-   adj +2 or conf high, the `best_candidate`s and the anytime-TD notes. Start ONE fact-checker (Agent
+6. **Fact-check the notes that matter most.** Collect up to 6: every `out`/`caution` flag on a Top 10 player
+   and the anytime-TD notes. Start ONE fact-checker (Agent
    tool) with that list (key, player, side, note, sources). For each call it identifies the one or two
    facts the call rests on (he's starting, he practiced fully, the defender is out, his snap share) and
    verifies them with one fresh search each, preferring official team sources and the latest reports.
@@ -49,12 +49,9 @@ seven vague angles.
    It returns, per call, `confirmed`, `weakened` (with the corrected fact) or `wrong`. Apply the results
    in `research/out/` before merging: `weakened` → lower `adj` by 1 and `conf` to medium and fix the
    wording; `wrong` → set `adj` to 0, `flag` to `caution` (or `out` if he's not playing) and rewrite the
-   note with the corrected fact. Never make the Best bet from a call that wasn't `confirmed`.
-7. **Choose the Best bet** from the researchers' `best_candidate`s: the single OVER where stats, matchup,
-   role, conditions, market and news line up best (an under only if no over is sound). He must be a
-   confirmed starter or have a clearly grown role, and his game must start within 60 hours. A college
-   pick can be the Best bet. Write `research/lead.json`:
-   `{"summary": "<1-2 sentences: the biggest news across the slate>", "best": {"key", "side", "why": "<2-3 sentences>", "sources": [urls]}}`
+   note with the corrected fact.
+7. **Write the lead** (no Best bet since Oct 27): `research/lead.json` =
+   `{"summary": "<1-2 sentences: the biggest news across the slate>", "best": null}`
 8. **Merge and publish.** `python merge_notes.py` (validates everything into `notes.json`), then
    `python picks.py picks.json`. Commit `notes.json picks.json slate.json` with the message
    `Research check <date> <AM|PM>` ending with the line
@@ -67,8 +64,8 @@ seven vague angles.
    `research/out/fix.json` (same format as a game file); any `RESEARCH SAYS` conflict means the note's
    side must be re-confirmed. Then rerun `python merge_notes.py`, `python picks.py picks.json` and the
    audit, at most twice, and push. Mention any remaining flags in your summary.
-9. **Finish** with a short summary: games and props researched, notes (overs/unders), college picks,
-   where the research or Kalshi disagreed with the app, the Best bet and why, and the top storyline.
+9. **Finish** with a short summary: games checked, who's out / limited / upgraded, college lines found,
+   and the top storyline.
 
 ## Light mode (quick news checks: every evening, game-day inactives)
 
@@ -105,11 +102,11 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 > (a list of packet ids); each packet is `research/packets/<id>.json`. The numbers in the packet are
 > already in the app; find what they can't show. Use WebSearch and WebFetch and open the actual articles
 > (team sites, beat writers, injury and practice reports, expert previews), not just snippets.
-> Budget: about 4 searches per game plus 1-2 per target. Do the `full` games first.
+> Budget: about 2 searches per game plus 1 per target only when its news is unclear. Do the `full` games first.
+> **News only:** the app no longer uses your over/under opinions (they went 81-104); it uses facts.
 >
 > **Per game:** practice and injury reports for both sides (including the opposing defense), starters
-> and depth-chart or rotation changes, coach/coordinator comments on usage or game plan, the expected
-> script, weather for outdoor football, line moves, and what credible previews say about these props.
+> and depth-chart or rotation changes, and coach comments on usage. Skip previews and expert picks.
 >
 > **Per target prop**, write one specific sentence for each angle where you found something real (skip
 > angles with nothing new; never restate the packet's numbers as a finding):
@@ -128,23 +125,20 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 >   out what before backing it: a benching, a timeshare, a starter returning, a coach's comment.** If you
 >   can't explain the move, set `unc` and don't call it `support`. (Oct 18: Skattebo's carries line fell
 >   15.5 -> 11.5 because Najee Harris was starting after Skattebo's fumbles; the note missed it and he had 0 carries.)
-> - **experts**: what credible previews say and why, in your own words.
 > **Team news flows to every prop it touches.** When a game-level finding changes a team's outlook (a
 > QB change or limited QB, a top receiver or back out or questionable, offensive-line injuries, a new
 > play-caller), revisit every target AND `other_prop` on that team and the opponent, and write a note for
 > each one the news moves (a backup QB starting usually means caution on his receivers' overs and on
 > the QB-dependent props; a WR1 out usually supports the WR2/TE's volume).
 >
-> Then the verdict. **`side` is always the side your evidence favors** (even when the app leans the other
-> way), and `adj` is how strongly: +2 strong, +1 mild, 0 nothing clear (never negative). Example: the app
-> shows an under but the matchup and script point over → `side` "over", `adj` +1. `flag` (`out` / `caution`
+> Then the verdict, facts only. `side` and `adj` (+1 at most) only when an availability or role fact moves
+> his volume (a teammate out → more targets: `side` "over", `adj` +1; a timeshare or snap cap → "under",
+> +1); otherwise leave `side` empty and `adj` 0. Never from matchups, previews or a hunch. `flag` (`out` / `caution`
 > / `support` / `neutral`): `caution` = his outlook is uncertain (questionable, role in flux), not a
 > direction; `conf` (`high` = confirmed by an
 > official report or team source plus at least one more independent source; `medium` = one solid
 > source or clear usage data; `low` = inference or thin sourcing) and a one-sentence `note` (max 35 words) with the main non-stat reason.
-> **Scan the whole board.** `other_props` lists every other prop in the game. After the targets, run
-> down that list with what you've learned about the game (injuries, roles, script) and add a note for
-> any prop the news clearly moves, or where you find a real edge (at most 3 per game).
+> Only write a note for an `other_prop` when team news clearly changes that player's availability or role.
 >
 > **Anytime TDs.** Each `full` game has `td_candidates`: everyone on the app's Top 10 TD lists
 > (`on_app_td_list`) plus the next likeliest scorers, with the app's chance (`app_prob`, its stats model
@@ -172,10 +166,10 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 >  "notes": {"<key copied exactly>": {"side": "over", "flag": "support", "adj": 1, "conf": "medium", "buzz": "<TD notes only: high|some|none>",
 >     "note": "...", "detail": {"availability": "...", "role": "...", "matchup": "...", "script": "...",
 >     "conditions": "...", "market": "...", "experts": "..."}, "sources": ["<urls you read>"]}},
->  "best_candidate": {"key": "...", "side": "over", "why": "<2-3 sentences>", "sources": ["..."]} or null}
+>  "best_candidate": null}
 > ```
-> Every note needs at least one source you actually read. Reply with one line: games done, notes
-> (overs/unders), and your best candidate.
+> Every note needs at least one source you actually read. Reply with one line: games done, who's out,
+> limited or upgraded.
 
 ## College researcher brief
 
@@ -199,10 +193,9 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 > season and last-5 hit rate at the line, average, last 3 games, and how the opponent has defended that
 > stat (rank, 1 = allows the most). Take the best 12 edges, at least two-thirds overs.
 >
-> **Pass 3: research those 12** beyond the numbers: availability and practice news, depth chart and
-> snaps, the opponent's defense and missing defenders, game script from the spread/total, weather,
-> line movement, and what credible previews say. Keep the 8-10 that hold up (an under only when the case
-> is clearly stronger than any over) and add them to the same file:
+> **Pass 3: check those 12 for news only** (Oct 27: over/under opinions no longer move picks):
+> availability and practice news, depth chart and snaps. Write a note (flag + sourced fact; `side`/`adj` +1
+> only when a role fact moves his volume) and add them to the same file:
 > ```
 > {"game": "CFB-week", "summary": "<2-3 sentences on the week's college storylines>", "sources": [...],
 >  "lines": [ ...every line from pass 1... ],

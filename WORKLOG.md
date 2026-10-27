@@ -4,6 +4,15 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-27
+- **cmags0511** (PR, on top of #42): Owner's Oct 27 changes. (1) Top lists (picks/byMarket, so the record too) skip
+  F grades and prices shorter than -130 (`MIN_PRICE`); game views keep NBA but apply the same filter. (2) NBA Top 10
+  paused until Nov 15 (`NBA_TOP_FROM`); NBA lines still on the board. (3) Lab page removed (lab_market.py keeps
+  running: it writes fd_board.json, FanDuel's TD prices). (4) RESEARCH.md: news only (flags + sourced facts; side/adj
+  +1 only for availability/role facts), no Best bet, no soccer researcher, smaller search budget, college pass 3 =
+  news check. (5) Soccer: Team bets is the first/default list; player-prop lists are info only and record.py stops
+  recording them after Oct 28 00:00 UTC. (6) TDs: picks.py adds `fd`, `bp` (better of Pinnacle/FanDuel), `td_edge`
+  (94% of the chance x payout - 1) and `td_bet` (edge >= -2%); record.py records only `td_bet` TDs, at the better
+  price. sw.js pt-v113.
 - **cmags0511** (PR): Grades fixed (everything was D). (1) Most NBA picks had no price: picks.py now falls back to
   DraftKings' own po/pu from lines.json when Pinnacle/FanDuel have no quote (also feeds the book-gap and price
   checks in the ranking). (2) Estimated (shifted) prices are graded too, C at most; no price = ungraded. (3) Grade

@@ -222,7 +222,8 @@ def main():
 
     # 1e. the Top 10 anytime-TD lists (likeliest and plus money), locked at kickoff like the props
     tds = {(e["key"], e["t"]): e for e in rec.get("td", [])}
-    cur_td = {(c["key"], c["t"]): c for c in picks.get("tdTop", []) if start(c) > now}
+    # from Oct 27 only TDs priced at or near fair are recorded (picks.py td_bet); the likeliest at -250 are shown, not bet
+    cur_td = {(c["key"], c["t"]): c for c in picks.get("tdTop", []) if start(c) > now and c.get("td_bet", True)}
     for k, e in list(tds.items()):
         if e["status"] == "pending" and start(e) > now and k not in cur_td:
             del tds[k]
@@ -234,7 +235,8 @@ def main():
         lists = sorted(set(old.get("lists", [])) | {c.get("list", "likely")}) if old else [c.get("list", "likely")]
         tds[k] = {"key": c["key"], "lg": "NFL", "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                   "home": c["home"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
-                  "prob": c["prob"], "price": c.get("price") if c.get("price") is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
+                  "prob": c["prob"], "fd": c.get("fd"), "td_edge": c.get("td_edge"),
+                  "price": c.get("bp") or c.get("price") if (c.get("bp") or c.get("price")) is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
                   "status": "pending", "result": None}
 
     # 1f. soccer: the Soccer tab's lists (Top picks, Value bets), locked at kickoff with
@@ -242,9 +244,13 @@ def main():
     soc = {(e["key"], e["t"]): e for e in rec.get("soccer", [])}
     sfile = load("soccer.json", {})
     cur_s = {}
+    # Oct 27: soccer player props are no longer recorded as bets (they carry a 25-45% cut: 43-31 but -9.8u); the
+    # lists stay on the Soccer tab as information and the soccer bets are the Team bets (soccer_team.py). Past
+    # entries keep their grades
+    SOC_RECORD_UNTIL = dt.datetime(2026, 10, 28, tzinfo=dt.timezone.utc)
     for lst in ("top", "value", "plus", "scorers"):  # plus / scorers retired Oct 19 (kept for older soccer.json)
         for c in sfile.get(lst, []):
-            if start(c) > now:
+            if start(c) > now and now < SOC_RECORD_UNTIL:
                 cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)
     for k, e in list(soc.items()):
         if e["status"] == "pending" and start(e) > now and k not in cur_s:
