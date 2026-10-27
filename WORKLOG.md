@@ -4,6 +4,14 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-27
+- **cmags0511** (PR): Pick grades and suggested units. `picks.py` `grade_model()`/`grade_picks()`: each prop's chance =
+  the book's no-vig price (well calibrated on 2,034 graded props with real prices) + learned log-odds adjustments
+  for under / over / the app's confidence, refit every run from calib.json with a ridge pull toward the book (first
+  fit: under +.10, over -.08, confidence -.02). Edge = chance x payout - 1 → A 5%+ 2u, B 3-5% 1u, C 1-3% 0.5u, D pass;
+  no real price = C at most. `parlay` (A/B and 55%+) and `pair` (same-team QB passing + receiver, same side). Ranking
+  unchanged. record.py saves grade/units/p_cal/edge; Record tab "By grade" table (W-L, 1u, at suggested stake). Cards
+  show the grade line and the graded chance. TD cards graded at FanDuel's price with 94% of the app's chance (TDs ran
+  50% predicted / 47% hit); soccer team bets graded from their Pinnacle edge (model-only at half). sw.js pt-v111.
 - **cmags0511**: Tested Next Gen Stats as a prop signal (`backtest_ngs.py`, README "Usage signals"): not added. Small
   gains on the synthetic-line backtest didn't hold against real graded DraftKings lines (52-54% at best, some signals
   reversed). No app or model change.
