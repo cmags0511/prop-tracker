@@ -908,6 +908,11 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .pkr{text-align:right;flex:none}
 .pkline{font:800 17px var(--f-body);color:var(--hit)}.pkline.under{color:var(--miss)}.pkline small{font-size:12px;font-weight:700}
 .pkprice{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+.gradeln{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font:600 12px var(--f-body);color:var(--muted)}
+.grd{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;font:800 12px var(--f-body);color:#fff;background:var(--muted)}
+.grd.gA{background:var(--hit)}.grd.gB{background:#2f7d8a}.grd.gC{background:#b7791f}.grd.gD{background:var(--line2);color:var(--ink)}
+.pick.shw>.gradeln{margin:-4px 16px 12px}
+.plg{padding:2px 7px;border-radius:999px;background:var(--accent-soft,rgba(80,90,200,.12));color:var(--accent);font-weight:700}
 #top .pkcta{margin:0;border-top:1px solid var(--line)}
 #top .pkcta .seewhy{min-height:44px;padding:0 16px}
 .pkadd{flex:none;height:44px;min-width:52px;margin:0!important;border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:none!important;color:var(--ink2)!important;font:700 12.5px var(--f-body)!important;padding:0 12px!important}
@@ -1432,11 +1437,13 @@ function renderTdTop(){
     el.innerHTML=`<div class="tophead"><h2>Top <span>Anytime TDs</span></h2><div class="seg2 sidesw" role="group" aria-label="TD list"><button data-tdl="research" aria-pressed="true">Research</button><button data-tdl="likely" aria-pressed="false">Likeliest</button><button data-tdl="long" aria-pressed="false">Plus money</button></div></div>
     <p class="topsub">The scorers today's research backs, likeliest first, with FanDuel's anytime-TD odds.</p>
     ${L.length?`<div class="tdpicks">${L.map((c,i)=>{const t=new Date(c.t),fd=fdTd(c),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString());
-      const ev=fd!=null?c.prob*amDec(fd)-1:null;
+      // TD chances have run a little high (50% predicted, 47% scored through Oct 26): graded at 94% of the app's chance
+      const pc=c.prob*.94,ev=fd!=null?pc*amDec(fd)-1:null,gd=gradeFor(ev);
       return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos||""}</small>${c.status?" "+QPILL(c.status):""}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="tdprob"><b>${fd!=null?amFmt(fd):"–"}</b><small>${fd!=null?"FanDuel":FDTD?"not on FanDuel yet":"loading odds"}</small></span></div>
+      ${gradeHtml(gd,ev,{parlay:(gd==="A"||gd==="B")&&pc>=.55})}
       ${c.research?`<div class="news"><b class="support">Research</b><span>${esc(c.research)}</span></div>`:""}
-      <div class="pkmeta"><span class="fx nt" title="The app's chance he scores (TD model, Kalshi and the research)">${Math.round(c.prob*100)}% to score</span><span class="fx nt">fair ${fair(c.prob)}</span>${ev!=null?`<span class="fx ${ev>=0?"good":"nt"}" title="FanDuel's price against the app's chance">${ev>=0?"FanDuel pays more than fair":"FanDuel's price is shorter than fair"}</span>`:""}${c.kalshi!=null?`<span class="fx nt">Kalshi ${Math.round(c.kalshi*100)}%</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}</div>`
+      <div class="pkmeta"><span class="fx nt" title="The app's chance he scores (TD model, Kalshi and the research), trimmed 6% for grading">${Math.round(pc*100)}% to score</span><span class="fx nt">fair ${fair(pc)}</span>${c.kalshi!=null?`<span class="fx nt">Kalshi ${Math.round(c.kalshi*100)}%</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}</div>`
       :`<p class="pteam">The research hasn't backed any scorers${S.team?" for "+S.team:""} for upcoming games yet. It runs each morning (7:34 AM) and before Sunday kickoffs.</p>`}
     <p class="topnote" style="margin:0">"Fair" is what the odds would be if the app's chance were exactly right. Odds shorter than fair (like −300 when fair is −200) cost money on average even when he scores often.</p>`;
     return}
@@ -1451,6 +1458,7 @@ function renderTdTop(){
     const st=c.status?" "+QPILL(c.status):"";
     return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small>${st}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="tdprob"><b>${Math.round(c.prob*100)}%</b><small>fair ${fair(c.prob)}</small></span></div>
+      ${(()=>{const fd=fdTd(c);if(fd==null)return"";const pc=c.prob*.94,e=pc*amDec(fd)-1,g=gradeFor(e);return gradeHtml(g,e,{parlay:(g==="A"||g==="B")&&pc>=.55})})()}
       <div class="why">${esc(c.why)}</div>
       ${c.research?`<div class="news"><b class="${c.radj<0?"caution":"support"}">${c.radj<0?"Caution":"Research"}</b><span>${esc(c.research)}</span></div>`:""}
       <div class="pkmeta">${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores">Kalshi ${Math.round(c.kalshi*100)}%</span>`:`<span class="fx nt">No Kalshi market</span>`}${fdTd(c)!=null?`<span class="fx nt" title="FanDuel's anytime-TD odds">FanDuel ${amFmt(fdTd(c))}</span>`:""}<span class="fx nt" title="The app's stats-only estimate: his recent TD rate, touches and his team's projected points">Stats ${Math.round(c.stat*100)}%</span>${c.kalshi!=null&&c.stat-c.kalshi>=.04?`<span class="fx good" title="His numbers say he scores more often than the market's price">Stats above market</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}${buzz[c.buzz]?`<span class="fx nt" title="How much bettors and analysts are talking him up online. Popular TD picks are often priced shorter, so this is context, not a reason to bet">${buzz[c.buzz]}</span>`:""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>`:`<p class="pteam">No ${which==="long"?"plus-money ":""}TD picks${S.team?" for "+S.team:""} right now.</p>`}
@@ -1587,6 +1595,26 @@ function deepHtml(c,p,m){
     +(lh?shSec("",lineMovesHtml(lh,m,line)):"")
     +shSec("Game log",glog,`${g.length} games`);
 }
+// ---- pick grades (picks.py grade_picks): A 2u, B 1u, C 0.5u, D pass. The chance is the sportsbook's no-vig price
+// adjusted by what the app's graded picks have actually added on top of it ----
+const GRADE_TXT={A:"2 units",B:"1 unit",C:"½ unit",D:"pass"};
+function gradeFor(edge,real=true){if(edge==null)return null;let g=edge>=.05?"A":edge>=.03?"B":edge>=.01?"C":"D";if(!real&&(g==="A"||g==="B"))g="C";return g}
+function gradeHtml(g,edge,opts={}){
+  if(!g)return"";
+  const tip=`Grade ${g}: expected return ${edge>=0?"+":"−"}${Math.abs(edge*100).toFixed(1)}% at this price. A = 5%+ (2 units), B = 3–5% (1 unit), C = 1–3% (½ unit), D = under 1% (pass). 1 unit = 1% of your betting bankroll.`;
+  return`<div class="gradeln" title="${esc(tip)}"><span class="grd g${g}">${g}</span><span>${g==="D"?"Pass: no edge at this price":`Bet ${GRADE_TXT[g]}`}${edge!=null?` · ${edge>=0?"+":"−"}${Math.abs(edge*100).toFixed(1)}% expected`:""}</span>${opts.parlay?`<span class="plg" title="A likely leg with a positive edge on its own. Parlays only make sense with legs like this: each leg's edge (or cost) multiplies">Parlay leg</span>`:""}${opts.pair?`<span>pairs with ${esc(opts.pair)}</span>`:""}</div>`;
+}
+function gradeRecordHtml(P){
+  const L=P.filter(e=>e.grade);
+  const dec=a=>1+(a>0?a/100:100/-a),U={A:2,B:1,C:.5,D:0};
+  const rows=["A","B","C","D"].map(g=>{const d=L.filter(e=>e.grade===g&&(e.status==="win"||e.status==="loss")&&e.price!=null),w=d.filter(e=>e.status==="win").length;
+    const u1=d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0);
+    return`<tr><td><span class="grd g${g}">${g}</span> ${g==="D"?"pass":GRADE_TXT[g]}</td><td class="num mono">${d.length?`${w}-${d.length-w}`:"–"}</td><td class="num mono">${d.length?unitsTxt(u1):"–"}</td><td class="num mono">${d.length&&U[g]?unitsTxt(u1*U[g]):"–"}</td></tr>`}).join("");
+  const tot=L.filter(e=>(e.status==="win"||e.status==="loss")&&e.price!=null).reduce((x,e)=>x+(U[e.grade]||0)*(e.status==="win"?dec(e.price)-1:-1),0);
+  return`<div class="learn"><h4>By grade</h4><p class="pteam" style="margin:0 0 8px">Each pick's grade when it locked (from Oct 27). "At stake" is the result betting the suggested units (D = no bet). If the grades work, A should do best and D worst.</p>
+    <div class="log"><table class="books"><thead><tr><th>Grade</th><th class="num">W-L</th><th class="num">1u each</th><th class="num">At stake</th></tr></thead><tbody>${rows}
+    <tr><td><b>Following the grades</b></td><td></td><td></td><td class="num mono"><b>${L.some(e=>e.status==="win"||e.status==="loss")?unitsTxt(tot):"–"}</b></td></tr></tbody></table></div></div>`;
+}
 function renderTop(){
   renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
   const el=document.getElementById("top");
@@ -1631,7 +1659,8 @@ function renderTop(){
     return`<article class="pick shw" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}">
       <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}</div>
         <div class="pksum">${mtx} · ${c.l10[0]} of last ${c.l10[1]}${n&&n.note?` · <b class="${lcls}">${lbl}</b>`:""}</div></div>
-        <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",c.prob!=null?Math.round(c.prob*100)+"%":""].filter(Boolean).join(" · ")}</div></div></div>
+        <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",(c.p_cal??c.prob)!=null?Math.round((c.p_cal??c.prob)*100)+"%":""].filter(Boolean).join(" · ")}</div></div></div>
+      ${gradeHtml(c.grade,c.edge,{parlay:c.parlay,pair:c.pair})}
       <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
       <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
@@ -2056,6 +2085,7 @@ function renderAppRecord(){
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
   else{
+  html+=gradeRecordHtml(P);
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
   html+=tdRecordHtml();
@@ -3544,6 +3574,7 @@ function teamBetsHtml(inLg,lf){
   const why=c=>`Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}`;
   const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.home)} vs ${esc(c.away)}<small>${esc(c.league)} · ${socWhen(c.t)}</small></span><span class="bet over">${esc(c.bet)}</span></div>
+    ${(()=>{const e=c.src==="model"?c.ev/2:c.ev,g=gradeFor(e);return gradeHtml(g,e,{parlay:(g==="A"||g==="B")&&c.prob>=.55})})()}
     <div class="why">${why(c)}</div></div>`;
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   const days={};[...R].filter(e=>e.status!=="pending"||new Date(e.t).getTime()<=now).sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});

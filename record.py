@@ -125,6 +125,9 @@ def main():
                 "line": c["line"], **price_for(c["key"], c["side"], c["line"], old),
                 "score": c["score"], "l10": c["l10"], "sets": sets, "status": "pending", "result": None,
                 "factors": c.get("factors"), "prob": c.get("prob"),  # why it was picked, so tune.py can learn
+                # the grade and suggested stake when it locked (picks.py grade_picks), so the Record tab can show how
+                # each grade did and what following the suggested units would have made
+                "grade": c.get("grade"), "units": c.get("units"), "p_cal": c.get("p_cal"), "edge": c.get("edge"),
                 "line0": first, "t0": old.get("t0") if first == old.get("line0") and old.get("t0") else now.isoformat(timespec="minutes"),
             }
 

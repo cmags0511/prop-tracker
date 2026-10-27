@@ -316,6 +316,104 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
     return top + long10, [{k: c[k] for k in keep} for c in res[:120] if c["radj"] is None or c["radj"] > -1]
 
 
+# ---- pick grades and suggested stakes (Oct 27) ----
+# Each pick gets a fair chance built from the sportsbook's own no-vig price (2,000+ graded props show it's well
+# calibrated) plus what the app's picks have actually added on top of it, learned from every graded prop in
+# calib.json each run: unders have beaten the book's price, overs haven't, and the app's most confident picks did
+# worse, not better. Edge = that chance x the payout - 1. Grade and units (1 unit = 1% of a bankroll, roughly a
+# quarter of the Kelly stake): A 5%+ edge 2u, B 3-5% 1u, C 1-3% 0.5u, D under 1% = pass. No real price: C at most.
+GRADES = ((.05, "A", 2.0), (.03, "B", 1.0), (.01, "C", 0.5))
+GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
+
+
+def _imp(a):
+    return 100 / (a + 100) if a > 0 else -a / (-a + 100)
+
+
+def _lg(p):
+    p = min(.97, max(.03, p))
+    return math.log(p / (1 - p))
+
+
+def grade_model():
+    """(b_under, b_over, b_conf, n): log-odds adjustments to the book's no-vig chance, fit on graded props"""
+    try:
+        rows = json.load(open("calib.json"))["props"]
+    except Exception:
+        return (0.0, 0.0, 0.0, 0)
+    X, Y, OFF = [], [], []
+    for e in rows:
+        if e.get("status") not in ("win", "loss") or not e.get("po") or not e.get("pu") or e.get("pe") or not e.get("prob"):
+            continue
+        bo = _imp(e["po"]) / (_imp(e["po"]) + _imp(e["pu"]))
+        bp = bo if e["side"] == "over" else 1 - bo
+        X.append((1.0 if e["side"] == "under" else 0.0, 1.0 if e["side"] == "over" else 0.0, e["prob"] - .5))
+        Y.append(1.0 if e["status"] == "win" else 0.0)
+        OFF.append(_lg(bp))
+    if len(X) < 200:
+        return (0.0, 0.0, 0.0, len(X))
+    b = [0.0, 0.0, 0.0]
+    for _ in range(30):  # Newton steps, ridge penalty GRADE_LAM on every coefficient
+        g = [-GRADE_LAM * v for v in b]
+        H = [[GRADE_LAM if i == j else 0.0 for j in range(3)] for i in range(3)]
+        for x, y, o in zip(X, Y, OFF):
+            p = 1 / (1 + math.exp(-(o + sum(bi * xi for bi, xi in zip(b, x)))))
+            w = p * (1 - p)
+            for i in range(3):
+                g[i] += (y - p) * x[i]
+                for j in range(3):
+                    H[i][j] += w * x[i] * x[j]
+        # solve H d = g (3x3, Gaussian elimination)
+        A = [H[i][:] + [g[i]] for i in range(3)]
+        for i in range(3):
+            piv = A[i][i] or 1e-9
+            for j in range(i + 1, 3):
+                f = A[j][i] / piv
+                A[j] = [a - f * c for a, c in zip(A[j], A[i])]
+        d = [0.0] * 3
+        for i in (2, 1, 0):
+            d[i] = (A[i][3] - sum(A[i][j] * d[j] for j in range(i + 1, 3))) / (A[i][i] or 1e-9)
+        b = [bi + di for bi, di in zip(b, d)]
+        if max(abs(v) for v in d) < 1e-6:
+            break
+    return (round(b[0], 4), round(b[1], 4), round(b[2], 4), len(X))
+
+
+def grade_picks(cands, GM):
+    """adds p_cal, edge, grade, units, parlay (and pair) to each candidate"""
+    bu, bo_, bc, _ = GM
+    for c in cands:
+        app = c.get("prob")
+        if app is None:
+            continue
+        real = c.get("price") is not None and not c.get("price_est") and c.get("book_p") is not None
+        bp = c["book_p"] if real else .5
+        adj = (bu if c["side"] == "under" else bo_) + bc * (app - .5)
+        p = 1 / (1 + math.exp(-(_lg(bp) + adj)))
+        price = c["price"] if real else -115
+        d = 1 + (price / 100 if price > 0 else 100 / -price)
+        edge = p * d - 1
+        g, u = "D", 0.0
+        for lo, gg, uu in GRADES:
+            if edge >= lo:
+                g, u = gg, uu
+                break
+        if not real and g in ("A", "B"):
+            g, u = "C", 0.5  # no real price to check against
+        c.update(p_cal=round(p, 3), edge=round(edge, 3), grade=g, units=u, parlay=g in ("A", "B") and p >= .55)
+    # a parlay partner: another good leg in the same game that tends to hit together (a QB's passing over with his own
+    # receiver's over, or both unders on the same team's passing game)
+    PASS, RECV = {"pyd", "cmp", "att", "ptd"}, {"rec", "recyd"}
+    legs = [c for c in cands if c.get("parlay")]
+    for c in legs:
+        for o in legs:
+            if o is c or o["team"] != c["team"] or o["t"] != c["t"] or o["side"] != c["side"] or o["id"] == c["id"]:
+                continue
+            if (c["market"] in PASS and o["market"] in RECV) or (c["market"] in RECV and o["market"] in PASS):
+                c["pair"] = f"{o['name']} {o['side']} {fmt(o['line'])} {o['label'].lower()}"
+                break
+
+
 def main():
     data = json.load(open("props_data.json"))
     try:
@@ -750,7 +848,13 @@ def main():
                "about": "Every prop with a DraftKings line on the upcoming slate. matchup = opponent's rank (1 = allows the most "
                         "to this position, last 10 games); gap = how far the line is from his recent average; lean = stats side.",
                "props": slate}, open("slate.json", "w"), indent=0)
+    GM = grade_model()
+    grade_picks(cands, GM)
+    print(f"grades: book chance adjusted by under {GM[0]:+.3f}, over {GM[1]:+.3f}, app confidence {GM[2]:+.3f} "
+          f"(log-odds, from {GM[3]} graded props); "
+          + ", ".join(f"{g} {sum(1 for c in cands if c.get('grade') == g)}" for g in "ABCD"))
     out = {"built": now.isoformat(timespec="minutes"), "picks": []}
+    out["grading"] = {"under": GM[0], "over": GM[1], "conf": GM[2], "n": GM[3]}
     if cands:
         first = min(dt.datetime.fromisoformat(c["t"]) for c in cands)
 
