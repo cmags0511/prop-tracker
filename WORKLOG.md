@@ -15,6 +15,14 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   under an old pick ("SEA –"); early locks only take a fresh line. `index.html` Walters page: games after the coming
   Tuesday show their date ("Sun, Nov 1"), so next week's games don't read as this week's; a 3-star game already
   under way shows a Live tag. sw.js pt-v107.
+- **cmags0511** (PR): Owner's cleanup after reviewing results. (1) Research leans no longer move picks
+  (`RESEARCH_IN_RANKING = False` in picks.py; leans went 74-96): no research term in the chance, no "argued against"
+  drop, no unresearched penalty, no research override of the big-gap penalty. Research news still counts (injury /
+  ruled out, questionable ×.85, fact-checked line, backup role). Notes still show on cards and research leans are
+  still recorded. TD board unchanged (its chances are well calibrated). (2) Best bet off (`BEST_BET_ON = False`;
+  3-5). (3) Overs-only switch removed everywhere (`OVERS()` always false, `sideSwitch()` empty; picksOver still
+  written but unused). (4) fwarnk removed entirely: fwarnk.py, fwarnk.json, both workflow steps, the page and link.
+  Also folds in the soccer Team bets (PR #36). sw.js pt-v110.
 
 ## 2026-10-25
 - **cmags0511**: Props tab: the separate "Touchdowns" section is gone; the NFL TD lists (Research / Likeliest / Plus
@@ -26,6 +34,16 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   odds, the app's chance, fair odds and whether FanDuel pays more or less than fair. FanDuel TD odds come from
   lab_market.py (NFL board now reads the `td-scorer-props` tab; saved as `td` in fd_board.json, never Lab picks);
   the Likeliest / Plus money cards show a "FanDuel" chip too. sw.js pt-v104.
+
+## 2026-10-24
+- **cmags0511**: Soccer **Team bets** (third list on the Soccer tab, own record): `soccer_team.py` → `soccer_team.json`,
+  new hourly step `soccer_team` in `lines.yml`. Reads Pinnacle's soccer moneyline / every handicap and total line /
+  team totals (full match and 1st half, 22 leagues), fits a Dixon-Coles score model to them, and prices every
+  FanDuel market settled by the score (result, DNB, double chance, spreads, totals, team totals, BTTS, combos, exact
+  goals, margins, goal bands, 1st-half versions) plus DraftKings' moneyline/total from ESPN. Lists bets >=2% over fair
+  (markets Pinnacle prices) or >=5% (model-only, max +300), 2 per match, top 25; locks at kickoff, graded from ESPN's
+  final / half-time score (summary linescores), cup ties with extra time void. First run: FanDuel averaged 3.5-7%
+  under fair on main markets, so few picks. Merged with the Oct 26 cleanup PR.
 
 ## 2026-10-22
 - **cmags0511**: Soccer: FanDuel's price for each listed pick (`fanduel_prices` in soccer_data.py: FanDuel's public

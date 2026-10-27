@@ -1152,7 +1152,6 @@ body:has(.wtour) .totop{display:none}
     <div id="view-every" role="tabpanel" aria-labelledby="lg-ALL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-lab" hidden style="flex-direction:column;gap:14px"></div>
-    <div id="view-fw" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
     <footer class="sitefoot"><img src="footer.jpg" alt="" width="120" height="160" loading="lazy" decoding="async"></footer>
   </div>
@@ -1223,8 +1222,10 @@ function applySec(){
 }
 // opens on Overs + unders (Oct 22: picks only on the overs list went 16-26); a choice made after that is remembered
 try{if(localStorage.getItem("ptSideV")!=="2"){localStorage.setItem("ptSideV","2");localStorage.removeItem("ptSide")}const sd=localStorage.getItem("ptSide");if(sd==="all"||sd==="over")S.side=sd}catch(e){}
-const OVERS=()=>S.side==="over";
-const sideSwitch=()=>`<div class="seg2 sidesw" role="group" aria-label="Which picks"><button data-side="over" aria-pressed="${OVERS()}">Overs</button><button data-side="all" aria-pressed="${!OVERS()}">Overs + unders</button></div>`;
+// overs-only lists retired Oct 26 (overs-only picks went 16-26): one list, overs and unders
+S.side="all";
+const OVERS=()=>false;
+const sideSwitch=()=>"";
 try{Object.assign(S,JSON.parse(localStorage.getItem("propTracker3")||"{}"));S.q="";S.sel=null}catch(e){}
 if(S.sec==="td"){S.sec="picks";S.market="td";try{localStorage.setItem("ptSec","picks")}catch(e){}}  // the old Touchdowns section
 function save(){try{localStorage.setItem("propTracker3",JSON.stringify({league:S.league,market:S.market,cat:S.cat,active:S.active,lines:S.lines}))}catch(e){}}
@@ -1634,7 +1635,7 @@ function renderTop(){
       <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
       <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?", then adjusted twice a day by research on injuries, roles, game plans, the opposing team and expert previews":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
+  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?". The daily research checks injuries, roles and news (a player it finds ruled out or in doubt is dropped or ranked lower), and its notes show on each pick, but its own over/under leans no longer move picks: they went 74-96 through Oct 26":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
 
 // ---- DraftKings line history (line_hist.json, saved every hour) ----
@@ -1760,12 +1761,11 @@ function render(){
   const ve=document.getElementById("view-every");ve.hidden=S.view!=="every";ve.style.display=S.view==="every"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
   const vl=document.getElementById("view-lab");vl.hidden=S.view!=="lab";vl.style.display=S.view==="lab"?"flex":"none";
-  const vf=document.getElementById("view-fw");vf.hidden=S.view!=="fw";vf.style.display=S.view==="fw"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"||S.view==="fw"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab"||S.view==="fw"||S.view==="every";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab"||S.view==="every";
   document.getElementById("market").hidden=noBoard;
-  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab"||S.view==="fw";  // soccer keeps the sport switch
+  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   document.querySelector(".sitefoot").hidden=S.view==="walt";  // no footer photo on the Walters page
   if(S.view==="walt")document.getElementById("iostip")?.remove();  // nor the install tip
@@ -1776,7 +1776,6 @@ function render(){
   if(S.view==="rec"){renderRecord();return}
   if(S.view==="walt"){renderWalters();return}
   if(S.view==="lab"){renderLab();return}
-  if(S.view==="fw"){renderFw();return}
   const rows=boardRows(), m=mkt();
   renderBest();
   renderTop();
@@ -2093,7 +2092,7 @@ function renderAppRecord(){
   const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
     Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
   html+=`<button class="shcta lcta" data-sheet="Pick log" data-sub="${P.length} picks · ${pend.length} locked">View full pick log</button><div class="shc">${log}</div></div>`;
-  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button><button class="poopy" data-goto="fw">fwarnk</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
+  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
   el.innerHTML=html;
 }
 // ---- Lab: market-anchored picks (lab_market.py -> lab_market.json), a side project that never touches the main
@@ -2177,57 +2176,6 @@ function renderEvery(){
     ${sec("NBA","NBA",nba,nbaEmpty,(c,i)=>card(c,i,"NBA"))}
     ${sec("CFB","College",everyTop("CFB"),"No college picks right now: college lines come from the research before each game day.",(c,i)=>card(c,i,"CFB"))}
     ${sec("SOC","Soccer <small class=\"h2sub\">most likely, not value</small>",soc,SOC?"No soccer Top picks right now.":"Loading soccer…",socCard)}`;
-}
-// ---- fwarnk: "the math has to add up" (fwarnk.py -> fwarnk.json). FanDuel player props bet when a team's own player
-// lines don't add up to the team's line. Reached from the Record tab's "fwarnk" link ----
-let FW=null,fwLoading=false;
-function renderFw(){
-  const el=document.getElementById("view-fw");
-  if(!FW){if(!fwLoading){fwLoading=true;jget("fwarnk.json").then(d=>{FW=d||{picks:[],record:[]};fwLoading=false;if(S.view==="fw")renderFw()})}
-    el.innerHTML=`<section class="top"><p class="pteam">Loading…</p></section>`;return}
-  const R=FW.record||[],now=Date.now(),dec=a=>1+(a>0?a/100:100/-a);
-  const MU="NFL unders",MP="NFL unders + Pinnacle",MO="NFL overs (tracked)",MN="NBA points";
-  const tally=L=>{const d=L.filter(e=>e.status==="win"||e.status==="loss"),w=d.filter(e=>e.status==="win").length;return{w,l:d.length-w,n:d.length,u:d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0),pend:L.filter(e=>e.status==="pending").length}};
-  const uTxt=u=>`<span style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"−"}${Math.abs(u).toFixed(1)}u</span>`;
-  const by=m=>R.filter(e=>e.method===m);
-  const T={u:tally(by(MU)),p:tally(by(MP)),n:tally(by(MN)),all:tally(R.filter(e=>e.method===MU||e.method===MN))},TO=tally(by(MO));
-  const row=(lab,f)=>`<tr><td>${lab}</td><td class="num mono">${f(T.u)}</td><td class="num mono">${f(T.p)}</td><td class="num mono">${f(T.n)}</td><td class="num mono">${f(T.all)}</td></tr>`;
-  const day=t=>new Date(t).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
-  const why=c=>{const w=c.why||{};return c.lg==="NFL"
-    ?`${esc(c.team)}'s top ${w.n} receiving lines add up to ${fmt(w.sum)} yards, ${Math.round(w.share*100)}% of ${esc(w.qb)}'s ${fmt(w.qb_line)} passing line (usually about ${Math.round(w.usual*100)}%). ${c.side==="over"?"The receivers look cheap":"The receivers look pricey"} next to their QB.${w.pin_under!=null?` Pinnacle${w.pin_line!==c.line?` (line ${fmt(w.pin_line)})`:""} gives the under ${Math.round(w.pin_under*100)}% at this line.`:""}`
-    :`FanDuel's spread and total put ${esc(c.team)} at about ${fmt(w.implied)} points. Its six biggest scorers' lines add up to ${fmt(w.sum)}, ${Math.round(w.share*100)}% of that (usually ${Math.round(w.usual*100)}%). ${c.side==="over"?"Its scorers look cheap":"Its scorers look pricey"} next to the team.`};
-  // one card per prop; the methods it's in are listed on it
-  const live={};(FW.picks||[]).filter(c=>new Date(c.t).getTime()>now).forEach(c=>{const k=c.key+c.t;(live[k]=live[k]||Object.assign({},c,{methods:[]})).methods.push(c.method);if(c.why&&c.why.pin_under!=null)live[k].why=c.why});
-  const cards=Object.values(live).sort((a,b)=>(a.method===MO)-(b.method===MO)||new Date(a.t)-new Date(b.t));
-  const tag=m=>`<span class="pill ${m===MO?"p":"o"} sm">${m===MP?"+ Pinnacle":m===MO?"tracked only":m===MU?"counts":"counts"}</span>`;
-  const card=(c,i)=>`<div class="pick" style="cursor:default${c.methods.every(m=>m===MO)?";opacity:.75":""}"><span class="rank">${i+1}</span>
-    <div class="pk1"><span class="who">${esc(c.name)} <span class="lgtag">${c.lg}</span><small>${esc(c.team)} vs ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
-    <div class="why">${why(c)} FanDuel ${amFmt(c.price)}${c.other!=null?` (other side ${amFmt(c.other)})`:""}. ${c.methods.map(tag).join(" ")}</div></div>`;
-  const sk=FW.skipped||{},skN=Object.entries(sk.NFL||{}),skB=Object.entries(sk.NBA||{});
-  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const days={};[...R].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  el.innerHTML=`<section class="top"><div class="tophead"><h2>fwarnk <span>the math has to add up</span></h2><button class="linkbtn" data-goto="app">← Record</button></div>
-    <p class="topsub">FanDuel player props bet when a team's own player lines don't add up to what the team as a whole is expected to do. No player predictions, no line moves: only FanDuel's numbers (and Pinnacle's, for one check). Paper record at FanDuel's real lines and prices, separate from the app's Top 10. Not betting advice; how it works is at the bottom.</p>
-    <div class="log"><table class="books"><thead><tr><th></th><th class="num">NFL<br>unders</th><th class="num">+ Pinnacle<br>check</th><th class="num">NBA<br>points</th><th class="num">Counts</th></tr></thead><tbody>
-      ${row("Record",t=>`${t.w}-${t.l}`)}${row("Hit rate",t=>t.n?pct(t.w/t.n):"–")}${row("Units",t=>uTxt(t.u))}${row("Waiting",t=>t.pend)}
-    </tbody></table></div>
-    <p class="pteam" style="margin:6px 0 0">"Counts" is NFL unders + NBA points; the Pinnacle column is a subset of the NFL unders. NFL overs on "cheap" teams are tracked but don't count: ${TO.w}-${TO.l}, ${uTxt(TO.u)}${TO.pend?` (${TO.pend} locked)`:""}. 1 unit a pick at FanDuel's price, since ${esc(FW.started||"")}. Updated ${FW.built?new Date(FW.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}, every hour.</p></section>
-    <section class="top"><div class="tophead"><h2>Picks <span>${cards.length}</span></h2></div>
-    ${cards.length?`<div class="picks">${cards.map(card).join("")}</div>`:`<p class="pteam">No team's lines are far enough off right now. FanDuel posts NFL props a few days before each game and NBA props the day before.</p>`}
-    ${skN.length||skB.length?`<p class="pteam" style="margin:8px 0 0"><b>Skipped this hour:</b> ${[...skN,...skB].map(([t,r])=>`${esc(t)} (${esc(r)})`).join(", ")}.</p>`:""}</section>
-    ${R.length?`<section class="board"><div class="bhead"><h2>Pick log</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list],i)=>{const t=tally(list.filter(e=>e.method===MU||e.method===MN)),dk="fw|"+d,op=dayOpen(dk,i,list);
-        return`<tr class="dayrow dayk" data-dayk="${esc(dk)}" role="button" tabindex="0" aria-expanded="${op}"><td colspan="4"><span class="chev">${op?"▾":"▸"}</span> ${d}<b>${t.n?`${t.w}-${t.l} · ${uTxt(t.u)}`:list.some(e=>e.status==="pending")?`${list.filter(e=>e.status==="pending").length} locked`:""}</b></td></tr>`+(op?list.map(e=>`<tr${e.method===MO?' style="opacity:.7"':""}><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} FanDuel · ${esc(e.method||"")}</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div></section>`:""}
-    <section class="top labhow"><h3>How it works</h3>
-      <p><b>The idea.</b> Sportsbooks price every player's prop on its own, but in a real game the numbers are tied together: every receiving yard is also a passing yard, and a team's points come from its players. When a team's player lines don't add up to the team's own line, at least one of them is probably off. This page bets the side the team number supports, using FanDuel's numbers and how teams normally split their production rather than player predictions.</p>
-      <p><b>NFL unders.</b> Add up FanDuel's receiving-yards lines for a team's 4 biggest receivers and compare with its quarterback's passing-yards line. Usually those four add up to about 69% of their QB's line (the page keeps learning the usual number from the slates). When a team's four are 5 points or more above the usual, the receivers look pricey next to their QB: it bets the unders on the team's 2 biggest receiving lines.</p>
-      <p><b>+ Pinnacle check.</b> The same unders, but only when Pinnacle, the sharpest sportsbook, also leans under at FanDuel's line. When receivers look pricey, either their lines are too high or the QB's is too low; Pinnacle's price helps tell which. It's kept as its own record to see whether the check makes the picks better or just fewer.</p>
-      <p><b>NFL overs (tracked only).</b> When a team's receivers look cheap next to their QB, the overs would be the bet. In the first look those went 50%, and FanDuel's −114 needs 53.3% to break even, so they're recorded but not counted.</p>
-      <p><b>NBA points.</b> FanDuel's game total and spread give each team's expected points (a 220 total with the home team favored by 6 puts it at 113, the visitors at 107). The points lines of the team's six biggest scorers should add up to a steady share of that, learned from the slates (NBA picks start once 10 team-games have been seen). When a team's six are 6% or more below their usual share, it bets the overs on the two biggest lines; 6% or more above, the unders.</p>
-      <p><b>Skipped teams.</b> A team with a key player on the injury report (an NFL receiver averaging 30+ yards, or an NBA scorer averaging 15+ points, listed out, doubtful, questionable or day-to-day) is skipped, because his absence changes who's in the top group and fakes a signal. NBA teams on the second night of a back-to-back are skipped too, since rest decisions are unpredictable.</p>
-      <p><b>The rules.</b> At most 2 bets per team. Picks update every hour until kickoff, then lock. Each is graded from the box score at FanDuel's line and price: 1 unit a pick, a win pays at that price, a loss costs 1 unit, a push is returned, and a player who doesn't play is void.</p>
-      <p><b>What the first look showed.</b> On the two NFL weekends of saved lines (Oct 9–20, DraftKings), the top 2 receivers on "pricey" teams went under about 60–63% of the time, and those on "cheap" teams went over only 50%. That's a small sample checked after the fact, so treat this as an experiment, not a proven edge.</p>
-    </section>`;
 }
 // ---- Walters-style NFL lines (walters.py → walters.json): a fair spread for every game, picks at 4+ points off
 // DraftKings, locked at kickoff and graded at DraftKings' price. Reached from the Record tab's "poopy?" link ----
@@ -3350,8 +3298,6 @@ function gameBody(x){
   let html=`<div class="gbody">${gameResearchHtml(x)}`;
   if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
   const top=est?estTop5(x,bets):gameTop5(x,bets);
-  if(!est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
-  if(est)html+=`<div class="g5bar">${sideSwitch()}</div>`;
   if(!top.length&&OVERS()&&!est)html+=`<div class="gnone" style="padding:4px 2px">No over plays stand out in this game yet.</div>`;
   if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${top[0].est?"leans":OVERS()?"overs":"picks"}<span>${top[0].est?"no sportsbook lines yet: each line is his typical game, so compare with your book's line":top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
   if(!est)html+=stackHtml(x,pickKeys);
@@ -3582,6 +3528,41 @@ function socTrack(c){
     t:new Date(c.t).toISOString(),market:"soc_"+c.m,m:c.m,k:c.k,label:c.label,side:"over",line:c.k-.5,price:c.price,league:c.league,added:new Date().toISOString()});
   saveMy();updMyCount();toast(`Tracking ${c.name} ${c.label} at ${amFmt(c.price)}`);
 }
+// ---- Soccer team bets (soccer_team.py -> soccer_team.json): every bet settled by the score, at FanDuel or DraftKings,
+// checked against Pinnacle's sharp prices through a scoreline model. Its own paper record ----
+let ST=null,stLoading=false;
+function teamBetsHtml(inLg,lf){
+  if(!ST){if(!stLoading){stLoading=true;jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[]};stLoading=false;if(S.view==="soc")renderSoccer()})}
+    return`<p class="pteam">Loading team bets…</p>`}
+  const now=Date.now(),dec=a=>1+(a>0?a/100:100/-a),R=ST.record||[];
+  const tally=L=>{const d=L.filter(e=>e.status==="win"||e.status==="loss"),w=d.filter(e=>e.status==="win").length;
+    return{w,l:d.length-w,n:d.length,u:d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0),x:d.reduce((x,e)=>x+e.ev,0),pend:L.filter(e=>e.status==="pending").length,push:L.filter(e=>e.status==="push").length}};
+  const uTxt=u=>`<span style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"−"}${Math.abs(u).toFixed(1)}u</span>`;
+  const T={main:tally(R.filter(e=>e.src==="main")),model:tally(R.filter(e=>e.src==="model")),all:tally(R)};
+  const row=(lab,f)=>`<tr><td>${lab}</td><td class="num mono">${f(T.main)}</td><td class="num mono">${f(T.model)}</td><td class="num mono">${f(T.all)}</td></tr>`;
+  const live=(ST.picks||[]).filter(c=>new Date(c.t).getTime()>now&&inLg(c)).sort((a,b)=>b.ev-a.ev);
+  const why=c=>`Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}`;
+  const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
+    <div class="pk1"><span class="who">${esc(c.home)} vs ${esc(c.away)}<small>${esc(c.league)} · ${socWhen(c.t)}</small></span><span class="bet over">${esc(c.bet)}</span></div>
+    <div class="why">${why(c)}</div></div>`;
+  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
+  const days={};[...R].filter(e=>e.status!=="pending"||new Date(e.t).getTime()<=now).sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
+  const games=(ST.games||[]).length;
+  return`<p class="topsub">Every bet that's settled by the score (result, draw no bet, double chance, spreads, totals, team totals, both teams to score, the combos, exact goals, margins, and the same for the first half) at FanDuel and DraftKings, checked against Pinnacle, the sharpest book. Listed only when the price beats Pinnacle's fair price. ${games} matches checked, updated ${ST.built?new Date(ST.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}.</p>
+    <div class="log"><table class="books"><thead><tr><th></th><th class="num">Pinnacle<br>prices it</th><th class="num">Model<br>only</th><th class="num">All</th></tr></thead><tbody>
+      ${row("Record",t=>`${t.w}-${t.l}${t.push?`-${t.push}`:""}`)}${row("Units",t=>uTxt(t.u))}${row("Expected",t=>t.n?uTxt(t.x):"–")}${row("Locked, waiting",t=>t.pend)}
+    </tbody></table></div>
+    <p class="pteam" style="margin:6px 0 10px">1 unit a bet at the saved price, since ${esc(ST.started||"")}. "Expected" is what the edges should have earned; over a few dozen bets luck swings units far more than that.</p>
+    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">No bet beats Pinnacle's fair price${lf!=="all"?" in this league":""} right now. That's the usual case: FanDuel and DraftKings price most of these 3–7% worse than fair.</p>`}
+    ${Object.keys(days).length?`<div class="bwrap" style="margin-top:12px"><table class="rlog"><thead><tr><th>Bet</th><th class="num">Price</th><th class="num">Score</th><th class="num">Status</th></tr></thead><tbody>${
+      Object.entries(days).map(([d,list],i)=>{const t=tally(list),dk="st|"+d,op=dayOpen(dk,i,list);
+        return`<tr class="dayrow dayk" data-dayk="${esc(dk)}" role="button" tabindex="0" aria-expanded="${op}"><td colspan="4"><span class="chev">${op?"▾":"▸"}</span> ${d}<b>${t.n?`${t.w}-${t.l} · ${uTxt(t.u)}`:t.pend?`${t.pend} locked`:""}</b></td></tr>`+(op?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.bet)}</div><div class="pteam">${esc(e.home)} vs ${esc(e.away)} · ${esc(e.book)}${e.period===1?" · score at half-time":""}</div></td><td class="num mono">${amFmt(e.price)}</td><td class="num mono" style="font-weight:600">${e.result||"–"}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div>`:""}
+    <div class="labhow" style="margin-top:12px"><h3>How it works</h3>
+      <p><b>Why team bets.</b> Soccer player props carry a 25–45% cut, too much to beat. Team bets carry far less, and Pinnacle, which takes big bets from sharp bettors, prices them closely. When FanDuel or DraftKings pays more than Pinnacle's fair price, the bet is worth more than it costs, on average.</p>
+      <p><b>Fair prices.</b> For each match the app reads Pinnacle's moneyline, every handicap and total line and both team totals (full match and first half), takes out Pinnacle's margin, and fits a score model (each team's expected goals plus a small correction for low scores) that reproduces those prices, usually within a fraction of a percent. That gives a fair chance for every score, and so for every bet settled by the score.</p>
+      <p><b>The rules.</b> A bet is listed when it pays at least 2% more than fair on markets Pinnacle prices itself (result, double chance, draw no bet, spreads, totals, team totals), or 5% on ones only the model prices (both teams to score, combos, exact goals, margins; none longer than +300 there, since long shots are where a model is least sure). At most 2 per match; when both books offer the same bet, the better price. Picks update every hour and lock at kickoff. Graded from ESPN's final (or half-time) score: a win pays at the saved price, a loss costs 1 unit, a refund (draw no bet, whole-number lines) is a push. League matches only; corners, cards, shots and first-scorer bets aren't checked, because there's no sharp price for them.</p>
+      <p><b>Be realistic.</b> The edges are small (2–6%), so even if they're real it takes a few hundred bets for the record to show it; a 20-bet stretch can easily be down. Not betting advice.</p></div>`;
+}
 function renderSoccer(){
   const el=document.getElementById("view-soc");
   if(!SOC){el.innerHTML=`<section class="top"><p class="pteam">Loading soccer…</p></section>`;loadSoccer();return}
@@ -3589,19 +3570,19 @@ function renderSoccer(){
   if(!ms.length){el.innerHTML=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2></div><p class="pteam">No priced matches in the next three days yet. DraftKings posts player props a day or two before kickoff.</p></section>`;return}
   const lgs=[...new Map(ms.map(m=>[m.lg,m.league])).entries()];
   const lf=lgs.some(([k])=>k===S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
-  const list=["top","value"].includes(S.socList)?S.socList:"top";
+  const list=["top","value","team"].includes(S.socList)?S.socList:"top";
   const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
   const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
   const sub={top:`Most likely to happen: the ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest goals, shots and shots on target across every match, for players who start (or almost always do), at most 2 per match. These are likely outcomes, not value bets`,
-    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500"}[list];
-  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Most likely"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
+    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500",team:""}[list];
+  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>${list==="team"?"team bets":"props"}</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Most likely"],["value","Value bets"],["team","Team bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
     <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
     ${S.socQ?socSearchHtml(ms):""}
-    <p class="slate" style="margin:0"><b>Heads up:</b> soccer player props at DraftKings and FanDuel are "yes only" bets with a big built-in cut (about 25\u201345%), so even likely outcomes usually cost money at these prices. Use this tab to see what's likely to happen (handy for parlay legs and following games); each pick shows both books' prices and the record grades it at the better one.</p>
+    ${list==="team"?teamBetsHtml(inLg,lf)+`</section>`:`<p class="slate" style="margin:0"><b>Heads up:</b> soccer player props at DraftKings and FanDuel are "yes only" bets with a big built-in cut (about 25\u201345%), so even likely outcomes usually cost money at these prices. Use this tab to see what's likely to happen (handy for parlay legs and following games); each pick shows both books' prices and the record grades it at the better one.</p>
     <p class="topsub">${sub}. Prices: DraftKings via ESPN and FanDuel, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
     ${pool.length?`<div class="tdpicks">${pool.map((c,i)=>socCard(c,i,mtOf(c))).join("")}</div>`:`<p class="pteam">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`}
-    <p class="topnote" style="margin:0">DraftKings' soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app's chances take that margin out, and most Top picks are likely to hit but still cost money on average at DraftKings' price. Each pick shows the fair price; shop for that price or better. Expected profit is an average over many bets, not a promise. If he doesn't play, DraftKings voids the bet.</p></section>`;
+    <p class="topnote" style="margin:0">DraftKings' soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app's chances take that margin out, and most Top picks are likely to hit but still cost money on average at DraftKings' price. Each pick shows the fair price; shop for that price or better. Expected profit is an average over many bets, not a promise. If he doesn't play, DraftKings voids the bet.</p></section>`}`;
   // matches
   const days={};ms.filter(inLg).forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
   html+=`<section class="top"><div class="tophead"><h2>Matches</h2></div>${Object.entries(days).map(([d,list])=>`<h3 class="tdh3">${d}</h3>`+list.map(m=>{
@@ -3959,7 +3940,6 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
-  document.getElementById("view-fw").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go)setView(go.dataset.goto)});
   document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     const lm=e.target.closest("[data-labm]");if(lm){S.labM=lm.dataset.labm;renderLab();return}
     const ld=e.target.closest("[data-labday]");if(ld){S.labOpen=S.labOpen||{};S.labOpen[ld.dataset.labday]=ld.getAttribute("aria-expanded")!=="true";renderLab()}});
@@ -4015,7 +3995,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   // a warning when a data step failed in the latest run, or the daily research hasn't run for a day and a half
   Promise.all([jget("health_update.json"),jget("health_lines.json")]).then(([hu,hl])=>{
-    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history",lab_market:"lab picks",fwarnk:"fwarnk picks"};
+    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history",lab_market:"lab picks",soccer_team:"soccer team bets"};
     const bad=[];for(const h of [hu,hl])if(h&&h.steps&&Date.now()-new Date(h.at).getTime()<12*3600e3)for(const[k,v]of Object.entries(h.steps))if(v==="failure"&&KEY[k]&&!bad.includes(KEY[k]))bad.push(KEY[k]);
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);
