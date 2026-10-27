@@ -66,6 +66,14 @@ backup QB starting, and rest / short weeks did not improve them and carry no wei
 slightly and is used; back-to-backs, blowout risk and usage-rate trends did not. tune.py re-weights the usage
 factor from real graded results like every other factor.
 
+Next Gen Stats (`backtest_ngs.py`, Oct 27): nflverse's weekly NGS (receiver separation, cushion, air-yard share,
+YAC over expected; rush yards over expected, 8+ in the box, time to line; QB time to throw, CPOE, aggressiveness),
+each player's last 4 games and what each defense allowed. On the 2023-26 backtest rows a few looked useful (a hot
+efficiency streak tends to fall back), but against the real DraftKings lines graded Oct 8-26 they didn't hold:
+receiver air-yard share and YAC over expected hit 52-54% in the backtest's direction, rushing and time-to-throw went
+the wrong way. Books already price this in, so NGS carries no weight. Worth re-testing once a full season of real
+lines is graded.
+
 ## Walters-style NFL lines (hidden page)
 
 `walters.py` (hourly, `lines.yml` → `walters.json`) makes a fair point spread for every NFL game in the structure

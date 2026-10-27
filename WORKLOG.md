@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-27
+- **cmags0511**: Tested Next Gen Stats as a prop signal (`backtest_ngs.py`, README "Usage signals"): not added. Small
+  gains on the synthetic-line backtest didn't hold against real graded DraftKings lines (52-54% at best, some signals
+  reversed). No app or model change.
+
 ## 2026-10-26
 - **rmolnar10**: Walters records audit + star filter (PR). Replayed all 229 hourly walters.json versions (Oct 17–26):
   every kickoff lock matches the last pre-kickoff line/price, every grade matches the final score (checked against
