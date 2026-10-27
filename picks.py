@@ -287,6 +287,20 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
                     "backup": backup, "why": ". ".join(why) + ".", "research": note.get("note") if note.get("side") else None,
                     "conf": note.get("conf"), "radj": (r_adj * (1 if r_fav == "over" else -1)) if r_fav else (0 if note.get("side") else None), "buzz": note.get("buzz")})
     res.sort(key=lambda c: -c["score"])
+    # Oct 27: a TD is only a "bet" when the best price (Pinnacle, or FanDuel from lab_market.py's fd_board.json) pays at
+    # or near fair: 94% of the app's chance (TDs ran 50% predicted / 48% scored) x the payout >= 0.98. The lists still
+    # show the likeliest scorers; record.py records only the bets
+    try:
+        fdtd = (json.load(open("fd_board.json")).get("td") or {})
+    except Exception:
+        fdtd = {}
+    for c in res:
+        fd = fdtd.get(c["key"])
+        c["fd"] = fd
+        ams = [a for a in (c.get("price"), fd) if isinstance(a, (int, float)) and a]
+        c["bp"] = max(ams, key=lambda a: 1 + (a / 100 if a > 0 else 100 / -a)) if ams else None  # the better price
+        c["td_edge"] = round(.94 * c["prob"] * (1 + (c["bp"] / 100 if c["bp"] > 0 else 100 / -c["bp"])) - 1, 3) if ams else None
+        c["td_bet"] = c["td_edge"] is not None and c["td_edge"] >= -.02
 
     def pick10(pool):
         top, per_team = [], {}
@@ -312,7 +326,7 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
     long10 = [dict(c, list="long") for c in pick10(lng)]
     keep = ("key", "lg", "id", "name", "team", "pos", "opp", "home", "t", "market", "label", "side", "line", "prob", "stat",
             "kalshi", "l10", "season_td", "season_g", "touches", "implied", "status", "research", "radj", "conf", "buzz",
-            "price", "book", "ev")
+            "price", "book", "ev", "fd", "bp", "td_edge", "td_bet")
     return top + long10, [{k: c[k] for k in keep} for c in res[:120] if c["radj"] is None or c["radj"] > -1]
 
 
@@ -325,6 +339,8 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
 # No real price: C at most. Checked out of sample (fit on Oct 7-23, tested Oct 24-26): picks it graded worst
 # returned -9.7%, the rest about -3% to 0%, so it ranks picks, but no group has proven profitable yet.
 GRADES = ((.05, "A", 2.0), (.03, "B", 1.0), (.01, "C", 0.5))
+MIN_PRICE = -130  # Top lists skip anything shorter (Oct 27)
+NBA_TOP_FROM = dt.datetime(2026, 11, 15, tzinfo=dt.timezone.utc)  # NBA Top 10 paused until then (Oct 27)
 GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
 
 
@@ -907,7 +923,15 @@ def main():
                     break
             return chosen
 
-        out["picks"] = slate([c for c in cands if c["score"] > .12], 14)  # 10 shown + spares for ruled-out players
+        # Oct 27 owner's changes: the Top lists skip picks graded F (the price says they cost money) and picks priced
+        # worse than -130 (NFL went 18-12 after Oct 22 but lost units on short prices), and the NBA Top 10 is paused
+        # until players have about 10 games this season (46%, -12.7u through Oct 27). Every prop stays on the board.
+        full = cands
+        cands = [c for c in cands if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)
+                 and not (c["lg"] == "NBA" and now < NBA_TOP_FROM)]
+        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, nothing shorter than {MIN_PRICE}, NBA paused)")
+        top_pool = [c for c in cands if c["score"] > .12]
+        out["picks"] = slate(top_pool, 14) if top_pool else []  # 10 shown + spares for ruled-out players
         out["byMarket"] = {}
         for k in sorted({(c["lg"], c["market"]) for c in cands}):
             pool = [c for c in cands if (c["lg"], c["market"]) == k]
@@ -929,7 +953,8 @@ def main():
                 if len(g) < 5 and all(x["id"] != c["id"] for x in g):
                     g.append(c)
             return [c for g in games.values() for c in g]
-        out["games"] = per_game(cands)
+        # the game views keep NBA (browsing, not the recorded Top 10) but still skip F grades and short prices
+        out["games"] = per_game([c for c in full if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)])
         out["gamesOver"] = per_game(ov)
     # anytime-TD picks: the research's TD calls (no sportsbook line in the feed), with Kalshi's price and his history
     tdp = []
