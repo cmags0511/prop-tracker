@@ -321,7 +321,9 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
 # calibrated) plus what the app's picks have actually added on top of it, learned from every graded prop in
 # calib.json each run: unders have beaten the book's price, overs haven't, and the app's most confident picks did
 # worse, not better. Edge = that chance x the payout - 1. Grade and units (1 unit = 1% of a bankroll, roughly a
-# quarter of the Kelly stake): A 5%+ edge 2u, B 3-5% 1u, C 1-3% 0.5u, D under 1% = pass. No real price: C at most.
+# quarter of the Kelly stake): A 5%+ edge 2u, B 3-5% 1u, C 1-3% 0.5u, D -2% to 1% = pass, F below -2% = avoid.
+# No real price: C at most. Checked out of sample (fit on Oct 7-23, tested Oct 24-26): picks it graded worst
+# returned -9.7%, the rest about -3% to 0%, so it ranks picks, but no group has proven profitable yet.
 GRADES = ((.05, "A", 2.0), (.03, "B", 1.0), (.01, "C", 0.5))
 GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
 
@@ -335,65 +337,85 @@ def _lg(p):
     return math.log(p / (1 - p))
 
 
+def grade_feats(side, app, bp, real=True):
+    """what the graded props say matters on top of the book's price (Oct 27, 2,034 props, checked on each half):
+    the side (overs lost in both halves), a modest gap over the book on an under (0-6 points: the app's best spot), and
+    a big gap over the book on either side (6+ points: lost in both halves; the book usually knows something)"""
+    g = app - bp if real else 0.0
+    u = side == "under"
+    return (1.0 if u else 0.0, 0.0 if u else 1.0, 1.0 if (real and u and 0 <= g < .06) else 0.0, 1.0 if (real and g >= .06) else 0.0)
+
+
+GRADE_K = 4
+
+
 def grade_model():
-    """(b_under, b_over, b_conf, n): log-odds adjustments to the book's no-vig chance, fit on graded props"""
+    """(b_under, b_over, b_small_gap_under, b_big_gap, n): log-odds adjustments to the book's no-vig chance, fit on graded props"""
     try:
         rows = json.load(open("calib.json"))["props"]
     except Exception:
-        return (0.0, 0.0, 0.0, 0)
+        return (0.0,) * GRADE_K + (0,)
     X, Y, OFF = [], [], []
     for e in rows:
         if e.get("status") not in ("win", "loss") or not e.get("po") or not e.get("pu") or e.get("pe") or not e.get("prob"):
             continue
         bo = _imp(e["po"]) / (_imp(e["po"]) + _imp(e["pu"]))
         bp = bo if e["side"] == "over" else 1 - bo
-        X.append((1.0 if e["side"] == "under" else 0.0, 1.0 if e["side"] == "over" else 0.0, e["prob"] - .5))
+        X.append(grade_feats(e["side"], e["prob"], bp))
         Y.append(1.0 if e["status"] == "win" else 0.0)
         OFF.append(_lg(bp))
     if len(X) < 200:
-        return (0.0, 0.0, 0.0, len(X))
-    b = [0.0, 0.0, 0.0]
+        return (0.0,) * GRADE_K + (len(X),)
+    K = GRADE_K
+    b = [0.0] * K
     for _ in range(30):  # Newton steps, ridge penalty GRADE_LAM on every coefficient
         g = [-GRADE_LAM * v for v in b]
-        H = [[GRADE_LAM if i == j else 0.0 for j in range(3)] for i in range(3)]
+        H = [[GRADE_LAM if i == j else 0.0 for j in range(K)] for i in range(K)]
         for x, y, o in zip(X, Y, OFF):
             p = 1 / (1 + math.exp(-(o + sum(bi * xi for bi, xi in zip(b, x)))))
             w = p * (1 - p)
-            for i in range(3):
+            for i in range(K):
                 g[i] += (y - p) * x[i]
-                for j in range(3):
+                for j in range(K):
                     H[i][j] += w * x[i] * x[j]
-        # solve H d = g (3x3, Gaussian elimination)
-        A = [H[i][:] + [g[i]] for i in range(3)]
-        for i in range(3):
+        # solve H d = g (Gaussian elimination)
+        A = [H[i][:] + [g[i]] for i in range(K)]
+        for i in range(K):
             piv = A[i][i] or 1e-9
-            for j in range(i + 1, 3):
+            for j in range(i + 1, K):
                 f = A[j][i] / piv
                 A[j] = [a - f * c for a, c in zip(A[j], A[i])]
-        d = [0.0] * 3
-        for i in (2, 1, 0):
-            d[i] = (A[i][3] - sum(A[i][j] * d[j] for j in range(i + 1, 3))) / (A[i][i] or 1e-9)
+        d = [0.0] * K
+        for i in reversed(range(K)):
+            d[i] = (A[i][K] - sum(A[i][j] * d[j] for j in range(i + 1, K))) / (A[i][i] or 1e-9)
         b = [bi + di for bi, di in zip(b, d)]
         if max(abs(v) for v in d) < 1e-6:
             break
-    return (round(b[0], 4), round(b[1], 4), round(b[2], 4), len(X))
+    return tuple(round(v, 4) for v in b) + (len(X),)
 
 
 def grade_picks(cands, GM):
     """adds p_cal, edge, grade, units, parlay (and pair) to each candidate"""
-    bu, bo_, bc, _ = GM
+    coef = GM[:GRADE_K]
     for c in cands:
         app = c.get("prob")
         if app is None:
             continue
         real = c.get("price") is not None and not c.get("price_est") and c.get("book_p") is not None
-        bp = c["book_p"] if real else .5
-        adj = (bu if c["side"] == "under" else bo_) + bc * (app - .5)
+        if real:
+            bp, price = c["book_p"], c["price"]
+        elif c.get("price") is not None and c.get("price_other") is not None:
+            # prices worked out for this line from a nearby one (fetch_prices.py shift): usable, but C at most
+            bp = _imp(c["price"]) / (_imp(c["price"]) + _imp(c["price_other"]))
+            price = c["price"]
+        else:
+            c.update(p_cal=None, edge=None, grade=None, units=None, parlay=False)  # no price yet: can't be graded
+            continue
+        adj = sum(b_ * x for b_, x in zip(coef, grade_feats(c["side"], app, bp, True)))
         p = 1 / (1 + math.exp(-(_lg(bp) + adj)))
-        price = c["price"] if real else -115
         d = 1 + (price / 100 if price > 0 else 100 / -price)
         edge = p * d - 1
-        g, u = "D", 0.0
+        g, u = ("D" if edge >= -.02 else "F"), 0.0  # D: about break-even, pass; F: clearly costs money, avoid
         for lo, gg, uu in GRADES:
             if edge >= lo:
                 g, u = gg, uu
@@ -568,6 +590,10 @@ def main():
                     # a price fetch_prices.py worked out for this line rather than one the book quoted at it)
                     dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
                               books=od.get("books"), book=od.get("book"), est_over=od.get("est_over"), est_under=od.get("est_under"))
+                elif dk.get("po") is not None and dk.get("pu") is not None:
+                    # no Pinnacle / FanDuel quote: DraftKings' own prices at this line, from ESPN's feed (fetch_lines.py).
+                    # Without these most NBA picks had no price at all, so they couldn't be graded (Oct 27)
+                    dk = dict(dk, price_over=dk["po"], price_under=dk["pu"], book="DraftKings", est_over=False, est_under=False)
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
@@ -850,11 +876,11 @@ def main():
                "props": slate}, open("slate.json", "w"), indent=0)
     GM = grade_model()
     grade_picks(cands, GM)
-    print(f"grades: book chance adjusted by under {GM[0]:+.3f}, over {GM[1]:+.3f}, app confidence {GM[2]:+.3f} "
-          f"(log-odds, from {GM[3]} graded props); "
-          + ", ".join(f"{g} {sum(1 for c in cands if c.get('grade') == g)}" for g in "ABCD"))
+    print(f"grades: book chance adjusted by under {GM[0]:+.3f}, over {GM[1]:+.3f}, modest-gap under {GM[2]:+.3f}, "
+          f"big gap {GM[3]:+.3f} (log-odds, from {GM[4]} graded props); "
+          + ", ".join(f"{g} {sum(1 for c in cands if c.get('grade') == g)}" for g in "ABCDF"))
     out = {"built": now.isoformat(timespec="minutes"), "picks": []}
-    out["grading"] = {"under": GM[0], "over": GM[1], "conf": GM[2], "n": GM[3]}
+    out["grading"] = {"under": GM[0], "over": GM[1], "gap_small_under": GM[2], "gap_big": GM[3], "n": GM[4]}
     if cands:
         first = min(dt.datetime.fromisoformat(c["t"]) for c in cands)
 
