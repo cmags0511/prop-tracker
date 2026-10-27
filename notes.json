@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27T11:51:26Z",
+ "updated": "2026-10-27T20:36:09Z",
  "summary": "Injuries drive tonight's NBA slate: Detroit is without Jalen Duren for at least two weeks, Sacramento is down to Sabonis and Achiuwa as healthy bigs, and Boston plays the second night of a back-to-back as a 12.5-point favorite. NFL Week 9 research waits for a later run.",
  "notes": {
   "NBA|4432194|pr": {
@@ -645,6 +645,177 @@
     "https://www.rotowire.com/betting/nfl/game.php?book=mgm&id=2978844",
     "https://www.actionnetwork.com/nfl-game/buccaneers-panthers-score-odds-october-25-2026/290933"
    ]
+  },
+  "NBA|3078576|ra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "White is probable with a sore hip and expected to play; no role change for Boston.",
+   "sources": [
+    "https://athlonsports.com/nba/boston-celtics/final-injury-report-for-nets-celtics-will-derrick-white-play"
+   ],
+   "detail": {
+    "availability": "Probable with right hip synovitis and expected to play; Devin Carter (illness) is out again."
+   }
+  },
+  "NBA|3078576|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "White is probable with a sore hip and expected to play; a lingering hip issue slightly favors a quieter scoring night but no minutes limit is reported.",
+   "sources": [
+    "https://athlonsports.com/nba/boston-celtics/final-injury-report-for-nets-celtics-will-derrick-white-play"
+   ],
+   "detail": {
+    "availability": "Probable with right hip synovitis and expected to play; Devin Carter (illness) is out again."
+   }
+  },
+  "NBA|4251|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "George is not on Boston's injury report; Brooklyn lists no injuries, so the matchup is as modeled.",
+   "sources": [
+    "https://athlonsports.com/nba/boston-celtics/final-injury-report-for-nets-celtics-will-derrick-white-play"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|4432194|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sharpe is healthy and starting; Brooklyn's injury report is clean, so no added usage either way.",
+   "sources": [
+    "https://athlonsports.com/nba/boston-celtics/final-injury-report-for-nets-celtics-will-derrick-white-play"
+   ],
+   "detail": {
+    "availability": "Healthy; Nets list no injuries."
+   }
+  },
+  "NBA|3062679|pr": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hart is healthy; Detroit is without Jalen Duren (hamstring) and may lack Ausar Thompson, which thins the Pistons' rebounding.",
+   "sources": [
+    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters",
+    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html"
+   ],
+   "detail": {
+    "availability": "Healthy; Knicks list only Jose Alvarado (ankle) out."
+   }
+  },
+  "NBA|3934672|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Brunson is healthy; backup guard Jose Alvarado is out with an ankle sprain, which could add a few on-ball minutes for Brunson.",
+   "sources": [
+    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|3147657|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bridges is healthy; Knicks' only absence is Jose Alvarado (ankle), so his role is unchanged.",
+   "sources": [
+    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|4432166|ast": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cunningham is healthy, but his main lob target Jalen Duren is out with a hamstring strain and Ausar Thompson and Isaiah Joe are questionable.",
+   "sources": [
+    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html",
+    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|4433136|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kessler is available while wearing a splint on an injured finger; he has not missed a game with it.",
+   "sources": [
+    "https://heavy.com/sports/nba/los-angeles-lakers/injury-report-vs-blazers-october-27/"
+   ],
+   "detail": {
+    "availability": "Available; listed only for a finger splint."
+   }
+  },
+  "NBA|4066457|pa": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Reaves is not on the Lakers' injury report; only Cameron Carr and Adou Thiero are out.",
+   "sources": [
+    "https://heavy.com/sports/nba/los-angeles-lakers/injury-report-vs-blazers-october-27/"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|3064440|pra": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Portland lists no injuries for the Lakers game, so LaVine's role is as modeled.",
+   "sources": [
+    "https://heavy.com/sports/nba/los-angeles-lakers/injury-report-vs-blazers-october-27/"
+   ],
+   "detail": {
+    "availability": "Healthy; Blazers list no injuries."
+   }
+  },
+  "NBA|4395630|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Vassell is not on the Spurs' injury report (only Quaintance and Tobias Harris are out).",
+   "sources": [
+    "https://am1300thezone.iheart.com/content/2026-10-27-kings-vs-spurs-injury-report-oct-27/"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
+  },
+  "NBA|5037871|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Harper is not on the Spurs' injury report; Tobias Harris (calf) is out, which keeps Harper's minutes steady.",
+   "sources": [
+    "https://am1300thezone.iheart.com/content/2026-10-27-kings-vs-spurs-injury-report-oct-27/"
+   ],
+   "detail": {
+    "availability": "Healthy; not listed."
+   }
   }
  },
  "games": {
