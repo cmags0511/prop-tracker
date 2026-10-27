@@ -141,6 +141,9 @@ def allowed_tables(players, cols, lg):
 
 BOOK_GAP = .05   # model more than this above the sportsbook's no-vig chance: halve the score (keeps it out of the Top lists)
                 # (was .12; Oct 17-21 Top 10 picks 5-10 points above the book hit 35%, 10+ points 38%, within 5 points 56%)
+KALSHI_AGAINST = .49  # Kalshi traders give the pick's side less than this: halve the score (keeps it out of the Top lists)
+                # (Oct 8-27 graded props: when Kalshi gave the app's side under 49%, it hit 313 of 716 = 44%, vs the
+                # 54% the app expected; NBA 178/434, NFL 135/282. The hit rate follows Kalshi's number, not the app's.)
 LINE_MOVE = .12  # DraftKings line moved this share of the opening line away from the pick: score x .6
 MKT_W = .8  # log-odds weight on the Kalshi market's probability of the over at DraftKings' line (capped ±.6)
 MONTHS = {m: i + 1 for i, m in enumerate(["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
@@ -628,6 +631,12 @@ def main():
                     book_gap = (prob if over else 1 - prob) - book_p
                     if book_gap > BOOK_GAP:
                         score *= .5
+                # Kalshi's traders favor the other side at this line: the stats outvoted the market, and the market has
+                # usually been right (see KALSHI_AGAINST)
+                kal_side = (p_mkt if over else 1 - p_mkt) if p_mkt is not None else None
+                kal_against = kal_side is not None and kal_side < KALSHI_AGAINST
+                if kal_against:
+                    score *= .5
                 # DraftKings has moved the line hard away from this side since it opened (Skattebo: 15.5 -> 11.5 carries
                 # before he was benched): news the stats can't see yet. Research can't override this either.
                 d0 = e.get(mid) or {}
@@ -714,6 +723,9 @@ def main():
                     why += (f" Warning: the sportsbook's price gives the {'over' if over else 'under'} only about {book_p * 100:.0f}%,"
                             f" well below this model's {(prob if over else 1 - prob) * 100:.0f}%. Big disagreements like this have"
                             f" usually gone the book's way, so this pick is weighted down.")
+                if kal_against:
+                    why += (f" Warning: Kalshi traders lean the other way ({kal_side * 100:.0f}% for the {'over' if over else 'under'})."
+                            f" When they've disagreed with this model, they've usually been right, so this pick is weighted down.")
                 if moved_against:
                     why += (f" Warning: DraftKings moved this line {'down' if mv < 0 else 'up'} {fmt(abs(mv))} from {fmt(d0['open'])},"
                             f" against this pick; a move that size usually means role or injury news.")

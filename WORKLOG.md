@@ -3,6 +3,14 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-27
+- **cmags0511** (weekly results review, PR): Kalshi disagreement check in `picks.py` (`KALSHI_AGAINST = .49`): when
+  Kalshi's traders give the pick's side under 49% at DraftKings' line, the score is halved and the card says so, like
+  the sportsbook check (BOOK_GAP). Graded props Oct 8-27: those picks hit 313/716 (44%) vs 54% expected (NBA 41%,
+  NFL 48%). Replay of the Top 10 from 401 hourly slate.json versions: -17.2u -> -12.3u (NBA -18.2u -> -13.4u, NFL and
+  college unchanged). No front-end change. Also: the Lab market-anchored page (PR #2's idea, live since Oct 20) is
+  29-44, -13.1u, so PR #2 isn't supported by results.
+
 ## 2026-10-26
 - **rmolnar10**: Walters records audit + star filter (PR). Replayed all 229 hourly walters.json versions (Oct 17–26):
   every kickoff lock matches the last pre-kickoff line/price, every grade matches the final score (checked against
