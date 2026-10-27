@@ -16,6 +16,16 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   Tuesday show their date ("Sun, Nov 1"), so next week's games don't read as this week's; a 3-star game already
   under way shows a Live tag. sw.js pt-v107.
 
+## 2026-10-26
+- **cmags0511** (PR): Owner's cleanup after reviewing results. (1) Research leans no longer move picks
+  (`RESEARCH_IN_RANKING = False` in picks.py; leans went 74-96): no research term in the chance, no "argued against"
+  drop, no unresearched penalty, no research override of the big-gap penalty. Research news still counts (injury /
+  ruled out, questionable ×.85, fact-checked line, backup role). Notes still show on cards and research leans are
+  still recorded. TD board unchanged (its chances are well calibrated). (2) Best bet off (`BEST_BET_ON = False`;
+  3-5). (3) Overs-only switch removed everywhere (`OVERS()` always false, `sideSwitch()` empty; picksOver still
+  written but unused). (4) fwarnk removed entirely: fwarnk.py, fwarnk.json, both workflow steps, the page and link.
+  sw.js pt-v109.
+
 ## 2026-10-25
 - **cmags0511**: Props tab: the separate "Touchdowns" section is gone; the NFL TD lists (Research / Likeliest / Plus
   money, the plus-money pricing box, the live TD tracker) now show under Top picks when the prop type is **Anytime TD**

@@ -92,7 +92,7 @@ def fd_board(lg, now, games=None):
             for m in (d.get("attachments") or {}).get("markets", {}).values():
                 name, _, what = m.get("marketName", "").partition(" - ")
                 rs = m.get("runners") or []
-                # the game's own spread and total come on every tab: kept for fwarnk.py (team totals)
+                # the game's own spread and total come on every tab (kept in fd_board.json)
                 if m.get("marketName") in ("Spread", "Total Points") and len(rs) == 2:
                     gk = (start.isoformat(), away, home)
                     gm = games.setdefault(gk, {})
@@ -162,7 +162,7 @@ def price_props(now):
                 p, _ = who(name, start)
                 if p:
                     pin[(p["id"], mid)] = (line, o, u)
-                    BOARD["pin"][f"{lg}|{p['id']}|{mid}"] = [line, o, u]  # for fwarnk.py's Pinnacle check
+                    BOARD["pin"][f"{lg}|{p['id']}|{mid}"] = [line, o, u]
         except Exception as e:
             print(f"{lg} Pinnacle failed: {e}")
             pin = {}

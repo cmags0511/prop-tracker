@@ -569,11 +569,14 @@ def main():
                     pm = min(.97, max(.03, p_mkt))
                     parts["market"] = max(-.6, min(.6, MKT_W * math.log(pm / (1 - pm)))) * FXM.get("market", 1)
                     lin += parts["market"]
-                # the researcher's confidence in the evidence scales how much the research moves the pick
+                # the research's over/under leans no longer move the chance (Oct 26: leans went 74-96, 44%); its news
+                # (ruled out, role changes, questionable) still counts below and through the injury report
+                RESEARCH_IN_RANKING = False
                 conf = CONF.get(note.get("conf"), 1.0) * FXM.get("research", 1)
                 r_over = note["push"] * conf if note.get("borrowed") else research_push(note, conf)
-                lin += r_over
-                parts["research"] = r_over
+                if RESEARCH_IN_RANKING:
+                    lin += r_over
+                    parts["research"] = r_over
                 # the model's own parts with the learned factor weights taken back out, so tune.py can re-learn them
                 fraw = {f: round((v / FXM.get(f, 1)) if FXM.get(f) else v, 3) for f, v in parts.items() if abs(v) >= .001}
                 raw_lin = lin
@@ -603,14 +606,11 @@ def main():
                         score *= .7  # the price asks for more than the numbers give him
                 exact = note if note and not note.get("borrowed") else {}
                 r_fav, r_adj, r_unc = research_dir(exact) if exact else (None, 0, False)
-                confirmed = r_fav == side and r_adj >= 1
                 if exact and r_unc:
                     score *= .85  # the research found the outlook uncertain (questionable, role in flux)
-                if exact and exact.get("side") in ("over", "under") and exact["side"] != side and not r_fav:
-                    score *= .6   # the research named the other side, without a firm call
                 # a line far from his numbers usually means the book knows something: keep it out of the Top lists
-                # unless the research checked it and still backs this side
-                if gap > .25 and not confirmed:
+                # (the research no longer vouches for these: its leans lost)
+                if gap > .25:
                     score *= .6
                 # the fact-checker found a different line in current odds pages: this one is probably out of date
                 line_off = exact.get("line_now") is not None and abs(float(exact["line_now"]) - line) >= max(1, .05 * line)
@@ -635,9 +635,6 @@ def main():
                 moved_against = (mv < 0 if over else mv > 0) and abs(mv) >= max(1.0, LINE_MOVE * d0["open"]) if mv else False
                 if moved_against:
                     score *= .6
-                # rank props the research hasn't looked at a little lower than ones it has (when research is current)
-                if notes and not exact and (game["t"] - now) < dt.timedelta(hours=60):
-                    score *= .85
                 slate.append({"key": f"{lg}|{p['id']}|{mid}", "lg": lg, "id": p["id"], "p_over": round(prob, 3),
                               "x": round(raw_lin, 3), "f": fraw,
                               # the sportsbook's prices at this line (fetch_prices.py), kept with the graded props so the
@@ -653,10 +650,7 @@ def main():
                               "wind": wind, "rain": (wx or {}).get("rain"), "indoor": (wx or {}).get("indoor"),
                               "market_over": round(p_mkt, 3) if p_mkt is not None else None,
                               "depth": f"{me_dep['role']} ({me_dep['slot']})" if me_dep else None})
-                if score <= .05 and not note.get("side"):
-                    continue
-                # never show a pick the research argues against
-                if r_fav and r_fav != side and r_adj >= 1:
+                if score <= .05:
                     continue
                 side_hits = lambda a: hits(a) if over else len(a) - hits(a)
                 last = re.sub(r"\s+(Jr|Sr|II|III|IV|V)\.?$", "", p["n"]).split()[-1]
@@ -847,7 +841,8 @@ def main():
     except Exception:
         out["tdLive"] = []
     # the research check's single best bet of the day
-    if best_note.get("key"):
+    BEST_BET_ON = False  # the research's best bet is off (Oct 26): its leans went 74-96 and best bets 3-5
+    if BEST_BET_ON and best_note.get("key"):
         c = next((c for c in cands if c["key"] == best_note["key"]), None)
         # not when the markets lean the other way: the sportsbook's no-vig price or Kalshi's chance below the 52.4% a
         # -110 bet needs, or the line moved against it (Oct 19: Daniels over with Kalshi at 44%)
