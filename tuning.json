@@ -1,5 +1,5 @@
 {
- "built": "2026-10-28T01:12+00:00",
+ "built": "2026-10-28T03:58+00:00",
  "graded_picks": 291,
  "graded_research": 185,
  "market": {
@@ -21,7 +21,7 @@
  "factors": {
   "matchup": 1.056,
   "game": 0.797,
-  "form": 0.81,
+  "form": 0.808,
   "market": 1.059
  },
  "research_conf": {
@@ -47,7 +47,7 @@
   "When game script backed a pick it went 20-22, vs 19-12 when it didn't: weighted x0.797",
   "Medium-confidence research calls are 76-89: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 6865 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 6866 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 48%, unders 53%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL passing yards: an extra nudge toward the over",
@@ -61,11 +61,11 @@
   "NBA pts + reb: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
   "CFB receiving yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 6209 graded props: weighted x0.81",
-  "Kalshi market has been under-weighted across 6209 graded props: weighted x1.059"
+  "Recent form has been over-weighted across 6210 graded props: weighted x0.808",
+  "Kalshi market has been under-weighted across 6210 graded props: weighted x1.059"
  ],
  "calibration": {
-  "n": 6865,
+  "n": 6866,
   "days": 15,
   "trust": 0.88,
   "c": -0.107,
@@ -92,7 +92,7 @@
     0.941
    ],
    "NBA|ra": [
-    -0.047,
+    -0.048,
     0.944
    ],
    "NBA|reb": [
@@ -124,7 +124,7 @@
     1.023
    ],
    "NFL|recyd": [
-    -0.118,
+    -0.119,
     0.959
    ],
    "NFL|rry": [
@@ -146,7 +146,7 @@
   }
  },
  "calib": {
-  "n": 6865,
+  "n": 6866,
   "since": "2026-10-08",
   "app": [
    [
@@ -159,9 +159,9 @@
    [
     0.55,
     0.6,
-    2147,
+    2148,
     0.567,
-    0.522
+    0.521
    ],
    [
     0.6,
