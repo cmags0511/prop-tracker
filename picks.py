@@ -483,6 +483,12 @@ def main():
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
     except Exception:
         ODDS = {}
+    try:  # FanDuel's own lines and prices for every NFL/NBA player prop (lab_market.py -> fd_board.json, hourly): the
+        # price fallback when Pinnacle hasn't posted and ESPN's feed has none (its NFL feed never has prices; Oct 28)
+        fdb = json.load(open("fd_board.json"))
+        FDB = {c["key"]: c for c in fdb.get("props", []) if now - dt.datetime.fromisoformat(fdb["built"]) < dt.timedelta(hours=6)}
+    except Exception:
+        FDB = {}
     global USAGE
     try:  # how each NFL player is being used: snaps, target / carry share, red zone (build_usage.py)
         USAGE = json.load(open("usage.json"))
@@ -606,6 +612,18 @@ def main():
                     # a price fetch_prices.py worked out for this line rather than one the book quoted at it)
                     dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
                               books=od.get("books"), book=od.get("book"), est_over=od.get("est_over"), est_under=od.get("est_under"))
+                elif FDB.get(f"{lg}|{p['id']}|{mid}") and dk.get("line") is not None:
+                    fq = FDB[f"{lg}|{p['id']}|{mid}"]
+                    if fq["line"] == dk["line"]:
+                        dk = dict(dk, price_over=fq["over"], price_under=fq["under"], book="FanDuel", est_over=False, est_under=False)
+                    else:  # FanDuel's prices moved to DraftKings' line (fetch_prices.shift): an estimate, graded C at most
+                        try:
+                            from fetch_prices import shift
+                            mv = shift(fq["line"], fq["over"], fq["under"], dk["line"], mid)
+                        except Exception:
+                            mv = None
+                        if mv:
+                            dk = dict(dk, price_over=mv[0], price_under=mv[1], book="FanDuel", est_over=True, est_under=True)
                 elif dk.get("po") is not None and dk.get("pu") is not None:
                     # no Pinnacle / FanDuel quote: DraftKings' own prices at this line, from ESPN's feed (fetch_lines.py).
                     # Without these most NBA picks had no price at all, so they couldn't be graded (Oct 27)
