@@ -4,6 +4,13 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-28
+- **cmags0511** (PR): Grades everywhere. picks.py: FanDuel's own board (fd_board.json from lab_market.py) is the
+  next price fallback after Pinnacle/FanDuel quotes and DraftKings' NBA po/pu (ESPN's NFL feed has no prices), same
+  line = real price, a different line = shifted estimate (C at most). index.html: `gradeChip`/`gradeOf` put a grade
+  on the All tab, each game's Top 5, the college Top list, soccer Most likely cards (from ev_best) and the Record
+  pick log; full cards say "Not graded yet" when no book has posted a price. sw.js bumped.
+
+## 2026-10-28
 - **rmolnar10**: Record tab, full pick log: each day's header now shows that day's net units next to its W-L
   (e.g. `3-1 · +1.7u`), green/red/gray, from the same appTally units as the headline (pending picks not counted).
   Display only, no grading change. sw.js pt-v114.
