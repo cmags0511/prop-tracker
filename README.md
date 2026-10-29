@@ -54,6 +54,14 @@ margin removal says, so long-shot "edges" were mostly illusions. `soccer_team.py
 were also checked; nothing in the NFL beat chance and the NBA ones that held up (teammates out, opponent pace for rebounds,
 team margin for points/assists) are small, so none were added.
 
+Backtest scripts (Oct 28; each downloads its own data, plain requests only, and prints the results it is cited for here):
+`backtest_soccer_odds.py` (football-data.co.uk odds: calibration, edge buckets, margin-removal methods),
+`backtest_nfl_sources.py` (FTN charting, PFR advanced stats, referee crews, injury/practice report: 258 tests, nothing beat
+chance) and `backtest_nba_sources.py` (box-score and pbpstats.com signals: 86 tests; teammates-out, opponent pace for rebounds
+and team margin held up but are small). They use a synthetic line (a weighted recent average), so a result there is a filter for
+what deserves a test against real lines, not proof. Official NBA injury reports/referee assignments, stats.nba.com, Underdog,
+PrizePicks and Action Network block plain requests and were not used.
+
 ## Records and tracking
 
 `record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box
