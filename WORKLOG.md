@@ -6,9 +6,9 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
 ## 2026-10-29 (2), cmags0511 (Claude)
 Top 10 audit (215 graded picks since Oct 17, 107-108, -15.7u): the NBA is the whole loss (51-61, -16.8u, already paused until Nov 15);
 the lowest-scored half lost 13.5u while the top quarter broke even; plus-money picks went 2-11 (-8.7u) vs 9-4 at -150 or shorter.
-`picks.py`: the Top 10 now needs a score of at least `MIN_TOP_SCORE` = .27 (was .12) and plus-money picks rank at `PLUS_PEN` = .8 of their
-score. On today's data the list shrinks from 30 candidates to 12 (all NFL). The cutoff was fitted on the same sample, so re-check after
-another month of graded picks. Prop-type slices (rushing yards, combos) left alone: samples too small. No front-end change; byMarket,
+`picks.py`: the Top 10 now needs a score of at least `MIN_TOP_SCORE` = .23 (was .12; .27 was tried first, then eased a little) and plus-money picks rank at `PLUS_PEN` = .8 of their
+score. On today's data the list shrinks from 30 candidates to about 16 (all NFL). The cutoff was fitted on the same sample, so re-check after
+another month of graded picks. Prop-type slices (rushing yards, combos) left alone: samples too small. Front end: Top 10 picks the books don't list (tackles, sacks, some receptions) still grade at an assumed -110 but are now flagged in the record ("-110 assumed" on recent rows, a count and their units in the footer); `sw.js` is pt-v120. byMarket,
 games and overs lists keep their own floors.
 
 ## 2026-10-29, cmags0511 (Claude)

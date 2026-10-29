@@ -345,9 +345,9 @@ GRADES = ((.05, "A", 2.0), (.03, "B", 1.0), (.01, "C", 0.5))
 MIN_PRICE = -130  # Top lists skip anything shorter (Oct 27)
 # Oct 29 audit of the 215 Top 10 picks graded since real prices began (Oct 17): the lowest-scored half lost 13.5u while the top
 # quarter broke even, and picks priced at plus money went 2-11 (-8.7u) against 9-4 at -150 or shorter. So the Top 10 needs a
-# score of at least MIN_TOP_SCORE (the old floor was .12) and plus-money picks rank at PLUS_PEN of their score. The cutoff was
+# score of at least MIN_TOP_SCORE = .23 (the old floor was .12) and plus-money picks rank at PLUS_PEN of their score. The cutoff was
 # chosen on the same sample it was measured on: re-check after another month of graded picks.
-MIN_TOP_SCORE, PLUS_PEN = .27, .8
+MIN_TOP_SCORE, PLUS_PEN = .23, .8
 NBA_TOP_FROM = dt.datetime(2026, 11, 15, tzinfo=dt.timezone.utc)  # NBA Top 10 paused until then (Oct 27)
 GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
 

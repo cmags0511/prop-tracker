@@ -1990,6 +1990,8 @@ function priced(R){if(!R||!R.priced_from)return R;const f=new Date(R.priced_from
 // units won on a 1u bet at the price saved with the pick (American odds); -110 when no price was quoted
 const payout=e=>e.price?(e.price>0?e.price/100:100/-e.price):100/110;
 function appTally(a){const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;return{w,l,p,n:w+l,pct:w+l?w/(w+l):null,units:a.filter(e=>e.status==="win").reduce((x,e)=>x+payout(e),0)-l}}
+// a Top 10 pick the books had no price for is graded at an assumed -110 and flagged as such
+const assumedPx=e=>e.lg!=="SOC"&&e.kind!=="team"&&!e.price;
 const unitsTxt=v=>(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"u";
 // what pushed a pick up or down: form, matchup, game, minutes, research (from picks.json)
 const FXNAME={form:"Form",matchup:"Matchup",game:"Game script",minutes:"Minutes",news:"Injuries",weather:"Wind",market:"Market",research:"Research",usage:"Usage"};
@@ -2144,7 +2146,7 @@ function renderAppRecord(){
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices where quoted":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}${(()=>{if(SOCR)return"";const g=P.filter(e=>(e.status==="win"||e.status==="loss")&&assumedPx(e));if(!g.length)return"";const u=g.reduce((x,e)=>x+(e.status==="win"?payout(e):-1),0);return` · <span class="assumed" title="These props (tackles, sacks and similar) aren't listed by the books the app reads, so they are graded as if priced at -110">${g.length} with no quoted price count at an assumed -110 (${unitsTxt(u)})</span>`})()}</p></div>`;
   if(SOCR)html+=socBreakdownHtml(done);
   const k0=html.length;
   html+=splitsHtml(done);
@@ -2176,7 +2178,7 @@ function renderAppRecord(){
   // recent picks as a short list; the whole log by day is one tap away
   const sorted=[...P].sort((a,b)=>new Date(b.t)-new Date(a.t));
   const won=e=>e.status==="win"?payout(e):e.status==="loss"?-1:0;
-  const what=e=>e.kind==="team"?`${esc(e.book)} at ${amFmt(e.price)}`:e.lg==="SOC"?`${esc(e.label)}${e.price?` at ${amFmt(e.price)}`:""}`:`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
+  const what=e=>e.kind==="team"?`${esc(e.book)} at ${amFmt(e.price)}`:e.lg==="SOC"?`${esc(e.label)}${e.price?` at ${amFmt(e.price)}`:""}`:`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}${assumedPx(e)?" \u00b7 -110 assumed":""}`;
   const circ={win:"W",loss:"L",push:"P",void:"V",pending:""};
   html+=`<h3 class="lh">Recent</h3><div class="lcard shw">${sorted.slice(0,8).map(e=>`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${circ[e.status]||""}</i><div class="lmid"><b>${esc(e.name)}</b><span>${what(e)} · ${e.lg==="SOC"?esc(e.league||"Soccer"):e.lg} · ${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span></div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(won(e))}</b></div>`).join("")}`;
   const days={};
