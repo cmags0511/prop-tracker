@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-29, cmags0511 (Claude)
+Added `backtest_soccer_odds.py`, `backtest_nfl_sources.py` and `backtest_nba_sources.py` (and a README note) so the source tests behind
+the Oct 28 soccer change are reproducible. They only read public data and write into a `backtest_data/` folder (git-ignored); nothing
+in the app, workflows or data files changes.
+
 ## 2026-10-28 (night), cmags0511 (Claude)
 Soccer research check. `research_packets.py` `soccer_packet` now builds `SOCCER-day` from the soccer bets that are recorded: the
 Top picks / Value bets players (it was reading the retired lists) plus the team bets, grouped by match under `matches`
