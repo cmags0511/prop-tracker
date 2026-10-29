@@ -16,6 +16,12 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   Display only, no grading change. sw.js pt-v114.
 
 ## 2026-10-27
+- **cmags0511** (weekly results review, PR): Kalshi disagreement check in `picks.py` (`KALSHI_AGAINST = .49`): when
+  Kalshi's traders give the pick's side under 49% at DraftKings' line, the score is halved and the card says so, like
+  the sportsbook check (BOOK_GAP). Graded props Oct 8-27: those picks hit 313/716 (44%) vs 54% expected (NBA 41%,
+  NFL 48%). Replay of the Top 10 from 401 hourly slate.json versions: -17.2u -> -12.3u (NBA -18.2u -> -13.4u, NFL and
+  college unchanged). No front-end change. Also: the Lab market-anchored page (PR #2's idea, live since Oct 20) is
+  29-44, -13.1u, so PR #2 isn't supported by results.
 - **cmags0511** (PR, on top of #42): Owner's Oct 27 changes. (1) Top lists (picks/byMarket, so the record too) skip
   F grades and prices shorter than -130 (`MIN_PRICE`); game views keep NBA but apply the same filter. (2) NBA Top 10
   paused until Nov 15 (`NBA_TOP_FROM`); NBA lines still on the board. (3) Lab page removed (lab_market.py keeps
