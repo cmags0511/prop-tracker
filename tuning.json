@@ -1,7 +1,7 @@
 {
- "built": "2026-10-29T10:03+00:00",
+ "built": "2026-10-29T13:09+00:00",
  "graded_picks": 291,
- "graded_research": 191,
+ "graded_research": 198,
  "market": {
   "CFB|pyd|over": 1.121,
   "CFB|pyd|under": 0.898,
@@ -21,11 +21,11 @@
  "factors": {
   "matchup": 1.056,
   "game": 0.797,
-  "form": 0.809,
-  "market": 1.076
+  "form": 0.748,
+  "market": 1.089
  },
  "research_conf": {
-  "medium": 0.843,
+  "medium": 0.823,
   "low": 0.318
  },
  "notes": [
@@ -45,73 +45,78 @@
   "NFL tackles unders are 8-3: ranked higher (x1.25)",
   "When matchup backed a pick it went 31-33, vs 21-26 when it didn't: weighted x1.056",
   "When game script backed a pick it went 20-22, vs 19-12 when it didn't: weighted x0.797",
-  "Medium-confidence research calls are 80-91: their weight goes from 1.0 to 0.843",
+  "Medium-confidence research calls are 82-96: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 7215 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
-  "Overs it backed hit 49%, unders 53%: every prop now gets a small nudge toward the under before a side is picked",
+  "Across 8170 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Overs it backed hit 49%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL passing yards: an extra nudge toward the over",
   "NFL completions: an extra nudge toward the over",
-  "NBA points: an extra nudge toward the over",
+  "NBA pts + reb: an extra nudge toward the over, trusted less (x0.85): its edges have played out smaller than predicted",
+  "NBA points: an extra nudge toward the over, trusted less (x0.88): its edges have played out smaller than predicted",
   "NFL rushing yards: an extra nudge toward the under",
   "NFL receiving yards: an extra nudge toward the under",
-  "NBA pts + reb: an extra nudge toward the over",
   "NFL rush attempts: an extra nudge toward the under",
   "NFL tackles: an extra nudge toward the under",
-  "NFL extra points: an extra nudge toward the under",
   "NBA rebounds: an extra nudge toward the over",
-  "Recent form has been over-weighted across 6559 graded props: weighted x0.809",
-  "Kalshi market has been under-weighted across 6559 graded props: weighted x1.076"
+  "NFL extra points: an extra nudge toward the under",
+  "CFB receiving yards: an extra nudge toward the over",
+  "Recent form has been over-weighted across 7514 graded props: weighted x0.748",
+  "Kalshi market has been under-weighted across 7514 graded props: weighted x1.089"
  ],
  "calibration": {
-  "n": 7215,
-  "days": 16,
+  "n": 8170,
+  "days": 17,
   "trust": 0.89,
-  "c": -0.1,
+  "c": -0.103,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
-    0.048,
+    0.05,
     1.01
    ],
    "NBA|3pm": [
-    0.007,
-    1.088
+    -0.017,
+    1.075
    ],
    "NBA|ast": [
-    -0.036,
-    1.051
+    -0.033,
+    1.032
+   ],
+   "NBA|pa": [
+    -0.018,
+    0.934
    ],
    "NBA|pr": [
-    0.054,
-    0.903
+    0.056,
+    0.852
    ],
    "NBA|pra": [
-    -0.002,
-    0.948
+    -0.009,
+    0.929
    ],
    "NBA|pts": [
-    0.092,
-    0.904
+    0.078,
+    0.876
    ],
    "NBA|ra": [
-    -0.034,
-    0.961
+    -0.027,
+    0.942
    ],
    "NBA|reb": [
-    0.077,
-    0.994
+    0.094,
+    0.985
    ],
    "NFL|car": [
-    -0.065,
-    0.926
+    -0.063,
+    0.925
    ],
    "NFL|cmp": [
-    0.13,
+    0.132,
     0.925
    ],
    "NFL|pat": [
-    -0.082,
+    -0.081,
     1.004
    ],
    "NFL|ptd": [
@@ -119,66 +124,66 @@
     1.013
    ],
    "NFL|pyd": [
-    0.153,
+    0.155,
     0.941
    ],
    "NFL|rec": [
-    -0.044,
-    1.023
+    -0.042,
+    1.024
    ],
    "NFL|recyd": [
-    -0.124,
+    -0.123,
     0.959
    ],
    "NFL|rry": [
-    0.005,
+    0.006,
     0.94
    ],
    "NFL|ryd": [
-    -0.152,
+    -0.151,
     0.968
    ],
    "NFL|sck": [
-    -0.391,
+    -0.392,
     0.965
    ],
    "NFL|tkl": [
-    -0.074,
-    0.943
+    -0.073,
+    0.942
    ]
   }
  },
  "calib": {
-  "n": 7215,
+  "n": 8170,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    4185,
+    4793,
     0.526,
-    0.521
+    0.522
    ],
    [
     0.55,
     0.6,
-    2237,
-    0.567,
+    2533,
+    0.568,
     0.522
    ],
    [
     0.6,
     0.65,
-    442,
+    491,
     0.619,
-    0.543
+    0.548
    ],
    [
     0.65,
     0.7,
-    188,
+    190,
     0.672,
-    0.585
+    0.579
    ],
    [
     0.7,
@@ -192,37 +197,37 @@
    [
     0.5,
     0.55,
-    1447,
+    1624,
     0.521,
-    0.523
+    0.525
    ],
    [
     0.55,
     0.6,
-    706,
+    812,
     0.571,
-    0.567
+    0.568
    ],
    [
     0.6,
     0.65,
-    288,
+    319,
     0.618,
-    0.625
+    0.624
    ],
    [
     0.65,
     0.7,
-    49,
-    0.665,
-    0.653
+    57,
+    0.664,
+    0.667
    ],
    [
     0.7,
     1,
-    6,
-    0.759,
-    0.667
+    7,
+    0.77,
+    0.571
    ]
   ],
   "top": [
@@ -380,6 +385,13 @@
    "d": "2026-10-28",
    "notes": [
     "NFL sacks unders are 8-2: ranked higher (x1.25)"
+   ]
+  },
+  {
+   "d": "2026-10-29",
+   "notes": [
+    "NBA pts + reb: an extra nudge toward the over, trusted less (x0.85): its edges have played out smaller than predicted",
+    "NBA points: an extra nudge toward the over, trusted less (x0.88): its edges have played out smaller than predicted"
    ]
   }
  ]
