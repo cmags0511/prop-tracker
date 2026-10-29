@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T11:50:11Z",
+ "updated": "2026-10-29T20:36:27Z",
  "summary": "Packers host the Panthers tonight with Josh Jacobs back as the lead and goal-line back and Matthew Golden questionable (limited Wednesday); Carolina is without both starting guards. Baylor plays its first game under an interim coach after Dave Aranda's firing.",
  "notes": {
   "CFB|5079627|recyd": {
@@ -551,6 +551,42 @@
    "detail": {
     "availability": "Starting; no new injury."
    }
+  },
+  "NFL|00-0036962|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He isn't on Carolina's injury report and keeps his starting safety role; the Panthers' absences are at guard and on the edge (Phillips out).",
+   "sources": [
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week"
+   ]
+  },
+  "NFL|00-0038996|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He's healthy and starting; Golden is questionable after a limited Wednesday, and if he sits or is limited Kraft and Jacobs are the likeliest to absorb short targets.",
+   "sources": [
+    "https://sports.yahoo.com/articles/matthew-golden-playing-tonight-injury-103152440.html"
+   ]
+  },
+  "CFB|4869991|cmp": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news; he completed 29 of 37 last week against Rice and his top receivers Messer and Valsin both played.",
+   "sources": [
+    "https://www.rotowire.com/cfootball/team.php?team=4947"
+   ]
+  },
+  "CFB|4914830|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news; he is FAU's lead target, coming off 12 catches for 162 yards against Rice.",
+   "sources": [
+    "https://www.rotowire.com/cfootball/team.php?team=4947"
+   ]
   }
  },
  "games": {
