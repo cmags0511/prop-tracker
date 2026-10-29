@@ -1,375 +1,612 @@
 {
- "updated": "2026-10-28T11:38:49Z",
- "summary": "Houston plays at Milwaukee without both centers (Sengun and Adams out); Washington's No. 1 pick Dybantsa is questionable to debut at Cleveland; Josh Jacobs is back as Green Bay's lead back for Thursday behind a banged-up line.",
+ "updated": "2026-10-29T11:50:11Z",
+ "summary": "Packers host the Panthers tonight with Josh Jacobs back as the lead and goal-line back and Matthew Golden questionable (limited Wednesday); Carolina is without both starting guards. Baylor plays its first game under an interim coach after Dave Aranda's firing.",
  "notes": {
-  "NBA|3202|reb": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Houston plays without both centers (Sengun out with back soreness, Adams out with a calf strain), leaving more defensive rebounds for Durant and the other forwards.",
-   "sources": [
-    "https://www.rotowire.com/basketball/headlines/alperen-sengun-injury-wont-play-vs-milwaukee-536362",
-    "https://foxsports1070.iheart.com/content/2026-10-28-rockets-vs-bucks-injury-report-oct-28/",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
-   ],
-   "detail": {
-    "availability": "Durant is not on the injury report.",
-    "role": "With Sengun and Adams both out, the only true center left is Capela, so Durant, Smith and Thompson should see more rebound chances and more small-ball minutes.",
-    "market": "The line has stayed at 5.5 since it opened, and the book's no-vig over (about 51%) matches the app, so there's no sign the market knows something."
-   }
-  },
-  "NBA|4433192|3pm": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Rotowire names Eason as a likely beneficiary of Sengun's absence, and more minutes give him more 3-point attempts at a 0.5 line.",
-   "sources": [
-    "https://www.rotowire.com/basketball/headlines/alperen-sengun-injury-wont-play-vs-milwaukee-536362",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
-   ],
-   "detail": {
-    "availability": "Eason is not on the injury report.",
-    "role": "With Sengun and Adams out, Eason and Capela are the frontcourt players expected to pick up extra minutes, and Eason could play some small-ball center.",
-    "market": "Kalshi (62%) and the book (65%) both lean over despite his low recent average, which fits an expected minutes bump."
-   }
-  },
-  "NBA|4432848|3pm": {
+  "CFB|5079627|recyd": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "Milwaukee lists no injuries, so Jaquez starts at small forward with his usual role; no news changes his volume.",
+   "conf": "low",
+   "note": "No availability news on Porter; Baylor reports a healthy roster in its first game since Dave Aranda was fired, with Jake Spavital running the offense.",
    "sources": [
-    "https://foxsports1070.iheart.com/content/2026-10-28-rockets-vs-bucks-injury-report-oct-28/",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
+    "https://www.si.com/college/baylor/football/what-spread-says-about-baylor-chances-ucf-without-dave-aranda-head-coach-week-9-2026",
+    "https://vsin.com/college-football/college-football-week-9-picks-baylor-vs-ucf/"
    ],
    "detail": {
-    "availability": "Bucks injury report is empty.",
-    "matchup": "Houston is missing both of its centers, but that mostly affects play inside, not Jaquez's perimeter shooting."
+    "availability": "No Baylor injuries reported this week; SI described the roster as about as healthy as it has been all season.",
+    "role": "Offense run by Jake Spavital after Dave Aranda's firing; interim coach Joe Klanderman keeps calling the defense."
    }
   },
-  "NBA|4433192|pts": {
-   "side": "over",
+  "CFB|5215500|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found for Ervin; FAU and North Texas had no posted injury statuses on the pages checked.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No player injury statuses posted for FAU or North Texas on the pages checked (SportsLine lists key injuries as TBD)."
+   }
+  },
+  "CFB|5295066|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found for North Texas TE Brec Long ahead of Thursday's game.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No player injury statuses posted for FAU or North Texas on the pages checked (SportsLine lists key injuries as TBD)."
+   }
+  },
+  "CFB|5390418|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No news found on FAU's backfield; Farrow and Ervin both have posted rushing lines, consistent with the ongoing split.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No player injury statuses posted for FAU or North Texas on the pages checked (SportsLine lists key injuries as TBD)."
+   }
+  },
+  "CFB|5215500|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No news found on FAU's backfield; Ervin and Farrow both have posted rushing lines, consistent with the ongoing split.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No player injury statuses posted for FAU or North Texas on the pages checked (SportsLine lists key injuries as TBD)."
+   }
+  },
+  "CFB|4896289|rec": {
    "flag": "support",
-   "adj": 1,
+   "adj": 0,
    "conf": "medium",
-   "note": "Eason is expected to see more minutes with Sengun and Adams both out, adding to his scoring volume.",
+   "note": "Freeman is healthy and led Baylor's offense last week against Kansas with 9 catches; Baylor reports a healthy roster under interim coach Joe Klanderman.",
    "sources": [
-    "https://www.rotowire.com/basketball/headlines/alperen-sengun-injury-wont-play-vs-milwaukee-536362",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
+    "https://www.si.com/college/baylor/football/what-spread-says-about-baylor-chances-ucf-without-dave-aranda-head-coach-week-9-2026",
+    "https://vsin.com/college-football/college-football-week-9-picks-baylor-vs-ucf/"
    ],
    "detail": {
-    "role": "Rotowire names him and Capela as the players most likely to pick up minutes while Sengun is out."
+    "availability": "No Baylor injuries reported this week; SI described the roster as about as healthy as it has been all season.",
+    "role": "Offense run by Jake Spavital after Dave Aranda's firing; interim coach Joe Klanderman keeps calling the defense."
    }
   },
-  "NBA|4433192|reb": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "With both Houston centers out, Eason should get frontcourt minutes and more rebounding chances.",
+  "CFB|4911971|car": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on Jahiem White; he remains North Texas's lead back and DraftKings prices him as a heavy favorite to score.",
    "sources": [
-    "https://www.rotowire.com/basketball/headlines/alperen-sengun-injury-wont-play-vs-milwaukee-536362",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://dknetwork.draftkings.com/draftkings-sportsbook-player-props/?tb_view=2&tb_eg=87637&tb_edate=n7days"
    ],
    "detail": {
-    "role": "He is expected to pick up extra minutes, some of them as a small-ball big."
+    "availability": "No player injury statuses posted for FAU or North Texas on the pages checked (SportsLine lists key injuries as TBD)."
    }
   },
-  "NBA|3102529|reb": {
+  "CFB|4870635|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Tulane's QB spot is unsettled: Trace Johnson started the last two games over Kadin Semonza, but his start against Charlotte has not been confirmed.",
+   "sources": [
+    "https://www.foxsports.com/college-football/trace-johnson-player",
+    "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+   ],
+   "detail": {
+    "availability": "Trace Johnson has started the last two games after Kadin Semonza lost the job; Fox Sports says the Week 10 starter is not confirmed.",
+    "market": "Books are posting passing props for Johnson, not Semonza."
+   }
+  },
+  "CFB|5150834|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Tulane's QB spot is unsettled: Trace Johnson started the last two games over Kadin Semonza, but his start against Charlotte has not been confirmed.",
+   "sources": [
+    "https://www.foxsports.com/college-football/trace-johnson-player",
+    "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+   ],
+   "detail": {
+    "availability": "Trace Johnson has started the last two games after Kadin Semonza lost the job; Fox Sports says the Week 10 starter is not confirmed.",
+    "market": "Books are posting passing props for Johnson, not Semonza."
+   }
+  },
+  "CFB|5078105|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Capela is the only healthy true center with Sengun and Adams out; his minutes should rise sharply, but his recent averages come from a small role, so his outlook is in flux.",
+   "note": "Troy's leading receiver TK Keyes sat out the ULM loss for an unstated reason, and QB Goose Crowder played through a questionable tag with backup Tucker Kilcrease also used.",
    "sources": [
-    "https://www.rotowire.com/basketball/headlines/alperen-sengun-injury-wont-play-vs-milwaukee-536362",
-    "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
+    "https://vsin.com/college-football/college-football-week-9-picks-troy-vs-james-madison/"
    ],
    "detail": {
-    "role": "Rotowire names him as a candidate for more playing time, but no starter has been confirmed.",
-    "market": "The 7.5 line is far above his recent average, so books are already pricing in a much bigger role."
+    "availability": "Crowder was listed questionable and went 6-of-14 for 50 yards vs ULM; Kilcrease also took snaps. Keyes did not play.",
+    "role": "If Keyes is out again, more targets go to Troy's other receivers, but no status for him was posted."
    }
   },
-  "NBA|5174563|pr": {
+  "CFB|5295723|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on Baylor's backs; Pendergrass leads the team in rushing at about 3.5 yards a carry, and Spavital now runs the offense after Aranda's firing.",
+   "sources": [
+    "https://vsin.com/college-football/college-football-week-9-picks-baylor-vs-ucf/",
+    "https://www.si.com/college/baylor/football/what-spread-says-about-baylor-chances-ucf-without-dave-aranda-head-coach-week-9-2026"
+   ],
+   "detail": {
+    "availability": "No Baylor injuries reported this week; SI described the roster as about as healthy as it has been all season.",
+    "role": "Offense run by Jake Spavital after Dave Aranda's firing; interim coach Joe Klanderman keeps calling the defense."
+   }
+  },
+  "CFB|5085337|ryd": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Keyone Jenkins is UCF's starter while Alonza Barnett III remains out; no new injury for Jenkins was reported.",
+   "sources": [
+    "https://vsin.com/college-football/college-football-week-9-picks-baylor-vs-ucf/"
+   ],
+   "detail": {
+    "availability": "Jenkins has carried UCF's offense in Barnett's absence."
+   }
+  },
+  "NBA|4397688|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Murphy is not on the injury report, but the assists line fell from 3.5 to 2.5 and no news was found to explain it; Poole's ankle could shift ball-handling if he sits.",
+   "sources": [
+    "https://foxsportsam1280.iheart.com/content/2026-10-29-kings-vs-pelicans-injury-report-oct-29/",
+    "https://www.acadiananewsfirst.com/2026/10/29/pelicans-stay-winless-104-91-loss-nuggets/"
+   ],
+   "detail": {
+    "availability": "Not listed on either injury report for Oct 29; no limitation reported.",
+    "role": "Poole (left ankle) left the Oct 28 loss to Denver early and is day-to-day; if he sits, more of the Pelicans' creation falls to Murray, Fears and Murphy, but nothing confirms Poole's status yet.",
+    "conditions": "Second game of a back-to-back for New Orleans, home both nights.",
+    "market": "Line opened 3.5 and now sits at 2.5, a move away from the over that no report found explains; Kalshi still prices the over near 62%, above the 52.4% break-even."
+   }
+  },
+  "NFL|00-0039112|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He isn't on this week's injury report and starts on the edge with Parsons out; Carolina is missing both starting guards and its right tackle, but none of that changes his snap volume.",
+   "sources": [
+    "https://atozsports.com/?p=507699",
+    "https://www.packers.com/news/packers-panthers-injury-report-oct-26-2026"
+   ],
+   "detail": {
+    "availability": "Not listed on Monday's estimated report; the packet marks him as missing the last game and no source we read explained why, so that remains unconfirmed.",
+    "matchup": "Carolina has Lewis and Simpkins out at guard, Moton on IR and Ekwonu out for the year, so a rookie, Monroe Freeling, starts at right tackle and Rasheed Walker plays left tackle.",
+    "conditions": "Short week. Around 49F at Lambeau with wind near 9 mph, gusting to 19."
+   }
+  },
+  "NFL|00-0035687|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He doesn't appear on Carolina's injury report, so his every-down linebacker role looks unchanged; the Panthers' injuries are on the edge, at guard and at cornerback.",
+   "sources": [
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week",
+    "https://www.rotowire.com/football/player/jaelan-phillips-15263"
+   ],
+   "detail": {
+    "availability": "Not on the Monday report. Phillips (hamstring) is ruled out and Umanmielen starts opposite Patrick Jones.",
+    "matchup": "Green Bay now has Jacobs back as its lead runner, with Lloyd as the backup."
+   }
+  },
+  "NFL|00-0039813|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He's healthy, but Green Bay's off-ball linebacker group is thin, with Franklin (shin) out and Cooper out for the season; McDuffie and Hopper start ahead of Niemann.",
+   "sources": [
+    "https://www.footballnationusa.com/post/zaire-franklin-injury-shin-fracture-packers-week-8-impact",
+    "https://www.packers.com/news/packers-panthers-injury-report-oct-26-2026"
+   ],
+   "detail": {
+    "availability": "Not on this week's injury report.",
+    "role": "Franklin also called the defense in the middle and missed the Detroit game too, so this is the second straight game without him."
+   }
+  },
+  "NFL|00-0036658|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "He is starting, not a backup: with Franklin out again and Cooper on season-ending injury, he is expected to keep a near-every-down role, as he did at Detroit.",
+   "sources": [
+    "https://www.footballnationusa.com/post/zaire-franklin-injury-shin-fracture-packers-week-8-impact"
+   ],
+   "detail": {
+    "role": "McDuffie and Hopper were the main linebackers against Detroit; the line already reflects that role."
+   }
+  },
+  "NFL|00-0040667|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Champagnie is out, but AJ Dybantsa (ankle) was upgraded to questionable and could debut tonight; his return would reshuffle Washington's forward minutes, so George's role is unsettled until the final report.",
+   "note": "He is questionable (shoulder, foot) after missing Monday and Tuesday, but was upgraded to limited Wednesday and LaFleur said he hopes Golden plays; his snap load is still uncertain.",
    "sources": [
-    "https://www.nba.com/news/aj-dybantsa-remains-out-2026-27",
-    "https://cbssports.com/fantasy/basketball/news/wizards-aj-dybantsa-questionable-for-wednesday"
+    "https://www.packers.com/news/packers-list-four-questionable-rule-out-three-vs-panthers-week-8-injury-report"
    ],
    "detail": {
-    "availability": "No injury listing for George; the Oct 28 searches surfaced only old Feb 2026 ankle and illness items.",
-    "role": "Starting at SG with Champagnie out (foot); Dybantsa has been out since the preseason finale with an ankle injury, and Keefe expected only a short stretch, so a return would take wing and forward touches.",
-    "market": "The line rose a point from the 17.5 open, toward the over; the book's no-vig over chance is about even, so it shows no strong lean."
+    "availability": "DNP Monday and Tuesday, limited Wednesday; questionable on the final report (Oct 28)."
    }
   },
-  "NBA|4277905|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No new availability or role news for Young was found; Champagnie and Vukcevic being out does little to his creation load.",
-   "sources": [
-    "https://www.nba.com/news/aj-dybantsa-remains-out-2026-27"
-   ],
-   "detail": {
-    "availability": "Not on the injury report in the packet; no fresh Oct 28 reports were found.",
-    "market": "The line is unchanged from the 9.5 open, and Kalshi and the book both have the over at about 50%."
-   }
-  },
-  "NFL|00-0035700|rec": {
+  "NFL|00-0040667|rec": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Jacobs played his first game of the season last week after missing six, with 11 carries and 5 catches for 55 yards; his recent sample is one game, so the receiving role is still being set.",
+   "note": "He is questionable (shoulder, foot) after missing Monday and Tuesday, but was upgraded to limited Wednesday and LaFleur said he hopes Golden plays; his snap load is still uncertain.",
    "sources": [
-    "https://www.wmtv15news.com/2026/10/28/josh-jacobs-says-packers-running-backs-must-help-out-their-injury-riddled-offensive-line/",
-    "https://sports.yahoo.com/articles/green-bay-packers-receive-concerning-120540108.html"
+    "https://www.packers.com/news/packers-list-four-questionable-rule-out-three-vs-panthers-week-8-injury-report"
    ],
    "detail": {
-    "role": "First game back at Detroit: 11 carries, 5 receptions. No injury listed for him.",
-    "matchup": "Packers' line is banged up: center Rhyan (ankle) uncertain, backup center Monk on IR, right guard Glover (knee) uncertain."
+    "availability": "DNP Monday and Tuesday, limited Wednesday; questionable on the final report (Oct 28)."
    }
   },
-  "NBA|3934672|ra": {
-   "side": "under",
+  "NFL|00-0036555|ryd": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Brunson is in heavy scoring mode (28 shots vs Orlando, says the offense falls on him), but Alvarado's absence could add on-ball minutes; no clear edge.",
-   "sources": [
-    "https://www.espn.com/nba/story/_/id/50284920/jalen-brunson-knicks-sputtering-offense-amid-0-3-start-says-everything-falls-my-shoulders",
-    "https://sports.yahoo.com/articles/knicks-stumble-again-defending-champs-015514417.html"
-   ],
-   "detail": {
-    "availability": "Healthy; not on the injury report.",
-    "role": "He took 28 shots against Orlando and publicly put the stalled offense on himself, which points to scoring over setting up; backup guard Jose Alvarado is out, which may keep him on the ball longer.",
-    "script": "A near pick'em game with a 219.5 total; the Knicks bench was outscored 47-11 on Sunday, so starters may log long minutes.",
-    "experts": "Previews focus on Brunson needing to attack early and shoot better rather than on his playmaking."
-   }
-  },
-  "NBA|4432166|ra": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "With Thompson and Joe questionable, Cade carries more creation, but Jenkins, who starts in Thompson's place, also handles and rebounds; the news cuts both ways.",
-   "sources": [
-    "https://sports.yahoo.com/articles/banged-pistons-look-real-good-022917398.html",
-    "https://sports.yahoo.com/articles/game-preview-knicks-vs-pistons-040000145.html"
-   ],
-   "detail": {
-    "availability": "Healthy; he leads a short-handed group with Duren out and Thompson and Joe questionable.",
-    "role": "In the Philadelphia game without Duren and Thompson, Cunningham had 8 rebounds and 8 assists, while starter Daniss Jenkins added 8 rebounds and 6 assists, so the creation was shared.",
-    "matchup": "The Yahoo preview suggests New York may put Anunoby on Cunningham; Cunningham has 16 turnovers in three games.",
-    "script": "A competitive spread (Knicks -3.5) should keep him on the floor for a full workload."
-   }
-  },
-  "NBA|3136195|pts": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Duren's absence weakens Detroit's rim protection, but the line already moved up a point and Kalshi sits below break-even; no extra edge.",
-   "sources": [
-    "https://lastwordonsports.com/basketball/2026/10/27/pistons-vs-knicks-pre/",
-    "https://www.espn.com/nba/story/_/id/50284920/jalen-brunson-knicks-sputtering-offense-amid-0-3-start-says-everything-falls-my-shoulders"
-   ],
-   "detail": {
-    "matchup": "Without Duren, Detroit starts Paul Reed at center (3 blocks vs Philadelphia) with Collins as the backup, a less imposing interior than usual.",
-    "script": "The Knicks' offense ranked near the bottom early and shot 9 of 38 from three on Sunday; Brunson is taking most of the shots.",
-    "market": "The line opened at 18.5 and is now 19.5, and Kalshi at about 47.5% is under the 52.4% break-even, so the market has already priced Duren's absence.",
-    "experts": "Previews prefer Towns on rebounds rather than points."
-   }
-  },
-  "NBA|4432166|3pm": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "The line dropped from 2.5 to 1.5 and Kalshi favors the over, but no news changes his shot profile; any value comes from the price only.",
-   "sources": [
-    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html"
-   ],
-   "detail": {
-    "role": "With Thompson and Joe questionable he remains the primary creator, but no source indicates more three-point volume.",
-    "market": "The number opened at 2.5 and now sits at 1.5, with Kalshi about 62% on the over; this is a re-price, not a news move."
-   }
-  },
-  "NBA|3934719|ast": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No usage or matchup news on Anunoby's playmaking; the likely Cunningham assignment and Brunson's heavy shot load don't point either way.",
-   "sources": [
-    "https://sports.yahoo.com/articles/knicks-stumble-again-defending-champs-015514417.html",
-    "https://sports.yahoo.com/articles/game-preview-knicks-vs-pistons-040000145.html"
-   ],
-   "detail": {
-    "role": "He scored 22 against Orlando as the second option; Brunson is taking the bulk of the shots.",
-    "matchup": "The Yahoo preview suggests Anunoby could defend Cunningham, which could cost him energy on offense; this is speculation.",
-    "market": "Kalshi at about 60% is above break-even on the over at 1.5."
-   }
-  },
-  "NBA|3136195|reb": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
    "conf": "medium",
-   "note": "Duren (Detroit's top rebounder) is officially out, and two previews pick Towns' rebound over; note most books quote 10.5, a point below the app's 11.5.",
+   "note": "Carolina's offensive line is depleted, with both starting guards out (Lewis, Simpkins), Moton on IR and a rookie at right tackle; that affects blocking quality, not his workload.",
    "sources": [
-    "https://lastwordonsports.com/basketball/2026/10/27/pistons-vs-knicks-pre/",
-    "https://www.sportsmole.co.uk/basketball/detroit-pistons/preview/detroit-pistons-vs-new-york-knicks-player-props-injury-report-and-prediction--nba_607753.html"
-   ],
-   "line_now": 10.5,
-   "line_src": "https://lastwordonsports.com/basketball/2026/10/27/pistons-vs-knicks-pre/",
-   "detail": {
-    "availability": "Healthy; he started all three games.",
-    "matchup": "Detroit's frontcourt is Reed and Collins without Duren; previews expect Detroit's bigs to be pulled from the rim more often.",
-    "market": "Last Word and Sports Mole quote 10.5 (around -119), while the app's line is 11.5; at 11.5 the edge is thinner, and Kalshi is about even.",
-    "experts": "Last Word and Sports Mole both list Towns' rebound over and cite Duren's absence."
-   }
-  },
-  "NBA|4432166|pts": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Thompson and Joe being questionable could push more scoring to Cunningham (26 in the short-handed Philly win), but Jenkins absorbs touches too; previews quote 22.5, not 23.5.",
-   "sources": [
-    "https://www.sportsmole.co.uk/basketball/detroit-pistons/preview/detroit-pistons-vs-new-york-knicks-player-props-injury-report-and-prediction--nba_607753.html",
-    "https://sports.yahoo.com/articles/banged-pistons-look-real-good-022917398.html"
-   ],
-   "detail": {
-    "role": "He scored 26 against Philadelphia with Duren and Thompson out, while Jenkins scored 18.",
-    "market": "Sports Mole quotes 22.5, a point below the app's 23.5.",
-    "experts": "Sports Mole picks the over, citing his rising form and the Knicks' weak defense so far."
-   }
-  },
-  "NBA|5104157|pr": {
-   "side": "under",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "As an 18.5-point home favorite, San Antonio could rest its starters early; Wembanyama played just 32 minutes in a close loss, so a 38.5 line needs near-peak production in fewer minutes.",
-   "sources": [
-    "https://digestsports.com/nba/games/rockets-vs-spurs-2026-10-24/",
-    "https://pickdawgz.com/nba-picks/kings-vs-spurs-prediction-10-27-2026-todays-nba-picks",
-    "https://www.sportsgambler.com/betting-tips/basketball/sacramento-kings-vs-san-antonio-spurs-prediction-odds-6019717/"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; no limitation reported.",
-    "role": "Starting center in the three-guard lineup; logged 31:59 in the 4-point loss to Houston (25 pts, 13 reb), so the staff has not been pushing him to heavy minutes even in close games.",
-    "matchup": "Sacramento is missing backup centers Cardwell and Raynaud plus Murray, so its frontcourt is thin, which is the main risk to the under.",
-    "script": "Spurs -18.5 with a 229.5-230.5 total; a lopsided game likely sends him to the bench for much of the fourth quarter.",
-    "market": "Line opened at 39.5 and has dropped to 38.5, moving toward the under.",
-    "experts": "SportsGambler takes his points under 27.5 and pairs it with the Kings covering +18.5, citing his recent scoring level and the expected blowout."
-   }
-  },
-  "NBA|5104157|pra": {
-   "side": "under",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "The same blowout and minutes concern applies to his 41.5 PRA; he played about 32 minutes even in a close game, and Fox and Harper handle most of the assists.",
-   "sources": [
-    "https://digestsports.com/nba/games/rockets-vs-spurs-2026-10-24/",
-    "https://pickdawgz.com/nba-picks/kings-vs-spurs-prediction-10-27-2026-todays-nba-picks"
-   ],
-   "detail": {
-    "role": "2 assists in 32 minutes vs Houston; Fox and Harper do most of the playmaking.",
-    "script": "Spurs -18.5 makes reduced fourth-quarter minutes likely."
-   }
-  },
-  "NBA|3147657|ast": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bridges is not on the injury report and previews give no change to his role; Detroit's missing center affects rebounding more than his playmaking.",
-   "sources": [
-    "https://lastwordonsports.com/basketball/2026/10/27/pistons-vs-knicks-pre/"
+    "https://atozsports.com/?p=507699",
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week"
    ]
   },
-  "NBA|3062679|pr": {
-   "side": "over",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Hart is healthy; Detroit is without Jalen Duren (hamstring) and may lack Ausar Thompson, which thins the Pistons' rebounding.",
-   "sources": [
-    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters",
-    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html"
-   ],
-   "detail": {
-    "availability": "Healthy; Knicks list only Jose Alvarado (ankle) out."
-   }
-  },
-  "NBA|3934672|pa": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Brunson is healthy; backup guard Jose Alvarado is out with an ankle sprain, which could add a few on-ball minutes for Brunson.",
-   "sources": [
-    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
-   ],
-   "detail": {
-    "availability": "Healthy; not listed."
-   }
-  },
-  "NBA|3147657|ra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bridges is healthy; Knicks' only absence is Jose Alvarado (ankle), so his role is unchanged.",
-   "sources": [
-    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
-   ],
-   "detail": {
-    "availability": "Healthy; not listed."
-   }
-  },
-  "NBA|4432166|ast": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Cunningham is healthy, but his main lob target Jalen Duren is out with a hamstring strain and Ausar Thompson and Isaiah Joe are questionable.",
-   "sources": [
-    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html",
-    "https://roundtable.io/sports/nba/knicks/news/knicks-vs-pistons-injury-report-lists-two-key-starters"
-   ],
-   "detail": {
-    "availability": "Healthy; not listed."
-   }
-  },
   "NFL|00-0035700|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "In his return last week he took both of Green Bay's goal-line snaps and scored on a reception, while Lloyd moved back to a backup role.",
+   "sources": [
+    "https://www.draftsharks.com/fantasy-football-news/83716/josh-jacobs-returns-with-rb1-week",
+    "https://www.oddsshopper.com/articles/expert-picks/carolina-panthers-vs-green-bay-packers-anytime-td-picks-2026-10-29"
+   ],
+   "buzz": "high",
+   "detail": {
+    "role": "Played 35 of 67 snaps (52%) and led the backfield on third downs; Lloyd played 24 snaps and Strong 8.",
+    "matchup": "Carolina gave up the fifth-most fantasy points per game to running backs through Week 7.",
+    "experts": "He's the shortest-priced name on the anytime-TD previews we read."
+   }
+  },
+  "NFL|00-0039811|td": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Jacobs back he lost the lead role: 24 snaps to Jacobs' 35 last week, and Jacobs took both goal-line snaps, so the TD history from his starting stretch overstates his chances.",
+   "sources": [
+    "https://www.draftsharks.com/fantasy-football-news/83716/josh-jacobs-returns-with-rb1-week",
+    "https://spectrumnews1.com/wi/milwaukee/news/2026/10/15/marshawn-lloyd-green-bay-packers"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0040667|td": {
+   "side": "under",
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Healthy and the lead back, but just one game back from a six-game absence, Green Bay has the league's lowest-rated run game, and two interior linemen are hurt; he also dropped an end-zone target last week.",
+   "note": "He is questionable (shoulder, foot) but practiced on a limited basis Wednesday after two missed days and is expected to have a chance to play; his snaps and red-zone looks may still be limited.",
    "sources": [
-    "https://www.wmtv15news.com/2026/10/28/josh-jacobs-says-packers-running-backs-must-help-out-their-injury-riddled-offensive-line/",
-    "https://sports.yahoo.com/articles/green-bay-packers-receive-concerning-120540108.html"
+    "https://www.packers.com/news/packers-list-four-questionable-rule-out-three-vs-panthers-week-8-injury-report"
    ],
-   "buzz": "none",
+   "buzz": "some"
+  },
+  "NFL|00-0036555|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He's healthy and Carolina's lead back, but the line in front of him is missing both starting guards and its starting right tackle, which can hurt short-yardage running.",
+   "sources": [
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week",
+    "https://atozsports.com/?p=507699"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0038124|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He isn't on the injury report. If Golden is limited or out, more red-zone targets could go to him, but Golden's status is still open.",
+   "sources": [
+    "https://www.packers.com/news/packers-panthers-injury-report-oct-26-2026"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0038996|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He's healthy, and his red-zone role isn't changed by any news; Jacobs' return adds a second short-area receiving option near the goal line.",
+   "sources": [
+    "https://www.draftsharks.com/fantasy-football-news/83716/josh-jacobs-returns-with-rb1-week",
+    "https://www.packers.com/news/packers-panthers-injury-report-oct-26-2026"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0039491|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He was added Monday as limited with a shoulder injury but carries no game designation in the latest report, so he looks set to play his usual role.",
+   "sources": [
+    "https://roundtable.io/sports/nfl/panthers/news/carolina-panthers-add-two-key-players-to-injury-report"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0040124|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "He is healthy and remains Carolina's top target; no news changes his red-zone role, and Coker is expected to play alongside him.",
+   "sources": [
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week"
+   ],
+   "buzz": "some"
+  },
+  "NFL|00-0035700|car": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "In his return last week he played 52% of snaps with 11 carries while Lloyd took 24 snaps and 6 carries; no pitch count was reported, but the backfield is still split.",
+   "sources": [
+    "https://www.draftsharks.com/fantasy-football-news/83716/josh-jacobs-returns-with-rb1-week",
+    "https://www.thefantasyfootballers.com/news/644410/josh-jacobs-racks-up-16-touches-in-return/",
+    "https://www.bettingpros.com/nfl/props/josh-jacobs/rushing-attempts/",
+    "https://www.packers.com/news/packers-list-four-questionable-rule-out-three-vs-panthers-week-8-injury-report"
+   ],
    "detail": {
-    "role": "11 carries and 5 catches in his season debut; was targeted in the end zone late.",
-    "matchup": "Interior line injuries at center and right guard."
+    "availability": "Not on Green Bay's final injury report; no workload limit announced. One outlet expects his share to climb only modestly.",
+    "role": "35 of 67 snaps, both goal-line snaps and the third-down work; Lloyd 24 snaps as primary backup, Strong no touches."
+   }
+  },
+  "SOC|301166|401921844": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Predicted as Everton's lone striker against Newcastle; has three goals in this cup run. Grealish, Branthwaite and Mykolenko are expected to miss out. The XI is predicted, not confirmed.",
+   "sources": [
+    "https://khelnow.com/football/everton-vs-newcastle-united-preview-carabao-cup-202610",
+    "https://africasoccer.com/?p=644812"
+   ]
+  },
+  "SOC|195027|401884746": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "In Mainz's predicted 3-5-2 as a forward next to Tietz at Elversberg. No injury or suspension reported.",
+   "sources": [
+    "https://statz.ai/h2h/elversberg-vs-mainz/19735126",
+    "https://www.sportsmole.co.uk/football/bundesliga/elversberg-vs-mainz-05_game_260723.html"
+   ]
+  },
+  "SOC|239574|401884746": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "In Mainz's predicted XI at Elversberg as a wide player in a back five. No injury or suspension reported.",
+   "sources": [
+    "https://statz.ai/h2h/elversberg-vs-mainz/19735126"
+   ]
+  },
+  "SOC|189605|401880190": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Wrexham's injury list for Bramall Lane; his April ankle ligament injury looks resolved. Wrexham are missing Windass, Broadhead and Thomason, so the attack may lean on him.",
+   "sources": [
+    "https://starting11.com/fixtures/sheffield-utd-vs-wrexham",
+    "https://www.dragonsports.co.uk/football/news/kieffer-moore-injury-threatens-to-blow-big-hole-in-wrexhams-championship-strategy"
+   ]
+  },
+  "SOC|156898|401876420": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "In Lens's predicted XI behind Ivanovic for the derby at Lille. No injury reported. Sima is out with a thigh injury until late November.",
+   "sources": [
+    "https://statz.ai/h2h/lille-vs-lens/19715564",
+    "https://africasoccer.com/?p=631283"
+   ]
+  },
+  "SOC|297157|401876420": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or suspension found. One predicted Lille XI leaves him out, though he is the team's leading shooter and scorer. Check the confirmed lineup.",
+   "sources": [
+    "https://statz.ai/h2h/lille-vs-lens/19715564"
+   ]
+  },
+  "SOCT|1638461221|FanDuel|HOME_TEAM_-1.5_GOALS|frosinone 1 5 goals": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Frosinone are largely fit apart from Grillitsch. Lecce are without the suspended Gaspar and the injured Pierotti, Coulibaly, Ilic and Berisha, and have poor form.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/frosinone/preview/frosinone-vs-lecce-prediction-team-news-lineups_607792.html"
+   ]
+  },
+  "SOCT|1638466665|FanDuel|HOME_TEAM_-1.5_GOALS|fiorentina 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Atalanta are missing Kolasinac, Hien, Kossounou and Bellanova. But Fiorentina are in the relegation zone, winless in seven home games, and Pongracic is doubtful.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/fiorentina/preview/fiorentina-vs-atalanta-prediction-team-news-lineups_607817.html"
+   ]
+  },
+  "CFB|4920163|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on Valsin; SportsLine projects him around 87 receiving yards with Veltkamp starting, and no FAU or North Texas injury statuses are posted.",
+   "sources": [
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "Key injuries listed as TBD on SportsLine."
+   }
+  },
+  "CFB|5079555|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lagway is Baylor's passing leader (1,352 yards, 52% completions) and no injury was reported this week; Spavital runs the offense after Aranda's firing.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/baylor-vs-ucf-prediction-10-30-2026-todays-college-football-picks/",
+    "https://www.si.com/college/baylor/football/what-spread-says-about-baylor-chances-ucf-without-dave-aranda-head-coach-week-9-2026"
+   ],
+   "detail": {
+    "availability": "Baylor's roster was reported healthy for its first game under interim coach Klanderman."
+   }
+  },
+  "CFB|4911971|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on White, North Texas's lead back with 13 touchdowns this season; his receiving role was not covered in what we read.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/florida-atlantic-vs-north-texas-prediction-10-29-2026-todays-college-football-picks/",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No statuses posted for either team."
+   }
+  },
+  "CFB|4869991|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Veltkamp threw for 339 yards against Rice and has no reported injury; SportsLine projects about 300 passing yards against a North Texas team that scores heavily.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/florida-atlantic-vs-north-texas-prediction-10-29-2026-todays-college-football-picks/",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/"
+   ],
+   "detail": {
+    "availability": "No injury statuses posted for FAU."
+   }
+  },
+  "CFB|5150277|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Troy's passing game is shaky: Crowder played through a questionable tag and threw for 50 yards against ULM, with Kilcrease also used; no news on Petty himself.",
+   "sources": [
+    "https://vsin.com/college-football/college-football-week-9-picks-troy-vs-james-madison/"
+   ],
+   "detail": {
+    "availability": "Leading receiver TK Keyes missed the ULM game with no update posted; Petty's role was not covered."
+   }
+  },
+  "CFB|5153889|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Derry leads UCF with 34 catches and 358 yards, and Jenkins stays at QB with Barnett out; no injury news on Derry.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/baylor-vs-ucf-prediction-10-30-2026-todays-college-football-picks/"
+   ],
+   "detail": {
+    "availability": "No UCF injuries reported in the previews read."
+   }
+  },
+  "CFB|4896389|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on Louis Brown IV; Baylor's roster was reported healthy, and Gavin Freeman remains the main target with 5+ catches in 12 straight games.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/baylor-vs-ucf-prediction-10-30-2026-todays-college-football-picks/",
+    "https://www.si.com/college/baylor/football/what-spread-says-about-baylor-chances-ucf-without-dave-aranda-head-coach-week-9-2026"
+   ],
+   "detail": {
+    "availability": "No Baylor injuries reported this week."
+   }
+  },
+  "CFB|5085337|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Jenkins starts for UCF with Barnett out; he has 1,099 passing yards at 68% completions and 11 touchdowns this season.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/baylor-vs-ucf-prediction-10-30-2026-todays-college-football-picks/"
+   ],
+   "detail": {
+    "availability": "Starting; no new injury."
    }
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "Midweek slate of four Group of Five games: Kennesaw State at Middle Tennessee and Jacksonville State at New Mexico State on Wednesday, then FAU at North Texas (UNT -13.5, total 77.5, ESPN) and Troy at James Madison on Thursday. No reputable odds page had posted player prop lines for any of the four games when checked, so nothing was screened.",
+   "summary": "Four midweek games. Baylor plays its first game since firing Dave Aranda (Joe Klanderman interim, Jake Spavital on offense); UCF keeps starting Keyone Jenkins with Alonza Barnett III out. Tulane's QB job is Trace Johnson's for now but not confirmed, and Troy's QB Goose Crowder and top WR TK Keyes are health questions after the ULM loss.",
    "sources": [
-    "https://cfbtrack.com/games/matchup/2026/401862812",
-    "https://www.dimers.com/cfb/predictions/2026_9_jmu_troy"
+    "https://dknetwork.draftkings.com/draftkings-sportsbook-player-props/?tb_view=2&tb_eg=87637&tb_edate=n7days",
+    "https://vsin.com/college-football/college-football-week-9-picks-baylor-vs-ucf/",
+    "https://vsin.com/college-football/college-football-week-9-picks-troy-vs-james-madison/",
+    "https://www.covers.com/sport/football/ncaaf/matchup/378570/picks",
+    "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks",
+    "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks",
+    "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props",
+    "https://www.foxsports.com/college-football/trace-johnson-player"
+   ]
+  },
+  "NBA-SAC-at-NO-1030": {
+   "summary": "New Orleans (0-4) plays the second night of a back-to-back after losing at home to Denver on Oct 28; Jordan Poole left that game with a left ankle injury and is day-to-day. Sacramento remains without Keegan Murray, Ben Simmons and backup centers Raynaud and Cardwell, so Sabonis and Achiuwa carry the frontcourt; no new changes to either team's starters were found.",
+   "sources": [
+    "https://foxsportsam1280.iheart.com/content/2026-10-29-kings-vs-pelicans-injury-report-oct-29/",
+    "https://www.acadiananewsfirst.com/2026/10/29/pelicans-stay-winless-104-91-loss-nuggets/"
+   ]
+  },
+  "NFL-CAR-at-GB-1030": {
+   "summary": "Josh Jacobs came back from the exempt list last week, played about half the snaps and took both goal-line snaps, so MarShawn Lloyd is now the backup. Carolina's offensive line is badly thinned: both starting guards are out, Moton is on IR and a rookie starts at right tackle. Green Bay is without Parsons, Franklin, guard Rhyan and tackle Glover, and Matthew Golden is questionable but was upgraded to limited practice Wednesday.",
+   "sources": [
+    "https://www.draftsharks.com/fantasy-football-news/83716/josh-jacobs-returns-with-rb1-week",
+    "https://atozsports.com/?p=507699",
+    "https://roundtable.io/sports/nfl/panthers/news/carolina-panthers-add-two-key-players-to-injury-report",
+    "https://www.packers.com/news/packers-panthers-injury-report-oct-26-2026",
+    "https://www.panthers.com/news/week-8-monday-injury-report-banged-up-in-a-short-week",
+    "https://www.footballnationusa.com/post/zaire-franklin-injury-shin-fracture-packers-week-8-impact",
+    "https://spectrumnews1.com/wi/milwaukee/news/2026/10/15/marshawn-lloyd-green-bay-packers",
+    "https://www.rotowire.com/football/player/jaelan-phillips-15263"
+   ]
+  },
+  "SOCCER-day": {
+   "summary": "No listed player is reported out; Barry, Becker, Mwene and Thauvin appear in predicted XIs, while one preview leaves Bakwa out of Lille's XI. Lecce travel without a suspended defender and four injured players; Atalanta are missing four defenders, but Fiorentina are in poor home form.",
+   "sources": [
+    "https://khelnow.com/football/everton-vs-newcastle-united-preview-carabao-cup-202610",
+    "https://africasoccer.com/?p=644812",
+    "https://www.sportsmole.co.uk/football/frosinone/preview/frosinone-vs-lecce-prediction-team-news-lineups_607792.html",
+    "https://www.sportsmole.co.uk/football/fiorentina/preview/fiorentina-vs-atalanta-prediction-team-news-lineups_607817.html",
+    "https://www.sportsmole.co.uk/football/bundesliga/elversberg-vs-mainz-05_game_260723.html",
+    "https://statz.ai/h2h/elversberg-vs-mainz/19735126",
+    "https://starting11.com/fixtures/sheffield-utd-vs-wrexham",
+    "https://www.dragonsports.co.uk/football/news/kieffer-moore-injury-threatens-to-blow-big-hole-in-wrexhams-championship-strategy"
+   ]
+  },
+  "fix": {
+   "summary": "Quality-gate checks: Golden upgraded to limited but still questionable; Jacobs carry line matches 15.5 with a split backfield; no availability changes found for the college picks, and no college prop lines could be confirmed.",
+   "sources": [
+    "https://pickdawgz.com/college-football-picks/florida-atlantic-vs-north-texas-prediction-10-29-2026-todays-college-football-picks/",
+    "https://www.sportsline.com/college-football/game-forecast/NCAAF_20261029_FAU@NTEXAS/daily-fantasy-projections/",
+    "https://pickdawgz.com/college-football-picks/baylor-vs-ucf-prediction-10-30-2026-todays-college-football-picks/",
+    "https://vsin.com/college-football/college-football-week-9-picks-troy-vs-james-madison/"
    ]
   },
   "NBA-GS-at-MIN-1029": {
@@ -384,60 +621,295 @@
     "https://foxsports1070.iheart.com/content/2026-10-28-rockets-vs-bucks-injury-report-oct-28/",
     "https://www.hoopshype.com/story/sports/nba/rumors/2026/10/27/rockets-injury-report-at-milwaukee/92466109007/"
    ]
-  },
-  "NBA-WSH-at-CLE-1028": {
-   "summary": "Washington is without Justin Champagnie (foot) and Tristan Vukcevic (hip, re-evaluation in four weeks). No. 1 pick AJ Dybantsa (ankle, hurt in the preseason finale) is listed out in the feed but questionable in its note, and his coach had called it a short absence. If he returns, Kyshawn George's minutes and touches are the most exposed. Searches found no fresh Oct 28 reports for either team, and Cleveland lists no injuries.",
-   "sources": [
-    "https://www.nba.com/news/aj-dybantsa-remains-out-2026-27",
-    "https://cbssports.com/fantasy/basketball/news/wizards-aj-dybantsa-questionable-for-wednesday"
-   ]
-  },
-  "fix": {
-   "summary": "Quick check on Josh Jacobs before Thursday night (Panthers at Packers).",
-   "sources": [
-    "https://www.wmtv15news.com/2026/10/28/josh-jacobs-says-packers-running-backs-must-help-out-their-injury-riddled-offensive-line/",
-    "https://sports.yahoo.com/articles/green-bay-packers-receive-concerning-120540108.html"
-   ]
-  },
-  "NBA-DET-at-NY-1028": {
-   "summary": "Unbeaten Detroit (3-0) visits 0-3 New York without Jalen Duren (hamstring, re-eval ~Nov 8-9); Ausar Thompson (ankle) and Isaiah Joe (hip) are questionable, so Daniss Jenkins likely starts again and John Collins keeps soaking up center minutes behind Paul Reed. Market has Knicks -3.5 with the total up a point to 219.5; the Knicks' offense and bench are struggling and Brunson is carrying the scoring load.",
-   "sources": [
-    "https://www.espn.com/nba/game/_/gameId/401909878/pistons-knicks",
-    "https://sports.yahoo.com/articles/two-pistons-uncertain-play-vs-210901863.html",
-    "https://heavy.com/sports/nba/detroit-pistons/ausar-thompson-injury-update-pistons-knicks/",
-    "https://www.cbssports.com/fantasy/basketball/news/pistons-ausar-thompson-iffy-for-tuesday-536187/",
-    "https://sports.yahoo.com/articles/banged-pistons-look-real-good-022917398.html",
-    "https://www.sportsmole.co.uk/basketball/detroit-pistons/preview/detroit-pistons-vs-new-york-knicks-player-props-injury-report-and-prediction--nba_607753.html",
-    "https://lastwordonsports.com/basketball/2026/10/27/pistons-vs-knicks-pre/",
-    "https://sports.yahoo.com/articles/game-preview-knicks-vs-pistons-040000145.html"
-   ]
-  },
-  "NBA-POR-at-LAL-1028": {
-   "summary": "The Lakers (3-0) are 2.5-point home favorites over Portland (2-0), and the total has climbed to about 236.5, up from 228.5 in an earlier preview, so books expect a fast, high-scoring game. The Lakers play the Clippers the next night, but a close spread makes it less likely that starters sit late. Portland is missing Shaedon Sharpe, Scoot Henderson (ankle) and Branden Carlson (concussion) are questionable, and Jrue Holiday and Toumani Camara should defend Doncic and Reaves.",
-   "sources": [
-    "https://www.sportsmole.co.uk/basketball/la-lakers/preview/portland-trail-blazers-vs-los-angeles-lakers-player-props-injury-report-and-prediction--nba_607730.html",
-    "https://www.lineups.com/articles/trail-blazers-lakers-nba-picks-predictions-odds-for-tuesday-october-27-2026/",
-    "https://pickdawgz.com/nba-picks/trail-blazers-vs-lakers-prediction-10-27-2026-todays-nba-picks/",
-    "https://www.covers.com/sport/basketball/nba/matchup/388617",
-    "https://sports.yahoo.com/articles/lakers-vs-blazers-preview-taking-013609171.html",
-    "https://heavy.com/sports/nba/los-angeles-lakers/great-news-shocking-jj-redick-starting-lineup-gamble/",
-    "https://www.cbssports.com/nba/players/2893115/sandro-mamukelashvili/fantasy/",
-    "https://www.rotowire.com/basketball/headlines/sandro-mamukelashvili-news-solid-performance-off-bench-533697"
-   ]
-  },
-  "NBA-SAC-at-SA-1028": {
-   "summary": "Spurs are 18.5-point home favorites over an 0-3 Kings team missing Keegan Murray (10-14 days), Dylan Cardwell and Maxime Raynaud, so blowout risk caps Spurs starters' minutes (Wembanyama played only 32 in a 4-point loss to Houston). With three frontcourt players out, Sacramento's remaining minutes go to Achiuwa, who started and played 39 minutes Sunday, and to Sabonis. Harris is out again for San Antonio, but the three-guard starting five Mitch Johnson planned all along stays in place.",
-   "sources": [
-    "https://foxsportsam1280.iheart.com/content/2026-10-27-kings-vs-spurs-injury-report-oct-27/",
-    "https://pickdawgz.com/nba-picks/kings-vs-spurs-prediction-10-27-2026-todays-nba-picks",
-    "https://www.sportsgambler.com/betting-tips/basketball/sacramento-kings-vs-san-antonio-spurs-prediction-odds-6019717/",
-    "https://www.sportsmole.co.uk/basketball/san-antonio-spurs/preview/sacramento-kings-vs-san-antonio-spurs-player-props-injury-report-and-prediction--nba_607754.html",
-    "https://kingsherald.com/articles/kings-fall-to-0-3-as-grizzlies-pull-away-late-123-112/",
-    "https://kingsherald.com/articles/acuff-scores-33-sabonis-posts-triple-double-as-kings-fall-to-blazers-128-120/",
-    "https://digestsports.com/nba/games/rockets-vs-spurs-2026-10-24/",
-    "https://abcnews.com/Sports/wireStory/wembanyama-harper-lead-spurs-past-short-handed-mavericks-137546612"
-   ]
   }
  },
- "cfb_lines": {}
+ "cfb_lines": {
+  "CFB|4869991|pyd": {
+   "line": 334.5,
+   "book": "Hard Rock Bet",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4801307|pyd": {
+   "line": 314.5,
+   "book": "FanDuel",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4911971|ryd": {
+   "line": 133.5,
+   "book": "Hard Rock Bet",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5390418|ryd": {
+   "line": 24.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5215500|ryd": {
+   "line": 32.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4801307|ryd": {
+   "line": 14.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5295066|recyd": {
+   "line": 10.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5215500|recyd": {
+   "line": 2.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5194308|recyd": {
+   "line": 44.5,
+   "book": "FanDuel",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4917048|recyd": {
+   "line": 42.5,
+   "book": "DraftKings",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4920163|recyd": {
+   "line": 81.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4911971|recyd": {
+   "line": 28.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4914830|recyd": {
+   "line": 106.5,
+   "book": "FanDuel",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4911971|rec": {
+   "line": 3.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4917048|rec": {
+   "line": 3.5,
+   "book": "FanDuel",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4911971|car": {
+   "line": 21.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4869991|cmp": {
+   "line": 28.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "UNT",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|4801307|cmp": {
+   "line": 22.5,
+   "book": "bet365",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "FAU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378571/picks"
+  },
+  "CFB|5078105|recyd": {
+   "line": 19.5,
+   "book": "DraftKings",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "JMU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378570/picks"
+  },
+  "CFB|5150277|recyd": {
+   "line": 29.5,
+   "book": "DraftKings",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "JMU",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378570/picks"
+  },
+  "CFB|5214955|recyd": {
+   "line": 42.5,
+   "book": "DraftKings",
+   "t": "2026-10-29T23:30:00+00:00",
+   "opp": "TROY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378570/picks"
+  },
+  "CFB|5291713|pyd": {
+   "line": 199.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "CLT",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|5291713|cmp": {
+   "line": 15.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "CLT",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|4879655|ryd": {
+   "line": 59.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "TULN",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|5150834|recyd": {
+   "line": 50.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "CLT",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|5150834|rec": {
+   "line": 3.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "CLT",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|4870635|recyd": {
+   "line": 41.5,
+   "book": "Caesars",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "CLT",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|5228760|recyd": {
+   "line": 43.5,
+   "book": "DraftKings",
+   "t": "2026-10-30T23:00:00+00:00",
+   "opp": "TULN",
+   "source": "https://www.covers.com/sport/football/ncaaf/teams/main/tulane-green-wave/player-props"
+  },
+  "CFB|5085337|pyd": {
+   "line": 243.5,
+   "book": "FanDuel",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5079555|pyd": {
+   "line": 248.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5085337|ryd": {
+   "line": 20.5,
+   "book": "Hard Rock Bet",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5295723|ryd": {
+   "line": 29.5,
+   "book": "Fanatics",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5136049|ryd": {
+   "line": 67.5,
+   "book": "FanDuel",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5153889|recyd": {
+   "line": 58.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5079627|recyd": {
+   "line": 16.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5142600|recyd": {
+   "line": 27.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|4896389|recyd": {
+   "line": 40.5,
+   "book": "Caesars",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|4896289|recyd": {
+   "line": 89.5,
+   "book": "FanDuel",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|4896389|rec": {
+   "line": 3.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|4896289|rec": {
+   "line": 6.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  },
+  "CFB|5079627|rec": {
+   "line": 1.5,
+   "book": "bet365",
+   "t": "2026-10-30T23:30:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/matchup/378574/picks"
+  }
+ }
 }

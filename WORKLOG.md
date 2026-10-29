@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-29 (3), cmags0511 (Claude, research run)
+`picks.py`: the anytime-TD loop skips note keys that don't have 3 parts. The soccer team-bet keys (`SOCT|...`, added Oct 28)
+made `picks.py` crash with "too many values to unpack" whenever the soccer researcher wrote notes. No change to rankings.
+
 ## 2026-10-29 (2), cmags0511 (Claude)
 Top 10 audit (215 graded picks since Oct 17, 107-108, -15.7u): the NBA is the whole loss (51-61, -16.8u, already paused until Nov 15);
 the lowest-scored half lost 13.5u while the top quarter broke even; plus-money picks went 2-11 (-8.7u) vs 9-4 at -150 or shorter.

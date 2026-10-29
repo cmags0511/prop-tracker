@@ -1001,7 +1001,10 @@ def main():
     pls = {p["id"]: p for p in meta.get("players", [])}
     ups = [{"t": dt.datetime.fromisoformat(u[0]), "away": u[1], "home": u[2]} for u in meta.get("upcoming", [])]
     for k, n in notes.items():
-        lg, pid, mid = k.split("|")
+        parts = k.split("|")
+        if len(parts) != 3:  # soccer team-bet keys (SOCT|...) have more parts
+            continue
+        lg, pid, mid = parts
         if mid != "td" or lg != "NFL" or research_dir(n)[0] != "over" or research_dir(n)[1] < 1 or n.get("flag") == "out":
             continue
         p = pls.get(pid)
