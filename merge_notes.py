@@ -83,7 +83,8 @@ def main():
     CFB_M = {"pyd", "cmp", "att", "ptd", "ryd", "car", "rec", "recyd", "rry"}
     cfb_lines = {}
     # anytime-TD keys the packets offered (no DraftKings line, so they aren't on the slate)
-    soc_ok = {p["key"] for p in (load("research/packets/SOCCER-day.json", {}) or {}).get("players", [])}
+    sp = load("research/packets/SOCCER-day.json", {}) or {}
+    soc_ok = {p["key"] for p in sp.get("players", [])} | {b["key"] for x in sp.get("matches", []) for b in x["bets"]}
     td_ok = {c["key"] for f in glob.glob("research/packets/*.json") for c in (load(f, {}) or {}).get("td_candidates", [])}
 
     def cfb_key(k):
