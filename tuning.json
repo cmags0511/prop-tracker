@@ -1,6 +1,6 @@
 {
- "built": "2026-10-29T19:04+00:00",
- "graded_picks": 291,
+ "built": "2026-10-29T21:56+00:00",
+ "graded_picks": 249,
  "graded_research": 198,
  "market": {
   "CFB|pyd|over": 1.121,
@@ -13,14 +13,12 @@
   "NBA|pra|under": 0.731,
   "NBA|ra|under": 1.077,
   "NBA|reb|under": 0.903,
-  "NFL|rec|over": 1.031,
+  "NFL|rec|over": 1.121,
   "NFL|sck|under": 1.25,
-  "NFL|tkl|over": 0.898,
   "NFL|tkl|under": 1.25
  },
  "factors": {
-  "matchup": 1.056,
-  "game": 0.797,
+  "matchup": 1.075,
   "form": 0.748,
   "market": 1.089
  },
@@ -39,12 +37,10 @@
   "NBA PRA unders are 5-9: ranked lower (x0.731)",
   "NBA reb + ast unders are 8-6: ranked higher (x1.077)",
   "NBA rebounds unders are 6-7: ranked lower (x0.903)",
-  "NFL receptions overs are 6-5: ranked higher (x1.031)",
+  "NFL receptions overs are 5-3: ranked higher (x1.121)",
   "NFL sacks unders are 8-2: ranked higher (x1.25)",
-  "NFL tackles overs are 4-5: ranked lower (x0.898)",
   "NFL tackles unders are 8-3: ranked higher (x1.25)",
-  "When matchup backed a pick it went 31-33, vs 21-26 when it didn't: weighted x1.056",
-  "When game script backed a pick it went 20-22, vs 19-12 when it didn't: weighted x0.797",
+  "When matchup backed a pick it went 27-27, vs 18-22 when it didn't: weighted x1.075",
   "Medium-confidence research calls are 82-96: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
   "Across 8170 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
@@ -234,37 +230,37 @@
    [
     0.5,
     0.55,
-    61,
+    40,
     0.532,
-    0.443
+    0.45
    ],
    [
     0.55,
     0.6,
-    116,
+    108,
     0.574,
-    0.44
+    0.454
    ],
    [
     0.6,
     0.65,
-    45,
+    42,
     0.624,
-    0.578
+    0.548
    ],
    [
     0.65,
     0.7,
-    26,
+    23,
     0.671,
-    0.654
+    0.739
    ],
    [
     0.7,
     1,
-    35,
-    0.768,
-    0.486
+    30,
+    0.77,
+    0.5
    ]
   ]
  },
