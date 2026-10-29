@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-29 (3), cmags0511 (Claude)
+All tab: a "Grades" box under the intro lists each grade, its expected-return range and the units it stakes (A 2u, B 1u, C 1/2u, D pass, F avoid; 1 unit = 1% of bankroll) and what the "-" chip means. Front end only (`gradeKeyHtml` in index.html); `sw.js` is pt-v121.
+
 ## 2026-10-29 (3), cmags0511 (Claude, research run)
 `picks.py`: the anytime-TD loop skips note keys that don't have 3 parts. The soccer team-bet keys (`SOCT|...`, added Oct 28)
 made `picks.py` crash with "too many values to unpack" whenever the soccer researcher wrote notes. No change to rankings.
