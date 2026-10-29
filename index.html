@@ -2144,7 +2144,7 @@ function renderAppRecord(){
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
   if(SOCR)html+=socBreakdownHtml(done);
   const k0=html.length;
   html+=splitsHtml(done);
