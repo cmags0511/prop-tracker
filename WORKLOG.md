@@ -3,6 +3,15 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-28 (night), cmags0511 (Claude)
+Soccer research check. `research_packets.py` `soccer_packet` now builds `SOCCER-day` from the soccer bets that are recorded: the
+Top picks / Value bets players (it was reading the retired lists) plus the team bets, grouped by match under `matches`
+(keys `SOCT|` + the bet's key). `merge_notes.py` accepts those keys. `RESEARCH.md`: the soccer researcher is back (about 15
+searches, one agent) and its brief now covers team bets (key players out, rotation, fixture congestion). `index.html`: a team
+bet's reasoning sheet shows the note (or "No research on this match yet"), and the card gets a "news" tag on a caution.
+Display only: the notes don't change which bets are listed or recorded. The scheduled research task on the owner's account
+reads RESEARCH.md, so it picks the change up on its next run. `sw.js` -> pt-v119.
+
 ## 2026-10-28 (late), cmags0511 (Claude)
 Soccer record cleanup. Removed the retired lists' rows from `record.json` (Goalscorers, Plus money, old Best value: 113 rows). The
 current player-prop lists (Top picks, Value bets) are recorded again: `record.py` no longer stops at Oct 28 and only reads the

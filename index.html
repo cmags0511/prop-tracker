@@ -3585,13 +3585,17 @@ function socItems(inLg){
   return out;
 }
 // one pick card, the same layout as the NFL Top picks cards (grade line, "See my reasoning" sheet, Track)
+// the research check's note on a team bet (notes.json, key "SOCT|" + the bet's key), shown for 72 hours
+const socTeamNote=c=>{const n=notesFresh()&&NOTES.notes["SOCT|"+c.key];return n&&n.note?n:null};
 function socPickCard(it,i,mt){
   const c=it.c,team=it.kind==="team",when=socWhen(c.t),g=gradeFor(it.edge),G=SOC_GROUPS[it.kind];
   let title,sumTxt,line,sub,sheet;
+  const tn=team?socTeamNote(c):null;
   if(team){
     title=c.bet;sumTxt=`${c.home} vs ${c.away} · ${c.league} · ${when}`;
     line=amFmt(c.price);sub=`${Math.round(c.prob*100)}% · ${esc(c.book)}`;
-    sheet=`<p class="shp">Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}</p>`;
+    sheet=`<p class="shp">Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}</p>`
+      +(tn?`<div class="news"><b class="${tn.flag==="caution"||tn.flag==="out"?"caution":tn.flag==="support"?"support":"neutral"}">${tn.flag==="out"?"Won't go ahead":tn.flag==="caution"?"Caution":tn.flag==="support"?"Research":"News"}</b><span>${esc(tn.note)}</span></div>`:`<p class="shp" style="color:var(--muted)">No research on this match yet. The price check doesn't see injuries, lineups or rotation.</p>`);
   }else{
     const e=c.ev_best??c.ev,fair=decToAm(1/Math.max(.01,c.prob));
     title=c.name;sumTxt=`${c.team} ${c.home?"vs":"@"} ${c.opp} · ${c.league||""} · ${when}`;
@@ -3603,7 +3607,7 @@ function socPickCard(it,i,mt){
   const tr=!team&&socTracked(c);
   const trk=team?"":(new Date(c.t).getTime()<=Date.now()?`<span class="live">Live</span>`:`<button class="trk pkadd ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}" aria-label="${tr?"Tracking":"Add to my picks"}">${tr?"✓ Tracking":"+ Track"}</button>`);
   const who=team?esc(title):`${esc(title)} <small class="pos">${esc(c.pos||"")}</small>`;
-  const sumHtml=team?esc(sumTxt):`${esc(sumTxt)} · ${esc(socLineupTxt(c))}`;
+  const sumHtml=team?esc(sumTxt)+(tn&&(tn.flag==="caution"||tn.flag==="out")?` · <b class="caution">\u26a0 news</b>`:""):`${esc(sumTxt)} · ${esc(socLineupTxt(c))}`;
   return`<article class="pick shw sk" role="button" tabindex="0">
     <div class="pkm"><div class="pkl"><div class="who">${who}</div><div class="pksum">${sumHtml}</div></div>
       <div class="pkr"><div class="pkline over">${line}</div><div class="pkprice">${sub}</div></div></div>
