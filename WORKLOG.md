@@ -3,13 +3,6 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
-## 2026-10-28 (late), cmags0511 (Claude)
-Record is live bets only. Removed the 191 retired soccer player-prop rows (Goalscorers, Plus money, old Best value, Top picks lists)
-from `record.json` and the code that wrote them (`record.py` block 1f; `rec["soccer"]` is gone). The Soccer record is now the
-Team bets only (`soccer_team.json`): the List filter/breakdown and the "Soccer lists" table are removed from `index.html`.
-Headline goes from 85-121 to 7-11 (+9.4u). `sw.js` -> pt-v117. NFL/NBA record untouched (the 42 picks that were only in the
-retired overs-only set are still there).
-
 ## 2026-10-28
 - **cmags0511** (PR, via Claude): Soccer tab rework, front end only (`index.html`, `sw.js` pt-v116; no data, model or grading change).
   (1) Soccer now has two sections like NFL: **Top picks** (Team bets, Most likely players and Value bets as separate groups

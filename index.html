@@ -2013,24 +2013,35 @@ function renderAppBox(){
 // money, so a 40% hit rate can be a winner; the fair line is what matters)
 // the Soccer tab's Top 10 lists, graded at the DraftKings price shown at kickoff (real profit, not -110)
 // ---- soccer record rows: the player-prop lists (record.json) and the team bets (soccer_team.json), one shape ----
+const SOC_LISTS=[["team","Team bets"],["top","Most likely"],["value","Value bets"],["retired","Retired lists"]];
+const socListOf=e=>e.kind==="team"?"team":(e.lists||[]).includes("top")?"top":(e.lists||[]).includes("value")&&e.t>="2026-10-19T15"?"value":"retired";
 function socRecRows(){
+  const P=((RECORD&&RECORD.soccer)||[]).map(e=>Object.assign({},e,{kind:"prop"}));
   const T=((ST&&ST.record)||[]).map(e=>({key:e.key,lg:"SOC",kind:"team",league:e.league,comp:e.lg,name:e.bet,label:e.market,home:e.home,away:e.away,team:e.home,opp:e.away,book:e.book,t:e.t,price:e.price,dec:amDec(e.price),prob:e.prob,ev:e.ev,status:e.status,result:e.result,src:e.src,period:e.period,lists:["team"]}));
-  return T.map(e=>{if(e.grade==null&&e.ev!=null){e.edge=e.kind==="team"&&e.src==="model"?e.ev/2:e.ev;e.grade=gradeFor(e.edge)}return e});
+  return[...P,...T].map(e=>{e.list=socListOf(e);if(e.grade==null&&e.ev!=null){e.edge=e.kind==="team"&&e.src==="model"?e.ev/2:e.ev;e.grade=gradeFor(e.edge)}return e});
 }
-const SOC_BY=[["league","League"],["prop","Bet type"],["book","Book"]];
+const SOC_BY=[["list","List"],["league","League"],["prop","Bet type"],["book","Book"]];
 // W-L, hit rate (vs what the app predicted) and units by list, league, bet type or book; tap a row to filter the record to it
 function socBreakdownHtml(done){
   if(!done.length)return"";
-  const by=SOC_BY.some(([k])=>k===S.socBy)?S.socBy:"league";
-  const key={league:e=>e.league||"",prop:e=>e.label||"",book:e=>e.book||"DraftKings"}[by];
-  const fk={league:"sleague",prop:"prop",book:"sbook"}[by];
-  const lab=v=>v;
+  const by=SOC_BY.some(([k])=>k===S.socBy)?S.socBy:"list";
+  const key={list:e=>e.list,league:e=>e.league||"",prop:e=>e.label||"",book:e=>e.book||"DraftKings"}[by];
+  const fk={list:"slist",league:"sleague",prop:"prop",book:"sbook"}[by];
+  const lab=v=>by==="list"?(SOC_LISTS.find(x=>x[0]===v)||[0,v])[1]:v;
   const groups={};done.forEach(e=>{const k=key(e);if(k)(groups[k]=groups[k]||[]).push(e)});
   const rows=Object.entries(groups).map(([k,a])=>({k,a,t:appTally(a),pr:a.reduce((x,e)=>x+(e.prob||0),0)/a.length})).sort((x,y)=>y.a.length-x.a.length);
   const on=(S.rf||{})[fk];
   return`<div class="learn"><h4>Breakdown</h4><div class="bdseg" role="group" aria-label="Group by">${SOC_BY.map(([k,l])=>`<button class="cat" data-socby="${k}" aria-pressed="${k===by}">${l}</button>`).join("")}</div>
     <div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit · predicted</th><th class="num">Units</th></tr></thead><tbody>${rows.map(r=>`<tr class="rfdrill${String(on||"")===r.k?" on":""}" data-rfset="${fk}" data-rfval="${esc(r.k)}" role="button" tabindex="0"><td>${esc(lab(r.k))}</td><td class="num mono">${r.t.w}-${r.t.l}${r.t.p?`-${r.t.p}`:""}</td><td class="num mono">${pct(r.t.pct)} <small class="pteam">vs ${pct(r.pr)}</small></td><td class="num mono" style="color:${r.t.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(r.t.units)}</td></tr>`).join("")}</tbody></table></div>
     <p class="pteam" style="margin:6px 0 0">Tap a row to filter the whole record to it. Graded picks only, 1 unit each at the saved price.</p></div>`;
+}
+function socRecordHtml(){
+  const T=((RECORD&&RECORD.soccer)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length&&!(ST&&(ST.record||[]).length))return"";
+  const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
+    return`<tr><td>${lab}</td><td class="num mono">${w}-${a.length-w}</td><td class="num mono">${pct(w/a.length)} <small class="pteam">vs ${pct(pr)}</small></td><td class="num mono" style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"\u2212"}${Math.abs(u).toFixed(1)}u</td></tr>`};
+  const L=k=>T.filter(e=>(e.lists||[]).includes(k));
+  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Team bets",((ST&&ST.record)||[]).filter(e=>e.status==="win"||e.status==="loss").map(e=>({status:e.status,dec:amDec(e.price),prob:e.prob})))}${row("Top picks",L("top"))}${row("Value bets",L("value").filter(e=>e.t>="2026-10-19T15"))}${row("Best value (retired Oct 19)",L("value").filter(e=>e.t<"2026-10-19T15"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">1 unit per pick at the DraftKings price when it was listed; void when he doesn't play.</p></div>`;
 }
 function tdRecordHtml(){
   const T=((RECORD&&RECORD.td)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length)return"";
@@ -2066,11 +2077,12 @@ const recImp=e=>{const a=recPrice(e);return a==null?null:a>0?100/(a+100):-a/(-a+
 const ODDS_B=[["fav","Favorites (minus odds)",a=>a<0],["dog","Underdogs (plus odds)",a=>a>0],["m150","\u2212150 or shorter",a=>a<=-150],
   ["m101","\u2212149 to \u2212100",a=>a>-150&&a<=-100],["p100","+100 to +199",a=>a>=100&&a<200],["p200","+200 to +499",a=>a>=200&&a<500],["p500","+500 or longer",a=>a>=500]];
 const PROB_B=[["lt30","Under 30%",p=>p<.3],["30","30\u201350%",p=>p>=.3&&p<.5],["50","50\u201360%",p=>p>=.5&&p<.6],["60","60% or more",p=>p>=.6]];
-const RF_KEYS=["odds","prob","edge","side","prop","days"],SOC_RF=["sleague","sres","sbook"];
+const RF_KEYS=["odds","prob","edge","side","prop","days"],SOC_RF=["slist","sleague","sres","sbook"];
 S.rf={};try{S.rf=JSON.parse(localStorage.getItem("ptRecF")||"{}")||{}}catch(e){S.rf={}}
 function rfPass(e){
   const f=S.rf||{},a=recPrice(e),p=e.prob;
   if(e.lg==="SOC"){  // soccer-only filters: list, league, result, book
+    if(f.slist&&e.list!==f.slist)return false;
     if(f.sleague&&e.league!==f.sleague)return false;
     if(f.sres&&e.status!==f.sres)return false;
     if(f.sbook&&(e.book||"DraftKings")!==f.sbook)return false;
@@ -2087,7 +2099,7 @@ function recFilterBar(list,soc){
   const f=S.rf||{},sel=(k,label,opts)=>`<label class="rf${f[k]?" on":""}"><span class="sr">${label}</span><select data-rf="${k}" aria-label="${label}"><option value="">${label}</option>${opts.map(([v,t])=>`<option value="${v}"${String(f[k]||"")===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
   const props=[...new Set(list.map(e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label))].sort();
   const n=(soc?[...SOC_RF,...RF_KEYS]:RF_KEYS).filter(k=>f[k]).length;
-  const socSel=soc?sel("sleague","League",[...new Set(list.map(e=>e.league).filter(Boolean))].sort().map(l=>[l,l]))+sel("sres","Result",[["win","Won"],["loss","Lost"],["push","Push"],["void","Void"],["pending","Locked"]])+sel("sbook","Book",[...new Set(list.map(e=>e.book||"DraftKings"))].sort().map(b=>[b,b])):"";
+  const socSel=soc?sel("slist","List",SOC_LISTS)+sel("sleague","League",[...new Set(list.map(e=>e.league).filter(Boolean))].sort().map(l=>[l,l]))+sel("sres","Result",[["win","Won"],["loss","Lost"],["push","Push"],["void","Void"],["pending","Locked"]])+sel("sbook","Book",[...new Set(list.map(e=>e.book||"DraftKings"))].sort().map(b=>[b,b])):"";
   return`<div class="rfbar">${socSel}${sel("odds","Odds",ODDS_B.map(b=>[b[0],b[1]]))}${sel("prob","App's chance",PROB_B.map(b=>[b[0],b[1]]))}${sel("edge","Value",[["pos","App saw value"],["neg","No value"]])}${soc?"":sel("side","Side",[["over","Overs"],["under","Unders"]])}${sel("prop","Prop",props.map(p=>[p,p]))}${sel("days","Dates",[[7,"Last 7 days"],[30,"Last 30 days"]])}${n?`<button class="rfclear" data-rfclear="1">Clear ${n}</button>`:""}</div>`;
 }
 // W-L, hit rate (vs the price's break-even) and units for each odds range and each band of the app's chance
@@ -2112,6 +2124,9 @@ function renderAppRecord(){
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
   if(SOCR||lgf==="all")loadSocTeam();  // the team bets record lives in soccer_team.json
+  // soccer's headline and log count the current lists (Top picks, Value bets); the lists retired Oct 19 stay in the
+  // table under it (socRecordHtml), so their losses are still shown
+  const SOC_NOW=e=>(e.lists||[]).some(l=>l==="top"||l==="value"&&e.t>="2026-10-19T15");  // the old Best value list had the same name
   const all=SOCR?socRecRows():((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
   const P0=SOCR?all:all.filter(e=>lgf==="all"||e.lg===lgf);
@@ -2132,7 +2147,7 @@ function renderAppRecord(){
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Every soccer list is counted, retired ones too: use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
   if(SOCR)html+=socBreakdownHtml(done);
   const k0=html.length;
   html+=splitsHtml(done);
@@ -2142,6 +2157,7 @@ function renderAppRecord(){
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
   html+=tdRecordHtml();
+  html+=socRecordHtml();
   html+=calibHtml();
   if(TUNE&&TUNE.graded_picks)html+=`<div class="learn"><h4>How the app is learning</h4><p class="pteam" style="margin:0 0 6px">Every day it re-checks its chances against every graded prop${TUNE.calibration?` (${TUNE.calibration.n} so far, ${TUNE.calibration.days} game day${TUNE.calibration.days===1?"":"s"})`:""} and corrects itself. Corrections start small and grow as more game days are graded.</p>${(TUNE.notes||[]).length?`<ul>${TUNE.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`:`<p class="pteam" style="margin:0">Nothing to adjust yet: ${TUNE.graded_picks} graded pick${TUNE.graded_picks===1?"":"s"} so far. Prop types adjust after 8 graded picks, factors after 25 on each side.</p>`}</div>`;
   // the research's own calls, graded the same way (notes with a side, locked at kickoff)
@@ -2169,7 +2185,7 @@ function renderAppRecord(){
   const days={};
   sorted.forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const note=SOCR?`This record is the same for everyone who uses the app. It counts the soccer team bets the app has listed, as they stood at kickoff, graded from ESPN's final or half-time score (a refund is a push). Units are 1 unit per bet at the price shown then. Soccer player props are no longer recorded. Not betting advice.`
+  const note=SOCR?`This record is the same for everyone who uses the app. It counts every soccer pick the app has listed, as it stood at kickoff: the team bets (graded from ESPN's final or half-time score; a refund is a push) and the player-prop lists, including the ones since retired. Units are 1 unit per pick at the price shown then (from Oct 23, the better of DraftKings' and FanDuel's for player props); void when he doesn't play. Not betting advice.`
     :`This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.`;
   const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
     Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)} · <span style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</span></b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${e.grade?gradeChip(e.grade,e.edge)+" ":""}${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.kind==="team"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${amFmt(e.price)}</b> · ${esc(e.book)}${e.period===1?" · half-time score":""}`:e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.kind==="team"?"–":e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":typeof e.result==="string"?esc(e.result):fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
