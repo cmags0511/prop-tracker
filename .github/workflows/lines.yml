@@ -64,7 +64,7 @@ jobs:
         id: record
         run: python record.py record.json
         continue-on-error: true
-      - name: Lab, market-anchored picks (hidden page; never changes the main Top 10)
+      - name: FanDuel board (anytime-TD prices for the TD lists; also keeps the retired Lab record)
         id: lab_market
         run: python lab_market.py lab_market.json
         continue-on-error: true

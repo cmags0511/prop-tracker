@@ -908,6 +908,12 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .pkr{text-align:right;flex:none}
 .pkline{font:800 17px var(--f-body);color:var(--hit)}.pkline.under{color:var(--miss)}.pkline small{font-size:12px;font-weight:700}
 .pkprice{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
+.gradeln{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font:600 12px var(--f-body);color:var(--muted)}
+.grd{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;font:800 12px var(--f-body);color:#fff;background:var(--muted)}
+.grd.gA{background:var(--hit)}.grd.gB{background:#2f7d8a}.grd.gC{background:#b7791f}.grd.gD{background:var(--line2);color:var(--ink)}.grd.gN{background:transparent;color:var(--muted);border:1px solid var(--line2)}
+.g5 .grd,.rlog .grd,.evp .grd{min-width:18px;height:18px;font-size:11px;border-radius:5px;vertical-align:1px}.grd.gF{background:var(--miss)}
+.pick.shw>.gradeln{margin:-4px 16px 12px}
+.plg{padding:2px 7px;border-radius:999px;background:var(--accent-soft,rgba(80,90,200,.12));color:var(--accent);font-weight:700}
 #top .pkcta{margin:0;border-top:1px solid var(--line)}
 #top .pkcta .seewhy{min-height:44px;padding:0 16px}
 .pkadd{flex:none;height:44px;min-width:52px;margin:0!important;border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:none!important;color:var(--ink2)!important;font:700 12.5px var(--f-body)!important;padding:0 12px!important}
@@ -1151,7 +1157,6 @@ body:has(.wtour) .totop{display:none}
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-every" role="tabpanel" aria-labelledby="lg-ALL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
-    <div id="view-lab" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
     <footer class="sitefoot"><img src="footer.jpg" alt="" width="120" height="160" loading="lazy" decoding="async"></footer>
   </div>
@@ -1430,13 +1435,15 @@ function renderTdTop(){
     el.hidden=false;
     const L=tdResearchList(now),fair=p=>decToAm(1/Math.max(.01,p));
     el.innerHTML=`<div class="tophead"><h2>Top <span>Anytime TDs</span></h2><div class="seg2 sidesw" role="group" aria-label="TD list"><button data-tdl="research" aria-pressed="true">Research</button><button data-tdl="likely" aria-pressed="false">Likeliest</button><button data-tdl="long" aria-pressed="false">Plus money</button></div></div>
-    <p class="topsub">The scorers today's research backs, likeliest first, with FanDuel's anytime-TD odds.</p>
+    <p class="topsub">The scorers today's research backs, likeliest first, with FanDuel's anytime-TD odds. Only ones graded D or better are worth a bet; the record only counts TDs priced at or near fair.</p>
     ${L.length?`<div class="tdpicks">${L.map((c,i)=>{const t=new Date(c.t),fd=fdTd(c),tracked=MY.some(x=>x.lg===c.lg&&x.pid===c.id&&x.market==="td"&&x.t===t.toISOString());
-      const ev=fd!=null?c.prob*amDec(fd)-1:null;
+      // TD chances have run a little high (50% predicted, 47% scored through Oct 26): graded at 94% of the app's chance
+      const pc=c.prob*.94,ev=fd!=null?pc*amDec(fd)-1:null,gd=gradeFor(ev);
       return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos||""}</small>${c.status?" "+QPILL(c.status):""}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="tdprob"><b>${fd!=null?amFmt(fd):"–"}</b><small>${fd!=null?"FanDuel":FDTD?"not on FanDuel yet":"loading odds"}</small></span></div>
+      ${gradeHtml(gd,ev,{parlay:(gd==="A"||gd==="B")&&pc>=.55})}
       ${c.research?`<div class="news"><b class="support">Research</b><span>${esc(c.research)}</span></div>`:""}
-      <div class="pkmeta"><span class="fx nt" title="The app's chance he scores (TD model, Kalshi and the research)">${Math.round(c.prob*100)}% to score</span><span class="fx nt">fair ${fair(c.prob)}</span>${ev!=null?`<span class="fx ${ev>=0?"good":"nt"}" title="FanDuel's price against the app's chance">${ev>=0?"FanDuel pays more than fair":"FanDuel's price is shorter than fair"}</span>`:""}${c.kalshi!=null?`<span class="fx nt">Kalshi ${Math.round(c.kalshi*100)}%</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}</div>`
+      <div class="pkmeta"><span class="fx nt" title="The app's chance he scores (TD model, Kalshi and the research), trimmed 6% for grading">${Math.round(pc*100)}% to score</span><span class="fx nt">fair ${fair(pc)}</span>${c.kalshi!=null?`<span class="fx nt">Kalshi ${Math.round(c.kalshi*100)}%</span>`:""}<button class="trk sm ${tracked?"on":""}" data-tk="${esc(c.key)}">${tracked?"\u2713 Tracking":"+ Track"}</button></div></div>`}).join("")}</div>`
       :`<p class="pteam">The research hasn't backed any scorers${S.team?" for "+S.team:""} for upcoming games yet. It runs each morning (7:34 AM) and before Sunday kickoffs.</p>`}
     <p class="topnote" style="margin:0">"Fair" is what the odds would be if the app's chance were exactly right. Odds shorter than fair (like −300 when fair is −200) cost money on average even when he scores often.</p>`;
     return}
@@ -1451,6 +1458,7 @@ function renderTdTop(){
     const st=c.status?" "+QPILL(c.status):"";
     return`<div class="pick td" role="button" tabindex="0" data-lg="${c.lg}" data-m="td" data-id="${esc(c.id+"|td")}"><span class="rank">${i+1}</span>
       <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small>${st}<small>${c.team} ${c.home?"vs":"@"} ${c.opp} \u00b7 ${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></span><span class="tdprob"><b>${Math.round(c.prob*100)}%</b><small>fair ${fair(c.prob)}</small></span></div>
+      ${(()=>{const fd=fdTd(c);if(fd==null)return gradeHtml(null,null,{ungraded:true});const pc=c.prob*.94,e=pc*amDec(fd)-1,g=gradeFor(e);return gradeHtml(g,e,{parlay:(g==="A"||g==="B")&&pc>=.55})})()}
       <div class="why">${esc(c.why)}</div>
       ${c.research?`<div class="news"><b class="${c.radj<0?"caution":"support"}">${c.radj<0?"Caution":"Research"}</b><span>${esc(c.research)}</span></div>`:""}
       <div class="pkmeta">${c.kalshi!=null?`<span class="fx nt" title="Kalshi traders' chance he scores">Kalshi ${Math.round(c.kalshi*100)}%</span>`:`<span class="fx nt">No Kalshi market</span>`}${fdTd(c)!=null?`<span class="fx nt" title="FanDuel's anytime-TD odds">FanDuel ${amFmt(fdTd(c))}</span>`:""}<span class="fx nt" title="The app's stats-only estimate: his recent TD rate, touches and his team's projected points">Stats ${Math.round(c.stat*100)}%</span>${c.kalshi!=null&&c.stat-c.kalshi>=.04?`<span class="fx good" title="His numbers say he scores more often than the market's price">Stats above market</span>`:""}${c.conf?`<span class="pteam">${esc(c.conf)} confidence</span>`:""}${buzz[c.buzz]?`<span class="fx nt" title="How much bettors and analysts are talking him up online. Popular TD picks are often priced shorter, so this is context, not a reason to bet">${buzz[c.buzz]}</span>`:""}<button class="trk sm ${tracked||inSlip?"on":""}" data-tk="${esc(c.key)}">${tracked&&inSlip?"\u2713 Straight + parlay":tracked?"\u2713 Tracking":inSlip?"\u2713 In parlay":"+ Track"}</button></div></div>`}).join("")}</div>`:`<p class="pteam">No ${which==="long"?"plus-money ":""}TD picks${S.team?" for "+S.team:""} right now.</p>`}
@@ -1525,7 +1533,7 @@ function renderCfbTop(){
   const keep=(hidden,html)=>{renderCfbTop.memo={k:memoKey,d:DATA,hidden,html};el.hidden=hidden;el.innerHTML=html};
   if(!out.length){keep(true,"");return}
   const nApp=out.filter(c=>c.app).length,day=d=>d.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
-  keep(false,`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span>${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol>${nApp<out.length?`<p class="pteam" style="margin:6px 0 0">A <b>lean</b> has no sportsbook line in the feed yet: the line shown is his typical game this season, and the lean comes from the matchup, his last 3 games and the expected score. Check your book's number before using one.</p>`:""}</section>`);
+  keep(false,`<section class="gtop5"><h4>College Top ${out.length} ${OVERS()?"overs":"props"}<span>every game and prop type${nApp&&nApp<out.length?` \u00b7 ${nApp} with real lines, ${out.length-nApp} lean${out.length-nApp>1?"s":""} vs his typical game`:nApp?" \u00b7 ranked by the app against real lines":" \u00b7 leans vs each player's typical game (no lines yet)"} \u00b7 tap for the game</span></h4><ol>${out.map((c,i)=>`<li><button class="g5" data-cfb5="${esc(gameId(c.x))}" data-key="${esc(c.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(c.mk)}</span> ${(()=>{const gp=gradeOf(c.key);return gp&&gp.side===c.side?gradeChip(gp.grade,gp.edge):gradeChip(null)})()}${c.app?"":' <span class="pill p sm" title="No sportsbook line yet: this is his typical game. Compare with your book\'s line.">lean</span>'}</span><span class="g5w">${esc(c.x.away)} @ ${esc(c.x.home)} \u00b7 ${day(c.x.t)} \u00b7 ${esc(c.why)}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol>${nApp<out.length?`<p class="pteam" style="margin:6px 0 0">A <b>lean</b> has no sportsbook line in the feed yet: the line shown is his typical game this season, and the lean comes from the matchup, his last 3 games and the expected score. Check your book's number before using one.</p>`:""}</section>`);
 }
 // "See my reasoning": the pick, the why, the numbers with the last 10 games against the line, the market and the
 // model's factors, each in its own card
@@ -1587,6 +1595,40 @@ function deepHtml(c,p,m){
     +(lh?shSec("",lineMovesHtml(lh,m,line)):"")
     +shSec("Game log",glog,`${g.length} games`);
 }
+// ---- pick grades (picks.py grade_picks): A 2u, B 1u, C 0.5u, D pass. The chance is the sportsbook's no-vig price
+// adjusted by what the app's graded picks have actually added on top of it ----
+const GRADE_TXT={A:"2 units",B:"1 unit",C:"½ unit",D:"pass",F:"avoid"};
+function gradeFor(edge,real=true){if(edge==null)return null;let g=edge>=.05?"A":edge>=.03?"B":edge>=.01?"C":edge>=-.02?"D":"F";if(!real&&(g==="A"||g==="B"))g="C";return g}
+function gradeHtml(g,edge,opts={}){
+  if(!g)return opts.ungraded?`<div class="gradeln">${gradeChip(null)}<span>Not graded yet: no sportsbook price posted for this line</span></div>`:"";
+  const tip=`Grade ${g}: expected return ${edge>=0?"+":"−"}${Math.abs(edge*100).toFixed(1)}% at this price. A = 5%+ (2 units), B = 3–5% (1 unit), C = 1–3% (½ unit), D = −2% to 1% (pass), F = below −2% (avoid: the book's price says this side is worse than the app thinks). 1 unit = 1% of your betting bankroll.`;
+  return`<div class="gradeln" title="${esc(tip)}"><span class="grd g${g}">${g}</span><span>${g==="D"?"Pass: about break-even at this price":g==="F"?"Avoid: costs money at this price":`Bet ${GRADE_TXT[g]}`}${edge!=null?` · ${edge>=0?"+":"−"}${Math.abs(edge*100).toFixed(1)}% expected`:""}</span>${opts.parlay?`<span class="plg" title="A likely leg with a positive edge on its own. Parlays only make sense with legs like this: each leg's edge (or cost) multiplies">Parlay leg</span>`:""}${opts.pair?`<span>pairs with ${esc(opts.pair)}</span>`:""}</div>`;
+}
+// compact grade chip for lists (All tab, game top 5s, college, record logs); "–" = no sportsbook price yet
+function gradeChip(g,edge){
+  if(!g)return`<span class="grd gN" title="Not graded yet: no sportsbook price posted for this line">–</span>`;
+  return`<span class="grd g${g}" title="Grade ${g}: ${GRADE_TXT[g]}${edge!=null?`, ${edge>=0?"+":"−"}${Math.abs(edge*100).toFixed(1)}% expected at this price`:""}">${g}</span>`;
+}
+// the grade for a pick key from picks.json (Top lists, prop-type lists and game top 5s)
+let GRADE_IDX=null,GRADE_IDX_AT=null;
+function gradeOf(key){
+  if(!PICKS)return null;
+  if(GRADE_IDX_AT!==PICKS.built){GRADE_IDX=new Map();GRADE_IDX_AT=PICKS.built;
+    for(const c of [...(PICKS.picks||[]),...Object.values(PICKS.byMarket||{}).flat(),...(PICKS.games||[])])if(c.key&&!GRADE_IDX.has(c.key)){
+      GRADE_IDX.set(c.key,c);GRADE_IDX.set(c.key.split("|").slice(1).join("|"),c)}}  // also "id|market", the board's row key
+  return GRADE_IDX.get(key)||null;
+}
+function gradeRecordHtml(P){
+  const L=P.filter(e=>e.grade);
+  const dec=a=>1+(a>0?a/100:100/-a),U={A:2,B:1,C:.5,D:0,F:0};
+  const rows=["A","B","C","D","F"].map(g=>{const d=L.filter(e=>e.grade===g&&(e.status==="win"||e.status==="loss")&&e.price!=null),w=d.filter(e=>e.status==="win").length;
+    const u1=d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0);
+    return`<tr><td><span class="grd g${g}">${g}</span> ${GRADE_TXT[g]}</td><td class="num mono">${d.length?`${w}-${d.length-w}`:"–"}</td><td class="num mono">${d.length?unitsTxt(u1):"–"}</td><td class="num mono">${d.length&&U[g]?unitsTxt(u1*U[g]):"–"}</td></tr>`}).join("");
+  const tot=L.filter(e=>(e.status==="win"||e.status==="loss")&&e.price!=null).reduce((x,e)=>x+(U[e.grade]||0)*(e.status==="win"?dec(e.price)-1:-1),0);
+  return`<div class="learn"><h4>By grade</h4><p class="pteam" style="margin:0 0 8px">Each pick's grade when it locked (from Oct 27). "At stake" is the result betting the suggested units (D and F = no bet). If the grades work, A should do best and F worst.</p>
+    <div class="log"><table class="books"><thead><tr><th>Grade</th><th class="num">W-L</th><th class="num">1u each</th><th class="num">At stake</th></tr></thead><tbody>${rows}
+    <tr><td><b>Following the grades</b></td><td></td><td></td><td class="num mono"><b>${L.some(e=>e.status==="win"||e.status==="loss")?unitsTxt(tot):"–"}</b></td></tr></tbody></table></div></div>`;
+}
 function renderTop(){
   renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
   const el=document.getElementById("top");
@@ -1610,7 +1652,7 @@ function renderTop(){
   const head=`<div class="tophead"><h2>${list.length?`Top <span>${list.length}</span> · `:"Top picks · "}${OVERS()?"Overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}${[OVERS()&&!isAll()?esc(m.label):OVERS()&&FB(S.league)&&S.cat?esc(S.cat):"",S.team].filter(Boolean).map(x=>` <small class="h2sub">${x}</small>`).join("")}</h2>${sideSwitch()}</div>`;
   if(!list.length&&S.team){el.innerHTML=`${head}<p class="topnote">No ${OVERS()?"over ":""}picks for ${esc(S.team)} in the current Top ${isAll()?"lists":esc(m.label.toLowerCase())+" list"}${(DATA[S.league+"meta"].upcoming||[]).some(g=>(g.away===S.team||g.home===S.team)&&g.t.getTime()>now)?"":` (no ${esc(S.team)} game coming up soon)`}. Clear the team filter to see the full Top 10.</p>`;return}
   // NBA counts only this season's games, and a player needs 3 before his recent numbers are used (picks.py nba_early)
-  if(!list.length&&S.league==="NBA"&&LINES&&LINES.NBA&&Object.keys(LINES.NBA).length){el.innerHTML=`${head}<p class="topnote">NBA picks only use this season's games, and a player needs 3 games before his recent numbers count. Most teams get there this weekend, so the NBA Top 10 starts then. DraftKings lines are posted: the All props table and the Games tab show every line, how often each player has cleared it, and the matchup.</p>`;return}
+  if(!list.length&&S.league==="NBA"&&LINES&&LINES.NBA&&Object.keys(LINES.NBA).length){el.innerHTML=`${head}<p class="topnote">The NBA Top 10 is paused until Nov 15. Picks only use this season's games, and with 4–6 games a player there's too little to go on: NBA picks went 61-73 (−12.7u) through Oct 27. It comes back once players have about 10 games. DraftKings lines are still here: the All props table and the Games tab show every line, how often each player has cleared it, and the matchup.</p>`;return}
   if(!list.length){el.innerHTML=`${head}<p class="topnote">${OVERS()&&src.length?`No strong ${S.league} over plays here right now. Tap <b>Overs + unders</b> to see every pick. `:""}${S.league==="CFB"&&!m.fixed?`DraftKings college prop lines aren't in the free feed, so college picks come from the research: before each game day it finds the best published prop lines for the week's biggest games and checks them against these numbers. None are up for this prop right now. You can still type any sportsbook's line on a player to see how often he clears it.`:m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${isAll()?"player prop":esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
@@ -1631,11 +1673,12 @@ function renderTop(){
     return`<article class="pick shw" role="button" tabindex="0" data-lg="${c.lg}" data-m="${c.market}" data-id="${esc(c.id+"|"+c.market)}">
       <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)}${(()=>{const i=injOf(c.lg,c.id);return i&&!OUT_ST.has(i.s)?" "+QPILL(i.s):""})()}</div>
         <div class="pksum">${mtx} · ${c.l10[0]} of last ${c.l10[1]}${n&&n.note?` · <b class="${lcls}">${lbl}</b>`:""}</div></div>
-        <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",c.prob!=null?Math.round(c.prob*100)+"%":""].filter(Boolean).join(" · ")}</div></div></div>
+        <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",(c.p_cal??c.prob)!=null?Math.round((c.p_cal??c.prob)*100)+"%":""].filter(Boolean).join(" · ")}</div></div></div>
+      ${gradeHtml(c.grade,c.edge,{parlay:c.parlay,pair:c.pair,ungraded:true})}
       <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
       <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
-  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?". The daily research checks injuries, roles and news (a player it finds ruled out or in doubt is dropped or ranked lower), and its notes show on each pick, but its own over/under leans no longer move picks: they went 74-96 through Oct 26":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
+  ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?". The daily research checks injuries, roles and news (a player it finds ruled out or in doubt is dropped or ranked lower), and its notes show on each pick, but its own over/under leans no longer move picks: they went 74-96 through Oct 26":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. Picks graded F (the price says they cost money) or priced shorter than −130 are left off the Top lists, and the NBA Top 10 is paused until Nov 15. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
 
 // ---- DraftKings line history (line_hist.json, saved every hour) ----
@@ -1760,12 +1803,11 @@ function render(){
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
   const ve=document.getElementById("view-every");ve.hidden=S.view!=="every";ve.style.display=S.view==="every"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
-  const vl=document.getElementById("view-lab");vl.hidden=S.view!=="lab";vl.style.display=S.view==="lab"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"||S.view==="lab"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="lab"||S.view==="every";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="every";
   document.getElementById("market").hidden=noBoard;
-  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt"||S.view==="lab";  // soccer keeps the sport switch
+  document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
   document.querySelector(".sitefoot").hidden=S.view==="walt";  // no footer photo on the Walters page
   if(S.view==="walt")document.getElementById("iostip")?.remove();  // nor the install tip
@@ -1775,7 +1817,6 @@ function render(){
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
   if(S.view==="walt"){renderWalters();return}
-  if(S.view==="lab"){renderLab();return}
   const rows=boardRows(), m=mkt();
   renderBest();
   renderTop();
@@ -2056,6 +2097,7 @@ function renderAppRecord(){
   html+=splitsHtml(done);
   if(SOCR)html+=socRecordHtml();
   else{
+  html+=gradeRecordHtml(P);
   // what the app has learned from graded results (tune.py)
   html+=clvSummary(((RECORD&&RECORD.picks)||[]).filter(e=>e.line0!=null&&(OVERS()?(e.sets||[]).includes("over"):(e.sets||["all"]).includes("all"))).map(e=>Object.assign({},e,{line:e.line0})),"The app's Top 10 picks (from the line when each was first listed)");
   html+=tdRecordHtml();
@@ -2090,59 +2132,10 @@ function renderAppRecord(){
   const note=SOCR?`This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the price shown then (from Oct 23, the better of DraftKings' and FanDuel's); void when he doesn't play. Not betting advice.`
     :`This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.`;
   const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)}</b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)} · <span style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</span></b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${e.grade?gradeChip(e.grade,e.edge)+" ":""}${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
   html+=`<button class="shcta lcta" data-sheet="Pick log" data-sub="${P.length} picks · ${pend.length} locked">View full pick log</button><div class="shc">${log}</div></div>`;
-  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button><button class="poopy" data-goto="lab">anus hole</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
+  html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
   el.innerHTML=html;
-}
-// ---- Lab: market-anchored picks (lab_market.py -> lab_market.json), a side project that never touches the main
-// Top 10. Each chance starts from Pinnacle's (else FanDuel's, else Kalshi's) price with the margin removed, the app's
-// stats only tilt it, and it bets the side with the better expected profit at the best real price. Reached from the
-// Record tab's "anus hole" link ----
-let LAB=null,labLoading=false;
-function renderLab(){
-  const el=document.getElementById("view-lab");
-  if(!LAB){if(!labLoading){labLoading=true;jget("lab_market.json").then(d=>{LAB=d||{picks:[],record:[]};labLoading=false;if(S.view==="lab")renderLab()})}
-    el.innerHTML=`<section class="top"><p class="pteam">Loading…</p></section>`;return}
-  const M={mkt:{name:"Market-anchored",picks:LAB.picks||[],rec:LAB.record||[],since:LAB.started,n:LAB.n_priced},
-    stats:{name:"Stats only",picks:LAB.picks_stats||[],rec:LAB.record_stats||[],since:LAB.started_stats||LAB.started,n:LAB.n_stats}};
-  const mk=M[S.labM]?S.labM:"mkt",cur=M[mk],now=Date.now();
-  const dec=a=>1+(a>0?a/100:100/-a);
-  const tally=R=>{const d=R.filter(e=>e.status==="win"||e.status==="loss"),w=d.filter(e=>e.status==="win").length;
-    return{w,l:d.length-w,n:d.length,u:d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0),exp:d.reduce((x,e)=>x+e.prob,0),ev:d.length?d.reduce((x,e)=>x+e.ev,0)/d.length:null,pend:R.filter(e=>e.status==="pending").length}};
-  const T={mkt:tally(M.mkt.rec),stats:tally(M.stats.rec)};
-  const uTxt=u=>`<span style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"−"}${Math.abs(u).toFixed(1)}u</span>`;
-  const row=(lab,f)=>`<tr><td>${lab}</td><td class="num mono">${f(T.mkt)}</td><td class="num mono">${f(T.stats)}</td></tr>`;
-  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const day=t=>new Date(t).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"});
-  const why=c=>c.anchor?`FanDuel ${c.side==="over"?"Over":"Under"} ${fmt(c.line)} at <b>${amFmt(c.price)}</b>${c.other!=null?` (other side ${amFmt(c.other)})`:""}. ${esc(c.anchor)}${c.est?" (its price moved from a nearby line, so rougher)":""} says <b>${Math.round(c.mkt*100)}%</b>${c.app!=null?`, the app's stats ${Math.round(c.app*100)}%, blended <b>${Math.round(c.prob*100)}%</b>`:""}.`
-    :`FanDuel ${c.side==="over"?"Over":"Under"} ${fmt(c.line)} at <b>${amFmt(c.price)}</b>${c.other!=null?` (other side ${amFmt(c.other)})`:""}. The app's stats alone say <b>${Math.round(c.prob*100)}%</b>; no market check.`;
-  const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
-    <div class="pk1"><span class="who">${esc(c.name)} <span class="lgtag">${c.lg}</span><small>${esc(c.team)} vs ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
-    <div class="why">${why(c)} Expected about <b class="good">+$${(c.ev*10).toFixed(2)}</b> per $10.</div></div>`;
-  const live=cur.picks.filter(c=>new Date(c.t).getTime()>now);
-  const days={};[...cur.rec].sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  el.innerHTML=`<section class="top"><div class="tophead"><h2>Lab <span>FanDuel props</span></h2><button class="linkbtn" data-goto="app">← Record</button></div>
-    <p class="topsub">Two ways of finding FanDuel player props worth betting, run side by side on paper with real FanDuel lines and prices, so the results can show which one works. Separate from the app's Top 10. Not betting advice; how each works is at the bottom.</p>
-    <div class="log"><table class="books"><thead><tr><th></th><th class="num">Market<br>anchored</th><th class="num">Stats<br>only</th></tr></thead><tbody>
-      ${row("Record",t=>`${t.w}-${t.l}`)}${row("Units",t=>uTxt(t.u))}${row("Hit rate <small class=\"pteam\">(expected)</small>",t=>t.n?`${pct(t.w/t.n)} <small class="pteam">(${pct(t.exp/t.n)})</small>`:"–")}${row("Avg edge expected",t=>t.ev==null?"–":"+"+(t.ev*100).toFixed(1)+"%")}${row("Locked, waiting",t=>t.pend)}
-    </tbody></table></div>
-    <p class="pteam" style="margin:6px 0 0">1 unit a pick at FanDuel's price. Market-anchored since ${esc(M.mkt.since||"")}, stats only since ${esc(M.stats.since||"")}.</p></section>
-    <section class="top"><div class="tophead"><h2>Picks <span>${live.length}</span></h2><div class="seg2" role="group" aria-label="Method">${[["mkt","Market-anchored"],["stats","Stats only"]].map(([k,l])=>`<button data-labm="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div></div>
-    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">Nothing from this method clears +2% right now.${cur.n?` Checked ${cur.n} FanDuel props.`:""}</p>`}
-    <p class="pteam" style="margin:6px 0 0">Updated ${LAB.built?new Date(LAB.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}, every hour.</p></section>
-    ${cur.rec.length?`<section class="board"><div class="bhead"><h2>Pick log · ${cur.name}</h2><p>Void = player didn't play</p></div><div class="bwrap"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list],i)=>{const t=tally(list),open=S.labOpen&&d in S.labOpen?S.labOpen[d]:i===0||list.some(e=>e.status==="pending");
-        return`<tr class="dayrow labday" data-labday="${esc(d)}" role="button" tabindex="0" aria-expanded="${open}"><td colspan="4"><span class="chev">${open?"\u25be":"\u25b8"}</span> ${d}<b>${t.n?`${t.w}-${t.l} \u00b7 ${uTxt(t.u)}`:t.pend?`${t.pend} locked`:""}</b></td></tr>`+(open?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.name)} <span class="lgtag" style="margin-left:4px">${e.lg}</span></div><div class="pteam"><b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label} at ${amFmt(e.price)} ${esc(e.book||"")}${e.est?" ≈":""} · ${Math.round(e.prob*100)}%</div></td><td class="num mono">${fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div></section>`:""}
-    <section class="top labhow"><h3>How it works</h3>
-      <p><b>The bets.</b> Every hour the lab reads FanDuel's player props for upcoming NFL and NBA games: its own line and its price on both sides (NFL passing, rushing and receiving yards, passing TDs, completions, attempts, receptions, rush + rec yards; NBA points, rebounds, assists, threes and the combos). Every pick is a real FanDuel bet at the line and price FanDuel showed.</p>
-      <p><b>Why a bet can be worth it.</b> A price is a chance: −110 means you need to win 52.4% of the time to break even. A bet is worth making when the real chance is higher than the price asks for. The two methods disagree about how to judge the real chance.</p>
-      <p><b>Market-anchored.</b> Starts from Pinnacle, the sharpest sportsbook: it takes the biggest bets, welcomes winning bettors and moves its line when they bet, so its price is the best public read of the real chance. The lab takes Pinnacle's price, removes its small cut, and moves it to FanDuel's line when the two books' lines differ (a rougher estimate, so those count half). When Pinnacle doesn't list the prop, Kalshi traders' chance is used if it's at the same line. The app's own stats then nudge the number by 15–25%. If FanDuel pays better than that chance by 2% or more, it's a pick. The catch: it can only judge props Pinnacle or Kalshi also list.</p>
-      <p><b>Stats only.</b> The control group. It uses only the app's own chance for each prop (recent form, matchup, usage, injuries, game script and the research, the same numbers behind the Top 10, moved to FanDuel's line) and compares it with FanDuel's price, with no market check. It can judge almost every prop, but the app has been overconfident so far (picks it called 71% hit about 54%), so expect more picks with bigger promised edges.</p>
-      <p><b>The lists.</b> Each method keeps its 10 best bets: +2% expected profit or more, one bet per player, at most 3 of any one prop type. Lists update every hour until kickoff, then the picks lock.</p>
-      <p><b>Grading.</b> After the game, each locked pick is graded from the box score at the FanDuel price it locked at: 1 unit per pick, a win pays at that price, a loss costs 1 unit, a push is returned, and a player who doesn't play is void (books refund those). Losses stay on the record as plainly as wins.</p>
-      <p><b>Reading the results.</b> "Expected" next to the hit rate is what the method's own chances said would happen; if it keeps hitting below that, the method is overconfident. A few weeks and a few hundred picks are needed before either record means much. The method that wins over time can then be considered for the main picks.</p>
-    </section>`;
 }
 // ---- "All" in the sport switch: each sport's top picks on one page (S.view "every") ----
 function everyTop(lg){
@@ -2162,10 +2155,10 @@ function renderEvery(){
   const card=(c,i,lg)=>`<button class="pick evp" data-evlg="${lg}" type="button"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.name)}<small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${day(c.t)}</small></span><span class="bet ${c.side}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)}</span></div>
     <div class="why">${esc(first(c.why))}</div>
-    <div class="pkmeta"><span>${Math.round((c.prob||0)*100)}% chance</span>${c.price!=null?`<span>${c.book&&c.book!=="DraftKings"?esc(c.book):"DK"} ${amFmt(c.price)}</span>`:""}${c.l10?`<span>L10 ${c.l10[0]}/${c.l10[1]}</span>`:""}</div></button>`;
+    <div class="pkmeta">${gradeChip(c.grade,c.edge)}<span>${Math.round(((c.p_cal??c.prob)||0)*100)}% chance</span>${c.price!=null?`<span>${c.book&&c.book!=="DraftKings"?esc(c.book):"DK"} ${amFmt(c.price)}</span>`:""}${c.l10?`<span>L10 ${c.l10[0]}/${c.l10[1]}</span>`:""}</div></button>`;
   const socCard=(c,i)=>`<button class="pick evp" data-evlg="SOC" type="button"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.name)}<small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${day(c.t)}</small></span><span class="bet over">${esc(c.label)}</span></div>
-    <div class="pkmeta"><span>${Math.round(c.prob*100)}% chance</span><span>DK ${amFmt(c.price)}</span><span>fair ${decToAm(1/Math.max(.01,c.prob))}</span></div></button>`;
+    <div class="pkmeta">${(()=>{const e=c.ev_best??c.ev;return gradeChip(gradeFor(e),e)})()}<span>${Math.round(c.prob*100)}% chance</span><span>DK ${amFmt(c.price)}</span><span>fair ${decToAm(1/Math.max(.01,c.prob))}</span></div></button>`;
   const sec=(lg,title,list,empty,mk)=>`<section class="top evsec"><div class="tophead"><h2>${title} <span>${list.length?`Top ${Math.min(N,list.length)}`:""}</span></h2><button class="linkbtn" data-evlg="${lg}">See all →</button></div>
     ${list.length?`<div class="picks">${list.slice(0,N).map(mk).join("")}</div>`:`<p class="pteam">${empty}</p>`}</section>`;
   const nba=everyTop("NBA"),nbaEmpty=LINES&&LINES.NBA&&Object.keys(LINES.NBA).length?"NBA picks use this season's games only and start once players have 3 games, this weekend for most teams.":"No NBA lines are posted for upcoming games yet; DraftKings usually posts them the afternoon of each game.";
@@ -3299,7 +3292,7 @@ function gameBody(x){
   if(!bets.length)return html+`<div class="gnone" style="padding:14px">No tracked players for this game yet.</div></div>`;
   const top=est?estTop5(x,bets):gameTop5(x,bets);
   if(!top.length&&OVERS()&&!est)html+=`<div class="gnone" style="padding:4px 2px">No over plays stand out in this game yet.</div>`;
-  if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${top[0].est?"leans":OVERS()?"overs":"picks"}<span>${top[0].est?"no sportsbook lines yet: each line is his typical game, so compare with your book's line":top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span></span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
+  if(top.length)html+=`<section class="gtop5"><h4>Top ${top.length} ${top[0].est?"leans":OVERS()?"overs":"picks"}<span>${top[0].est?"no sportsbook lines yet: each line is his typical game, so compare with your book's line":top.some(c=>c.app)?"ranked by the app":"from recent form"} \u00b7 tap for the full card</span></h4><ol>${top.map((c,i)=>`<li><button class="g5" data-id="${esc(c.r.key)}"><span class="g5n">${i+1}</span><span class="g5b"><span class="g5t"><b>${esc(c.r.p.name)}</b> <span class="pill ${c.side==="over"?"o":"u"}">${c.side==="over"?"Over":"Under"} ${fmt(c.line)}</span> <span class="g5m">${esc(SHORT[c.r.m.id]||c.r.m.label)}</span> ${(()=>{const gp=gradeOf(c.r.key);return gp&&gp.side===c.side?gradeChip(gp.grade,gp.edge):gradeChip(null)})()}</span><span class="g5w">${esc(c.why.split(/(?<=\.)\s/)[0])}</span></span>${c.prob?`<span class="g5p mono">${Math.round(c.prob*100)}%</span>`:""}</button></li>`).join("")}</ol></section>`;
   if(!est)html+=stackHtml(x,pickKeys);
   html+=`<div class="gsub">${est?`${lg==="CFB"?"College props aren't in the free line feed (the research adds real lines for the biggest games about 2 days out)":"DraftKings hasn't posted props for this game yet"} \u00b7 lines are estimates from each player's median`:`${bets.filter(r=>!r.m.fixed).length} DraftKings bets${bets.some(r=>r.m.fixed)?" + anytime TDs":""} \u00b7 L10 and season = how often he's gone over the line`}</div>`;
   if(mks.length>1)html+=`<div class="gchips">${[{id:"",label:"All"},...mks].map(m=>`<button data-gmk="${m.id}" aria-pressed="${(S.gmk||"")===m.id}">${m.id?SHORT[m.id]||m.label:"All"}</button>`).join("")}</div>`;
@@ -3480,6 +3473,7 @@ function socCard(c,i,mt){
   return`<div class="pick soc${open?" open":""}" data-socpl="${esc(c.key+"|"+c.ev_id)}" role="button" tabindex="0" aria-expanded="${open}"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.bp??c.price)}</b><small>${esc(c.label)}${c.bb==="FanDuel"?" \u00b7 FanDuel":""}</small></span></div>
     <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}). DraftKings ${amFmt(c.price)}${c.fd!=null?` \u00b7 FanDuel ${amFmt(c.fd)}${c.bb==="FanDuel"?" (better)":c.fd===c.price?"":" (DraftKings better)"}`:""}. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${(c.ev_best??c.ev)>0?`Expected profit <b class="good">+$${((c.ev_best??c.ev)*10).toFixed(2)}</b> per $10 at the better price.`:`At the better price it still loses about $${(-(c.ev_best??c.ev)*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</div>
+    ${(()=>{const e=c.ev_best??c.ev;return gradeHtml(gradeFor(e),e)})()}
     ${rs}<div class="pkmeta">${socSpark(vals,c.k)}${socLineup(c)}${mv}<button class="trk sm ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}">${tr?"\u2713 Tracking":"+ Track"}</button></div>
     ${open?socPlayerHtml(c.pid,mt):`<span class="socmore">Tap for his last 10 matches and every bet on him \u25be</span>`}</div>`;
 }
@@ -3544,6 +3538,7 @@ function teamBetsHtml(inLg,lf){
   const why=c=>`Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}`;
   const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
     <div class="pk1"><span class="who">${esc(c.home)} vs ${esc(c.away)}<small>${esc(c.league)} · ${socWhen(c.t)}</small></span><span class="bet over">${esc(c.bet)}</span></div>
+    ${(()=>{const e=c.src==="model"?c.ev/2:c.ev,g=gradeFor(e);return gradeHtml(g,e,{parlay:(g==="A"||g==="B")&&c.prob>=.55})})()}
     <div class="why">${why(c)}</div></div>`;
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
   const days={};[...R].filter(e=>e.status!=="pending"||new Date(e.t).getTime()<=now).sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
@@ -3570,12 +3565,12 @@ function renderSoccer(){
   if(!ms.length){el.innerHTML=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2></div><p class="pteam">No priced matches in the next three days yet. DraftKings posts player props a day or two before kickoff.</p></section>`;return}
   const lgs=[...new Map(ms.map(m=>[m.lg,m.league])).entries()];
   const lf=lgs.some(([k])=>k===S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
-  const list=["top","value","team"].includes(S.socList)?S.socList:"top";
+  const list=["top","value","team"].includes(S.socList)?S.socList:"team";  // Team bets first (Oct 27): the soccer list that's bet and recorded
   const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
   const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
-  const sub={top:`Most likely to happen: the ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest goals, shots and shots on target across every match, for players who start (or almost always do), at most 2 per match. These are likely outcomes, not value bets`,
-    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500",team:""}[list];
-  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>${list==="team"?"team bets":"props"}</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["top","Most likely"],["value","Value bets"],["team","Team bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
+  const sub={top:`Most likely to happen: the ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest goals, shots and shots on target across every match, for players who start (or almost always do), at most 2 per match. These are likely outcomes, not value bets, and no longer recorded as bets (Oct 27)`,
+    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500 (information only: no longer recorded as bets since Oct 27)",team:""}[list];
+  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>${list==="team"?"team bets":"props"}</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["team","Team bets"],["top","Most likely"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
     <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
     ${S.socQ?socSearchHtml(ms):""}
@@ -3940,10 +3935,6 @@ function wire(){
   document.getElementById("tab-up").onclick=()=>setView("up");
   document.getElementById("tab-rec").onclick=()=>setView("rec");
   document.getElementById("tab-app").onclick=()=>setView("app");
-  document.getElementById("view-lab").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
-    const lm=e.target.closest("[data-labm]");if(lm){S.labM=lm.dataset.labm;renderLab();return}
-    const ld=e.target.closest("[data-labday]");if(ld){S.labOpen=S.labOpen||{};S.labOpen[ld.dataset.labday]=ld.getAttribute("aria-expanded")!=="true";renderLab()}});
-  document.getElementById("view-lab").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-labday]")){e.preventDefault();e.target.click()}});
   document.getElementById("view-walt").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}
     if(e.target.closest("[data-wguide]")){openWalGuide();return}
     const wt=e.target.closest("[data-wtab]");if(wt){S.walTab=wt.dataset.wtab;S.walAll=false;renderWalters();return}
@@ -3995,7 +3986,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   document.getElementById("chips").innerHTML=`<span class="chip minor">NFL <b>${nflTxt}</b></span><span class="chip minor">NBA <b>${DATA.NBAmeta.season}</b></span><span class="chip minor"><b>${DATA.NFL.length+DATA.NBA.length}</b> players</span>${LINES&&LINES.fetched?`<span class="chip">DK lines <b>${new Date(LINES.fetched).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}${built?`<span class="chip">Updated <b>${built.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${built.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</b></span>`:""}`;
   // a warning when a data step failed in the latest run, or the daily research hasn't run for a day and a half
   Promise.all([jget("health_update.json"),jget("health_lines.json")]).then(([hu,hl])=>{
-    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history",lab_market:"lab picks",soccer_team:"soccer team bets"};
+    const KEY={fetch_lines:"DraftKings lines",build_data:"game logs",picks:"pick ranking",record:"grading",fetch_context:"injury reports",soccer_data:"soccer props",build_cfb:"college data",fetch_markets:"Kalshi prices",build_usage:"usage data",line_hist:"line history",lab_market:"FanDuel prices",soccer_team:"soccer team bets"};
     const bad=[];for(const h of [hu,hl])if(h&&h.steps&&Date.now()-new Date(h.at).getTime()<12*3600e3)for(const[k,v]of Object.entries(h.steps))if(v==="failure"&&KEY[k]&&!bad.includes(KEY[k]))bad.push(KEY[k]);
     const resH=NOTES&&NOTES.updated?(Date.now()-new Date(NOTES.updated).getTime())/3600e3:null;
     const msg=[bad.length?`The last update couldn't refresh: ${bad.join(", ")}. The app is showing the previous data for those.`:"",resH!=null&&resH>30?`The daily research last ran ${new Date(NOTES.updated).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}: news since then isn't in the notes.`:""].filter(Boolean);

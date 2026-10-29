@@ -290,6 +290,20 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
                     "backup": backup, "why": ". ".join(why) + ".", "research": note.get("note") if note.get("side") else None,
                     "conf": note.get("conf"), "radj": (r_adj * (1 if r_fav == "over" else -1)) if r_fav else (0 if note.get("side") else None), "buzz": note.get("buzz")})
     res.sort(key=lambda c: -c["score"])
+    # Oct 27: a TD is only a "bet" when the best price (Pinnacle, or FanDuel from lab_market.py's fd_board.json) pays at
+    # or near fair: 94% of the app's chance (TDs ran 50% predicted / 48% scored) x the payout >= 0.98. The lists still
+    # show the likeliest scorers; record.py records only the bets
+    try:
+        fdtd = (json.load(open("fd_board.json")).get("td") or {})
+    except Exception:
+        fdtd = {}
+    for c in res:
+        fd = fdtd.get(c["key"])
+        c["fd"] = fd
+        ams = [a for a in (c.get("price"), fd) if isinstance(a, (int, float)) and a]
+        c["bp"] = max(ams, key=lambda a: 1 + (a / 100 if a > 0 else 100 / -a)) if ams else None  # the better price
+        c["td_edge"] = round(.94 * c["prob"] * (1 + (c["bp"] / 100 if c["bp"] > 0 else 100 / -c["bp"])) - 1, 3) if ams else None
+        c["td_bet"] = c["td_edge"] is not None and c["td_edge"] >= -.02
 
     def pick10(pool):
         top, per_team = [], {}
@@ -315,8 +329,130 @@ def td_board(data, ctx, MKTS, notes, CONF, now, ODDS=None):
     long10 = [dict(c, list="long") for c in pick10(lng)]
     keep = ("key", "lg", "id", "name", "team", "pos", "opp", "home", "t", "market", "label", "side", "line", "prob", "stat",
             "kalshi", "l10", "season_td", "season_g", "touches", "implied", "status", "research", "radj", "conf", "buzz",
-            "price", "book", "ev")
+            "price", "book", "ev", "fd", "bp", "td_edge", "td_bet")
     return top + long10, [{k: c[k] for k in keep} for c in res[:120] if c["radj"] is None or c["radj"] > -1]
+
+
+# ---- pick grades and suggested stakes (Oct 27) ----
+# Each pick gets a fair chance built from the sportsbook's own no-vig price (2,000+ graded props show it's well
+# calibrated) plus what the app's picks have actually added on top of it, learned from every graded prop in
+# calib.json each run: unders have beaten the book's price, overs haven't, and the app's most confident picks did
+# worse, not better. Edge = that chance x the payout - 1. Grade and units (1 unit = 1% of a bankroll, roughly a
+# quarter of the Kelly stake): A 5%+ edge 2u, B 3-5% 1u, C 1-3% 0.5u, D -2% to 1% = pass, F below -2% = avoid.
+# No real price: C at most. Checked out of sample (fit on Oct 7-23, tested Oct 24-26): picks it graded worst
+# returned -9.7%, the rest about -3% to 0%, so it ranks picks, but no group has proven profitable yet.
+GRADES = ((.05, "A", 2.0), (.03, "B", 1.0), (.01, "C", 0.5))
+MIN_PRICE = -130  # Top lists skip anything shorter (Oct 27)
+NBA_TOP_FROM = dt.datetime(2026, 11, 15, tzinfo=dt.timezone.utc)  # NBA Top 10 paused until then (Oct 27)
+GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
+
+
+def _imp(a):
+    return 100 / (a + 100) if a > 0 else -a / (-a + 100)
+
+
+def _lg(p):
+    p = min(.97, max(.03, p))
+    return math.log(p / (1 - p))
+
+
+def grade_feats(side, app, bp, real=True):
+    """what the graded props say matters on top of the book's price (Oct 27, 2,034 props, checked on each half):
+    the side (overs lost in both halves), a modest gap over the book on an under (0-6 points: the app's best spot), and
+    a big gap over the book on either side (6+ points: lost in both halves; the book usually knows something)"""
+    g = app - bp if real else 0.0
+    u = side == "under"
+    return (1.0 if u else 0.0, 0.0 if u else 1.0, 1.0 if (real and u and 0 <= g < .06) else 0.0, 1.0 if (real and g >= .06) else 0.0)
+
+
+GRADE_K = 4
+
+
+def grade_model():
+    """(b_under, b_over, b_small_gap_under, b_big_gap, n): log-odds adjustments to the book's no-vig chance, fit on graded props"""
+    try:
+        rows = json.load(open("calib.json"))["props"]
+    except Exception:
+        return (0.0,) * GRADE_K + (0,)
+    X, Y, OFF = [], [], []
+    for e in rows:
+        if e.get("status") not in ("win", "loss") or not e.get("po") or not e.get("pu") or e.get("pe") or not e.get("prob"):
+            continue
+        bo = _imp(e["po"]) / (_imp(e["po"]) + _imp(e["pu"]))
+        bp = bo if e["side"] == "over" else 1 - bo
+        X.append(grade_feats(e["side"], e["prob"], bp))
+        Y.append(1.0 if e["status"] == "win" else 0.0)
+        OFF.append(_lg(bp))
+    if len(X) < 200:
+        return (0.0,) * GRADE_K + (len(X),)
+    K = GRADE_K
+    b = [0.0] * K
+    for _ in range(30):  # Newton steps, ridge penalty GRADE_LAM on every coefficient
+        g = [-GRADE_LAM * v for v in b]
+        H = [[GRADE_LAM if i == j else 0.0 for j in range(K)] for i in range(K)]
+        for x, y, o in zip(X, Y, OFF):
+            p = 1 / (1 + math.exp(-(o + sum(bi * xi for bi, xi in zip(b, x)))))
+            w = p * (1 - p)
+            for i in range(K):
+                g[i] += (y - p) * x[i]
+                for j in range(K):
+                    H[i][j] += w * x[i] * x[j]
+        # solve H d = g (Gaussian elimination)
+        A = [H[i][:] + [g[i]] for i in range(K)]
+        for i in range(K):
+            piv = A[i][i] or 1e-9
+            for j in range(i + 1, K):
+                f = A[j][i] / piv
+                A[j] = [a - f * c for a, c in zip(A[j], A[i])]
+        d = [0.0] * K
+        for i in reversed(range(K)):
+            d[i] = (A[i][K] - sum(A[i][j] * d[j] for j in range(i + 1, K))) / (A[i][i] or 1e-9)
+        b = [bi + di for bi, di in zip(b, d)]
+        if max(abs(v) for v in d) < 1e-6:
+            break
+    return tuple(round(v, 4) for v in b) + (len(X),)
+
+
+def grade_picks(cands, GM):
+    """adds p_cal, edge, grade, units, parlay (and pair) to each candidate"""
+    coef = GM[:GRADE_K]
+    for c in cands:
+        app = c.get("prob")
+        if app is None:
+            continue
+        real = c.get("price") is not None and not c.get("price_est") and c.get("book_p") is not None
+        if real:
+            bp, price = c["book_p"], c["price"]
+        elif c.get("price") is not None and c.get("price_other") is not None:
+            # prices worked out for this line from a nearby one (fetch_prices.py shift): usable, but C at most
+            bp = _imp(c["price"]) / (_imp(c["price"]) + _imp(c["price_other"]))
+            price = c["price"]
+        else:
+            c.update(p_cal=None, edge=None, grade=None, units=None, parlay=False)  # no price yet: can't be graded
+            continue
+        adj = sum(b_ * x for b_, x in zip(coef, grade_feats(c["side"], app, bp, True)))
+        p = 1 / (1 + math.exp(-(_lg(bp) + adj)))
+        d = 1 + (price / 100 if price > 0 else 100 / -price)
+        edge = p * d - 1
+        g, u = ("D" if edge >= -.02 else "F"), 0.0  # D: about break-even, pass; F: clearly costs money, avoid
+        for lo, gg, uu in GRADES:
+            if edge >= lo:
+                g, u = gg, uu
+                break
+        if not real and g in ("A", "B"):
+            g, u = "C", 0.5  # no real price to check against
+        c.update(p_cal=round(p, 3), edge=round(edge, 3), grade=g, units=u, parlay=g in ("A", "B") and p >= .55)
+    # a parlay partner: another good leg in the same game that tends to hit together (a QB's passing over with his own
+    # receiver's over, or both unders on the same team's passing game)
+    PASS, RECV = {"pyd", "cmp", "att", "ptd"}, {"rec", "recyd"}
+    legs = [c for c in cands if c.get("parlay")]
+    for c in legs:
+        for o in legs:
+            if o is c or o["team"] != c["team"] or o["t"] != c["t"] or o["side"] != c["side"] or o["id"] == c["id"]:
+                continue
+            if (c["market"] in PASS and o["market"] in RECV) or (c["market"] in RECV and o["market"] in PASS):
+                c["pair"] = f"{o['name']} {o['side']} {fmt(o['line'])} {o['label'].lower()}"
+                break
 
 
 def main():
@@ -350,6 +486,12 @@ def main():
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
     except Exception:
         ODDS = {}
+    try:  # FanDuel's own lines and prices for every NFL/NBA player prop (lab_market.py -> fd_board.json, hourly): the
+        # price fallback when Pinnacle hasn't posted and ESPN's feed has none (its NFL feed never has prices; Oct 28)
+        fdb = json.load(open("fd_board.json"))
+        FDB = {c["key"]: c for c in fdb.get("props", []) if now - dt.datetime.fromisoformat(fdb["built"]) < dt.timedelta(hours=6)}
+    except Exception:
+        FDB = {}
     global USAGE
     try:  # how each NFL player is being used: snaps, target / carry share, red zone (build_usage.py)
         USAGE = json.load(open("usage.json"))
@@ -473,6 +615,22 @@ def main():
                     # a price fetch_prices.py worked out for this line rather than one the book quoted at it)
                     dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
                               books=od.get("books"), book=od.get("book"), est_over=od.get("est_over"), est_under=od.get("est_under"))
+                elif FDB.get(f"{lg}|{p['id']}|{mid}") and dk.get("line") is not None:
+                    fq = FDB[f"{lg}|{p['id']}|{mid}"]
+                    if fq["line"] == dk["line"]:
+                        dk = dict(dk, price_over=fq["over"], price_under=fq["under"], book="FanDuel", est_over=False, est_under=False)
+                    else:  # FanDuel's prices moved to DraftKings' line (fetch_prices.shift): an estimate, graded C at most
+                        try:
+                            from fetch_prices import shift
+                            mv = shift(fq["line"], fq["over"], fq["under"], dk["line"], mid)
+                        except Exception:
+                            mv = None
+                        if mv:
+                            dk = dict(dk, price_over=mv[0], price_under=mv[1], book="FanDuel", est_over=True, est_under=True)
+                elif dk.get("po") is not None and dk.get("pu") is not None:
+                    # no Pinnacle / FanDuel quote: DraftKings' own prices at this line, from ESPN's feed (fetch_lines.py).
+                    # Without these most NBA picks had no price at all, so they couldn't be graded (Oct 27)
+                    dk = dict(dk, price_over=dk["po"], price_under=dk["pu"], book="DraftKings", est_over=False, est_under=False)
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
@@ -762,7 +920,13 @@ def main():
                "about": "Every prop with a DraftKings line on the upcoming slate. matchup = opponent's rank (1 = allows the most "
                         "to this position, last 10 games); gap = how far the line is from his recent average; lean = stats side.",
                "props": slate}, open("slate.json", "w"), indent=0)
+    GM = grade_model()
+    grade_picks(cands, GM)
+    print(f"grades: book chance adjusted by under {GM[0]:+.3f}, over {GM[1]:+.3f}, modest-gap under {GM[2]:+.3f}, "
+          f"big gap {GM[3]:+.3f} (log-odds, from {GM[4]} graded props); "
+          + ", ".join(f"{g} {sum(1 for c in cands if c.get('grade') == g)}" for g in "ABCDF"))
     out = {"built": now.isoformat(timespec="minutes"), "picks": []}
+    out["grading"] = {"under": GM[0], "over": GM[1], "gap_small_under": GM[2], "gap_big": GM[3], "n": GM[4]}
     if cands:
         first = min(dt.datetime.fromisoformat(c["t"]) for c in cands)
 
@@ -789,7 +953,15 @@ def main():
                     break
             return chosen
 
-        out["picks"] = slate([c for c in cands if c["score"] > .12], 14)  # 10 shown + spares for ruled-out players
+        # Oct 27 owner's changes: the Top lists skip picks graded F (the price says they cost money) and picks priced
+        # worse than -130 (NFL went 18-12 after Oct 22 but lost units on short prices), and the NBA Top 10 is paused
+        # until players have about 10 games this season (46%, -12.7u through Oct 27). Every prop stays on the board.
+        full = cands
+        cands = [c for c in cands if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)
+                 and not (c["lg"] == "NBA" and now < NBA_TOP_FROM)]
+        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, nothing shorter than {MIN_PRICE}, NBA paused)")
+        top_pool = [c for c in cands if c["score"] > .12]
+        out["picks"] = slate(top_pool, 14) if top_pool else []  # 10 shown + spares for ruled-out players
         out["byMarket"] = {}
         for k in sorted({(c["lg"], c["market"]) for c in cands}):
             pool = [c for c in cands if (c["lg"], c["market"]) == k]
@@ -811,7 +983,8 @@ def main():
                 if len(g) < 5 and all(x["id"] != c["id"] for x in g):
                     g.append(c)
             return [c for g in games.values() for c in g]
-        out["games"] = per_game(cands)
+        # the game views keep NBA (browsing, not the recorded Top 10) but still skip F grades and short prices
+        out["games"] = per_game([c for c in full if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)])
         out["gamesOver"] = per_game(ov)
     # anytime-TD picks: the research's TD calls (no sportsbook line in the feed), with Kalshi's price and his history
     tdp = []

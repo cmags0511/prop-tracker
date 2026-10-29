@@ -3,6 +3,18 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-28
+- **cmags0511** (PR): Grades everywhere. picks.py: FanDuel's own board (fd_board.json from lab_market.py) is the
+  next price fallback after Pinnacle/FanDuel quotes and DraftKings' NBA po/pu (ESPN's NFL feed has no prices), same
+  line = real price, a different line = shifted estimate (C at most). index.html: `gradeChip`/`gradeOf` put a grade
+  on the All tab, each game's Top 5, the college Top list, soccer Most likely cards (from ev_best) and the Record
+  pick log; full cards say "Not graded yet" when no book has posted a price. sw.js bumped.
+
+## 2026-10-28
+- **rmolnar10**: Record tab, full pick log: each day's header now shows that day's net units next to its W-L
+  (e.g. `3-1 · +1.7u`), green/red/gray, from the same appTally units as the headline (pending picks not counted).
+  Display only, no grading change. sw.js pt-v114.
+
 ## 2026-10-27
 - **cmags0511** (weekly results review, PR): Kalshi disagreement check in `picks.py` (`KALSHI_AGAINST = .49`): when
   Kalshi's traders give the pick's side under 49% at DraftKings' line, the score is halved and the card says so, like
@@ -10,6 +22,32 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
   NFL 48%). Replay of the Top 10 from 401 hourly slate.json versions: -17.2u -> -12.3u (NBA -18.2u -> -13.4u, NFL and
   college unchanged). No front-end change. Also: the Lab market-anchored page (PR #2's idea, live since Oct 20) is
   29-44, -13.1u, so PR #2 isn't supported by results.
+- **cmags0511** (PR, on top of #42): Owner's Oct 27 changes. (1) Top lists (picks/byMarket, so the record too) skip
+  F grades and prices shorter than -130 (`MIN_PRICE`); game views keep NBA but apply the same filter. (2) NBA Top 10
+  paused until Nov 15 (`NBA_TOP_FROM`); NBA lines still on the board. (3) Lab page removed (lab_market.py keeps
+  running: it writes fd_board.json, FanDuel's TD prices). (4) RESEARCH.md: news only (flags + sourced facts; side/adj
+  +1 only for availability/role facts), no Best bet, no soccer researcher, smaller search budget, college pass 3 =
+  news check. (5) Soccer: Team bets is the first/default list; player-prop lists are info only and record.py stops
+  recording them after Oct 28 00:00 UTC. (6) TDs: picks.py adds `fd`, `bp` (better of Pinnacle/FanDuel), `td_edge`
+  (94% of the chance x payout - 1) and `td_bet` (edge >= -2%); record.py records only `td_bet` TDs, at the better
+  price. sw.js pt-v113.
+- **cmags0511** (PR): Grades fixed (everything was D). (1) Most NBA picks had no price: picks.py now falls back to
+  DraftKings' own po/pu from lines.json when Pinnacle/FanDuel have no quote (also feeds the book-gap and price
+  checks in the ranking). (2) Estimated (shifted) prices are graded too, C at most; no price = ungraded. (3) Grade
+  model features: under, over, modest app-over-book gap on an under (0-6 pts), big gap (6+ pts, lost in both halves
+  of the graded data); out of sample the worst-graded picks returned -9.7%, the rest -3% to 0%. (4) New F grade
+  (edge below -2%: avoid). sw.js pt-v112.
+- **cmags0511** (PR): Pick grades and suggested units. `picks.py` `grade_model()`/`grade_picks()`: each prop's chance =
+  the book's no-vig price (well calibrated on 2,034 graded props with real prices) + learned log-odds adjustments
+  for under / over / the app's confidence, refit every run from calib.json with a ridge pull toward the book (first
+  fit: under +.10, over -.08, confidence -.02). Edge = chance x payout - 1 → A 5%+ 2u, B 3-5% 1u, C 1-3% 0.5u, D pass;
+  no real price = C at most. `parlay` (A/B and 55%+) and `pair` (same-team QB passing + receiver, same side). Ranking
+  unchanged. record.py saves grade/units/p_cal/edge; Record tab "By grade" table (W-L, 1u, at suggested stake). Cards
+  show the grade line and the graded chance. TD cards graded at FanDuel's price with 94% of the app's chance (TDs ran
+  50% predicted / 47% hit); soccer team bets graded from their Pinnacle edge (model-only at half). sw.js pt-v111.
+- **cmags0511**: Tested Next Gen Stats as a prop signal (`backtest_ngs.py`, README "Usage signals"): not added. Small
+  gains on the synthetic-line backtest didn't hold against real graded DraftKings lines (52-54% at best, some signals
+  reversed). No app or model change.
 
 ## 2026-10-26
 - **rmolnar10**: Walters records audit + star filter (PR). Replayed all 229 hourly walters.json versions (Oct 17–26):
