@@ -244,13 +244,11 @@ def main():
     soc = {(e["key"], e["t"]): e for e in rec.get("soccer", [])}
     sfile = load("soccer.json", {})
     cur_s = {}
-    # Oct 27: soccer player props are no longer recorded as bets (they carry a 25-45% cut: 43-31 but -9.8u); the
-    # lists stay on the Soccer tab as information and the soccer bets are the Team bets (soccer_team.py). Past
-    # entries keep their grades
-    SOC_RECORD_UNTIL = dt.datetime(2026, 10, 28, tzinfo=dt.timezone.utc)
-    for lst in ("top", "value", "plus", "scorers"):  # plus / scorers retired Oct 19 (kept for older soccer.json)
+    # the lists the Soccer tab still shows (Top picks, Value bets) keep being recorded; the Goalscorers, Plus money and
+    # old Best value lists were retired Oct 19 and their rows were removed from the record (Oct 28)
+    for lst in ("top", "value"):
         for c in sfile.get(lst, []):
-            if start(c) > now and now < SOC_RECORD_UNTIL:
+            if start(c) > now:
                 cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)
     for k, e in list(soc.items()):
         if e["status"] == "pending" and start(e) > now and k not in cur_s:
