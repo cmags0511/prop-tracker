@@ -898,10 +898,34 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .slatebtn svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
 .slatebtn .slate{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;padding:0;margin:0}
 .slatebtn .slate b{color:var(--ink)}.slatebtn em{font:800 13px var(--f-body);color:var(--accent);font-style:normal}
+/* soccer tab (Oct 28): NFL-style groups, tags and match rows */
+#soctop{display:flex;flex-direction:column;gap:18px}
+.sg{display:flex;flex-direction:column;gap:10px}
+.sg>.tophead,.sg>.topsub{padding-inline:2px}
+.soctag{flex:none;font:700 11px var(--f-body);border-radius:999px;padding:3px 10px;background:var(--bg);color:var(--muted);border:1px solid var(--line2)}
+.soctag.rec{background:var(--accent-soft,rgba(80,90,200,.12));color:var(--accent);border-color:transparent}
+.pick.sk .pkl .who small.pos{margin-left:4px}
+.skrows{display:flex;flex-direction:column}
+.skrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--line)}
+.skrow:first-child{border-top:0}
+.skn{min-width:0}.skn b{display:block;font:700 13.5px var(--f-body)}.skn small{display:block;font:500 11.5px var(--f-body);color:var(--muted);margin-top:1px}
+.skr{display:flex;align-items:center;gap:8px;flex:none}.skr b{font:700 13px var(--f-body)}
+.gcard.sk .gtop{border-bottom:1px solid var(--line)}
+.gcard.sk .gbody{padding:10px 14px}
+.socres .picks{display:flex;flex-direction:column;gap:10px}
+#view-soc .ddrow{flex-wrap:nowrap}
+#view-soc .dd{flex:1 1 0;min-width:0}
+#view-soc .dd select{width:100%;max-width:none;font-size:13px!important;padding:0 26px 0 12px!important;text-overflow:ellipsis}
+.gm.sk{font:700 1.15rem/1.15 var(--f-display);letter-spacing:.01em}
+.gm.sk .at{font-size:.8rem}
+.bdseg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 8px}
+.bdseg::-webkit-scrollbar{display:none}
+.bdseg .cat{flex:none}
+tr.rfdrill{cursor:pointer}tr.rfdrill:hover td{background:var(--accent-soft)}tr.rfdrill.on td{background:var(--accent-soft);font-weight:700}
 /* pick cards */
-#top .picks{gap:10px}
-#top .pick{display:flex;flex-direction:column;align-items:stretch;padding:0!important;gap:0;overflow:hidden}
-@media (max-width:600px){#top .picks.short .pick:nth-child(n+6){display:none}}
+#top .picks,#soctop .picks{gap:10px}
+#top .pick,#soctop .pick,.socres .pick.sk{display:flex;flex-direction:column;align-items:stretch;padding:0!important;gap:0;overflow:hidden}
+@media (max-width:600px){#top .picks.short .pick:nth-child(n+6),#soctop .picks.short .pick:nth-child(n+6){display:none}}
 .pkm{display:flex;align-items:center;gap:12px;padding:14px 16px 12px}
 .pkl{flex:1;min-width:0}.pkl .who{font:800 16px var(--f-body);display:block}
 .pkl .pksum{font:600 13px var(--f-body);color:var(--muted);margin-top:2px}
@@ -914,11 +938,11 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .g5 .grd,.rlog .grd,.evp .grd{min-width:18px;height:18px;font-size:11px;border-radius:5px;vertical-align:1px}.grd.gF{background:var(--miss)}
 .pick.shw>.gradeln{margin:-4px 16px 12px}
 .plg{padding:2px 7px;border-radius:999px;background:var(--accent-soft,rgba(80,90,200,.12));color:var(--accent);font-weight:700}
-#top .pkcta{margin:0;border-top:1px solid var(--line)}
-#top .pkcta .seewhy{min-height:44px;padding:0 16px}
+#top .pkcta,#soctop .pkcta,.socres .pkcta{margin:0;border-top:1px solid var(--line)}
+#top .pkcta .seewhy,#soctop .pkcta .seewhy,.socres .pkcta .seewhy{min-height:44px;padding:0 16px}
 .pkadd{flex:none;height:44px;min-width:52px;margin:0!important;border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:none!important;color:var(--ink2)!important;font:700 12.5px var(--f-body)!important;padding:0 12px!important}
 .pkadd.on{color:var(--accent)!important}
-#top .pkcta .live{margin:0 14px;font:700 12px var(--f-body);color:var(--warn)}
+#top .pkcta .live,#soctop .pkcta .live{margin:0 14px;font:700 12px var(--f-body);color:var(--warn)}
 .arline{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:12px 14px;border:0;border-radius:14px;background:var(--panel);box-shadow:var(--shadow);color:var(--ink);font:600 13px var(--f-body);cursor:pointer;text-align:left}
 .arl1{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}.arl1>span{color:var(--muted)}
 .arline .arlast{display:flex;gap:3px;flex:1}.arline em{font:800 13px var(--f-body);color:var(--accent);font-style:normal}
@@ -1988,12 +2012,35 @@ function renderAppBox(){
 // how the Top 10 anytime-TD picks have done: hit rate against what the app predicted (TD odds are mostly plus
 // money, so a 40% hit rate can be a winner; the fair line is what matters)
 // the Soccer tab's Top 10 lists, graded at the DraftKings price shown at kickoff (real profit, not -110)
+// ---- soccer record rows: the player-prop lists (record.json) and the team bets (soccer_team.json), one shape ----
+const SOC_LISTS=[["team","Team bets"],["top","Most likely"],["value","Value bets"],["retired","Retired lists"]];
+const socListOf=e=>e.kind==="team"?"team":(e.lists||[]).includes("top")?"top":(e.lists||[]).includes("value")&&e.t>="2026-10-19T15"?"value":"retired";
+function socRecRows(){
+  const P=((RECORD&&RECORD.soccer)||[]).map(e=>Object.assign({},e,{kind:"prop"}));
+  const T=((ST&&ST.record)||[]).map(e=>({key:e.key,lg:"SOC",kind:"team",league:e.league,comp:e.lg,name:e.bet,label:e.market,home:e.home,away:e.away,team:e.home,opp:e.away,book:e.book,t:e.t,price:e.price,dec:amDec(e.price),prob:e.prob,ev:e.ev,status:e.status,result:e.result,src:e.src,period:e.period,lists:["team"]}));
+  return[...P,...T].map(e=>{e.list=socListOf(e);if(e.grade==null&&e.ev!=null){e.edge=e.kind==="team"&&e.src==="model"?e.ev/2:e.ev;e.grade=gradeFor(e.edge)}return e});
+}
+const SOC_BY=[["list","List"],["league","League"],["prop","Bet type"],["book","Book"]];
+// W-L, hit rate (vs what the app predicted) and units by list, league, bet type or book; tap a row to filter the record to it
+function socBreakdownHtml(done){
+  if(!done.length)return"";
+  const by=SOC_BY.some(([k])=>k===S.socBy)?S.socBy:"list";
+  const key={list:e=>e.list,league:e=>e.league||"",prop:e=>e.label||"",book:e=>e.book||"DraftKings"}[by];
+  const fk={list:"slist",league:"sleague",prop:"prop",book:"sbook"}[by];
+  const lab=v=>by==="list"?(SOC_LISTS.find(x=>x[0]===v)||[0,v])[1]:v;
+  const groups={};done.forEach(e=>{const k=key(e);if(k)(groups[k]=groups[k]||[]).push(e)});
+  const rows=Object.entries(groups).map(([k,a])=>({k,a,t:appTally(a),pr:a.reduce((x,e)=>x+(e.prob||0),0)/a.length})).sort((x,y)=>y.a.length-x.a.length);
+  const on=(S.rf||{})[fk];
+  return`<div class="learn"><h4>Breakdown</h4><div class="bdseg" role="group" aria-label="Group by">${SOC_BY.map(([k,l])=>`<button class="cat" data-socby="${k}" aria-pressed="${k===by}">${l}</button>`).join("")}</div>
+    <div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit · predicted</th><th class="num">Units</th></tr></thead><tbody>${rows.map(r=>`<tr class="rfdrill${String(on||"")===r.k?" on":""}" data-rfset="${fk}" data-rfval="${esc(r.k)}" role="button" tabindex="0"><td>${esc(lab(r.k))}</td><td class="num mono">${r.t.w}-${r.t.l}${r.t.p?`-${r.t.p}`:""}</td><td class="num mono">${pct(r.t.pct)} <small class="pteam">vs ${pct(r.pr)}</small></td><td class="num mono" style="color:${r.t.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(r.t.units)}</td></tr>`).join("")}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">Tap a row to filter the whole record to it. Graded picks only, 1 unit each at the saved price.</p></div>`;
+}
 function socRecordHtml(){
-  const T=((RECORD&&RECORD.soccer)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length)return"";
+  const T=((RECORD&&RECORD.soccer)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length&&!(ST&&(ST.record||[]).length))return"";
   const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
     return`<tr><td>${lab}</td><td class="num mono">${w}-${a.length-w}</td><td class="num mono">${pct(w/a.length)} <small class="pteam">vs ${pct(pr)}</small></td><td class="num mono" style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"\u2212"}${Math.abs(u).toFixed(1)}u</td></tr>`};
   const L=k=>T.filter(e=>(e.lists||[]).includes(k));
-  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Top picks",L("top"))}${row("Value bets",L("value").filter(e=>e.t>="2026-10-19T15"))}${row("Best value (retired Oct 19)",L("value").filter(e=>e.t<"2026-10-19T15"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
+  return`<div class="learn"><h4>Soccer lists</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit (predicted)</th><th class="num">Units</th></tr></thead><tbody>${row("Team bets",((ST&&ST.record)||[]).filter(e=>e.status==="win"||e.status==="loss").map(e=>({status:e.status,dec:amDec(e.price),prob:e.prob})))}${row("Top picks",L("top"))}${row("Value bets",L("value").filter(e=>e.t>="2026-10-19T15"))}${row("Best value (retired Oct 19)",L("value").filter(e=>e.t<"2026-10-19T15"))}${row("Plus money (retired Oct 19)",L("plus"))}${row("Goalscorers (retired Oct 19)",L("scorers"))}</tbody></table></div>
     <p class="pteam" style="margin:6px 0 0">1 unit per pick at the DraftKings price when it was listed; void when he doesn't play.</p></div>`;
 }
 function tdRecordHtml(){
@@ -2030,10 +2077,16 @@ const recImp=e=>{const a=recPrice(e);return a==null?null:a>0?100/(a+100):-a/(-a+
 const ODDS_B=[["fav","Favorites (minus odds)",a=>a<0],["dog","Underdogs (plus odds)",a=>a>0],["m150","\u2212150 or shorter",a=>a<=-150],
   ["m101","\u2212149 to \u2212100",a=>a>-150&&a<=-100],["p100","+100 to +199",a=>a>=100&&a<200],["p200","+200 to +499",a=>a>=200&&a<500],["p500","+500 or longer",a=>a>=500]];
 const PROB_B=[["lt30","Under 30%",p=>p<.3],["30","30\u201350%",p=>p>=.3&&p<.5],["50","50\u201360%",p=>p>=.5&&p<.6],["60","60% or more",p=>p>=.6]];
-const RF_KEYS=["odds","prob","edge","side","prop","days"];
+const RF_KEYS=["odds","prob","edge","side","prop","days"],SOC_RF=["slist","sleague","sres","sbook"];
 S.rf={};try{S.rf=JSON.parse(localStorage.getItem("ptRecF")||"{}")||{}}catch(e){S.rf={}}
 function rfPass(e){
   const f=S.rf||{},a=recPrice(e),p=e.prob;
+  if(e.lg==="SOC"){  // soccer-only filters: list, league, result, book
+    if(f.slist&&e.list!==f.slist)return false;
+    if(f.sleague&&e.league!==f.sleague)return false;
+    if(f.sres&&e.status!==f.sres)return false;
+    if(f.sbook&&(e.book||"DraftKings")!==f.sbook)return false;
+  }
   if(f.odds){const b=ODDS_B.find(x=>x[0]===f.odds);if(!b||a==null||!b[2](a))return false}
   if(f.prob){const b=PROB_B.find(x=>x[0]===f.prob);if(!b||p==null||!b[2](p))return false}
   if(f.edge){const i=recImp(e);if(i==null||p==null||(f.edge==="pos")!==(p>i))return false}
@@ -2045,8 +2098,9 @@ function rfPass(e){
 function recFilterBar(list,soc){
   const f=S.rf||{},sel=(k,label,opts)=>`<label class="rf${f[k]?" on":""}"><span class="sr">${label}</span><select data-rf="${k}" aria-label="${label}"><option value="">${label}</option>${opts.map(([v,t])=>`<option value="${v}"${String(f[k]||"")===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
   const props=[...new Set(list.map(e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label))].sort();
-  const n=RF_KEYS.filter(k=>f[k]).length;
-  return`<div class="rfbar">${sel("odds","Odds",ODDS_B.map(b=>[b[0],b[1]]))}${sel("prob","App's chance",PROB_B.map(b=>[b[0],b[1]]))}${sel("edge","Value",[["pos","App saw value"],["neg","No value"]])}${soc?"":sel("side","Side",[["over","Overs"],["under","Unders"]])}${sel("prop","Prop",props.map(p=>[p,p]))}${sel("days","Dates",[[7,"Last 7 days"],[30,"Last 30 days"]])}${n?`<button class="rfclear" data-rfclear="1">Clear ${n}</button>`:""}</div>`;
+  const n=(soc?[...SOC_RF,...RF_KEYS]:RF_KEYS).filter(k=>f[k]).length;
+  const socSel=soc?sel("slist","List",SOC_LISTS)+sel("sleague","League",[...new Set(list.map(e=>e.league).filter(Boolean))].sort().map(l=>[l,l]))+sel("sres","Result",[["win","Won"],["loss","Lost"],["push","Push"],["void","Void"],["pending","Locked"]])+sel("sbook","Book",[...new Set(list.map(e=>e.book||"DraftKings"))].sort().map(b=>[b,b])):"";
+  return`<div class="rfbar">${socSel}${sel("odds","Odds",ODDS_B.map(b=>[b[0],b[1]]))}${sel("prob","App's chance",PROB_B.map(b=>[b[0],b[1]]))}${sel("edge","Value",[["pos","App saw value"],["neg","No value"]])}${soc?"":sel("side","Side",[["over","Overs"],["under","Unders"]])}${sel("prop","Prop",props.map(p=>[p,p]))}${sel("days","Dates",[[7,"Last 7 days"],[30,"Last 30 days"]])}${n?`<button class="rfclear" data-rfclear="1">Clear ${n}</button>`:""}</div>`;
 }
 // W-L, hit rate (vs the price's break-even) and units for each odds range and each band of the app's chance
 function splitsHtml(done){
@@ -2069,17 +2123,18 @@ function renderAppRecord(){
   const el=document.getElementById("view-rec");
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
+  if(SOCR||lgf==="all")loadSocTeam();  // the team bets record lives in soccer_team.json
   // soccer's headline and log count the current lists (Top picks, Value bets); the lists retired Oct 19 stay in the
   // table under it (socRecordHtml), so their losses are still shown
   const SOC_NOW=e=>(e.lists||[]).some(l=>l==="top"||l==="value"&&e.t>="2026-10-19T15");  // the old Best value list had the same name
-  const all=SOCR?((RECORD&&RECORD.soccer)||[]).filter(SOC_NOW):((RECORD&&RECORD.picks)||[]).filter(inSet);
+  const all=SOCR?socRecRows():((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
   const P0=SOCR?all:all.filter(e=>lgf==="all"||e.lg===lgf);
   const P=P0.filter(rfPass);  // the record filters (odds, probability, edge, side, prop, dates)
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"),voids=P.filter(e=>e.status==="void");
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
-  const rfOn=Object.values(S.rf||{}).some(Boolean);
+  const rfOn=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>(S.rf||{})[k]);
   let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
   if(P0.length&&(S.rfOpen||rfOn))html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
@@ -2092,10 +2147,11 @@ function renderAppRecord(){
     <div class="hero2"><div><b class="hbig">${T.w}–${T.l}${T.p?`–${T.p}`:""}</b><span>${pct(T.pct)} hit · ${SOCR?"predicted":"need"} ${need==null?"–":pct(need)}</span></div>
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
-    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the better of DraftKings' and FanDuel's price (DraftKings' before Oct 23) · Top picks and Value bets since Oct 19 (the lists retired that day are under View all splits and stats)":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+    <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Every soccer list is counted, retired ones too: use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}</p></div>`;
+  if(SOCR)html+=socBreakdownHtml(done);
   const k0=html.length;
   html+=splitsHtml(done);
-  if(SOCR)html+=socRecordHtml();
+  if(SOCR){}
   else{
   html+=gradeRecordHtml(P);
   // what the app has learned from graded results (tune.py)
@@ -2123,16 +2179,16 @@ function renderAppRecord(){
   // recent picks as a short list; the whole log by day is one tap away
   const sorted=[...P].sort((a,b)=>new Date(b.t)-new Date(a.t));
   const won=e=>e.status==="win"?payout(e):e.status==="loss"?-1:0;
-  const what=e=>e.lg==="SOC"?`${esc(e.label)}${e.price?` at ${amFmt(e.price)}`:""}`:`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
+  const what=e=>e.kind==="team"?`${esc(e.book)} at ${amFmt(e.price)}`:e.lg==="SOC"?`${esc(e.label)}${e.price?` at ${amFmt(e.price)}`:""}`:`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
   const circ={win:"W",loss:"L",push:"P",void:"V",pending:""};
   html+=`<h3 class="lh">Recent</h3><div class="lcard shw">${sorted.slice(0,8).map(e=>`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${circ[e.status]||""}</i><div class="lmid"><b>${esc(e.name)}</b><span>${what(e)} · ${e.lg==="SOC"?esc(e.league||"Soccer"):e.lg} · ${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span></div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(won(e))}</b></div>`).join("")}`;
   const days={};
   sorted.forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
   const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const note=SOCR?`This record is the same for everyone who uses the app. It counts every pick on the Soccer tab's Top 10 lists as they stood at kickoff. Units are 1 unit per pick at the price shown then (from Oct 23, the better of DraftKings' and FanDuel's); void when he doesn't play. Not betting advice.`
+  const note=SOCR?`This record is the same for everyone who uses the app. It counts every soccer pick the app has listed, as it stood at kickoff: the team bets (graded from ESPN's final or half-time score; a refund is a push) and the player-prop lists, including the ones since retired. Units are 1 unit per pick at the price shown then (from Oct 23, the better of DraftKings' and FanDuel's for player props); void when he doesn't play. Not betting advice.`
     :`This record is the same for everyone who uses the app. It counts each league's Best-overall Top 10 as it stood when each game kicked off. Players ruled out by the morning news check before kickoff aren't counted. Units are 1 unit per pick at the price when the game kicked off, from Pinnacle or else FanDuel at DraftKings' line (≈ = estimated: the book's line differed, so its price was moved to DraftKings' line), or -110 when neither had a price. Not betting advice.`;
   const log=`<div class="bwrap shsec"><table class="rlog"><thead><tr><th>Pick</th><th class="num">Line</th><th class="num">Result</th><th class="num">Status</th></tr></thead><tbody>${
-    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)} · <span style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</span></b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${e.grade?gradeChip(e.grade,e.edge)+" ":""}${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
+    Object.entries(days).map(([d,list])=>{const t=appTally(list);return`<tr class="dayrow"><td colspan="4">${d}${t.n?`<b>${wl(t)} · <span style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</span></b>`:list.some(e=>e.status==="pending")?`<b>${list.filter(e=>e.status==="pending").length} locked</b>`:""}</td></tr>`+list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${e.grade?gradeChip(e.grade,e.edge)+" ":""}${esc(e.name)}${used.length>1?` <span class="lgtag" style="margin-left:4px">${e.lg}</span>`:""}</div><div class="pteam">${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.kind==="team"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${amFmt(e.price)}</b> · ${esc(e.book)}${e.period===1?" · half-time score":""}`:e.lg==="SOC"?`${esc(e.league||"Soccer")} · <b style="color:var(--hit);font-weight:600">${esc(e.label)}</b>${e.price?` at ${amFmt(e.price)}`:""}`:`<b style="color:${e.side==="over"?"var(--hit)":"var(--miss)"};font-weight:600">${e.side==="over"?"Over":"Under"}</b> ${SHORT[e.market]||e.label}${e.price?` at ${e.price_est?"≈":""}${amFmt(e.price)}`:""}`}</div></td><td class="num mono">${e.kind==="team"?"–":e.lg==="SOC"?fmt(e.k-.5):fmt(e.line)}</td><td class="num mono" style="font-weight:600">${e.result==null?"–":typeof e.result==="string"?esc(e.result):fmt(e.result)}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join("")}).join("")}</tbody></table></div>${shSec("How the record works",`<p class="shp">${note} Void = player didn't play.</p>`)}`;
   html+=`<button class="shcta lcta" data-sheet="Pick log" data-sub="${P.length} picks · ${pend.length} locked">View full pick log</button><div class="shc">${log}</div></div>`;
   html+=`<div class="secret"><button class="poopy" data-goto="walt">poopy?</button></div></section>`;  // the Walters-style NFL page; the market-anchored lab
   el.innerHTML=html;
@@ -3464,19 +3520,6 @@ const socTracked=c=>MY.some(x=>x.lg==="SOC"&&x.key===c.key&&x.ev===(c.ev_id||c.e
 function socLineup(c){return c.lineup==="start"?`<span class="fx good" title="ESPN has the lineups: he starts">Starting</span>`:c.lineup==="bench"?`<span class="fx nt" title="ESPN has the lineups: he's on the bench">Bench</span>`:`<span class="fx nt" title="Lineups usually come out about an hour before kickoff; this is how often he's started his team's recent matches">Starts ${Math.round((c.start_rate??.5)*100)}%</span>`}
 function socSpark(vals,k){if(!vals||!vals.length)return"";const mx=Math.max(k,...vals,1);
   return`<span class="spark" title="Last ${vals.length} matches (oldest first); line = ${k}+">${vals.map(v=>`<i class="${v>=k?"hit":""}" style="height:${Math.max(8,v/mx*100)}%"></i>`).join("")}<b style="bottom:${(k-.5)/mx*100}%"></b></span>`}
-function socCard(c,i,mt){
-  const pl=mt&&mt.players&&mt.players[c.pid],vals=pl&&pl.v?pl.v[SOC_STAT[c.m]]:null;
-  const fair=decToAm(1/Math.max(.01,c.prob)),tr=socTracked(c);
-  const mv=c.open!=null&&c.open!==c.price?`<span class="fx ${amDec(c.price)<amDec(c.open)?"good":"nt"}" title="${amDec(c.price)<amDec(c.open)?"The price has shortened since the app first saw it: the market is moving toward this bet":"The price has drifted longer since the app first saw it"}">${amDec(c.price)<amDec(c.open)?"\u25bc":"\u25b2"} from ${amFmt(c.open)}</span>`:"";
-  const rs=c.research?`<div class="news"><b class="${c.rflag==="caution"?"caution":c.rflag==="support"?"support":"neutral"}">${c.rflag==="caution"?"Caution":c.rflag==="support"?"Research":"News"}</b><span>${esc(c.research)}</span></div>`:"";
-  const open=S.socPl===c.key+"|"+c.ev_id;
-  return`<div class="pick soc${open?" open":""}" data-socpl="${esc(c.key+"|"+c.ev_id)}" role="button" tabindex="0" aria-expanded="${open}"><span class="rank">${i+1}</span>
-    <div class="pk1"><span class="who">${esc(c.name)} <small class="pos">${c.pos}</small><small>${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${esc(c.league||"")} · ${socWhen(c.t)}</small></span><span class="tdprob"><b>${amFmt(c.bp??c.price)}</b><small>${esc(c.label)}${c.bb==="FanDuel"?" \u00b7 FanDuel":""}</small></span></div>
-    <div class="why">App's chance <b>${Math.round(c.prob*100)}%</b> (fair ${fair}). DraftKings ${amFmt(c.price)}${c.fd!=null?` \u00b7 FanDuel ${amFmt(c.fd)}${c.bb==="FanDuel"?" (better)":c.fd===c.price?"":" (DraftKings better)"}`:""}. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${(c.ev_best??c.ev)>0?`Expected profit <b class="good">+$${((c.ev_best??c.ev)*10).toFixed(2)}</b> per $10 at the better price.`:`At the better price it still loses about $${(-(c.ev_best??c.ev)*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</div>
-    ${(()=>{const e=c.ev_best??c.ev;return gradeHtml(gradeFor(e),e)})()}
-    ${rs}<div class="pkmeta">${socSpark(vals,c.k)}${socLineup(c)}${mv}<button class="trk sm ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}">${tr?"\u2713 Tracking":"+ Track"}</button></div>
-    ${open?socPlayerHtml(c.pid,mt):`<span class="socmore">Tap for his last 10 matches and every bet on him \u25be</span>`}</div>`;
-}
 // one player's page: his last 10 matches and every DraftKings bet on him in this match
 function socPlayerHtml(pid,mt){
   if(!mt)return"";const pl=mt.players&&mt.players[pid];if(!pl)return"";
@@ -3500,7 +3543,7 @@ function socSearchHtml(ms){
     const best=m.props.filter(p=>p.pid===pid).sort((a,b)=>b.ev-a.ev)[0];if(best)hits.push(Object.assign({},best,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t}));
   }
   hits.sort((a,b)=>b.ev-a.ev);
-  return`<div class="socres"><h3 class="tdh3">${hits.length} player${hits.length===1?"":"s"} found</h3>${hits.length?`<div class="tdpicks">${hits.slice(0,15).map((c,i)=>socCard(c,i,ms.find(m=>m.ev===c.ev_id))).join("")}</div>`:""}</div>`;
+  return`<div class="socres"><h3 class="tdh3">${hits.length} player${hits.length===1?"":"s"} found</h3>${hits.length?`<div class="tdpicks">${hits.slice(0,15).map((c,i)=>socPickCard({kind:"prop",c,m:c.m,edge:c.ev},i,ms.find(m=>m.ev===c.ev_id))).join("")}</div>`:""}</div>`;
 }
 const SOC_LBL={g:"Anytime goal",sh:"shots",sot:"shots on target",a:"assists",sv:"saves",fc:"fouls",card:"Booked"};
 const socLabel=(m,k)=>m==="card"?"Booked":m==="g"?(k>1?`${k}+ goals`:"Anytime goal"):`${k}+ ${SOC_LBL[m]}`;
@@ -3522,93 +3565,163 @@ function socTrack(c){
     t:new Date(c.t).toISOString(),market:"soc_"+c.m,m:c.m,k:c.k,label:c.label,side:"over",line:c.k-.5,price:c.price,league:c.league,added:new Date().toISOString()});
   saveMy();updMyCount();toast(`Tracking ${c.name} ${c.label} at ${amFmt(c.price)}`);
 }
-// ---- Soccer team bets (soccer_team.py -> soccer_team.json): every bet settled by the score, at FanDuel or DraftKings,
-// checked against Pinnacle's sharp prices through a scoreline model. Its own paper record ----
+// ---- Soccer tab (Oct 28 rework): every soccer pick in one place, laid out like the NFL tab ----
+// Top picks = the team bets (soccer_team.py -> soccer_team.json: the recorded soccer bets) + the player-prop lists
+// (soccer.json top / value: information only since Oct 27). Matches = one card per match, like the NFL Games tab.
 let ST=null,stLoading=false;
-function teamBetsHtml(inLg,lf){
-  if(!ST){if(!stLoading){stLoading=true;jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[]};stLoading=false;if(S.view==="soc")renderSoccer()})}
-    return`<p class="pteam">Loading team bets…</p>`}
-  const now=Date.now(),dec=a=>1+(a>0?a/100:100/-a),R=ST.record||[];
-  const tally=L=>{const d=L.filter(e=>e.status==="win"||e.status==="loss"),w=d.filter(e=>e.status==="win").length;
-    return{w,l:d.length-w,n:d.length,u:d.reduce((x,e)=>x+(e.status==="win"?dec(e.price)-1:-1),0),x:d.reduce((x,e)=>x+e.ev,0),pend:L.filter(e=>e.status==="pending").length,push:L.filter(e=>e.status==="push").length}};
-  const uTxt=u=>`<span style="color:${u>=0?"var(--hit)":"var(--miss)"}">${u>=0?"+":"−"}${Math.abs(u).toFixed(1)}u</span>`;
-  const T={main:tally(R.filter(e=>e.src==="main")),model:tally(R.filter(e=>e.src==="model")),all:tally(R)};
-  const row=(lab,f)=>`<tr><td>${lab}</td><td class="num mono">${f(T.main)}</td><td class="num mono">${f(T.model)}</td><td class="num mono">${f(T.all)}</td></tr>`;
-  const live=(ST.picks||[]).filter(c=>new Date(c.t).getTime()>now&&inLg(c)).sort((a,b)=>b.ev-a.ev);
-  const why=c=>`Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}`;
-  const card=(c,i)=>`<div class="pick" style="cursor:default"><span class="rank">${i+1}</span>
-    <div class="pk1"><span class="who">${esc(c.home)} vs ${esc(c.away)}<small>${esc(c.league)} · ${socWhen(c.t)}</small></span><span class="bet over">${esc(c.bet)}</span></div>
-    ${(()=>{const e=c.src==="model"?c.ev/2:c.ev,g=gradeFor(e);return gradeHtml(g,e,{parlay:(g==="A"||g==="B")&&c.prob>=.55})})()}
-    <div class="why">${why(c)}</div></div>`;
-  const badge={win:'<span class="pill o">W</span>',loss:'<span class="pill u">L</span>',push:'<span class="pill p">Push</span>',void:'<span class="pill p">Void</span>',pending:'<span class="pill p">Locked</span>'};
-  const days={};[...R].filter(e=>e.status!=="pending"||new Date(e.t).getTime()<=now).sort((a,b)=>new Date(b.t)-new Date(a.t)).forEach(e=>{const k=new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});(days[k]=days[k]||[]).push(e)});
-  const games=(ST.games||[]).length;
-  return`<p class="topsub">Every bet that's settled by the score (result, draw no bet, double chance, spreads, totals, team totals, both teams to score, the combos, exact goals, margins, and the same for the first half) at FanDuel and DraftKings, checked against Pinnacle, the sharpest book. Listed only when the price beats Pinnacle's fair price. ${games} matches checked, updated ${ST.built?new Date(ST.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"–"}.</p>
-    <div class="log"><table class="books"><thead><tr><th></th><th class="num">Pinnacle<br>prices it</th><th class="num">Model<br>only</th><th class="num">All</th></tr></thead><tbody>
-      ${row("Record",t=>`${t.w}-${t.l}${t.push?`-${t.push}`:""}`)}${row("Units",t=>uTxt(t.u))}${row("Expected",t=>t.n?uTxt(t.x):"–")}${row("Locked, waiting",t=>t.pend)}
-    </tbody></table></div>
-    <p class="pteam" style="margin:6px 0 10px">1 unit a bet at the saved price, since ${esc(ST.started||"")}. "Expected" is what the edges should have earned; over a few dozen bets luck swings units far more than that.</p>
-    ${live.length?`<div class="picks">${live.map(card).join("")}</div>`:`<p class="pteam">No bet beats Pinnacle's fair price${lf!=="all"?" in this league":""} right now. That's the usual case: FanDuel and DraftKings price most of these 3–7% worse than fair.</p>`}
-    ${Object.keys(days).length?`<div class="bwrap" style="margin-top:12px"><table class="rlog"><thead><tr><th>Bet</th><th class="num">Price</th><th class="num">Score</th><th class="num">Status</th></tr></thead><tbody>${
-      Object.entries(days).map(([d,list],i)=>{const t=tally(list),dk="st|"+d,op=dayOpen(dk,i,list);
-        return`<tr class="dayrow dayk" data-dayk="${esc(dk)}" role="button" tabindex="0" aria-expanded="${op}"><td colspan="4"><span class="chev">${op?"▾":"▸"}</span> ${d}<b>${t.n?`${t.w}-${t.l} · ${uTxt(t.u)}`:t.pend?`${t.pend} locked`:""}</b></td></tr>`+(op?list.map(e=>`<tr><td style="white-space:normal"><div class="pname">${esc(e.bet)}</div><div class="pteam">${esc(e.home)} vs ${esc(e.away)} · ${esc(e.book)}${e.period===1?" · score at half-time":""}</div></td><td class="num mono">${amFmt(e.price)}</td><td class="num mono" style="font-weight:600">${e.result||"–"}</td><td class="num"><span class="st">${badge[e.status]||""}</span></td></tr>`).join(""):"")}).join("")}</tbody></table></div>`:""}
-    <div class="labhow" style="margin-top:12px"><h3>How it works</h3>
-      <p><b>Why team bets.</b> Soccer player props carry a 25–45% cut, too much to beat. Team bets carry far less, and Pinnacle, which takes big bets from sharp bettors, prices them closely. When FanDuel or DraftKings pays more than Pinnacle's fair price, the bet is worth more than it costs, on average.</p>
-      <p><b>Fair prices.</b> For each match the app reads Pinnacle's moneyline, every handicap and total line and both team totals (full match and first half), takes out Pinnacle's margin, and fits a score model (each team's expected goals plus a small correction for low scores) that reproduces those prices, usually within a fraction of a percent. That gives a fair chance for every score, and so for every bet settled by the score.</p>
-      <p><b>The rules.</b> A bet is listed when it pays at least 2% more than fair on markets Pinnacle prices itself (result, double chance, draw no bet, spreads, totals, team totals), or 5% on ones only the model prices (both teams to score, combos, exact goals, margins; none longer than +300 there, since long shots are where a model is least sure). At most 2 per match; when both books offer the same bet, the better price. Picks update every hour and lock at kickoff. Graded from ESPN's final (or half-time) score: a win pays at the saved price, a loss costs 1 unit, a refund (draw no bet, whole-number lines) is a push. League matches only; corners, cards, shots and first-scorer bets aren't checked, because there's no sharp price for them.</p>
-      <p><b>Be realistic.</b> The edges are small (2–6%), so even if they're real it takes a few hundred bets for the record to show it; a 20-bet stretch can easily be down. Not betting advice.</p></div>`;
+function loadSocTeam(){
+  if(ST||stLoading)return;stLoading=true;
+  jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[],games:[]};stLoading=false;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord()});
+}
+const SOC_GROUPS={
+  prop:{title:"Search result",tag:"",sub:""},
+  team:{title:"Team bets",tag:"Recorded",sub:"Bets settled by the score, at FanDuel or DraftKings, that pay more than Pinnacle's fair price. These are the soccer bets the record counts."},
+  top:{title:"Most likely players",tag:"Info only",sub:"The likeliest goals, shots and shots on target for players who start, at most 2 per match. Likely outcomes, not value bets, and no longer recorded as bets."},
+  value:{title:"Value bets",tag:"Info only",sub:"Player props whose chance beats the sportsbook's price, long shots capped at +500. No longer recorded as bets."}
+};
+const socLineupTxt=c=>c.lineup==="start"?"Starting":c.lineup==="bench"?"On the bench":`Starts ${Math.round((c.start_rate??.5)*100)}%`;
+const socEdge=(kind,c)=>kind==="team"?(c.src==="model"?c.ev/2:c.ev):(c.ev_best??c.ev);
+function socItems(inLg){
+  const now=Date.now(),out=[];
+  for(const c of (ST&&ST.picks)||[])if(new Date(c.t).getTime()>now&&inLg(c))out.push({kind:"team",c,m:"team",edge:socEdge("team",c)});
+  for(const k of ["top","value"])for(const c of (SOC&&SOC[k])||[])if(new Date(c.t).getTime()>now&&inLg(c))out.push({kind:k,c,m:c.m,edge:socEdge(k,c)});
+  return out;
+}
+// one pick card, the same layout as the NFL Top picks cards (grade line, "See my reasoning" sheet, Track)
+function socPickCard(it,i,mt){
+  const c=it.c,team=it.kind==="team",when=socWhen(c.t),g=gradeFor(it.edge),G=SOC_GROUPS[it.kind];
+  let title,sumTxt,line,sub,sheet;
+  if(team){
+    title=c.bet;sumTxt=`${c.home} vs ${c.away} · ${c.league} · ${when}`;
+    line=amFmt(c.price);sub=`${Math.round(c.prob*100)}% · ${esc(c.book)}`;
+    sheet=`<p class="shp">Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}</p>`;
+  }else{
+    const e=c.ev_best??c.ev,fair=decToAm(1/Math.max(.01,c.prob));
+    title=c.name;sumTxt=`${c.team} ${c.home?"vs":"@"} ${c.opp} · ${c.league||""} · ${when}`;
+    line=esc(c.label);sub=`${amFmt(c.bp??c.price)} · ${Math.round(c.prob*100)}%`;
+    sheet=`<p class="shp">App's chance ${Math.round(c.prob*100)}% (fair ${fair}). DraftKings ${amFmt(c.price)}${c.fd!=null?` · FanDuel ${amFmt(c.fd)}${c.bb==="FanDuel"?" (better)":c.fd===c.price?"":" (DraftKings better)"}`:""}. Hit ${c.hits[0]} of his last ${c.hits[1]}. ${e>0?`Expected profit +$${(e*10).toFixed(2)} per $10 at the better price.`:`At the better price it still loses about $${(-e*10).toFixed(2)} per $10 on average; worth it at ${fair} or better.`}</p>`
+      +(c.research?`<div class="news"><b class="${c.rflag==="caution"?"caution":c.rflag==="support"?"support":"neutral"}">${c.rflag==="caution"?"Caution":c.rflag==="support"?"Research":"News"}</b><span>${esc(c.research)}</span></div>`:"")
+      +(mt?socPlayerHtml(c.pid,mt):"");
+  }
+  const tr=!team&&socTracked(c);
+  const trk=team?"":(new Date(c.t).getTime()<=Date.now()?`<span class="live">Live</span>`:`<button class="trk pkadd ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}" aria-label="${tr?"Tracking":"Add to my picks"}">${tr?"✓ Tracking":"+ Track"}</button>`);
+  const who=team?esc(title):`${esc(title)} <small class="pos">${esc(c.pos||"")}</small>`;
+  const sumHtml=team?esc(sumTxt):`${esc(sumTxt)} · ${esc(socLineupTxt(c))}`;
+  return`<article class="pick shw sk" role="button" tabindex="0">
+    <div class="pkm"><div class="pkl"><div class="who">${who}</div><div class="pksum">${sumHtml}</div></div>
+      <div class="pkr"><div class="pkline over">${line}</div><div class="pkprice">${sub}</div></div></div>
+    ${gradeHtml(g,it.edge,{parlay:team&&(g==="A"||g==="B")&&c.prob>=.55})}
+    <div class="shc">${shSec("",sheet)}</div>
+    <div class="pkcta"><button class="seewhy" data-sheet="${esc(title)}" data-kick="${esc(`#${i+1} ${G.title}`)}" data-sub="${esc(sumTxt)}">See my reasoning</button>${trk}</div></article>`;
+}
+function socGroupHtml(key,list,lf,mtOf){
+  const G=SOC_GROUPS[key],more=S.socMore&&S.socMore[key];
+  const empty=key==="team"?`<p class="topnote">No bet beats Pinnacle's fair price${lf!=="all"?" in this league":""} right now. That's the usual case: FanDuel and DraftKings price most of these 3–7% worse than fair.</p>`:`<p class="topnote">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`;
+  return`<section class="sg"><div class="tophead mh"><h2>${G.title}</h2><span class="soctag${key==="team"?" rec":""}">${G.tag}</span></div><p class="topsub">${G.sub}</p>
+    ${list.length?`<div class="picks ${more?"":"short"}">${list.map((it,i)=>socPickCard(it,i,mtOf(it.c))).join("")}</div>${list.length>5?`<button class="morepicks" data-socmore="${key}">${more?"Show top 5":`Show all ${list.length}`}</button>`:""}`:empty}</section>`;
+}
+// every soccer match with a priced prop or a team bet, soonest first
+function socMatches(inLg){
+  const ms=socAll().filter(inLg),seen=new Set(ms.map(m=>String(m.ev))),now=Date.now(),extra=new Map();
+  for(const c of (ST&&ST.picks)||[]){
+    if(new Date(c.t).getTime()<=now||!inLg(c)||seen.has(String(c.espn))||extra.has(c.espn))continue;
+    extra.set(c.espn,{ev:String(c.espn),lg:c.lg,league:c.league,t:c.t,home:c.home,away:c.away,home_n:c.home,away_n:c.away,props:[],players:{},teamOnly:true});
+  }
+  return[...ms,...extra.values()].sort((a,b)=>new Date(a.t)-new Date(b.t));
+}
+function socMatchPicks(m){
+  const out=[];
+  for(const c of (ST&&ST.picks)||[])if(String(c.espn)===String(m.ev))out.push({kind:"team",c,edge:socEdge("team",c)});
+  out.sort((a,b)=>b.edge-a.edge);
+  for(const k of ["top","value"])for(const c of (SOC&&SOC[k])||[])if(String(c.ev_id)===String(m.ev))out.push({kind:k,c,edge:socEdge(k,c)});
+  return out;
+}
+function socMiniRow(it){
+  const c=it.c,team=it.kind==="team";
+  return`<div class="skrow"><span class="skn"><b>${team?esc(c.bet):`${esc(c.name)} · ${esc(c.label)}`}</b><small>${team?`Team bet · ${esc(c.book)}`:SOC_GROUPS[it.kind].title}</small></span><span class="skr"><b>${amFmt(team?c.price:(c.bp??c.price))}</b>${gradeChip(gradeFor(it.edge),it.edge)}</span></div>`;
+}
+function socMatchCard(m){
+  const open=S.socOpen===String(m.ev),picks=socMatchPicks(m),nT=picks.filter(p=>p.kind==="team").length,nAll=m.props.length+nT,best=m.props.filter(p=>p.ev>0).length;
+  const chips=`${m.exp?`<span class="gl">xG <b>${m.exp[0].toFixed(1)}–${m.exp[1].toFixed(1)}</b></span>`:""}${nT?`<span class="gl"><b>${nT}</b> team bet${nT>1?"s":""}</span>`:""}${m.props.length?`<span class="gl"><b>${m.props.length}</b> prop${m.props.length>1?"s":""}${best?` · ${best} +EV`:""}</span>`:""}`;
+  return`<article class="gcard sk${open?" open":""}"><div class="gtop go" role="button" tabindex="0" data-socm="${esc(m.ev)}" aria-expanded="${open}"><div><div class="gm sk">${esc(m.home_n||m.home)}<span class="at">vs</span>${esc(m.away_n||m.away)}</div><div class="gtime">${esc(m.league)} · ${socWhen(m.t)}${m.lineups?" · lineups out":""}</div></div><div class="glines">${chips}<span class="gchev" aria-hidden="true">▾</span></div></div>
+    ${open?socMatchBody(m)+`<button class="gall" data-socm="${esc(m.ev)}">Close match ▴</button>`
+      :`${picks.length?`<div class="skrows">${picks.slice(0,3).map(socMiniRow).join("")}</div>`:""}<button class="gall" data-socm="${esc(m.ev)}">${nAll?`${picks.length?"Top 5 picks + all":"All"} ${nAll} bet${nAll>1?"s":""} ›`:"Open match ›"}</button>`}</article>`;
+}
+function socHowHtml(){
+  return shcta("How the soccer picks work",`<p class="shp"><b>Team bets (recorded).</b> Soccer player props carry a 25–45% cut, too much to beat. Team bets carry far less, and Pinnacle, which takes big bets from sharp bettors, prices them closely. For each match the app reads Pinnacle's moneyline, every handicap and total line and both team totals (full match and first half), takes out Pinnacle's margin, and fits a score model that reproduces those prices. That gives a fair chance for every score, and so for every bet settled by the score.</p>
+    <p class="shp"><b>The rules.</b> A bet is listed when it pays at least 2% more than fair on markets Pinnacle prices itself (result, double chance, draw no bet, spreads, totals, team totals), or 5% on ones only the model prices (both teams to score, combos, exact goals, margins; none longer than +300 there). At most 2 per match; when both books offer the same bet, the better price. Picks update every hour and lock at kickoff. Graded from ESPN's final (or half-time) score: a win pays at the saved price, a loss costs 1 unit, a refund is a push. League matches only; corners, cards, shots and first-scorer bets aren't checked, because there's no sharp price for them.</p>
+    <p class="shp"><b>Player props (information only).</b> DraftKings' and FanDuel's soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app takes that margin out, and most likely picks still cost money on average at the book's price. Each shows both books' prices and the fair price; shop for that price or better. If he doesn't play, the book voids the bet.</p>
+    <p class="shp"><b>Be realistic.</b> Team-bet edges are small (2–6%), so even if they're real it takes a few hundred bets for the record to show it; a 20-bet stretch can easily be down. Not betting advice.</p>`,"rowcta");
 }
 function renderSoccer(){
   const el=document.getElementById("view-soc");
-  if(!SOC){el.innerHTML=`<section class="top"><p class="pteam">Loading soccer…</p></section>`;loadSoccer();return}
+  if(!SOC){el.innerHTML=`<section class="sg"><p class="pteam">Loading soccer…</p></section>`;loadSoccer();return}
+  loadSocTeam();
   const ms=socAll();
-  if(!ms.length){el.innerHTML=`<section class="top"><div class="tophead"><h2>Soccer <span>props</span></h2></div><p class="pteam">No priced matches in the next three days yet. DraftKings posts player props a day or two before kickoff.</p></section>`;return}
-  const lgs=[...new Map(ms.map(m=>[m.lg,m.league])).entries()];
-  const lf=lgs.some(([k])=>k===S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
-  const list=["top","value","team"].includes(S.socList)?S.socList:"team";  // Team bets first (Oct 27): the soccer list that's bet and recorded
-  const pool=(SOC[list]||[]).filter(c=>new Date(c.t).getTime()>Date.now()&&inLg(c));
-  const mtOf=c=>ms.find(m=>m.ev===c.ev_id);
-  const sub={top:`Most likely to happen: the ${(SOC.top||[]).length>10?(SOC.top||[]).length+" ":""}likeliest goals, shots and shots on target across every match, for players who start (or almost always do), at most 2 per match. These are likely outcomes, not value bets, and no longer recorded as bets (Oct 27)`,
-    value:"The rare bets whose chance beats DraftKings' price once the book's margin is taken out, long shots capped at +500 (information only: no longer recorded as bets since Oct 27)",team:""}[list];
-  let html=`<section class="top"><div class="tophead"><h2>Soccer <span>${list==="team"?"team bets":"props"}</span></h2><div class="seg2" role="group" aria-label="Soccer list">${[["team","Team bets"],["top","Most likely"],["value","Value bets"]].map(([k,l])=>`<button data-soclist="${k}" aria-pressed="${k===list}">${l}</button>`).join("")}</div></div>
-    <div class="cats" style="margin:0">${[["all","All leagues"],...lgs].map(([k,l])=>`<button class="cat" data-soclg="${esc(k)}" aria-pressed="${k===lf}">${esc(l)}</button>`).join("")}</div>
+  const lgs=new Map();ms.forEach(m=>lgs.set(m.lg,m.league));((ST&&ST.picks)||[]).forEach(c=>{if(new Date(c.t).getTime()>Date.now())lgs.set(c.lg,c.league)});
+  const lgList=[...lgs.entries()].sort((a,b)=>a[1].localeCompare(b[1]));
+  const lf=lgs.has(S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
+  const sec=S.socSec==="matches"?"matches":"picks";
+  const items=socItems(inLg);
+  const types=[["all","All picks"],["team","Team bets"],...Object.keys(SOC_M).filter(k=>items.some(it=>it.m===k)).map(k=>[k,SOC_M[k]])];
+  const ty=types.some(([k])=>k===S.socType)?S.socType:"all";
+  const opt=(cur,list)=>list.map(([k,l])=>`<option value="${esc(k)}"${k===cur?" selected":""}>${esc(l)}</option>`).join("");
+  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="socSec">${opt(sec,[["picks","Top picks"],["matches","Matches"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="socType">${opt(ty,types)}</select></label>`:""}<label class="dd"><span class="sr">League</span><select id="socLg">${opt(lf,[["all","All leagues"],...lgList])}</select></label></div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
-    ${S.socQ?socSearchHtml(ms):""}
-    ${list==="team"?teamBetsHtml(inLg,lf)+`</section>`:`<p class="slate" style="margin:0"><b>Heads up:</b> soccer player props at DraftKings and FanDuel are "yes only" bets with a big built-in cut (about 25\u201345%), so even likely outcomes usually cost money at these prices. Use this tab to see what's likely to happen (handy for parlay legs and following games); each pick shows both books' prices and the record grades it at the better one.</p>
-    <p class="topsub">${sub}. Prices: DraftKings via ESPN and FanDuel, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>
-    ${pool.length?`<div class="tdpicks">${pool.map((c,i)=>socCard(c,i,mtOf(c))).join("")}</div>`:`<p class="pteam">Nothing on this list${lf!=="all"?" for this league":""} right now.</p>`}
-    <p class="topnote" style="margin:0">DraftKings' soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app's chances take that margin out, and most Top picks are likely to hit but still cost money on average at DraftKings' price. Each pick shows the fair price; shop for that price or better. Expected profit is an average over many bets, not a promise. If he doesn't play, DraftKings voids the bet.</p></section>`}`;
-  // matches
-  const days={};ms.filter(inLg).forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
-  html+=`<section class="top"><div class="tophead"><h2>Matches</h2></div>${Object.entries(days).map(([d,list])=>`<h3 class="tdh3">${d}</h3>`+list.map(m=>{
-    const open=S.socOpen===m.ev,best=m.props.filter(p=>p.ev>0).length;
-    return`<article class="gcard soc${open?" open":""}"><div class="gtop go" role="button" tabindex="0" data-socm="${esc(m.ev)}" aria-expanded="${open}"><div><div class="gm">${esc(m.home)}<span class="at">vs</span>${esc(m.away)}</div><div class="gtime">${esc(m.league)} · ${socWhen(m.t)}${m.lineups?" · lineups out":""}</div></div><div class="gtime" style="text-align:right">${m.exp?`xG ${m.exp[0].toFixed(1)}–${m.exp[1].toFixed(1)}<br>`:""}${m.props.length} props${best?` · ${best} +EV`:""}</div></div>
-      ${open?socMatchBody(m):""}</article>`}).join("")).join("")}</section>`;
+    ${S.socQ?socSearchHtml(ms):""}`;
+  if(sec==="picks"){
+    const mtOf=c=>ms.find(m=>String(m.ev)===String(c.ev_id));
+    const R=(ST&&ST.record)||[],tt=appTally(R.filter(e=>["win","loss","push"].includes(e.status))),pend=R.filter(e=>e.status==="pending").length;
+    html+=`<div id="soctop">${ST?`<button class="arline" data-socrec><span class="arl1"><b>Soccer record</b><span>Team bets ${tt.w}–${tt.l}${tt.p?`–${tt.p}`:""} · ${unitsTxt(tt.units)} · ${pend} locked</span></span><em>Full record ›</em></button>`:""}`;
+    const want=ty==="all"?["team","top","value"]:ty==="team"?["team"]:["top","value"];
+    let shown=0;
+    for(const k of want){
+      const list=items.filter(it=>it.kind===k&&(ty==="all"||ty==="team"||it.m===ty));
+      if(!list.length&&!(k==="team"&&(ty==="all"||ty==="team")))continue;
+      html+=socGroupHtml(k,list,lf,mtOf);shown+=list.length;
+    }
+    if(!shown&&ty!=="all"&&ty!=="team")html+=`<p class="topnote">No ${esc(SOC_M[ty]||"")} picks${lf!=="all"?" in this league":""} right now.</p>`;
+    html+=`<p class="topsub" style="padding-inline:2px">Prices: DraftKings via ESPN, FanDuel and Pinnacle, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>${socHowHtml()}</div>`;
+  }else{
+    const list=socMatches(inLg),days={};
+    list.forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
+    html+=`<div class="uphead"><h2>Soccer · ${list.length} match${list.length===1?"":"es"}</h2><p>Team bets and player props for each match · tap a match for every bet</p></div>`;
+    html+=list.length?Object.entries(days).map(([d,ml])=>`<section class="day"><h3>${d}</h3><div class="games">${ml.map(socMatchCard).join("")}</div></section>`).join(""):`<div class="upempty">No priced matches in the next three days${lf!=="all"?" in this league":""} yet. DraftKings posts player props a day or two before kickoff.</div>`;
+  }
   el.innerHTML=html;
 }
 function socMatchBody(m){
   const mk=SOC_M[S.socMk]?S.socMk:"all";
   const rows=m.props.filter(p=>mk==="all"||p.m===mk).sort((a,b)=>b.ev-a.ev).slice(0,mk==="all"?40:80);
   const have=Object.keys(SOC_M).filter(k=>m.props.some(p=>p.m===k));
-  return`<div class="gbody"><div class="cats" style="margin:6px 0">${[["all","Best"],...have.map(k=>[k,SOC_M[k]])].map(([k,l])=>`<button class="cat" data-socmk="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div>
-    <div class="log"><table class="books socT"><thead><tr><th>Player \u00b7 bet</th><th class="num">DK</th><th class="num">App</th><th class="num" title="Expected profit per $10 at DraftKings' price">$/10</th><th></th></tr></thead><tbody>${rows.map(p=>{const c=Object.assign({},p,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t}),tr=socTracked(c);
+  const tb=socMatchPicks(m).filter(p=>p.kind==="team");
+  return`<div class="gbody">${tb.length?`<h3 class="tdh3" style="padding:0 2px">Team bets</h3><div class="skrows">${tb.map(socMiniRow).join("")}</div>`:""}
+    ${m.props.length?`<div class="cats" style="margin:6px 0">${[["all","Best"],...have.map(k=>[k,SOC_M[k]])].map(([k,l])=>`<button class="cat" data-socmk="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div>
+    <div class="log"><table class="books socT"><thead><tr><th>Player · bet</th><th class="num">DK</th><th class="num">App</th><th class="num" title="Expected profit per $10 at DraftKings' price">$/10</th><th></th></tr></thead><tbody>${rows.map(p=>{const c=Object.assign({},p,{lg:m.lg,league:m.league,ev_id:m.ev,t:m.t}),tr=socTracked(c);
       const po=S.socPl===p.key+"|"+m.ev;
-      return`<tr class="socrow${po?" open":""}" data-socpl="${esc(p.key+"|"+m.ev)}"><td><b>${esc(p.name)}</b> <small class="pteam">${p.pos} · ${esc(p.team)}${p.lineup==="start"?" · starting":p.lineup==="bench"?" · bench":""}</small><span class="socbet">${esc(p.label)} <small class="pteam">\u00b7 hit ${p.hits[0]}/${p.hits[1]}</small></span></td><td class="num mono">${amFmt(p.price)}</td><td class="num mono">${Math.round(p.prob*100)}%</td><td class="num mono ${p.ev>=.05?"good":p.ev<0?"muted":""}">${p.ev>=0?"+":"−"}$${Math.abs(p.ev*10).toFixed(2)}</td><td><button class="trk sm ${tr?"on":""}" data-soctk="${esc(p.key)}" data-socev="${esc(m.ev)}" aria-label="Track ${esc(p.name)} ${esc(p.label)}">${tr?"\u2713":"+"}</button></td></tr>${po?`<tr class="socplrow"><td colspan="5">${p.research?`<div class="news"><b class="${p.rflag==="caution"?"caution":"support"}">${p.rflag==="caution"?"Caution":"Research"}</b><span>${esc(p.research)}</span></div>`:""}${socPlayerHtml(p.pid,m)}</td></tr>`:""}`}).join("")}</tbody></table></div>
-    <p class="pteam" style="margin:6px 0 0">Tap a player for his last 10 matches. Profit/$10 = expected profit per $10 at DraftKings' price. Negative is the usual case: the book's margin.</p></div>`;
+      return`<tr class="socrow${po?" open":""}" data-socpl="${esc(p.key+"|"+m.ev)}"><td><b>${esc(p.name)}</b> <small class="pteam">${p.pos} · ${esc(p.team)}${p.lineup==="start"?" · starting":p.lineup==="bench"?" · bench":""}</small><span class="socbet">${esc(p.label)} <small class="pteam">· hit ${p.hits[0]}/${p.hits[1]}</small></span></td><td class="num mono">${amFmt(p.price)}${p.open!=null&&p.open!==p.price?`<small class="pteam" style="display:block">was ${amFmt(p.open)}</small>`:""}</td><td class="num mono">${Math.round(p.prob*100)}%</td><td class="num mono ${p.ev>=.05?"good":p.ev<0?"muted":""}">${p.ev>=0?"+":"−"}$${Math.abs(p.ev*10).toFixed(2)}</td><td><button class="trk sm ${tr?"on":""}" data-soctk="${esc(p.key)}" data-socev="${esc(m.ev)}" aria-label="Track ${esc(p.name)} ${esc(p.label)}">${tr?"✓":"+"}</button></td></tr>${po?`<tr class="socplrow"><td colspan="5">${p.research?`<div class="news"><b class="${p.rflag==="caution"?"caution":"support"}">${p.rflag==="caution"?"Caution":"Research"}</b><span>${esc(p.research)}</span></div>`:""}${socPlayerHtml(p.pid,m)}</td></tr>`:""}`}).join("")}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">Tap a player for his last 10 matches. $/10 = expected profit per $10 at DraftKings' price; negative is the usual case: the book's margin.</p>`:""}</div>`;
 }
 document.addEventListener("click",e=>{
   if(S.view!=="soc")return;
   const t=e.target;
-  const sl=t.closest("[data-soclist]");if(sl){S.socList=sl.dataset.soclist;save();renderSoccer();return}
-  const lg=t.closest("[data-soclg]");if(lg){S.socLg=lg.dataset.soclg;save();renderSoccer();return}
   const mk=t.closest("[data-socmk]");if(mk){S.socMk=mk.dataset.socmk;renderSoccer();return}
+  const mo=t.closest("[data-socmore]");if(mo){const k=mo.dataset.socmore;S.socMore=Object.assign({},S.socMore,{[k]:!(S.socMore&&S.socMore[k])});renderSoccer();return}
+  if(t.closest("[data-socrec]")){S.recType="app";S.recLg="SOC";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0});return}
   const tk=t.closest("[data-soctk]");if(tk){const c=socFind(tk.dataset.soctk,tk.dataset.socev);if(c){socTrack(c);renderSoccer()}return}
+  const sk=t.closest(".pick.sk");if(sk&&!t.closest("button")){sk.querySelector(".seewhy")?.click();return}
   const pl=t.closest("[data-socpl]");if(pl&&!t.closest("[data-stop]")&&!t.closest("button")){const key=pl.dataset.socpl,top=pl.getBoundingClientRect().top;S.socPl=S.socPl===key?null:key;renderSoccer();
     const p2=document.querySelector(`#view-soc [data-socpl="${CSS.escape(key)}"]`);if(p2)window.scrollBy(0,p2.getBoundingClientRect().top-top);return}
   const gm=t.closest("[data-socm]");if(gm){const card=gm.closest(".gcard"),top=card.getBoundingClientRect().top;S.socOpen=S.socOpen===gm.dataset.socm?null:gm.dataset.socm;renderSoccer();
     const c2=document.querySelector(`#view-soc [data-socm="${CSS.escape(gm.dataset.socm)}"]`);if(c2)window.scrollBy(0,c2.closest(".gcard").getBoundingClientRect().top-top);return}
 });
-document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm],.pick[data-socpl]")){e.preventDefault();e.target.click()}});
+document.addEventListener("change",e=>{
+  if(S.view!=="soc")return;const t=e.target;
+  if(t.id==="socSec"){S.socSec=t.value;renderSoccer();window.scrollTo({top:0})}
+  else if(t.id==="socType"){S.socType=t.value;renderSoccer()}
+  else if(t.id==="socLg"){S.socLg=t.value;save();renderSoccer()}
+});
+document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm],.pick.sk,.pick[data-socpl]")){e.preventDefault();e.target.click()}});
 let socQT=null;document.addEventListener("input",e=>{if(e.target.id!=="socq")return;clearTimeout(socQT);socQT=setTimeout(()=>{S.socQ=e.target.value;renderSoccer();const i=document.getElementById("socq");if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)});
 // live + grading for tracked soccer picks: ESPN's match summary (box score by player)
 function socBox(sum){
@@ -3944,9 +4057,12 @@ function wire(){
   document.getElementById("view-rec").addEventListener("change",e=>{const pc=e.target.closest("[data-pcchk]");if(pc){if(!PCHK.sel)PCHK.sel=new Set();pc.checked?PCHK.sel.add(pc.dataset.pcchk):PCHK.sel.delete(pc.dataset.pcchk);renderRecord();return}});
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
+  document.getElementById("view-rec").addEventListener("click",e=>{const by=e.target.closest("[data-socby]");if(by){S.socBy=by.dataset.socby;renderRecord();return}
+    const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});S.rfOpen=true;saveRf();return}});
+  document.getElementById("view-rec").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".rfdrill")){e.preventDefault();e.target.click()}});
   document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
     if(e.target.closest("[data-rftoggle]")){S.rfOpen=!(S.rfOpen||Object.values(S.rf||{}).some(Boolean));if(!S.rfOpen)S.rf={};saveRf()}});
-  document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.recLg=b.dataset.rlg;renderRecord();return}
+  document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){if((S.recLg==="SOC")!==(b.dataset.rlg==="SOC")){const r=Object.assign({},S.rf);[...SOC_RF,"prop"].forEach(k=>delete r[k]);S.rf=r;try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}}S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
     const wk=e.target.closest("[data-wk]");if(wk&&!wk.disabled){S.wk=Math.max(0,+wk.dataset.wk);S.wkOpen=true;renderRecord();return}

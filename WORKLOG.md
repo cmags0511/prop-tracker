@@ -4,6 +4,20 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-28
+- **cmags0511** (PR, via Claude): Soccer tab rework, front end only (`index.html`, `sw.js` pt-v116; no data, model or grading change).
+  (1) Soccer now has two sections like NFL: **Top picks** (Team bets, Most likely players and Value bets as separate groups
+  in the same card layout as the NFL Top picks: grade line, "See my reasoning" sheet, Track on player props) and **Matches**
+  (one card per match with its team bets and best picks, tap for every bet). Dropdowns for section, bet type and league
+  replace the three-way toggle and league chips; the old team-bet card markup was squished by the redesign and is gone.
+  (2) Record tab > Soccer now counts the team bets (soccer_team.json) together with every player-prop list (retired ones
+  too), and is filterable: List, League, Result, Book plus the existing Odds / App's chance / Value / Prop / Dates, a
+  Breakdown table by list / league / bet type / book where tapping a row filters the record to it, and team bets in the pick
+  log with their scores. Soccer-only filters clear when you switch sport. The headline for Soccer changed meaning: it was
+  Top picks + Value bets since Oct 19; it is now everything recorded (85-121 on Oct 28), narrow it with the List filter.
+  The All record page's soccer table gains a Team bets row. Touches renderSoccer/socPickCard/socMatchCard,
+  renderAppRecord, rfPass, recFilterBar, socRecordHtml.
+
+## 2026-10-28
 - **cmags0511** (PR): Grades everywhere. picks.py: FanDuel's own board (fd_board.json from lab_market.py) is the
   next price fallback after Pinnacle/FanDuel quotes and DraftKings' NBA po/pu (ESPN's NFL feed has no prices), same
   line = real price, a different line = shifted estimate (C at most). index.html: `gradeChip`/`gradeOf` put a grade
