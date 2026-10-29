@@ -3,6 +3,12 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-28 (late), cmags0511 (Claude)
+Soccer record cleanup. Removed the retired lists' rows from `record.json` (Goalscorers, Plus money, old Best value: 113 rows). The
+current player-prop lists (Top picks, Value bets) are recorded again: `record.py` no longer stops at Oct 28 and only reads the
+`top` and `value` lists. The Soccer record keeps the List filter (Team bets / Most likely / Value bets); the "Retired lists"
+option and rows are gone. `sw.js` -> pt-v118.
+
 ## 2026-10-28
 - **cmags0511** (PR, via Claude): Soccer tab rework, front end only (`index.html`, `sw.js` pt-v116; no data, model or grading change).
   (1) Soccer now has two sections like NFL: **Top picks** (Team bets, Most likely players and Value bets as separate groups
