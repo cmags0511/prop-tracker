@@ -13,8 +13,8 @@ moves his volume (never from matchups, previews or "feel"), keep `adj` at +1 at 
 **Budget.** Research runs once a day in full (7:34 AM ET) plus quick news checks, on the owner's Claude usage, and an earlier version that researched every
 prop in every game used it all up. Runs have been stopping on the usage limit, so stay well inside these limits: at most 3 NFL/NBA
 researchers (research_packets.py makes at most 3 batches), 1 college researcher only when college games
-start within 36 hours (Friday and Saturday mornings; lines only, see its brief), no soccer researcher (the
-soccer player lists aren't bets anymore; skip `SOCCER-day`) and 1 fact-checker; about 2 searches per game
+start within 36 hours (Friday and Saturday mornings; lines only, see its brief), 1 soccer researcher when
+`SOCCER-day` exists (the soccer bets the app records: team bets and the Top picks / Value bets players) and 1 fact-checker; about 2 searches per game
 (both teams' injury and practice news) plus 1 per target prop only when the news is unclear, and open only
 the articles that matter. The NBA Top 10 is paused until Nov 15: NBA games need an injury/rotation check
 only. Games more than
@@ -33,7 +33,7 @@ seven vague angles.
    game Top 5s, Kalshi gaps, teammate-out bumps, each with `why_target`) and up to 8 `other_props`.
 4. **Start the researchers, all in one message (Agent tool), so they run in parallel:** one per batch
    with the "Game researcher brief", plus one with the "College researcher brief" if `CFB-week` exists,
-   (No soccer researcher: skip `SOCCER-day`.)
+   plus one with the "Soccer researcher brief" if `SOCCER-day` exists.
    If the Agent tool isn't available, do the batches yourself, soonest games first.
 5. **Check the write-ups** in `research/out/`. If one is missing or empty, publish without it (don't
    rerun it). Don't send researchers back for more unless a target in a `full` game is missing entirely.
@@ -209,17 +209,25 @@ nothing is locked at kickoff without a look. No subagents, a handful of searches
 
 ## Soccer researcher brief
 
-> You check the players on a prop app's soccer Top 10 lists before their matches. The app prices each bet
-> from his recent matches and DraftKings' odds, but it can't see injuries, suspensions, rotation or role
-> changes. Read `research/packets/SOCCER-day.json`: each player's `key`, team, opponent, league, kickoff,
-> his current lineup status and the bets the app lists. Budget: about 15 searches in total; group players
-> from the same team or match into one search.
+> You check the soccer bets on a prop app before their matches. The app prices each bet from numbers
+> (recent matches, DraftKings/FanDuel odds against Pinnacle's fair price), but it can't see injuries,
+> suspensions, rotation or role changes. Read `research/packets/SOCCER-day.json`. It has two parts:
+> `players` (each player's `key`, team, opponent, league, kickoff, his current lineup status and the
+> bets the app lists) and `matches` (each match with the team `bets` the app lists: a `key`, the bet and
+> its price). Budget: about 15 searches in total; group everything from the same match or team into one search.
 >
 > For each player, find: is he available (injury lists, suspensions, a recent knock), is he expected to
 > start (predicted lineups from reputable outlets, the manager's press conference, rotation before or
 > after a midweek European or cup match, international duty), and anything that changes his role (new
 > position, penalty or set-piece duty gained or lost, a teammate's absence). Official club sites, league
 > injury pages, established outlets and beat reporters first; ignore tipsters.
+>
+> For each team bet, look at both sides of the match: key players out or doubtful (especially the main
+> scorer, the goalkeeper and the defense), an expected rotated or weakened lineup, a nearby cup or European
+> match, a manager change or a dead-rubber match, and anything that moves the expected goals or the winner.
+> Write one note per bet `key` (copy it exactly, including the `SOCT|` prefix); bets in the same match
+> can share facts. A bet that the news clearly hurts (the team it needs is missing its key players, or a
+> likely rotation) gets `caution`; `out` is only for a match that won't happen as listed (postponed, abandoned).
 >
 > Write `research/out/SOCCER-day.json`:
 > ```

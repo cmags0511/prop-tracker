@@ -135,12 +135,12 @@ def cfb_packet(cfb, now):
             "note": "Keys are key_prefix + '|' + market, e.g. CFB|4432577|pyd. Team codes are ESPN's.", "games": games}
 
 
-def soccer_packet(soc, now):
-    """the players on the Soccer tab's Top 10 lists kicking off in the next 36 hours: check availability and role"""
-    if not soc:
-        return None
+def soccer_packet(soc, team, now):
+    """the soccer bets kicking off in the next 36 hours: the players on the Soccer tab's lists (Top picks, Value bets)
+    and the team bets (soccer_team.py), grouped by match: check availability, lineups and rotation"""
+    soc = soc or {}
     seen = {}
-    for lst in ("value", "plus", "scorers"):
+    for lst in ("top", "value"):
         for c in soc.get(lst, []):
             t = dt.datetime.fromisoformat(c["t"])
             if not (now < t < now + dt.timedelta(hours=36)):
@@ -151,7 +151,19 @@ def soccer_packet(soc, now):
                                     "lineup": c.get("lineup") or f"starts {round((c.get('start_rate') or .5) * 100)}% of recent matches",
                                     "bets": []})
             p["bets"].append(f"{c['label']} at {'+' if c['price'] > 0 else ''}{c['price']} (app {round(c['prob'] * 100)}%)")
-    return {"players": sorted(seen.values(), key=lambda p: p["kickoff"])} if seen else None
+    ms = {}
+    for c in (team or {}).get("picks", []):
+        t = dt.datetime.fromisoformat(c["t"])
+        if not (now < t < now + dt.timedelta(hours=36)):
+            continue
+        m = ms.setdefault(c["espn"], {"match": f"{c['home']} vs {c['away']}", "league": c.get("league"),
+                                      "kickoff": c["t"], "bets": []})
+        m["bets"].append({"key": "SOCT|" + c["key"], "bet": c["bet"],
+                          "price": f"{'+' if c['price'] > 0 else ''}{c['price']} at {c['book']} (fair {c['fair']})"})
+    if not seen and not ms:
+        return None
+    return {"players": sorted(seen.values(), key=lambda p: p["kickoff"]),
+            "matches": sorted(ms.values(), key=lambda m: m["kickoff"])}
 
 
 def main():
@@ -232,10 +244,11 @@ def main():
     if cp:
         json.dump(cp, open("research/packets/CFB-week.json", "w"), indent=1)
         print(f"CFB-week: {len(cp['games'])} college games in the next {CFB_H:.0f} hours")
-    sp = soccer_packet(load("soccer.json"), now)
+    sp = soccer_packet(load("soccer.json"), load("soccer_team.json"), now)
     if sp:
         json.dump(sp, open("research/packets/SOCCER-day.json", "w"), indent=1)
-        print(f"SOCCER-day: {len(sp['players'])} players on the soccer Top 10s in the next 36 hours")
+        print(f"SOCCER-day: {len(sp['players'])} players and {sum(len(m['bets']) for m in sp['matches'])} team bets "
+              f"in {len(sp['matches'])} matches in the next 36 hours")
     if not games and not cp and not sp:
         print("nothing to research in the window")
 

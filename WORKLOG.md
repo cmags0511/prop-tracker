@@ -4,6 +4,15 @@ Newest first. One entry per change: date, who, what, and anything the other pers
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
 ## 2026-10-28 (night), cmags0511 (Claude)
+Soccer research check. `research_packets.py` `soccer_packet` now builds `SOCCER-day` from the soccer bets that are recorded: the
+Top picks / Value bets players (it was reading the retired lists) plus the team bets, grouped by match under `matches`
+(keys `SOCT|` + the bet's key). `merge_notes.py` accepts those keys. `RESEARCH.md`: the soccer researcher is back (about 15
+searches, one agent) and its brief now covers team bets (key players out, rotation, fixture congestion). `index.html`: a team
+bet's reasoning sheet shows the note (or "No research on this match yet"), and the card gets a "news" tag on a caution.
+Display only: the notes don't change which bets are listed or recorded. The scheduled research task on the owner's account
+reads RESEARCH.md, so it picks the change up on its next run. `sw.js` -> pt-v119.
+
+## 2026-10-28 (night, 2), cmags0511 (Claude)
 Soccer team bets: `soccer_team.py` removes Pinnacle's margin with Shin's method instead of proportionally, and drops main-market
 bets with more than 6% claimed edge (`EV_MAX_MAIN`). Backtested on 24,600 matches of football-data.co.uk odds (see README, Soccer).
 On live prices this cut the list from 14 to 8 bets (the biggest "edges", e.g. Fortuna Sittard double chance +500, are gone).
