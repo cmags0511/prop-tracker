@@ -44,6 +44,16 @@ corrections in `soccer_data.py` come from it. The chance is blended with DraftKi
 chance × payout. Club and international form are kept apart. The daily research checks availability and rotation for
 the soccer Top 10s. `soccer_close.json` holds the last price before kickoff (closing line value).
 
+Team-bet backtest (Oct 28, `football-data.co.uk` closing/pre-closing odds, 24,600 league matches 2021-26): Pinnacle's chances
+are accurate for 20-70% outcomes, but outcomes it prices under 20% win about 11% less often than the simple (proportional)
+margin removal says, so long-shot "edges" were mostly illusions. `soccer_team.py` now removes the margin with Shin's method
+(it takes more off long shots; cuts that gap by about half) and drops main-market bets with more than 6% claimed edge
+(claimed 5%+ edges at the best price lost 3-17%). Bets above +500 were already capped (above +700 lost 27%). A single soft book
+(Bet365) beating Pinnacle by 2%+ made about +4% on 1,772 bets (standard error about 5%): promising, not proven. NFL
+(FTN charting, PFR advanced stats, referee crews: 230 tests) and NBA (box-score pace, margin, starter role: 46 tests) signals
+were also checked; nothing in the NFL beat chance and the NBA ones that held up (teammates out, opponent pace for rebounds,
+team margin for points/assists) are small, so none were added.
+
 ## Records and tracking
 
 `record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box

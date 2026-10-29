@@ -3,6 +3,12 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-28 (night), cmags0511 (Claude)
+Soccer team bets: `soccer_team.py` removes Pinnacle's margin with Shin's method instead of proportionally, and drops main-market
+bets with more than 6% claimed edge (`EV_MAX_MAIN`). Backtested on 24,600 matches of football-data.co.uk odds (see README, Soccer).
+On live prices this cut the list from 14 to 8 bets (the biggest "edges", e.g. Fortuna Sittard double chance +500, are gone).
+Model-only bets (5% minimum, +300 cap) are unchanged: the backtest only covered main markets. No front-end change.
+
 ## 2026-10-28 (late), cmags0511 (Claude)
 Soccer record cleanup. Removed the retired lists' rows from `record.json` (Goalscorers, Plus money, old Best value: 113 rows). The
 current player-prop lists (Top picks, Value bets) are recorded again: `record.py` no longer stops at Oct 28 and only reads the
