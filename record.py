@@ -52,6 +52,8 @@ def main():
         return dt.datetime.fromisoformat(p["t"])
 
     entries = {(e["key"], e["t"]): e for e in rec["picks"]}
+    # the overs-only Top 10 was retired from the record on Oct 21 (it went 16-26); drop rows that were only ever on it
+    entries = {k: e for k, e in entries.items() if "all" in (e.get("sets") or ["all"])}
 
     # the sportsbook price (American odds) for each side at its line, when one was quoted, so units are graded
     # at the price the app showed instead of assuming -110

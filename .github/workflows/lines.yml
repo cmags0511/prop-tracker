@@ -5,6 +5,11 @@ name: Refresh lines
 on:
   schedule:
     - cron: "47 * * * *"
+    # NFL game days: every 20 minutes through the windows when inactives are posted (about 90 minutes before each
+    # kickoff), so a late scratch drops a pick before it locks. UTC; wide enough for both EDT and EST.
+    - cron: "5,25,45 14-21 * * 0"   # Sunday 10am-5:59pm ET
+    - cron: "5,25,45 22-23 * * 1,4" # Monday and Thursday night games
+    - cron: "5,25,45 0-1 * * 2,5"   # ...the same games after midnight UTC
   workflow_dispatch: {}
 
 permissions:
