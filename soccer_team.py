@@ -45,6 +45,8 @@ LEAGUES = {
 FD_TABS = ("popular", "goals", "team-props", "half")
 AHEAD = dt.timedelta(days=3)
 EV_MAIN, EV_MODEL = .02, .05     # expected return needed: markets Pinnacle prices / markets only the model prices
+EV_MAX_MAIN = .06                # above this the "edge" is usually a stale price or a data slip: on 24,600 matches, claimed edges of 5%+
+                                 # at the best price lost money (5-10%: -3% to -7%; 10%+: -10% to -17%)
 MIN_DEC, MAX_DEC, MAX_DEC_MODEL = 1.25, 6.0, 4.0  # draws run to +500; the model's long shots (0-0 etc.) are its least sure
 PER_MATCH, TOP_N = 2, 25
 FIT_MAX = .02                    # skip a match when the model can't reproduce Pinnacle's prices this closely
@@ -147,10 +149,28 @@ def asian_ev(dist, line, d, sign=1):
     return ev
 
 
+def shin(inv):
+    """margin-free chances from the books' implied chances (1/odds), by Shin's method: it takes more of the margin
+    off the long shots than the favourites, which matches how they actually win (24,600 matches, 2021-26: outcomes
+    priced under 20% win about 11% less often than the proportional method says; Shin cuts that gap by about half)"""
+    tot = sum(inv)
+    if tot <= 1:
+        return [x / tot for x in inv]
+    lo, hi = 0.0, .4
+    for _ in range(50):
+        z = (lo + hi) / 2
+        p = [(math.sqrt(z * z + 4 * (1 - z) * x * x / tot) - z) / (2 * (1 - z)) for x in inv]
+        if sum(p) > 1:
+            lo = z
+        else:
+            hi = z
+    s = sum(p)
+    return [x / s for x in p]
+
+
 def novig2(a, b):
-    ia, ib = 1 / dec(a), 1 / dec(b)
-    s = ia + ib
-    return s / ia, s / ib  # fair decimals
+    pa, pb = shin([1 / dec(a), 1 / dec(b)])
+    return 1 / pa, 1 / pb  # fair decimals
 
 
 def targets(mk, period):
@@ -162,9 +182,8 @@ def targets(mk, period):
         pr = {p.get("designation"): p for p in m.get("prices") or []}
         ty = m.get("type")
         if ty == "moneyline" and {"home", "away", "draw"} <= set(pr):
-            i = {k: 1 / dec(pr[k]["price"]) for k in ("home", "draw", "away")}
-            s = sum(i.values())
-            T["ml"] = {k: v / s for k, v in i.items()}
+            ks = ("home", "draw", "away")
+            T["ml"] = dict(zip(ks, shin([1 / dec(pr[k]["price"]) for k in ks])))
         elif ty == "spread" and {"home", "away"} <= set(pr):
             dh, da = novig2(pr["home"]["price"], pr["away"]["price"])
             T["lines"].append(("diff", pr["home"]["points"], dh, 1))
@@ -588,7 +607,7 @@ def build(now):
 
 def choose(cands):
     ok = [c for c in cands if MIN_DEC <= dec(c["price"]) <= (MAX_DEC if c["src"] == "main" else MAX_DEC_MODEL)
-          and c["ev"] >= (EV_MAIN if c["src"] == "main" else EV_MODEL)]
+          and (EV_MAIN <= c["ev"] <= EV_MAX_MAIN if c["src"] == "main" else c["ev"] >= EV_MODEL)]
     # the same bet at both books: keep the better price
     best = {}
     for c in sorted(ok, key=lambda c: -c["ev"]):

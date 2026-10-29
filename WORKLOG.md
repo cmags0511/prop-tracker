@@ -12,6 +12,12 @@ bet's reasoning sheet shows the note (or "No research on this match yet"), and t
 Display only: the notes don't change which bets are listed or recorded. The scheduled research task on the owner's account
 reads RESEARCH.md, so it picks the change up on its next run. `sw.js` -> pt-v119.
 
+## 2026-10-28 (night, 2), cmags0511 (Claude)
+Soccer team bets: `soccer_team.py` removes Pinnacle's margin with Shin's method instead of proportionally, and drops main-market
+bets with more than 6% claimed edge (`EV_MAX_MAIN`). Backtested on 24,600 matches of football-data.co.uk odds (see README, Soccer).
+On live prices this cut the list from 14 to 8 bets (the biggest "edges", e.g. Fortuna Sittard double chance +500, are gone).
+Model-only bets (5% minimum, +300 cap) are unchanged: the backtest only covered main markets. No front-end change.
+
 ## 2026-10-28 (late), cmags0511 (Claude)
 Soccer record cleanup. Removed the retired lists' rows from `record.json` (Goalscorers, Plus money, old Best value: 113 rows). The
 current player-prop lists (Top picks, Value bets) are recorded again: `record.py` no longer stops at Oct 28 and only reads the
