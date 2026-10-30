@@ -34,7 +34,7 @@ LABEL = {"pyd": "passing yards", "cmp": "completions", "att": "pass attempts", "
          "td": "anytime TDs", "pts": "points", "reb": "rebounds", "ast": "assists", "3pm": "threes", "pra": "PRA",
          "pr": "pts + reb", "pa": "pts + ast", "ra": "reb + ast"}
 FXNAME = {"form": "recent form", "matchup": "matchup", "game": "game script", "minutes": "minutes trend",
-          "news": "injury news", "weather": "wind", "market": "Kalshi market", "research": "research", "usage": "usage (snaps, targets, carries)"}
+          "news": "injury news", "weather": "wind", "market": "Kalshi market", "research": "research", "usage": "usage (snaps, targets, carries)", "blowout": "blowout size (college)"}
 DEFAULT_CONF = {"high": 1.2, "medium": 1.0, "low": .6}
 
 

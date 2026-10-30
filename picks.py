@@ -23,6 +23,12 @@ import json, math, re, sys, datetime as dt
 OUT = sys.argv[1] if len(sys.argv) > 1 else "picks.json"
 KEEP = 30  # the daily research check reviews these, then the app shows the best 10
 # backtested weights (log-odds units): form, distance from line, matchup, implied team total, minutes trend
+# College blowouts (Oct 30 backtest of 2022-26 player games, 84 tests: spread size was the strongest signal): in a game with a
+# spread of 14+ either way, overs on a player's last-10 average hit 26-49% for attempts and yards (starters sit, the game
+# runs through the clock or the trailing side's drives die). Applied at less than half the backtested size because the real
+# sportsbook line already shades for blowouts; tune.py re-learns its weight from graded results. Per prop-type share below.
+BLOW_W = -.45   # log-odds at a spread of 24+ (ramps up from 10)
+BLOW_M = {"pyd": 1.0, "att": 1.0, "cmp": .7, "ryd": 1.0, "car": 1.0, "recyd": .5}
 W = {"NFL": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0), "CFB": dict(p=1.16, z=1.62, mu=.075, tot=.066, mtr=0),
      "NBA": dict(p=2.33, z=.65, mu=.046, tot=0, mtr=.86)}
 # (research notes are read by research_dir / research_push below)
@@ -697,8 +703,11 @@ def main():
                     if wx.get("temp") is not None and mid in COLD_W:
                         weather += COLD_W[mid] * max(0.0, (40 - wx["temp"]) / 10)
                     weather = max(-.6, weather)
+                blow = 0.0
+                if lg == "CFB" and game["spread"] is not None and mid in BLOW_M:
+                    blow = BLOW_W * BLOW_M[mid] * min(max(abs(game["spread"]) - 10, 0), 14) / 14
                 parts = {"form": 0.0 if nba_early else trust * (w["p"] * (p_over - .5) + w["z"] * zc), "matchup": w["mu"] * (mu["z"] if mu else 0),
-                         "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather}
+                         "game": w["tot"] * tot, "minutes": w["mtr"] * mtr, "news": news, "weather": weather, "blowout": blow}
                 pc = meta.get("pace") or {}
                 if lg == "NBA" and pc.get(p["t"]) and pc.get(opp):
                     lg_pace = sum(pc.values()) / len(pc)
