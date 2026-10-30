@@ -66,6 +66,18 @@ def print(*a, **k):
     _print(*a, **k)
 
 
+def same_player(a, b):
+    """'alex sarr' ~ 'alexandre sarr', 'de anthony melton' ~ 'deanthony melton': same last name plus a first-name prefix,
+    or the same letters without spaces (only ever compared inside one game's time window)"""
+    if a == b or a.replace(" ", "") == b.replace(" ", ""):
+        return True
+    x, y = a.split(), b.split()
+    if len(x) < 2 or len(y) < 2 or x[-1] != y[-1]:
+        return False
+    fa, fb = "".join(x[:-1]), "".join(y[:-1])
+    return min(len(fa), len(fb)) >= 2 and (fa.startswith(fb) or fb.startswith(fa))
+
+
 def main():
     now = dt.datetime.now(dt.timezone.utc)
     stamp = now.isoformat(timespec="minutes")
@@ -77,7 +89,7 @@ def main():
     except Exception:
         old = {}
     props = {k: v for k, v in (old.get("props") or {}).items() if dt.datetime.fromisoformat(v["game_t"]) > now}
-    usage, last = dict(old.get("usage") or {}), dict(old.get("last") or {})
+    usage, last, rates = dict(old.get("usage") or {}), dict(old.get("last") or {}), dict((old.get("rate") or {}))
     month = now.strftime("%Y-%m")
     used = usage.get(month, 0)
     days_left = calendar.monthrange(now.year, now.month)[1] - now.day + 1
@@ -97,7 +109,11 @@ def main():
         rows = [s for s in need if s["lg"] == lg and s["key"] not in props]
         if not rows:
             continue
-        if last.get(lg) and now - dt.datetime.fromisoformat(last[lg]) < dt.timedelta(hours=REFRESH_H):
+        if len(rows) < 4:
+            print(f"{lg}: only {len(rows)} unpriced props, not worth a fetch")
+            continue
+        wait = REFRESH_H * (4 if (old.get("rate") or {}).get(lg, 1) < .1 else 1)   # a league that priced under 10% last time waits 4x longer
+        if last.get(lg) and now - dt.datetime.fromisoformat(last[lg]) < dt.timedelta(hours=wait):
             print(f"{lg}: fetched {last[lg]}, waiting")
             continue
         games = len({(s["team"], s["opp"], s["t"]) for s in rows}) // 1
@@ -153,7 +169,7 @@ def main():
                         q[side] = px
             alltable.update(table)
             for (nm, m), books in table.items():
-                for s in want.get((nm, m), []):
+                for s in [r for (wn, wm), rs in want.items() if wm == m and same_player(wn, nm) for r in rs]:
                     if abs((dt.datetime.fromisoformat(s["t"]) - ev_t).total_seconds()) > 3 * 3600 or s["key"] in props:
                         continue
                     ok = {b: q for b, q in books.items() if "over" in q and "under" in q}
@@ -167,13 +183,15 @@ def main():
                     got += 1
         seen_names = {n for (n, _m) in alltable}
         want_names = {n for (n, _m) in want}
-        print(f"{lg}: priced {got} of {len(rows)} props; SGO listed {len(seen_names)} players (any prop), {len(want_names & seen_names)} of our {len(want_names)} unpriced players among them")
-        miss = sorted(want_names - seen_names)[:4]
+        found = {w for w in want_names if any(same_player(w, n) for n in seen_names)}
+        rates[lg] = got / max(1, len(rows))
+        print(f"{lg}: priced {got} of {len(rows)} props; SGO listed {len(seen_names)} players (any prop), {len(found)} of our {len(want_names)} unpriced players among them")
+        miss = sorted(want_names - found)[:4]
         print(f"{lg}: not found e.g. {miss}; SGO has e.g. {sorted(seen_names)[:4]}")
-        wm = [(n, m) for (n, m) in want if n in seen_names and (n, m) not in alltable][:4]
+        wm = [(n, m) for (n, m) in want if n in found and not any(same_player(n, a) and b == m for (a, b) in alltable)][:4]
         print(f"{lg}: player listed but not that prop e.g. {wm}")
     usage[month] = used
-    json.dump({"fetched": stamp, "usage": usage, "last": last, "log": LOG[-14:], "props": props}, open(OUT, "w"), separators=(",", ":"))
+    json.dump({"fetched": stamp, "usage": usage, "last": last, "rate": rates, "log": LOG[-14:], "props": props}, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: {len(props)} props, {used} objects used in {month}")
 
 
