@@ -1,0 +1,37 @@
+name: SportsGameOdds probe
+
+# One-off: asks SportsGameOdds' free plan what it returns for NFL / college / NBA player props (about 15 objects of
+# the 2,500 a month) and commits the printout to backtest_results/sgo_probe.txt. Needs the SGO_API_KEY secret.
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["sgo-probe"]
+    paths: ["sgo_probe.py", ".github/workflows/sgo_probe.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Probe
+        env:
+          SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
+        run: |
+          mkdir -p backtest_results
+          python sgo_probe.py 2>&1 | tee backtest_results/sgo_probe.txt
+        continue-on-error: true
+      - name: Commit the printout
+        run: |
+          git config user.name "prop-tracker-bot"
+          git config user.email "prop-tracker-bot@users.noreply.github.com"
+          git add backtest_results/sgo_probe.txt
+          git diff --cached --quiet || git commit -m "SportsGameOdds probe printout"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}"
