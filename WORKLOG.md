@@ -3,6 +3,13 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30 (2), cmags0511 (Claude)
+College blowout factor. `picks.py`: new `blowout` part for CFB passing/rushing/receiving volume props (`BLOW_M`): up to -0.45 log-odds on the over
+(so toward the under) as the spread grows from 10 to 24+, at less than half the size the Oct 30 backtest found (the real line already shades for
+blowouts). `tune.py` learns its weight from graded picks once 60+ carry it; `index.html` labels the chip "Blowout" (`sw.js` pt-v123). On today's slate only
+2 of 34 college candidates are in games with a spread over 10, so almost nothing moves yet (Stockton under 238.5 .149 -> .174); it matters on lopsided
+slates. Team pass rate (also significant in the backtest) is not used: it overlaps with the player's own attempt history.
+
 ## 2026-10-30, cmags0511 (Claude, research run)
 `merge_notes.py`: anytime-TD notes are also accepted for keys on the app's Top anytime-TD list (`picks.json` tdTop), not only packet `td_candidates`. Games without a packet (this week LAR) had their audit fix notes dropped as unknown keys. No ranking change.
 
