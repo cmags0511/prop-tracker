@@ -33,39 +33,18 @@ for path, q in (("/fixtures", dict(sportId=14, from_=str(today), to=str(today + 
 rows = fx if isinstance(fx, list) else (fx or {}).get("data") or (fx or {}).get("fixtures") or []
 print("fixtures:", len(rows)); print(json.dumps(rows[:2])[:600])
 now = dt.datetime.now(dt.timezone.utc).isoformat()
-up = [r for r in rows if r.get("hasOdds") and r.get("startTime", "") > now and r.get("tournamentId") == 27653]
-print("upcoming NCAAF with odds:", len(up))
-cat = get("/markets")
-cat = {str(x["marketId"]): x for x in cat} if isinstance(cat, list) else {}
-print("catalogue rows:", len(cat))
-US = ("draftkings", "fanduel", "betmgm", "pinnacle", "espnbet", "caesars", "thescore", "bet365", "hardrockbet", "fanatics")
-for r in up[:2]:
-    fid = r["fixtureId"]
-    print("\n=== fixture", fid, r.get("startTime"))
-    d = None
-    for q in (dict(fixtureId=fid, bookmaker="draftkings,fanduel,pinnacle,betmgm"), dict(fixtureId=fid)):
-        d = get("/odds", **q)
-        if d and d.get("bookmakerOdds"):
-            break
-    bo = (d or {}).get("bookmakerOdds") or {}
-    print("bookmakers returned:", len(bo), "| US-ish:", [b for b in bo if b in US])
-    # player-prop markets: id -> {book: players}
-    pm = {}
-    for b, v in bo.items():
-        for mid, m in (v.get("markets") or {}).items():
-            n = 0
-            for o in (m.get("outcomes") or {}).values():
-                n = max(n, len([k for k in (o.get("players") or {}) if k != "0"]))
-            if n:
-                pm.setdefault(mid, {})[b] = n
-    print("player-prop markets:", len(pm))
-    for mid, books in sorted(pm.items(), key=lambda kv: -len(kv[1]))[:40]:
-        c = cat.get(mid, {})
-        us = {b: n for b, n in books.items() if b in US}
-        print(mid, "|", c.get("marketName"), "|", c.get("marketType"), "| hcap", c.get("handicap"), "| books", len(books), "| US", us)
-    # one over/under example
-    for mid, books in pm.items():
-        c = cat.get(mid, {})
-        if "total" in str(c.get("marketType")) and any(b in US for b in books):
-            b = next(b for b in books if b in US)
-            print("EXAMPLE", b, mid, c.get("marketName"), json.dumps(bo[b]["markets"][mid])[:600]); break
+up = [r for r in rows if r.get("hasOdds") and r.get("startTime", "") > now]
+print("upcoming with odds:", len(up), "tournaments:", {t: sum(1 for r in up if r["tournamentId"] == t) for t in {r["tournamentId"] for r in up}})
+r0 = next(r for r in up if r["tournamentId"] == 27653)
+print("FULL ROW KEYS:", list(r0)); print(json.dumps({k: v for k, v in r0.items() if k != "externalProviders"})[:900])
+print("participants keys:", [k for k in r0 if "articipant" in k or "name" in k.lower()])
+nfl = next((r for r in up if r["tournamentId"] != 27653), None)
+print("OTHER TOURNAMENT ROW:", json.dumps({k: v for k, v in (nfl or {}).items() if k != "externalProviders"})[:600])
+for path, q in (("/participants", dict(sportId=14)), ("/tournaments", dict(sportId=14))):
+    d = get(path, **q)
+    if isinstance(d, list):
+        print(path, len(d), json.dumps(d[:3])[:500])
+        if path == "/tournaments":
+            print([x for x in d if x.get("tournamentId") in (27653, 790, 31)][:5])
+    else:
+        print(path, json.dumps(d)[:300])
