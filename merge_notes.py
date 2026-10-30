@@ -86,6 +86,8 @@ def main():
     sp = load("research/packets/SOCCER-day.json", {}) or {}
     soc_ok = {p["key"] for p in sp.get("players", [])} | {b["key"] for x in sp.get("matches", []) for b in x["bets"]}
     td_ok = {c["key"] for f in glob.glob("research/packets/*.json") for c in (load(f, {}) or {}).get("td_candidates", [])}
+    # plus the app's Top anytime-TD picks, so the audit's fix notes stick for games without a packet
+    td_ok |= {c["key"] for c in (load("picks.json", {}) or {}).get("tdTop", []) if c.get("key", "").endswith("|td")}
 
     def cfb_key(k):
         parts = k.split("|")

@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30, cmags0511 (Claude, research run)
+`merge_notes.py`: anytime-TD notes are also accepted for keys on the app's Top anytime-TD list (`picks.json` tdTop), not only packet `td_candidates`. Games without a packet (this week LAR) had their audit fix notes dropped as unknown keys. No ranking change.
+
 ## 2026-10-29 (4), cmags0511 (Claude)
 - Record: `record.py` now drops rows that were only ever on the retired overs-only Top 10 (42 rows removed from `record.json`, 310 -> 268); the page already ignored them. tune.py loses those 42 graded picks as training rows.
 - Late availability: `lines.yml` also runs every 20 minutes on NFL game days (Sunday 10am-6pm ET, Mon/Thu night windows) so ESPN's inactives reach the picks and the record lock sooner than the hourly :47 run. Questionable pills on NFL cards now read "Q · plays ~56%" (NFL skill players listed Questionable played 56% of the time, 2023-25). `sw.js` is pt-v122.
