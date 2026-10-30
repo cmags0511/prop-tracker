@@ -3,6 +3,17 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30 (3), cmags0511 (Claude)
+SportsGameOdds (free plan, `SGO_API_KEY` secret) as the last-resort price. Probe (Oct 30): the free plan returns real DraftKings, FanDuel, Caesars, BetMGM, ESPN BET
+and Bovada player-prop prices for NFL, college and NBA, but no tackles or sacks (those stay at the flagged -110). `fetch_sgo.py` (new step `fetch_sgo` in
+lines.yml, then picks.py again) prices ONLY props that have no price from Pinnacle, FanDuel, ESPN's feed or The Odds API, at the app's line (a different line
+is moved to it with fetch_prices.shift and marked estimated). It reads slate.json for what is unpriced, asks only for games in the next 30 hours that have
+4+ unpriced props, refetches a league at most every 6 hours (24 if the last fetch priced under 10%), and stops at 2,200 of the 2,500 monthly objects, paced over
+the month. Real test: NBA priced 27 of 30 unpriced props for 22 objects; college priced 0 of 36 (the free plan lists about 41 college players across 11 games and
+none were ours; the unpriced college props are mostly minor ones the books don't post). NFL untested until a game day (kicking props: pat, fgm, kpts).
+Name matching is fuzzy (alex sarr ~ alexandre sarr). `sgo.json` keeps the last run's log (`log`), usage and per-league fill rate. `sgo_probe.py` is on branch
+sgo-probe (not merged).
+
 ## 2026-10-30 (2), cmags0511 (Claude)
 College blowout factor. `picks.py`: new `blowout` part for CFB passing/rushing/receiving volume props (`BLOW_M`): up to -0.45 log-odds on the over
 (so toward the under) as the spread grows from 10 to 24+, at less than half the size the Oct 30 backtest found (the real line already shades for
