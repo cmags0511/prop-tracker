@@ -125,6 +125,7 @@ def main():
         for s in rows:
             want.setdefault((norm(s["name"]), s["market"]), []).append(s)
         got = 0
+        alltable = {}
         for ev in evs:
             try:
                 ev_t = dt.datetime.fromisoformat(((ev.get("status") or {}).get("startsAt") or "").replace("Z", "+00:00"))
@@ -150,6 +151,7 @@ def main():
                     q = table.setdefault((player_name(ent), m), {}).setdefault(b, {"line": ln})
                     if q["line"] == ln:
                         q[side] = px
+            alltable.update(table)
             for (nm, m), books in table.items():
                 for s in want.get((nm, m), []):
                     if abs((dt.datetime.fromisoformat(s["t"]) - ev_t).total_seconds()) > 3 * 3600 or s["key"] in props:
@@ -163,7 +165,13 @@ def main():
                     props[s["key"]] = {"line": q["line"], "over": q["over"], "under": q["under"], "book": BOOK_NAME[best],
                                        "books": {BOOK_NAME[b]: {k: v for k, v in x.items()} for b, x in ok.items()}, "t": stamp, "game_t": s["t"]}
                     got += 1
-        print(f"{lg}: priced {got} of {len(rows)} props")
+        seen_names = {n for (n, _m) in alltable}
+        want_names = {n for (n, _m) in want}
+        print(f"{lg}: priced {got} of {len(rows)} props; SGO listed {len(seen_names)} players (any prop), {len(want_names & seen_names)} of our {len(want_names)} unpriced players among them")
+        miss = sorted(want_names - seen_names)[:4]
+        print(f"{lg}: not found e.g. {miss}; SGO has e.g. {sorted(seen_names)[:4]}")
+        wm = [(n, m) for (n, m) in want if n in seen_names and (n, m) not in alltable][:4]
+        print(f"{lg}: player listed but not that prop e.g. {wm}")
     usage[month] = used
     json.dump({"fetched": stamp, "usage": usage, "last": last, "log": LOG[-14:], "props": props}, open(OUT, "w"), separators=(",", ":"))
     print(f"wrote {OUT}: {len(props)} props, {used} objects used in {month}")

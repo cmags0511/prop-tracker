@@ -21,6 +21,7 @@ jobs:
       - name: Fetch
         env:
           SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
+          SGO_REFRESH_H: "0"
         run: python fetch_sgo.py sgo.json
       - name: Commit sgo.json
         if: always()
