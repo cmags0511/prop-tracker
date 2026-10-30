@@ -10,10 +10,10 @@ ESPN's DraftKings feed and The Odds API, and only for DraftKings, FanDuel, BetMG
     once from the 19 MB /markets catalogue (python fetch_oddspapi.py --markets) and refreshed every 30 days.
 
 Needs the ODDSPAPI_KEY environment variable (a GitHub Actions secret). Without it, it does nothing.
-Output: oddspapi.json {"fetched", "usage": {"YYYY-MM": requests}, "tried": {...}, "log": [...], "props": {"<app key>":
+Output: oddspapi_prices.json {"fetched", "usage": {"YYYY-MM": requests}, "tried": {...}, "log": [...], "props": {"<app key>":
 {"line", "over", "under", "book", "books", "t", "game_t"}}}. picks.py uses it only when nothing else prices the prop.
 
-Usage: python fetch_oddspapi.py [oddspapi.json]      |      python fetch_oddspapi.py --markets
+Usage: python fetch_oddspapi.py [oddspapi_prices.json]      |      python fetch_oddspapi.py --markets
 """
 import json, os, re, sys, time, datetime as dt, calendar
 import urllib.request, urllib.parse, urllib.error
@@ -22,7 +22,7 @@ from fetch_sgo import same_player
 
 MODE_MARKETS = "--markets" in sys.argv
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
-OUT = args[0] if args else "oddspapi.json"
+OUT = args[0] if args else "oddspapi_prices.json"
 TABLE = "oddspapi_markets.json"
 KEY = os.environ.get("ODDSPAPI_KEY", "").strip()
 API = "https://api.oddspapi.io/v4"

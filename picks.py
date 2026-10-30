@@ -509,7 +509,7 @@ def main():
     except Exception:
         OAPI = {}
     try:  # OddsPapi's free plan (fetch_oddspapi.py): DraftKings / FanDuel / BetMGM / Pinnacle quotes for college and NFL props nothing else prices
-        OPAPI = {k: v for k, v in (json.load(open("oddspapi.json")).get("props") or {}).items()
+        OPAPI = {k: v for k, v in (json.load(open("oddspapi_prices.json")).get("props") or {}).items()
                  if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=24)}
     except Exception:
         OPAPI = {}

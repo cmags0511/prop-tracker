@@ -3,6 +3,16 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30 (5), cmags0511 (Claude)
+OddsPapi (free plan, 250 requests a month, `ODDSPAPI_KEY` secret) as a second last-resort price, after The Odds API and before SportsGameOdds. Probe (Oct 30): the free key
+returns real DraftKings, FanDuel, BetMGM and Pinnacle quotes for college and NFL player props (pass yards/attempts/completions, rush yards/attempts, receptions, receiving
+yards, rush+rec, kicker props, sacks, tackles+assists), one request per GAME for every market, so it is far cheaper than per-market credits. `fetch_oddspapi.py` (new step
+`fetch_oddspapi` in lines.yml, then picks.py again) asks only about games in the next 30 hours with 2+ props still unpriced, at most 10 games a run, never the same game
+again for 12 hours, and keeps 4 requests a day in reserve; usage is stored in `oddspapi_prices.json`. `oddspapi_markets.json` is a small table of OddsPapi market ids
+(type, line, Over/Under outcome ids) built from its 19 MB catalogue with `python fetch_oddspapi.py --markets` (refresh monthly). Output is `oddspapi_prices.json` (not
+`oddsapi.json`, which is The Odds API). Untested live end to end: the first college Saturday run will show how many props get filled (check `log` and `usage`). Not
+touched: NBA (small gaps; The Odds API and SportsGameOdds cover it).
+
 ## 2026-10-30 (4), cmags0511 (Claude)
 The Odds API (free plan, 500 credits a month, `ODDS_API_KEY` secret) is now a last-resort price too, not a top-picks price. `fetch_odds.py` was rewritten: it reads
 slate.json and asks only for props with no price from Pinnacle, FanDuel or ESPN's feed (and a score of at least .12), in games starting within 28 hours, one request
