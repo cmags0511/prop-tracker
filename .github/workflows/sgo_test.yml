@@ -1,0 +1,33 @@
+name: SGO fallback test (branch only)
+
+# Temporary: runs fetch_sgo.py once with the real key on the sgo-fallback-prices branch and commits sgo.json there.
+on:
+  push:
+    branches: ["sgo-fallback-prices"]
+    paths: ["fetch_sgo.py", ".github/workflows/sgo_test.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Fetch
+        env:
+          SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
+        run: python fetch_sgo.py sgo.json
+      - name: Commit sgo.json
+        if: always()
+        run: |
+          git config user.name "prop-tracker-bot"
+          git config user.email "prop-tracker-bot@users.noreply.github.com"
+          git add sgo.json
+          git diff --cached --quiet || git commit -m "sgo.json test run"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}"

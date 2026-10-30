@@ -503,6 +503,11 @@ def main():
         FDB = {c["key"]: c for c in fdb.get("props", []) if now - dt.datetime.fromisoformat(fdb["built"]) < dt.timedelta(hours=6)}
     except Exception:
         FDB = {}
+    try:  # SportsGameOdds' free plan (fetch_sgo.py): the last-resort price, only for props nothing above prices
+        SGO = {k: v for k, v in (json.load(open("sgo.json")).get("props") or {}).items()
+               if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
+    except Exception:
+        SGO = {}
     global USAGE
     try:  # how each NFL player is being used: snaps, target / carry share, red zone (build_usage.py)
         USAGE = json.load(open("usage.json"))
@@ -642,6 +647,19 @@ def main():
                     # no Pinnacle / FanDuel quote: DraftKings' own prices at this line, from ESPN's feed (fetch_lines.py).
                     # Without these most NBA picks had no price at all, so they couldn't be graded (Oct 27)
                     dk = dict(dk, price_over=dk["po"], price_under=dk["pu"], book="DraftKings", est_over=False, est_under=False)
+                elif SGO.get(f"{lg}|{p['id']}|{mid}") and dk.get("line") is not None:
+                    # nothing else priced this prop: SportsGameOdds' quote (same line = the book's own price, else moved to this line)
+                    sq = SGO[f"{lg}|{p['id']}|{mid}"]
+                    if sq["line"] == dk["line"]:
+                        dk = dict(dk, price_over=sq["over"], price_under=sq["under"], book=sq["book"], est_over=False, est_under=False)
+                    else:
+                        try:
+                            from fetch_prices import shift
+                            mv = shift(sq["line"], sq["over"], sq["under"], dk["line"], mid)
+                        except Exception:
+                            mv = None
+                        if mv:
+                            dk = dict(dk, price_over=mv[0], price_under=mv[1], book=sq["book"], est_over=True, est_under=True)
                 if dk.get("d") and dt.datetime.fromisoformat(dk["d"].replace("Z", "+00:00")) < now - dt.timedelta(hours=5):
                     continue  # line for a game that's already been played
                 vals = [stat(g, mid) for g in games]
