@@ -261,3 +261,16 @@ print(f"\n{len(res)} tests; {len(big)} improve the base with t >= 2 (about {max(
 for r in sorted(big, key=lambda r: -r[3]): print(f"  {r[0]} {r[1]}: gain {r[2]:+.5f} t={r[3]:+.2f}")
 worse = [r for r in res if r[3] <= -2]
 print(f"{len(worse)} make it worse with t <= -2 (overfit)")
+
+# ---- 5. which way does the point spread push the over rate? (over rate of the synthetic line by the team's spread; test years)
+print("\nover rate by the player's team spread (negative = his team is favored), 2025-26 rows; n in brackets")
+edges = [(-99, -21), (-21, -14), (-14, -7), (-7, -3), (-3, 3), (3, 7), (7, 14), (14, 99)]
+hdr = " ".join(f"{('%d..%d' % e):>13s}" for e in edges)
+print(f"{'market':6s} {hdr}")
+for m, rs in rows.items():
+    te = [r for r in rs if r["year"] >= 2025 and "team_spread" in r["new"]]
+    out = []
+    for lo, hi in edges:
+        b = [r["y"] for r in te if lo <= r["new"]["team_spread"] < hi]
+        out.append(f"{np.mean(b):.3f} [{len(b):4d}]" if len(b) >= 30 else "     -       ")
+    print(f"{m:6s} " + " ".join(f"{o:>13s}" for o in out))
