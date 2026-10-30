@@ -62,6 +62,11 @@ and team margin held up but are small). They use a synthetic line (a weighted re
 what deserves a test against real lines, not proof. Official NBA injury reports/referee assignments, stats.nba.com, Underdog,
 PrizePicks and Action Network block plain requests and were not used.
 
+## Last-resort prices (fetch_sgo.py)
+Props that Pinnacle, FanDuel, ESPN's feed and The Odds API don't price (kicking props, some NBA combos, a few college props) get a quote from SportsGameOdds' free plan
+when one exists (`sgo.json`, `SGO_API_KEY` secret). It is only used for props nothing else prices, at the app's own line, and spends at most 2,200 of the free plan's 2,500
+monthly objects (one per game returned). Tackles and sacks aren't on the free plan, so those picks stay at an assumed, flagged -110.
+
 ## Records and tracking
 
 `record.json` locks every Top 10 (props, TDs, soccer, the research's own calls) at kickoff and grades it from the box
