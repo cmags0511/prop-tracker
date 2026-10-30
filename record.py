@@ -393,6 +393,8 @@ def main():
         ckeys[(s["key"], s["t"])] = {"key": s["key"], "lg": s["lg"], "id": s["id"], "team": s["team"], "opp": s["opp"],
                                      "t": s["t"], "market": s["market"], "line": s["line"], "side": "over" if over else "under",
                                      "prob": po if over else round(1 - po, 3),
+                                     # the opening line (ESPN's first), kept so line movement can be backtested once graded
+                                     "open": s.get("open"),
                                      "kal": None if ko is None else (ko if over else round(1 - ko, 3)),
                                      "status": "pending", "result": None,
                                      **({"x": s["x"], "f": s["f"]} if s.get("x") is not None else {}),

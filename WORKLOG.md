@@ -6,6 +6,20 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
 ## 2026-10-30, cmags0511 (Claude, research run)
 `merge_notes.py`: anytime-TD notes are also accepted for keys on the app's Top anytime-TD list (`picks.json` tdTop), not only packet `td_candidates`. Games without a packet (this week LAR) had their audit fix notes dropped as unknown keys. No ranking change.
 
+## 2026-10-30, cmags0511 (Claude)
+Backtests of new factors (Oct 30). Pinnacle's no-vig probability vs the app's model on 3,415 graded NBA/NFL props with a Pinnacle price (calib.json):
+Pinnacle was the better predictor (log-loss NBA .6878 vs .6918, NFL .6859 vs .7021); stacked, the model's weight was -0.54 vs +1.10 for Pinnacle;
+walk-forward gain +.0048 log-loss (day-bootstrap 90% range +.0023 to +.0071, 10 days). Top 20% by the blend hit 59.4% vs 52.1% but ROI at
+Pinnacle's price was about the same (-2.4% vs -2.5%): more hits, no more profit. None of the app's own factors (form, matchup, game, usage, Kalshi,
+minutes, news) added anything on top of Pinnacle's probability; NBA matchup made it worse (t -3.6). Nothing in picks.py changed.
+Soccer lineups: all 78 graded player picks were starters, so a lineup check would have changed nothing.
+College (`backtest_cfb.py`, run by the manual "CFB backtest" workflow with the `CFBD_API_KEY` secret; results in `backtest_results/cfb.txt`):
+23 of 84 feature tests beat the base with t >= 2 (about 2 expected by chance). Strongest are the point spread / blowout size (attempts, carries,
+yards), team pass rate (attempts, completions) and last year's SP+ ratings (rushing yards). In games with a spread of 14+ either way, overs on the
+synthetic (last-10 average) line hit 26-49% for yardage and attempts. Caveat: the test line is a player's own average, not a sportsbook line, and
+real lines already shade for blowouts, so this isn't proof of an edge against DraftKings; it applies directly to college "leans vs his typical game".
+`record.py` now also stores ESPN's opening line (`open`) on each calib.json row, so line movement can be backtested after a few weeks of games.
+
 ## 2026-10-29 (4), cmags0511 (Claude)
 - Record: `record.py` now drops rows that were only ever on the retired overs-only Top 10 (42 rows removed from `record.json`, 310 -> 268); the page already ignored them. tune.py loses those 42 graded picks as training rows.
 - Late availability: `lines.yml` also runs every 20 minutes on NFL game days (Sunday 10am-6pm ET, Mon/Thu night windows) so ESPN's inactives reach the picks and the record lock sooner than the hourly :47 run. Questionable pills on NFL cards now read "Q · plays ~56%" (NFL skill players listed Questionable played 56% of the time, 2023-25). `sw.js` is pt-v122.
