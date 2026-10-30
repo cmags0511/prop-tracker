@@ -1,0 +1,103 @@
+
+=== v1.american-football.api-sports.io /status === {"get": "status", "parameters": [], "errors": [], "results": 0, "paging": {"current": 1, "total": 1}, "response": {"account": {"firstname": "Chris", "lastname": "Magliochetti", "email": "maglio0511@yahoo.com"}, "subscription": {"plan": "Free", "end": "2027-10-30T00:00:00+00:00", "active": true}, "requests": {"current": 0, "limit_day": 100}}} {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '9', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '100'}
+
+=== v1.basketball.api-sports.io /status === {"get": "status", "parameters": [], "errors": [], "results": 0, "paging": {"current": 1, "total": 1}, "response": {"account": {"firstname": "Chris", "lastname": "Magliochetti", "email": "maglio0511@yahoo.com"}, "subscription": {"plan": "Free", "end": "2027-10-30T00:00:00+00:00", "active": true}, "requests": {"current": 0, "limit_day": 100}}} {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '9', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '100'}
+
+=== v2.nba.api-sports.io /status === {"get": "status", "parameters": [], "errors": [], "results": 0, "paging": {"current": 1, "total": 1}, "response": {"account": {"firstname": "Chris", "lastname": "Magliochetti", "email": "maglio0511@yahoo.com"}, "subscription": {"plan": "Free", "end": "2027-10-30T00:00:00+00:00", "active": true}, "requests": {"current": 0, "limit_day": 100}}} {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '9', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '100'}
+
+=== v3.football.api-sports.io /status === {"get": "status", "parameters": [], "errors": [], "results": 0, "paging": {"current": 1, "total": 1}, "response": {"account": {"firstname": "Chris", "lastname": "Magliochetti", "email": "maglio0511@yahoo.com"}, "subscription": {"plan": "Free", "end": "2027-10-30T00:00:00+00:00", "active": true}, "requests": {"current": 0, "limit_day": 100}}} {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '9', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '100'}
+
+--- v1.american-football.api-sports.io/leagues {'search': 'NFL'}
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '8', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '98'}
+errors: {'search': 'The Search field do not exist.'} | results: 0 | paging: None
+
+--- v1.american-football.api-sports.io/leagues {'search': 'NCAA'}
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '7', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '97'}
+errors: {'search': 'The Search field do not exist.'} | results: 0 | paging: None
+
+--- v1.american-football.api-sports.io/games {'league': 1, 'season': 2026, 'date': '2026-11-01'}
+errors: {'plan': 'Free plans do not have access to this season, try from 2022 to 2024.'} | results: 0 | paging: {'current': 1, 'total': 1}
+
+--- v1.american-football.api-sports.io/injuries {'league': 1, 'season': 2026}
+errors: {'plan': 'Free plans do not have access to this season, try from 2022 to 2024.'} | results: 0 | paging: {'current': 1, 'total': 1}
+
+--- v1.american-football.api-sports.io/odds/bookmakers 
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '6', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '96'}
+errors: [] | results: 24 | paging: None
+   {"id": 1, "name": "Bwin"}
+   {"id": 2, "name": "10Bet"}
+   {"id": 3, "name": "WilliamHill"}
+   {"id": 4, "name": "Bet365"}
+   {"id": 5, "name": "Marathon"}
+   {"id": 6, "name": "Unibet"}
+   {"id": 7, "name": "Pinnacle"}
+   {"id": 8, "name": "SBO"}
+   {"id": 9, "name": "1xBet"}
+   {"id": 10, "name": "Sportingbet"}
+   {"id": 11, "name": "ComeOn"}
+   {"id": 12, "name": "Betway"}
+
+--- v1.american-football.api-sports.io/odds/bets 
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '5', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '95'}
+errors: [] | results: 361 | paging: None
+   {"id": 1, "name": "Home/Away"}
+   {"id": 2, "name": "Asian Handicap"}
+   {"id": 3, "name": "Over/Under"}
+   {"id": 4, "name": "Over/Under 1st Half"}
+   {"id": 5, "name": "HT/FT Double"}
+   {"id": 6, "name": "Handicap Result"}
+   {"id": 7, "name": "1st Half 3Way Result"}
+   {"id": 8, "name": "Total - Home"}
+   {"id": 9, "name": "Total - Away"}
+   {"id": 10, "name": "Handicap Result 1st Half"}
+   {"id": 11, "name": "Asian Handicap First Half"}
+   {"id": 12, "name": "Overtime"}
+   {"id": 13, "name": "Odd/Even"}
+   {"id": 14, "name": "Odd/Even 1st Half"}
+   {"id": 15, "name": "Home Odd/Even"}
+   {"id": 16, "name": "Away Odd/Even"}
+   {"id": 17, "name": "3Way Result - 1st Qtr"}
+   {"id": 18, "name": "Home Winning Margin (14-Way)"}
+   {"id": 19, "name": "Away Winning Margin (14-Way)"}
+   {"id": 20, "name": "Over/Under 1st Qtr"}
+   {"id": 21, "name": "Asian Handicap 1st Qtr"}
+   {"id": 22, "name": "Home/Away - 1st Half"}
+   {"id": 23, "name": "Home/Away - 1st Qtr"}
+   {"id": 24, "name": "Home Team Total Goals(1st Half)"}
+   {"id": 25, "name": "Away Team Total Goals(1st Half)"}
+   {"id": 26, "name": "Home Team Total Points (1st Quarter)"}
+   {"id": 27, "name": "Away Team Total Points (1st Quarter)"}
+   {"id": 28, "name": "Odd/Even (1st Quarter)"}
+   {"id": 29, "name": "European Handicap (1st Quarter)"}
+   {"id": 30, "name": "Over/Under 2nd Half"}
+   {"id": 31, "name": "Highest Scoring Half"}
+   {"id": 32, "name": "Asian Handicap 4th Qtr"}
+   {"id": 33, "name": "Over/Under 2nd Qtr"}
+   {"id": 34, "name": "Over/Under 3rd Qtr"}
+   {"id": 35, "name": "Over/Under 4th Qtr"}
+   {"id": 36, "name": "Asian Handicap (2nd Half)"}
+   {"id": 37, "name": "Home/Away - 2nd Half"}
+   {"id": 38, "name": "Home/Away - 2nd Qtr"}
+   {"id": 39, "name": "Home/Away - 3rd Qtr"}
+   {"id": 40, "name": "Home/Away - 4th Qtr"}
+
+--- v2.nba.api-sports.io/games {'date': '2026-10-31'}
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '8', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '98'}
+errors: [] | results: 8 | paging: None
+   {"id": 17017, "league": "standard", "season": 2026, "date": {"start": "2026-10-31T00:00:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 1, "long": "Scheduled"}, "periods": {"current": 0, "total": 4, "endOfPeriod": false}, "arena": {"name": "Kaseya Center", "city": "Miami", "state": "FL", "country": null}, "teams": {"visitors": {"id": 15, "name": "Indiana Pac
+   {"id": 17018, "league": "standard", "season": 2026, "date": {"start": "2026-10-31T00:00:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 1, "long": "Scheduled"}, "periods": {"current": 0, "total": 4, "endOfPeriod": false}, "arena": {"name": "American Airlines Center", "city": "Dallas", "state": "TX", "country": null}, "teams": {"visitors": {"id": 14, "name": 
+
+--- v1.basketball.api-sports.io/leagues {'search': 'NBA'}
+quota headers: {'x-ratelimit-limit': '10', 'x-ratelimit-remaining': '8', 'x-ratelimit-requests-limit': '100', 'x-ratelimit-requests-remaining': '98'}
+errors: [] | results: 10 | paging: None
+   {"id": 12, "name": "NBA", "type": "League", "logo": "https://media.api-sports.io/basketball/leagues/12.png", "country": {"id": 5, "name": "USA", "code": "US", "flag": "https://media.api-sports.io/flags/us.svg"}, "seasons": [{"season": "2019-2020", "start": "2019-10-04", "end": "2020-10-11", "coverage": {"games": {"statistics": {"teams": false, "players": false}}, "standings": false, "players": false, "odds": false}},
+   {"id": 20, "name": "NBA - G League", "type": "League", "logo": "https://media.api-sports.io/basketball/leagues/20.png", "country": {"id": 5, "name": "USA", "code": "US", "flag": "https://media.api-sports.io/flags/us.svg"}, "seasons": [{"season": "2012-2013", "start": "2012-11-24", "end": "2013-04-28", "coverage": {"games": {"statistics": {"teams": false, "players": false}}, "standings": false, "players": false, "odds
+   {"id": 17, "name": "NBA - Las Vegas Summer League", "type": "League", "logo": "https://media.api-sports.io/basketball/leagues/17.png", "country": {"id": 5, "name": "USA", "code": "US", "flag": "https://media.api-sports.io/flags/us.svg"}, "seasons": [{"season": 2026, "start": "2026-07-09", "end": "2026-07-20", "coverage": {"games": {"statistics": {"teams": true, "players": true}}, "standings": true, "players": true, "
+
+--- v1.basketball.api-sports.io/games {'league': 12, 'season': '2026-2027', 'date': '2026-10-31'}
+errors: {'plan': 'Free plans do not have access to this season, try from 2022 to 2024.'} | results: 0 | paging: {'current': 1, 'total': 1}
+
+--- v1.basketball.api-sports.io/odds/bets 
+errors: {'endpoint': 'This endpoint do not exist.'} | results: 0 | paging: None
+
+requests made per host: {'v1.american-football.api-sports.io': 7, 'v1.basketball.api-sports.io': 4, 'v2.nba.api-sports.io': 2, 'v3.football.api-sports.io': 1}
