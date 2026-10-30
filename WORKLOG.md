@@ -3,6 +3,15 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30 (4), cmags0511 (Claude)
+The Odds API (free plan, 500 credits a month, `ODDS_API_KEY` secret) is now a last-resort price too, not a top-picks price. `fetch_odds.py` was rewritten: it reads
+slate.json and asks only for props with no price from Pinnacle, FanDuel or ESPN's feed (and a score of at least .12), in games starting within 28 hours, one request
+per game with only the prop types that game needs (1 credit each). Best games first, at most 30 credits a run, never the same game and prop types again for 12 hours,
+and it keeps 10 credits a day for the rest of the month. It now also covers college football (`americanfootball_ncaaf`; teams matched by kickoff time plus
+abbreviation letters, skipped when not exactly one event fits). Output moved from `odds.json` to its own `oddsapi.json` (fetch_prices rewrites odds.json every run, which would have wiped it); picks.py
+uses it right after the DraftKings-feed price and before SportsGameOdds. Untested against the live API: the first college Saturday run will show how many props
+get filled (check `oddsapi.json` `log` and `remaining`).
+
 ## 2026-10-30 (3), cmags0511 (Claude)
 SportsGameOdds (free plan, `SGO_API_KEY` secret) as the last-resort price. Probe (Oct 30): the free plan returns real DraftKings, FanDuel, Caesars, BetMGM, ESPN BET
 and Bovada player-prop prices for NFL, college and NBA, but no tackles or sacks (those stay at the flagged -110). `fetch_sgo.py` (new step `fetch_sgo` in
