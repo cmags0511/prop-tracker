@@ -33,7 +33,7 @@ BOOKNAME = {"draftkings": "DraftKings", "fanduel": "FanDuel", "betmgm": "BetMGM"
 # OddsPapi marketType -> app market id
 TYPE = {"playertotals-passyards": "pyd", "playertotals-passattempts": "att", "playertotals-passcompletions": "cmp",
         "playertotals-rushyards": "ryd", "playertotals-rushattempts": "car", "playertotals-receptions": "rec",
-        "playertotals-receivingyards": "recyd", "playertotals-rushreceivingyards": "rry",
+        "playertotals-receivingyards": "recyd", "playertotals-rushrec": "rry", "playertotals-sacks": "sck", "playertotals-tacass": "tkl",
         "playertotals-kickingpoints": "kpts", "playertotals-fieldgoals": "fgm", "playertotals-extrapoints": "pat"}
 WINDOW_H, MAX_RUN, RESERVE_DAY, MIN_PROPS, REFRESH_H = 30, 10, 4, 2, 12
 usage_now = 0
