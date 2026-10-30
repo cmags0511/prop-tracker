@@ -3,7 +3,7 @@ sample game: {'year': 2022, 'week': 1, 'date': '2022-08-27', 'home': 'Western Ke
 lines: 6890 spreads, 6881 totals
 SP+ ratings: 808 team-years
 sample games/players team keys: ['team', 'conference', 'homeAway', 'points', 'categories']
-player-game stats: 445167; API calls this run: 241
+player-game stats: 445167; API calls this run: 18
 rows: {'att': 9952, 'cmp': 10244, 'pyd': 9993, 'car': 17784, 'ryd': 25141, 'rec': 39083, 'recyd': 34116}
 over rate of the synthetic line (rows, all years): {'att': 0.512, 'cmp': 0.513, 'pyd': 0.498, 'car': 0.454, 'ryd': 0.409, 'rec': 0.416, 'recyd': 0.406}
 over rate by year: {2022: 0.438, 2023: 0.431, 2024: 0.436, 2025: 0.44, 2026: 0.435}
@@ -119,3 +119,13 @@ recyd  team_passrate   20673  13436 +0.00003  +0.76     0.627      0.627
   att opp_off_sp: gain +0.00106 t=+2.18
   recyd team_spread: gain +0.00077 t=+2.04
 2 make it worse with t <= -2 (overfit)
+
+over rate by the player's team spread (negative = his team is favored), 2025-26 rows; n in brackets
+market      -99..-21      -21..-14       -14..-7        -7..-3         -3..3          3..7         7..14        14..99
+att     0.352 [ 458]  0.502 [ 313]  0.519 [ 511]  0.571 [ 464]  0.554 [ 560]  0.575 [ 463]  0.587 [ 496]  0.495 [ 642]
+cmp     0.461 [ 484]  0.568 [ 329]  0.516 [ 531]  0.556 [ 487]  0.554 [ 574]  0.556 [ 484]  0.554 [ 509]  0.459 [ 687]
+pyd     0.526 [ 468]  0.612 [ 322]  0.543 [ 525]  0.536 [ 478]  0.529 [ 556]  0.512 [ 480]  0.488 [ 490]  0.361 [ 638]
+car     0.308 [ 796]  0.445 [ 582]  0.491 [ 919]  0.536 [ 850]  0.540 [1015]  0.470 [ 823]  0.469 [ 838]  0.352 [1036]
+ryd     0.439 [1197]  0.462 [ 916]  0.444 [1373]  0.461 [1225]  0.446 [1450]  0.399 [1202]  0.347 [1192]  0.257 [1556]
+rec     0.381 [1703]  0.422 [1211]  0.410 [2027]  0.430 [1873]  0.433 [2315]  0.428 [1926]  0.426 [1888]  0.400 [2367]
+recyd   0.402 [1514]  0.454 [1084]  0.435 [1793]  0.435 [1571]  0.415 [1951]  0.408 [1616]  0.393 [1584]  0.362 [1966]
