@@ -5,9 +5,6 @@ name: CFB backtest
 # The API responses are cached between runs so repeat runs don't use up the free monthly call allowance.
 on:
   workflow_dispatch: {}
-  push:
-    branches: ["cfb-backtest-run"]
-    paths: ["backtest_cfb.py", ".github/workflows/backtest_cfb.yml"]
 
 permissions:
   contents: write
