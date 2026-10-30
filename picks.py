@@ -508,6 +508,11 @@ def main():
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=24)}
     except Exception:
         OAPI = {}
+    try:  # OddsPapi's free plan (fetch_oddspapi.py): DraftKings / FanDuel / BetMGM / Pinnacle quotes for college and NFL props nothing else prices
+        OPAPI = {k: v for k, v in (json.load(open("oddspapi.json")).get("props") or {}).items()
+                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=24)}
+    except Exception:
+        OPAPI = {}
     try:  # SportsGameOdds' free plan (fetch_sgo.py): the last-resort price, only for props nothing above prices
         SGO = {k: v for k, v in (json.load(open("sgo.json")).get("props") or {}).items()
                if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
@@ -652,10 +657,10 @@ def main():
                     # no Pinnacle / FanDuel quote: DraftKings' own prices at this line, from ESPN's feed (fetch_lines.py).
                     # Without these most NBA picks had no price at all, so they couldn't be graded (Oct 27)
                     dk = dict(dk, price_over=dk["po"], price_under=dk["pu"], book="DraftKings", est_over=False, est_under=False)
-                elif (OAPI.get(f"{lg}|{p['id']}|{mid}") or SGO.get(f"{lg}|{p['id']}|{mid}")) and dk.get("line") is not None:
-                    # nothing else priced this prop: The Odds API's quote, else SportsGameOdds' (same line = the book's own price,
-                    # else moved to this line)
-                    sq = OAPI.get(f"{lg}|{p['id']}|{mid}") or SGO[f"{lg}|{p['id']}|{mid}"]
+                elif (OAPI.get(f"{lg}|{p['id']}|{mid}") or OPAPI.get(f"{lg}|{p['id']}|{mid}") or SGO.get(f"{lg}|{p['id']}|{mid}")) and dk.get("line") is not None:
+                    # nothing else priced this prop: The Odds API's quote, else OddsPapi's, else SportsGameOdds' (same line = the
+                    # book's own price, else moved to this line)
+                    sq = OAPI.get(f"{lg}|{p['id']}|{mid}") or OPAPI.get(f"{lg}|{p['id']}|{mid}") or SGO[f"{lg}|{p['id']}|{mid}"]
                     if sq["line"] == dk["line"]:
                         dk = dict(dk, price_over=sq["over"], price_under=sq["under"], book=sq["book"], est_over=False, est_under=False)
                     else:
