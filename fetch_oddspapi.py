@@ -17,7 +17,7 @@ Usage: python fetch_oddspapi.py [oddspapi_prices.json]      |      python fetch_
 """
 import json, os, re, sys, time, datetime as dt, calendar
 import urllib.request, urllib.parse, urllib.error
-from fetch_odds import norm
+from fetch_odds import norm, cfb_fits
 from fetch_sgo import same_player
 
 MODE_MARKETS = "--markets" in sys.argv
@@ -94,7 +94,7 @@ def team_fits(lg, ab, fx, side):
     if lg == "NFL":  # app abbreviations are the usual ones; match the city or nickname through fetch_odds.TEAM
         from fetch_odds import TEAM
         return TEAM["NFL"].get(ab) == name or ab == abbr
-    return ab == abbr or abbr_fits(ab, name) or abbr_fits(ab, short)
+    return ab == abbr or cfb_fits(ab, name, short)
 
 
 def american(s):

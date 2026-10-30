@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-30 (6), cmags0511 (Claude)
+Fix: the first live run of the Odds API and OddsPapi fallbacks couldn't match any college game ("no single matching event" / "0 matching fixtures"): ESPN's college
+abbreviations aren't letter patterns of the school names (NU is Northwestern, OU and PSU have no matching letters). New `cfb_teams.json` (ESPN abbreviation -> name,
+built by `build_cfb_teams.py`, FBS first so OSU is Ohio State) and `fetch_odds.cfb_fits()` used by both fetchers; letter matching stays as the fallback for a team not in the table.
+
 ## 2026-10-30 (5), cmags0511 (Claude)
 OddsPapi (free plan, 250 requests a month, `ODDSPAPI_KEY` secret) as a second last-resort price, after The Odds API and before SportsGameOdds. Probe (Oct 30): the free key
 returns real DraftKings, FanDuel, BetMGM and Pinnacle quotes for college and NFL player props (pass yards/attempts/completions, rush yards/attempts, receptions, receiving
