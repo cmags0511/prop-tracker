@@ -1,6 +1,6 @@
 {
- "built": "2026-10-30T01:12+00:00",
- "graded_picks": 249,
+ "built": "2026-10-30T04:00+00:00",
+ "graded_picks": 252,
  "graded_research": 198,
  "market": {
   "CFB|pyd|over": 1.121,
@@ -18,8 +18,8 @@
   "NFL|tkl|under": 1.25
  },
  "factors": {
-  "matchup": 1.075,
-  "form": 0.748,
+  "matchup": 1.077,
+  "form": 0.739,
   "market": 1.089
  },
  "research_conf": {
@@ -40,11 +40,11 @@
   "NFL receptions overs are 5-3: ranked higher (x1.121)",
   "NFL sacks unders are 8-2: ranked higher (x1.25)",
   "NFL tackles unders are 8-3: ranked higher (x1.25)",
-  "When matchup backed a pick it went 27-27, vs 18-22 when it didn't: weighted x1.075",
+  "When matchup backed a pick it went 27-28, vs 18-23 when it didn't: weighted x1.077",
   "Medium-confidence research calls are 82-96: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 8170 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
-  "Overs it backed hit 49%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
+  "Across 8191 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Overs it backed hit 49%, unders 53%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL passing yards: an extra nudge toward the over",
   "NFL completions: an extra nudge toward the over",
@@ -56,63 +56,62 @@
   "NFL tackles: an extra nudge toward the under",
   "NBA rebounds: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
-  "CFB receiving yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 7514 graded props: weighted x0.748",
-  "Kalshi market has been under-weighted across 7514 graded props: weighted x1.089"
+  "Recent form has been over-weighted across 7535 graded props: weighted x0.739",
+  "Kalshi market has been under-weighted across 7535 graded props: weighted x1.089"
  ],
  "calibration": {
-  "n": 8170,
+  "n": 8191,
   "days": 17,
   "trust": 0.89,
-  "c": -0.103,
+  "c": -0.101,
   "b": 0.35,
   "per": {
    "CFB|recyd": [
-    0.05,
-    1.01
+    0.048,
+    1.002
    ],
    "NBA|3pm": [
-    -0.017,
+    -0.018,
     1.075
    ],
    "NBA|ast": [
-    -0.033,
+    -0.034,
     1.032
    ],
    "NBA|pa": [
-    -0.018,
+    -0.019,
     0.934
    ],
    "NBA|pr": [
-    0.056,
+    0.055,
     0.852
    ],
    "NBA|pra": [
-    -0.009,
+    -0.011,
     0.929
    ],
    "NBA|pts": [
-    0.078,
+    0.076,
     0.876
    ],
    "NBA|ra": [
-    -0.027,
+    -0.029,
     0.942
    ],
    "NBA|reb": [
-    0.094,
+    0.092,
     0.985
    ],
    "NFL|car": [
-    -0.063,
+    -0.064,
     0.925
    ],
    "NFL|cmp": [
-    0.132,
+    0.131,
     0.925
    ],
    "NFL|pat": [
-    -0.081,
+    -0.082,
     1.004
    ],
    "NFL|ptd": [
@@ -120,59 +119,59 @@
     1.013
    ],
    "NFL|pyd": [
-    0.155,
+    0.154,
     0.941
    ],
    "NFL|rec": [
-    -0.042,
+    -0.043,
     1.024
    ],
    "NFL|recyd": [
-    -0.123,
+    -0.124,
     0.959
    ],
    "NFL|rry": [
-    0.006,
+    0.005,
     0.94
    ],
    "NFL|ryd": [
-    -0.151,
+    -0.152,
     0.968
    ],
    "NFL|sck": [
-    -0.392,
+    -0.393,
     0.965
    ],
    "NFL|tkl": [
-    -0.073,
+    -0.074,
     0.942
    ]
   }
  },
  "calib": {
-  "n": 8170,
+  "n": 8191,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    4793,
+    4810,
     0.526,
     0.522
    ],
    [
     0.55,
     0.6,
-    2533,
+    2536,
     0.568,
     0.522
    ],
    [
     0.6,
     0.65,
-    491,
+    492,
     0.619,
-    0.548
+    0.547
    ],
    [
     0.65,
@@ -230,16 +229,16 @@
    [
     0.5,
     0.55,
-    40,
-    0.532,
-    0.45
+    42,
+    0.533,
+    0.452
    ],
    [
     0.55,
     0.6,
-    108,
+    109,
     0.574,
-    0.454
+    0.45
    ],
    [
     0.6,
