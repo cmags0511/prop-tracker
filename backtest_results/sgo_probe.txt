@@ -1,0 +1,81 @@
+
+=== NFL ===
+success: True | events returned: 5 | keys: ['nextCursor', 'notice', 'success', 'data']
+  event: ATL @ TB | 2026-11-01T18:00:00.000Z | odds: 1108
+  event: TEN @ CIN | 2026-11-01T18:00:00.000Z | odds: 1131
+  event: MIN @ DET | 2026-11-01T18:00:00.000Z | odds: 1061
+  event: ARI @ DAL | 2026-11-01T18:00:00.000Z | odds: 1145
+  event: CLE @ PIT | 2026-11-01T18:00:00.000Z | odds: 1219
+player-prop quotes by bookmaker: {'fanduel': 1823, 'draftkings': 1683, 'espnbet': 1173, 'bovada': 850, 'caesars': 754, 'betmgm': 605}
+player-prop stats (quotes with a price):
+  touchdowns                   1661 quotes, 1661 priced | books: {'fanduel': 439, 'draftkings': 352, 'bovada': 238, 'caesars': 214} | e.g. ('touchdowns-BIJAN_ROBINSON_1_NFL-game-yn-yes', 'draftkings', '-210', None)
+  receiving_yards              1236 quotes, 1236 priced | books: {'fanduel': 492, 'draftkings': 274, 'espnbet': 216, 'bovada': 96} | e.g. ('receiving_yards-BIJAN_ROBINSON_1_NFL-game-ou-over', 'draftkings', '-111', '26.5')
+  firstTouchdown                763 quotes,  763 priced | books: {'draftkings': 221, 'bovada': 122, 'caesars': 117, 'fanduel': 114} | e.g. ('firstTouchdown-BIJAN_ROBINSON_1_NFL-game-yn-yes', 'draftkings', '+400', None)
+  receiving_receptions          677 quotes,  677 priced | books: {'draftkings': 186, 'espnbet': 111, 'fanduel': 106, 'bovada': 102} | e.g. ('receiving_receptions-BIJAN_ROBINSON_1_NFL-game-ou-over', 'draftkings', '-127', '3.5')
+  rushing_yards                 441 quotes,  441 priced | books: {'fanduel': 160, 'draftkings': 88, 'espnbet': 78, 'bovada': 48} | e.g. ('rushing_yards-BAKER_MAYFIELD_1_NFL-game-ou-over', 'fanduel', '-114', '16.5')
+  lastTouchdown                 348 quotes,  348 priced | books: {'draftkings': 123, 'fanduel': 122, 'espnbet': 103} | e.g. ('lastTouchdown-AUSTIN_HOOPER_1_NFL-game-yn-yes', 'fanduel', '+3500', None)
+  receiving_longestReception    328 quotes,  328 priced | books: {'draftkings': 78, 'espnbet': 74, 'bovada': 74, 'fanduel': 72} | e.g. ('receiving_longestReception-BIJAN_ROBINSON_1_NFL-game-ou-over', 'draftkings', '-111', '12.5')
+  passing_yards                 240 quotes,  240 priced | books: {'fanduel': 96, 'draftkings': 58, 'espnbet': 46, 'bovada': 18} | e.g. ('passing_yards-BAKER_MAYFIELD_1_NFL-game-ou-over', 'draftkings', '-111', '217.5')
+  passing_touchdowns            205 quotes,  205 priced | books: {'draftkings': 51, 'espnbet': 32, 'caesars': 31, 'betmgm': 31} | e.g. ('passing_touchdowns-BAKER_MAYFIELD_1_NFL-game-ou-over', 'draftkings', '+113', '1.5')
+  rushing+receiving_yards       152 quotes,  152 priced | books: {'fanduel': 70, 'draftkings': 24, 'espnbet': 18, 'bovada': 16} | e.g. ('rushing+receiving_yards-BIJAN_ROBINSON_1_NFL-game-ou-over', 'fanduel', '-114', '113.5')
+  passing_interceptions         144 quotes,  144 priced | books: {'draftkings': 32, 'bovada': 32, 'caesars': 32, 'espnbet': 28} | e.g. ('passing_interceptions-MICHAEL_PENIX_JR_1_NFL-game-ou-over', 'draftkings', '-107', '0.5')
+  passing_attempts              112 quotes,  112 priced | books: {'draftkings': 20, 'bovada': 20, 'fanduel': 20, 'espnbet': 20} | e.g. ('passing_attempts-BAKER_MAYFIELD_1_NFL-game-ou-over', 'draftkings', '-106', '30.5')
+  passing_completions           110 quotes,  110 priced | books: {'draftkings': 20, 'bovada': 20, 'caesars': 20, 'fanduel': 20} | e.g. ('passing_completions-BAKER_MAYFIELD_1_NFL-game-ou-over', 'draftkings', '-114', '19.5')
+  rushing_attempts               97 quotes,   97 priced | books: {'bovada': 20, 'draftkings': 18, 'fanduel': 18, 'caesars': 16} | e.g. ('rushing_attempts-BIJAN_ROBINSON_1_NFL-game-ou-over', 'draftkings', '-113', '18.5')
+  passing_longestCompletion      90 quotes,   90 priced | books: {'espnbet': 20, 'fanduel': 20, 'draftkings': 18, 'caesars': 18} | e.g. ('passing_longestCompletion-BAKER_MAYFIELD_1_NFL-game-ou-over', 'draftkings', '-109', '35.5')
+  rushing_longestRush            88 quotes,   88 priced | books: {'espnbet': 34, 'draftkings': 32, 'fanduel': 20, 'caesars': 2} | e.g. ('rushing_longestRush-BAKER_MAYFIELD_1_NFL-game-ou-over', 'fanduel', '-114', '10.5')
+  passing+rushing_yards          62 quotes,   62 priced | books: {'fanduel': 24, 'draftkings': 12, 'espnbet': 12, 'caesars': 10} | e.g. ('passing+rushing_yards-BAKER_MAYFIELD_1_NFL-game-ou-over', 'fanduel', '-114', '235.5')
+  extraPoints_kicksMade          49 quotes,   49 priced | books: {'draftkings': 27, 'espnbet': 20, 'betmgm': 2} | e.g. ('extraPoints_kicksMade-NICK_FOLK_1_NFL-game-ou-over', 'draftkings', '-183', '1.5')
+  kicking_totalPoints            44 quotes,   44 priced | books: {'draftkings': 20, 'espnbet': 20, 'caesars': 4} | e.g. ('kicking_totalPoints-CHASE_MCLAUGHLIN_1_NFL-game-ou-over', 'draftkings', '-108', '7.5')
+  fieldGoals_made                41 quotes,   41 priced | books: {'draftkings': 29, 'caesars': 8, 'betmgm': 4} | e.g. ('fieldGoals_made-NICK_FOLK_1_NFL-game-ou-over', 'draftkings', '-109', '1.5')
+tackle/sack/assist-like stats: []
+
+=== NCAAF ===
+success: True | events returned: 5 | keys: ['nextCursor', 'notice', 'success', 'data']
+  event: None @ None | 2026-10-30T23:00:00.000Z | odds: 14
+  event: None @ None | 2026-10-30T23:00:00.000Z | odds: 426
+  event: None @ None | 2026-10-30T23:30:00.000Z | odds: 505
+  event: None @ None | 2026-10-31T02:30:00.000Z | odds: 442
+  event: None @ None | 2026-10-31T16:00:00.000Z | odds: 338
+player-prop quotes by bookmaker: {'draftkings': 374, 'bovada': 313, 'fanduel': 229, 'espnbet': 102, 'betmgm': 68, 'caesars': 54}
+player-prop stats (quotes with a price):
+  touchdowns                    527 quotes,  527 priced | books: {'draftkings': 228, 'bovada': 141, 'fanduel': 118, 'betmgm': 40} | e.g. ('touchdowns-DESTYN_HILL_1_NCAAF-game-yn-yes', 'draftkings', '+140', None)
+  firstTouchdown                157 quotes,  157 priced | books: {'draftkings': 76, 'bovada': 71, 'betmgm': 10} | e.g. ('firstTouchdown-DESTYN_HILL_1_NCAAF-game-yn-yes', 'draftkings', '+900', None)
+  receiving_yards               143 quotes,  143 priced | books: {'fanduel': 35, 'bovada': 34, 'espnbet': 28, 'caesars': 22} | e.g. ('receiving_yards-DERRICK_ELEY_1_NCAAF-game-ou-over', 'espnbet', '-115', '42.5')
+  rushing_yards                  87 quotes,   87 priced | books: {'bovada': 20, 'fanduel': 20, 'espnbet': 18, 'draftkings': 12} | e.g. ('rushing_yards-HENRY_RUTLEDGE_1_NCAAF-game-ou-over', 'espnbet', '-110', '49.5')
+  passing_touchdowns             66 quotes,   66 priced | books: {'fanduel': 18, 'bovada': 17, 'espnbet': 13, 'draftkings': 8} | e.g. ('passing_touchdowns-CONNER_HARRELL_1_NCAAF-game-ou-over', 'fanduel', '-192', '0.5')
+  receiving_receptions           59 quotes,   59 priced | books: {'bovada': 18, 'fanduel': 14, 'espnbet': 10, 'draftkings': 9} | e.g. ('receiving_receptions-DESTYN_HILL_1_NCAAF-game-ou-over', 'draftkings', '-122', '3.5')
+  passing_yards                  52 quotes,   52 priced | books: {'fanduel': 16, 'espnbet': 12, 'bovada': 12, 'caesars': 6} | e.g. ('passing_yards-CONNER_HARRELL_1_NCAAF-game-ou-over', 'fanduel', '-114', '202.5')
+  receiving_longestReception     26 quotes,   26 priced | books: {'espnbet': 12, 'draftkings': 8, 'fanduel': 6} | e.g. ('receiving_longestReception-DERRICK_ELEY_1_NCAAF-game-ou-over', 'draftkings', '-125', '20.5')
+  rushing_longestRush            10 quotes,   10 priced | books: {'espnbet': 6, 'draftkings': 4} | e.g. ('rushing_longestRush-HENRY_RUTLEDGE_1_NCAAF-game-ou-over', 'espnbet', '-120', '15.5')
+  passing_longestCompletion       6 quotes,    6 priced | books: {'espnbet': 3, 'draftkings': 3} | e.g. ('passing_longestCompletion-CONNER_HARRELL_1_NCAAF-game-ou-over', 'espnbet', '+100', '39.5')
+  fieldGoals_made                 2 quotes,    2 priced | books: {'draftkings': 2} | e.g. ('fieldGoals_made-WILL_STONE_1_NCAAF-game-ou-over', 'draftkings', '-285', '0.5')
+  rushing_attempts                2 quotes,    2 priced | books: {'draftkings': 2} | e.g. ('rushing_attempts-CADEN_KNIGHTEN_1_NCAAF-game-ou-over', 'draftkings', '-131', '6.5')
+  rushing+receiving_yards         2 quotes,    2 priced | books: {'fanduel': 2} | e.g. ('rushing+receiving_yards-NATE_SHEPPARD_1_NCAAF-game-ou-over', 'fanduel', '-114', '154.5')
+  passing+rushing_yards           1 quotes,    1 priced | books: {'draftkings': 1} | e.g. ('passing+rushing_yards-DRU_DESHIELDS_1_NCAAF-game-ou-over', 'draftkings', '-128', '269.5')
+tackle/sack/assist-like stats: []
+
+=== NBA ===
+success: True | events returned: 5 | keys: ['nextCursor', 'notice', 'success', 'data']
+  event: CHA @ WAS | 2026-10-30T23:00:00.000Z | odds: 921
+  event: DET @ BKN | 2026-10-30T23:30:00.000Z | odds: 752
+  event: NYK @ PHI | 2026-10-30T23:30:00.000Z | odds: 929
+  event: CHI @ BOS | 2026-10-30T23:30:00.000Z | odds: 769
+  event: ORL @ TOR | 2026-10-30T23:30:00.000Z | odds: 1052
+player-prop quotes by bookmaker: {'draftkings': 1230, 'fanduel': 1204, 'espnbet': 1166, 'bovada': 989, 'caesars': 976, 'betmgm': 795}
+player-prop stats (quotes with a price):
+  threePointersMade             874 quotes,  874 priced | books: {'bovada': 168, 'draftkings': 163, 'fanduel': 159, 'caesars': 145} | e.g. ('threePointersMade-BRANDON_MILLER_1_NBA-game-ou-over', 'fanduel', '-132', '3.5')
+  points                        833 quotes,  833 priced | books: {'fanduel': 224, 'draftkings': 151, 'bovada': 130, 'caesars': 124} | e.g. ('points-AJ_DYBANTSA_1_NBA-game-ou-over', 'fanduel', '-132', '14.5')
+  rebounds                      726 quotes,  726 priced | books: {'draftkings': 149, 'bovada': 130, 'espnbet': 120, 'fanduel': 119} | e.g. ('rebounds-AJ_DYBANTSA_1_NBA-game-ou-over', 'fanduel', '-114', '4.5')
+  points+rebounds               651 quotes,  651 priced | books: {'bovada': 120, 'caesars': 116, 'espnbet': 116, 'fanduel': 112} | e.g. ('points+rebounds-AJ_DYBANTSA_1_NBA-game-ou-over', 'fanduel', '-118', '19.5')
+  assists                       596 quotes,  596 priced | books: {'bovada': 131, 'draftkings': 118, 'espnbet': 112, 'fanduel': 89} | e.g. ('assists-DENNIS_SCHRODER_1_NBA-game-ou-over', 'fanduel', '+110', '5.5')
+  points+rebounds+assists       573 quotes,  573 priced | books: {'bovada': 112, 'espnbet': 108, 'caesars': 102, 'draftkings': 88} | e.g. ('points+rebounds+assists-AJ_DYBANTSA_1_NBA-game-ou-over', 'draftkings', '-109', '22.5')
+  rebounds+assists              567 quotes,  567 priced | books: {'espnbet': 106, 'caesars': 97, 'bovada': 96, 'draftkings': 94} | e.g. ('rebounds+assists-ANTHONY_DAVIS_1_NBA-game-ou-over', 'fanduel', '-112', '12.5')
+  points+assists                534 quotes,  534 priced | books: {'espnbet': 110, 'bovada': 102, 'caesars': 98, 'draftkings': 89} | e.g. ('points+assists-TRAE_YOUNG_1_NBA-game-ou-over', 'fanduel', '-110', '29.5')
+  doubleDouble                  289 quotes,  289 priced | books: {'espnbet': 82, 'draftkings': 54, 'fanduel': 52, 'betmgm': 51} | e.g. ('doubleDouble-ALEXANDRE_SARR_1_NBA-game-yn-no', 'espnbet', '-2000', None)
+  steals                        262 quotes,  262 priced | books: {'draftkings': 100, 'fanduel': 86, 'espnbet': 76} | e.g. ('steals-AJ_DYBANTSA_1_NBA-game-ou-over', 'fanduel', '-154', '0.5')
+  firstBasket                   191 quotes,  191 priced | books: {'fanduel': 48, 'betmgm': 48, 'draftkings': 48, 'caesars': 47} | e.g. ('firstBasket-AJ_DYBANTSA_1_NBA-game-yn-yes', 'fanduel', '+700', None)
+  blocks                        167 quotes,  167 priced | books: {'draftkings': 67, 'espnbet': 50, 'fanduel': 48, 'caesars': 2} | e.g. ('blocks-ALEXANDRE_SARR_1_NBA-game-ou-over', 'fanduel', '+140', '1.5')
+  tripleDouble                   63 quotes,   63 priced | books: {'espnbet': 18, 'fanduel': 13, 'draftkings': 13, 'betmgm': 10} | e.g. ('tripleDouble-TRAE_YOUNG_1_NBA-game-yn-yes', 'fanduel', '+10000', None)
+  blocks+steals                  34 quotes,   34 priced | books: {'espnbet': 28, 'draftkings': 6} | e.g. ('blocks+steals-ANTHONY_DAVIS_1_NBA-game-ou-over', 'draftkings', '+119', '2.5')
+tackle/sack/assist-like stats: ['assists', 'points+assists', 'rebounds+assists', 'points+rebounds+assists']
