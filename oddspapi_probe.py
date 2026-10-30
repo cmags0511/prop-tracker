@@ -32,9 +32,13 @@ for path, q in (("/fixtures", dict(sportId=14, from_=str(today), to=str(today + 
         break
 rows = fx if isinstance(fx, list) else (fx or {}).get("data") or (fx or {}).get("fixtures") or []
 print("fixtures:", len(rows)); print(json.dumps(rows[:2])[:600])
-fid = next((r.get("fixtureId") or r.get("id") for r in rows if (r.get("fixtureId") or r.get("id"))), None)
-print("sample fixture id:", fid)
-if fid:
+now = dt.datetime.now(dt.timezone.utc).isoformat()
+up = [r for r in rows if r.get("hasOdds") and r.get("startTime", "") > now]
+print("upcoming with odds:", len(up), "| tournaments:", sorted({r.get("tournamentId") for r in up})[:15])
+print("upcoming sample:", json.dumps(up[:1])[:300])
+for r in up[:2]:
+    fid = r["fixtureId"]
+    print("sample fixture id:", fid, r.get("startTime"), "tournament", r.get("tournamentId"))
     d = get("/odds", fixtureId=fid)
     if d:
         bo = d.get("bookmakerOdds") or {}
@@ -52,8 +56,3 @@ if fid:
                 m = (v.get("markets") or {}).get(mid)
                 if m:
                     print(b, mid, json.dumps(m)[:700]); break
-m = get("/markets")
-if isinstance(m, list):
-    want = ("rushing attempts", "carries", "receptions", "completions", "kicking", "field goal")
-    hit = [x for x in m if any(w in json.dumps(x).lower() for w in want)]
-    print("market catalogue:", len(m), "rows;", len(hit), "match", json.dumps(hit[:15])[:1500])
