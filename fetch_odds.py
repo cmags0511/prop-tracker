@@ -73,6 +73,25 @@ def norm(n):
     return " ".join(w for w in n.split() if w not in ("jr", "sr", "ii", "iii", "iv", "v"))
 
 
+try:  # ESPN's college abbreviations -> names (build_cfb_teams.py); abbreviations are not letter patterns of the names (NU is Northwestern)
+    CFB_TEAMS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "cfb_teams.json")))
+except Exception:
+    CFB_TEAMS = {}
+
+
+def cfb_fits(ab, name, short=""):
+    """does this feed's team name (and short name) belong to the app's college abbreviation?"""
+    t = CFB_TEAMS.get(ab)
+    if not t:
+        return abbr_fits(ab, name) or bool(short and abbr_fits(ab, short))
+    full, sh = norm(t[0]), norm(t[1])
+    for n in (name, short):
+        n = norm(n or "")
+        if n and (n == full or n == sh or n == ab.lower() or n.startswith(sh + " ") or full.startswith(n + " ")):
+            return True
+    return False
+
+
 def abbr_fits(ab, name):
     """does a college abbreviation (WIS, TULN, CLT) plausibly stand for this school name? letters in order, first letters aligned"""
     n = re.sub(r"[^a-z]", "", name.lower())
@@ -90,8 +109,8 @@ def find_event(lg, a, b, t, events):
     """the one event at kickoff time t between teams a and b (app abbreviations), or None when none or several fit"""
     near = [e for e in events if abs(dt.datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00")) - t) < dt.timedelta(minutes=20)]
     if lg == "CFB":
-        hit = [e for e in near if (abbr_fits(a, e["home_team"]) and abbr_fits(b, e["away_team"]))
-               or (abbr_fits(b, e["home_team"]) and abbr_fits(a, e["away_team"]))]
+        hit = [e for e in near if (cfb_fits(a, e["home_team"]) and cfb_fits(b, e["away_team"]))
+               or (cfb_fits(b, e["home_team"]) and cfb_fits(a, e["away_team"]))]
     else:
         names = {TEAM[lg].get(a), TEAM[lg].get(b)}
         hit = [e for e in near if {e["home_team"], e["away_team"]} == names]
