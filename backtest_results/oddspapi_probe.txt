@@ -3,66 +3,17 @@
 status 200 {} 271981 bytes
 fixtures: 304
 [{"fixtureId": "id1400003171515952", "participant1Id": 4420, "participant2Id": 4415, "sportId": 14, "tournamentId": 31, "seasonId": 139396, "statusId": 2, "hasOdds": false, "startTime": "2026-10-30T00:15:00.000Z", "trueStartTime": "2026-10-30T00:15:30.000Z", "trueEndTime": "2026-10-30T03:25:23.225Z", "updatedAt": "2026-10-30T03:41:22.615Z", "externalProviders": {"betradarId": 71515952, "mollybetId": "2026-10-30,21625,21618", "opticoddsId": "20261030CB911D38", "lsportsId": 19776864, "txoddsId": null, "sofascoreId": 16183752, "betgeniusId": 13906370, "flashscoreId": "8C3zr06C", "pinnacleId": 163
-upcoming NCAAF with odds: 174
+upcoming with odds: 178 tournaments: {27653: 174, 790: 4}
+FULL ROW KEYS: ['fixtureId', 'participant1Id', 'participant2Id', 'sportId', 'tournamentId', 'seasonId', 'statusId', 'hasOdds', 'startTime', 'trueStartTime', 'trueEndTime', 'updatedAt', 'externalProviders', 'statusName', 'participant1Name', 'participant1ShortName', 'participant1Abbr', 'participant2Name', 'participant2ShortName', 'participant2Abbr', 'sportName', 'tournamentSlug', 'categorySlug', 'categoryName', 'tournamentName']
+{"fixtureId": "id1402765370898950", "participant1Id": 234276, "participant2Id": 4285, "sportId": 14, "tournamentId": 27653, "seasonId": 138636, "statusId": 0, "hasOdds": true, "startTime": "2026-10-30T23:00:00.000Z", "trueStartTime": null, "trueEndTime": null, "updatedAt": "2026-10-25T16:14:30.486Z", "statusName": "Pre-Game", "participant1Name": "Charlotte 49ers", "participant1ShortName": "Charlotte", "participant1Abbr": "CHAR", "participant2Name": "Tulane Green Wave", "participant2ShortName": "Tulane", "participant2Abbr": "TULN", "sportName": "American Football", "tournamentSlug": "ncaa-regular-season", "categorySlug": "usa", "categoryName": "USA", "tournamentName": "NCAA, Regular Season"}
+participants keys: ['participant1Id', 'participant2Id', 'tournamentId', 'statusName', 'participant1Name', 'participant1ShortName', 'participant1Abbr', 'participant2Name', 'participant2ShortName', 'participant2Abbr', 'sportName', 'tournamentSlug', 'categoryName', 'tournamentName']
+OTHER TOURNAMENT ROW: {"fixtureId": "id1400079076031338", "participant1Id": 4435, "participant2Id": 4436, "sportId": 14, "tournamentId": 790, "seasonId": 137070, "statusId": 3, "hasOdds": true, "startTime": "2026-10-31T17:00:00.000Z", "trueStartTime": null, "trueEndTime": null, "updatedAt": "2026-10-26T04:58:31.779Z", "statusName": "Cancelled", "participant1Name": "Winnipeg Blue Bombers", "participant1ShortName": "Winnipeg", "participant1Abbr": "WPG", "participant2Name": "Toronto Argonauts", "participant2ShortName": "Toronto", "participant2Abbr": "TOR", "sportName": "American Football", "tournamentSlug": "cfl", "ca
 
---- GET /markets {}
-status 200 {} 19655664 bytes
-catalogue rows: 70742
+--- GET /participants {'sportId': 14}
+status 200 {} 27516 bytes
+/participants {"450121": "Pomona-Pitzer Sagehens", "583305": "Erskine Flying Fleet", "449847": "Bridgewater Eagles", "446669": "Ohio Dominican Panthers", "449895": "Concordia Moorhead Cobbers", "347946": "Livingstone Blue Bears", "1169391": "Simpson (CA) Red Hawks", "446343": "Mary Marauders", "469429": "Dakota S
 
-=== fixture id1402765370898950 2026-10-30T23:00:00.000Z
-
---- GET /odds {'fixtureId': 'id1402765370898950', 'bookmaker': 'draftkings,fanduel,pinnacle,betmgm'}
-status 200 {} 687225 bytes
-bookmakers returned: 4 | US-ish: ['betmgm', 'draftkings', 'fanduel', 'pinnacle']
-player-prop markets: 111
-148757 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 99.5 | books 3 | US {'betmgm': 3, 'draftkings': 3, 'fanduel': 4}
-148607 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 24.5 | books 3 | US {'betmgm': 3, 'draftkings': 4, 'fanduel': 4}
-148657 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 49.5 | books 3 | US {'betmgm': 3, 'draftkings': 4, 'fanduel': 4}
-14398 | Over Under Player TD Passes (incl. overtime) | playertotals-tdpasses | hcap 1.5 | books 3 | US {'draftkings': 1, 'fanduel': 2, 'pinnacle': 1}
-14396 | Over Under Player TD Passes (incl. overtime) | playertotals-tdpasses | hcap 0.5 | books 3 | US {'draftkings': 1, 'fanduel': 2, 'pinnacle': 1}
-148643 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 42.5 | books 3 | US {'draftkings': 1, 'fanduel': 1, 'pinnacle': 1}
-145253 | Player Pass Yards (incl. overtime) | players-passyards | hcap 0.0 | books 2 | US {'betmgm': 1, 'draftkings': 1}
-144637 | Player To Score TD (incl. overtime) | players-td | hcap 0.0 | books 2 | US {'betmgm': 8, 'draftkings': 16}
-148807 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 124.5 | books 2 | US {'betmgm': 3, 'fanduel': 4}
-148577 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 9.5 | books 2 | US {'draftkings': 3, 'fanduel': 3}
-148697 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 69.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-148635 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 38.5 | books 2 | US {'draftkings': 1, 'fanduel': 1}
-148777 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 109.5 | books 2 | US {'draftkings': 2, 'fanduel': 4}
-148587 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 14.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-148737 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 89.5 | books 2 | US {'draftkings': 3, 'fanduel': 4}
-14416 | Over Under Player Receptions (incl. overtime) | playertotals-receptions | hcap 4.5 | books 2 | US {'draftkings': 2, 'fanduel': 1}
-14418 | Over Under Player Receptions (incl. overtime) | playertotals-receptions | hcap 5.5 | books 2 | US {'draftkings': 1, 'fanduel': 1}
-14412 | Over Under Player Receptions (incl. overtime) | playertotals-receptions | hcap 2.5 | books 2 | US {'draftkings': 2, 'fanduel': 1}
-148597 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 19.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-148615 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 28.5 | books 2 | US {'draftkings': 1, 'fanduel': 1}
-148617 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 29.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-14400 | Over Under Player TD Passes (incl. overtime) | playertotals-tdpasses | hcap 2.5 | books 2 | US {'draftkings': 1, 'fanduel': 2}
-148717 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 79.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-14414 | Over Under Player Receptions (incl. overtime) | playertotals-receptions | hcap 3.5 | books 2 | US {'draftkings': 2, 'fanduel': 1}
-148637 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 39.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-148677 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 59.5 | books 2 | US {'draftkings': 4, 'fanduel': 4}
-14388 | Player To Score TD (incl. overtime) | players-td | hcap 0.0 | books 2 | US {'draftkings': 16, 'fanduel': 11}
-148613 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 27.5 | books 2 | US {'fanduel': 1, 'pinnacle': 1}
-144847 | Over Under Player Pass Yards (incl. overtime) | playertotals-passyards | hcap 197.5 | books 2 | US {'fanduel': 1, 'pinnacle': 1}
-148667 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 54.5 | books 2 | US {'fanduel': 1, 'pinnacle': 1}
-148627 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 34.5 | books 2 | US {'fanduel': 1, 'pinnacle': 1}
-144851 | Over Under Player Pass Yards (incl. overtime) | playertotals-passyards | hcap 199.5 | books 2 | US {'fanduel': 2, 'pinnacle': 1}
-145822 | Over Under Player Rush Yards (incl. overtime) | playertotals-rushyards | hcap 47.5 | books 2 | US {'fanduel': 1, 'pinnacle': 1}
-145776 | Over Under Player Rush Yards (incl. overtime) | playertotals-rushyards | hcap 24.5 | books 2 | US {'fanduel': 2, 'pinnacle': 1}
-148707 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 74.5 | books 1 | US {'betmgm': 3}
-145350 | Over Under Player Pass Attempts (incl. overtime) | playertotals-passattempts | hcap 33.5 | books 1 | US {'draftkings': 1}
-145462 | Over Under Player Pass Completions (incl. overtime) | playertotals-passcompletions | hcap 19.5 | books 1 | US {'draftkings': 1}
-146338 | Over Under Player Longest Rush Yards (incl. overtime) | playertotals-longestrushyards | hcap 10.5 | books 1 | US {'draftkings': 1}
-148661 | Over Under Player Receiving Yards (incl. overtime) | playertotals-receivingyards | hcap 51.5 | books 1 | US {'draftkings': 1}
-146336 | Over Under Player Longest Rush Yards (incl. overtime) | playertotals-longestrushyards | hcap 9.5 | books 1 | US {'draftkings': 2}
-EXAMPLE betmgm 148757 Over Under Player Receiving Yards (incl. overtime) {"bookmakerMarketId": "4287380", "marketActive": true, "outcomes": {"148757": {"players": {"2884281": {"active": true, "betslip": "https://sports.nj.betmgm.com/en-us/sports/events/6:47885?options=6:47885-4287381-6943887&type=Single", "bookmakerOutcomeId": "6943887", "bookmakerChangedAt": "2026-10-29T20:38:11.000Z", "changedAt": "2026-10-29T20:38:11.886Z", "limit": null, "playerName": "Eley, Derrick", "price": 7.5, "priceAmerican": "650", "priceFractional": "13/2", "mainLine": false, "exchangeMeta": null}, "2552433": {"active": true, "betslip": "https://sports.nj.betmgm.com/en-us/sports/events/
-
-=== fixture id1402765370924326 2026-10-30T23:00:00.000Z
-
---- GET /odds {'fixtureId': 'id1402765370924326', 'bookmaker': 'draftkings,fanduel,pinnacle,betmgm'}
-HTTP 429 {"error":{"message":"You are being rate limited. Please wait before making more requests to this endpoint.","code":"RATE_LIMITED","details":"Please wait 0.21 seconds before making another request to /v4/odds.","retryAfter":"0.21 seconds","retryMs":207}}
-
---- GET /odds {'fixtureId': 'id1402765370924326'}
-status 200 {} 2370616 bytes
-bookmakers returned: 213 | US-ish: ['bet365', 'betmgm', 'draftkings', 'espnbet', 'fanatics', 'hardrockbet', 'pinnacle', 'thescore']
-player-prop markets: 0
+--- GET /tournaments {'sportId': 14}
+status 200 {} 6869 bytes
+/tournaments 35 [{"tournamentId": 31, "tournamentSlug": "nfl", "tournamentName": "NFL", "categorySlug": "usa", "categoryName": "USA", "futureFixtures": 165, "upcomingFixtures": 0, "liveFixtures": 0}, {"tournamentId": 233, "tournamentSlug": "nfl-preseason", "tournamentName": "NFL Preseason", "categorySlug": "usa", "categoryName": "USA", "futureFixtures": 0, "upcomingFixtures": 0, "liveFixtures": 0}, {"tournamentId": 458, "tournamentSlug": "nfl-europe", "tournamentName": "NFL Europe", "categorySlug": "europe", "c
+[{'tournamentId': 31, 'tournamentSlug': 'nfl', 'tournamentName': 'NFL', 'categorySlug': 'usa', 'categoryName': 'USA', 'futureFixtures': 165, 'upcomingFixtures': 0, 'liveFixtures': 0}, {'tournamentId': 790, 'tournamentSlug': 'cfl', 'tournamentName': 'CFL', 'categorySlug': 'canada', 'categoryName': 'Canada', 'futureFixtures': 2, 'upcomingFixtures': 0, 'liveFixtures': 0}, {'tournamentId': 27653, 'tournamentSlug': 'ncaa-regular-season', 'tournamentName': 'NCAA, Regular Season', 'categorySlug': 'usa', 'categoryName': 'USA', 'futureFixtures': 1136, 'upcomingFixtures': 2, 'liveFixtures': 0}]
