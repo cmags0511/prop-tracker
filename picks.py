@@ -661,8 +661,9 @@ def main():
                     # nothing else priced this prop: The Odds API's quote, else OddsPapi's, else SportsGameOdds' (same line = the
                     # book's own price, else moved to this line)
                     sq = OAPI.get(f"{lg}|{p['id']}|{mid}") or OPAPI.get(f"{lg}|{p['id']}|{mid}") or SGO[f"{lg}|{p['id']}|{mid}"]
-                    if sq["line"] == dk["line"]:
-                        dk = dict(dk, price_over=sq["over"], price_under=sq["under"], book=sq["book"], est_over=False, est_under=False)
+                    if sq["line"] == dk["line"]:  # est_*: a side read off a one-sided "k+" ladder (OddsPapi) rather than quoted
+                        dk = dict(dk, price_over=sq["over"], price_under=sq["under"], book=sq["book"],
+                                  est_over=bool(sq.get("est_over")), est_under=bool(sq.get("est_under")))
                     else:
                         try:
                             from fetch_prices import shift

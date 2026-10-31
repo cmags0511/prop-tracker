@@ -19,6 +19,7 @@ import json, os, re, sys, time, datetime as dt, calendar
 import urllib.request, urllib.parse, urllib.error
 from fetch_odds import norm, cfb_fits
 from fetch_sgo import same_player
+from fetch_prices import ladder
 
 MODE_MARKETS = "--markets" in sys.argv
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
@@ -162,7 +163,7 @@ def main():
         fixtures = [f for f in d if f.get("hasOdds") and f.get("tournamentId") in TOURNAMENT and f.get("statusName") != "Cancelled"]
     n = 0
     for (lg, teams, t), cs in sorted(want.items(), key=lambda kv: -sum(c.get("score") or 0 for c in kv[1])):
-        tk = f"{lg}|{teams[0]}|{teams[1]}|{t}"
+        tk = f"v2|{lg}|{teams[0]}|{teams[1]}|{t}"  # v2: earlier tries missed one-sided ladders
         if tk in tried and now - dt.datetime.fromisoformat(tried[tk]) < dt.timedelta(hours=REFRESH_H):
             continue
         if n >= MAX_RUN:
@@ -184,7 +185,7 @@ def main():
         tried[tk] = now.isoformat(timespec="minutes")
         time.sleep(.5)
         # quotes[(app market, player)] = {book: [(line, over, under)]}
-        q = {}
+        q, lad = {}, {}
         for b, bv in (d.get("bookmakerOdds") or {}).items():
             if b not in BOOKNAME:
                 continue
@@ -194,31 +195,40 @@ def main():
                     continue
                 mk, line, oid, uid = info
                 ov, un = (m.get("outcomes") or {}).get(str(oid)), (m.get("outcomes") or {}).get(str(uid))
-                if not ov or not un or line is None:
+                if not ov or line is None:
                     continue
                 for pid, po in (ov.get("players") or {}).items():
-                    pu = (un.get("players") or {}).get(pid)
-                    if not pu or not po.get("active") or not pu.get("active") or not po.get("playerName"):
+                    if not po.get("active") or not po.get("playerName"):
                         continue
-                    a, bb = american(po.get("priceAmerican")), american(pu.get("priceAmerican"))
-                    if a is None or bb is None:
-                        continue
-                    q.setdefault((mk, flip(po["playerName"])), {}).setdefault(BOOKNAME[b], []).append((line, a, bb))
+                    a = american(po.get("priceAmerican"))
+                    pu = ((un or {}).get("players") or {}).get(pid)
+                    bb = american(pu.get("priceAmerican")) if pu and pu.get("active") else None
+                    key = (mk, flip(po["playerName"]))
+                    if a is not None and bb is not None:
+                        q.setdefault(key, {}).setdefault(BOOKNAME[b], []).append((line, a, bb))
+                    elif a is not None:  # over-only "k+" rung (DraftKings carries and completions): kept for a ladder
+                        lad.setdefault(key, {}).setdefault(BOOKNAME[b], {})[line + .5] = a
         filled = 0
         for c in cs:
             nm = norm(c["name"])
-            cand = next((v for (mk, pn), v in q.items() if mk == c["market"] and same_player(nm, pn)), None)
-            if not cand:
-                continue
+            cand = next((v for (mk, pn), v in q.items() if mk == c["market"] and same_player(nm, pn)), {})
+            lcand = next((v for (mk, pn), v in lad.items() if mk == c["market"] and same_player(nm, pn)), {})
             books = {}
             for bk in ("DraftKings", "FanDuel", "BetMGM", "Pinnacle"):
                 rows = cand.get(bk)
                 if rows:
                     ln, o, u = min(rows, key=lambda r: abs(r[0] - (c["line"] or r[0])))
                     books[bk] = {"line": ln, "over": o, "under": u}
+                elif lcand.get(bk) and c["line"] is not None:  # one-sided ladder: read the over at the app's line, estimate the under
+                    got = ladder(lcand[bk], c["line"])
+                    if got:
+                        books[bk] = {"line": c["line"], "over": got[0], "under": got[1], "est_over": c["line"] + .5 not in lcand[bk], "est_under": True}
             if books:
-                best = next(bk for bk in books if books[bk]["line"] == c["line"]) if any(v["line"] == c["line"] for v in books.values()) else next(iter(books))
-                props[c["key"]] = {"line": books[best]["line"], "over": books[best]["over"], "under": books[best]["under"],
+                same = [bk for bk in books if books[bk]["line"] == c["line"] and not books[bk].get("est_under")]
+                best = same[0] if same else next(iter(books))
+                b0 = books[best]
+                props[c["key"]] = {"line": b0["line"], "over": b0["over"], "under": b0["under"],
+                                   "est_over": bool(b0.get("est_over")), "est_under": bool(b0.get("est_under")),
                                    "book": best, "books": books, "t": now.isoformat(timespec="minutes"), "game_t": t}
                 filled += 1
         log.append(f"{lg} {teams[0]}/{teams[1]}: {filled}/{len(cs)} priced")
