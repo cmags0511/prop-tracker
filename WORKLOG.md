@@ -3,6 +3,12 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-31, cmags0511 (Claude)
+Fix: college props still showed no prices on game day. Diagnostic (OddsPapi, NU/ORE and OU/SC): DraftKings posts college carries and pass completions only as one-sided "k+" ladders
+(Over price per rung, no Under), so `fetch_oddspapi.py`, which needed both sides, dropped them. It now reads an Over-only ladder with `fetch_prices.ladder()` (the same method as the
+kicking-points ladders): the Over at the app's line comes from the rung (or between rungs), the Under is estimated (`est_under`, so graded C at most). picks.py passes the est flags
+through. `tried` keys got a `v2` prefix so the games tried before the fix are asked again. Props nobody lists at all (some receptions / receiving yards for fringe players) stay unpriced.
+
 ## 2026-10-30 (6), cmags0511 (Claude)
 Fix: the first live run of the Odds API and OddsPapi fallbacks couldn't match any college game ("no single matching event" / "0 matching fixtures"): ESPN's college
 abbreviations aren't letter patterns of the school names (NU is Northwestern, OU and PSU have no matching letters). New `cfb_teams.json` (ESPN abbreviation -> name,
