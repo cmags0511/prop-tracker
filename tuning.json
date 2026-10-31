@@ -1,5 +1,5 @@
 {
- "built": "2026-10-31T01:12+00:00",
+ "built": "2026-10-31T03:58+00:00",
  "graded_picks": 255,
  "graded_research": 199,
  "market": {
@@ -18,7 +18,7 @@
   "NFL|tkl|under": 1.214
  },
  "factors": {
-  "form": 0.709,
+  "form": 0.71,
   "market": 1.099
  },
  "research_conf": {
@@ -41,10 +41,10 @@
   "NFL tackles unders are 8-4: ranked higher (x1.214)",
   "Medium-confidence research calls are 83-96: their weight goes from 1.0 to 0.831",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 8511 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 8527 graded props the app's chances averaged 55% but 52% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 49%, unders 53%: every prop now gets a small nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
-  "NBA pts + reb: an extra nudge toward the over, trusted less (x0.81): its edges have played out smaller than predicted",
+  "NBA pts + reb: trusted less (x0.81): its edges have played out smaller than predicted",
   "NBA points: an extra nudge toward the over, trusted less (x0.84): its edges have played out smaller than predicted",
   "NFL completions: an extra nudge toward the over",
   "NFL passing yards: an extra nudge toward the over",
@@ -52,56 +52,62 @@
   "NFL receiving yards: an extra nudge toward the under",
   "NFL tackles: an extra nudge toward the under",
   "NFL rush attempts: an extra nudge toward the under",
+  "CFB receiving yards: an extra nudge toward the over",
   "NBA rebounds: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
-  "Recent form has been over-weighted across 7855 graded props: weighted x0.709",
-  "Kalshi market has been under-weighted across 7855 graded props: weighted x1.099"
+  "CFB passing yards: an extra nudge toward the over",
+  "Recent form has been over-weighted across 7871 graded props: weighted x0.71",
+  "Kalshi market has been under-weighted across 7871 graded props: weighted x1.099"
  ],
  "calibration": {
-  "n": 8511,
+  "n": 8527,
   "days": 18,
   "trust": 0.9,
-  "c": -0.098,
+  "c": -0.096,
   "b": 0.35,
   "per": {
+   "CFB|pyd": [
+    0.06,
+    0.995
+   ],
    "CFB|recyd": [
-    0.047,
-    1.002
+    0.115,
+    1.0
    ],
    "NBA|3pm": [
-    -0.011,
+    -0.013,
     1.092
    ],
    "NBA|ast": [
-    -0.031,
+    -0.032,
     1.014
    ],
    "NBA|pa": [
-    -0.02,
+    -0.022,
     0.928
    ],
    "NBA|pr": [
-    0.05,
+    0.048,
     0.815
    ],
    "NBA|pra": [
-    -0.019,
+    -0.02,
     0.924
    ],
    "NBA|pts": [
-    0.071,
+    0.069,
     0.843
    ],
    "NBA|ra": [
-    -0.024,
+    -0.025,
     0.949
    ],
    "NBA|reb": [
-    0.086,
+    0.085,
     0.982
    ],
    "NFL|car": [
-    -0.051,
+    -0.052,
     0.923
    ],
    "NFL|cmp": [
@@ -113,54 +119,54 @@
     1.002
    ],
    "NFL|ptd": [
-    -0.045,
+    -0.046,
     1.016
    ],
    "NFL|pyd": [
-    0.153,
+    0.152,
     0.941
    ],
    "NFL|rec": [
-    -0.03,
+    -0.032,
     1.031
    ],
    "NFL|recyd": [
-    -0.123,
+    -0.125,
     0.956
    ],
    "NFL|rry": [
-    0.005,
+    0.004,
     0.937
    ],
    "NFL|ryd": [
-    -0.161,
+    -0.162,
     0.964
    ],
    "NFL|sck": [
-    -0.389,
+    -0.39,
     0.964
    ],
    "NFL|tkl": [
-    -0.07,
+    -0.072,
     0.933
    ]
   }
  },
  "calib": {
-  "n": 8511,
+  "n": 8527,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    5016,
+    5026,
     0.525,
     0.522
    ],
    [
     0.55,
     0.6,
-    2637,
+    2643,
     0.568,
     0.516
    ],
@@ -385,6 +391,13 @@
    "notes": [
     "NBA pts + reb: an extra nudge toward the over, trusted less (x0.85): its edges have played out smaller than predicted",
     "NBA points: an extra nudge toward the over, trusted less (x0.88): its edges have played out smaller than predicted"
+   ]
+  },
+  {
+   "d": "2026-10-31",
+   "notes": [
+    "NBA pts + reb: trusted less (x0.81): its edges have played out smaller than predicted",
+    "CFB passing yards: an extra nudge toward the over"
    ]
   }
  ]
