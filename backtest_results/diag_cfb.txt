@@ -2,7 +2,7 @@
 === ('NU', 'ORE'): 27 props, 9 unpriced
 fixtures matched: [('Oregon Ducks', 'Northwestern Wildcats', 'id1402765370972492')]
 books: ['betmgm', 'draftkings', 'fanduel', 'pinnacle']
-players per mapped type: {'recyd': 9, 'car': 4, 'cmp': 2, 'rec': 8, 'att': 2, 'ryd': 4, 'pyd': 2} | unmapped markets: 22
+players per mapped type: {'recyd': 9, 'rec': 8, 'car': 4, 'att': 2, 'cmp': 2, 'pyd': 2, 'ryd': 4} | unmapped markets: 22
   unpriced car    Jordon Davison           line 10.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
   unpriced cmp    Dylan Raiola             line 19.5: in feed as ['att', 'cmp', 'other:14388', 'other:14390', 'other:14396', 'other:14398']
   unpriced rec    Hayden Eligon II         line 1.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
@@ -25,3 +25,19 @@ players per mapped type: {'ryd': 4, 'pyd': 2, 'recyd': 5, 'rec': 5, 'cmp': 2, 'a
   unpriced car    Lloyd Avant              line 9.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
   unpriced rec    Brady Hunt               line 1.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
   priced sample names in feed: ['isaiah sategna', 'manny choice', 'mazeo bennett', 'nyckoles harbor', 'rocky beers']
+
+=== RAW for NU/ORE: cmp Raiola, car Davison
+draftkings market 146187 ['car', 10.5, 146187, 146188] outcome 146187 {'playerName': 'Davison, Jordon', 'active': True, 'priceAmerican': '-102', 'price': 1.98, 'mainLine': False}
+draftkings market 145478 ['cmp', 27.5, 145478, 145479] outcome 145478 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '544', 'price': 6.44, 'mainLine': False}
+draftkings market 146193 ['car', 13.5, 146193, 146194] outcome 146193 {'playerName': 'Davison, Jordon', 'active': True, 'priceAmerican': '314', 'price': 4.14, 'mainLine': False}
+draftkings market 146197 ['car', 15.5, 146197, 146198] outcome 146197 {'playerName': 'Davison, Jordon', 'active': True, 'priceAmerican': '660', 'price': 7.6, 'mainLine': False}
+draftkings market 145466 ['cmp', 21.5, 145466, 145467] outcome 145466 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '138', 'price': 2.38, 'mainLine': False}
+draftkings market 145462 ['cmp', 19.5, 145462, 145463] outcome 145462 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '-117', 'price': 1.855, 'mainLine': False}
+draftkings market 146185 ['car', 9.5, 146185, 146186] outcome 146185 {'playerName': 'Davison, Jordon', 'active': True, 'priceAmerican': '-157', 'price': 1.637, 'mainLine': False}
+draftkings market 145458 ['cmp', 17.5, 145458, 145459] outcome 145458 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '-200', 'price': 1.5, 'mainLine': False}
+draftkings market 145460 ['cmp', 18.5, 145460, 145461] outcome 145460 {'playerName': 'Raiola, Dylan', 'active': False, 'priceAmerican': '-135', 'price': 1.741, 'mainLine': False}
+draftkings market 145470 ['cmp', 23.5, 145470, 145471] outcome 145470 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '216', 'price': 3.16, 'mainLine': False}
+draftkings market 145454 ['cmp', 15.5, 145454, 145455] outcome 145454 {'playerName': 'Raiola, Dylan', 'active': False, 'priceAmerican': '-273', 'price': 1.366, 'mainLine': False}
+draftkings market 145474 ['cmp', 25.5, 145474, 145475] outcome 145474 {'playerName': 'Raiola, Dylan', 'active': True, 'priceAmerican': '343', 'price': 4.43, 'mainLine': False}
+draftkings market 146189 ['car', 11.5, 146189, 146190] outcome 146189 {'playerName': 'Davison, Jordon', 'active': True, 'priceAmerican': '145', 'price': 2.45, 'mainLine': False}
+table over/under ids for those markets printed above as info=[type, line, overId, underId]
