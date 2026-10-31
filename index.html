@@ -1216,7 +1216,7 @@ const MK={
   {id:"sck",label:"Sacks",f:g=>g.sck,pos:["DL","LB","DB","DEF"],min:.25},
   {id:"dint",label:"Interceptions",f:g=>g.dint,pos:["DB","LB","DEF"],min:.1}]
 };
-MK.CFB=MK.NFL; // college football uses the same props as the NFL
+MK.CFB=MK.NFL.filter(m=>m.id!=="rry"); // college football uses the NFL props, except Rush + Rec yards (college books don't post it)
 const LEAGUES=["NFL","NBA","CFB"];
 const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and totals
 const PAGE=25;
@@ -3293,7 +3293,7 @@ function gameBets(x,est){
       }
       const r=compute(p,m);
       if(r.dk){if(r.dk.d&&Math.abs(new Date(r.dk.d).getTime()-t)>12*3600e3)continue;out.push(r)}
-      else if(est&&(lg!=="NFL"||m.pos.includes(p.pos))&&p.cur>0&&eligible(r,m))out.push(r);
+      else if(est&&(!FB(lg)||m.pos.includes(p.pos))&&p.cur>0&&eligible(r,m))out.push(r);
     }
   }
   return out;

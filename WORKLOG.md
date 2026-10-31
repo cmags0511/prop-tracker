@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-10-31 (2), cmags0511 (Claude)
+Fix (index.html, sw.js v124): college props the books don't post. (1) The estimated-line props for college skipped the position filter (`lg!=="NFL"||m.pos.includes`), so any college RB or WR who
+had thrown a pass got a "passing yards" prop; the position filter now applies to college too (NBA still has none). (2) `MK.CFB` no longer has Rush + Rec yards (college books don't post it; the
+NFL list had been reused). NFL is unchanged.
+
 ## 2026-10-31, cmags0511 (Claude)
 Fix: college props still showed no prices on game day. Diagnostic (OddsPapi, NU/ORE and OU/SC): DraftKings posts college carries and pass completions only as one-sided "k+" ladders
 (Over price per rung, no Under), so `fetch_oddspapi.py`, which needed both sides, dropped them. It now reads an Over-only ladder with `fetch_prices.ladder()` (the same method as the
