@@ -37,3 +37,19 @@ for teams in (("NU", "ORE"), ("OU", "SC")):
         anyp = sorted({ty for (ty, pn) in allp if same_player(nm, pn)})
         print(f"  unpriced {p['market']:6} {p['name']:24} line {p['line']}: in feed as {anyp[:6]}")
     print("  priced sample names in feed:", sorted({pn for (ty, pn) in allp if ty == 'rec'})[:8])
+
+print("\n=== RAW for NU/ORE: cmp Raiola, car Davison")
+t = dt.datetime.fromisoformat("2026-10-31T19:30:00+00:00")
+d = f.get("/fixtures", sportId=14, **{"from": str(now.date()), "to": str((now + dt.timedelta(days=2)).date())})
+fx = next(x for x in d if x["fixtureId"] == "id1402765370972492")
+o = f.get("/odds", fixtureId=fx["fixtureId"], bookmaker="draftkings,fanduel,betmgm,pinnacle")
+for b, bv in (o.get("bookmakerOdds") or {}).items():
+    for mid, m in (bv.get("markets") or {}).items():
+        info = tbl.get(mid)
+        if not info or info[0] not in ("cmp", "car"):
+            continue
+        for oid, oc in (m.get("outcomes") or {}).items():
+            for pid, pl in (oc.get("players") or {}).items():
+                if any(w in (pl.get("playerName") or "") for w in ("Raiola", "Davison")):
+                    print(b, "market", mid, info, "outcome", oid, {k: pl.get(k) for k in ("playerName", "active", "priceAmerican", "price", "mainLine")})
+print("table over/under ids for those markets printed above as info=[type, line, overId, underId]")
