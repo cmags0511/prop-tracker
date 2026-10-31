@@ -1,0 +1,27 @@
+
+=== ('NU', 'ORE'): 27 props, 9 unpriced
+fixtures matched: [('Oregon Ducks', 'Northwestern Wildcats', 'id1402765370972492')]
+books: ['betmgm', 'draftkings', 'fanduel', 'pinnacle']
+players per mapped type: {'recyd': 9, 'car': 4, 'cmp': 2, 'rec': 8, 'att': 2, 'ryd': 4, 'pyd': 2} | unmapped markets: 22
+  unpriced car    Jordon Davison           line 10.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
+  unpriced cmp    Dylan Raiola             line 19.5: in feed as ['att', 'cmp', 'other:14388', 'other:14390', 'other:14396', 'other:14398']
+  unpriced rec    Hayden Eligon II         line 1.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
+  unpriced car    Caleb Komolafe           line 12.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
+  unpriced car    Dierre Hill Jr.          line 11.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
+  unpriced rec    Caleb Komolafe           line 1.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
+  unpriced cmp    Aidan Chiles             line 16.5: in feed as ['att', 'car', 'cmp', 'other:14388', 'other:14390', 'other:14396']
+  unpriced recyd  Hayden Eligon II         line 16.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
+  unpriced rec    Messiah Hampton          line 2.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
+  priced sample names in feed: ['dakorien moore', 'dierre hill', 'drew wagner', 'evan stewart', 'griffin wilde', 'hayden eligon', 'jamari johnson johnson', 'messiah hampton']
+
+=== ('OU', 'SC'): 14 props, 6 unpriced
+fixtures matched: [('Oklahoma Sooners', 'South Carolina Gamecocks', 'id1402765370900950')]
+books: ['betmgm', 'draftkings', 'fanduel', 'pinnacle']
+players per mapped type: {'ryd': 4, 'pyd': 2, 'recyd': 5, 'rec': 5, 'cmp': 2, 'att': 2, 'car': 3} | unmapped markets: 24
+  unpriced cmp    John Mateer              line 21.5: in feed as ['att', 'car', 'cmp', 'other:14388', 'other:14390', 'other:14396']
+  unpriced car    John Mateer              line 11.5: in feed as ['att', 'car', 'cmp', 'other:14388', 'other:14390', 'other:14396']
+  unpriced cmp    LaNorris Sellers         line 16.5: in feed as ['att', 'car', 'cmp', 'other:14388', 'other:14390', 'other:14396']
+  unpriced recyd  Brady Hunt               line 12.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
+  unpriced car    Lloyd Avant              line 9.5: in feed as ['car', 'other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645']
+  unpriced rec    Brady Hunt               line 1.5: in feed as ['other:14388', 'other:14390', 'other:144637', 'other:144644', 'other:144645', 'other:144647']
+  priced sample names in feed: ['isaiah sategna', 'manny choice', 'mazeo bennett', 'nyckoles harbor', 'rocky beers']
