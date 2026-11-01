@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T16:37:37Z",
+ "updated": "2026-11-01T19:46:39Z",
  "summary": "Week 8 game-day news: A.J. Brown and TreVeyon Henderson are out for New England, Lamar Jackson returns for Baltimore at Buffalo, Breece Hall is a game-time decision for the Jets, and Seattle gets Zach Charbonnet back Monday night with edge Uchenna Nwosu doubtful.",
  "notes": {
   "NFL|00-0036997|car": {
@@ -1267,27 +1267,29 @@
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Ankle: full practice Wednesday but downgraded to limited Thursday, a warning sign heading into Friday's designation.",
+   "note": "Ankle: full practice Wednesday but downgraded to limited Thursday, a warning sign heading into Friday's designation. He was not named among the Chiefs' game designations on the final report, so he is expected to play.",
    "sources": [
-    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026"
+    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026",
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-broncos-will-rashee-rice-jaylen-waddle-play"
    ]
   },
   "NFL|00-0030506|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Practiced fully Wednesday, then limited Thursday with the ankle; game status pending Friday.",
+   "note": "Practiced fully Wednesday, then limited Thursday with the ankle; game status pending Friday. He was not named among the Chiefs' game designations on the final report, so he is expected to play.",
    "sources": [
-    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026"
+    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026",
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-broncos-will-rashee-rice-jaylen-waddle-play"
    ]
   },
   "NFL|00-0039067|recyd": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Limited again Thursday with hamstring and knee issues; status pending Friday's report.",
+   "note": "Off the final injury report and expected to play after missing time since Week 4 with a hamstring injury; his first game back may come with a managed snap count.",
    "sources": [
-    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026"
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-broncos-will-rashee-rice-jaylen-waddle-play"
    ]
   },
   "NFL|00-0037744|recyd": {
@@ -1356,6 +1358,75 @@
     "https://athlonsports.com/nfl/pittsburgh-steelers/steelers-vs-browns-week-8-things-to-watch-germie-bernard-jumbo-package"
    ],
    "buzz": "none"
+  },
+  "NFL|00-0036613|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Questionable after aggravating a chest injury; Sunday reports say he is trending toward playing, but no snap limit was reported either way, so his workload carries some risk.",
+   "sources": [
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-broncos-will-rashee-rice-jaylen-waddle-play",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-01/schefter-waddle-chest-trending-toward-playing"
+   ]
+  },
+  "NFL|00-0034348|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Not on Denver's injury report; Waddle is expected to play, so Sutton's usual share of targets should not change.",
+   "sources": [
+    "https://athlonsports.com/nfl/trending/final-injury-report-for-chiefs-broncos-will-rashee-rice-jaylen-waddle-play",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-01/schefter-waddle-chest-trending-toward-playing"
+   ]
+  },
+  "NFL|00-0039880|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Moved from limited to full practice Friday and carries no game designation, so he should play his normal role.",
+   "sources": [
+    "https://sports.yahoo.com/articles/sunday-morning-look-injury-report-150829601.html"
+   ]
+  },
+  "NFL|00-0036875|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "high",
+   "note": "TreVeyon Henderson is out with an illness, leaving Stevenson as the lead back ahead of practice-squad call-ups, which should lift his carry volume.",
+   "sources": [
+    "https://sports.yahoo.com/articles/sunday-morning-look-injury-report-150829601.html",
+    "https://www.patriots.com/news/roster-analysis-patriots-downgrade-wr-a-j-brown-rb-treveyon-henderson-to-out-for-week-8-vs-dolphins"
+   ]
+  },
+  "NFL|00-0033873|car": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Practiced fully with his knee and has no game designation; nothing new changes his scramble volume.",
+   "sources": [
+    "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026"
+   ]
+  },
+  "NFL|00-0039075|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Not among the Rams' game designations after playing through calf and hip issues last week; the Chargers' inactives include cornerbacks Donte Jackson and Rodney Shelley, which thins the secondary he faces.",
+   "sources": [
+    "https://www.nfl.com/news/nfl-week-8-injury-report-2026-season",
+    "https://www.chargers.com/news/rams-inactives-week-8-2026"
+   ]
+  },
+  "NFL|00-0026498|ptd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury designation; the Chargers are without cornerbacks Donte Jackson and Rodney Shelley and DB Deane Leonard, which weakens their pass coverage depth.",
+   "sources": [
+    "https://www.nfl.com/news/nfl-week-8-injury-report-2026-season",
+    "https://www.chargers.com/news/rams-inactives-week-8-2026"
+   ]
   }
  },
  "games": {
