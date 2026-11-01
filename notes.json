@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T21:36:11Z",
+ "updated": "2026-11-01T23:45:59Z",
  "summary": "Week 8 game-day news: A.J. Brown and TreVeyon Henderson are out for New England, Lamar Jackson returns for Baltimore at Buffalo, Breece Hall is a game-time decision for the Jets, and Seattle gets Zach Charbonnet back Monday night with edge Uchenna Nwosu doubtful.",
  "notes": {
   "NFL|00-0036997|car": {
@@ -1207,24 +1207,26 @@
    }
   },
   "NFL|00-0037742|recyd": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Burks (foot) did not practice and is questionable.",
+   "note": "Questionable with a foot injury (limited Wed/Fri, out Thursday) but reported Sunday as expected to play; confirm on the inactive list.",
    "sources": [
-    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith"
+    "https://www.si.com/nfl/commanders/onsi/commanders-roster-move-newton-burks-eagles",
+    "https://www.commanders.com/news/commanders-vs-eagles-week-8-injury-report-2026"
    ],
    "detail": {
     "availability": "DNP, questionable."
    }
   },
   "NFL|00-0037742|rec": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Burks (foot) did not practice and is questionable.",
+   "note": "Questionable with a foot injury (limited Wed/Fri, out Thursday) but reported Sunday as expected to play; confirm on the inactive list.",
    "sources": [
-    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith"
+    "https://www.si.com/nfl/commanders/onsi/commanders-roster-move-newton-burks-eagles",
+    "https://www.commanders.com/news/commanders-vs-eagles-week-8-injury-report-2026"
    ],
    "detail": {
     "availability": "DNP, questionable."
@@ -1433,8 +1435,9 @@
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Not on the injury report; Washington has split backfield work between White and Croskey-Merritt this season, which caps his carries; line opened 44.5 and has dropped to 41.5.",
+   "note": "Not on the injury report and now the clear lead back with Croskey-Merritt on IR; line opened 44.5 and has dropped to 41.5.",
    "sources": [
+    "https://thelibertyline.com/2026/11/01/eagles-commanders-preview-4/",
     "https://www.commanders.com/news/commanders-vs-eagles-preview-week-8-2026",
     "https://www.cbssports.com/fantasy/football/news/commanders-jacory-croskey-merritt-keeps-backfield-split"
    ]
@@ -1477,6 +1480,27 @@
    "note": "Not on the Washington injury report; starting LB, no late news.",
    "sources": [
     "https://www.commanders.com/news/commanders-vs-eagles-preview-week-8-2026"
+   ]
+  },
+  "NFL|00-0039910|att": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Starting; practiced fully all week through a left elbow issue. Washington is a 6-point home favorite against a backup Eagles QB in a low 40.5 total, which leans toward a run-heavy script once ahead.",
+   "sources": [
+    "https://www.commanders.com/news/commanders-vs-eagles-week-8-injury-report-2026",
+    "https://thelibertyline.com/2026/11/01/eagles-commanders-preview-4/"
+   ]
+  },
+  "NFL|00-0037256|recyd": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Not on the injury report and now the lead back with Croskey-Merritt on IR; McLaurin is also out for the season, but his receiving share has been modest.",
+   "sources": [
+    "https://thelibertyline.com/2026/11/01/eagles-commanders-preview-4/"
    ]
   }
  },
