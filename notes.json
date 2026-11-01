@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T12:51:23Z",
+ "updated": "2026-11-01T16:37:37Z",
  "summary": "Week 8 game-day news: A.J. Brown and TreVeyon Henderson are out for New England, Lamar Jackson returns for Baltimore at Buffalo, Breece Hall is a game-time decision for the Jets, and Seattle gets Zach Charbonnet back Monday night with edge Uchenna Nwosu doubtful.",
  "notes": {
   "NFL|00-0036997|car": {
@@ -1289,6 +1289,73 @@
    "sources": [
     "https://www.chiefs.com/news/week-8-injury-report-chiefs-vs-broncos-2026"
    ]
+  },
+  "NFL|00-0037744|recyd": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury designation and no reported change to his role as Arizona's top target; Love and Wilson are both active, so the offense is at full strength.",
+   "sources": [
+    "https://www.espn.com/fantasy/football/story/_/page/FFSundayInactives-50289130/fantasy-football-injuries-nfl-week-8-inactive-active"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0040784|ryd": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury designation found for Judkins before kickoff; Cleveland's report lists only defensive backs as questionable, and Sampson remains the change-of-pace back.",
+   "sources": [
+    "https://sports.yahoo.com/articles/browns-inactives-injury-updates-keys-230003023.html"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0036997|ryd": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No designation and still Dallas's lead back; nothing reported changes his early-down workload.",
+   "sources": [
+    "https://www.espn.com/fantasy/football/story/_/page/FFSundayInactives-50289130/fantasy-football-injuries-nfl-week-8-inactive-active"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0039139|ryd": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Missed Wednesday with a shoulder issue but practiced fully Thursday and Friday and carries no game designation.",
+   "sources": [
+    "https://fsdstaff.substack.com/p/fsd-morning-brief-sunday-november",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/01/lions-stars-return-as-branch-fined-ahead-of-vikings/"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0037157|td": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Knight is a backup; starter Jeremiyah Love returns from a two-game ankle absence and is set to play, which pushes Knight back down the depth chart and limits his goal-line chances.",
+   "sources": [
+    "https://www.espn.com/fantasy/football/story/_/page/FFSundayInactives-50289130/fantasy-football-injuries-nfl-week-8-inactive-active"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0041489|td": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Healthy and working mainly from the slot after his snaps increased; Pittsburgh has lost two of its top four receivers since the first Cleveland game, but nothing points to a specific red-zone role.",
+   "sources": [
+    "https://athlonsports.com/nfl/pittsburgh-steelers/steelers-vs-browns-week-8-things-to-watch-germie-bernard-jumbo-package"
+   ],
+   "buzz": "none"
   }
  },
  "games": {
