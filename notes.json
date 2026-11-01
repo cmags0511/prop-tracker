@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T19:46:39Z",
+ "updated": "2026-11-01T21:36:11Z",
  "summary": "Week 8 game-day news: A.J. Brown and TreVeyon Henderson are out for New England, Lamar Jackson returns for Baltimore at Buffalo, Breece Hall is a game-time decision for the Jets, and Seattle gets Zach Charbonnet back Monday night with edge Uchenna Nwosu doubtful.",
  "notes": {
   "NFL|00-0036997|car": {
@@ -1085,9 +1085,9 @@
   "NFL|00-0040024|recyd": {
    "side": "over",
    "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Moves up to WR1 with DeVonta Smith and Dontayvion Wicks both ruled out, concentrating McKee's targets; line has risen from 25.5 to 26.5.",
+   "adj": 0,
+   "conf": "low",
+   "note": "Moves up to WR1 with DeVonta Smith and Dontayvion Wicks both ruled out, concentrating McKee's targets; line has risen from 25.5 to 26.5. With Tanner McKee starting for the injured Hurts and a 40.5 total, the passing volume is limited, so the lean is mild.",
    "sources": [
     "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith",
     "https://www.nbcsportsphiladelphia.com/nfl/philadelphia-eagles/eagles-place-jalen-hurts-on-injured-reserve-with-blood-clot/759308/"
@@ -1426,6 +1426,57 @@
    "sources": [
     "https://www.nfl.com/news/nfl-week-8-injury-report-2026-season",
     "https://www.chargers.com/news/rams-inactives-week-8-2026"
+   ]
+  },
+  "NFL|00-0037256|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; Washington has split backfield work between White and Croskey-Merritt this season, which caps his carries; line opened 44.5 and has dropped to 41.5.",
+   "sources": [
+    "https://www.commanders.com/news/commanders-vs-eagles-preview-week-8-2026",
+    "https://www.cbssports.com/fantasy/football/news/commanders-jacory-croskey-merritt-keeps-backfield-split"
+   ]
+  },
+  "NFL|00-0033787|kpts": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Healthy and kicking; low 40.5 total with a backup QB for Philadelphia, no news that changes his outlook.",
+   "sources": [
+    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith"
+   ]
+  },
+  "NFL|00-0036418|tkl": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; starting LB, with Jihaad Campbell out his snaps are secure. No late news.",
+   "sources": [
+    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith"
+   ]
+  },
+  "NFL|00-0039841|tkl": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; Jonathan Jones out at CB keeps DeJean in a full-time role. No late news.",
+   "sources": [
+    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith"
+   ]
+  },
+  "NFL|00-0034302|tkl": {
+   "side": null,
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the Washington injury report; starting LB, no late news.",
+   "sources": [
+    "https://www.commanders.com/news/commanders-vs-eagles-preview-week-8-2026"
    ]
   }
  },
