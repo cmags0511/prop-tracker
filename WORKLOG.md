@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-02, cmags0511 (Claude)
+Record tab (index.html, sw.js v125): the pick log now groups each day's picks under kickoff headers ("NFL · 4:25 PM kickoff · 6 picks"), and the note says the Top 10 refills as
+games start so a busy day can lock more than 10 picks for a sport. Display only: record.py and record.json are unchanged (the record is still every Top 10 pick as it stood before its game).
+Why: users saw more bets in the record than in the Top 10 on the Props tab.
+
 ## 2026-10-31 (2), cmags0511 (Claude)
 Fix (index.html, sw.js v124): college props the books don't post. (1) The estimated-line props for college skipped the position filter (`lg!=="NFL"||m.pos.includes`), so any college RB or WR who
 had thrown a pass got a "passing yards" prop; the position filter now applies to college too (NBA still has none). (2) `MK.CFB` no longer has Rush + Rec yards (college books don't post it; the
