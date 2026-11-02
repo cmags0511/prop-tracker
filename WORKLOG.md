@@ -3,6 +3,11 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-02 (3), cmags0511 (Claude)
+Owner's call: NBA Top 10 is back on (picks.py `NBA_TOP_FROM` moved from Nov 15 to Nov 2; it was paused Oct 27 after NBA went 46%, -12.7u with 4-6 games per player). NBA picks are recorded again from the next lock;
+the record will show them plainly. Also a collapsible "How to read a pick" box under the heading on the Top picks page (open on Best overall), sw.js v127: grade = strength, the % is the app's chance, real vs assumed/≈ price,
+what the Research labels mean, order is ranking not strength, plus the grade key. Today's ranking run: A 0, B 4, C 251, D 428, F 70 (so C or better is not rare right now; this is mostly NBA unders).
+
 ## 2026-11-02 (2), cmags0511 (Claude)
 Soccer team bets no longer vanish (soccer_team.py, index.html, sw.js v126). The list was rebuilt every run from bets that beat Pinnacle's fair price right now, so a bet someone already
 placed dropped off as soon as FanDuel's price or Pinnacle's fair price moved. Now a listed bet that stops qualifying stays on the list until kickoff, marked `lapsed` ("no longer an edge" on the card,
