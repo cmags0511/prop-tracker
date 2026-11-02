@@ -635,6 +635,7 @@ def main():
             for mid, dk in e.items():
                 if mid not in UNIT:
                     continue
+                dk0 = dk  # ESPN's own DraftKings line and prices, before another book's quote replaces them (shown on the card)
                 od = ODDS.get(f"{lg}|{p['id']}|{mid}")
                 if od and od.get("line") is not None:
                     # a sportsbook quote straight from the book beats ESPN's copy: use its line and prices (est_over / est_under:
@@ -953,7 +954,8 @@ def main():
                     "status": me_inj["s"] if me_inj else None, "lowline": lowline,
                     "researched": bool(exact), "price": price, "price_other": dk.get("price_under") if over else dk.get("price_over"),
                     "price_est": bool(price is not None and dk.get("est_over" if over else "est_under")),
-                    "books": dk.get("books"), "break_even": round(be, 3) if be else None, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
+                    "books": dk.get("books"), "dk_line": dk0.get("line"), "dk_price": dk0.get("po") if over else dk0.get("pu"),
+                    "break_even": round(be, 3) if be else None, "role": me_dep["role"] if me_dep else None, "slot": me_dep["slot"] if me_dep else None,
                     "moved_up": bool(me_dep and me_dep.get("moved_up")),
                     "age_h": round(age_h, 1) if age_h is not None else None, "moved": round(med, 1) if moved else None,
                     "mkt": round(p_mkt if over else 1 - p_mkt, 3) if p_mkt is not None else None,
