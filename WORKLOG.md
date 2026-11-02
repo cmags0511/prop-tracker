@@ -3,6 +3,12 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-02 (2), cmags0511 (Claude)
+Soccer team bets no longer vanish (soccer_team.py, index.html, sw.js v126). The list was rebuilt every run from bets that beat Pinnacle's fair price right now, so a bet someone already
+placed dropped off as soon as FanDuel's price or Pinnacle's fair price moved. Now a listed bet that stops qualifying stays on the list until kickoff, marked `lapsed` ("no longer an edge" on the card,
+with the price it was listed at and today's price, or "off the board"), ranked last and without a grade. It keeps its original price on later runs. The record is unchanged: it counts only bets still
+listed at kickoff (lapsed ones are not recorded, same as before). If you want lapsed bets counted too, that's a record-logic change (PR first).
+
 ## 2026-11-02, cmags0511 (Claude)
 Record tab (index.html, sw.js v125): the pick log now groups each day's picks under kickoff headers ("NFL · 4:25 PM kickoff · 6 picks"), and the note says the Top 10 refills as
 games start so a busy day can lock more than 10 picks for a sport. Display only: record.py and record.json are unchanged (the record is still every Top 10 pick as it stood before its game).

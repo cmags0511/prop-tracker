@@ -667,27 +667,40 @@ def main():
     old = load(out, {})
     cands, games = build(now)
     top = choose(cands)
+    held = []
     if not cands and old.get("picks"):
         print("no prices this run; keeping the previous list")
         top = [c for c in old["picks"] if dt.datetime.fromisoformat(c["t"]) > now]
         games = old.get("games", [])
+    else:
+        # a bet stays on the list until kickoff even after FanDuel's price or Pinnacle's fair price moves and it stops
+        # beating the fair price: flagged "lapsed" with the price it was listed at and today's price, so a bet someone
+        # already placed doesn't just vanish. The record is unchanged: it counts only bets still listed at kickoff.
+        cm = {c["key"]: c for c in cands}
+        listed = {c["key"] for c in top}
+        for c in old.get("picks", []):
+            if c["key"] in listed or dt.datetime.fromisoformat(c["t"]) <= now:
+                continue
+            cur = cm.get(c["key"])
+            held.append(dict(c, lapsed=True, now_price=cur["price"] if cur else None, now_ev=cur["ev"] if cur else None))
     rec = {(e["key"], e["t"]): e for e in old.get("record", [])}
     for k, e in list(rec.items()):  # not started: replaced by the current list; started: locked
         if e["status"] == "pending" and dt.datetime.fromisoformat(e["t"]) > now:
             del rec[k]
     for c in top:
-        rec[(c["key"], c["t"])] = dict(c, status="pending", result=None)
+        if not c.get("lapsed"):  # only bets that still beat the fair price at the last look are recorded
+            rec[(c["key"], c["t"])] = dict(c, status="pending", result=None)
     record = sorted(rec.values(), key=lambda e: (e["t"], -e["ev"]))
     grade(record, now)
     done = [e for e in record if e["status"] in ("win", "loss")]
     units = sum(dec(e["price"]) - 1 if e["status"] == "win" else -1 for e in done)
-    print(f"{len(top)} picks; record {sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
+    print(f"{len(top)} picks (+{len(held)} lapsed, kept until kickoff); record {sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
     for c in top[:8]:
         print(f"  {c['home']} v {c['away']}: {c['bet']} {c['book']} {c['price']:+d} fair {c['fair']} chance {c['prob']} ev {c['ev']:+.3f} {c['src']}")
     if os.environ.get("ST_DEBUG"):
         json.dump(cands, open("st_cands.json", "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
-               "picks": top, "games": games, "record": record}, open(out, "w"), separators=(",", ":"))
+               "picks": top + held, "games": games, "record": record}, open(out, "w"), separators=(",", ":"))
 
 
 if __name__ == "__main__":
