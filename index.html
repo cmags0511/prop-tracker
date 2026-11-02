@@ -4031,8 +4031,12 @@ function wire(){
     if(e.target.closest(".tdin"))return;
     const tk=e.target.closest("[data-tk]");
     if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[]),...(PICKS.tdAll||[])].find(x=>x.key===tk.dataset.tk);
-      const p=c&&DATA[c.lg].find(x=>x.id===c.id),m=c&&MK[c.lg].find(x=>x.id===c.market);
-      if(p&&m)chooseTrack(c.lg,p,m,c.side,c.line,()=>{renderBest();renderTop()},c.t);return}
+      let cc=c;
+      if(!cc){const ks=String(tk.dataset.tk).split("|");  // anytime-TD keys are lg|playerId|td: rebuild the pick if the lists no longer hold it
+        if(ks[2]==="td"&&DATA[ks[0]]){const pl=DATA[ks[0]].find(x=>x.id===ks[1]),g=pl&&nextGame(pl,ks[0]);if(g)cc={lg:ks[0],id:ks[1],market:"td",side:"over",line:.5,t:g.t.toISOString()}}}
+      const p=cc&&DATA[cc.lg]&&DATA[cc.lg].find(x=>x.id===cc.id),m=cc&&MK[cc.lg]&&MK[cc.lg].find(x=>x.id===cc.market);
+      if(p&&m)chooseTrack(cc.lg,p,m,cc.side,cc.line,()=>{renderBest();renderTop()},cc.t);
+      else toast("Couldn't track that pick. Pull down to refresh and try again");return}
     if(e.target.closest(".wcx")){dismissWhatChanged();return}
     if(e.target.closest(".wcall")){WC.all=!WC.all;renderWhatChanged();return}
     const wg=e.target.closest(".wcgo");

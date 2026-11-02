@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-02 (5), cmags0511 (Claude)
+Anytime-TD "+ Track" hardening (index.html, sw.js v129). Owner reported he couldn't track anytime TDs; I couldn't reproduce it (every TD card on all three lists tracks, real taps and simulated clocks tried). The tap used to do nothing, silently, if the card's key wasn't found in the picks lists. Now a TD key (`lg|id|td`) that isn't found is rebuilt from the player's next game (over 0.5), and any other miss shows a "Couldn't track that pick" toast instead of nothing.
+
 ## 2026-11-02 (4), cmags0511 (Claude)
 DraftKings' own price on every pick (owner bets only at DraftKings). picks.py keeps ESPN's DraftKings line and price for the pick's side as `dk_line` / `dk_price` (taken before another book's quote replaces
 them). The Top picks cards show "DK -115" under the price when the grade was worked out at Pinnacle's or FanDuel's price (red when DraftKings pays less, "DK no price" when ESPN's feed has none), and
