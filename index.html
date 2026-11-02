@@ -3592,7 +3592,7 @@ const SOC_GROUPS={
   value:{title:"Value bets",tag:"Info only",sub:"Player props whose chance beats the sportsbook's price, long shots capped at +500. No longer recorded as bets."}
 };
 const socLineupTxt=c=>c.lineup==="start"?"Starting":c.lineup==="bench"?"On the bench":`Starts ${Math.round((c.start_rate??.5)*100)}%`;
-const socEdge=(kind,c)=>kind==="team"?(c.src==="model"?c.ev/2:c.ev):(c.ev_best??c.ev);
+const socEdge=(kind,c)=>kind==="team"?(c.lapsed?-1:c.src==="model"?c.ev/2:c.ev):(c.ev_best??c.ev);
 function socItems(inLg){
   const now=Date.now(),out=[];
   for(const c of (ST&&ST.picks)||[])if(new Date(c.t).getTime()>now&&inLg(c))out.push({kind:"team",c,m:"team",edge:socEdge("team",c)});
@@ -3609,7 +3609,8 @@ function socPickCard(it,i,mt){
   if(team){
     title=c.bet;sumTxt=`${c.home} vs ${c.away} · ${c.league} · ${when}`;
     line=amFmt(c.price);sub=`${Math.round(c.prob*100)}% · ${esc(c.book)}`;
-    sheet=`<p class="shp">Pinnacle's prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}</p>`
+    if(c.lapsed)sub=`now ${c.now_price!=null?amFmt(c.now_price):"off the board"} · ${esc(c.book)}`;
+    sheet=(c.lapsed?`<p class="shp"><b>No longer beats the fair price.</b> It was listed at ${amFmt(c.price)}; ${c.now_price!=null?`${esc(c.book)} now pays ${amFmt(c.now_price)}`:`${esc(c.book)} no longer lists it`}. It stays here until kickoff so a bet you already placed doesn't disappear. The record counts only bets still listed at kickoff.</p>`:"")+`<p class="shp">Pinnacle\'s prices make this a ${Math.round(c.prob*100)}% chance${c.push>=.005?` (${Math.round(c.push*100)}% refunded)`:""}, fair price ${c.fair!=null?amFmt(c.fair):"–"}. ${esc(c.book)} pays ${amFmt(c.price)}: about +$${(c.ev*10).toFixed(2)} per $10 on average.${c.src==="model"?" Pinnacle doesn't list this bet itself, so it's priced from the score model built on Pinnacle's prices and needs a bigger gap (5%).":""}</p>`
       +(tn?`<div class="news"><b class="${tn.flag==="caution"||tn.flag==="out"?"caution":tn.flag==="support"?"support":"neutral"}">${tn.flag==="out"?"Won't go ahead":tn.flag==="caution"?"Caution":tn.flag==="support"?"Research":"News"}</b><span>${esc(tn.note)}</span></div>`:`<p class="shp" style="color:var(--muted)">No research on this match yet. The price check doesn't see injuries, lineups or rotation.</p>`);
   }else{
     const e=c.ev_best??c.ev,fair=decToAm(1/Math.max(.01,c.prob));
@@ -3622,11 +3623,11 @@ function socPickCard(it,i,mt){
   const tr=!team&&socTracked(c);
   const trk=team?"":(new Date(c.t).getTime()<=Date.now()?`<span class="live">Live</span>`:`<button class="trk pkadd ${tr?"on":""}" data-soctk="${esc(c.key)}" data-socev="${esc(c.ev_id)}" aria-label="${tr?"Tracking":"Add to my picks"}">${tr?"✓ Tracking":"+ Track"}</button>`);
   const who=team?esc(title):`${esc(title)} <small class="pos">${esc(c.pos||"")}</small>`;
-  const sumHtml=team?esc(sumTxt)+(tn&&(tn.flag==="caution"||tn.flag==="out")?` · <b class="caution">\u26a0 news</b>`:""):`${esc(sumTxt)} · ${esc(socLineupTxt(c))}`;
+  const sumHtml=team?esc(sumTxt)+(c.lapsed?` \u00b7 <b class="caution">no longer an edge</b>`:"")+(tn&&(tn.flag==="caution"||tn.flag==="out")?` · <b class="caution">\u26a0 news</b>`:""):`${esc(sumTxt)} · ${esc(socLineupTxt(c))}`;
   return`<article class="pick shw sk" role="button" tabindex="0">
     <div class="pkm"><div class="pkl"><div class="who">${who}</div><div class="pksum">${sumHtml}</div></div>
       <div class="pkr"><div class="pkline over">${line}</div><div class="pkprice">${sub}</div></div></div>
-    ${gradeHtml(g,it.edge,{parlay:team&&(g==="A"||g==="B")&&c.prob>=.55})}
+    ${c.lapsed?"":gradeHtml(g,it.edge,{parlay:team&&(g==="A"||g==="B")&&c.prob>=.55})}
     <div class="shc">${shSec("",sheet)}</div>
     <div class="pkcta"><button class="seewhy" data-sheet="${esc(title)}" data-kick="${esc(`#${i+1} ${G.title}`)}" data-sub="${esc(sumTxt)}">See my reasoning</button>${trk}</div></article>`;
 }
