@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-02 (6), cmags0511 (Claude)
+Games tab: anytime TDs can be tracked. Real cause of "can't track anytime TDs": the expanded player card (renderDetail) skipped the Track bar for every fixed-line market (`m.fixed?"":...`), so a TD row opened from a game showed the price and chart but no button. Now a TD gets one "+ Track anytime TD" button (Over 0.5; straight or parlay via chooseTrack). index.html, sw.js v130. The Top picks TD cards already tracked fine (PR #65 only added a fallback there).
+
 ## 2026-11-02 (5), cmags0511 (Claude)
 Anytime-TD "+ Track" hardening (index.html, sw.js v129). Owner reported he couldn't track anytime TDs; I couldn't reproduce it (every TD card on all three lists tracks, real taps and simulated clocks tried). The tap used to do nothing, silently, if the card's key wasn't found in the picks lists. Now a TD key (`lg|id|td`) that isn't found is rebuilt from the player's next game (over 0.5), and any other miss shows a "Couldn't track that pick" toast instead of nothing.
 
