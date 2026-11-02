@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T12:54:04Z",
+ "updated": "2026-11-02T21:37:24Z",
  "summary": "Bears at Seahawks headlines tonight: Chicago's Kyle Monangai is out, leaving D'Andre Swift as the lead back, while Seattle loses LT Charles Cross and WR Rashid Shaheed and gets Zach Charbonnet back from his ACL tear with no snap plan. In the NBA, Coby White and Kawhi Leonard are out and Alex Sarr is questionable.",
  "notes": {
   "NBA|4278104|3pm": {
@@ -552,6 +552,54 @@
     "https://bleacherreport.com/articles/25527319-lamar-jackson-aj-brown-nfl-injury-statuses-and-fantasy-impact-week-8",
     "https://www.bettingpros.com/articles/best-nfl-player-props-picks-ravens-vs-bills-week-8-2026/"
    ]
+  },
+  "NFL|00-0040735|ryd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Chicago's inactive list or final injury report, so he plays; rushing work for him is limited to occasional designed touches.",
+   "sources": [
+    "https://www.fantasypros.com/nfl/players/inactives.php",
+    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/"
+   ],
+   "detail": {
+    "availability": "Active; Monangai is the only Bears inactive.",
+    "role": "Slot receiver with only a small share of team carries.",
+    "matchup": "Seattle has allowed few rushing yards to receivers lately."
+   }
+  },
+  "NFL|00-0039793|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation; Seattle is without receiver Rashid Shaheed, which could push a few more targets his way and cuts slightly against the under.",
+   "sources": [
+    "https://www.fantasypros.com/nfl/players/inactives.php",
+    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/"
+   ],
+   "detail": {
+    "availability": "Active, not on the injury report.",
+    "role": "Starting tight end.",
+    "matchup": "Shaheed and Velus Jones are inactive for Seattle."
+   }
+  },
+  "NFL|00-0040126|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Added to the injury report late in the week with a neck issue but finished without a game designation and is expected to play his usual role.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/",
+    "https://sports.yahoo.com/articles/bears-announce-colston-loveland-injury-005604310.html"
+   ],
+   "detail": {
+    "availability": "Neck; no designation for Monday.",
+    "role": "Starting tight end and a main target.",
+    "matchup": "Seattle has allowed fairly few receiving yards to tight ends lately."
+   }
   }
  },
  "games": {
