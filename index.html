@@ -934,6 +934,7 @@ tr.rfdrill{cursor:pointer}tr.rfdrill:hover td{background:var(--accent-soft)}tr.r
 .pkline{font:800 17px var(--f-body);color:var(--hit)}.pkline.under{color:var(--miss)}.pkline small{font-size:12px;font-weight:700}
 .pkprice{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
 .gradeln{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font:600 12px var(--f-body);color:var(--muted)}
+.howto summary{cursor:pointer;list-style:none;color:var(--ink)}.howto summary::-webkit-details-marker{display:none}.howto summary b{font:700 13px var(--f-body)}.howto summary::after{content:" \25be";color:var(--muted)}.howto[open] summary::after{content:" \25b4"}.howto .hlist{margin:8px 0 10px;padding-left:18px;font:500 12px/1.45 var(--f-body);color:var(--muted)}.howto .hlist li{margin:0 0 5px}.howto .hlist b{color:var(--ink)}
 .gkey{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--card,transparent);font:600 12px var(--f-body);color:var(--muted)}.gkey>b{display:block;color:var(--ink);font-size:14px}.gkey .gsub{display:block;font-size:11.5px;margin:2px 0 8px}.gkey .grow{display:grid;gap:6px}.gkey .gcell{display:flex;align-items:center;gap:10px}.gkey .gcell b{color:var(--ink);font-size:13px;min-width:62px}.gkey .gcell small{font-size:12px}.gkey .gnone{margin:8px 0 0;font-size:11.5px}
 .grd{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;font:800 12px var(--f-body);color:#fff;background:var(--muted)}
 .grd.gA{background:var(--hit)}.grd.gB{background:#2f7d8a}.grd.gC{background:#b7791f}.grd.gD{background:var(--line2);color:var(--ink)}.grd.gN{background:transparent;color:var(--muted);border:1px solid var(--line2)}
@@ -1649,6 +1650,16 @@ const GRADE_KEY=[["A","5%+ expected return","2 units"],["B","3\u20135%","1 unit"
 function gradeKeyHtml(){
   return`<div class="gkey" role="note"><b>Grades</b><span class="gsub">From the expected return at the sportsbook price. 1 unit = 1% of your betting bankroll.</span><div class="grow">${GRADE_KEY.map(([g,r,u])=>`<div class="gcell"><span class="grd g${g}">${g}</span><b>${u}</b><small>${r}</small></div>`).join("")}</div><p class="gnone"><span class="grd gN">\u2013</span> = no sportsbook price posted yet, so no grade.</p></div>`;
 }
+function howToReadHtml(open){
+  const li=(h,t)=>`<li><b>${h}</b> ${t}</li>`;
+  return`<details class="gkey howto" role="note"${open?" open":""}><summary><b>How to read a pick</b></summary>
+    <ul class="hlist">${li("Grade = strength.","How far the app's chance of winning beats the sportsbook's price. A is the strongest (rare), B and C are worth a look, D means pass and F means avoid.")}
+    ${li("The % on a card","is the app's chance the pick wins. It isn't the edge: a 60% pick at -150 only breaks even, so it grades D.")}
+    ${li("Real price or not.","If a card says \u201c-110 assumed\u201d or shows \u2248, the book never quoted that price, so treat the grade as a rough guess (an estimated price is capped at C). A dash means no price yet, so no grade.")}
+    ${li("Research / Research disagrees / Caution","is what the daily research says about the same side. Disagreement ranks a pick lower; it hasn't been a winning signal so far.")}
+    ${li("Order is ranking, not strength.","The list is sorted by the app's score; the grade is what tells you how strong a pick is. Not betting advice.")}</ul>
+    <div class="grow">${GRADE_KEY.map(([g,r,u])=>`<div class="gcell"><span class="grd g${g}">${g}</span><b>${u}</b><small>${r}</small></div>`).join("")}</div></details>`;
+}
 function gradeRecordHtml(P){
   const L=P.filter(e=>e.grade);
   const dec=a=>1+(a>0?a/100:100/-a),U={A:2,B:1,C:.5,D:0,F:0};
@@ -1680,10 +1691,10 @@ function renderTop(){
     for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||!inCat(c.market)||seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;src.push(c)}
   }else src=(BM||{})[S.league+"|"+S.market]||[];
   const list=src.filter(c=>live(c)&&inCat(c.market)).slice(0,10);
-  const head=`<div class="tophead"><h2>${list.length?`Top <span>${list.length}</span> · `:"Top picks · "}${OVERS()?"Overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}${[OVERS()&&!isAll()?esc(m.label):OVERS()&&FB(S.league)&&S.cat?esc(S.cat):"",S.team].filter(Boolean).map(x=>` <small class="h2sub">${x}</small>`).join("")}</h2>${sideSwitch()}</div>`;
+  const head=`<div class="tophead"><h2>${list.length?`Top <span>${list.length}</span> · `:"Top picks · "}${OVERS()?"Overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}${[OVERS()&&!isAll()?esc(m.label):OVERS()&&FB(S.league)&&S.cat?esc(S.cat):"",S.team].filter(Boolean).map(x=>` <small class="h2sub">${x}</small>`).join("")}</h2>${sideSwitch()}</div>${howToReadHtml(isAll())}`;
   if(!list.length&&S.team){el.innerHTML=`${head}<p class="topnote">No ${OVERS()?"over ":""}picks for ${esc(S.team)} in the current Top ${isAll()?"lists":esc(m.label.toLowerCase())+" list"}${(DATA[S.league+"meta"].upcoming||[]).some(g=>(g.away===S.team||g.home===S.team)&&g.t.getTime()>now)?"":` (no ${esc(S.team)} game coming up soon)`}. Clear the team filter to see the full Top 10.</p>`;return}
   // NBA counts only this season's games, and a player needs 3 before his recent numbers are used (picks.py nba_early)
-  if(!list.length&&S.league==="NBA"&&LINES&&LINES.NBA&&Object.keys(LINES.NBA).length){el.innerHTML=`${head}<p class="topnote">The NBA Top 10 is paused until Nov 15. Picks only use this season's games, and with 4–6 games a player there's too little to go on: NBA picks went 61-73 (−12.7u) through Oct 27. It comes back once players have about 10 games. DraftKings lines are still here: the All props table and the Games tab show every line, how often each player has cleared it, and the matchup.</p>`;return}
+  if(!list.length&&S.league==="NBA"&&LINES&&LINES.NBA&&Object.keys(LINES.NBA).length){el.innerHTML=`${head}<p class="topnote">No NBA picks clear the listing rules right now (no F grades, nothing priced shorter than -130). DraftKings lines are still here: the All props table and the Games tab show every line, how often each player has cleared it, and the matchup.</p>`;return}
   if(!list.length){el.innerHTML=`${head}<p class="topnote">${OVERS()&&src.length?`No strong ${S.league} over plays here right now. Tap <b>Overs + unders</b> to see every pick. `:""}${S.league==="CFB"&&!m.fixed?`DraftKings college prop lines aren't in the free feed, so college picks come from the research: before each game day it finds the best published prop lines for the week's biggest games and checks them against these numbers. None are up for this prop right now. You can still type any sportsbook's line on a player to see how often he clears it.`:m.fixed?"Anytime TD picks aren't ranked because DraftKings lines for them aren't available through ESPN.":`No DraftKings ${S.league} ${isAll()?"player prop":esc(m.label.toLowerCase())} lines are posted for upcoming games yet. Picks show up here as soon as lines go up${S.league==="NBA"?", usually the day before each game once the regular season starts":""}.`} Switch the prop type above to see other top plays.</p>`;return}
   const ts=list.map(c=>new Date(c.t)),dfm=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   const a=new Date(Math.min(...ts)),b=new Date(Math.max(...ts));
@@ -1692,6 +1703,7 @@ function renderTop(){
   const meta=`${S.league} · ${range} · ranked against the DraftKings line${CTX&&CTX.built?" · injuries checked "+new Date(CTX.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):""}${notesOk?` · researched ${new Date(NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}`:""}`;
   const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
   el.innerHTML=`<div class="tophead mh"><h2>${ttl}${S.team?` <small class="h2sub">${esc(S.team)}</small>`:""}</h2>${sideSwitch()}</div><p class="topsub">${range}</p>
+  ${howToReadHtml(isAll())}
   ${notesOk&&NOTES.summary?`<div class="shw slatew"><button class="slatebtn" data-sheet="Today's news"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><span class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</span><em>Read</em></button><div class="shc">${shSec("",`<p class="shp">${esc(NOTES.summary)}</p>`)}</div></div>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const rd=researchDir(n),agrees=rd.side===c.side,against=rd.side&&rd.side!==c.side;

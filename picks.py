@@ -354,7 +354,7 @@ MIN_PRICE = -130  # Top lists skip anything shorter (Oct 27)
 # score of at least MIN_TOP_SCORE = .23 (the old floor was .12) and plus-money picks rank at PLUS_PEN of their score. The cutoff was
 # chosen on the same sample it was measured on: re-check after another month of graded picks.
 MIN_TOP_SCORE, PLUS_PEN = .23, .8
-NBA_TOP_FROM = dt.datetime(2026, 11, 15, tzinfo=dt.timezone.utc)  # NBA Top 10 paused until then (Oct 27)
+NBA_TOP_FROM = dt.datetime(2026, 11, 2, tzinfo=dt.timezone.utc)  # NBA Top 10 was paused Oct 27 - Nov 2; the owner turned it back on Nov 2
 GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
 
 
@@ -1006,7 +1006,7 @@ def main():
         for c in cands:  # plus-money prices rank lower (2-11 in the Oct 17-28 record)
             if c.get("price") is not None and c["price"] > 0:
                 c["score"] = round(c["score"] * PLUS_PEN, 3)
-        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, nothing shorter than {MIN_PRICE}, NBA paused)")
+        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, nothing shorter than {MIN_PRICE})")
         top_pool = [c for c in cands if c["score"] >= MIN_TOP_SCORE]
         out["picks"] = slate(top_pool, 14) if top_pool else []  # 10 shown + spares for ruled-out players
         out["byMarket"] = {}
