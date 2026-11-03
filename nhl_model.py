@@ -59,6 +59,14 @@ class Hist:
     def __init__(self, h):
         self.p, self.g, self.t = h["players"], h["goalies"], h["teams"]
         self.names = h.get("names", {})
+        # the crawl runs newest-first, so a player's stored team can be an older one: take it from his latest game
+        # (the team that played his opponent that day)
+        who = {(r[0], r[1]): t for t, rows in self.t.items() for r in rows}
+        for grp in (self.p, self.g):
+            for p in grp.values():
+                if p["g"]:
+                    last = max(p["g"], key=lambda r: r[0])
+                    p["t"] = who.get((last[0], last[1]), p["t"])
         self.upcoming = h.get("upcoming", [])
         agg = {"F": [0, 0, 0, 0, 0], "D": [0, 0, 0, 0, 0]}   # games, goals, assists, shots, toi
         for p in self.p.values():

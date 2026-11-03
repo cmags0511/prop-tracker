@@ -102,7 +102,9 @@ def add_game(h, ev):
                     if sv is None:
                         sv = sa - (ga or 0)
                     g = h["goalies"].setdefault(pid, {"n": at.get("displayName"), "t": ta, "g": []})
-                    g["n"], g["t"] = at.get("displayName"), ta
+                    g["n"] = at.get("displayName")
+                    if not g["g"] or date >= max(x[0] for x in g["g"]):
+                        g["t"] = ta
                     rows.append(("g", pid, [date, opp, home, round(toi, 1), int(sa), int(sv), int(ga or 0)]))
                 else:
                     if toi <= 0:
@@ -111,7 +113,9 @@ def add_game(h, ev):
                     s = int(st.get("shotsTotal") or 0)
                     sf += s
                     p = h["players"].setdefault(pid, {"n": at.get("displayName"), "t": ta, "p": pos, "g": []})
-                    p["n"], p["t"], p["p"] = at.get("displayName"), ta, pos or p["p"]
+                    p["n"], p["p"] = at.get("displayName"), pos or p["p"]
+                    if not p["g"] or date >= max(x[0] for x in p["g"]):
+                        p["t"] = ta   # newest game's team (the crawl runs newest-first)
                     rows.append(("p", pid, [date, opp, home, round(toi, 1), round(st.get("powerPlayTimeOnIce") or 0, 1),
                                             int(st.get("goals") or 0), int(st.get("assists") or 0), s,
                                             int(st.get("blockedShots") or 0), int(st.get("hits") or 0)]))
