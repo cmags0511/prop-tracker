@@ -7,17 +7,22 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: python probe_tmp/nhl_probe.py
+      - name: Run the probe scripts
+        run: |
+          mkdir -p probe_tmp
+          [ -f probe_tmp/run.sh ] && bash probe_tmp/run.sh || true
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
       - run: |
           git config user.name "prop-tracker-bot"
           git config user.email "prop-tracker-bot@users.noreply.github.com"
-          git add probe_tmp/nhl_probe_out.json
+          git add -A probe_tmp
           git commit -m "NHL probe output" || true
+          git pull --rebase origin nhl-probe || true
           git push
