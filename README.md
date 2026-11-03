@@ -80,6 +80,9 @@ DraftKings' line and marked ≈. The record
 counts from `priced_from`, the first run with real prices, so units never mix real prices with an assumed -110. My picks and
 parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.
 
+## Best parlays (parlays.py)
+NFL and NBA combos of 2-3 legs from the props graded C or better (picks.json `legs`). A parlay only beats its legs through correlation between players in the same game, so the chance uses how the two players' lines actually hit together in games both played. The page shows the fair price (bet only if your book pays at least that); the estimated price is the legs' prices multiplied. Locked and graded in their own record (record.json `parlays`, Record > Parlays), 1u at the estimated price.
+
 ## Usage signals (build_usage.py)
 
 From nflverse's free play-by-play, snap counts and weekly stats, every update builds `usage.json`: each NFL

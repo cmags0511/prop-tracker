@@ -935,6 +935,16 @@ tr.rfdrill{cursor:pointer}tr.rfdrill:hover td{background:var(--accent-soft)}tr.r
 .pkprice{font:600 12px var(--f-body);color:var(--muted);margin-top:2px}
 .gradeln{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font:600 12px var(--f-body);color:var(--muted)}
 .dkq{font-weight:600}.dkq.worse{color:var(--miss)}.dkq.none{color:var(--muted);font-weight:500}
+.bpar{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px 14px;margin-top:10px}
+.bph{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.bph b{font-size:14px}.bph small{color:var(--muted);font-size:12px}
+.bpl{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
+.bpl .nm{flex:1;min-width:0}.bpl .nm small{display:block;color:var(--muted);font-size:11.5px}
+.bpl .px{font:600 12.5px var(--f-mono)}
+.bpm{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px;align-items:center}
+.bpm .trk{margin-left:auto}
+.bpwhy{color:var(--muted);font-size:12px;margin:4px 0 0}
+.bpsub{font:700 12px var(--f-body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 0}
 .howto summary{cursor:pointer;list-style:none;color:var(--ink)}.howto summary::-webkit-details-marker{display:none}.howto summary b{font:700 13px var(--f-body)}.howto summary::after{content:" \25be";color:var(--muted)}.howto[open] summary::after{content:" \25b4"}.howto .hlist{margin:8px 0 10px;padding-left:18px;font:500 12px/1.45 var(--f-body);color:var(--muted)}.howto .hlist li{margin:0 0 5px}.howto .hlist b{color:var(--ink)}
 .gkey{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--card,transparent);font:600 12px var(--f-body);color:var(--muted)}.gkey>b{display:block;color:var(--ink);font-size:14px}.gkey .gsub{display:block;font-size:11.5px;margin:2px 0 8px}.gkey .grow{display:grid;gap:6px}.gkey .gcell{display:flex;align-items:center;gap:10px}.gkey .gcell b{color:var(--ink);font-size:13px;min-width:62px}.gkey .gcell small{font-size:12px}.gkey .gnone{margin:8px 0 0;font-size:11.5px}
 .grd{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;font:800 12px var(--f-body);color:#fff;background:var(--muted)}
@@ -1153,6 +1163,7 @@ body:has(.wtour) .totop{display:none}
     <section class="cfb5" id="cfb5" data-sec="picks" hidden></section>
     <section class="bestbet" id="bestbet" data-sec="picks" hidden></section>
     <section class="top" id="top" data-sec="picks"></section>
+    <section class="top" id="bestpar" data-sec="picks" hidden></section>
     <section class="apprec" id="apprec" data-sec="picks" hidden></section>
     <section class="top" id="tdlive" data-sec="td" hidden></section>
     <section class="top" id="tdtop" data-sec="td" hidden></section>
@@ -1225,7 +1236,7 @@ const FB=lg=>lg!=="NBA"; // football leagues share categories, spreads and total
 const PAGE=25;
 const CUR=()=>DATA[S.league+"meta"].curStart;
 let CLOSE=null;
-let FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, TUNE=null, USAGE=null, shown=PAGE;
+let PARB=null,FROZEN=null, DATA=null, LINES=null, PICKS=null, NOTES=null, RECORD=null, CTX=null, MKTS=null, ODDS=null, TUNE=null, USAGE=null, shown=PAGE;
 const amFmt=v=>v==null?"":(v>0?"+":"")+v;
 // how long ago ESPN last saw this DraftKings line change; flag it when it's old
 function lineAge(dk){
@@ -1688,8 +1699,42 @@ function gradeRecordHtml(P){
     <div class="log"><table class="books"><thead><tr><th>Grade</th><th class="num">W-L</th><th class="num">1u each</th><th class="num">At stake</th></tr></thead><tbody>${rows}
     <tr><td><b>Following the grades</b></td><td></td><td></td><td class="num mono"><b>${L.some(e=>e.status==="win"||e.status==="loss")?unitsTxt(tot):"–"}</b></td></tr></tbody></table></div></div>`;
 }
+// ---- Best parlays (parlays.json, built by parlays.py): combos of legs graded C or better, with the correlation between
+// players in the same game counted; the fair price is what a sportsbook has to pay for the parlay to be worth it ----
+function parlayLegs(p){return p.legs.map(l=>({pl:DATA[l.lg]&&DATA[l.lg].find(x=>x.id===l.id),m:MK[l.lg]&&MK[l.lg].find(x=>x.id===l.market),l}))}
+function parlayInSlip(p){return p.legs.every(l=>slipHas(l.lg,l.id,l.market,l.side,l.line))}
+function addParlayToSlip(id){
+  const p=((PARB&&PARB.parlays)||[]).find(x=>x.id===id);if(!p)return;
+  let added=0;
+  for(const {pl,m,l} of parlayLegs(p)){
+    if(!pl||!m||slipHas(l.lg,l.id,l.market,l.side,l.line))continue;
+    const leg=makeLeg(l.lg,pl,m,l.side,l.line);if(leg){SLIP.push(leg);added++}
+  }
+  saveSlip();renderSlip();renderBestParlays();
+  toast(added?`Added ${added} leg${added>1?"s":""} to your parlay slip. Open the slip to save it`:"Those legs are already in your parlay slip");
+}
+function renderBestParlays(){
+  const el=document.getElementById("bestpar");if(!el)return;
+  const lg=S.league;
+  if(!PARB||(lg!=="NFL"&&lg!=="NBA")||!isAll()||S.view!=="board"){el.hidden=true;el.innerHTML="";return}
+  const now=Date.now();
+  const L=(PARB.parlays||[]).filter(p=>p.lg===lg&&new Date(p.t).getTime()>now&&p.legs.every(l=>!outNote(l.lg,l.id))&&(!S.team||p.legs.some(l=>l.team===S.team||l.opp===S.team)));
+  const head=`<div class="tophead"><h2>Best <span>parlays</span></h2></div>
+    <p class="topsub">Combos of picks that are each fair or better on their own. Players in the same game are checked for whether their stats tend to hit together. A parlay is only worth it if your book pays at least the fair price shown; the estimated price is just the legs' prices multiplied, so check DraftKings' own number.</p>`;
+  if(!L.length){el.hidden=false;el.innerHTML=head+`<p class="topnote">No ${lg} parlay has a clear edge right now. They appear when several good-priced picks line up on the same day.</p>`;return}
+  const card=p=>{
+    const when=new Date(p.t).toLocaleDateString("en-US",{weekday:"short"})+" "+new Date(p.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+    const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${l.team} ${l.home?"vs":"@"} ${l.opp}</small><small>${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}</small></span>${gradeChip(l.grade,l.edge)}<span class="px">${amFmt(l.price)}</span></div>`).join("");
+    const on=parlayInSlip(p);
+    return`<div class="bpar"><div class="bph"><b>${p.n}-leg parlay</b><small>${p.kind==="same"?"same game":"different games"} · ${when}</small></div>${legs}
+      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits, with same-game players' stats moving together counted">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ">est. ${amFmt(p.price)}</span><button class="trk sm ${on?"on":""}" data-parslip="${esc(p.id)}">${on?"✓ In parlay slip":"+ Add to parlay"}</button></div>
+      ${p.pairs.map(t=>`<p class="bpwhy">${esc(t)}</p>`).join("")}</div>`};
+  const same=L.filter(p=>p.kind==="same"),cross=L.filter(p=>p.kind!=="same");
+  el.hidden=false;
+  el.innerHTML=head+(same.length?`<h3 class="bpsub">Same game</h3>${same.map(card).join("")}`:"")+(cross.length?`<h3 class="bpsub">Different games</h3>${cross.map(card).join("")}`:"");
+}
 function renderTop(){
-  renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
+  renderBestParlays();renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
   const el=document.getElementById("top");
   if(!PICKS){el.innerHTML="";return}
   const now=Date.now(),m=mkt();
@@ -2159,10 +2204,32 @@ S.dayOpen={};
 const dayOpen=(k,i,list)=>k in S.dayOpen?S.dayOpen[k]:i===0||list.some(e=>e.status==="pending");
 document.addEventListener("click",e=>{const r=e.target.closest(".dayk[data-dayk]");if(!r)return;S.dayOpen[r.dataset.dayk]=r.getAttribute("aria-expanded")!=="true";render()});
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".dayk[data-dayk]")){e.preventDefault();e.target.click()}});
+// the app's Best parlays, locked at the first kickoff and graded in their own record (record.json "parlays"): 1u a parlay at
+// the estimated price shown on the page; a parlay wins only if every leg wins, and pushed or void legs drop out
+function parRecordHtml(){
+  const R=(RECORD&&RECORD.parlays)||[],done=R.filter(e=>e.status==="win"||e.status==="loss"),pend=R.filter(e=>e.status==="pending"),voids=R.filter(e=>e.status==="void");
+  const prof=e=>e.status==="win"?(e.paid||e.dec)-1:-1;
+  const sum=a=>a.reduce((x,e)=>x+prof(e),0),w=a=>a.filter(e=>e.status==="win").length;
+  const head=`<div class="tophead"><h2>Parlay <span>record</span></h2><p>Separate from the Top 10 record: the app's Best parlays, locked when the first game kicks off</p></div>`;
+  if(!R.length)return head+`<p class="topnote">No parlays recorded yet. The Best parlays on the Props page lock in as their first game kicks off, and are graded here after the games.</p>`;
+  const hit=done.length?w(done)/done.length:null,exp=done.length?done.reduce((x,e)=>x+e.p,0)/done.length:null;
+  const row=(lab,a)=>{const d=a.filter(e=>e.status==="win"||e.status==="loss");return d.length?`<tr><td>${lab}</td><td class="num mono">${w(d)}-${d.length-w(d)}</td><td class="num"><span class="heat">${pct(w(d)/d.length)}</span></td><td class="num mono">${unitsTxt(sum(d))}</td></tr>`:""};
+  const rows=[["NFL same game",e=>e.lg==="NFL"&&e.kind==="same"],["NFL different games",e=>e.lg==="NFL"&&e.kind!=="same"],["NBA same game",e=>e.lg==="NBA"&&e.kind==="same"],["NBA different games",e=>e.lg==="NBA"&&e.kind!=="same"],["2 legs",e=>e.n===2],["3 legs",e=>e.n===3]].map(([k,f])=>row(k,done.filter(f))).join("");
+  const mark={win:"W",loss:"L",void:"V",pending:""};
+  const legSt=l=>`<small class="pteam" style="color:${l.status==="win"?"var(--hit)":l.status==="loss"?"var(--miss)":"var(--muted)"}">${l.status==="win"?"\u2713 ":l.status==="loss"?"\u2717 ":l.status==="push"?"push ":l.status==="void"?"void ":""}${esc(l.name)} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}${l.result!=null?` (${fmt(l.result)})`:""}</small>`;
+  const recent=[...R].sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,25).map(e=>`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${mark[e.status]||""}</i><div class="lmid"><b>${e.n}-leg ${e.kind==="same"?"same game":"different games"} \u00b7 ${e.lg}</b><span>${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 est. ${amFmt(e.price)} \u00b7 app chance ${Math.round(e.p*100)}%</span>${e.legs.map(legSt).join("")}</div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(prof(e))}</b></div>`).join("");
+  return head+`<div class="hero"><div class="hero1"><span>Best parlays</span></div>
+    <div class="hero2"><div><b class="hbig">${w(done)}\u2013${done.length-w(done)}</b><span>${hit==null?"none graded yet":`${pct(hit)} hit \u00b7 app expected ${pct(exp)}`}</span></div>
+      <div class="hr"><b style="color:${done.length?sum(done)>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${done.length?unitsTxt(sum(done)):"\u2013"}</b><span>${pend.length} pending</span></div></div>
+    <p class="hfoot">${done.length} graded${voids.length?` \u00b7 ${voids.length} void`:""} \u00b7 1u per parlay at the estimated price (the legs' prices multiplied, so DraftKings' real parlay price will differ). Early results swing a lot: a few parlays prove nothing.</p></div>
+    ${rows?`<h3 class="lh">By type</h3><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${rows}</tbody></table></div>`:""}
+    <h3 class="lh">Recent</h3><div class="lcard">${recent}</div>`;
+}
 function renderAppRecord(){
   const el=document.getElementById("view-rec");
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
+  if(lgf==="PAR"){el.innerHTML=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</nav>${parRecordHtml()}</section>`;return}
   if(SOCR||lgf==="all")loadSocTeam();  // the team bets record lives in soccer_team.json
   const all=SOCR?socRecRows():((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
@@ -2172,7 +2239,7 @@ function renderAppRecord(){
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const rfOn=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>(S.rf||{})[k]);
-  let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
+  let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
   if(P0.length&&(S.rfOpen||rfOn))html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
   if(!P.length){el.innerHTML=html+`<p class="topnote">${SOCR?"No soccer picks recorded yet. The Soccer Top 10s lock in as each match kicks off."
@@ -2601,7 +2668,7 @@ function renderRecord(){
   const el=document.getElementById("view-rec");
   if(S.recType==="parlay"){renderParlayRecord();return}
   if(S.recType==="app"){renderAppRecord();return}
-  const lgf=S.recLg||"all";
+  const lgf=S.recLg==="PAR"?"all":(S.recLg||"all");
   const P=MY.map(e=>Object.assign({},e,gradeMy(e))).filter(e=>lgf==="all"||e.lg===lgf);
   const done=P.filter(e=>["win","loss","push"].includes(e.status)),pend=P.filter(e=>e.status==="pending"||e.status==="live"),voids=P.filter(e=>e.status==="void");
   const tally=a=>{const w=a.filter(e=>e.status==="win").length,l=a.filter(e=>e.status==="loss").length,p=a.filter(e=>e.status==="push").length;
@@ -4031,6 +4098,7 @@ function wire(){
     if(e.target.closest("#morePicks")){S.allPicks=!S.allPicks;renderTop();return}
     const tdl=e.target.closest("[data-tdl]");if(tdl){S.tdL2=tdl.dataset.tdl;S.tdList=tdl.dataset.tdl;save();renderTdTop();return}
     if(e.target.closest(".tdin"))return;
+    const ps=e.target.closest("[data-parslip]");if(ps){addParlayToSlip(ps.dataset.parslip);return}
     const tk=e.target.closest("[data-tk]");
     if(tk){const c=[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat(),...(PICKS.best?[PICKS.best]:[]),...(PICKS.tdPicks||[]),...(PICKS.tdTop||[]),...(PICKS.tdAll||[])].find(x=>x.key===tk.dataset.tk);
       let cc=c;
@@ -4139,10 +4207,10 @@ function markClipped(){document.querySelectorAll(".pick .why:not(.open),.bbwhy:n
 {let raf=0;new MutationObserver(()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(markClipped)}).observe(document.querySelector("main"),{childList:true,subtree:true})}
 document.addEventListener("click",e=>{const w=e.target.closest(".pick .why.clipped,.pick .why.open,.bbwhy.clipped,.bbwhy.open");if(!w)return;
   e.stopPropagation();e.preventDefault();w.classList.toggle("open");w.classList.toggle("clipped",!w.classList.contains("open"))},true);
-const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json"),usageLoad=jget("usage.json"),closeLoad=jget("closing.json");
+const linesLoad=jget("lines.json"),picksLoad=jget("picks.json"),notesLoad=jget("notes.json"),recLoad=jget("record.json"),ctxLoad=jget("context.json"),mktLoad=jget("markets.json"),oddsLoad=jget("odds.json"),tuneLoad=jget("tuning.json"),usageLoad=jget("usage.json"),closeLoad=jget("closing.json"),parLoad=jget("parlays.json");
 fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(async raw=>{
   DATA=hydrate(raw);
-  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=priced(await recLoad);CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;USAGE=await usageLoad;CLOSE=await closeLoad;
+  LINES=await linesLoad;PICKS=await picksLoad;NOTES=await notesLoad;RECORD=priced(await recLoad);CTX=await ctxLoad;MKTS=await mktLoad;ODDS=await oddsLoad;TUNE=await tuneLoad;USAGE=await usageLoad;CLOSE=await closeLoad;PARB=await parLoad;
   // current team from ESPN's depth charts (trades and signings since his last game)
   try{if(CTX&&CTX.depth)for(const lg of ["NFL","NBA"])if(DATA[lg]&&Date.now()-new Date((CTX.fetched||{})[lg]||CTX.built||0).getTime()<30*3600e3)for(const p of DATA[lg]){const d=(CTX.depth[lg]||{})[String(p.espn||p.id)];if(d&&d.t&&d.t!==p.team)p.team=d.t}}catch(e){}
   // college: no DraftKings props in the feed, so use the lines the research found (notes.json cfb_lines)

@@ -11,7 +11,7 @@ Each run:
 
 Usage: python record.py [record.json]
 """
-import gzip, json, sys, datetime as dt
+import gzip, json, math, sys, datetime as dt
 from zoneinfo import ZoneInfo
 from picks import stat, OUT_STATUS, research_dir
 
@@ -208,6 +208,23 @@ def main():
                                            "line": .5, "adj": None, "conf": c.get("conf"), "flag": None, "lean": None,
                                            "status": "pending", "result": None}
 
+    # 1g. the app's Best parlays (parlays.py), locked at the first kickoff and graded leg by leg in their own record: a
+    #     parlay wins only if every leg wins (pushed and void legs drop out), at the estimated price shown on the page
+    pars = {e["id"]: e for e in rec.get("parlays", [])}
+    pfile = load("parlays.json", {"parlays": []})
+    cur_par = {p["id"]: p for p in pfile.get("parlays", []) if start(p) > now}
+    for k, e in list(pars.items()):
+        if e["status"] == "pending" and start(e) > now and k not in cur_par:
+            del pars[k]
+    for k, p in cur_par.items():
+        if any(f"{l['lg']}|{l['id']}" in out_players or (l["lg"], espn.get(l["lg"], {}).get(l["id"])) in out_ids for l in p["legs"]):
+            pars.pop(k, None)
+            continue
+        old = pars.get(k) or {}
+        pars[k] = {**{x: p[x] for x in ("id", "lg", "kind", "n", "t", "p", "fair", "dec", "price", "ev", "pairs")},
+                   "legs": [dict(l, status="pending", result=None) for l in p["legs"]], "status": "pending", "result": None,
+                   "t0": old.get("t0") or now.isoformat(timespec="minutes")}
+
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
     def team_played(e, day):
@@ -331,6 +348,27 @@ def main():
         if e["status"] == "pending" and start(e) <= now:
             grade(e)
 
+    for pa in pars.values():
+        if pa["status"] != "pending":
+            continue
+        for l in pa["legs"]:
+            if l["status"] == "pending" and start(l) <= now:
+                grade(l)
+        sts = [l["status"] for l in pa["legs"]]
+        if "loss" in sts:
+            pa["status"] = "loss"
+        elif all(x in ("win", "push", "void") for x in sts):
+            wins = [l for l in pa["legs"] if l["status"] == "win"]
+            if not wins:
+                pa["status"] = "void"
+            else:
+                pa["status"] = "win"
+                # legs that pushed or were voided drop out and the rest are paid at their own prices
+                pa["paid"] = pa["dec"] if len(wins) == len(sts) else round(
+                    math.prod(1 + (l["price"] / 100 if l["price"] > 0 else 100 / -l["price"]) for l in wins), 3)
+        if pa["status"] != "pending":
+            pa["graded"] = now.isoformat(timespec="minutes")
+
     # 2b. closing lines: the last line seen before kickoff for every prop (hourly), so the app can show whether a
     #     pick beat the close. closing.json: {"NFL": {"<player id>|<prop>|<ET game date>": line}}, kept 30 days.
     close = load(CLOSE, {})
@@ -413,6 +451,7 @@ def main():
     rec["research"] = sorted(research.values(), key=lambda e: e["t"])
     rec["td"] = sorted(tds.values(), key=lambda e: (e["t"], -e["prob"]))
     rec["soccer"] = sorted(soc.values(), key=lambda e: (e["t"], -e["ev"]))
+    rec["parlays"] = sorted(pars.values(), key=lambda e: (e["t"], -e["ev"]))
     rec["updated"] = now.isoformat(timespec="minutes")
     rec.setdefault("started", now.astimezone(ET).date().isoformat())
     # the day real sportsbook prices started (fetch_prices.py): the app counts its record from here, so units are
