@@ -1,3 +1,3 @@
 set -x
-for i in 1 2 3 4 5; do python nhl_data.py probe_tmp/nhl_hist.json.gz; done
+python probe_tmp/fd_probe.py
 ls -la probe_tmp
