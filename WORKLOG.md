@@ -3,6 +3,14 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-03, cmags0511 (Claude)
+**Best parlays** (NFL + NBA), new `parlays.py` -> `parlays.json`, own record. Owner asked for parlays built from the ranked props. Honest framing (also on the page): a parlay's expected profit is the product of each leg's chance x price, so a leg that is a bad price alone is still a bad price inside a parlay; the only real edge is correlation between players in the same game. So:
+- picks.py now writes `legs` into picks.json: upcoming NFL/NBA props graded C or better at a real (non-estimated) quote.
+- parlays.py combines 2-3 legs (one per player, same ET day), chance = product of leg chances (each pulled 5% toward 50%) times a pair factor for same-game pairs (empirical co-hit rate from shared games in props_data.json, blended with a small football prior; needs 8+ shared games to count). Price = product of leg prices, minus half the correlation boost for same-game legs (DraftKings prices SGPs with correlation). Keeps combos with EV >= 3% (2 legs) / 4% (3 legs). Shows the "worth it at +X or better" fair price.
+- record.py section 1g: locks the board's parlays until the first leg kicks off, grades leg by leg (loss if any leg loses, push/void legs drop out), `record.json` "parlays". Units are 1u at the estimated price, so they're approximate. Shown under Record > Parlays (own tab), not mixed into the Top 10 record.
+- index.html: "Best parlays" under the Top picks list (NFL/NBA, "Best overall" view), "+ Add to parlay" puts the legs on the parlay slip. sw.js v131. New workflow step `parlays` in lines.yml and update.yml (before record); parlays.json is committed with the other data.
+- Untested on real slates (only C-grade legs exist off-day); first NFL Sunday will show how many parlays survive the EV filter. Not backtested: no historical parlay prices exist.
+
 ## 2026-11-02 (6), cmags0511 (Claude)
 Games tab: anytime TDs can be tracked. Real cause of "can't track anytime TDs": the expanded player card (renderDetail) skipped the Track bar for every fixed-line market (`m.fixed?"":...`), so a TD row opened from a game showed the price and chart but no button. Now a TD gets one "+ Track anytime TD" button (Over 0.5; straight or parlay via chooseTrack). index.html, sw.js v130. The Top picks TD cards already tracked fine (PR #65 only added a fallback there).
 

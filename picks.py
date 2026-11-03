@@ -1035,6 +1035,13 @@ def main():
         # the game views keep NBA (browsing, not the recorded Top 10) but still skip F grades and short prices
         out["games"] = per_game([c for c in full if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)])
         out["gamesOver"] = per_game(ov)
+        # every upcoming NFL/NBA leg graded C or better at a real quote (nothing shorter is filtered): parlays.py builds the
+        # "Best parlays" from these, so a leg the Top lists skip for its price can still be part of a parlay
+        LEG_KEYS = ("key", "lg", "id", "name", "team", "pos", "opp", "home", "t", "market", "label", "side", "line", "price",
+                    "p_cal", "edge", "grade", "prob", "book_p", "status", "avg10", "l10")
+        out["legs"] = [{k: c.get(k) for k in LEG_KEYS} for c in full
+                       if c.get("grade") in ("A", "B", "C") and c.get("price") is not None and not c.get("price_est")
+                       and c["lg"] in ("NFL", "NBA") and dt.datetime.fromisoformat(c["t"]) > now]
     # anytime-TD picks: the research's TD calls (no sportsbook line in the feed), with Kalshi's price and his history
     tdp = []
     meta = data.get("NFL", {})
