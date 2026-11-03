@@ -1,7 +1,7 @@
 {
- "built": "2026-11-03T10:05+00:00",
+ "built": "2026-11-03T13:16+00:00",
  "graded_picks": 277,
- "graded_research": 221,
+ "graded_research": 222,
  "market": {
   "CFB|pyd|over": 1.121,
   "CFB|pyd|under": 0.898,
@@ -22,10 +22,10 @@
  "factors": {
   "game": 1.084,
   "form": 0.67,
-  "market": 1.124
+  "market": 1.123
  },
  "research_conf": {
-  "medium": 0.781,
+  "medium": 0.788,
   "low": 0.318
  },
  "notes": [
@@ -45,16 +45,16 @@
   "NFL sacks unders are 8-5: ranked higher (x1.143)",
   "NFL tackles unders are 11-6: ranked higher (x1.217)",
   "When game script backed a pick it went 24-15, vs 18-14 when it didn't: weighted x1.084",
-  "Medium-confidence research calls are 87-108: their weight goes from 1.0 to 0.781",
+  "Medium-confidence research calls are 88-108: their weight goes from 1.0 to 0.788",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 11179 graded props the app's chances averaged 55% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 11188 graded props the app's chances averaged 55% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 49%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
-  "NBA pts + reb: trusted less (x0.76): its edges have played out smaller than predicted",
   "NFL rushing yards: an extra nudge toward the under",
+  "NBA pts + reb: trusted less (x0.76): its edges have played out smaller than predicted",
   "NFL passing yards: an extra nudge toward the over",
+  "NFL rush attempts: an extra nudge toward the under, trusted less (x0.87): its edges have played out smaller than predicted",
   "NBA points: trusted less (x0.85): its edges have played out smaller than predicted",
-  "NFL rush attempts: an extra nudge toward the under, trusted less (x0.88): its edges have played out smaller than predicted",
   "NFL receiving yards: an extra nudge toward the under",
   "NFL completions: an extra nudge toward the over",
   "CFB receiving yards: an extra nudge toward the over",
@@ -62,18 +62,18 @@
   "NBA rebounds: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
   "CFB passing yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 10523 graded props: weighted x0.67",
-  "Kalshi market has been under-weighted across 10523 graded props: weighted x1.124"
+  "Recent form has been over-weighted across 10532 graded props: weighted x0.67",
+  "Kalshi market has been under-weighted across 10532 graded props: weighted x1.123"
  ],
  "calibration": {
-  "n": 11179,
+  "n": 11188,
   "days": 21,
   "trust": 0.91,
-  "c": -0.13,
+  "c": -0.132,
   "b": 0.35,
   "per": {
    "CFB|pyd": [
-    0.06,
+    0.061,
     0.993
    ],
    "CFB|rec": [
@@ -85,39 +85,39 @@
     0.996
    ],
    "CFB|ryd": [
-    0.038,
+    0.039,
     0.951
    ],
    "NBA|3pm": [
-    0.01,
+    0.011,
     1.101
    ],
    "NBA|ast": [
-    -0.037,
+    -0.036,
     1.058
    ],
    "NBA|pa": [
-    -0.042,
+    -0.041,
     0.921
    ],
    "NBA|pr": [
-    0.007,
+    0.008,
     0.763
    ],
    "NBA|pra": [
-    -0.044,
+    -0.043,
     0.916
    ],
    "NBA|pts": [
-    0.042,
+    0.043,
     0.846
    ],
    "NBA|ra": [
-    0.004,
+    0.005,
     0.948
    ],
    "NBA|reb": [
-    0.096,
+    0.097,
     1.003
    ],
    "NFL|att": [
@@ -125,15 +125,15 @@
     0.934
    ],
    "NFL|car": [
-    -0.067,
-    0.876
+    -0.073,
+    0.873
    ],
    "NFL|cmp": [
     0.073,
     0.911
    ],
    "NFL|fgm": [
-    0.032,
+    0.033,
     1.038
    ],
    "NFL|pat": [
@@ -145,19 +145,19 @@
     0.929
    ],
    "NFL|recyd": [
-    -0.095,
-    0.931
+    -0.098,
+    0.934
    ],
    "NFL|rry": [
-    -0.033,
+    -0.038,
     0.914
    ],
    "NFL|ryd": [
-    -0.169,
-    0.93
+    -0.179,
+    0.928
    ],
    "NFL|sck": [
-    -0.315,
+    -0.314,
     0.966
    ],
    "NFL|tkl": [
@@ -167,20 +167,20 @@
   }
  },
  "calib": {
-  "n": 11179,
+  "n": 11188,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    6788,
+    6793,
     0.525,
     0.529
    ],
    [
     0.55,
     0.6,
-    3407,
+    3411,
     0.568,
     0.53
    ],
