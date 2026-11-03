@@ -1,531 +1,415 @@
 {
- "updated": "2026-11-02T23:47:00Z",
- "summary": "Bears at Seahawks headlines tonight: Chicago's Kyle Monangai is out, leaving D'Andre Swift as the lead back, while Seattle loses LT Charles Cross and WR Rashid Shaheed and gets Zach Charbonnet back from his ACL tear with no snap plan. In the NBA, Coby White and Kawhi Leonard are out and Alex Sarr is questionable.",
+ "updated": "2026-11-03T12:48:20Z",
+ "summary": "No NFL or NBA games inside the research window today. Midweek MAC: Miami (OH) QB David McComb is out for the season (Caleb Heavner starts) and Central Michigan QB Angel Flores is unconfirmed after a concussion. In the Champions League, PSG (Dembele, Kvaratskhelia, Marquinhos, Nuno Mendes) and Inter (Lautaro injured, Bastoni suspended) travel short-handed.",
  "notes": {
-  "NBA|4278104|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Porter has no injury listing; Demin stays out (leg bone bruise) and Brown returns on a minutes limit, so the backcourt creation around him is thin but his role is unchanged.",
-   "sources": [
-    "https://sports.yahoo.com/articles/nets-visit-knicks-fresh-memories-051346562.html",
-    "https://sports.yahoo.com/articles/nets-rule-mikel-brown-jr-054856373.html"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; Nets are on the second night of a back-to-back after Sunday in Indiana.",
-    "role": "Demin out with a right leg bone bruise and Brown back on a restriction he will keep for a while, so Porter and Randle stay the main scorers.",
-    "conditions": "Back-to-back road game after a Sunday win at Indiana."
-   }
-  },
-  "NBA|4278104|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Porter has no injury listing; Demin stays out (leg bone bruise) and Brown returns on a minutes limit, so the backcourt creation around him is thin but his role is unchanged.",
-   "sources": [
-    "https://sports.yahoo.com/articles/nets-visit-knicks-fresh-memories-051346562.html",
-    "https://sports.yahoo.com/articles/nets-rule-mikel-brown-jr-054856373.html"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; Nets are on the second night of a back-to-back after Sunday in Indiana.",
-    "role": "Demin out with a right leg bone bruise and Brown back on a restriction he will keep for a while, so Porter and Randle stay the main scorers.",
-    "conditions": "Back-to-back road game after a Sunday win at Indiana."
-   }
-  },
-  "NBA|4432166|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "No injury news for Cunningham; Detroit's lineup is unchanged since Duren went down, so his shooting role looks steady.",
-   "sources": [
-    "https://www.si.com/nba/scoreboard/pistons-vs-hornets-11-2-2026-1584"
-   ],
-   "detail": {
-    "availability": "Not on the injury report for this game.",
-    "role": "Remains the lead creator with Duren out; Reed starting at center does not change his shot profile.",
-    "market": "Line opened 2.5 and is now 1.5 in the packet, a move that makes the over easier rather than a warning sign; Kalshi 62% over."
-   }
-  },
-  "NBA|3908845|3pm": {
+  "CFB|5082330|pyd": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No injury or role news found for Collins; he stays in the starting frontcourt next to Paul Reed while Duren is out.",
+   "note": "No injury designation; has started and played every recent game, including 391 yards vs Western Michigan Oct 24. Toledo is a 25.5-point favorite, so late-game snaps may be limited.",
    "sources": [
-    "https://www.si.com/nba/scoreboard/pistons-vs-hornets-11-2-2026-1584"
-   ],
-   "detail": {
-    "availability": "Not on the injury report.",
-    "role": "Starting power forward; Duren's absence keeps Detroit playing Reed at center rather than shifting Collins there."
-   }
-  },
-  "NBA|4432848|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the Bucks' injury report and still starting; Milwaukee may give rookies more minutes, but no change to his role was reported.",
-   "sources": [
-    "https://foxsports1070.iheart.com/content/2026-11-02-bucks-vs-timberwolves-injury-report-nov-2/",
-    "https://fieldlevelmedia.com/nba/timberwolves-look-to-get-on-track-when-they-face-bucks/"
-   ],
-   "detail": {
-    "availability": "Bucks list no injuries.",
-    "role": "Second on the team at 16.2 points per game; coach said lineups are unsettled and rookies may play more."
-   }
-  },
-  "NBA|4397688|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Murphy is probable with knee tendinopathy, so he should play; Poole out keeps shot volume on him, but the line drop from 2.5 to 1.5 is unexplained beyond the knee listing.",
-   "sources": [
-    "https://www.cbssports.com/fantasy/basketball/news/pelicans-trey-murphy-probable-for-monday/",
-    "https://www.fubo.tv/news/nba/new-orleans-pelicans-at-memphis-grizzlies-where-to-watch-stream-info-tv-channel-and-live-updates-november-02-2026/",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-01/murray-personal-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Probable (bilateral patellar tendinopathy) per the Nov 1 injury report; if he sat, Saddiq Bey would start.",
-    "role": "Poole remains out with an ankle injury and Murray is back from a personal absence, so Murphy keeps a top-two scoring role.",
-    "market": "Packet line opened 2.5 and is now 1.5; no report explains the drop besides the knee listing, so treat it as possible minutes caution."
-   }
-  },
-  "NBA|4709138|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "The 'teammate out' reason is stale: Curry's rest was for Sunday only and he is expected back Monday, so Podziemski's shot share likely shrinks back toward normal.",
-   "sources": [
-    "https://www.rotowire.com/basketball/headlines/stephen-curry-injury-wont-play-wednesday-502239",
-    "https://www.cbssports.com/fantasy/basketball/news/warriors-gui-santos-wont-play-monday-537150/"
-   ],
-   "detail": {
-    "availability": "Not on the injury report.",
-    "role": "Curry (and probably Green) return after resting Sunday, which cuts into the extra usage Podziemski gets when they sit; Santos being out adds a little frontcourt minutes but little shot volume for him.",
-    "market": "Kalshi has the over at about 37% while the book's no-vig price is about 62%; the Kalshi discount fits Curry returning, so the packet's teammate-out premise should not be trusted."
-   }
-  },
-  "NBA|4433134|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Barnes is healthy and carrying the offense with Leonard out (29 points Sunday); Poeltl's shoulder may keep him out again, which doesn't change Barnes's outside shot volume.",
-   "sources": [
-    "https://www.tsn.ca/nba/article/raptors-c-poeltl-a-late-scratch-vs-lakers/",
-    "https://sports.yahoo.com/articles/pattern-emerges-raptors-losses-bright-054403757.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-01/derrick-jones-jr-knee-limited-to-28-minutes"
-   ],
-   "detail": {
-    "availability": "Not on the injury report.",
-    "role": "With Leonard out for weeks, Barnes is the lead option; he scored 29 on 13 free throws Sunday, getting there by attacking the rim rather than shooting threes.",
-    "matchup": "Clippers forward Derrick Jones Jr. played only 28 minutes Sunday with a right knee issue; no Monday status yet."
-   }
-  },
-  "NBA|5160992|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with a knee problem as of Nov 1; no game-day upgrade found, so his availability and minutes are uncertain despite the favorable market price.",
-   "sources": [
-    "https://web7.rotowire.com/basketball/headlines/alex-sarr-injury-questionable-for-monday-506331",
-    "https://www.espn.com/nba/player/news/_/id/5160992"
-   ],
-   "detail": {
-    "availability": "Listed questionable for Monday with a knee injury on the Nov 1 report; no practice or shootaround update found.",
-    "role": "Has started and played 23-29 minutes in recent games, with assist totals of 2, 3 and 5 in three of his last four.",
-    "market": "Kalshi and the book both near 60-62% over at 1.5, no line move from open; the risk is availability, not price."
-   }
-  },
-  "NBA|5160992|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with a knee problem; if he plays, a minutes cap is possible, which hurts combined-stat volume.",
-   "sources": [
-    "https://web7.rotowire.com/basketball/headlines/alex-sarr-injury-questionable-for-monday-506331"
-   ],
-   "detail": {
-    "availability": "Questionable (knee) per the Nov 1 report, no update since."
-   }
-  },
-  "NBA|5160992|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with a knee problem; availability and minutes are uncertain until the pregame report.",
-   "sources": [
-    "https://web7.rotowire.com/basketball/headlines/alex-sarr-injury-questionable-for-monday-506331"
-   ],
-   "detail": {
-    "availability": "Questionable (knee) per the Nov 1 report, no update since."
-   }
-  },
-  "NBA|5160992|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with a knee problem; availability and minutes are uncertain until the pregame report.",
-   "sources": [
-    "https://web7.rotowire.com/basketball/headlines/alex-sarr-injury-questionable-for-monday-506331"
-   ],
-   "detail": {
-    "availability": "Questionable (knee) per the Nov 1 report, no update since."
-   }
-  },
-  "NFL|00-0035647|sck": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Healthy and off the Bears injury report; Seattle's regular left tackle Charles Cross is out, so veteran Josh Jones starts at LT.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears"
-   ],
-   "detail": {
-    "availability": "Not on Chicago's injury report all week.",
-    "matchup": "Seattle starts backup Josh Jones at left tackle with Charles Cross (ankle) ruled out; guard Anthony Bradford is questionable."
-   }
-  },
-  "NFL|00-0035643|sck": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Traded from Tennessee to Chicago on Oct 29 and expected to debut Monday; no snap plan was given, so his share in a new defense is uncertain.",
-   "sources": [
-    "https://chicago.suntimes.com/bears/2026/10/30/new-bears-dt-jeffery-simmons-expected-to-play-monday-vs-seahawks",
-    "https://heavy.com/sports/nfl/seattle-seahawks/seahawks-jeffery-simmons-workload-update-bears/",
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears"
-   ],
-   "detail": {
-    "availability": "No injury; first game with the Bears after a midweek trade.",
-    "role": "Coach expects a big but reduced snap count in his debut, down from 87% of Titans defensive snaps.",
-    "matchup": "Seattle starts backup LT Josh Jones with Charles Cross out."
-   }
-  },
-  "NFL|00-0039165|rec": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Season debut after January ACL tear; coach calls him a three-down back but gave no snap plan, and rookie Jadarian Price may be activated Monday, so the backfield split is unclear.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears",
-    "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html",
-    "https://www.draftsharks.com/fantasy-football-news/83736/zach-charbonnet-jadarian-price-uncertain-for-week-8"
-   ],
-   "detail": {
-    "availability": "Full practice Thursday, limited Friday, no game status; Macdonald confirmed he plays.",
-    "role": "First game since the ACL tear; Price (chest, off IR) may be added Monday and Emanuel Wilson has handled lead work, so a committee is possible.",
-    "market": "Kalshi has the over at 40.5% while the book's no-vig chance is 60%; the gap reflects workload uncertainty in his debut."
-   }
-  },
-  "NFL|00-0039919|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Healthy with no designation; the receptions line dropped from 3.5 to 2.5 with no injury or role news found to explain it.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html"
-   ],
-   "detail": {
-    "availability": "Not on Chicago's injury report.",
-    "role": "Has caught three or four passes in five of seven games.",
-    "market": "Packet line moved 3.5 to 2.5 from open; no news found explaining it. Current preview lists his receiving yards at 41.5."
-   }
-  },
-  "NFL|00-0036275|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Kyle Monangai is ruled out, leaving Swift as the clear lead back after handling 26 of 28 backfield opportunities and 86% of snaps in Week 7.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://www.covers.com/nfl/bears-anytime-touchdown-scorer-picks-week-8-2026",
-    "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html"
-   ],
-   "line_now": 3.5,
-   "line_src": "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html",
-   "detail": {
-    "availability": "Healthy; Monangai (thumb/toe) out after three DNPs.",
-    "role": "Near-every-down role with Monangai out; Roschon Johnson is the remaining backup.",
-    "market": "FanDuel posts receptions at 3.5 (over +140), not the packet's 2.5; the packet line looks stale or alternate."
-   }
-  },
-  "NFL|00-0036275|car": {
-   "side": "over",
-   "adj": 0,
-   "conf": "low",
-   "note": "Monangai is out and Swift is the lead back, but the carries line has dropped from 18.5 to 16.5 and Pinnacle prices the under as the favorite, with Swift averaging 15.8 carries over his last 10, so the role news looks priced in; no lean.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://www.covers.com/nfl/bears-anytime-touchdown-scorer-picks-week-8-2026",
-    "https://www.covers.com/sport/football/nfl/matchup/380038"
-   ],
-   "detail": {
-    "availability": "Monangai out (thumb/toe).",
-    "role": "Swift handled 86% of snaps in Week 7."
-   }
-  },
-  "NFL|00-0036275|ryd": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "With Kyle Monangai out, Swift is Chicago's lead back with only Roschon Johnson behind him.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://www.covers.com/nfl/bears-anytime-touchdown-scorer-picks-week-8-2026"
-   ],
-   "detail": {
-    "availability": "Monangai out (thumb/toe).",
-    "matchup": "Seattle allows 3.2 yards per carry."
-   }
-  },
-  "NFL|00-0039165|ryd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "First game since a torn ACL; no snap plan was given and Jadarian Price could be activated, so his carry share is uncertain.",
-   "sources": [
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears",
-    "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html",
-    "https://www.draftsharks.com/fantasy-football-news/83736/zach-charbonnet-jadarian-price-uncertain-for-week-8"
-   ],
-   "detail": {
-    "availability": "No designation; confirmed to play.",
-    "role": "Possible three-way split with Wilson and Price.",
-    "market": "A preview lists his rushing attempts at 9.5."
-   }
-  },
-  "NFL|00-0039165|rry": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Season debut off a torn ACL with no stated snap plan and Price possibly back from IR, so his total touches are uncertain.",
-   "sources": [
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears",
-    "https://www.draftsharks.com/fantasy-football-news/83736/zach-charbonnet-jadarian-price-uncertain-for-week-8"
-   ],
-   "detail": {
-    "role": "Committee risk with Wilson and Price."
-   }
-  },
-  "NFL|00-0038797|ryd": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Charbonnet's return as Seattle's stated three-down back, plus Price possibly being activated, cuts into the lead role Wilson had been filling.",
-   "sources": [
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears",
-    "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html",
-    "https://www.draftsharks.com/fantasy-football-news/83736/zach-charbonnet-jadarian-price-uncertain-for-week-8"
-   ],
-   "detail": {
-    "role": "Wilson had been the lead back; Charbonnet now confirmed to play and Price may return from IR."
-   }
-  },
-  "NFL|00-0040648|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "low",
-   "note": "Rashid Shaheed is ruled out with a knee injury, opening wide receiver snaps and targets for Horton behind Smith-Njigba and Kupp; no report yet describes a bigger role for him.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears"
-   ],
-   "detail": {
-    "availability": "Shaheed out after three DNPs."
-   }
-  },
-  "NFL|00-0040648|recyd": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "low",
-   "note": "Rashid Shaheed is out (knee), moving Horton up the receiver rotation; no report yet describes a bigger role for him.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://sports.mynorthwest.com/nfl/seattle-seahawks/seattle-seahawks-injury-report-zach-charbonnet-season-debut-bears"
-   ],
-   "detail": {
-    "availability": "Shaheed out after three DNPs."
-   }
-  },
-  "NFL|00-0036275|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Swift leads Chicago with 28 red-zone carries and 14 inside the 5, and with Monangai out no other back is likely to take goal-line work.",
-   "sources": [
-    "https://www.covers.com/nfl/bears-anytime-touchdown-scorer-picks-week-8-2026",
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks"
-   ],
-   "buzz": "high",
-   "detail": {
-    "availability": "Monangai out.",
-    "role": "Dominant red-zone and goal-line role; QB Caleb Williams has 1 carry inside the 5.",
-    "matchup": "Seattle has allowed touchdowns on 85% of red-zone trips but only 3.2 yards per carry.",
-    "market": "Kalshi about 49-51% for 1+ TD."
-   }
-  },
-  "SOC|291850|401876419": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on Brest's injury list; Sports Mole predicts him to start in a two-man central midfield. Brest are missing Versini and Le Guen. No change to his role.",
-   "sources": [
-    "https://www.sportsmole.co.uk/football/lorient/preview/lorient-vs-brest-prediction-team-news-lineups_607901.html"
+    "https://web9.rotowire.com/cfootball/player/john-alan-richter-42149",
+    "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/"
    ]
   },
-  "SOC|207288|401882824": {
+  "CFB|5141549|pyd": {
+   "flag": "out",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Ruled out for the rest of 2026 (upper body) on the MAC availability report Oct 10. Caleb Heavner has started since, with 33 attempts Oct 24.",
+   "sources": [
+    "https://www.rotowire.com/cfootball/player/david-mccomb-49619",
+    "https://www.rotowire.com/betting/college-football/game.php?id=2975014"
+   ]
+  },
+  "CFB|5084769|ryd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Listed unavailable with a concussion for the Oct 24 game; no appearance logged since Oct 17. Jadyn Glasser threw 31 passes Oct 24. Status for Wednesday not confirmed.",
+   "sources": [
+    "https://www.rotowire.com/betting/college-football/game.php?id=2975014",
+    "https://www.ourlads.com/ncaa-football-depth-charts/player-game-stats/angel-flores/2026/175203"
+   ]
+  },
+  "SOC|212973|401915311": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Fit and predicted to start up front alongside Raul Garcia. Creator Aimar Oroz is a doubt and Del Castillo is out, which could mean fewer chances for him.",
+   "note": "Named in Galatasaray's predicted XI in deep midfield by UEFA and a second preview; no injury or ban reported.",
    "sources": [
-    "https://www.fotmob.com/match/3776746/matchfacts/deportivo-la-coruna-vs-osasuna",
-    "https://www.comuniate.com/en/noticias/38726/deportivo-vs-osasuna-preview-likely-lineups-and-fantasy-tips"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://afrik-foot.com/en-ng/osimhen-galatasaray-vs-stuttgart-preview"
    ]
   },
-  "SOC|378458|401878762": {
-   "flag": "caution",
+  "SOC|228296|401915311": {
+   "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Not in Starting11's predicted Everton XI, which uses Garner and Grealish in midfield. Grealish is a doubt with illness, so Armstrong could still come in.",
+   "conf": "medium",
+   "note": "Felt discomfort and came off after 61 minutes at Konyaspor, but trained fully on Monday and is expected to start; the coach makes the final call.",
    "sources": [
-    "https://starting11.com/fixtures/newcastle-vs-everton-20261102"
+    "https://afrik-foot.com/en-ng/osimhen-galatasaray-vs-stuttgart-preview",
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://www.afrik-foot.com/en-ng/osimhen-update-galatasaray-vs-stuttgart"
    ]
   },
-  "SOC|220819|401885403": {
-   "flag": "caution",
+  "SOC|320459|401880181": {
+   "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No injury reported, but Benfica play in the Europa League three days later and the preview expects rotation. No named predicted XI was found.",
+   "note": "No injury news found for him; Ebou Adams and Tyrese Shade reported to be pushing for starts in Portsmouth's side.",
    "sources": [
-    "https://starting11.com/fixtures/benfica-vs-alverca"
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
    ]
   },
   "SOC|268986|401880178": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Not on Watford's absence list. Bove and Coulibaly are out and Baah is a doubt. The opponent is Lincoln. No named predicted XI was found.",
+   "note": "Not on Watford's absentee list (Bove, Baah, Coulibaly, Ngakia out); no role change reported.",
    "sources": [
-    "https://starting11.com/fixtures/watford-vs-lincoln"
+    "https://starting11.com/fixtures/watford-vs-lincoln",
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
    ]
   },
   "SOC|326075|401880183": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Fit and predicted as Blackburn's lone striker in a 4-2-3-1. Stoke are missing Galbraith (suspended), Cresswell and Ingelsson.",
-   "sources": [
-    "https://starting11.com/fixtures/blackburn-vs-stoke-city"
-   ]
-  },
-  "SOC|271170|401915308": {
    "flag": "support",
    "adj": 0,
    "conf": "low",
-   "note": "Fit and predicted to start as the central striker, with Sesko out injured. Roma are missing goalkeeper Svilar, Kone, Pellegrini and Bah.",
+   "note": "Predicted to keep his place as Blackburn's lone striker; Kargbo not ready to start. Started the previous match against Swansea.",
    "sources": [
-    "https://starting11.com/fixtures/manchester-united-vs-roma"
+    "https://uk.sports.yahoo.com/news/blackburn-rovers-predicted-team-changes-110000411.html",
+    "https://sports.yahoo.com/articles/preview-blackburn-rovers-vs-stoke-221000351.html"
+   ]
+  },
+  "SOC|336361|401880174": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "In Sports Mole's predicted Charlton XI up front with Kelman; Leaburn expected to drop to the bench. No injury reported.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/charlton-athletic/preview/charlton-vs-bolton-prediction-team-news-lineups_608181.html"
+   ]
+  },
+  "SOC|288958|401880181": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Swansea expected to keep the side that beat Blackburn 4-0; forward Kukharevych reported out. His own start not confirmed.",
+   "sources": [
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/",
+    "https://starting11.com/fixtures/portsmouth-vs-swansea"
    ]
   },
   "SOC|341711|401915307": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Not on Feyenoord's absence list. Inter are missing Bastoni (suspended), Pavard and others. No named predicted XI was found.",
+   "conf": "medium",
+   "note": "In UEFA's predicted Feyenoord XI on the right; not listed injured. Feyenoord missing several others (Moder, Nelson, Smal).",
    "sources": [
-    "https://starting11.com/es/fixtures/feyenoord-vs-inter"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
    ]
   },
   "SOC|235789|401915384": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Not on Bodo/Glimt's absence list (Evjen, Sjong, Mikkelsen and Lund are out). No named predicted XI was found.",
+   "conf": "medium",
+   "note": "In UEFA's predicted Bod\u00f8/Glimt XI on the left of the attack; no injury or ban listed.",
    "sources": [
-    "https://starting11.com/fixtures/bodo-glimt-vs-lille"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOC|205924|401915384": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In UEFA's predicted Bod\u00f8/Glimt XI in central midfield; no injury or ban listed.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
    ]
   },
   "SOC|308572|401880184": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Not on Millwall's long absence list (Metcalfe suspended, seven others out). No named predicted XI was found.",
+   "note": "No team news found on him; preview covers only Birmingham keeper Beadle's fitness test and Arconte's return.",
    "sources": [
-    "https://starting11.com/fixtures/birmingham-vs-millwall"
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
    ]
   },
-  "SOC|205924|401915384": {
+  "SOC|276221|401915382": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Not on Bodo/Glimt's absence list. Lille are missing Mbappe (suspended), Santos, Igamane and Ueda. No named predicted XI was found.",
+   "conf": "medium",
+   "note": "In UEFA's predicted Fenerbah\u00e7e XI on the right; Fenerbah\u00e7e absences are Ak\u00e9 and Asensio.",
    "sources": [
-    "https://starting11.com/fixtures/bodo-glimt-vs-lille"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
    ]
   },
-  "SOC|124091|401915308": {
+  "SOC|293212|401880175": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In Sports Mole's predicted Cardiff XI in the attacking line; Cardiff's many absences are mostly defenders and Robertson.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/cardiff-city/preview/cardiff-vs-west-ham-prediction-team-news-lineups_608265.html",
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
+   ]
+  },
+  "SOC|189605|401880173": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Listed as doubtful with an injury, though still placed in the predicted XI. Mainoo and Diallo are also doubts.",
+   "note": "Left out of Sports Mole's predicted Wrexham XI; Sam Smith tipped to return and lead the line, so Moore may start on the bench.",
    "sources": [
-    "https://starting11.com/fixtures/manchester-united-vs-roma"
+    "https://www.sportsmole.co.uk/football/middlesbrough/preview/wrexham-vs-middlesbrough-prediction-team-news-lineups_608244.html",
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
    ]
   },
-  "SOCT|1638771049|FanDuel|AWAY_TEAM_-1.5_GOALS|fiorentina 1 5 goals": {
+  "SOC|156898|401915305": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In UEFA's predicted Lens XI behind the striker; Lens are without forwards \u00c9douard and Sima.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOC|240965|401915303": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In UEFA's predicted PSV XI in attacking midfield; PSV absences are Lammers, Ouaissa and Wanner.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOC|194116|401880176": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In Sports Mole's predicted Wolves XI; Jordan James out with a hamstring problem but that does not affect his role.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/wolves/preview/bristol-city-vs-wolves-prediction-team-news-lineups_608245.html",
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
+   ]
+  },
+  "SOC|223776|401915301": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In UEFA's predicted Porto XI in midfield; only William Gomes listed out for Porto.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOC|268641|401915306": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not in UEFA's predicted Man City XI (Foden, Cherki, Doku behind Haaland), so may start on the bench; no injury reported.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://www.mancity.com/news/mens/iliman-ndiaye-signs-for-city-63923887"
+   ]
+  },
+  "SOC|310709|401915304": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "In UEFA's predicted Dortmund XI at left wing-back; Dortmund nearly at full strength.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1639318516|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
    "flag": "support",
    "adj": 0,
    "conf": "low",
-   "note": "Sassuolo are missing eight players, including four defenders, with Thorstvedt suspended. Fiorentina are without Sottil, Gosens and three defenders, but both goalkeepers are available.",
+   "note": "Derby still without striker Patrick Agyemang and Matt Clarke; Sanderson returns. Norwich lose Kenny McLean.",
    "sources": [
-    "https://starting11.com/fixtures/sassuolo-vs-fiorentina-20261102"
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
    ]
   },
-  "SOCT|1638746446|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+  "SOCT|1639318693|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
    "flag": "caution",
    "adj": 0,
    "conf": "low",
-   "note": "Budimir is fit and starting, which works against an Osasuna blank. Oroz is a doubt and Del Castillo is out. Deportivo are missing Casado and Ede.",
+   "note": "Swansea expected to field the unchanged side that won 4-0 at Blackburn; Josh Key back in contention.",
    "sources": [
-    "https://www.fotmob.com/match/3776746/matchfacts/deportivo-la-coruna-vs-osasuna"
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/",
+    "https://starting11.com/fixtures/portsmouth-vs-swansea"
    ]
   },
-  "NFL|00-0039918|ryd": {
+  "SOCT|1639318693|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Portsmouth have a long injury list but mostly non-attackers; Adams and Shade pushing for starts. Swansea near full strength.",
+   "sources": [
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/",
+    "https://starting11.com/fixtures/portsmouth-vs-swansea"
+   ]
+  },
+  "SOCT|1638860583|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Not on the injury report and starting; no change to his role found.",
+   "note": "Both sides close to full strength: LASK only Bello doubtful, Slovan only \u010cerepkai doubtful; \u0160porar predicted to lead Slovan.",
    "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
    ]
   },
-  "NFL|00-0034869|att": {
+  "SOCT|1638860583|FanDuel|HOME_TEAM_-2.5_GOALS|lask linz 2 5 goals": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Healthy and starting; left tackle Charles Cross is out, so Josh Jones starts at left tackle.",
+   "note": "No notable absences for either team; Slovan's predicted XI is full strength.",
    "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
    ]
   },
-  "NFL|00-0039840|sck": {
+  "SOCT|1638860586|FanDuel|AWAY_TEAM_-2.5_GOALS|paris st g 2 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "PSG without Demb\u00e9l\u00e9, Kvaratskhelia, Marquinhos and Nuno Mendes, cutting their attacking threat.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://goal.com/en/news/villarreal-paris-saint-germain-champions-league-preview/blt3ddf060fa14970e4",
+    "https://starting11.com/fixtures/villarreal-vs-paris-saint-germain"
+   ]
+  },
+  "SOCT|1638860586|FanDuel|AWAY_TEAM_-1.5_GOALS|paris st g 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "PSG without Demb\u00e9l\u00e9, Kvaratskhelia, Marquinhos and Nuno Mendes, cutting their attacking threat.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://goal.com/en/news/villarreal-paris-saint-germain-champions-league-preview/blt3ddf060fa14970e4",
+    "https://starting11.com/fixtures/villarreal-vs-paris-saint-germain"
+   ]
+  },
+  "SOCT|1638860586|FanDuel|DRAW_NO_BET|villarreal": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "PSG missing four regulars, but Villarreal also lose Gerard Moreno, Foyth and Akhomach and sit second-bottom in LaLiga.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://goal.com/en/news/villarreal-paris-saint-germain-champions-league-preview/blt3ddf060fa14970e4"
+   ]
+  },
+  "SOCT|1638860586|FanDuel|WIN-DRAW-WIN|villarreal": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "PSG missing four regulars, but Villarreal also lose Gerard Moreno, Foyth and Akhomach and sit second-bottom in LaLiga.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://goal.com/en/news/villarreal-paris-saint-germain-champions-league-preview/blt3ddf060fa14970e4"
+   ]
+  },
+  "SOCT|1639318515|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Southampton still without striker Cyle Larin; Downes fit. West Brom expected to start Jimmy-Jay Morgan.",
+   "sources": [
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
+   ]
+  },
+  "SOCT|1638854582|FanDuel|HOME_TEAM_-1.5_GOALS|aston villa +1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Barcelona missing Kound\u00e9, Olmo, Christensen and Eric Garc\u00eda; Villa without Wan-Bissaka and Ruggeri. Both attacks intact.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638860584|FanDuel|AWAY_TEAM_-1.5_GOALS|inter 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Inter without top scorer Lautaro Mart\u00ednez (muscle) and suspended Bastoni; Feyenoord also short in defence.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://starting11.com/es/fixtures/feyenoord-vs-inter"
+   ]
+  },
+  "SOCT|1638935637|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
    "flag": "caution",
    "adj": 0,
    "conf": "low",
-   "note": "Not on the injury report, but his starting status and snap share behind or alongside Dayo Odeyingbo could not be confirmed.",
+   "note": "AEK lose first-choice keeper Strakosha (wrist); Real Madrid near full strength with Mbapp\u00e9, Vinicius and Bellingham predicted.",
    "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks",
-    "https://www.bleachernation.com/?p=2750659"
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638935637|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "AEK lose first-choice keeper Strakosha (wrist); Real Madrid's attack predicted at full strength, only Rodrygo out.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638938895|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Dortmund near full strength with Guirassy predicted; Betis defence intact, only Cucho Hern\u00e1ndez and Firpo out.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638942998|FanDuel|HALF-TIME_RESULT|fc sabah": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Viking missing five players (Baertelsen, Berisha, Bj\u00f8rshol, D'Agostino, Roseth); Sabah have no absentees.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638942998|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Viking missing five players but Botheim and Christiansen predicted to start; Sabah full strength.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638942998|FanDuel|HOME_TEAM_-2.5_GOALS|viking 2 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Viking without five players (Baertelsen, Berisha, Bj\u00f8rshol, D'Agostino, Roseth); Sabah have a full squad.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638942998|FanDuel|HOME_TEAM_-1.5_GOALS|viking 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Viking without five players (Baertelsen, Berisha, Bj\u00f8rshol, D'Agostino, Roseth); Sabah have a full squad.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/"
+   ]
+  },
+  "SOCT|1638938876|FanDuel|DRAW_NO_BET|napoli": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wednesday match. Napoli list Lobotka, Neres, Hojlund and Milinkovic-Savic among a long injury list (Buongiorno, Spinazzola also out). Porto near full strength.",
+   "sources": [
+    "https://www.uefa.com/uefachampionsleague/news/02ab-21f9907f0a27-6a6a67e9775d-1000--champions-league-predicted-line-ups-matchday-4-team-news-/",
+    "https://starting11.com/fixtures/fc-porto-vs-napoli"
    ]
   },
   "NFL|00-0036971|ptd": {
@@ -552,223 +436,31 @@
     "https://bleacherreport.com/articles/25527319-lamar-jackson-aj-brown-nfl-injury-statuses-and-fantasy-impact-week-8",
     "https://www.bettingpros.com/articles/best-nfl-player-props-picks-ravens-vs-bills-week-8-2026/"
    ]
-  },
-  "NFL|00-0040735|ryd": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Chicago's inactive list or final injury report, so he plays; rushing work for him is limited to occasional designed touches.",
-   "sources": [
-    "https://www.fantasypros.com/nfl/players/inactives.php",
-    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/"
-   ],
-   "detail": {
-    "availability": "Active; Monangai is the only Bears inactive.",
-    "role": "Slot receiver with only a small share of team carries.",
-    "matchup": "Seattle has allowed few rushing yards to receivers lately."
-   }
-  },
-  "NFL|00-0039793|recyd": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No injury designation; Seattle is without receiver Rashid Shaheed, which could push a few more targets his way and cuts slightly against the under.",
-   "sources": [
-    "https://www.fantasypros.com/nfl/players/inactives.php",
-    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/"
-   ],
-   "detail": {
-    "availability": "Active, not on the injury report.",
-    "role": "Starting tight end.",
-    "matchup": "Shaheed and Velus Jones are inactive for Seattle."
-   }
-  },
-  "NFL|00-0040126|recyd": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Added to the injury report late in the week with a neck issue but finished without a game designation and is expected to play his usual role.",
-   "sources": [
-    "https://www.sportsbettingdime.com/news/nfl/final-bears-vs-seahawks-injury-reports-updates-on-monangai-charbonnet-shaheed-loveland-more/",
-    "https://sports.yahoo.com/articles/bears-announce-colston-loveland-injury-005604310.html"
-   ],
-   "detail": {
-    "availability": "Neck; no designation for Monday.",
-    "role": "Starting tight end and a main target.",
-    "matchup": "Seattle has allowed fairly few receiving yards to tight ends lately."
-   }
-  },
-  "NFL|00-0035525|tkl": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bush carries no injury designation; Edwards and Sanborn practiced fully, so the linebacker group is intact apart from a questionable D'Marco Jackson.",
-   "sources": [
-    "https://www.covers.com/sport/football/nfl/matchup/380038"
-   ]
-  },
-  "NBA|4397688|ast": {
-   "side": "over",
-   "adj": 1,
-   "conf": "medium",
-   "note": "New Orleans is without guards Dejounte Murray and Jordan Poole, leaving Murphy more ball-handling duty.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ],
-   "flag": "support"
-  },
-  "NBA|3934719|reb": {
-   "side": "over",
-   "adj": 0,
-   "conf": "low",
-   "note": "Anunoby is not on the injury report and the Knicks list no absences.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066328|reb": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Allen is healthy; Oklahoma City's long-term absence of Holmgren is already reflected in recent games.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|6583|ra": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Davis is healthy, but Washington is missing Alex Sarr and Tristan Vukcevic, which could push more rebounds his way.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ],
-   "flag": "caution"
-  },
-  "NBA|3112335|ra": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Jokic is not on the injury report; Portland is without Ja Morant and Shaedon Sharpe.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|3992|pts": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Harden is healthy; Cleveland is missing only Jaylon Tyson.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066336|reb": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Utah is without Jusuf Nurkic and Jaren Jackson Jr., which opens more rebounds for Markkanen.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ],
-   "flag": "caution"
-  },
-  "NBA|4845367|pa": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Castle is healthy; San Antonio is without Tobias Harris, which may add a little usage.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|3917376|pts": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Brown is healthy, but Joel Embiid is day-to-day; if Embiid sits, Brown's shot volume should rise.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ],
-   "flag": "caution"
-  },
-  "NBA|4432194|ra": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Sharpe is not on the injury report; the Knicks list no absences.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|3133628|pa": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Turner is healthy and the Bucks list no injuries; Minnesota is without Anthony Edwards.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066336|pra": {
-   "side": "under",
-   "adj": 0,
-   "flag": "caution",
-   "conf": "low",
-   "note": "Markkanen is healthy, but Utah is without Jusuf Nurkic and Jaren Jackson Jr., which leaves him more rebounds and shots.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066336|pr": {
-   "side": "under",
-   "adj": 0,
-   "flag": "caution",
-   "conf": "low",
-   "note": "Markkanen is healthy, but Utah is without Jusuf Nurkic and Jaren Jackson Jr., which leaves him more rebounds and shots.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066336|pts": {
-   "side": "under",
-   "adj": 0,
-   "flag": "caution",
-   "conf": "low",
-   "note": "Markkanen is healthy, but Utah is without Jusuf Nurkic and Jaren Jackson Jr., which leaves him more rebounds and shots.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4066336|ra": {
-   "side": "under",
-   "adj": 0,
-   "flag": "caution",
-   "conf": "low",
-   "note": "Markkanen is healthy, but Utah is without Jusuf Nurkic and Jaren Jackson Jr., which leaves him more rebounds and shots.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4432166|ast": {
-   "side": "under",
-   "adj": 0,
-   "conf": "low",
-   "note": "Cunningham is not on the injury report; Detroit is without Jalen Duren and Isaiah Joe, and Charlotte is missing Kon Knueppel and Grant Williams.",
-   "sources": [
-    "https://www.espn.com/nba/injuries"
-   ]
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "Only one college game in the window: Ohio at Akron on Tuesday night MACtion (ESPN2), with Ohio a double-digit road favorite. No player prop lines were posted on the reputable odds pages checked as of Nov 2, so there is nothing to screen. Ohio QB Nick Poulos has been back starting since mid-October after missing the Kent State game in concussion protocol; Ohio has lost WRs Kaden Page and Rashad Perry for the season, and Akron lists RB Chris Gee and WR Jaborree Riggins out.",
+   "summary": "Midweek MACtion: Ohio at Akron and Buffalo at Miami (OH) on Tuesday, then Ball State at UMass, Toledo at Sacramento State and Central Michigan at Eastern Michigan on Wednesday. Player props are very thin; only Richter's passing yards turned up with a named book. Two packet QBs are not expected to start: Miami's McComb is out for the season and Central Michigan's Flores has missed time with a concussion.",
    "sources": [
-    "https://www.lines.com/ncaaf/predictions/akron-zips-vs-ohio-bobcats-predictions",
-    "https://www.rotowire.com/cfootball/player/nick-poulos-45359"
+    "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/",
+    "https://web9.rotowire.com/cfootball/player/john-alan-richter-42149",
+    "https://www.rotowire.com/cfootball/player/david-mccomb-49619",
+    "https://www.rotowire.com/betting/college-football/game.php?id=2975014",
+    "https://www.ourlads.com/ncaa-football-depth-charts/player-game-stats/angel-flores/2026/175203",
+    "https://woub.org/2026/11/02/ohio-football-starting-midweek-maction-against-akron/"
+   ]
+  },
+  "SOCCER-day": {
+   "summary": "Most listed players are predicted starters; Osimhen faces a late fitness test, Kieffer Moore and Iliman Ndiaye look likely to start on the bench, and PSG, Inter, Napoli and Viking go in short of key players.",
+   "sources": [
+    "https://afrik-foot.com/en-ng/osimhen-galatasaray-vs-stuttgart-preview",
+    "https://goal.com/en/news/villarreal-paris-saint-germain-champions-league-preview/blt3ddf060fa14970e4",
+    "https://sports.yahoo.com/articles/preview-blackburn-rovers-vs-stoke-221000351.html",
+    "https://starting11.com/fixtures/portsmouth-vs-swansea",
+    "https://starting11.com/fixtures/watford-vs-lincoln",
+    "https://uk.sports.yahoo.com/news/blackburn-rovers-predicted-team-changes-110000411.html",
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/",
+    "https://www.mancity.com/news/mens/iliman-ndiaye-signs-for-city-63923887"
    ]
   },
   "NBA-BKN-at-NY-1103": {
@@ -837,33 +529,15 @@
     "https://sports.yahoo.com/articles/bears-vs-seahawks-player-props-030056364.html",
     "https://www.draftsharks.com/fantasy-football-news/83736/zach-charbonnet-jadarian-price-uncertain-for-week-8"
    ]
-  },
-  "SOCCER-day": {
-   "summary": "Bruno Fernandes is listed doubtful for Man Utd vs Roma, and Harrison Armstrong is missing from Everton's predicted XI. Benfica may rotate with a Europa League match three days later. Every other listed player is fit and predicted or expected to start; Sassuolo are missing eight players before facing Fiorentina.",
-   "sources": [
-    "https://www.sportsmole.co.uk/football/lorient/preview/lorient-vs-brest-prediction-team-news-lineups_607901.html",
-    "https://www.fotmob.com/match/3776746/matchfacts/deportivo-la-coruna-vs-osasuna",
-    "https://www.comuniate.com/en/noticias/38726/deportivo-vs-osasuna-preview-likely-lineups-and-fantasy-tips",
-    "https://starting11.com/fixtures/newcastle-vs-everton-20261102",
-    "https://starting11.com/fixtures/benfica-vs-alverca",
-    "https://starting11.com/fixtures/watford-vs-lincoln",
-    "https://starting11.com/fixtures/blackburn-vs-stoke-city",
-    "https://starting11.com/fixtures/manchester-united-vs-roma"
-   ]
-  },
-  "fix": {
-   "summary": "Quality-gate checks for Bears at Seahawks Top 10 picks.",
-   "sources": [
-    "https://www.seahawks.com/news/week-8-injury-report-bears-at-seahawks"
-   ]
-  },
-  "NFL-PHI-at-WAS-1102": {
-   "summary": "Tanner McKee starts again with Jalen Hurts on injured reserve (blood clot), and the Eagles are without WRs DeVonta Smith and Dontayvion Wicks, plus RB Dameon Pierce (IR). Saquon Barkley missed two practices before a limited Friday but is set to play. Washington is missing DTs Daron Payne and Javon Kinlaw, has Terry McLaurin on IR, and TE John Bates and WR Treylon Burks did not practice.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/eagles-at-commanders-injury-report-2026-nfl-week-8-sunday-night-football-saquon-barkley-devonta-smith",
-    "https://www.nbcsportsphiladelphia.com/nfl/philadelphia-eagles/eagles-place-jalen-hurts-on-injured-reserve-with-blood-clot/759308/"
-   ]
   }
  },
- "cfb_lines": {}
+ "cfb_lines": {
+  "CFB|5082330|pyd": {
+   "line": 251.5,
+   "book": "FanDuel",
+   "t": "2026-11-05T00:00:00+00:00",
+   "opp": "SAC",
+   "source": "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/"
+  }
+ }
 }
