@@ -3,6 +3,14 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-03 (3), cmags0511 (Claude): NHL tab (PR)
+New NHL section, formatted like Soccer: Top picks (Most likely, Value bets), Games (every priced player bet), and its own record.
+- `nhl_data.py`: ESPN box-score crawler -> `nhl_hist.json.gz` (skater TOI/goals/assists/shots, goalie shots faced, team shots). Newest first, 350 new games per run, back to Oct 2025. Runs in `update.yml` only (so the two workflows never both rewrite the history).
+- `nhl_model.py` + `nhl_backtest.py`: stats model (weighted recent rates shrunk toward position, opponent shots/goals allowed, Poisson / negative binomial). Backtested on regular-season days: chances are calibrated and beat a base rate (log loss .558 vs .611), but there are no historical prices, so this does NOT show an edge over the book. Goalie saves barely beat a base rate.
+- `nhl_picks.py` -> `nhl.json` (hourly in `lines.yml`, and in `update.yml`): FanDuel's public NHL markets (shots on goal over/under, anytime goal scorer, 1+/2+ points, 1+/2+ assists), margin removed (two-way where it exists, an assumed margin for yes-only prices), blended 65% market / 35% model. Top picks and Value bets lock at puck drop and are graded from the box scores (units at the FanDuel price). Prices are FanDuel's, labelled "check DraftKings". Goalie saves are not listed: FanDuel's feed has no saves market.
+- Front end: NHL button + `renderNhl()` in `index.html`; `sw.js` is `pt-v133`. Not yet: tracking NHL picks into My picks, DraftKings quotes, NHL in the Record tab (the record is on the NHL tab).
+- Fixed on the way: the crawler used to save the oldest game's team for a player; `nhl_model.Hist` now takes it from the latest game.
+
 ## 2026-11-03 (2), cmags0511 (Claude, weekly results review)
 No code change this week: none of the fixes tested held up. Numbers (record.json / calib.json, units at the saved price, -110 when none):
 - Top 10: last 7 days 10-18, -8.7u (all NFL/college, 27 of 28 unders, 9 with no price; sacks 0-3); season (since Oct 17) 115-126, -26.2u (NBA 51-61 -16.8u, NFL 42-41 -3.9u, college 22-24 -5.5u). Picks with a real book price went 21-33 while the book's no-vig chance expected about 29 wins.

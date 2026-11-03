@@ -80,6 +80,9 @@ DraftKings' line and marked ≈. The record
 counts from `priced_from`, the first run with real prices, so units never mix real prices with an assumed -110. My picks and
 parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.
 
+## NHL (nhl_data.py, nhl_model.py, nhl_picks.py)
+`nhl_data.py` crawls ESPN's NHL box scores into `nhl_hist.json.gz`. `nhl_model.py` turns that into a chance for shots on goal, goals, points and assists (recent games weighted, shrunk toward the position average, scaled by what the opponent allows); `python nhl_backtest.py` checks the chances are calibrated (no historical prices exist, so it cannot show an edge). `nhl_picks.py` reads FanDuel's public NHL player markets, removes the book's margin, blends 65% market with 35% model, and writes `nhl.json`: Top picks, Value bets, every priced bet per game, and a record (locked at puck drop, graded from the box scores). Prices are FanDuel's; DraftKings' NHL player prices aren't available. Goalie saves are not listed (no saves market in FanDuel's feed). Raise the model's share only after the record shows it earns it.
+
 ## Best parlays (parlays.py)
 NFL and NBA combos of 2-3 legs from the props graded C or better (picks.json `legs`). A parlay only beats its legs through correlation between players in the same game, so the chance uses how the two players' lines actually hit together in games both played. The page shows the fair price (bet only if your book pays at least that); the estimated price is the legs' prices multiplied. Locked and graded in their own record (record.json `parlays`, Record > Parlays), 1u at the estimated price.
 
