@@ -1,0 +1,4003 @@
+{
+"event": "Dallas Stars @ Washington Capitals",
+"goals": {
+"1st Period Any Time Goal Scorer": {
+"type": "1ST_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+650
+],
+[
+"Wyatt Johnston",
+0,
+700
+],
+[
+"Mikko Rantanen",
+0,
+800
+],
+[
+"Roope Hintz",
+0,
+850
+]
+]
+},
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"Game to Reach Overtime & OT Goal Scorer": {
+"type": "OVERTIME_GOAL_SCORER",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+5500
+],
+[
+"Roope Hintz",
+0,
+5500
+],
+[
+"Wyatt Johnston",
+0,
+6500
+],
+[
+"Mikko Rantanen",
+0,
+7500
+]
+]
+},
+"2nd Period Any Time Goal Scorer": {
+"type": "2ND_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+600
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"First Away Team Goal Scorer": {
+"type": "FIRST_AWAY_TEAM_GOAL_SCORER",
+"n": 19,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+600
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"Dylan Strome Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dylan Strome - Over",
+0.5,
+290
+],
+[
+"Dylan Strome - Under",
+0.5,
+-440
+]
+]
+},
+"Second Goal Scorer": {
+"type": "SECOND_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1000
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Mikko Rantanen",
+0,
+1300
+],
+[
+"Roope Hintz",
+0,
+1400
+]
+]
+},
+"Jordan Kyrou Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Jordan Kyrou - Over",
+0.5,
+290
+],
+[
+"Jordan Kyrou - Under",
+0.5,
+-440
+]
+]
+},
+"2nd Period First Goal Scorer": {
+"type": "2ND_PERIOD_-_FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"No Goalscorer 2nd Period",
+0,
+500
+],
+[
+"Jason Robertson",
+0,
+1200
+],
+[
+"Wyatt Johnston",
+0,
+1400
+],
+[
+"Mikko Rantanen",
+0,
+1500
+]
+]
+},
+"3rd Period First Goal Scorer": {
+"type": "3RD_PERIOD_-_FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"No Goalscorer 3rd Period",
+0,
+700
+],
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1500
+]
+]
+},
+"Anytime Goal Scorer": {
+"type": "ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+160
+],
+[
+"Wyatt Johnston",
+0,
+180
+],
+[
+"Mikko Rantanen",
+0,
+210
+],
+[
+"Roope Hintz",
+0,
+230
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"Roope Hintz Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Roope Hintz - Over",
+0.5,
+230
+],
+[
+"Roope Hintz - Under",
+0.5,
+-320
+]
+]
+},
+"Jason Robertson Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Jason Robertson - Over",
+0.5,
+160
+],
+[
+"Jason Robertson - Under",
+0.5,
+-220
+]
+]
+},
+"Mikko Rantanen Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Mikko Rantanen - Over",
+0.5,
+210
+],
+[
+"Mikko Rantanen - Under",
+0.5,
+-300
+]
+]
+},
+"Wyatt Johnston Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Wyatt Johnston - Over",
+0.5,
+180
+],
+[
+"Wyatt Johnston - Under",
+0.5,
+-250
+]
+]
+},
+"Third Goal Scorer": {
+"type": "THIRD_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1200
+],
+[
+"Roope Hintz",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1400
+]
+]
+},
+"Player to Score 3+ Goals": {
+"type": "PLAYER_TO_SCORE_3+_GOALS",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+6500
+],
+[
+"Wyatt Johnston",
+0,
+7500
+],
+[
+"Mikko Rantanen",
+0,
+12500
+],
+[
+"Roope Hintz",
+0,
+12500
+]
+]
+},
+"3rd Period Any Time Goal Scorer": {
+"type": "3RD_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+550
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"Tom Wilson Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Tom Wilson - Over",
+0.5,
+280
+],
+[
+"Tom Wilson - Under",
+0.5,
+-420
+]
+]
+},
+"First Home Team Goal Scorer": {
+"type": "FIRST_HOME_TEAM_GOAL_SCORER",
+"n": 19,
+"bettingType": "ODDS",
+"sample": [
+[
+"Alex Tuch",
+0,
+800
+],
+[
+"Tom Wilson",
+0,
+900
+],
+[
+"Dylan Strome",
+0,
+900
+],
+[
+"Jordan Kyrou",
+0,
+1000
+]
+]
+},
+"Player to Score 2+ Goals": {
+"type": "PLAYER_TO_SCORE_2+_GOALS",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1600
+],
+[
+"Roope Hintz",
+0,
+1800
+]
+]
+},
+"Any Time Goal Scorer / Team to Win Parlay": {
+"type": "PLAYER_TO_SCORE_1+_GOALS_/_TEAM_TO_WIN",
+"n": 32,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson/Dallas Stars",
+0,
+290
+],
+[
+"Wyatt Johnston/Dallas Stars",
+0,
+310
+],
+[
+"Mikko Rantanen/Dallas Stars",
+0,
+360
+],
+[
+"Roope Hintz/Dallas Stars",
+0,
+370
+]
+]
+},
+"First Goal Scorer": {
+"type": "FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1000
+],
+[
+"Wyatt Johnston",
+0,
+1200
+],
+[
+"Mikko Rantanen",
+0,
+1300
+],
+[
+"Roope Hintz",
+0,
+1400
+]
+]
+},
+"Alex Tuch Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Alex Tuch - Over",
+0.5,
+250
+],
+[
+"Alex Tuch - Under",
+0.5,
+-360
+]
+]
+},
+"Ryan Leonard Total Goals": {
+"type": "PLAYER_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Ryan Leonard - Over",
+0.5,
+390
+],
+[
+"Ryan Leonard - Under",
+0.5,
+-650
+]
+]
+}
+},
+"points-assists": {
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"1+ Assists": {
+"type": "PLAYER_TO_RECORD_1+_ASSISTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Miro Heiskanen",
+0,
+-102
+],
+[
+"Mikko Rantanen",
+0,
+100
+],
+[
+"Jason Robertson",
+0,
+114
+],
+[
+"Wyatt Johnston",
+0,
+120
+]
+]
+},
+"2+ Points": {
+"type": "PLAYER_TO_RECORD_2+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+240
+],
+[
+"Mikko Rantanen",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+280
+],
+[
+"Miro Heiskanen",
+0,
+360
+]
+]
+},
+"1st Period 1+ Points": {
+"type": "1ST_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+265
+],
+[
+"Mikko Rantanen",
+0,
+265
+],
+[
+"Wyatt Johnston",
+0,
+285
+],
+[
+"Roope Hintz",
+0,
+330
+]
+]
+},
+"2+ Assists": {
+"type": "PLAYER_TO_RECORD_2+_ASSISTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+500
+],
+[
+"Miro Heiskanen",
+0,
+520
+],
+[
+"Jason Robertson",
+0,
+600
+],
+[
+"Wyatt Johnston",
+0,
+680
+]
+]
+},
+"3+ Assists": {
+"type": "PLAYER_TO_RECORD_3+_ASSISTS",
+"n": 4,
+"bettingType": "ODDS",
+"sample": [
+[
+"Miro Heiskanen",
+0,
+1700
+],
+[
+"Mikko Rantanen",
+0,
+1700
+],
+[
+"Jason Robertson",
+0,
+1800
+],
+[
+"Wyatt Johnston",
+0,
+2500
+]
+]
+},
+"Player 1+ Point Each Period (60 Min)": {
+"type": "PLAYER_1+_POINT_EACH_PERIOD_(60_MIN)",
+"n": 4,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+2700
+],
+[
+"Jason Robertson",
+0,
+2700
+],
+[
+"Wyatt Johnston",
+0,
+3000
+],
+[
+"Miro Heiskanen",
+0,
+4500
+]
+]
+},
+"3rd Period Player 1+ Points": {
+"type": "3RD_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+205
+],
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Wyatt Johnston",
+0,
+230
+],
+[
+"Roope Hintz",
+0,
+270
+]
+]
+},
+"3+ Points": {
+"type": "PLAYER_TO_RECORD_3+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+830
+],
+[
+"Mikko Rantanen",
+0,
+900
+],
+[
+"Wyatt Johnston",
+0,
+900
+],
+[
+"Roope Hintz",
+0,
+1200
+]
+]
+},
+"1+ Points": {
+"type": "PLAYER_TO_RECORD_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-210
+],
+[
+"Mikko Rantanen",
+0,
+-196
+],
+[
+"Wyatt Johnston",
+0,
+-186
+],
+[
+"Roope Hintz",
+0,
+-150
+]
+]
+},
+"2nd Period Player 1+ Points": {
+"type": "2ND_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+235
+],
+[
+"Roope Hintz",
+0,
+275
+]
+]
+}
+},
+"shots": {
+"Alex Tuch Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Alex Tuch - Over",
+2.5,
+134
+],
+[
+"Alex Tuch - Under",
+2.5,
+-178
+]
+]
+},
+"Jordan Kyrou Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Jordan Kyrou - Over",
+2.5,
+142
+],
+[
+"Jordan Kyrou - Under",
+2.5,
+-188
+]
+]
+},
+"Jakob Chychrun Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Jakob Chychrun - Over",
+2.5,
+108
+],
+[
+"Jakob Chychrun - Under",
+2.5,
+-140
+]
+]
+},
+"5+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_5+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+305
+],
+[
+"Wyatt Johnston",
+0,
+550
+],
+[
+"Jakob Chychrun",
+0,
+560
+]
+]
+},
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"3+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_3+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-188
+],
+[
+"Wyatt Johnston",
+0,
+100
+],
+[
+"Jakob Chychrun",
+0,
+108
+],
+[
+"Mikko Rantanen",
+0,
+136
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"2nd Period Player 2+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Roope Hintz",
+0,
+430
+],
+[
+"Miro Heiskanen",
+0,
+510
+],
+[
+"Wyatt Johnston",
+0,
+310
+],
+[
+"Mikko Rantanen",
+0,
+375
+]
+]
+},
+"3rd Period Player 1+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-220
+],
+[
+"Wyatt Johnston",
+0,
+-154
+],
+[
+"Jakob Chychrun",
+0,
+-135
+],
+[
+"Alex Tuch",
+0,
+-130
+]
+]
+},
+"2nd Period Player 3+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 5,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+680
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+],
+[
+"Alex Ovechkin",
+0,
+1100
+]
+]
+},
+"1st Period 3+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+790
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Jakob Chychrun",
+0,
+1160
+]
+]
+},
+"2nd Period Player 1+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-230
+],
+[
+"Wyatt Johnston",
+0,
+-164
+],
+[
+"Jakob Chychrun",
+0,
+-156
+],
+[
+"Alex Ovechkin",
+0,
+-132
+]
+]
+},
+"1st Period 2+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+360
+],
+[
+"Jakob Chychrun",
+0,
+360
+],
+[
+"Alex Tuch",
+0,
+415
+]
+]
+},
+"6+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_6+_SHOTS_ON_GOAL",
+"n": 1,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+600
+]
+]
+},
+"Game Specials - Shots on Goal": {
+"type": "GAME_SPECIALS_-_SHOTS_ON_GOAL",
+"n": 9,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars to Record 30+ Shots on Goal",
+0,
+115
+],
+[
+"Washington Capitals to Record 30+ Shots on Goal",
+0,
+115
+],
+[
+"Alex Tuch and Jason Robertson to Combine for 8+ Shots on Goal",
+0,
+280
+],
+[
+"Jason Robertson and Mikko Rantanen to Combine for 8+ Shots on Goal",
+0,
+280
+]
+]
+},
+"3rd Period Player 3+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+710
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+]
+]
+},
+"Cole Hutson Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Cole Hutson - Over",
+1.5,
+-118
+],
+[
+"Cole Hutson - Under",
+1.5,
+-110
+]
+]
+},
+"Tom Wilson Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Tom Wilson - Over",
+1.5,
+-160
+],
+[
+"Tom Wilson - Under",
+1.5,
+122
+]
+]
+},
+"Miro Heiskanen Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Miro Heiskanen - Over",
+1.5,
+-152
+],
+[
+"Miro Heiskanen - Under",
+1.5,
+116
+]
+]
+},
+"1st Period 1+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-192
+],
+[
+"Wyatt Johnston",
+0,
+-138
+],
+[
+"Jakob Chychrun",
+0,
+-132
+],
+[
+"Mikko Rantanen",
+0,
+-120
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"Ryan Leonard Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Ryan Leonard - Over",
+1.5,
+-160
+],
+[
+"Ryan Leonard - Under",
+1.5,
+122
+]
+]
+},
+"Roope Hintz Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Roope Hintz - Over",
+1.5,
+-184
+],
+[
+"Roope Hintz - Under",
+1.5,
+140
+]
+]
+},
+"3rd Period Player 2+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+320
+],
+[
+"Jakob Chychrun",
+0,
+340
+],
+[
+"Alex Tuch",
+0,
+375
+]
+]
+},
+"Jason Robertson Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Jason Robertson - Over",
+3.5,
+136
+],
+[
+"Jason Robertson - Under",
+3.5,
+-178
+]
+]
+},
+"Mikko Rantanen Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Mikko Rantanen - Over",
+2.5,
+136
+],
+[
+"Mikko Rantanen - Under",
+2.5,
+-178
+]
+]
+},
+"4+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_4+_SHOTS_ON_GOAL",
+"n": 8,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+136
+],
+[
+"Wyatt Johnston",
+0,
+245
+],
+[
+"Jakob Chychrun",
+0,
+260
+],
+[
+"Alex Ovechkin",
+0,
+325
+]
+]
+},
+"1+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_1+_SHOTS_ON_GOAL",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Wyatt Johnston",
+0,
+-2200
+],
+[
+"Jakob Chychrun",
+0,
+-2000
+],
+[
+"Mikko Rantanen",
+0,
+-1500
+],
+[
+"Alex Tuch",
+0,
+-1500
+]
+]
+},
+"2+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-620
+],
+[
+"Wyatt Johnston",
+0,
+-320
+],
+[
+"Jakob Chychrun",
+0,
+-295
+],
+[
+"Mikko Rantanen",
+0,
+-240
+]
+]
+},
+"Wyatt Johnston Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Wyatt Johnston - Over",
+2.5,
+100
+],
+[
+"Wyatt Johnston - Under",
+2.5,
+-130
+]
+]
+},
+"Player 1+ Shots on Goal Each Period (60 Min)": {
+"type": "PLAYER_1+_SHOTS_ON_GOAL_EACH_PERIOD_(60_MIN)",
+"n": 9,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+230
+],
+[
+"Wyatt Johnston",
+0,
+370
+],
+[
+"Jakob Chychrun",
+0,
+420
+],
+[
+"Alex Tuch",
+0,
+490
+]
+]
+},
+"Dylan Strome Shots on Goal": {
+"type": "PLAYER_TOTAL_SHOTS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dylan Strome - Over",
+1.5,
+-122
+],
+[
+"Dylan Strome - Under",
+1.5,
+-106
+]
+]
+}
+},
+"quick-hits": {
+"1st Period 3+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+790
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Jakob Chychrun",
+0,
+1160
+]
+]
+},
+"First Away Team Goal Scorer": {
+"type": "FIRST_AWAY_TEAM_GOAL_SCORER",
+"n": 19,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+600
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"1st Period 2+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+360
+],
+[
+"Jakob Chychrun",
+0,
+360
+],
+[
+"Alex Tuch",
+0,
+415
+]
+]
+},
+"First Home Team Goal Scorer": {
+"type": "FIRST_HOME_TEAM_GOAL_SCORER",
+"n": 19,
+"bettingType": "ODDS",
+"sample": [
+[
+"Alex Tuch",
+0,
+800
+],
+[
+"Tom Wilson",
+0,
+900
+],
+[
+"Dylan Strome",
+0,
+900
+],
+[
+"Jordan Kyrou",
+0,
+1000
+]
+]
+},
+"60 Min Team to Score 1st Goal": {
+"type": "TEAM_TO_SCORE_FIRST",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+],
+[
+"None",
+0,
+10000
+]
+]
+},
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"1st Period 1+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-192
+],
+[
+"Wyatt Johnston",
+0,
+-138
+],
+[
+"Jakob Chychrun",
+0,
+-132
+],
+[
+"Mikko Rantanen",
+0,
+-120
+]
+]
+},
+"First Goal Scorer": {
+"type": "FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1000
+],
+[
+"Wyatt Johnston",
+0,
+1200
+],
+[
+"Mikko Rantanen",
+0,
+1300
+],
+[
+"Roope Hintz",
+0,
+1400
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"1st Period 1+ Points": {
+"type": "1ST_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+265
+],
+[
+"Mikko Rantanen",
+0,
+265
+],
+[
+"Wyatt Johnston",
+0,
+285
+],
+[
+"Roope Hintz",
+0,
+330
+]
+]
+}
+},
+"period-player-props": {
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"1st Period Any Time Goal Scorer": {
+"type": "1ST_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+650
+],
+[
+"Wyatt Johnston",
+0,
+700
+],
+[
+"Mikko Rantanen",
+0,
+800
+],
+[
+"Roope Hintz",
+0,
+850
+]
+]
+},
+"1st Period 1+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-192
+],
+[
+"Wyatt Johnston",
+0,
+-138
+],
+[
+"Jakob Chychrun",
+0,
+-132
+],
+[
+"Mikko Rantanen",
+0,
+-120
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"2nd Period Player 2+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Roope Hintz",
+0,
+430
+],
+[
+"Miro Heiskanen",
+0,
+510
+],
+[
+"Wyatt Johnston",
+0,
+310
+],
+[
+"Mikko Rantanen",
+0,
+375
+]
+]
+},
+"3rd Period Player 2+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+320
+],
+[
+"Jakob Chychrun",
+0,
+340
+],
+[
+"Alex Tuch",
+0,
+375
+]
+]
+},
+"1st Period 1+ Points": {
+"type": "1ST_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+265
+],
+[
+"Mikko Rantanen",
+0,
+265
+],
+[
+"Wyatt Johnston",
+0,
+285
+],
+[
+"Roope Hintz",
+0,
+330
+]
+]
+},
+"3rd Period Player 1+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-220
+],
+[
+"Wyatt Johnston",
+0,
+-154
+],
+[
+"Jakob Chychrun",
+0,
+-135
+],
+[
+"Alex Tuch",
+0,
+-130
+]
+]
+},
+"2nd Period Player 3+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 5,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+680
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+],
+[
+"Alex Ovechkin",
+0,
+1100
+]
+]
+},
+"2nd Period Any Time Goal Scorer": {
+"type": "2ND_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+600
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"Player 1+ Point Each Period (60 Min)": {
+"type": "PLAYER_1+_POINT_EACH_PERIOD_(60_MIN)",
+"n": 4,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+2700
+],
+[
+"Jason Robertson",
+0,
+2700
+],
+[
+"Wyatt Johnston",
+0,
+3000
+],
+[
+"Miro Heiskanen",
+0,
+4500
+]
+]
+},
+"1st Period 3+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+790
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Jakob Chychrun",
+0,
+1160
+]
+]
+},
+"3rd Period Player 1+ Points": {
+"type": "3RD_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+205
+],
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Wyatt Johnston",
+0,
+230
+],
+[
+"Roope Hintz",
+0,
+270
+]
+]
+},
+"2nd Period Player 1+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-230
+],
+[
+"Wyatt Johnston",
+0,
+-164
+],
+[
+"Jakob Chychrun",
+0,
+-156
+],
+[
+"Alex Ovechkin",
+0,
+-132
+]
+]
+},
+"3rd Period Any Time Goal Scorer": {
+"type": "3RD_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+550
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"1st Period 2+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+360
+],
+[
+"Jakob Chychrun",
+0,
+360
+],
+[
+"Alex Tuch",
+0,
+415
+]
+]
+},
+"2nd Period Player 1+ Points": {
+"type": "2ND_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+235
+],
+[
+"Roope Hintz",
+0,
+275
+]
+]
+},
+"2nd Period First Goal Scorer": {
+"type": "2ND_PERIOD_-_FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"No Goalscorer 2nd Period",
+0,
+500
+],
+[
+"Jason Robertson",
+0,
+1200
+],
+[
+"Wyatt Johnston",
+0,
+1400
+],
+[
+"Mikko Rantanen",
+0,
+1500
+]
+]
+},
+"3rd Period Player 3+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+710
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+]
+]
+},
+"Player 1+ Shots on Goal Each Period (60 Min)": {
+"type": "PLAYER_1+_SHOTS_ON_GOAL_EACH_PERIOD_(60_MIN)",
+"n": 9,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+230
+],
+[
+"Wyatt Johnston",
+0,
+370
+],
+[
+"Jakob Chychrun",
+0,
+420
+],
+[
+"Alex Tuch",
+0,
+490
+]
+]
+},
+"3rd Period First Goal Scorer": {
+"type": "3RD_PERIOD_-_FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"No Goalscorer 3rd Period",
+0,
+700
+],
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1500
+]
+]
+}
+},
+"popular": {
+"Alternate Total Goals": {
+"type": "ALTERNATE_TOTAL_GOALS",
+"n": 20,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 2.5",
+0,
+-4500
+],
+[
+"Over 3.5",
+0,
+-750
+],
+[
+"Over 4.5",
+0,
+-370
+],
+[
+"Over 5.5",
+0,
+-122
+]
+]
+},
+"5+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_5+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+305
+],
+[
+"Wyatt Johnston",
+0,
+550
+],
+[
+"Jakob Chychrun",
+0,
+560
+]
+]
+},
+"3+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_3+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-188
+],
+[
+"Wyatt Johnston",
+0,
+100
+],
+[
+"Jakob Chychrun",
+0,
+108
+],
+[
+"Mikko Rantanen",
+0,
+136
+]
+]
+},
+"60 Min Team to Score 1st Goal": {
+"type": "TEAM_TO_SCORE_FIRST",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+],
+[
+"None",
+0,
+10000
+]
+]
+},
+"Total Goals": {
+"type": "TOTAL_POINTS_(OVER/UNDER)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+5.5,
+-120
+],
+[
+"Under",
+5.5,
+-102
+]
+]
+},
+"Both Teams to Score 3+ Goals": {
+"type": "BOTH_TEAMS_TO_SCORE_3+_GOALS",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Yes",
+0,
+240
+],
+[
+"No",
+0,
+-330
+]
+]
+},
+"2nd Period Alt Puckline": {
+"type": "2ND_PERIOD_ALTERNATE_PUCK_LINE",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars +1.5",
+0,
+-1000
+],
+[
+"Dallas Stars +2.5",
+0,
+-4500
+],
+[
+"Dallas Stars -1.5",
+0,
+590
+],
+[
+"Dallas Stars -2.5",
+0,
+1800
+]
+]
+},
+"Puck Line": {
+"type": "MATCH_HANDICAP_(2-WAY)",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Dallas Stars",
+1.5,
+-265
+],
+[
+"Washington Capitals",
+-1.5,
+210
+]
+]
+},
+"2nd Period Player 2+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Roope Hintz",
+0,
+430
+],
+[
+"Miro Heiskanen",
+0,
+510
+],
+[
+"Wyatt Johnston",
+0,
+310
+],
+[
+"Mikko Rantanen",
+0,
+375
+]
+]
+},
+"3rd Period Alt Puckline": {
+"type": "3RD_PERIOD_ALTERNATE_PUCK_LINE",
+"n": 12,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars +1.5",
+0,
+-700
+],
+[
+"Dallas Stars +2.5",
+0,
+-3500
+],
+[
+"Dallas Stars +3.5",
+0,
+-20000
+],
+[
+"Dallas Stars -1.5",
+0,
+460
+]
+]
+},
+"1st Period Washington Capitals Alt Total Goals": {
+"type": "1ST_PERIOD_HOME_TEAM_ALTERNATE_TOTAL_GOALS",
+"n": 6,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-148
+],
+[
+"Over 1.5",
+0,
+360
+],
+[
+"Over 2.5",
+0,
+1460
+],
+[
+"Under 0.5",
+0,
+116
+]
+]
+},
+"3rd Period Player 1+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-220
+],
+[
+"Wyatt Johnston",
+0,
+-154
+],
+[
+"Jakob Chychrun",
+0,
+-135
+],
+[
+"Alex Tuch",
+0,
+-130
+]
+]
+},
+"3rd Period Alt Total Goals": {
+"type": "3RD_PERIOD_ALTERNATE_TOTAL_GOALS",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-1300
+],
+[
+"Over 1.5",
+0,
+-200
+],
+[
+"Over 2.5",
+0,
+162
+],
+[
+"Over 3.5",
+0,
+450
+]
+]
+},
+"2nd Period Player 3+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 5,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+680
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+],
+[
+"Alex Ovechkin",
+0,
+1100
+]
+]
+},
+"1st Period 3+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+790
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Jakob Chychrun",
+0,
+1160
+]
+]
+},
+"3rd Period Player 1+ Points": {
+"type": "3RD_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+205
+],
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Wyatt Johnston",
+0,
+230
+],
+[
+"Roope Hintz",
+0,
+270
+]
+]
+},
+"2nd Period Player 1+ Shots on Goal": {
+"type": "2ND_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-230
+],
+[
+"Wyatt Johnston",
+0,
+-164
+],
+[
+"Jakob Chychrun",
+0,
+-156
+],
+[
+"Alex Ovechkin",
+0,
+-132
+]
+]
+},
+"1st Period 2+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+360
+],
+[
+"Jakob Chychrun",
+0,
+360
+],
+[
+"Alex Tuch",
+0,
+415
+]
+]
+},
+"6+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_6+_SHOTS_ON_GOAL",
+"n": 1,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+600
+]
+]
+},
+"2nd Period Player 1+ Points": {
+"type": "2ND_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Mikko Rantanen",
+0,
+225
+],
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+235
+],
+[
+"Roope Hintz",
+0,
+275
+]
+]
+},
+"3rd Period Player 3+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_3+_SHOTS_ON_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+710
+],
+[
+"Wyatt Johnston",
+0,
+980
+],
+[
+"Jakob Chychrun",
+0,
+980
+]
+]
+},
+"Game Specials - Popular": {
+"type": "GAME_SPECIALS_-_POPULAR",
+"n": 9,
+"bettingType": "ODDS",
+"sample": [
+[
+"Washington Capitals to Score 2+ Goals in Each Period (60 Min)",
+0,
+3500
+],
+[
+"Dallas Stars to Score 2+ Goals in Each Period (60 Min)",
+0,
+3300
+],
+[
+"Each Team to Score 1+ Goal in Each Period (60 Min)",
+0,
+1100
+],
+[
+"Dallas Stars to Win in Overtime/Shootout",
+0,
+550
+]
+]
+},
+"Alternate Puck Line": {
+"type": "ALTERNATE_PUCK_LINE",
+"n": 20,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars +1.5",
+0,
+-280
+],
+[
+"Dallas Stars +2.5",
+0,
+-600
+],
+[
+"Dallas Stars +3.5",
+0,
+-2000
+],
+[
+"Dallas Stars +4.5",
+0,
+-8000
+]
+]
+},
+"Moneyline Total Goals Parlay": {
+"type": "MONEY_LINE_/_TOTAL_DOUBLE",
+"n": 4,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars & Over 6.5",
+0,
+340
+],
+[
+"Dallas Stars & Under 6.5",
+0,
+200
+],
+[
+"Washington Capitals & Over 6.5",
+0,
+350
+],
+[
+"Washington Capitals & Under 6.5",
+0,
+200
+]
+]
+},
+"Dallas Stars Total Goals": {
+"type": "AWAY_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+2.5,
+-152
+],
+[
+"Under",
+2.5,
+120
+]
+]
+},
+"Both Teams to Score": {
+"type": "BOTH_TEAMS_TO_SCORE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Yes",
+0,
+-1100
+],
+[
+"No",
+0,
+600
+]
+]
+},
+"Moneyline": {
+"type": "MONEY_LINE",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+]
+]
+},
+"2+ Points": {
+"type": "PLAYER_TO_RECORD_2+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+240
+],
+[
+"Mikko Rantanen",
+0,
+250
+],
+[
+"Wyatt Johnston",
+0,
+280
+],
+[
+"Miro Heiskanen",
+0,
+360
+]
+]
+},
+"Will There be Overtime?": {
+"type": "WILL_THERE_BE_OVERTIME",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Yes",
+0,
+330
+],
+[
+"No",
+0,
+-475
+]
+]
+},
+"60 Min Moneyline (3 Way)": {
+"type": "MONEYLINE_(3-WAY)_NO_PUSH",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+150
+],
+[
+"Tie",
+0,
+290
+],
+[
+"Washington Capitals",
+0,
+150
+]
+]
+},
+"3rd Period Player 2+ Shots on Goal": {
+"type": "3RD_PERIOD_PLAYER_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+220
+],
+[
+"Wyatt Johnston",
+0,
+320
+],
+[
+"Jakob Chychrun",
+0,
+340
+],
+[
+"Alex Tuch",
+0,
+375
+]
+]
+},
+"1st Period 1+ Points": {
+"type": "1ST_PERIOD_PLAYER_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+265
+],
+[
+"Mikko Rantanen",
+0,
+265
+],
+[
+"Wyatt Johnston",
+0,
+285
+],
+[
+"Roope Hintz",
+0,
+330
+]
+]
+},
+"1st Period Dallas Stars Alt Total Goals": {
+"type": "1ST_PERIOD_AWAY_TEAM_ALTERNATE_TOTAL_GOALS",
+"n": 6,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-152
+],
+[
+"Over 1.5",
+0,
+340
+],
+[
+"Over 2.5",
+0,
+1480
+],
+[
+"Under 0.5",
+0,
+120
+]
+]
+},
+"1st Period Total Goals": {
+"type": "1ST_PERIOD_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+1.5,
+-122
+],
+[
+"Under",
+1.5,
+-106
+]
+]
+},
+"60 Min Correct Score": {
+"type": "60_MIN_CORRECT_SCORE",
+"n": 60,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars 1-0",
+0,
+12500
+],
+[
+"Dallas Stars 2-0",
+0,
+6000
+],
+[
+"Dallas Stars 2-1",
+0,
+3300
+],
+[
+"Dallas Stars 3-0",
+0,
+4000
+]
+]
+},
+"2nd Period Alt Total Goals": {
+"type": "2ND_PERIOD_ALTERNATE_TOTAL_GOALS",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-950
+],
+[
+"Over 1.5",
+0,
+-160
+],
+[
+"Over 2.5",
+0,
+200
+],
+[
+"Over 3.5",
+0,
+580
+]
+]
+},
+"Third Goal Scorer": {
+"type": "THIRD_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1200
+],
+[
+"Roope Hintz",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1400
+]
+]
+},
+"3rd Period Any Time Goal Scorer": {
+"type": "3RD_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+550
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"1+ Points": {
+"type": "PLAYER_TO_RECORD_1+_POINTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-210
+],
+[
+"Mikko Rantanen",
+0,
+-196
+],
+[
+"Wyatt Johnston",
+0,
+-186
+],
+[
+"Roope Hintz",
+0,
+-150
+]
+]
+},
+"60 Min Team to Score 2nd Goal": {
+"type": "60_MIN_TEAM_TO_SCORE_2ND_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-120
+],
+[
+"Washington Capitals",
+0,
+-105
+],
+[
+"None",
+0,
+2500
+]
+]
+},
+"Both Teams to Score 2+ Goals": {
+"type": "BOTH_TEAMS_TO_SCORE_2+_GOALS",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Yes",
+0,
+-170
+],
+[
+"No",
+0,
+134
+]
+]
+},
+"1st Period Alt Puckline": {
+"type": "1ST_PERIOD_ALTERNATE_PUCK_LINE",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars +1.5",
+0,
+-1300
+],
+[
+"Dallas Stars +2.5",
+0,
+-8000
+],
+[
+"Dallas Stars +3.5",
+0,
+-50000
+],
+[
+"Dallas Stars -1.5",
+0,
+670
+]
+]
+},
+"1st Period Any Time Goal Scorer": {
+"type": "1ST_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+650
+],
+[
+"Wyatt Johnston",
+0,
+700
+],
+[
+"Mikko Rantanen",
+0,
+800
+],
+[
+"Roope Hintz",
+0,
+850
+]
+]
+},
+"Dallas Stars Alt Total Goals": {
+"type": "AWAY_TEAM_ALTERNATE_TOTAL_GOALS",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-3000
+],
+[
+"Over 1.5",
+0,
+-490
+],
+[
+"Over 2.5",
+0,
+-152
+],
+[
+"Over 3.5",
+0,
+156
+]
+]
+},
+"60 Min Team to Score Last Goal": {
+"type": "60_MINUTE_LAST_TEAM_TO_SCORE",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+-110
+],
+[
+"Washington Capitals",
+0,
+-110
+],
+[
+"None",
+0,
+10000
+]
+]
+},
+"Game to Reach Overtime & OT Goal Scorer": {
+"type": "OVERTIME_GOAL_SCORER",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+5500
+],
+[
+"Roope Hintz",
+0,
+5500
+],
+[
+"Wyatt Johnston",
+0,
+6500
+],
+[
+"Mikko Rantanen",
+0,
+7500
+]
+]
+},
+"Correct Score": {
+"type": "CORRECT_SCORE_INCL_OT/SO",
+"n": 55,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars 1-0",
+0,
+8000
+],
+[
+"Dallas Stars 2-0",
+0,
+6000
+],
+[
+"Dallas Stars 2-1",
+0,
+1900
+],
+[
+"Dallas Stars 3-0",
+0,
+4000
+]
+]
+},
+"Washington Capitals Alt Total Goals": {
+"type": "HOME_TEAM_ALTERNATE_TOTAL_GOALS",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-3000
+],
+[
+"Over 1.5",
+0,
+-480
+],
+[
+"Over 2.5",
+0,
+-156
+],
+[
+"Over 3.5",
+0,
+154
+]
+]
+},
+"1st Period Alt Total Goals": {
+"type": "1ST_PERIOD_ALTERNATE_TOTAL_GOALS",
+"n": 10,
+"bettingType": "ODDS",
+"sample": [
+[
+"Over 0.5",
+0,
+-600
+],
+[
+"Over 1.5",
+0,
+-122
+],
+[
+"Over 2.5",
+0,
+300
+],
+[
+"Over 3.5",
+0,
+890
+]
+]
+},
+"Washington Capitals Total Goals": {
+"type": "HOME_TOTAL_GOALS",
+"n": 2,
+"bettingType": "MOVING_HANDICAP",
+"sample": [
+[
+"Over",
+2.5,
+-156
+],
+[
+"Under",
+2.5,
+124
+]
+]
+},
+"2nd Period Any Time Goal Scorer": {
+"type": "2ND_PERIOD_ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+500
+],
+[
+"Wyatt Johnston",
+0,
+600
+],
+[
+"Mikko Rantanen",
+0,
+650
+],
+[
+"Roope Hintz",
+0,
+700
+]
+]
+},
+"Second Goal Scorer": {
+"type": "SECOND_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1000
+],
+[
+"Wyatt Johnston",
+0,
+1100
+],
+[
+"Mikko Rantanen",
+0,
+1300
+],
+[
+"Roope Hintz",
+0,
+1400
+]
+]
+},
+"Game Specials - Shots on Goal": {
+"type": "GAME_SPECIALS_-_SHOTS_ON_GOAL",
+"n": 9,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars to Record 30+ Shots on Goal",
+0,
+115
+],
+[
+"Washington Capitals to Record 30+ Shots on Goal",
+0,
+115
+],
+[
+"Alex Tuch and Jason Robertson to Combine for 8+ Shots on Goal",
+0,
+280
+],
+[
+"Jason Robertson and Mikko Rantanen to Combine for 8+ Shots on Goal",
+0,
+280
+]
+]
+},
+"Anytime Goal Scorer": {
+"type": "ANY_TIME_GOAL_SCORER",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+160
+],
+[
+"Wyatt Johnston",
+0,
+180
+],
+[
+"Mikko Rantanen",
+0,
+210
+],
+[
+"Roope Hintz",
+0,
+230
+]
+]
+},
+"Both Teams to Score 4+ Goals": {
+"type": "BOTH_TEAMS_TO_SCORE_4+_GOALS",
+"n": 2,
+"bettingType": "ODDS",
+"sample": [
+[
+"Yes",
+0,
+800
+],
+[
+"No",
+0,
+-1800
+]
+]
+},
+"1st Period 1+ Shots on Goal": {
+"type": "1ST_PERIOD_PLAYER_1+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-192
+],
+[
+"Wyatt Johnston",
+0,
+-138
+],
+[
+"Jakob Chychrun",
+0,
+-132
+],
+[
+"Mikko Rantanen",
+0,
+-120
+]
+]
+},
+"60 Min Team to Score 3rd Goal": {
+"type": "60_MIN_TEAM_TO_SCORE_3RD_GOAL",
+"n": 3,
+"bettingType": "ODDS",
+"sample": [
+[
+"Dallas Stars",
+0,
+105
+],
+[
+"Washington Capitals",
+0,
+105
+],
+[
+"None",
+0,
+900
+]
+]
+},
+"1+ Assists": {
+"type": "PLAYER_TO_RECORD_1+_ASSISTS",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Miro Heiskanen",
+0,
+-102
+],
+[
+"Mikko Rantanen",
+0,
+100
+],
+[
+"Jason Robertson",
+0,
+114
+],
+[
+"Wyatt Johnston",
+0,
+120
+]
+]
+},
+"4+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_4+_SHOTS_ON_GOAL",
+"n": 8,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+136
+],
+[
+"Wyatt Johnston",
+0,
+245
+],
+[
+"Jakob Chychrun",
+0,
+260
+],
+[
+"Alex Ovechkin",
+0,
+325
+]
+]
+},
+"Player to Score 3+ Goals": {
+"type": "PLAYER_TO_SCORE_3+_GOALS",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+6500
+],
+[
+"Wyatt Johnston",
+0,
+7500
+],
+[
+"Mikko Rantanen",
+0,
+12500
+],
+[
+"Roope Hintz",
+0,
+12500
+]
+]
+},
+"1+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_1+_SHOTS_ON_GOAL",
+"n": 13,
+"bettingType": "ODDS",
+"sample": [
+[
+"Wyatt Johnston",
+0,
+-2200
+],
+[
+"Jakob Chychrun",
+0,
+-2000
+],
+[
+"Mikko Rantanen",
+0,
+-1500
+],
+[
+"Alex Tuch",
+0,
+-1500
+]
+]
+},
+"2+ Shots on Goal": {
+"type": "PLAYER_TO_RECORD_2+_SHOTS_ON_GOAL",
+"n": 14,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+-620
+],
+[
+"Wyatt Johnston",
+0,
+-320
+],
+[
+"Jakob Chychrun",
+0,
+-295
+],
+[
+"Mikko Rantanen",
+0,
+-240
+]
+]
+},
+"Player to Score 2+ Goals": {
+"type": "PLAYER_TO_SCORE_2+_GOALS",
+"n": 36,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1100
+],
+[
+"Wyatt Johnston",
+0,
+1300
+],
+[
+"Mikko Rantanen",
+0,
+1600
+],
+[
+"Roope Hintz",
+0,
+1800
+]
+]
+},
+"First Goal Scorer": {
+"type": "FIRST_GOAL_SCORER",
+"n": 37,
+"bettingType": "ODDS",
+"sample": [
+[
+"Jason Robertson",
+0,
+1000
+],
+[
+"Wyatt Johnston",
+0,
+1200
+],
+[
+"Mikko Rantanen",
+0,
+1300
+],
+[
+"Roope Hintz",
+0,
+1400
+]
+]
+}
+}
+}
