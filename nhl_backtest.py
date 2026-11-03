@@ -77,12 +77,23 @@ def evaluate(label):
 
 
 evaluate("current settings")
-orig = (M.HALF, M.K_PRIOR, M.R_SHOTS, M.R_SAVES, M.OPP_EXP)
-for name, setter in (("HALF 5", lambda: setattr(M, "HALF", 5.0)), ("HALF 12", lambda: setattr(M, "HALF", 12.0)), ("HALF 20", lambda: setattr(M, "HALF", 20.0)),
-                     ("K_PRIOR 2", lambda: setattr(M, "K_PRIOR", 2.0)), ("K_PRIOR 10", lambda: setattr(M, "K_PRIOR", 10.0)),
-                     ("R_SHOTS 7", lambda: setattr(M, "R_SHOTS", 7.0)), ("R_SHOTS 30", lambda: setattr(M, "R_SHOTS", 30.0)),
-                     ("R_SAVES 40", lambda: setattr(M, "R_SAVES", 40.0)), ("R_SAVES 250", lambda: setattr(M, "R_SAVES", 250.0)),
-                     ("OPP_EXP 0", lambda: setattr(M, "OPP_EXP", 0.0)), ("OPP_EXP 1.2", lambda: setattr(M, "OPP_EXP", 1.2))):
-    M.HALF, M.K_PRIOR, M.R_SHOTS, M.R_SAVES, M.OPP_EXP = orig
-    setter()
-    evaluate(name)
+import copy
+
+orig = (copy.deepcopy(M.HALF), copy.deepcopy(M.K_PRIOR), M.R_SHOTS, M.R_SAVES, M.OPP_EXP)
+
+
+def setp(name, val):
+    if name in ("HALF", "K_PRIOR"):
+        d = copy.deepcopy(orig[0 if name == "HALF" else 1])
+        for k in d:
+            d[k] = val
+        setattr(M, name, d)
+    else:
+        setattr(M, name, val)
+
+
+for name, val in (("HALF", 6.0), ("HALF", 20.0), ("HALF", 60.0), ("K_PRIOR", 2.0), ("K_PRIOR", 10.0), ("K_PRIOR", 40.0),
+                  ("R_SHOTS", 7.0), ("R_SHOTS", 30.0), ("R_SAVES", 40.0), ("R_SAVES", 250.0), ("OPP_EXP", 0.0), ("OPP_EXP", 1.2)):
+    M.HALF, M.K_PRIOR, M.R_SHOTS, M.R_SAVES, M.OPP_EXP = copy.deepcopy(orig[0]), copy.deepcopy(orig[1]), *orig[2:]
+    setp(name, val)
+    evaluate(f"{name} {val} (all stats)")

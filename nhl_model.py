@@ -14,8 +14,8 @@ The chance of "over" a line L is P(count >= floor(L) + 1).
 import datetime as dt
 import math
 
-HALF = 8.0        # games for a game's weight to halve
-K_PRIOR = 5.0     # games' worth of position-average prior mixed into every rate
+HALF = {"s": 10.0, "g": 40.0, "a": 40.0}      # games for a game's weight to halve, per stat (shots, goals, assists); from nhl_backtest.py
+K_PRIOR = {"s": 30.0, "g": 30.0, "a": 5.0}    # games' worth of position-average prior mixed into each rate
 OPP_N, OPP_EXP = 10.0, .7
 R_SHOTS, R_SAVES = 14.0, 90.0   # negative-binomial size (bigger = closer to Poisson); set from nhl_backtest.py
 SV_PRIOR_SHOTS = 300.0          # shots' worth of league-average save percentage mixed into a goalie's own
@@ -90,14 +90,16 @@ class Hist:
         if not rows:
             return None
         pr = self.lg["D" if p["p"] == "D" else "F"]
-        w = [0.5 ** (i / HALF) for i in range(len(rows))][::-1]
-        sw = sum(w)
-        def wavg(ix):
-            return sum(wi * r[ix] for wi, r in zip(w, rows)) / sw
-        ne = sw
-        mix = lambda v, prior: (ne * v + K_PRIOR * prior) / (ne + K_PRIOR)
-        return {"g": mix(wavg(5), pr["g"]), "a": mix(wavg(6), pr["a"]), "s": mix(wavg(7), pr["s"]), "toi": wavg(3),
-                "n": len(rows), "ne": ne, "raw_s": wavg(7)}
+        n = len(rows)
+        out = {"n": n}
+        for key, ix, nm in (("s", 7, "s"), ("g", 5, "g"), ("a", 6, "a")):
+            w = [0.5 ** (i / HALF[key]) for i in range(n)][::-1]
+            sw = sum(w)
+            v = sum(wi * r[ix] for wi, r in zip(w, rows)) / sw
+            out[key] = (sw * v + K_PRIOR[key] * pr[nm]) / (sw + K_PRIOR[key])
+            out["raw_" + key] = v
+        out["toi"] = sum(r[3] for r in rows[-10:]) / len(rows[-10:])
+        return out
 
     def team_factor(self, team, date, kind):
         """how many shots ('sa') or goals ('ga') `team` allows vs the league, shrunk and softened"""
