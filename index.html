@@ -3872,7 +3872,7 @@ function nhlTally(list){const d=list.filter(r=>["win","loss","push"].includes(r.
 function nhlPickCard(c,i,kind){
   const label=nhlLabel(c.m,c.line,c.side),when=socWhen(c.t),fair=decToAm(1/Math.max(.01,c.prob));
   const sheet=`<p class="shp">App's chance ${Math.round(c.prob*100)}% (fair price ${fair}). It blends the odds' own chance (${Math.round(c.book*100)}%, margin taken out) 65% with a stats model built from every NHL box score this season and last (${Math.round(c.model*100)}%) 35%. FanDuel pays ${amFmt(c.price)}${c.ev>0?`: about +$${(c.ev*10).toFixed(2)} per $10 on average`:`; it still loses about $${(-c.ev*10).toFixed(2)} per $10 on average, so it's worth it at ${fair} or better`}. ${c.side==="over"?"Hit":"Stayed under"} ${c.hits[0]} of his last ${c.hits[1]} games.</p><p class="shp" style="color:var(--muted)">These are FanDuel's prices. <b>Check DraftKings</b> before betting; take it only at that price or better. The model doesn't see tonight's lineup, injuries or line changes. If he doesn't play, the book voids the bet.</p>`;
-  const title=kind==="top"?"Most likely":"Value bets";
+  const title=kind==="top"?"Best-priced likely":"Value bets";
   return`<article class="pick shw sk" role="button" tabindex="0">
     <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)} <small class="pos">${esc(c.pos||"")}</small></div><div class="pksum">${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${when}</div></div>
       <div class="pkr"><div class="pkline ${c.side==="over"?"over":"under"}">${esc(label)}</div><div class="pkprice">${amFmt(c.price)} · ${Math.round(c.prob*100)}%</div></div></div>
@@ -3883,7 +3883,7 @@ function nhlRecordHtml(){
   const R=(NHL.record&&NHL.record.picks)||[],pend=R.filter(r=>!r.res&&new Date(r.t)>Date.now()).length;
   const row=(l,list)=>{const t=nhlTally(list);return t.n?`<tr><td>${l}</td><td class="num mono">${t.w}–${t.l}${t.p?`–${t.p}`:""}</td><td class="num mono">${pct(t.pct)}</td><td class="num mono">${pct(t.pred)}</td><td class="num mono" style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</td></tr>`:""};
   const all=nhlTally(R);
-  const rows=[row("All picks",R),row("Most likely",R.filter(r=>r.list==="top"||r.list==="both")),row("Value bets",R.filter(r=>r.list==="value"||r.list==="both")),...Object.keys(NHL_M).map(k=>row(NHL_M[k],R.filter(r=>r.m===k)))].join("");
+  const rows=[row("All picks",R),row("Likely bets",R.filter(r=>r.list==="top"||r.list==="both")),row("Value bets",R.filter(r=>r.list==="value"||r.list==="both")),...Object.keys(NHL_M).map(k=>row(NHL_M[k],R.filter(r=>r.m===k)))].join("");
   const recent=[...R].filter(r=>r.res).sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,10);
   return`<section class="sg"><div class="tophead mh"><h2>NHL record</h2><span class="soctag rec">graded from box scores</span></div>
     ${all.n?`<div class="hero"><div class="hero2"><div><b class="hbig">${all.w}–${all.l}${all.p?`–${all.p}`:""}</b><span>${pct(all.pct)} hit · predicted ${pct(all.pred)}</span></div><div><b class="hbig" style="color:${all.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(all.units)}</b><span>1u per pick at FanDuel's price</span></div></div><p class="hfoot">${all.n} graded · ${pend} locked${R.some(r=>r.res==="void")?` · ${R.filter(r=>r.res==="void").length} void`:""}</p></div>
@@ -3916,7 +3916,7 @@ function renderNhl(){
     const ty=NHL_M[S.nhlType]?S.nhlType:"all",f=l=>up(l).filter(c=>ty==="all"||c.m===ty);
     const R=(NHL.record&&NHL.record.picks)||[],t=nhlTally(R);
     html+=`<button class="arline" data-nhlrec><span class="arl1"><b>NHL record</b><span>${t.n?`${t.w}–${t.l}${t.p?`–${t.p}`:""} · ${unitsTxt(t.units)} · `:""}${R.filter(r=>!r.res&&new Date(r.t)>now).length} locked</span></span><em>Full record ›</em></button>`;
-    for(const [k,title,tag,sub] of [["top","Most likely","likeliest hits","The likeliest bets on the board, one per player, at most two per game. Most cost money at the book's price; this is the likeliest list, not the value list."],["value","Value bets","beats the price","The few bets whose chance (blended with the market's) beats FanDuel's price by a clear margin. Expect few."]]){
+    for(const [k,title,tag,sub] of [["top","Best-priced likely bets","55%+ chance","Bets the app gives at least a 55% chance, ranked by the best price (expected profit), one per player, at most two per game. Most still cost a little at the book's price."],["value","Value bets","beats the price","The few bets whose chance (blended with the market's) beats FanDuel's price by a clear margin. Expect few."]]){
       const list=f(NHL[k]);
       html+=`<section class="sg"><div class="tophead mh"><h2>${title}</h2><span class="soctag">${tag}</span></div><p class="topsub">${sub}</p>${list.length?`<div class="picks">${list.map((c,i)=>nhlPickCard(c,i,k)).join("")}</div>`:`<p class="topnote">Nothing on this list${ty!=="all"?" for this bet type":""} right now.</p>`}</section>`;
     }

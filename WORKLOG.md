@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-03 (4), cmags0511 (Claude): NHL "Most likely" now ranks by price (PR)
+`nhl_picks.py`: the top list takes bets with a 55%+ chance and ranks by expected profit instead of by chance alone (it was all -230/-250 favourites). `index.html` renamed it "Best-priced likely bets"; `sw.js` is `pt-v134`. Today's list is all shots-on-goal unders, which is where the two-way prices are measured rather than assumed; watch whether the record backs that up (the model may lean under). Old locked picks keep their old list label.
+
 ## 2026-11-03 (3), cmags0511 (Claude): NHL tab (PR)
 New NHL section, formatted like Soccer: Top picks (Most likely, Value bets), Games (every priced player bet), and its own record.
 - `nhl_data.py`: ESPN box-score crawler -> `nhl_hist.json.gz` (skater TOI/goals/assists/shots, goalie shots faced, team shots). Newest first, 350 new games per run, back to Oct 2025. Runs in `update.yml` only (so the two workflows never both rewrite the history).
