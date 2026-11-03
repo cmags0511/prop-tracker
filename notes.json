@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T12:48:20Z",
+ "updated": "2026-11-03T21:36:47Z",
  "summary": "No NFL or NBA games inside the research window today. Midweek MAC: Miami (OH) QB David McComb is out for the season (Caleb Heavner starts) and Central Michigan QB Angel Flores is unconfirmed after a concussion. In the Champions League, PSG (Dembele, Kvaratskhelia, Marquinhos, Nuno Mendes) and Inter (Lautaro injured, Bastoni suspended) travel short-handed.",
  "notes": {
   "CFB|5082330|pyd": {
@@ -157,13 +157,14 @@
    ]
   },
   "SOC|189605|401880173": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "Left out of Sports Mole's predicted Wrexham XI; Sam Smith tipped to return and lead the line, so Moore may start on the bench.",
+   "conf": "low",
+   "note": "Left out of Sports Mole's predicted Wrexham XI; Sam Smith tipped to return and lead the line, so Moore may start on the bench. A Nov 3 absentee report lists Sam Smith out for a long spell with a knee injury, which would leave Moore as the main striker; the two previews disagree, so his start is not confirmed.",
    "sources": [
     "https://www.sportsmole.co.uk/football/middlesbrough/preview/wrexham-vs-middlesbrough-prediction-team-news-lineups_608244.html",
-    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/"
+    "https://www.livescore.com/en/news/football/england-championship/predictions/all-12-championship-matchday-14-predictions/",
+    "https://footballleagueworld.co.uk/8-players-set-to-miss-wrexham-vs-middlesbrough/"
    ]
   },
   "SOC|156898|401915305": {
@@ -435,6 +436,15 @@
    "sources": [
     "https://bleacherreport.com/articles/25527319-lamar-jackson-aj-brown-nfl-injury-statuses-and-fantasy-impact-week-8",
     "https://www.bettingpros.com/articles/best-nfl-player-props-picks-ravens-vs-bills-week-8-2026/"
+   ]
+  },
+  "SOC|254023|401880173": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Listed as a doubt with an ankle issue in a Nov 3 Wrexham absentee report; starts are not assured.",
+   "sources": [
+    "https://footballleagueworld.co.uk/8-players-set-to-miss-wrexham-vs-middlesbrough/"
    ]
   }
  },
