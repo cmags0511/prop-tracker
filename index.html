@@ -2120,6 +2120,24 @@ function socBreakdownHtml(done){
     <div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit · predicted</th><th class="num">Units</th></tr></thead><tbody>${rows.map(r=>`<tr class="rfdrill${String(on||"")===r.k?" on":""}" data-rfset="${fk}" data-rfval="${esc(r.k)}" role="button" tabindex="0"><td>${esc(lab(r.k))}</td><td class="num mono">${r.t.w}-${r.t.l}${r.t.p?`-${r.t.p}`:""}</td><td class="num mono">${pct(r.t.pct)} <small class="pteam">vs ${pct(r.pr)}</small></td><td class="num mono" style="color:${r.t.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(r.t.units)}</td></tr>`).join("")}</tbody></table></div>
     <p class="pteam" style="margin:6px 0 0">Tap a row to filter the whole record to it. Graded picks only, 1 unit each at the saved price.</p></div>`;
 }
+// the soccer team bets' second record: everything the page listed before kickoff (lapsed bets included) at the price it was first
+// listed at, next to the main team-bet record, which counts only bets still beating the fair price at kickoff (soccer_team.json record_all)
+function socAllListed(){
+  const A=(ST&&ST.record_all)||[],M=(ST&&ST.record)||[];if(!A.length)return null;
+  const fin=a=>a.filter(e=>["win","loss","push"].includes(e.status));
+  const ta=appTally(fin(A)),tm=appTally(fin(M));
+  return{ta,tm,lapsed:A.filter(e=>e.lapsed&&["win","loss","push"].includes(e.status)),pend:A.filter(e=>e.status==="pending").length,pendLapsed:A.filter(e=>e.lapsed&&e.status==="pending").length};
+}
+function socAllListedHtml(){
+  const X=socAllListed();if(!X)return"";
+  const wl=t=>`${t.w}\u2013${t.l}${t.p?`\u2013${t.p}`:""}`,lt=appTally(X.lapsed);
+  const row=(lab,t,sub)=>`<tr><td>${lab}${sub?`<small class="pteam" style="display:block">${sub}</small>`:""}</td><td class="num mono">${wl(t)}</td><td class="num mono">${t.n?pct(t.pct):"\u2013"}</td><td class="num mono" style="color:${t.n?t.units>=0?"var(--hit)":"var(--miss)":"var(--muted)"}">${t.n?unitsTxt(t.units):"\u2013"}</td></tr>`;
+  return`<div class="learn"><h4>Team bets: two ways to count</h4><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>
+    ${row("Still an edge at kickoff",X.tm,"the main record: bets that still beat the fair price at the last look")}
+    ${row("Everything listed",X.ta,"every bet the page showed, at the price it was first listed")}
+    ${lt.n+lt.p?row("Only the lapsed ones",lt,"listed, then lost their edge before kickoff"):""}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">1 unit a bet. "Everything listed" is what someone who bet as soon as a bet appeared would have got. It starts from today: bets that lapsed before then weren't saved. ${X.pendLapsed?`${X.pendLapsed} lapsed bet${X.pendLapsed>1?"s":""} still waiting for their game.`:""}</p></div>`;
+}
 function socRecordHtml(){
   const T=((RECORD&&RECORD.soccer)||[]).filter(e=>e.status==="win"||e.status==="loss");if(!T.length&&!(ST&&(ST.record||[]).length))return"";
   const row=(lab,a)=>{if(!a.length)return"";const w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+(e.status==="win"?e.dec-1:-1),0),pr=a.reduce((x,e)=>x+e.prob,0)/a.length;
@@ -2252,7 +2270,7 @@ function renderAppRecord(){
       <div class="hr"><b style="color:${T.n?T.units>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${T.n?unitsTxt(T.units):"–"}</b><span>${pend.length} pending</span></div></div>
     <div class="hbar" aria-hidden="true"><i style="width:${Math.round((T.pct||0)*100)}%;background:${T.pct!=null&&need!=null&&T.pct>=need?"var(--hit)":"var(--ink)"}"></i>${need!=null?`<em style="left:${(need*100).toFixed(1)}%"></em>`:""}</div>
     <p class="hfoot">${T.n+T.p} graded${voids.length?` · ${voids.length} void`:""} · 1u per pick${SOCR?" at the saved price: team bets at the book listed; player props at the better of DraftKings' and FanDuel's (DraftKings' before Oct 23). Use the filters or the breakdown to narrow it":P.some(e=>e.price)?" at real prices where quoted":" at -110"}${since&&!OVERS()&&!SOCR?` · since ${since}`:""}${(()=>{if(SOCR)return"";const g=P.filter(e=>(e.status==="win"||e.status==="loss")&&assumedPx(e));if(!g.length)return"";const u=g.reduce((x,e)=>x+(e.status==="win"?payout(e):-1),0);return` · <span class="assumed" title="These props (tackles, sacks and similar) aren't listed by the books the app reads, so they are graded as if priced at -110">${g.length} with no quoted price count at an assumed -110 (${unitsTxt(u)})</span>`})()}</p></div>`;
-  if(SOCR)html+=socBreakdownHtml(done);
+  if(SOCR)html+=socBreakdownHtml(done)+socAllListedHtml();
   const k0=html.length;
   html+=splitsHtml(done);
   if(SOCR){}
@@ -3787,7 +3805,7 @@ function renderSoccer(){
   if(sec==="picks"){
     const mtOf=c=>ms.find(m=>String(m.ev)===String(c.ev_id));
     const R=(ST&&ST.record)||[],tt=appTally(R.filter(e=>["win","loss","push"].includes(e.status))),pend=R.filter(e=>e.status==="pending").length;
-    html+=`<div id="soctop">${ST?`<button class="arline" data-socrec><span class="arl1"><b>Soccer record</b><span>Team bets ${tt.w}–${tt.l}${tt.p?`–${tt.p}`:""} · ${unitsTxt(tt.units)} · ${pend} locked</span></span><em>Full record ›</em></button>`:""}`;
+    html+=`<div id="soctop">${ST?`<button class="arline" data-socrec><span class="arl1"><b>Soccer record</b><span>Team bets ${tt.w}–${tt.l}${tt.p?`–${tt.p}`:""} · ${unitsTxt(tt.units)} · ${pend} locked${(()=>{const X=socAllListed();return X&&X.ta.n&&(X.ta.w!==tt.w||X.ta.l!==tt.l)?` · all listed ${X.ta.w}–${X.ta.l} ${unitsTxt(X.ta.units)}`:""})()}</span></span><em>Full record ›</em></button>`:""}`;
     const want=ty==="all"?["team","top","value"]:ty==="team"?["team"]:["top","value"];
     let shown=0;
     for(const k of want){

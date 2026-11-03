@@ -16,6 +16,9 @@ No code change this week: none of the fixes tested held up. Numbers (record.json
 - Soccer player Top picks ("Most likely"): 75-52 but -15.2u (FanDuel's prices imply 68%, they hit 59%; the app's own EV already marks most of them negative). Value list: no picks recorded. Team bets (soccer_team.json): 18-36, +16.5u in their first week, longshots, too early to judge.
 - Lab market-anchored: 58-87, -24.8u; stats-only: 74-104, -15.2u. Neither earns a place in the main picks. fwarnk was removed Oct 26 (no data).
 
+## 2026-11-03 (2), cmags0511 (Claude)
+Soccer team bets: second record, "everything listed" (`soccer_team.json` `record_all`, soccer_team.py main(); index.html `socAllListedHtml`, sw.js v132). Owner wanted lapsed bets (listed, then lost their edge before kickoff) counted somewhere without touching the main record. The main team-bet `record` and everything in record.json are unchanged. `record_all` holds every team bet the page showed before kickoff, lapsed ones included, at the price it was FIRST listed at, locked at kickoff and graded the same way. It's seeded from the existing record, so it starts equal to it and only diverges as new bets lapse (bets that lapsed before today weren't saved). Shown in Record > Soccer ("Team bets: two ways to count") and as a short "all listed" figure on the Soccer tab's record line when the two differ.
+
 ## 2026-11-03, cmags0511 (Claude)
 **Best parlays** (NFL + NBA), new `parlays.py` -> `parlays.json`, own record. Owner asked for parlays built from the ranked props. Honest framing (also on the page): a parlay's expected profit is the product of each leg's chance x price, so a leg that is a bad price alone is still a bad price inside a parlay; the only real edge is correlation between players in the same game. So:
 - picks.py now writes `legs` into picks.json: upcoming NFL/NBA props graded C or better at a real (non-estimated) quote.

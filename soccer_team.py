@@ -692,6 +692,21 @@ def main():
             rec[(c["key"], c["t"])] = dict(c, status="pending", result=None)
     record = sorted(rec.values(), key=lambda e: (e["t"], -e["ev"]))
     grade(record, now)
+    # the second record, "everything listed": every team bet the page showed before kickoff, lapsed ones included, kept at the
+    # price it was FIRST listed at (what someone who bet early got). The main record above is untouched. It starts from the
+    # existing record (those bets were all listed at kickoff); bets that lapsed before today weren't saved, so it can't go back.
+    ra = {(e["key"], e["t"]): e for e in (old.get("record_all") or old.get("record") or [])}
+    for c in top + held:
+        k = (c["key"], c["t"])
+        if dt.datetime.fromisoformat(c["t"]) <= now:
+            continue
+        if k in ra and ra[k]["status"] == "pending":
+            ra[k]["lapsed"] = bool(c.get("lapsed"))  # where it stood at the last look before kickoff
+            ra[k]["now_price"] = c.get("now_price")
+        elif k not in ra:
+            ra[k] = dict(c, status="pending", result=None, lapsed=bool(c.get("lapsed")), first_seen=now.isoformat(timespec="minutes"))
+    record_all = sorted(ra.values(), key=lambda e: (e["t"], -e["ev"]))
+    grade(record_all, now)
     done = [e for e in record if e["status"] in ("win", "loss")]
     units = sum(dec(e["price"]) - 1 if e["status"] == "win" else -1 for e in done)
     print(f"{len(top)} picks (+{len(held)} lapsed, kept until kickoff); record {sum(e['status'] == 'win' for e in done)}-{sum(e['status'] == 'loss' for e in done)} ({units:+.2f}u)")
@@ -700,7 +715,7 @@ def main():
     if os.environ.get("ST_DEBUG"):
         json.dump(cands, open("st_cands.json", "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "started": old.get("started") or now.date().isoformat(),
-               "picks": top + held, "games": games, "record": record}, open(out, "w"), separators=(",", ":"))
+               "picks": top + held, "games": games, "record": record, "record_all": record_all}, open(out, "w"), separators=(",", ":"))
 
 
 if __name__ == "__main__":
