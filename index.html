@@ -1135,6 +1135,7 @@ body:has(.wtour) .totop{display:none}
         <button id="lg-NBA" aria-pressed="false">NBA</button>
         <button id="lg-CFB" aria-pressed="false" title="College football (FBS)">CFB</button>
         <button id="lg-SOC" aria-pressed="false" title="Soccer: every league ESPN carries DraftKings props for">Soccer</button>
+        <button id="lg-NHL" aria-pressed="false" title="NHL: shots, points, assists and goal scorers">NHL</button>
       </div>
       <select id="pos" aria-label="Category"></select>
       <select id="team" aria-label="Team"></select>
@@ -1194,6 +1195,7 @@ body:has(.wtour) .totop{display:none}
     <div id="view-up" role="tabpanel" aria-labelledby="tab-up" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-nhl" role="tabpanel" aria-labelledby="lg-NHL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-every" role="tabpanel" aria-labelledby="lg-ALL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
@@ -1347,8 +1349,9 @@ function compute(p,m){
 function setupControls(){
   if(!DATA[S.league])S.league="NFL";
   // Soccer sits in the sport switch but is its own view (soccer.json), not a league in DATA
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.view!=="every"&&S.league===l));
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.view!=="nhl"&&S.view!=="every"&&S.league===l));
   document.getElementById("lg-SOC").setAttribute("aria-pressed",S.view==="soc");
+  document.getElementById("lg-NHL").setAttribute("aria-pressed",S.view==="nhl");
   document.getElementById("lg-ALL").setAttribute("aria-pressed",S.view==="every");
   const players=DATA[S.league];
   if(S.cat&&!CATS[S.cat])S.cat="";
@@ -1906,11 +1909,12 @@ function render(){
   const vu=document.getElementById("view-up");vu.hidden=S.view!=="up";vu.style.display=S.view==="up"?"flex":"none";
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
+  const vn=document.getElementById("view-nhl");vn.hidden=S.view!=="nhl";vn.style.display=S.view==="nhl"?"flex":"none";
   const ve=document.getElementById("view-every");ve.hidden=S.view!=="every";ve.style.display=S.view==="every"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"||S.view==="every"?"board":S.view;
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"||S.view==="nhl"||S.view==="every"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="walt"||S.view==="every";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="nhl"||S.view==="walt"||S.view==="every";
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
@@ -1918,6 +1922,7 @@ function render(){
   if(S.view==="walt")document.getElementById("iostip")?.remove();  // nor the install tip
   applySec();
   if(S.view==="soc"){renderSoccer();return}
+  if(S.view==="nhl"){renderNhl();return}
   if(S.view==="every"){renderEvery();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
@@ -3856,6 +3861,88 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm],.pick.sk,.pick[data-socpl]")){e.preventDefault();e.target.click()}});
 let socQT=null;document.addEventListener("input",e=>{if(e.target.id!=="socq")return;clearTimeout(socQT);socQT=setTimeout(()=>{S.socQ=e.target.value;renderSoccer();const i=document.getElementById("socq");if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)});
+// ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
+let NHL=null,nhlLoading=false;
+function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl()})}
+const NHL_M={sog:"Shots on goal",goal:"Goals",pts:"Points",ast:"Assists"};
+const nhlLabel=(m,line,side)=>m==="sog"?`${side==="over"?"Over":"Under"} ${fmt(line)} shots`:m==="goal"?"Anytime goal":`${Math.round(line+.5)}+ ${NHL_M[m].toLowerCase()}`;
+const nhlRes=r=>r.res==="win"?r.dec-1:r.res==="loss"?-1:0;
+function nhlTally(list){const d=list.filter(r=>["win","loss","push"].includes(r.res)),w=d.filter(r=>r.res==="win").length,l=d.filter(r=>r.res==="loss").length;
+  return{w,l,p:d.length-w-l,n:d.length,units:d.reduce((x,r)=>x+nhlRes(r),0),pred:d.length?d.reduce((x,r)=>x+r.prob,0)/d.length:null,pct:w+l?w/(w+l):null}}
+function nhlPickCard(c,i,kind){
+  const label=nhlLabel(c.m,c.line,c.side),when=socWhen(c.t),fair=decToAm(1/Math.max(.01,c.prob));
+  const sheet=`<p class="shp">App's chance ${Math.round(c.prob*100)}% (fair price ${fair}). It blends the odds' own chance (${Math.round(c.book*100)}%, margin taken out) 65% with a stats model built from every NHL box score this season and last (${Math.round(c.model*100)}%) 35%. FanDuel pays ${amFmt(c.price)}${c.ev>0?`: about +$${(c.ev*10).toFixed(2)} per $10 on average`:`; it still loses about $${(-c.ev*10).toFixed(2)} per $10 on average, so it's worth it at ${fair} or better`}. ${c.side==="over"?"Hit":"Stayed under"} ${c.hits[0]} of his last ${c.hits[1]} games.</p><p class="shp" style="color:var(--muted)">These are FanDuel's prices. <b>Check DraftKings</b> before betting; take it only at that price or better. The model doesn't see tonight's lineup, injuries or line changes. If he doesn't play, the book voids the bet.</p>`;
+  const title=kind==="top"?"Most likely":"Value bets";
+  return`<article class="pick shw sk" role="button" tabindex="0">
+    <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)} <small class="pos">${esc(c.pos||"")}</small></div><div class="pksum">${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${when}</div></div>
+      <div class="pkr"><div class="pkline ${c.side==="over"?"over":"under"}">${esc(label)}</div><div class="pkprice">${amFmt(c.price)} · ${Math.round(c.prob*100)}%</div></div></div>
+    <div class="shc">${shSec("",sheet)}</div>
+    <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="${esc(`#${i+1} ${title}`)}" data-sub="${esc(`${label} · ${c.team} ${c.home?"vs":"@"} ${c.opp}`)}">See my reasoning</button></div></article>`;
+}
+function nhlRecordHtml(){
+  const R=(NHL.record&&NHL.record.picks)||[],pend=R.filter(r=>!r.res&&new Date(r.t)>Date.now()).length;
+  const row=(l,list)=>{const t=nhlTally(list);return t.n?`<tr><td>${l}</td><td class="num mono">${t.w}–${t.l}${t.p?`–${t.p}`:""}</td><td class="num mono">${pct(t.pct)}</td><td class="num mono">${pct(t.pred)}</td><td class="num mono" style="color:${Math.abs(t.units)<.05?"var(--muted)":t.units>0?"var(--hit)":"var(--miss)"}">${unitsTxt(t.units)}</td></tr>`:""};
+  const all=nhlTally(R);
+  const rows=[row("All picks",R),row("Most likely",R.filter(r=>r.list==="top"||r.list==="both")),row("Value bets",R.filter(r=>r.list==="value"||r.list==="both")),...Object.keys(NHL_M).map(k=>row(NHL_M[k],R.filter(r=>r.m===k)))].join("");
+  const recent=[...R].filter(r=>r.res).sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,10);
+  return`<section class="sg"><div class="tophead mh"><h2>NHL record</h2><span class="soctag rec">graded from box scores</span></div>
+    ${all.n?`<div class="hero"><div class="hero2"><div><b class="hbig">${all.w}–${all.l}${all.p?`–${all.p}`:""}</b><span>${pct(all.pct)} hit · predicted ${pct(all.pred)}</span></div><div><b class="hbig" style="color:${all.units>=0?"var(--hit)":"var(--miss)"}">${unitsTxt(all.units)}</b><span>1u per pick at FanDuel's price</span></div></div><p class="hfoot">${all.n} graded · ${pend} locked${R.some(r=>r.res==="void")?` · ${R.filter(r=>r.res==="void").length} void`:""}</p></div>
+    <div class="log"><table class="books"><thead><tr><th></th><th class="num">W–L</th><th class="num">Hit</th><th class="num">Predicted</th><th class="num">Units</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <h3 class="lh">Recent</h3><div class="lcard shw">${recent.map(r=>`<div class="lrow rec"><i class="rc ${r.res}" aria-label="${r.res}"></i><div class="lmid"><b>${esc(r.name)}</b><span>${esc(nhlLabel(r.m,r.line,r.side))} at ${amFmt(r.price)} · ${new Date(r.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})}${r.v!=null?` · finished with ${r.v}`:""}</span></div><b style="color:${r.res==="win"?"var(--hit)":r.res==="loss"?"var(--miss)":"var(--muted)"}">${r.res==="void"?"Void":r.res==="push"?"Push":unitsTxt(nhlRes(r))}</b></div>`).join("")}</div>`
+    :`<p class="topnote">${pend?`${pend} picks locked so far; results appear as the games finish.`:"No picks recorded yet."} Each Top pick and Value bet locks at the last price before puck drop, then is graded from the box score. Losses count as plainly as wins.</p>`}
+    <p class="topsub" style="padding-inline:2px">Same for everyone who uses the app. Units are 1 per pick at the FanDuel price saved at puck drop (a landed line is a push; void if he doesn't play). Not betting advice.</p></section>`;
+}
+function nhlGameCard(m){
+  const open=S.nhlOpen===m.id,mk=NHL_M[S.nhlMk]?S.nhlMk:"all";
+  let body="";
+  if(open){
+    const rows=m.P.filter(p=>mk==="all"||p[1]===mk).sort((a,b)=>b[5]-a[5]).slice(0,mk==="all"?40:80);
+    const have=Object.keys(NHL_M).filter(k=>m.P.some(p=>p[1]===k));
+    body=`<div class="gbody"><div class="cats" style="margin:6px 0">${[["all","Best"],...have.map(k=>[k,NHL_M[k]])].map(([k,l])=>`<button class="cat" data-nhlmk="${k}" aria-pressed="${k===mk}">${l}</button>`).join("")}</div>
+    <div class="log"><table class="books socT"><thead><tr><th>Player · bet</th><th class="num">FD</th><th class="num">App</th><th class="num" title="Expected profit per $10 at FanDuel's price">$/10</th></tr></thead><tbody>${rows.map(p=>{const pl=m.players[p[0]]||{};
+      return`<tr><td><b>${esc(pl.n||"")}</b> <small class="pteam">${esc(pl.pos||"")} · ${esc(pl.team||"")}</small><span class="socbet">${esc(nhlLabel(p[1],p[2],p[3]))} <small class="pteam">· ${p[3]==="over"?"hit":"under"} ${p[9]}/${p[10]}</small></span></td><td class="num mono">${amFmt(p[4])}</td><td class="num mono">${Math.round(p[5]*100)}%</td><td class="num mono ${p[6]>=.05?"good":p[6]<0?"muted":""}">${p[6]>=0?"+":"−"}$${Math.abs(p[6]*10).toFixed(2)}</td></tr>`}).join("")}</tbody></table></div>
+    <p class="pteam" style="margin:6px 0 0">FanDuel's prices. Check DraftKings. $/10 = expected profit per $10; negative is the usual case: the book's margin.</p></div>`;
+  }
+  return`<article class="gcard"><button class="gbtn" data-nhlg="${esc(m.id)}" aria-expanded="${open}" style="width:100%;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:12px 14px;cursor:pointer"><b>${esc(m.away_n)} @ ${esc(m.home_n)}</b><span class="pteam" style="display:block">${socWhen(m.t)} · ${m.P.length} priced bets</span></button>${body}</article>`;
+}
+function renderNhl(){
+  const el=document.getElementById("view-nhl");
+  if(!NHL){el.innerHTML=`<section class="sg"><p class="pteam">Loading NHL…</p></section>`;loadNhl();return}
+  const sec=["picks","games","record"].includes(S.nhlSec)?S.nhlSec:"picks";
+  const now=Date.now(),opt=(cur,list)=>list.map(([k,l])=>`<option value="${esc(k)}"${k===cur?" selected":""}>${esc(l)}</option>`).join("");
+  const up=l=>(l||[]).filter(c=>new Date(c.t).getTime()>now);
+  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="nhlSec">${opt(sec,[["picks","Top picks"],["games","Games"],["record","Record"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="nhlType">${opt(S.nhlType||"all",[["all","All bets"],...Object.entries(NHL_M)])}</select></label>`:""}</div>`;
+  if(sec==="picks"){
+    const ty=NHL_M[S.nhlType]?S.nhlType:"all",f=l=>up(l).filter(c=>ty==="all"||c.m===ty);
+    const R=(NHL.record&&NHL.record.picks)||[],t=nhlTally(R);
+    html+=`<button class="arline" data-nhlrec><span class="arl1"><b>NHL record</b><span>${t.n?`${t.w}–${t.l}${t.p?`–${t.p}`:""} · ${unitsTxt(t.units)} · `:""}${R.filter(r=>!r.res&&new Date(r.t)>now).length} locked</span></span><em>Full record ›</em></button>`;
+    for(const [k,title,tag,sub] of [["top","Most likely","likeliest hits","The likeliest bets on the board, one per player, at most two per game. Most cost money at the book's price; this is the likeliest list, not the value list."],["value","Value bets","beats the price","The few bets whose chance (blended with the market's) beats FanDuel's price by a clear margin. Expect few."]]){
+      const list=f(NHL[k]);
+      html+=`<section class="sg"><div class="tophead mh"><h2>${title}</h2><span class="soctag">${tag}</span></div><p class="topsub">${sub}</p>${list.length?`<div class="picks">${list.map((c,i)=>nhlPickCard(c,i,k)).join("")}</div>`:`<p class="topnote">Nothing on this list${ty!=="all"?" for this bet type":""} right now.</p>`}</section>`;
+    }
+    html+=`<p class="topsub" style="padding-inline:2px">Prices: FanDuel (check DraftKings), updated ${new Date(NHL.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}. Goalie saves aren't listed: FanDuel doesn't price them here.</p>`;
+  }else if(sec==="games"){
+    const ms=(NHL.matches||[]).filter(m=>new Date(m.t).getTime()>now),days={};
+    ms.forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
+    html+=`<div class="uphead"><h2>NHL · ${ms.length} game${ms.length===1?"":"s"}</h2><p>Every priced player bet · tap a game</p></div>`;
+    html+=ms.length?Object.entries(days).map(([d,ml])=>`<section class="day"><h3>${d}</h3><div class="games">${ml.map(nhlGameCard).join("")}</div></section>`).join(""):`<div class="upempty">No priced NHL games right now. FanDuel posts player props the day of the game.</div>`;
+  }else html+=nhlRecordHtml();
+  el.innerHTML=html;
+}
+document.addEventListener("click",e=>{
+  if(S.view!=="nhl")return;const t=e.target;
+  const mk=t.closest("[data-nhlmk]");if(mk){S.nhlMk=mk.dataset.nhlmk;renderNhl();return}
+  if(t.closest("[data-nhlrec]")){S.nhlSec="record";renderNhl();window.scrollTo({top:0});return}
+  const g=t.closest("[data-nhlg]");if(g){const card=g.closest(".gcard"),top=card.getBoundingClientRect().top;S.nhlOpen=S.nhlOpen===g.dataset.nhlg?null:g.dataset.nhlg;renderNhl();
+    const c2=document.querySelector(`#view-nhl [data-nhlg="${CSS.escape(g.dataset.nhlg)}"]`);if(c2)window.scrollBy(0,c2.closest(".gcard").getBoundingClientRect().top-top);return}
+  const sk=t.closest(".pick.sk");if(sk&&!t.closest("button")){sk.querySelector(".seewhy")?.click()}
+});
+document.addEventListener("change",e=>{
+  if(S.view!=="nhl")return;const t=e.target;
+  if(t.id==="nhlSec"){S.nhlSec=t.value;renderNhl();window.scrollTo({top:0})}
+  else if(t.id==="nhlType"){S.nhlType=t.value;renderNhl()}
+});
+document.addEventListener("keydown",e=>{if(S.view==="nhl"&&(e.key==="Enter"||e.key===" ")&&e.target.matches(".pick.sk")){e.preventDefault();e.target.click()}});
 // live + grading for tracked soccer picks: ESPN's match summary (box score by player)
 function socBox(sum){
   const out={};
@@ -4143,7 +4230,8 @@ function wire(){
   document.getElementById("view-every").addEventListener("click",e=>{const b=e.target.closest("[data-evlg]");if(!b)return;const lg=b.dataset.evlg;
     if(lg==="SOC"){document.getElementById("lg-SOC").click();return}
     S.view="board";S.sec="picks";S.market="all";document.getElementById("lg-"+lg).click();setupControls();render();window.scrollTo({top:0})});
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc"||S.view==="every")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc"||S.view==="nhl"||S.view==="every")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  document.getElementById("lg-NHL").onclick=()=>{if(S.view==="nhl")return;scrollMem[tabOf()]=window.scrollY;S.view="nhl";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("lg-SOC").onclick=()=>{if(S.view==="soc")return;scrollMem[tabOf()]=window.scrollY;S.view="soc";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
   document.getElementById("pos").onchange=e=>{S.cat=e.target.value;reset();setupControls();save();render()};
@@ -4176,7 +4264,7 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
-  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"||S.view==="every"?"board":S.view;  // "walt" is its own view
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"||S.view==="nhl"||S.view==="every"?"board":S.view;  // "walt" is its own view
   const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
     if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
     setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
