@@ -1,5 +1,5 @@
 {
- "at": "2026-11-03T16:45+00:00",
+ "at": "2026-11-03T16:46+00:00",
  "fanduel": {
   "events": [
    [
@@ -239,7 +239,217 @@
      "Alternate Puck Line"
     ]
    },
-   "td-scorer-props": {
+   "goals": {
+    "n": 27,
+    "names": [
+     "1st Period Any Time Goal Scorer",
+     "2nd Period Any Time Goal Scorer",
+     "2nd Period First Goal Scorer",
+     "3rd Period Any Time Goal Scorer",
+     "3rd Period First Goal Scorer",
+     "Alex Tuch Total Goals",
+     "Any Time Goal Scorer / Team to Win Parlay",
+     "Anytime Goal Scorer",
+     "Dylan Strome Total Goals",
+     "First Away Team Goal Scorer",
+     "First Goal Scorer",
+     "First Home Team Goal Scorer",
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Jason Robertson Total Goals",
+     "Jordan Kyrou Total Goals",
+     "Mikko Rantanen Total Goals",
+     "Moneyline",
+     "Player to Score 2+ Goals",
+     "Player to Score 3+ Goals",
+     "Puck Line",
+     "Roope Hintz Total Goals",
+     "Ryan Leonard Total Goals",
+     "Second Goal Scorer",
+     "Third Goal Scorer",
+     "Tom Wilson Total Goals",
+     "Total Goals",
+     "Wyatt Johnston Total Goals"
+    ]
+   },
+   "points-assists": {
+    "n": 13,
+    "names": [
+     "1+ Assists",
+     "1+ Points",
+     "1st Period 1+ Points",
+     "2+ Assists",
+     "2+ Points",
+     "2nd Period Player 1+ Points",
+     "3+ Assists",
+     "3+ Points",
+     "3rd Period Player 1+ Points",
+     "Moneyline",
+     "Player 1+ Point Each Period (60 Min)",
+     "Puck Line",
+     "Total Goals"
+    ]
+   },
+   "shots": {
+    "n": 32,
+    "names": [
+     "1+ Shots on Goal",
+     "1st Period 1+ Shots on Goal",
+     "1st Period 2+ Shots on Goal",
+     "1st Period 3+ Shots on Goal",
+     "2+ Shots on Goal",
+     "2nd Period Player 1+ Shots on Goal",
+     "2nd Period Player 2+ Shots on Goal",
+     "2nd Period Player 3+ Shots on Goal",
+     "3+ Shots on Goal",
+     "3rd Period Player 1+ Shots on Goal",
+     "3rd Period Player 2+ Shots on Goal",
+     "3rd Period Player 3+ Shots on Goal",
+     "4+ Shots on Goal",
+     "5+ Shots on Goal",
+     "6+ Shots on Goal",
+     "Alex Tuch Shots on Goal",
+     "Cole Hutson Shots on Goal",
+     "Dylan Strome Shots on Goal",
+     "Game Specials - Shots on Goal",
+     "Jakob Chychrun Shots on Goal",
+     "Jason Robertson Shots on Goal",
+     "Jordan Kyrou Shots on Goal",
+     "Mikko Rantanen Shots on Goal",
+     "Miro Heiskanen Shots on Goal",
+     "Moneyline",
+     "Player 1+ Shots on Goal Each Period (60 Min)",
+     "Puck Line",
+     "Roope Hintz Shots on Goal",
+     "Ryan Leonard Shots on Goal",
+     "Tom Wilson Shots on Goal",
+     "Total Goals",
+     "Wyatt Johnston Shots on Goal"
+    ]
+   },
+   "points-assists-props": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "shots-props": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "goals-props": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "period-player-props": {
+    "n": 22,
+    "names": [
+     "1st Period 1+ Points",
+     "1st Period 1+ Shots on Goal",
+     "1st Period 2+ Shots on Goal",
+     "1st Period 3+ Shots on Goal",
+     "1st Period Any Time Goal Scorer",
+     "2nd Period Any Time Goal Scorer",
+     "2nd Period First Goal Scorer",
+     "2nd Period Player 1+ Points",
+     "2nd Period Player 1+ Shots on Goal",
+     "2nd Period Player 2+ Shots on Goal",
+     "2nd Period Player 3+ Shots on Goal",
+     "3rd Period Any Time Goal Scorer",
+     "3rd Period First Goal Scorer",
+     "3rd Period Player 1+ Points",
+     "3rd Period Player 1+ Shots on Goal",
+     "3rd Period Player 2+ Shots on Goal",
+     "3rd Period Player 3+ Shots on Goal",
+     "Moneyline",
+     "Player 1+ Point Each Period (60 Min)",
+     "Player 1+ Shots on Goal Each Period (60 Min)",
+     "Puck Line",
+     "Total Goals"
+    ]
+   },
+   "quick-hits": {
+    "n": 11,
+    "names": [
+     "1st Period 1+ Points",
+     "1st Period 1+ Shots on Goal",
+     "1st Period 2+ Shots on Goal",
+     "1st Period 3+ Shots on Goal",
+     "60 Min Team to Score 1st Goal",
+     "First Away Team Goal Scorer",
+     "First Goal Scorer",
+     "First Home Team Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals"
+    ]
+   },
+   "player-props-shots": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "shots-on-goal-props": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "goalie-saves": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "player-shots": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "any-time-goal-scorer": {
+    "n": 5,
+    "names": [
+     "Game to Reach Overtime & OT Goal Scorer",
+     "Moneyline",
+     "Puck Line",
+     "Total Goals",
+     "Will There be Overtime?"
+    ]
+   },
+   "points-assists-goals": {
     "n": 5,
     "names": [
      "Game to Reach Overtime & OT Goal Scorer",
@@ -250,25 +460,537 @@
     ]
    }
   },
-  "layout": "{\"defaultTab\": 362, \"tabsDisplayOrder\": [362, 19, 338, 316, 309, 226, 232, 227, 333, 41, 40, 42, 320], \"tabs\": {\"19\": {\"id\": 19, \"title\": \"Popular\", \"cards\": [{\"id\": 19}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"40\": {\"id\": 40, \"title\": \"2nd Period\", \"cards\": [{\"id\": 40}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"41\": {\"id\": 41, \"title\": \"1st Period\", \"cards\": [{\"id\": 41}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"42\": {\"id\": 42, \"title\": \"3rd Period\", \"cards\": [{\"id\": 42}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"226\": {\"id\": 226, \"title\": \"Goals\", \"cards\": [{\"id\": 226}], \"isSameGameMulti\": false, \"description\": null}, \"227\": {\"id\": 227, \"title\": \"Points/Assists\", \"cards\": [{\"id\": 227}], \"isSameGameMulti\": false, \"description\": null}, \"232\": {\"id\": 232, \"title\": \"Shots\", \"cards\": [{\"id\": 232}], \"isSameGameMulti\": false, \"description\": null}, \"309\": {\"id\": 309, \"title\": \"Period Player Props\", \"cards\": [{\"id\": 309}], \"isSameGameMulti\": false, \"description\": null}, \"316\": {\"id\": 316, \"title\": \"Quick Hits\", \"cards\": [{\"id\": 316}], \"isSameGameMulti\": false, \"description\": null}, \"320\": {\"id\": 320, \"title\": \"Overtime\", \"cards\": [{\"id\": 320}], \"isSameGameMulti\": false, \"des"
+  "layout": "{\"defaultTab\": 362, \"tabsDisplayOrder\": [362, 19, 338, 316, 309, 226, 232, 227, 333, 41, 40, 42, 320], \"tabs\": {\"19\": {\"id\": 19, \"title\": \"Popular\", \"cards\": [{\"id\": 19}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"40\": {\"id\": 40, \"title\": \"2nd Period\", \"cards\": [{\"id\": 40}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"41\": {\"id\": 41, \"title\": \"1st Period\", \"cards\": [{\"id\": 41}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"42\": {\"id\": 42, \"title\": \"3rd Period\", \"cards\": [{\"id\": 42}], \"isSameGameMulti\": false, \"description\": {\"title\": \"Popular\", \"body\": \"Popular Ice Hockey markets\", \"footer\": null}}, \"226\": {\"id\": 226, \"title\": \"Goals\", \"cards\": [{\"id\": 226}], \"isSameGameMulti\": false, \"description\": null}, \"227\": {\"id\": 227, \"title\": \"Points/Assists\", \"cards\": [{\"id\": 227}], \"isSameGameMulti\": false, \"description\": null}, \"232\": {\"id\": 232, \"title\": \"Shots\", \"cards\": [{\"id\": 232}], \"isSameGameMulti\": false, \"description\": null}, \"309\": {\"id\": 309, \"title\": \"Period Player Props\", \"cards\": [{\"id\": 309}], \"isSameGameMulti\": false, \"description\": null}, \"316\": {\"id\": 316, \"title\": \"Quick Hits\", \"cards\": [{\"id\": 316}], \"isSameGameMulti\": false, \"description\": null}, \"320\": {\"id\": 320, \"title\": \"Overtime\", \"cards\": [{\"id\": 320}], \"isSameGameMulti\": false, \"des",
+  "popular_sample": [
+   {
+    "name": "1+ Points",
+    "n": 13,
+    "first": [
+     [
+      "Jason Robertson",
+      0,
+      -215
+     ],
+     [
+      "Mikko Rantanen",
+      0,
+      -205
+     ],
+     [
+      "Wyatt Johnston",
+      0,
+      -194
+     ],
+     [
+      "Roope Hintz",
+      0,
+      -156
+     ]
+    ]
+   },
+   {
+    "name": "2+ Shots on Goal",
+    "n": 14,
+    "first": [
+     [
+      "Jason Robertson",
+      0,
+      -620
+     ],
+     [
+      "Wyatt Johnston",
+      0,
+      -330
+     ],
+     [
+      "Jakob Chychrun",
+      0,
+      -295
+     ],
+     [
+      "Mikko Rantanen",
+      0,
+      -250
+     ]
+    ]
+   }
+  ],
+  "popular_names_all": [
+   "1+ Assists",
+   "1+ Points",
+   "1+ Shots on Goal",
+   "1st Period 1+ Points",
+   "1st Period 1+ Shots on Goal",
+   "1st Period 2+ Shots on Goal",
+   "1st Period 3+ Shots on Goal",
+   "1st Period Alt Puckline",
+   "1st Period Alt Total Goals",
+   "1st Period Any Time Goal Scorer",
+   "1st Period Dallas Stars Alt Total Goals",
+   "1st Period Total Goals",
+   "1st Period Washington Capitals Alt Total Goals",
+   "2+ Points",
+   "2+ Shots on Goal",
+   "2nd Period Alt Puckline",
+   "2nd Period Alt Total Goals",
+   "2nd Period Any Time Goal Scorer",
+   "2nd Period Player 1+ Points",
+   "2nd Period Player 1+ Shots on Goal",
+   "2nd Period Player 2+ Shots on Goal",
+   "2nd Period Player 3+ Shots on Goal",
+   "3+ Shots on Goal",
+   "3rd Period Alt Puckline",
+   "3rd Period Alt Total Goals",
+   "3rd Period Any Time Goal Scorer",
+   "3rd Period Player 1+ Points",
+   "3rd Period Player 1+ Shots on Goal",
+   "3rd Period Player 2+ Shots on Goal",
+   "3rd Period Player 3+ Shots on Goal",
+   "4+ Shots on Goal",
+   "5+ Shots on Goal",
+   "6+ Shots on Goal",
+   "60 Min Correct Score",
+   "60 Min Moneyline (3 Way)",
+   "60 Min Team to Score 1st Goal",
+   "60 Min Team to Score 2nd Goal",
+   "60 Min Team to Score 3rd Goal",
+   "60 Min Team to Score Last Goal",
+   "Alternate Puck Line",
+   "Alternate Total Goals",
+   "Anytime Goal Scorer",
+   "Both Teams to Score",
+   "Both Teams to Score 2+ Goals",
+   "Both Teams to Score 3+ Goals",
+   "Both Teams to Score 4+ Goals",
+   "Correct Score",
+   "Dallas Stars Alt Total Goals",
+   "Dallas Stars Total Goals",
+   "First Goal Scorer",
+   "Game Specials - Popular",
+   "Game Specials - Shots on Goal",
+   "Game to Reach Overtime & OT Goal Scorer",
+   "Moneyline",
+   "Moneyline Total Goals Parlay",
+   "Player to Score 2+ Goals",
+   "Player to Score 3+ Goals",
+   "Puck Line",
+   "Second Goal Scorer",
+   "Third Goal Scorer",
+   "Total Goals",
+   "Washington Capitals Alt Total Goals",
+   "Washington Capitals Total Goals",
+   "Will There be Overtime?"
+  ]
  },
  "pinnacle": {
   "leagues": []
  },
- "espn": "ERR list index out of range",
+ "espn": {
+  "completed_yesterday": 4,
+  "summary_keys": [
+   "boxscore",
+   "format",
+   "gameInfo",
+   "leaders",
+   "seasonseries",
+   "injuries",
+   "broadcasts",
+   "pickcenter",
+   "odds",
+   "againstTheSpread",
+   "news",
+   "plays",
+   "header",
+   "article",
+   "videos",
+   "wallclockAvailable",
+   "onIce",
+   "meta",
+   "standings"
+  ],
+  "teams": 2,
+  "stat_groups": [
+   [
+    "forwards",
+    [
+     "BS",
+     "HT",
+     "TK",
+     "+/-",
+     "TOI",
+     "PPTOI",
+     "SHTOI",
+     "ESTOI",
+     "SHFT",
+     "G",
+     "YTDG",
+     "A",
+     "S",
+     "SM",
+     "SOG",
+     "FW",
+     "FL",
+     "FO%",
+     "GV",
+     "PN",
+     "PIM"
+    ],
+    [
+     "blockedShots",
+     "hits",
+     "takeaways",
+     "plusMinus",
+     "timeOnIce",
+     "powerPlayTimeOnIce",
+     "shortHandedTimeOnIce",
+     "evenStrengthTimeOnIce",
+     "shifts",
+     "goals",
+     "ytdGoals",
+     "assists",
+     "shotsTotal",
+     "shotsMissed",
+     "shootoutGoals",
+     "faceoffsWon",
+     "faceoffsLost",
+     "faceoffPercent",
+     "giveaways",
+     "penalties",
+     "penaltyMinutes"
+    ],
+    {
+     "athlete": {
+      "id": "3114985",
+      "uid": "s:70~l:90~a:3114985",
+      "guid": "8f7dfc9b-5439-24c0-2d58-0aaa4546a435",
+      "lastName": "Barbashev",
+      "displayName": "Ivan Barbashev",
+      "shortName": "I. Barbashev",
+      "links": [
+       {
+        "language": "en-US",
+        "rel": [
+         "playercard",
+         "desktop",
+         "athlete"
+        ],
+        "href": "https://www.espn.com/nhl/player/_/id/3114985",
+        "text": "Player Card",
+        "shortText": "Player Card",
+        "isExternal": false,
+        "isPremium": false
+       }
+      ],
+      "headshot": {
+       "href": "https://a.espncdn.com/i/headshots/nhl/players/full/3114985.png",
+       "alt": "Ivan Barbashev"
+      },
+      "jersey": "49",
+      "position": {
+       "$ref": "http://sports.core.api.espn.pvt/v2/sports/hockey/leagues/nhl/positions/2?lang=en&region=us",
+       "id": "2",
+       "name": "Left Wing",
+       "displayName": "Left Wing",
+       "abbreviation": "LW",
+       "leaf": true,
+       "parent": {
+        "$ref": "http://sports.core.api.espn.pvt/v2/sports/hockey/leagues/nhl/positions/20?lang=en&region=us"
+       }
+      },
+      "active": true,
+      "scratched": false
+     },
+     "stats": [
+      "2",
+      "4",
+      "0",
+      "-1",
+      "15:16",
+      "1:52",
+      "0:00",
+      "13:24",
+      "16",
+      "0",
+      "2",
+      "0",
+      "1",
+      "1",
+      "0",
+      "1",
+      "0",
+      "100.0",
+      "1",
+      "0",
+      "0"
+     ]
+    }
+   ],
+   [
+    "defenses",
+    [
+     "BS",
+     "HT",
+     "TK",
+     "+/-",
+     "TOI",
+     "PPTOI",
+     "SHTOI",
+     "ESTOI",
+     "SHFT",
+     "G",
+     "YTDG",
+     "A",
+     "S",
+     "SM",
+     "SOG",
+     "FW",
+     "FL",
+     "FO%",
+     "GV",
+     "PN",
+     "PIM"
+    ],
+    [
+     "blockedShots",
+     "hits",
+     "takeaways",
+     "plusMinus",
+     "timeOnIce",
+     "powerPlayTimeOnIce",
+     "shortHandedTimeOnIce",
+     "evenStrengthTimeOnIce",
+     "shifts",
+     "goals",
+     "ytdGoals",
+     "assists",
+     "shotsTotal",
+     "shotsMissed",
+     "shootoutGoals",
+     "faceoffsWon",
+     "faceoffsLost",
+     "faceoffPercent",
+     "giveaways",
+     "penalties",
+     "penaltyMinutes"
+    ],
+    {
+     "athlete": {
+      "id": "3904186",
+      "uid": "s:70~l:90~a:3904186",
+      "guid": "5e2d1deb-470f-6e91-2d98-76bd995f066e",
+      "lastName": "Andersson",
+      "displayName": "Rasmus Andersson",
+      "shortName": "R. Andersson",
+      "links": [
+       {
+        "language": "en-US",
+        "rel": [
+         "playercard",
+         "desktop",
+         "athlete"
+        ],
+        "href": "https://www.espn.com/nhl/player/_/id/3904186",
+        "text": "Player Card",
+        "shortText": "Player Card",
+        "isExternal": false,
+        "isPremium": false
+       }
+      ],
+      "headshot": {
+       "href": "https://a.espncdn.com/i/headshots/nhl/players/full/3904186.png",
+       "alt": "Rasmus Andersson"
+      },
+      "jersey": "4",
+      "position": {
+       "$ref": "http://sports.core.api.espn.pvt/v2/sports/hockey/leagues/nhl/positions/4?lang=en&region=us",
+       "id": "4",
+       "name": "Defense",
+       "displayName": "Defense",
+       "abbreviation": "D",
+       "leaf": true,
+       "parent": {
+        "$ref": "http://sports.core.api.espn.pvt/v2/sports/hockey/leagues/nhl/positions/27?lang=en&region=us"
+       }
+      },
+      "active": true,
+      "scratched": false
+     },
+     "stats": [
+      "1",
+      "0",
+      "0",
+      "0",
+      "21:54",
+      "1:56",
+      "2:31",
+      "17:27",
+      "30",
+      "0",
+      "2",
+      "0",
+      "2",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0.0",
+      "4",
+      "0",
+      "0"
+     ]
+    }
+   ],
+   [
+    "skaters",
+    [
+     "BS",
+     "HT",
+     "TK",
+     "+/-",
+     "TOI",
+     "PPTOI",
+     "SHTOI",
+     "ESTOI",
+     "SHFT",
+     "G",
+     "YTDG",
+     "A",
+     "S",
+     "SM",
+     "SOG",
+     "FW",
+     "FL",
+     "FO%",
+     "GV",
+     "PN",
+     "PIM"
+    ],
+    [
+     "blockedShots",
+     "hits",
+     "takeaways",
+     "plusMinus",
+     "timeOnIce",
+     "powerPlayTimeOnIce",
+     "shortHandedTimeOnIce",
+     "evenStrengthTimeOnIce",
+     "shifts",
+     "goals",
+     "ytdGoals",
+     "assists",
+     "shotsTotal",
+     "shotsMissed",
+     "shootoutGoals",
+     "faceoffsWon",
+     "faceoffsLost",
+     "faceoffPercent",
+     "giveaways",
+     "penalties",
+     "penaltyMinutes"
+    ],
+    null
+   ],
+   [
+    "goalies",
+    [
+     "GA",
+     "SA",
+     "SOS",
+     "SOSA",
+     "SV",
+     "SV%",
+     "ESSV",
+     "PPSV",
+     "SHSV",
+     "TOI",
+     "YTDG",
+     "PIM"
+    ],
+    [
+     "goalsAgainst",
+     "shotsAgainst",
+     "shootoutSaves",
+     "shootoutShotsAgainst",
+     "saves",
+     "savePct",
+     "evenStrengthSaves",
+     "powerPlaySaves",
+     "shortHandedSaves",
+     "timeOnIce",
+     "ytdGoals",
+     "penaltyMinutes"
+    ],
+    {
+     "athlete": {
+      "id": "4064582",
+      "uid": "s:70~l:90~a:4064582",
+      "guid": "9b8b8c91-a913-24c6-df8e-d3c01bea77b5",
+      "lastName": "Hart",
+      "displayName": "Carter Hart",
+      "shortName": "C. Hart",
+      "links": [
+       {
+        "language": "en-US",
+        "rel": [
+         "playercard",
+         "desktop",
+         "athlete"
+        ],
+        "href": "https://www.espn.com/nhl/player/_/id/4064582",
+        "text": "Player Card",
+        "shortText": "Player Card",
+        "isExternal": false,
+        "isPremium": false
+       }
+      ],
+      "headshot": {
+       "href": "https://a.espncdn.com/i/headshots/nhl/players/full/4064582.png",
+       "alt": "Carter Hart"
+      },
+      "jersey": "79",
+      "position": {
+       "$ref": "http://sports.core.api.espn.pvt/v2/sports/hockey/leagues/nhl/positions/5?lang=en&region=us",
+       "id": "5",
+       "name": "Goaltender",
+       "displayName": "Goaltender",
+       "abbreviation": "G",
+       "leaf": false
+      },
+      "active": true,
+      "scratched": false
+     },
+     "stats": [
+      "2",
+      "27",
+      "0",
+      "0",
+      "25",
+      ".926",
+      "15",
+      "9",
+      "1",
+      "65:00",
+      "0",
+      "2"
+     ]
+    }
+   ]
+  ],
+  "team_keys": [
+   "team",
+   "statistics",
+   "displayOrder"
+  ]
+ },
  "oddsapi": {
   "events": 15,
-  "remaining": "267",
+  "remaining": "264",
   "books": [
    [
     "draftkings",
     [
      [
-      "player_goal_scorer_anytime",
-      36
-     ],
-     [
-      "player_points",
+      "player_assists",
       26
      ],
      [
@@ -285,10 +1007,6 @@
     "fanduel",
     [
      [
-      "player_goal_scorer_anytime",
-      35
-     ],
-     [
       "player_shots_on_goal",
       14
      ]
@@ -298,6 +1016,136 @@
   "game": [
    "Columbus Blue Jackets",
    "Colorado Avalanche"
-  ]
+  ],
+  "sample": {
+   "draftkings|player_assists": [
+    [
+     "Over",
+     "Zach Werenski",
+     0.5,
+     -135
+    ],
+    [
+     "Under",
+     "Zach Werenski",
+     0.5,
+     100
+    ],
+    [
+     "Over",
+     "Nathan MacKinnon",
+     0.5,
+     -120
+    ],
+    [
+     "Under",
+     "Nathan MacKinnon",
+     0.5,
+     -110
+    ],
+    [
+     "Over",
+     "Cale Makar",
+     0.5,
+     -110
+    ],
+    [
+     "Under",
+     "Cale Makar",
+     0.5,
+     -125
+    ]
+   ],
+   "draftkings|player_shots_on_goal": [
+    [
+     "Over",
+     "Nathan MacKinnon",
+     3.5,
+     105
+    ],
+    [
+     "Under",
+     "Nathan MacKinnon",
+     3.5,
+     -145
+    ],
+    [
+     "Over",
+     "Zach Werenski",
+     2.5,
+     -170
+    ],
+    [
+     "Under",
+     "Zach Werenski",
+     2.5,
+     125
+    ],
+    [
+     "Over",
+     "Adam Fantilli",
+     2.5,
+     -135
+    ],
+    [
+     "Under",
+     "Adam Fantilli",
+     2.5,
+     100
+    ]
+   ],
+   "draftkings|player_total_saves": [
+    [
+     "Over",
+     "Scott Wedgewood",
+     25.5,
+     -110
+    ],
+    [
+     "Under",
+     "Scott Wedgewood",
+     25.5,
+     -125
+    ]
+   ],
+   "fanduel|player_shots_on_goal": [
+    [
+     "Over",
+     "Nazem Kadri",
+     2.5,
+     120
+    ],
+    [
+     "Under",
+     "Nazem Kadri",
+     2.5,
+     -156
+    ],
+    [
+     "Over",
+     "Martin Necas",
+     2.5,
+     116
+    ],
+    [
+     "Under",
+     "Martin Necas",
+     2.5,
+     -152
+    ],
+    [
+     "Over",
+     "Cale Makar",
+     2.5,
+     -104
+    ],
+    [
+     "Under",
+     "Cale Makar",
+     2.5,
+     -125
+    ]
+   ]
+  }
  }
 }
