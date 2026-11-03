@@ -3,6 +3,19 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-03 (2), cmags0511 (Claude, weekly results review)
+No code change this week: none of the fixes tested held up. Numbers (record.json / calib.json, units at the saved price, -110 when none):
+- Top 10: last 7 days 10-18, -8.7u (all NFL/college, 27 of 28 unders, 9 with no price; sacks 0-3); season (since Oct 17) 115-126, -26.2u (NBA 51-61 -16.8u, NFL 42-41 -3.9u, college 22-24 -5.5u). Picks with a real book price went 21-33 while the book's no-vig chance expected about 29 wins.
+- Calibration (11,190 graded props): the app's chance is fine up to 60%, overconfident above it. NFL props it gave 60%+ hit 53.5% (n=731, app said 66%); at real prices they returned -12% to -40%, in both halves of the season. tune.py already shrinks confidence (b=.35), and the last 7 days are closer (60-65%: 56.7% hit).
+- Tested on a replay of the Top 10 from 667 hourly slate.json versions (Oct 16 - Nov 3), graded from calib.json; replay of today's rules: 131-129, -10.6u.
+  (1) Skip picks with the app's chance 60%+: +12.3u. Rejected: in the real record those picks were 41-32, +3.7u (the losers were the under-60% ones, 74-94, -29.9u), so the gain is from different replacement picks, and a 62% cut gives only -1.9u.
+  (2) Top 10 only grade C or better: +9.9u, but not stable by threshold (edge >= .005 +3.8u, >= .015 -0.2u, >= .03 -1.2u), and on all priced props a walk-forward grade edge doesn't sort profit (C/B 1-3%: +0.6%, A 3%+: -7.0%).
+  (3) Real prices only: +8.3u in the replay, but the real record's real-price picks were the worse half (21-33). Not proposed.
+- Research: 60-83 (props 51-69, TD 9-14); medium confidence 56-76. Leans already don't move picks.
+- TD (td_bet only since Oct 27): season 15-16, -3.8u; one graded pick last week (won, +2.2u).
+- Soccer player Top picks ("Most likely"): 75-52 but -15.2u (FanDuel's prices imply 68%, they hit 59%; the app's own EV already marks most of them negative). Value list: no picks recorded. Team bets (soccer_team.json): 18-36, +16.5u in their first week, longshots, too early to judge.
+- Lab market-anchored: 58-87, -24.8u; stats-only: 74-104, -15.2u. Neither earns a place in the main picks. fwarnk was removed Oct 26 (no data).
+
 ## 2026-11-03, cmags0511 (Claude)
 **Best parlays** (NFL + NBA), new `parlays.py` -> `parlays.json`, own record. Owner asked for parlays built from the ranked props. Honest framing (also on the page): a parlay's expected profit is the product of each leg's chance x price, so a leg that is a bad price alone is still a bad price inside a parlay; the only real edge is correlation between players in the same game. So:
 - picks.py now writes `legs` into picks.json: upcoming NFL/NBA props graded C or better at a real (non-estimated) quote.
