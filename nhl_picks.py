@@ -5,7 +5,7 @@ For every upcoming NHL game it reads FanDuel's public player markets (shots on g
 from the box-score history (nhl_model.py) and blends the two. The blend leans on the market (BLEND_MODEL = 35% model),
 because the stats model alone has no price to check against and so far only beats a plain base rate, not the book.
 
-  * top  = the likeliest hits (one bet per player, at most 2 per game)
+  * top  = best-priced likely bets: chance of at least 55%, ranked by expected profit (one bet per player, at most 2 per game)
   * value = the few bets whose blended chance beats the price by a clear margin
   * record = every top / value pick, locked at the last price seen before puck drop and graded from the box scores
     (win / loss, push for a landed line, void if the player didn't play)
@@ -36,6 +36,7 @@ HOLD_YES = {"goal": 1.12, "pts": 1.06, "ast": 1.06}   # typical margin in a yes-
 MAX_GAP = .15                                          # model vs market gap beyond which the book likely knows something (lineup, role)
 TOP_N, VALUE_N, PER_GAME = 12, 10, 2
 TOP_MIN_DEC = 1.4          # nothing shorter than -250 in the top list
+TOP_MIN_P = .55            # the top list only takes bets with at least this chance, then ranks by expected profit
 LABEL = {"sog": "shots on goal", "goal": "goal", "pts": "points", "ast": "assists"}
 TABS = ("goals", "points-assists", "shots")
 KEEP_DAYS = 400
@@ -189,7 +190,7 @@ def main():
             if len(out) == n:
                 break
         return out
-    tops = top([c for c in cands if c["dec"] >= TOP_MIN_DEC and sane(c)], lambda c: -c["prob"], TOP_N)
+    tops = top([c for c in cands if c["dec"] >= TOP_MIN_DEC and c["prob"] >= TOP_MIN_P and sane(c)], lambda c: (-c["ev"], -c["prob"]), TOP_N)
     value = top([c for c in cands if c["ev"] >= .03 and c["prob"] >= .2 and c["dec"] <= 6 and sane(c)], lambda c: -c["ev"], VALUE_N)
 
     # ---- record: lock at the last price before the game starts, then grade from the box scores
