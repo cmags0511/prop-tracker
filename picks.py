@@ -1039,9 +1039,12 @@ def main():
         # "Best parlays" from these, so a leg the Top lists skip for its price can still be part of a parlay
         LEG_KEYS = ("key", "lg", "id", "name", "team", "pos", "opp", "home", "t", "market", "label", "side", "line", "price",
                     "p_cal", "edge", "grade", "prob", "book_p", "status", "avg10", "l10")
-        out["legs"] = [{k: c.get(k) for k in LEG_KEYS} for c in full
-                       if c.get("grade") in ("A", "B", "C") and c.get("price") is not None and not c.get("price_est")
-                       and c["lg"] in ("NFL", "NBA") and dt.datetime.fromisoformat(c["t"]) > now]
+        # NFL props that are close to a fair price (edge -3% or better) but not graded C also go in, flagged "partner":
+        # parlays.py only uses one next to a leg it tends to hit with (a pass-heavy script: QB over with his RB's rushing under)
+        out["legs"] = [{k: c.get(k) for k in LEG_KEYS} | ({"partner": True} if c.get("grade") not in ("A", "B", "C") else {}) for c in full
+                       if c.get("price") is not None and not c.get("price_est") and c["lg"] in ("NFL", "NBA")
+                       and dt.datetime.fromisoformat(c["t"]) > now
+                       and (c.get("grade") in ("A", "B", "C") or (c["lg"] == "NFL" and c.get("edge") is not None and c["edge"] >= -.03))]
     # anytime-TD picks: the research's TD calls (no sportsbook line in the feed), with Kalshi's price and his history
     tdp = []
     meta = data.get("NFL", {})
