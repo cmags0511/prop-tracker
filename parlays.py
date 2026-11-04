@@ -30,6 +30,11 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "parlays.json"
 ET = ZoneInfo("America/New_York")
 POOL = 30          # legs per sport that are combined (best edge first)
 SHRINK = .95       # each leg's chance is pulled this much toward 50%
+SHRINK_LG = {"NFL": .85}   # the app's NFL chances above 60% have run too high, so a harder pull there
+PARTNERS = 20      # near-fair unders, and as many overs again (see OVER_PARTNERS), that may join a parlay
+OVER_PARTNERS = 15
+
+PARTNER_LINK = 1.03   # a partner must lift the parlay's chance by this much through a same-game pair with another leg
 BOOK_GIVES = .5    # share of a same-game correlation edge the book prices in
 MIN_EV = {2: .03, 3: .04}
 MIN_P = {2: .30, 3: .18}
@@ -125,7 +130,7 @@ def why(a, b, rho, n, both):
     side = lambda c: f"{last(c['name'])} {c['side']} {c['line']:g} {c['label'].lower()}"
     if n >= MIN_SHARED:
         return f"{side(a)} and {side(b)} both hit in {both} of {n} games they both played"
-    return f"{side(a)} and {side(b)}: {'tend to hit together' if rho > 0 else 'tend to pull apart'} (typical for this kind of pair)"
+    return f"{side(a)} and {side(b)}: {'tend to hit together' if rho > .02 else 'tend to pull apart' if rho < -.02 else 'no clear link'} (typical for this kind of pair)"
 
 
 def main():
@@ -158,11 +163,13 @@ def main():
     for lg in ("NFL", "NBA"):
         legs = [c for c in legs_all if c["lg"] == lg and dt.datetime.fromisoformat(c["t"]) > now
                 and f"{lg}|{c['id']}" not in out_players and c.get("status") not in OUT_STATUS
-                and c.get("p_cal") is not None and (c.get("edge") or 0) >= .01]
-        legs.sort(key=lambda c: -c["edge"])
-        legs = legs[:POOL]
+                and c.get("p_cal") is not None]
+        anchors = sorted((c for c in legs if not c.get("partner") and (c.get("edge") or 0) >= .01), key=lambda c: -c["edge"])[:POOL]
+        by_edge = sorted((c for c in legs if c.get("partner")), key=lambda c: -c["edge"])
+        partners = [c for c in by_edge if c["side"] == "under"][:PARTNERS] + [c for c in by_edge if c["side"] == "over"][:OVER_PARTNERS]
+        legs = anchors + partners
         for c in legs:
-            c["p"] = .5 + (c["p_cal"] - .5) * SHRINK
+            c["p"] = .5 + (c["p_cal"] - .5) * SHRINK_LG.get(lg, SHRINK)
             c["dec"] = dec_of(c["price"])
         game = lambda c: (c["t"], *sorted((c["team"], c["opp"])))
         day = lambda c: dt.datetime.fromisoformat(c["t"]).astimezone(ET).date()
@@ -179,9 +186,13 @@ def main():
             for combo in itertools.combinations(legs, n):
                 if len({c["id"] for c in combo}) < n or len({day(c) for c in combo}) > 1:
                     continue
+                if all(c.get("partner") for c in combo):
+                    continue
                 p = math.prod(c["p"] for c in combo)
                 dec = math.prod(c["dec"] for c in combo)
                 factor, notes_, same_pairs = 1.0, [], 0
+                mixed = set()
+                linked = {c["key"] for c in combo if not c.get("partner")}   # partners count as linked once a pair lifts them
                 for a, b in itertools.combinations(combo, 2):
                     if game(a) != game(b):
                         continue
@@ -189,7 +200,15 @@ def main():
                     rho, k, both = pr(a, b)
                     f = joint2(a["p"], b["p"], rho) / (a["p"] * b["p"])
                     factor *= f
+                    if f >= PARTNER_LINK:
+                        linked |= {a["key"], b["key"]}
+                        if a["side"] != b["side"]:
+                            mixed |= {a["key"], b["key"]}
                     notes_.append(why(a, b, rho, k, both))
+                if any(c["key"] not in linked for c in combo):
+                    continue
+                if any(c.get("partner") and c["side"] == "over" and c["key"] not in mixed for c in combo):
+                    continue    # an over only joins when it pairs well with an under in the parlay    # a near-fair leg that isn't pulled up by one of the others
                 if same_pairs and not (.97 <= factor <= 1.8):
                     continue  # legs that work against each other, or a pair the numbers don't support
                 p *= factor
