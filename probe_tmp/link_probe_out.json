@@ -1,0 +1,65 @@
+{
+ "events_headers": {
+  "x-requests-remaining": "260",
+  "x-requests-last": "0",
+  "x-requests-used": "240"
+ },
+ "event": {
+  "id": "c75744790b7acf6260c78ba5e739c0e5",
+  "home_team": "Baltimore Ravens",
+  "away_team": "Jacksonville Jaguars",
+  "commence_time": "2026-11-06T01:15:00Z"
+ },
+ "odds_headers": {
+  "x-requests-remaining": "259",
+  "x-requests-last": "1",
+  "x-requests-used": "241"
+ },
+ "n_bookmakers": 1,
+ "bookmaker": {
+  "key": "draftkings",
+  "title": "DraftKings",
+  "link": "https://sportsbook.draftkings.com/event/34118164",
+  "sid": "34118164"
+ },
+ "market": {
+  "key": "player_pass_yds",
+  "last_update": "2026-11-04T03:44:26Z",
+  "link": null,
+  "sid": null
+ },
+ "outcomes": [
+  {
+   "name": "Over",
+   "description": "Trevor Lawrence",
+   "price": -112,
+   "point": 235.5,
+   "link": "https://sportsbook.draftkings.com/?outcomes=0QA385018878%232347877179_13L88808Q1-110727508Q20",
+   "sid": "0QA385018878#2347877179_13L88808Q1-110727508Q20"
+  },
+  {
+   "name": "Under",
+   "description": "Trevor Lawrence",
+   "price": -112,
+   "point": 235.5,
+   "link": "https://sportsbook.draftkings.com/?outcomes=0QA385018878%232347877180_13L88808Q1-762388469Q20",
+   "sid": "0QA385018878#2347877180_13L88808Q1-762388469Q20"
+  },
+  {
+   "name": "Over",
+   "description": "Joe Fagnano",
+   "price": -112,
+   "point": 155.5,
+   "link": "https://sportsbook.draftkings.com/?outcomes=0QA385018822%232349310173_13L88808Q11010505281Q20",
+   "sid": "0QA385018822#2349310173_13L88808Q11010505281Q20"
+  },
+  {
+   "name": "Under",
+   "description": "Joe Fagnano",
+   "price": -112,
+   "point": 155.5,
+   "link": "https://sportsbook.draftkings.com/?outcomes=0QA385018822%232349310174_13L88808Q1-2082515128Q20",
+   "sid": "0QA385018822#2349310174_13L88808Q1-2082515128Q20"
+  }
+ ]
+}
