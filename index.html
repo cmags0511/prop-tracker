@@ -852,6 +852,8 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .shc{display:none}
 .pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
 .pkcta .trk,.pkcta .live{margin:0 12px 0 0}
+.dkb{border:0;background:none;color:var(--accent);font:800 13px var(--f-body);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.pkcta .dkb{margin-left:auto}.bpl .dkb{min-height:0;padding:0 4px;font-size:12px}
 .seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
 .seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
 .shcta.sm{flex:none;min-height:36px;padding:0 4px 0 10px}
@@ -1418,7 +1420,7 @@ function renderBest(){
     <div class="bbrest">${b.why_research?`<p class="bbwhy">${esc(b.why_research)}</p>`:""}
       ${(b.sources||[]).length?`<p class="bbsrc">Sources: ${b.sources.slice(0,4).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(host(u))}</a>`).join(" · ")}</p>`:""}
       <div class="shc">${reasonHtml(b)}</div>
-      <div class="pkcta"><button class="seewhy" data-sheet="${esc(b.name)}" data-kick="★ Best bet · ${esc(b.label||SHORT[b.market]||"")}" data-sub="${b.team} ${b.home?"vs":"@"} ${b.opp} · ${when}">See my reasoning</button><button class="trk pkadd ${tracked||inSlip?"on":""}" data-tk="${esc(b.key)}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button></div></div>
+      <div class="pkcta"><button class="seewhy" data-sheet="${esc(b.name)}" data-kick="★ Best bet · ${esc(b.label||SHORT[b.market]||"")}" data-sub="${b.team} ${b.home?"vs":"@"} ${b.opp} · ${when}">See my reasoning</button>${dkBtn(b.lg,b.team,b.opp,b.t,null,`${b.name} ${b.side} ${fmt(b.line)} ${b.label||SHORT[b.market]||""}`)}<button class="trk pkadd ${tracked||inSlip?"on":""}" data-tk="${esc(b.key)}">${tracked&&inSlip?"✓ Straight + parlay":tracked?"✓ Tracking":inSlip?"✓ In parlay":"+ Track"}</button></div></div>
   </article>`;
   if(!shown)scratchCard(el.querySelector(".bbs"));
 }
@@ -1727,7 +1729,7 @@ function renderBestParlays(){
   if(!L.length){el.hidden=false;el.innerHTML=head+`<p class="topnote">No ${lg} parlay has a clear edge right now. They appear when several good-priced picks line up on the same day.</p>`;return}
   const card=p=>{
     const when=new Date(p.t).toLocaleDateString("en-US",{weekday:"short"})+" "+new Date(p.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
-    const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${l.team} ${l.home?"vs":"@"} ${l.opp}</small><small>${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}</small></span>${gradeChip(l.grade,l.edge)}<span class="px">${amFmt(l.price)}</span></div>`).join("");
+    const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${l.team} ${l.home?"vs":"@"} ${l.opp}</small><small>${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}</small></span>${gradeChip(l.grade,l.edge)}<span class="px">${amFmt(l.price)}</span>${dkBtn(l.lg,l.team,l.opp,l.t,null,`${l.name} ${l.side} ${fmt(l.line)} ${l.label||SHORT[l.market]||""}`)}</div>`).join("");
     const on=parlayInSlip(p);
     return`<div class="bpar"><div class="bph"><b>${p.n}-leg parlay</b><small>${p.kind==="same"?"same game":"different games"} · ${when}</small></div>${legs}
       <div class="bpm"><span class="fx nt" title="The app's chance every leg hits, with same-game players' stats moving together counted">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ">est. ${amFmt(p.price)}</span><button class="trk sm ${on?"on":""}" data-parslip="${esc(p.id)}">${on?"✓ In parlay slip":"+ Add to parlay"}</button></div>
@@ -1784,7 +1786,7 @@ function renderTop(){
         <div class="pkr"><div class="pkline ${c.side}">${side} ${fmt(c.line)}${isAll()?` <small>${esc(SHORT[c.market]||c.label)}</small>`:""}</div><div class="pkprice">${[c.price!=null?amFmt(c.price):"",(c.p_cal??c.prob)!=null?Math.round((c.p_cal??c.prob)*100)+"%":""].filter(Boolean).join(" · ")}</div>${dkQuoteTag(c)?`<div class="pkprice">${dkQuoteTag(c)}</div>`:""}</div></div>
       ${gradeHtml(c.grade,c.edge,{parlay:c.parlay,pair:c.pair,ungraded:true})}
       <div class="shc">${reasonHtml(c,n,lbl,lcls)}</div>
-      <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${trk}</div></article>`}).join("")}</div>
+      <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="#${i+1} ${OVERS()?"Top over":isAll()?"Best overall":"Top pick"} · ${esc(c.label||SHORT[c.market]||"")}" data-sub="${mtx} · ${when(t)}">See my reasoning</button>${dkBtn(c.lg,c.team,c.opp,c.t,null,`${c.name} ${c.side} ${fmt(c.line)} ${c.label||SHORT[c.market]||""}`)}${trk}</div></article>`}).join("")}</div>
   ${list.length>5?`<button class="morepicks" id="morePicks">${S.allPicks?"Show top 5":`Show all ${list.length}`}</button>`:""}
   ${shcta("How picks are ranked",`<p class="topnote" style="margin:0 0 8px"><b>${meta}</b></p><p class="topnote" style="margin:0">${OVERS()?"Showing overs only. Picks that only make this list have run well behind the full list (16-26 through Oct 21), so the record counts the full Overs + unders list. ":""}Picks are ranked by his recent form against the DraftKings line, the opponent's defense against his position, the game's expected scoring, minutes trends (NBA), the injury report (players ruled out are dropped; in the NBA, regulars sitting out boost their teammates' overs) and kickoff wind for passing props${notesOk?". The daily research checks injuries, roles and news (a player it finds ruled out or in doubt is dropped or ranked lower), and its notes show on each pick, but its own over/under leans no longer move picks: they went 74-96 through Oct 26":""}. A line far from a player's recent numbers is treated with suspicion, since it often reflects news. Picks graded F (the price says they cost money) or priced shorter than −130 are left off the Top lists, and the NBA Top 10 is paused until Nov 15. They're a starting point, not a guarantee or betting advice; check the live line and late news before betting. 21+. Gambling problem? Call 1-800-GAMBLER.</p>`,"rowcta")}`;
 }
@@ -3750,7 +3752,7 @@ function socPickCard(it,i,mt){
       <div class="pkr"><div class="pkline over">${line}</div><div class="pkprice">${sub}</div></div></div>
     ${c.lapsed?"":gradeHtml(g,it.edge,{parlay:team&&(g==="A"||g==="B")&&c.prob>=.55})}
     <div class="shc">${shSec("",sheet)}</div>
-    <div class="pkcta"><button class="seewhy" data-sheet="${esc(title)}" data-kick="${esc(`#${i+1} ${G.title}`)}" data-sub="${esc(sumTxt)}">See my reasoning</button>${trk}</div></article>`;
+    <div class="pkcta"><button class="seewhy" data-sheet="${esc(title)}" data-kick="${esc(`#${i+1} ${G.title}`)}" data-sub="${esc(sumTxt)}">See my reasoning</button>${dkBtn("SOC",c.team||c.home,c.opp||c.away,c.t,c.ev_id||c.espn,team?`${c.bet}`:`${c.name} ${c.label}`)}${trk}</div></article>`;
 }
 function socGroupHtml(key,list,lf,mtOf){
   const G=SOC_GROUPS[key],more=S.socMore&&S.socMore[key];
@@ -3877,7 +3879,7 @@ function nhlPickCard(c,i,kind){
     <div class="pkm"><div class="pkl"><div class="who">${esc(c.name)} <small class="pos">${esc(c.pos||"")}</small></div><div class="pksum">${esc(c.team)} ${c.home?"vs":"@"} ${esc(c.opp)} · ${when}</div></div>
       <div class="pkr"><div class="pkline ${c.side==="over"?"over":"under"}">${esc(label)}</div><div class="pkprice">${amFmt(c.price)} · ${Math.round(c.prob*100)}%</div></div></div>
     <div class="shc">${shSec("",sheet)}</div>
-    <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="${esc(`#${i+1} ${title}`)}" data-sub="${esc(`${label} · ${c.team} ${c.home?"vs":"@"} ${c.opp}`)}">See my reasoning</button></div></article>`;
+    <div class="pkcta"><button class="seewhy" data-sheet="${esc(c.name)}" data-kick="${esc(`#${i+1} ${title}`)}" data-sub="${esc(`${label} · ${c.team} ${c.home?"vs":"@"} ${c.opp}`)}">See my reasoning</button>${dkBtn("NHL",c.team,c.opp,c.t,null,`${c.name} ${label}`)}</div></article>`;
 }
 function nhlRecordHtml(){
   const R=(NHL.record&&NHL.record.picks)||[],pend=R.filter(r=>!r.res&&new Date(r.t)>Date.now()).length;
@@ -4375,6 +4377,21 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 
 // ---- sharing ----
 const SITE="https://cmags0511.github.io/prop-tracker/";
+// "Open in DraftKings": the game's DraftKings page (IDs from dklinks.json, ESPN's free feed). The feed has no link to a single
+// prop, so the button also copies the bet's text to search for. Falls back to DraftKings' home page when the game isn't listed.
+let DKL=null;jget("dklinks.json").then(d=>{DKL=(d&&d.games)||[]});
+function dkGame(lg,team,opp,t,ev){
+  if(!DKL)return null;
+  if(ev){const g=DKL.find(g=>g.ev===String(ev));if(g)return g}
+  const ts=new Date(t).getTime(),set=[team,opp].sort().join("|");
+  return DKL.find(g=>g.lg===lg&&[g.away,g.home].sort().join("|")===set&&Math.abs(new Date(g.t).getTime()-ts)<36*36e5)||null}
+const dkUrl=q=>{const g=dkGame(...q);return g?`https://sportsbook.draftkings.com/event/${g.dk}`:"https://sportsbook.draftkings.com/"};
+// the game is looked up when tapped (dklinks.json may still be loading when the card is drawn)
+const dkBtn=(lg,team,opp,t,ev,text,cls="dkb")=>`<button class="${cls}" type="button" data-dk="${esc(JSON.stringify([lg,team,opp,t,ev||null]))}" data-dktxt="${esc(text)}" aria-label="Open in DraftKings: ${esc(text)}">DraftKings \u2197</button>`;
+document.addEventListener("click",e=>{const b=e.target.closest("[data-dk]");if(!b)return;e.preventDefault();e.stopPropagation();
+  let url="https://sportsbook.draftkings.com/";try{url=dkUrl(JSON.parse(b.dataset.dk))}catch(_){}
+  window.open(url,"_blank","noopener");
+  try{navigator.clipboard.writeText(b.dataset.dktxt||"").then(()=>toast("Copied: "+b.dataset.dktxt),()=>{})}catch(_){}},true);
 function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
 async function copyLink(input){try{await navigator.clipboard.writeText(SITE);toast("Link copied")}catch(e){if(input){input.select();toast(matchMedia("(pointer:coarse)").matches?"Press and hold to copy":"Link selected \u00b7 press Ctrl+C (\u2318C on Mac) to copy")}}}
 function shareBox(){
