@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-04 (2), cmags0511 (Claude): DraftKings button is now a real link (PR)
+The first version was a button that called `window.open`; on the owner's phone it didn't open DraftKings and the card's own sheet opened instead. `dkBtn()` now renders an `<a target="_blank">` (phones open links and hand them to the DraftKings app); the tap handler sets the game's URL, copies the bet text and stops the card underneath from reacting. Tested headless (new tab opens the game page, no sheet). `sw.js` is `pt-v137`. Not tested on a real phone.
+
 ## 2026-11-04, cmags0511 (Claude): "DraftKings" button on every bet (PR)
 `fetch_dklinks.py` -> `dklinks.json` (hourly in `lines.yml`, and `update.yml`): ESPN's free scoreboard odds carry DraftKings' own game links; the DraftKings event ID inside becomes `sportsbook.draftkings.com/event/<id>`. `index.html` `dkBtn()` puts a "DraftKings ↗" button on the Top pick and Best bet cards, soccer and NHL cards and every parlay leg: it opens the game's DraftKings page (home page if the game isn't listed) and copies the bet's text ("Jahan Dotson under 26.5 receiving yards") to search for. No link to the single prop: that needs The Odds API's per-bet links (checked with one credit: DraftKings returns them, e.g. `/?outcomes=...`), which cost credits, so they are not used. `sw.js` is `pt-v135`. Also on the NHL game list rows. Not yet: the game drawer and My picks rows. NHL: ESPN lists DraftKings pages for only some games.
 

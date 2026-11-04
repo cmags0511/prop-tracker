@@ -852,7 +852,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .shc{display:none}
 .pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
 .pkcta .trk,.pkcta .live{margin:0 12px 0 0}
-.dkb{border:0;background:none;color:var(--accent);font:800 13px var(--f-body);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.dkb{display:inline-flex;align-items:center;text-decoration:none;color:var(--accent);font:800 13px var(--f-body);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
 .pkcta .dkb{margin-left:auto}.bpl .dkb{min-height:0;padding:0 4px;font-size:12px}
 .seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
 .seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
@@ -4387,10 +4387,11 @@ function dkGame(lg,team,opp,t,ev){
   return DKL.find(g=>g.lg===lg&&[g.away,g.home].sort().join("|")===set&&Math.abs(new Date(g.t).getTime()-ts)<36*36e5)||null}
 const dkUrl=q=>{const g=dkGame(...q);return g?`https://sportsbook.draftkings.com/event/${g.dk}`:"https://sportsbook.draftkings.com/"};
 // the game is looked up when tapped (dklinks.json may still be loading when the card is drawn)
-const dkBtn=(lg,team,opp,t,ev,text,cls="dkb")=>`<button class="${cls}" type="button" data-dk="${esc(JSON.stringify([lg,team,opp,t,ev||null]))}" data-dktxt="${esc(text)}" aria-label="Open in DraftKings: ${esc(text)}">DraftKings \u2197</button>`;
-document.addEventListener("click",e=>{const b=e.target.closest("[data-dk]");if(!b)return;e.preventDefault();e.stopPropagation();
-  let url="https://sportsbook.draftkings.com/";try{url=dkUrl(JSON.parse(b.dataset.dk))}catch(_){}
-  window.open(url,"_blank","noopener");
+const dkBtn=(lg,team,opp,t,ev,text,cls="dkb")=>`<a class="${cls}" href="https://sportsbook.draftkings.com/" target="_blank" rel="noopener" data-dk="${esc(JSON.stringify([lg,team,opp,t,ev||null]))}" data-dktxt="${esc(text)}" aria-label="Open in DraftKings: ${esc(text)}">DraftKings \u2197</a>`;
+// a real link, so phones open it like any link (and hand it to the DraftKings app when it's installed): the tap only sets
+// the game's address and copies the bet text, and keeps the card underneath from also opening its own sheet
+document.addEventListener("click",e=>{const b=e.target.closest("[data-dk]");if(!b)return;e.stopImmediatePropagation();
+  try{b.href=dkUrl(JSON.parse(b.dataset.dk))}catch(_){}
   try{navigator.clipboard.writeText(b.dataset.dktxt||"").then(()=>toast("Copied: "+b.dataset.dktxt),()=>{})}catch(_){}},true);
 function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
 async function copyLink(input){try{await navigator.clipboard.writeText(SITE);toast("Link copied")}catch(e){if(input){input.select();toast(matchMedia("(pointer:coarse)").matches?"Press and hold to copy":"Link selected \u00b7 press Ctrl+C (\u2318C on Mac) to copy")}}}
