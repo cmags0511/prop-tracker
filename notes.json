@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-05T12:48:17Z",
- "summary": "Giannis Antetokounmpo is playing through a sprained right wrist on the second night of a back-to-back at Golden State; Phoenix lists Goodwin and Fleming out and Orlando is still missing Banchero, Suggs, Isaac, Penda and Nelson. Milan host Ferencvaros without suspended keeper Maignan.",
+ "updated": "2026-11-05T21:36:19Z",
+ "summary": "Giannis Antetokounmpo is playing through a sprained right wrist on the second night of a back-to-back at Golden State; Phoenix now lists Goodwin and Fleming day-to-day (Mark Williams out) and Orlando is still missing Banchero, Suggs, Isaac, Penda and Nelson. Milan host Ferencvaros without suspended keeper Maignan.",
  "notes": {
   "NBA|4709138|ast": {
    "flag": "neutral",
@@ -718,6 +718,51 @@
     "role": "Backups behind Fagnano are newly signed Kedon Slovis and practice-squad Austin Reed.",
     "script": "Baltimore is a 10-point home underdog."
    }
+  },
+  "NBA|3155526|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brooks: Not on the injury report; Phoenix lists only Mark Williams out, with Goodwin and Fleming now day-to-day rather than out.",
+   "sources": [
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
+   ]
+  },
+  "NBA|4566434|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wagner: Not on the injury report and Orlando's lead scorer with Banchero, Suggs, Isaac, Penda and Nelson all out, absences the app already reflects.",
+   "sources": [
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
+   ]
+  },
+  "NBA|4066320|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Bane: Not on the injury report; Orlando's absences (Banchero, Suggs, Isaac, Penda, Nelson) are already in the app.",
+   "sources": [
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
+   ]
+  },
+  "NBA|6589|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Draymond Green: Not on the injury report; Golden State is still without Butler, Porzingis, Santos and Moody, absences the app already reflects.",
+   "sources": [
+    "https://hothothoops.com/2026/11/05/game-preview-heat-to-continue-road-trip-versus-warriors-on-second-night-of-back-to-back/"
+   ]
+  },
+  "NBA|3059319|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wiggins: No availability news; Miami had not filed its report for the second night of a back-to-back as of this check, and Giannis is nursing a sprained wrist.",
+   "sources": [
+    "https://hothothoops.com/2026/11/05/game-preview-heat-to-continue-road-trip-versus-warriors-on-second-night-of-back-to-back/"
+   ]
   }
  },
  "games": {
