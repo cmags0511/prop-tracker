@@ -605,6 +605,11 @@ def build(now):
     return cands, games
 
 
+def bet_sig(c):
+    """what a bet is, whichever book offers it"""
+    return (c["pin"], c["mtype"], c["period"], c["side"])
+
+
 def choose(cands):
     ok = [c for c in cands if MIN_DEC <= dec(c["price"]) <= (MAX_DEC if c["src"] == "main" else MAX_DEC_MODEL)
           and (EV_MAIN <= c["ev"] <= EV_MAX_MAIN if c["src"] == "main" else c["ev"] >= EV_MODEL)]
@@ -678,8 +683,9 @@ def main():
         # already placed doesn't just vanish. The record is unchanged: it counts only bets still listed at kickoff.
         cm = {c["key"]: c for c in cands}
         listed = {c["key"] for c in top}
+        same = {bet_sig(c) for c in top}   # the same bet at the other book is already listed: not a lapsed duplicate
         for c in old.get("picks", []):
-            if c["key"] in listed or dt.datetime.fromisoformat(c["t"]) <= now:
+            if c["key"] in listed or bet_sig(c) in same or dt.datetime.fromisoformat(c["t"]) <= now:
                 continue
             cur = cm.get(c["key"])
             held.append(dict(c, lapsed=True, now_price=cur["price"] if cur else None, now_ev=cur["ev"] if cur else None))
@@ -705,6 +711,17 @@ def main():
             ra[k]["now_price"] = c.get("now_price")
         elif k not in ra:
             ra[k] = dict(c, status="pending", result=None, lapsed=bool(c.get("lapsed")), first_seen=now.isoformat(timespec="minutes"))
+    # one row per bet: the same bet at both books (a tie on price, or a book that moved) counts once, at the better price
+    pend = {}
+    for k, e in ra.items():
+        if e["status"] == "pending" and dt.datetime.fromisoformat(e["t"]) > now:
+            pend.setdefault(bet_sig(e), []).append((k, e))
+    for rows in pend.values():
+        if len(rows) > 1:
+            keep = max(rows, key=lambda r: (dec(r[1]["price"]), not r[1].get("lapsed")))[0]
+            for k, _ in rows:
+                if k != keep:
+                    del ra[k]
     record_all = sorted(ra.values(), key=lambda e: (e["t"], -e["ev"]))
     grade(record_all, now)
     done = [e for e in record if e["status"] in ("win", "loss")]
