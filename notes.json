@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T21:36:19Z",
+ "updated": "2026-11-05T23:45:41Z",
  "summary": "Giannis Antetokounmpo is playing through a sprained right wrist on the second night of a back-to-back at Golden State; Phoenix now lists Goodwin and Fleming day-to-day (Mark Williams out) and Orlando is still missing Banchero, Suggs, Isaac, Penda and Nelson. Milan host Ferencvaros without suspended keeper Maignan.",
  "notes": {
   "NBA|4709138|ast": {
@@ -512,10 +512,11 @@
   },
   "NFL|00-0038611|td": {
    "flag": "caution",
-   "adj": 0,
+   "adj": -1,
    "conf": "medium",
-   "note": "Rodriguez would be first in line for lead and short-yardage carries if Tuten sits, but he is limited himself with a hand injury.",
+   "note": "Rodriguez would be first in line for lead and short-yardage carries if Tuten sits, but he is limited himself with a hand injury. Late reports say Tuten is expected to play, which keeps Rodriguez in a backup role.",
    "sources": [
+    "https://blackandteal.com/jaguars-inactives-against-baltimore-bhayshul-tuten-good-to-go-thursday-night",
     "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
     "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html",
     "https://www.espn.com/nfl/injuries",
@@ -762,6 +763,52 @@
    "note": "Wiggins: No availability news; Miami had not filed its report for the second night of a back-to-back as of this check, and Giannis is nursing a sprained wrist.",
    "sources": [
     "https://hothothoops.com/2026/11/05/game-preview-heat-to-continue-road-trip-versus-warriors-on-second-night-of-back-to-back/"
+   ]
+  },
+  "NFL|00-0033935|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hendrickson isn't on Baltimore's injury report. Jacksonville is a 10-point favorite and may lean on the run with a lead, which means fewer pass-rush snaps for him.",
+   "sources": [
+    "https://baltimoreravens.com/news/five-things-to-know-jacksonville-jaguars-ravens-week-9"
+   ]
+  },
+  "NFL|00-0035642|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hines-Allen isn't on Jacksonville's injury report. Travon Walker is questionable, and if he sits, more protection could slide toward Hines-Allen. Baltimore's rookie QB making his first start could mean more dropbacks if the Ravens trail.",
+   "sources": [
+    "https://blackandteal.com/jaguars-inactives-against-baltimore-bhayshul-tuten-good-to-go-thursday-night",
+    "https://baltimoreravens.com/news/five-things-to-know-jacksonville-jaguars-ravens-week-9"
+   ]
+  },
+  "NBA|4066320|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bane isn't on the injury report. With Banchero and Suggs both out, Orlando's shot volume should run through him and Wagner.",
+   "sources": [
+    "https://foxsports1450.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
+   ]
+  },
+  "NBA|4066320|pr": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bane isn't on the injury report. Banchero and Suggs are out, which raises his usage and works against the under.",
+   "sources": [
+    "https://foxsports1450.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
+   ]
+  },
+  "NBA|3136193|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Booker isn't on the injury report. Phoenix is without Mark Williams, and his role is unchanged.",
+   "sources": [
+    "https://foxsports1450.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/"
    ]
   }
  },
