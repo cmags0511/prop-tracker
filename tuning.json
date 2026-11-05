@@ -1,5 +1,5 @@
 {
- "built": "2026-11-05T01:20+00:00",
+ "built": "2026-11-05T04:07+00:00",
  "graded_picks": 299,
  "graded_research": 223,
  "market": {
@@ -22,7 +22,7 @@
  "factors": {
   "matchup": 1.052,
   "game": 1.084,
-  "form": 0.653,
+  "form": 0.652,
   "market": 1.135
  },
  "research_conf": {
@@ -49,7 +49,7 @@
   "When game script backed a pick it went 24-15, vs 18-14 when it didn't: weighted x1.084",
   "Medium-confidence research calls are 89-108: their weight goes from 1.0 to 0.796",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 12466 graded props the app's chances averaged 55% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 12467 graded props the app's chances averaged 55% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 49%, unders 55%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL rushing yards: an extra nudge toward the under",
@@ -64,18 +64,18 @@
   "NBA rebounds: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
   "CFB passing yards: an extra nudge toward the over",
-  "Recent form has been over-weighted across 11810 graded props: weighted x0.653",
-  "Kalshi market has been under-weighted across 11810 graded props: weighted x1.135"
+  "Recent form has been over-weighted across 11811 graded props: weighted x0.652",
+  "Kalshi market has been under-weighted across 11811 graded props: weighted x1.135"
  ],
  "calibration": {
-  "n": 12466,
+  "n": 12467,
   "days": 22,
   "trust": 0.92,
   "c": -0.136,
   "b": 0.35,
   "per": {
    "CFB|pyd": [
-    0.062,
+    0.051,
     0.993
    ],
    "CFB|rec": [
@@ -95,7 +95,7 @@
     1.122
    ],
    "NBA|pa": [
-    -0.041,
+    -0.04,
     0.925
    ],
    "NBA|pr": [
@@ -127,7 +127,7 @@
     0.873
    ],
    "NFL|cmp": [
-    0.075,
+    0.076,
     0.91
    ],
    "NFL|fgm": [
@@ -161,15 +161,15 @@
   }
  },
  "calib": {
-  "n": 12466,
+  "n": 12467,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    7649,
+    7650,
     0.525,
-    0.532
+    0.533
    ],
    [
     0.55,
