@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-04 (3), cmags0511 (Claude): soccer team bets, no duplicate rows (PR)
+`soccer_team.py`: the same bet at both books (Mainz v Bayern Draw at DraftKings and FanDuel, both +500) showed twice: the book that lost the tie went to the "lapsed" list and into the "all listed" record. Now a bet is identified by game + market + period + side (`bet_sig`): an old pick whose bet is already listed at the other book isn't kept as lapsed, and pending "all listed" rows for the same bet are cut to one (the better price). Graded rows are never touched. The data files were not hand-edited; the next run cleans them up.
+
 ## 2026-11-04 (2), cmags0511 (Claude): DraftKings button is now a real link (PR)
 The first version was a button that called `window.open`; on the owner's phone it didn't open DraftKings and the card's own sheet opened instead. `dkBtn()` now renders an `<a target="_blank">` (phones open links and hand them to the DraftKings app); the tap handler sets the game's URL, copies the bet text and stops the card underneath from reacting. Tested headless (new tab opens the game page, no sheet). `sw.js` is `pt-v137`. Not tested on a real phone.
 
