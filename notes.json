@@ -1,842 +1,558 @@
 {
- "updated": "2026-11-04T21:36:48Z",
- "summary": "Baltimore starts undrafted rookie Joe Fagnano Thursday with Lamar Jackson on IR and Huntley doubtful, and Jacksonville RB Tuten missed two practices. In the NBA, Ja Morant is out about four weeks; Tatum (rest), Pritchard, Josh Hart and Jalen Johnson are questionable.",
+ "updated": "2026-11-05T12:47:31Z",
+ "summary": "Giannis Antetokounmpo is playing through a sprained right wrist on the second night of a back-to-back at Golden State; Phoenix lists Goodwin and Fleming out and Orlando is still missing Banchero, Suggs, Isaac, Penda and Nelson. Milan host Ferencvaros without suspended keeper Maignan.",
  "notes": {
-  "CFB|5082330|pyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Richter has started and finished Toledo's recent games with no injury news listed through late October; 251.5 is posted at FanDuel, BetOnline and Bovada. Toledo is a 25.5-point favorite, so a late lead could shorten his night.",
-   "sources": [
-    "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/",
-    "https://web9.rotowire.com/cfootball/player/john-alan-richter-42149"
-   ],
-   "detail": {
-    "availability": "No injury listed on his news feed; his latest entries are full games against Western Michigan and Eastern Michigan in late October.",
-    "role": "Unquestioned starter in Toledo's last four games.",
-    "script": "Toledo is a 25.5-point road favorite at Sacramento State with a 52.5 total, so a blowout could cut his fourth-quarter snaps.",
-    "market": "251.5 passing yards at FanDuel (-114 both sides), same number at BetOnline and Bovada."
-   }
-  },
-  "NBA|4277905|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Young has no injury designation; his first meeting with former team Atlanta, and Sarr's questionable knee could open more defensive-glass chances if Ayton/backups shift the frontcourt.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z"
-   ],
-   "detail": {
-    "availability": "Not on the Wizards injury report.",
-    "role": "Starting point guard; Sarr sat Monday at Orlando with Deandre Ayton starting at center, and Sarr is questionable again.",
-    "market": "Packet line 2.5 opened at 3.5; the drop makes the over easier, nothing found explaining it beyond normal adjustment."
-   }
-  },
-  "NBA|4701230|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|4701230|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Johnson is questionable with a left ankle sprain from Saturday; he left that game early and missed Monday's win, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.si.com/nba/hawks/onsi/hawks-injury-report-what-is-jalen-johnson-s-status-for-tomorrow-s-game-vs-washington-01m6hr926y0z",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/jalen-johnson-ankle-questionable-wednesday",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left ankle sprain), sprained Saturday vs New Orleans, sat the fourth quarter and missed Monday at Indiana.",
-    "role": "Lu Dort started in his place Monday; Asa Newell and Zuby Ejiofor are the backup bigs with Landale out."
-   }
-  },
-  "NBA|5160992|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|5160992|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Sarr is questionable with left knee soreness after sitting Monday, when Deandre Ayton started at center.",
-   "sources": [
-    "https://sports.yahoo.com/articles/hawks-encouraging-jalen-johnson-wizards-004658602.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html"
-   ],
-   "detail": {
-    "availability": "Questionable (left knee soreness); missed Monday's win at Orlando.",
-    "role": "Ayton started at center in his absence."
-   }
-  },
-  "NBA|3150844|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Wagner is healthy and in the backup center rotation, playing 20 minutes Monday with a made three; no change to his role found.",
-   "sources": [
-    "https://www.espn.com/nba/boxscore/_/gameId/401909910",
-    "https://www.espn.com/nba/player/gamelog/_/id/3150844"
-   ],
-   "detail": {
-    "availability": "Not on Brooklyn's injury report; played Monday vs New York.",
-    "role": "Played 14-22 minutes in each logged game and has attempted at least two threes in each.",
-    "market": "Kalshi at 63% for the over, above the 52.4% break-even; line unchanged from open."
-   }
-  },
-  "NBA|3934719|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Anunoby is healthy and playing heavy minutes; Hart's questionable tag could free extra rebounds if Hart sits, but nothing is confirmed yet.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.953thescore.com/2026/11/03/knicks-seek-rise-to-500-oppose-sluggish-bulls/",
-    "https://www.espn.com/nba/boxscore/_/gameId/401909910"
-   ],
-   "line_now": 5.5,
-   "line_src": "https://www.bettingpros.com/nba/props/og-anunoby/rebounds/",
-   "detail": {
-    "availability": "Not on the Knicks injury report.",
-    "role": "Played 38 minutes Monday vs Brooklyn with 4 rebounds; a Hart absence would remove a guard who rebounds heavily, but his status is unresolved.",
-    "matchup": "Chicago's frontcourt is thin with Claxton questionable and Jalen Smith playing through a finger sprain."
-   }
-  },
-  "NBA|3062679|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|3062679|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hart is questionable with right ankle soreness on Tuesday's league report; status likely a game-time call, and he has been in single digits scoring four straight games.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/josh-hart-ankle-questionable-wednesday-vs-chi",
-    "https://heavy.com/sports/nba/new-york-knicks/knicks-josh-hart-injury-update-bulls/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Listed questionable (right ankle soreness) on the Nov 3 injury report; no practice detail published.",
-    "role": "Played 27 minutes Monday vs Brooklyn, below his usual heavy workload."
-   }
-  },
-  "NBA|5041939|pr": {
+  "NBA|4709138|ast": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Flagg is off the injury list after his late-October shoulder sprain, and Christie's absence takes away a rotation wing, but no source shows his workload changing.",
+   "note": "No new availability or role news for Podziemski. Golden State's absences are already in the app, and Miami is on the second night of a back-to-back after playing the Clippers.",
    "sources": [
-    "https://fieldlevelmedia.com/nba/cooper-flagg-shoulder-out-vs-spurs-to-be-reevaluated-next-week/",
-    "https://www.ksat.com/topic/dallas_mavericks"
+    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t"
    ],
    "detail": {
-    "availability": "His mild left shoulder sprain came on Oct. 23 against Indiana and kept him out of the Oct. 24 game against the Spurs; he no longer appears on the injury report.",
-    "role": "Risacher replaces Christie in the starting lineup, so Flagg's role should stay the same.",
-    "market": "The line moved from 32.5 at open to 31.5, and the book's no-vig price is about even."
+    "conditions": "Miami played at the Clippers on Nov. 4, so this is the second night of a back-to-back for the Heat."
    }
   },
-  "NBA|4251|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "George is off the injury report after being rested against Houston; if Tatum takes a rest night his frontcourt load would likely grow, but that is not confirmed.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html"
-   ],
-   "detail": {
-    "availability": "Not on Boston's injury report; was rested vs Houston earlier this week.",
-    "role": "Starting PF; Tatum is questionable for rest, which could shift more minutes and boards to George if he sits."
-   }
-  },
-  "NBA|3134907|3pm": {
+  "NBA|5175737|3pm": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No Milwaukee injury news found; Kuzma's three-point line fell from 1.5 to 0.5, which lowers the bar but also signals a modest shooting projection.",
+   "note": "No new availability or role news for Lendeborg. Golden State's absences are already in the app, and Miami is on the second night of a back-to-back after playing the Clippers.",
    "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html"
+    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t"
    ],
    "detail": {
-    "availability": "No Bucks injuries listed in Celtics game coverage.",
-    "market": "Line opened 1.5 and now sits 0.5; Kalshi about 67% on the over at 0.5. No news found explaining the move."
+    "conditions": "Miami played at the Clippers on Nov. 4, so this is the second night of a back-to-back for the Heat."
    }
   },
-  "NBA|4432848|3pm": {
+  "NBA|4066383|3pm": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "No injury or rotation news for Jaquez; Milwaukee (1-6) reports no injuries and he is described as a key scoring option behind Herro.",
+   "conf": "medium",
+   "note": "Bridges is not on the injury report; Goodwin and Fleming are listed out for Phoenix's back-to-back, so no new fact changes his role or shot volume.",
    "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html"
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/",
+    "https://sports.yahoo.com/articles/phoenix-suns-vs-portland-trail-192615853.html",
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
    ],
    "detail": {
-    "availability": "No Bucks injuries reported.",
-    "role": "Starting SF; coverage calls him an important offensive option for Milwaukee."
+    "availability": "No injury listing for him on the Nov 5 report.",
+    "role": "Starting PF role unchanged; Fleming's ankle sprain keeps a backup forward questionable, which at most trims frontcourt competition slightly.",
+    "conditions": "Phoenix is on the second night of a back-to-back after hosting Portland on Wednesday."
    }
   },
-  "NBA|4065648|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4065648|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is questionable for rest, which would be his first missed game of the season since returning from Achilles surgery; Boston has not said whether he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-announce-unexpected-jayson-tatum-003218427.html",
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (rest) on Tuesday's report; no new injury. Has started all seven games since his Achilles return."
-   }
-  },
-  "NBA|4066354|pra": {
-   "flag": "caution",
+  "NBA|3155526|3pm": {
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
+   "note": "Brooks is not on the injury report; no rotation change found beyond Goodwin and Fleming being listed out on the second night of a back-to-back.",
    "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/",
+    "https://sports.yahoo.com/articles/phoenix-suns-vs-portland-trail-192615853.html",
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
    ],
    "detail": {
-    "availability": "Questionable (right shoulder contusion)."
+    "availability": "No injury listing for him on the Nov 5 report.",
+    "role": "Starting SF role unchanged; no coach comments on usage found.",
+    "conditions": "Phoenix is on the second night of a back-to-back after hosting Portland on Wednesday."
    }
   },
-  "NBA|4066354|pr": {
-   "flag": "caution",
+  "NBA|4437244|3pm": {
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
+   "note": "Green is not on the injury report; Goodwin's calf injury (listed out) could keep extra guard minutes available, but that absence is already reflected and nothing new changes his role.",
    "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/",
+    "https://sports.yahoo.com/articles/phoenix-suns-vs-portland-trail-192615853.html",
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
    ],
    "detail": {
-    "availability": "Questionable (right shoulder contusion)."
+    "availability": "No injury listing for him on the Nov 5 report.",
+    "role": "Starting SG role unchanged; Goodwin (calf) day-to-day after missing Wednesday.",
+    "conditions": "Phoenix is on the second night of a back-to-back after hosting Portland on Wednesday."
    }
   },
-  "NBA|4066354|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|4066354|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|4066354|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|4066354|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|4066354|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|4066354|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pritchard is questionable with a bruised right (shooting) shoulder, so his availability and shooting are uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/celtics-face-unexpected-jayson-tatum-113703350.html",
-    "https://sports.yahoo.com/articles/celtics-announce-payton-pritchard-injury-012549192.html",
-    "https://www.espn.com/nba/injuries",
-    "https://sports.yahoo.com/articles/celtics-injury-report-reveals-team-225247947.html"
-   ],
-   "detail": {
-    "availability": "Questionable (right shoulder contusion)."
-   }
-  },
-  "NBA|5107199|3pm": {
-   "side": "over",
+  "SOC|362794|401876405": {
    "flag": "support",
-   "adj": 1,
-   "conf": "low",
-   "note": "Isaiah Joe, Detroit's main bench shooter, is out with a hip injury, leaving more backcourt minutes and perimeter shots for Jenkins in the second unit.",
-   "sources": [
-    "https://www.rotoballer.com/?p=1975723",
-    "https://www.cbssports.com/nba/news/pistons-aim-to-extend-perfect-nba-cup-start-vs-76ers"
-   ],
-   "detail": {
-    "availability": "No injury listing for Jenkins.",
-    "role": "With Joe out after hurting his hip Sunday, Jenkins is the most natural taker of the reserve guard minutes; he has handled heavy shorthanded minutes for Detroit before.",
-    "market": "His line has dropped from 1.5 at open to 0.5, so the over now needs only one make."
-   }
-  },
-  "NBA|2596112|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "With Duren and Joe both out, Detroit's bench is thinner, which should keep Green in the rotation, but none of the sources say his minutes will go up.",
-   "sources": [
-    "https://www.rotoballer.com/?p=1975723"
-   ],
-   "detail": {
-    "availability": "No injury listing for Green.",
-    "role": "With Duren out, Reed moves into the starting lineup and Joe's wing minutes open up, so Green's floor time looks secure; no source quantifies a bump."
-   }
-  },
-  "NBA|4278562|pts": {
-   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Reed is starting at center while Duren is out for at least two weeks with a hamstring strain; he has produced big lines in past spot starts for Detroit.",
+   "note": "No injury listed; scored in his start in the 5-1 win over Auxerre on Nov 1. Striker Panichelli listed out, which helps his chances of starting.",
    "sources": [
-    "https://www.cbssports.com/nba/news/pistons-aim-to-extend-perfect-nba-cup-start-vs-76ers"
-   ],
-   "detail": {
-    "role": "He replaces Duren as the starter; Duren's re-evaluation is two weeks away."
-   }
+    "https://aws-prod-web9.rotowire.com/soccer/player/conrad-harder-44205",
+    "https://sports.orange.fr/football/ligue-1/debrief/ligue-1-j9-strasbourg-renoue-avec-la-victoire-en-ecrasant-auxerre-exclu-CNT000002tuVRY.html"
+   ]
   },
-  "NBA|3995|3pm": {
-   "side": "over",
+  "SOC|303931|401879242": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Went off before the hour vs Fulham on Oct 24 with a lower-leg problem; listed questionable with a calf injury for Friday at Everton.",
+   "sources": [
+    "https://www.fantasyfootballscout.co.uk/2026/10/25/fpl-notes-thomas-injury-update-why-he-didnt-get-a-clean-sheet",
+    "https://starting11.com/fixtures/everton-vs-coventry",
+    "https://www.rotowire.com/soccer/headlines/bobby-thomas-injury-questionable-to-face-everton-544799"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan without suspended first-choice keeper Maignan and centre-backs Tomori and Gabbia, which weakens a Ferencvaros clean-sheet-against bet.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan without suspended first-choice keeper Maignan and centre-backs Tomori and Gabbia, which weakens a Ferencvaros clean-sheet-against bet.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|HOME_TEAM_OVER/UNDER_3.5|over": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan missing attackers Saelemaekers, Chukwueze and Loftus-Cheek, Rabiot doubtful, and keeper Maignan suspended; a thinner squad for a big winning margin.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5|over": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan missing attackers Saelemaekers, Chukwueze and Loftus-Cheek, Rabiot doubtful, and keeper Maignan suspended; a thinner squad for a big winning margin.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|HOME_TEAM_-2.5_GOALS|ac milan 2 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan missing attackers Saelemaekers, Chukwueze and Loftus-Cheek, Rabiot doubtful, and keeper Maignan suspended; a thinner squad for a big winning margin.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan defense depleted (Maignan suspended, Tomori and Gabbia out) but several Milan attackers also out; Ferencvaros missing Yusuf and Otvos.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|OVER_UNDER_35|over 3 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan defense depleted (Maignan suspended, Tomori and Gabbia out) but several Milan attackers also out; Ferencvaros missing Yusuf and Otvos.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639017868|FanDuel|AWAY_TEAM_OVER/UNDER_1.5|over": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Milan defense depleted (Maignan suspended, Tomori and Gabbia out) but several Milan attackers also out; Ferencvaros missing Yusuf and Otvos.",
+   "sources": [
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://www.tuttomercatoweb.com/serie-a/milan-sospiro-sollievo-maignan-turno-stop-europa-league-2288798"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|OVER_UNDER_55|over 5 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech also miss forwards Sayyadmanesh and Ishak.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech also miss forwards Sayyadmanesh and Ishak.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|HOME_TEAM_OVER/UNDER_3.5|over": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech also miss forwards Sayyadmanesh and Ishak.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|HOME_TEAM_-3.5_GOALS|benfica 3 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech also miss forwards Sayyadmanesh and Ishak.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|HOME_TEAM_-2.5_GOALS|lech poznan +2 5 goals": {
    "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "With Morant out about four weeks, Holiday is the primary backup guard and handling more of the offense; he made three threes in Monday's win at Denver.",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech keep a settled XI but defenders Douglas and Monka are out.",
    "sources": [
-    "https://www.z93jamz.com/2026/11/03/suns-try-to-pull-defense-together-vs-road-warrior-blazers/",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-02/jrue-holiday-chips-in-17-8-10-line-off-bench",
-    "https://www.espn.com/nba/injuries",
-    "https://www.yardbarker.com/nba/articles/trail_blazers_visit_suns_seeking_fifth_straight_road_win/s1_17668_44509441"
-   ],
-   "detail": {
-    "availability": "Not on Portland's injury report.",
-    "role": "Morant has missed two straight games and is expected out roughly four weeks; Holiday came off the bench for 17 points, 10 assists and 3 threes at Denver.",
-    "matchup": "Phoenix is last in the league in defensive efficiency (124.5 per 100 possessions)."
-   }
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
   },
-  "NBA|4397077|pts": {
+  "SOCT|1639013935|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech without forwards Sayyadmanesh and Ishak plus defenders Douglas and Monka.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639013935|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Benfica expected to rotate after a league game three days earlier; Barrenechea out, Lukebakio doubtful. Lech without forwards Sayyadmanesh and Ishak plus defenders Douglas and Monka.",
+   "sources": [
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_1.5|over": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk midfielder Del Moral suspended (yellow cards) and rotation expected before an HNL game three days later. Lincoln report no absentees.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|AWAY_TEAM_OVER/UNDER_2.5|over": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk midfielder Del Moral suspended (yellow cards) and rotation expected before an HNL game three days later. Lincoln report no absentees.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|AWAY_TEAM_-1.5_GOALS|hajduk split 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk midfielder Del Moral suspended (yellow cards) and rotation expected before an HNL game three days later. Lincoln report no absentees.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|AWAY_TEAM_-2.5_GOALS|hajduk split 2 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk midfielder Del Moral suspended (yellow cards) and rotation expected before an HNL game three days later. Lincoln report no absentees.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|OVER_UNDER_35|over 3 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk without suspended Del Moral and may rotate ahead of a league game; Lincoln have no reported absences.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000194|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hajduk without suspended Del Moral and may rotate ahead of a league game; Lincoln have no reported absences.",
+   "sources": [
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split"
+   ]
+  },
+  "SOCT|1639000292|FanDuel|DRAW_NO_BET|brann": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Correction: the shoulder absence and clearance were last week (out Oct 26 vs Memphis, cleared Oct 28 vs San Antonio); Hayes is not on Utah's Nov 3 injury report and starts at center.",
+   "note": "Brann missing goalkeeper Dyngeland, forward Kjartansson, defender Sorensen and midfielder Mathisen; rotation likely before an Eliteserien game. Sint-Truiden report no injuries.",
    "sources": [
-    "https://www.rotoballer.com/?p=1976590",
-    "https://www.rotoballer.com/?p=1977698",
-    "https://www.rotoballer.com/?p=1978237",
-    "https://www.cbssports.com/fantasy/basketball/news/jazzs-jaxson-hayes-cleared-to-play-wednesday/",
-    "https://www.espn.com/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not on Utah's current injury report; the questionable tag and return were from Oct 26-28.",
-    "role": "Starting center with Nurkic and Jaren Jackson Jr. out and Bamba questionable."
-   }
+    "https://starting11.com/fixtures/sint-truiden-vs-brann"
+   ]
   },
-  "NBA|4397077|pr": {
+  "SOCT|1639000292|FanDuel|WIN-DRAW-WIN|brann": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Correction: the shoulder absence and clearance were last week (out Oct 26 vs Memphis, cleared Oct 28 vs San Antonio); Hayes is not on Utah's Nov 3 injury report and starts at center.",
+   "note": "Brann missing goalkeeper Dyngeland, forward Kjartansson, defender Sorensen and midfielder Mathisen; rotation likely before an Eliteserien game. Sint-Truiden report no injuries.",
    "sources": [
-    "https://www.rotoballer.com/?p=1978237",
-    "https://www.rotoballer.com/?p=1977698",
-    "https://www.cbssports.com/fantasy/basketball/news/jazzs-jaxson-hayes-cleared-to-play-wednesday/",
-    "https://www.espn.com/nba/injuries"
+    "https://starting11.com/fixtures/sint-truiden-vs-brann"
+   ]
+  },
+  "SOCT|1639000292|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5|over": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sint-Truiden have no reported injuries while Brann lose keeper Dyngeland, defender Sorensen and two others; both sides may rotate.",
+   "sources": [
+    "https://starting11.com/fixtures/sint-truiden-vs-brann"
+   ]
+  },
+  "SOCT|1639000292|FanDuel|HOME_TEAM_-1.5_GOALS|sint truiden 1 5 goals": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sint-Truiden have no reported injuries while Brann lose keeper Dyngeland, defender Sorensen and two others; both sides may rotate.",
+   "sources": [
+    "https://starting11.com/fixtures/sint-truiden-vs-brann"
+   ]
+  },
+  "SOCT|1639029169|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Celtic lost 2-0 at Falkirk and are pointless in the group; both sides may rotate. Besiktas without Kokcu, Miretti and suspended Akdag.",
+   "sources": [
+    "https://starting11.com/fixtures/celtic-vs-besiktas",
+    "https://www.fanatik.com.tr/en/a-heavy-blow-for-celtic-ahead-of-the-besiktas-match-they-fell-apart-in-their-away-game-against-falkirk-2643098"
+   ]
+  },
+  "SOCT|1639029169|FanDuel|OVER_UNDER_35|over 3 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Celtic lost 2-0 at Falkirk and are pointless in the group; both sides may rotate. Besiktas without Kokcu, Miretti and suspended Akdag.",
+   "sources": [
+    "https://starting11.com/fixtures/celtic-vs-besiktas",
+    "https://www.fanatik.com.tr/en/a-heavy-blow-for-celtic-ahead-of-the-besiktas-match-they-fell-apart-in-their-away-game-against-falkirk-2643098"
+   ]
+  },
+  "SOCT|1639013933|FanDuel|DRAW_NO_BET|sparta prague": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Both teams likely to rotate. Sparta miss five incl. Karabec and Mercado; Bournemouth miss suspended Diakite plus Araujo, Scott, Toth.",
+   "sources": [
+    "https://starting11.com/fixtures/sparta-praha-vs-bournemouth"
+   ]
+  },
+  "SOCT|1639017900|FanDuel|DRAW_NO_BET|dinamo zagreb": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sunderland without suspended centre-backs Danso and Alderete, Ballard injured, Mukiele doubtful, heavy rotation expected. Dinamo also miss five.",
+   "sources": [
+    "https://starting11.com/fixtures/sunderland-vs-dinamo-zagreb"
+   ]
+  },
+  "SOCT|1639013931|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Both sides expected to rotate before league games. Levski miss Kirilov and Mitkov; Jagiellonia lose Vital to suspension.",
+   "sources": [
+    "https://starting11.com/fixtures/levski-sofia-vs-jagiellonia"
+   ]
+  },
+  "SOCT|1639013931|FanDuel|HOME_TEAM_-1.5_GOALS|pfc levski sofia 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Both sides expected to rotate before league games. Levski miss Kirilov and Mitkov; Jagiellonia lose Vital to suspension.",
+   "sources": [
+    "https://starting11.com/fixtures/levski-sofia-vs-jagiellonia"
+   ]
+  },
+  "SOCT|1639013931|FanDuel|1ST_HALF_OVER/UNDER_0.5_GOALS|1st half under 0 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Both sides expected to rotate before league games. Levski miss Kirilov and Mitkov; Jagiellonia lose Vital to suspension.",
+   "sources": [
+    "https://starting11.com/fixtures/levski-sofia-vs-jagiellonia"
+   ]
+  },
+  "SOCT|1639104512|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Twente defender Lemkin out and van Rooij doubtful; no major attacking absences listed. Pafos news not checked.",
+   "sources": [
+    "https://starting11.com/twente/injuries"
+   ]
+  },
+  "SOCT|1639104512|FanDuel|OVER_UNDER_35|over 3 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Twente defender Lemkin out and van Rooij doubtful; no major attacking absences listed. Pafos news not checked.",
+   "sources": [
+    "https://starting11.com/twente/injuries"
+   ]
+  },
+  "SOCT|1639104512|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5|over": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Twente defender Lemkin out and van Rooij doubtful; no major attacking absences listed. Pafos news not checked.",
+   "sources": [
+    "https://starting11.com/twente/injuries"
+   ]
+  },
+  "NBA|3136193|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Booker: Not on the injury report; Phoenix is on the second night of a back-to-back with Goodwin and Fleming listed out and Mark Williams out, so no new fact changes his role.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4437244|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Green: Not on the injury report; Phoenix is on the second night of a back-to-back with Goodwin and Fleming listed out and Mark Williams out, so no new fact changes his role.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4566434|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wagner: Not on the injury report; Orlando remains without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, absences the app already reflects.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4066320|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Bane: Not on the injury report; Orlando remains without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, absences the app already reflects.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4712849|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Black: Not on the injury report; Orlando remains without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, absences the app already reflects.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4066261|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Adebayo: Not on the injury report; Miami is on the second night of a back-to-back after an overtime win at the Clippers on Nov 4.",
+   "sources": [
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
+   ]
+  },
+  "NBA|6589|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Draymond Green: Not on the injury report; Golden State is still without Santos, Porzingis, Butler and Moody, which the app already reflects.",
+   "sources": [
+    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t"
+   ]
+  },
+  "NBA|5175737|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lendeborg: Not on the injury report; Golden State is still without Santos, Porzingis, Butler and Moody, which the app already reflects.",
+   "sources": [
+    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t"
+   ]
+  },
+  "NBA|3032977|pra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Played 40 minutes Nov 4 on a sprained right wrist that he grabbed in the third quarter and had heavily wrapped afterward; status for tonight unresolved.",
+   "sources": [
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
+   ]
+  },
+  "NBA|5239561|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Richardson: Not on the injury report; Miami is on the second night of a back-to-back after an overtime win at the Clippers on Nov 4.",
+   "sources": [
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
+   ]
+  },
+  "NFL|00-0038611|td": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Rodriguez would be first in line for lead and short-yardage carries if Tuten sits, but he is limited himself with a hand injury.",
+   "sources": [
+    "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
+    "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html",
+    "https://www.espn.com/nfl/injuries",
+    "https://heavy.com/sports/nfl/jacksonville-jaguars/jaguars-bhayshul-tuten-injury-update-concern-before-tnf/"
    ],
+   "buzz": "none",
    "detail": {
-    "availability": "Not on Utah's current injury report; the questionable tag and return were from Oct 26-28.",
-    "role": "Starting center with Nurkic and Jaren Jackson Jr. out and Bamba questionable."
+    "availability": "Questionable, limited Tuesday (hand).",
+    "role": "Primary backup this season; LeQuint Allen Jr. and Ameer Abdullah would split work if both backs are limited or out."
    }
+  },
+  "NBA|4566434|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wagner: Not on the injury report; Orlando remains without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, absences the app already reflects.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|4277847|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Carter: Not on the injury report; Orlando remains without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, absences the app already reflects.",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "NBA|5239561|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Richardson: Not on the injury report; Miami is on the second night of a back-to-back after an overtime win at the Clippers on Nov 4.",
+   "sources": [
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
+   ]
   },
   "NFL|00-0036971|cmp": {
    "flag": "neutral",
@@ -854,43 +570,6 @@
     "script": "Jaguars -10 with a 40.5 total; a big lead against rookie Joe Fagnano could tilt late volume toward the run.",
     "conditions": "Light wind, about 21% rain chance, mid-60s.",
     "market": "Line opened 19.5, now 18.5 per packet; split action, with DraftKings tickets heavily on Jacksonville and Circa tickets leaning Baltimore."
-   }
-  },
-  "NFL|00-0040719|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Tuten (foot/ankle) did not practice Monday or Tuesday and was the only Jaguar not seen at Tuesday's open session, putting his Thursday availability and goal-line role in doubt.",
-   "sources": [
-    "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
-    "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html",
-    "https://www.baltimoreravens.com/news/joe-fagnano-ravens-quarterbacks-practice-report-tyler-huntley",
-    "https://www.espn.com/nfl/injuries",
-    "https://heavy.com/sports/nfl/jacksonville-jaguars/jaguars-bhayshul-tuten-injury-update-concern-before-tnf/"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "DNP Monday walkthrough, not spotted Tuesday; questionable on a short week.",
-    "role": "Played through the issues Sunday for a career-high 104 rushing yards vs Indianapolis; Chris Rodriguez Jr. is next up, then LeQuint Allen Jr. and Ameer Abdullah.",
-    "market": "Kalshi 1+ TD about 47.5%; the price may not fully reflect two missed practices."
-   }
-  },
-  "NFL|00-0038611|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Rodriguez would be first in line for lead and short-yardage carries if Tuten sits, but he is limited himself with a hand injury.",
-   "sources": [
-    "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
-    "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html",
-    "https://www.espn.com/nfl/injuries",
-    "https://heavy.com/sports/nfl/jacksonville-jaguars/jaguars-bhayshul-tuten-injury-update-concern-before-tnf/"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "Questionable, limited Tuesday (hand).",
-    "role": "Primary backup this season; LeQuint Allen Jr. and Ameer Abdullah would split work if both backs are limited or out."
    }
   },
   "NFL|00-0034960|recyd": {
@@ -1012,644 +691,43 @@
     "role": "Backups behind Fagnano are newly signed Kedon Slovis and practice-squad Austin Reed.",
     "script": "Baltimore is a 10-point home underdog."
    }
-  },
-  "SOC|276221|401915382": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Fenerbahce's absence list. The club is missing Asensio (knee) plus defenders Skriniar (suspended), Oosterwolde and Ake. No predicted XI was found.",
-   "sources": [
-    "https://starting11.com/es/fixtures/fenerbahce-vs-liverpool"
-   ]
-  },
-  "SOC|293212|401880175": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Cardiff's absence list (Lawlor, Chambers, Bielik and Robinson are out). No named predicted XI was found.",
-   "sources": [
-    "https://starting11.com/fixtures/cardiff-vs-west-ham"
-   ]
-  },
-  "SOC|189605|401880173": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Wrexham's injury list. Attackers Broadhead and Windass are out, so Moore's place up front looks secure. No named XI was found.",
-   "sources": [
-    "https://starting11.com/fixtures/wrexham-vs-middlesbrough"
-   ]
-  },
-  "SOC|347306|401880175": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Listed as doubtful with an ankle injury before the West Ham match.",
-   "sources": [
-    "https://starting11.com/fixtures/cardiff-vs-west-ham"
-   ]
-  },
-  "SOC|156898|401915305": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Lens's absence list. Forward Edouard (groin) and Sima (muscle) are out, which could put more of the attack through Thauvin.",
-   "sources": [
-    "https://starting11.com/es/fixtures/lens-vs-como"
-   ]
-  },
-  "SOC|240965|401915303": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on PSV's absence list. Midfielders Wanner and Schouten are out and Pepi is doubtful, so Til's midfield role looks secure.",
-   "sources": [
-    "https://starting11.com/fixtures/psv-eindhoven-vs-club-brugge"
-   ]
-  },
-  "SOC|223776|401915301": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No availability news found. The predicted XI named no players.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOC|194116|401880176": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not injured. He is the lone striker in the predicted XI, with Jimenez (knee) out. Not yet a confirmed team sheet.",
-   "sources": [
-    "https://starting11.com/fixtures/bristol-city-vs-wolves"
-   ]
-  },
-  "SOC|310709|401915304": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Fit, but Dortmund play a Bundesliga match three days later and are expected to rotate. He starts about 75% of matches.",
-   "sources": [
-    "https://starting11.com/fixtures/borussia-dortmund-vs-real-betis"
-   ]
-  },
-  "SOC|264211|401915305": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Como's absence list. Como are missing striker Kean, Diao and Chalobah.",
-   "sources": [
-    "https://starting11.com/es/fixtures/lens-vs-como"
-   ]
-  },
-  "SOC|305692|401880176": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not injured. Included in Wolves' predicted attacking-midfield three. Not yet a confirmed team sheet.",
-   "sources": [
-    "https://starting11.com/fixtures/bristol-city-vs-wolves"
-   ]
-  },
-  "SOC|255344|401915301": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not among the visible Napoli absences, but part of that list was hidden. No named predicted XI was found.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOC|287279|401915303": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on PSV's absence list. With Wanner and Schouten out, his starting place looks secure.",
-   "sources": [
-    "https://starting11.com/fixtures/psv-eindhoven-vs-club-brugge"
-   ]
-  },
-  "SOC|299910|401915306": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No current availability news found for the Leipzig match.",
-   "sources": []
-  },
-  "SOC|388070|401915523": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on Sunderland's absence list. Defender Danso is suspended, Ballard is out and Mukiele is doubtful, which could help him keep a starting place.",
-   "sources": [
-    "https://starting11.com/es/fixtures/sunderland-vs-dinamo-zagreb"
-   ]
-  },
-  "SOCT|1638935637|FanDuel|HOME_TEAM_OVER/UNDER_1.5|over": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Real Madrid are without defenders Asencio and Mendy plus Valverde, and Courtois is doubtful (illness). Mbappe and Bellingham are expected to start. AEK report no absences.",
-   "sources": [
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid"
-   ]
-  },
-  "SOCT|1638935637|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Madrid are missing Rodrygo and Valverde, but Mbappe, Bellingham and Guler are in the predicted XI. AEK report no absences.",
-   "sources": [
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid"
-   ]
-  },
-  "SOCT|1638935637|FanDuel|AWAY_TEAM_OVER/UNDER_1.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Madrid are missing Rodrygo and Valverde, but Mbappe, Bellingham and Guler are in the predicted XI. AEK report no absences.",
-   "sources": [
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid"
-   ]
-  },
-  "SOCT|1638935637|FanDuel|DOUBLE_CHANCE|aek athens and draw": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Madrid are without Rodrygo, Valverde, Asencio and Mendy, and Courtois is doubtful, but their core attack is expected to start.",
-   "sources": [
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid"
-   ]
-  },
-  "SOCT|1638935637|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No major attacking absences found on either side beyond Rodrygo and Valverde for Madrid.",
-   "sources": [
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid"
-   ]
-  },
-  "SOCT|1638936363|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Fenerbahce are without Asensio (knee). Liverpool are without Frimpong and Bradley, and Szoboszlai and Munoz are doubtful.",
-   "sources": [
-    "https://starting11.com/es/fixtures/fenerbahce-vs-liverpool",
-    "https://www.fanatik.com.tr/en/injury-nightmare-in-liverpool-bad-news-ahead-of-the-fenerbahce-match-2641494"
-   ]
-  },
-  "SOCT|1638936363|FanDuel|AWAY_TEAM_-2.5_GOALS|liverpool 2 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Fenerbahce's defense is thinned (Skriniar suspended, Oosterwolde and Ake out), but Liverpool are missing striker Ekitike and Szoboszlai is doubtful.",
-   "sources": [
-    "https://starting11.com/es/fixtures/fenerbahce-vs-liverpool"
-   ]
-  },
-  "SOCT|1638936363|FanDuel|OVER_UNDER_45|over 4 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Fenerbahce are missing three defenders. Liverpool are missing Ekitike, and Szoboszlai is doubtful. The absences cut both ways.",
-   "sources": [
-    "https://starting11.com/es/fixtures/fenerbahce-vs-liverpool"
-   ]
-  },
-  "SOCT|1639394514|FanDuel|AWAY_TEAM_-1.5_GOALS|west ham 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Cardiff are missing Lawlor and Chambers, and Colwill is doubtful. West Ham are without Mavropanos, and Veltman is doubtful. Bowen is in the predicted XI.",
-   "sources": [
-    "https://starting11.com/fixtures/cardiff-vs-west-ham"
-   ]
-  },
-  "SOCT|1638938895|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "Dortmund are expected to rotate before a Bundesliga match three days later. They are without Lerma, Can and Konstantelias.",
-   "sources": [
-    "https://starting11.com/fixtures/borussia-dortmund-vs-real-betis"
-   ]
-  },
-  "SOCT|1638938895|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Dortmund are expected to rotate. Betis are missing Firpo, Hernandez and Fidalgo.",
-   "sources": [
-    "https://starting11.com/fixtures/borussia-dortmund-vs-real-betis"
-   ]
-  },
-  "SOCT|1638938895|FanDuel|HALF-TIME_RESULT|betis": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "A possibly rotated Dortmund side helps Betis, but Betis are without Firpo, Hernandez and Fidalgo.",
-   "sources": [
-    "https://starting11.com/fixtures/borussia-dortmund-vs-real-betis"
-   ]
-  },
-  "SOCT|1638938876|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No specific absence news found for either side.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOCT|1638938876|FanDuel|HOME_TEAM_-1.5_GOALS|porto 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No specific absence news found for either side.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOCT|1638938876|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No specific absence news found for either side.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOCT|1638938876|FanDuel|DRAW_NO_BET|napoli": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No specific absence news found for either side.",
-   "sources": [
-    "https://starting11.com/fixtures/fc-porto-vs-napoli"
-   ]
-  },
-  "SOCT|1638942998|FanDuel|HALF-TIME_RESULT|fc sabah": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1638942998|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1638942998|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1638942998|FanDuel|HOME_TEAM_-2.5_GOALS|viking 2 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1638942998|FanDuel|HOME_TEAM_-1.5_GOALS|viking 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1638942891|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Como are without leading striker Kean (leg) and Diao (thigh). Lens's defense is also short, with Nawrocki and Ganiou out and Gradit doubtful.",
-   "sources": [
-    "https://starting11.com/es/fixtures/lens-vs-como"
-   ]
-  },
-  "SOCT|1638935700|FanDuel|HOME_TEAM_OVER/UNDER_0.5|over": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Arsenal are without Saliba, and Calafiori is doubtful. Slavia have dropped striker Chory (coach's decision), and Provod and others are doubtful.",
-   "sources": [
-    "https://starting11.com/fixtures/slavia-praha-vs-arsenal"
-   ]
-  },
-  "SOCT|1638935700|FanDuel|OVER_UNDER_15|under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Arsenal are without Saka and Saliba, and Tzolis and Madueke are doubtful. Slavia are without Chory and have several doubts.",
-   "sources": [
-    "https://starting11.com/fixtures/slavia-praha-vs-arsenal"
-   ]
-  },
-  "SOCT|1639029150|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1639013933|FanDuel|DRAW_NO_BET|sparta prague": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1639017868|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Milan goalkeeper Maignan is suspended, and defenders Tomori and Gabbia are out. Rotation is expected before a league match three days later.",
-   "sources": [
-    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc"
-   ]
-  },
-  "SOCT|1639017868|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Milan are without Maignan (suspended), Tomori and Gabbia, and are likely to rotate. Ferencvaros are without Yusuf (suspended) and Otvos.",
-   "sources": [
-    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc"
-   ]
-  },
-  "SOCT|1639017868|FanDuel|HOME_TEAM_OVER/UNDER_3.5|over": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Milan are missing Rabiot, Loftus-Cheek, Saelemaekers and Chukwueze, and are expected to rotate before a league match.",
-   "sources": [
-    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc"
-   ]
-  },
-  "SOCT|1639017868|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_1.5|over": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Milan are missing Rabiot, Loftus-Cheek, Saelemaekers and Chukwueze, and are expected to rotate.",
-   "sources": [
-    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc"
-   ]
-  },
-  "SOCT|1639017868|FanDuel|HOME_TEAM_-2.5_GOALS|ac milan 2 5 goals": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Milan have a long absence list and are expected to rotate. Ferencvaros are missing Yusuf (suspended) and Otvos.",
-   "sources": [
-    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc"
-   ]
-  },
-  "SOCT|1639013935|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1639013935|FanDuel|HOME_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1639000290|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not researched within the search budget. No news found.",
-   "sources": []
-  },
-  "SOCT|1639017900|FanDuel|DRAW_NO_BET|dinamo zagreb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Sunderland are without Danso (suspended) and Ballard, and Mukiele and Isidor are doubtful. Dinamo's Radeljic is doubtful.",
-   "sources": [
-    "https://starting11.com/es/fixtures/sunderland-vs-dinamo-zagreb"
-   ]
-  },
-  "NBA|3112335|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Jokic is not on Denver's injury report; Toronto is without Kawhi Leonard and Nate Bittle, and center Jakob Poeltl is questionable with a shoulder injury.",
-   "sources": [
-    "https://www.denverstiffs.com/preview-the-nuggets-try-to-to-avoid-having-their-faces-eaten-off-by-the-visiting-raptors/",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|3992|pa": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Harden is not on Cleveland's injury report; the Cavaliers list only Tomlin, Tyson and Watson. Oklahoma City is missing Jalen Williams, Holmgren, Wallace and Caruso.",
-   "sources": [
-    "https://1390thegambler.iheart.com/content/2026-11-04-cavaliers-vs-thunder-injury-report-nov-4/",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4432158|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Mobley is healthy and not on the injury report; Oklahoma City's frontcourt is short with Holmgren out long term and Sorber and Jaylin Williams also hurt.",
-   "sources": [
-    "https://1390thegambler.iheart.com/content/2026-11-04-cavaliers-vs-thunder-injury-report-nov-4/",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4684272|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Walter has started since late October with Kawhi Leonard out at least three to four weeks; Poeltl is questionable (shoulder), which could leave more rebounds for the wings.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-28/raptors-to-start-quickley-walter-rj-barnes",
-    "https://www.espn.com/nba/injuries",
-    "https://www.denverstiffs.com/preview-the-nuggets-try-to-to-avoid-having-their-faces-eaten-off-by-the-visiting-raptors/"
-   ]
-  },
-  "NBA|4869342|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Daniels started Monday and has no injury listing; Jalen Johnson is questionable with a left ankle sprain after missing Monday, which could shift some touches if he sits.",
-   "sources": [
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4278073|pa": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Gilgeous-Alexander is healthy; Oklahoma City is without Jalen Williams, Holmgren, Wallace and Caruso, leaving him as the main creator against Cleveland.",
-   "sources": [
-    "https://1390thegambler.iheart.com/content/2026-11-04-cavaliers-vs-thunder-injury-report-nov-4/",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|2490149|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "McCollum started Monday and has no injury listing; Atlanta lists Landale, Gueye and Veesaar out and Jalen Johnson questionable.",
-   "sources": [
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4395712|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Nembhard missed Monday with a neck strain but is off the injury report for Memphis; Haliburton remains out with a hamstring injury, so Nembhard keeps lead ball-handling duties.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/andrew-nembhard-neck-absent-from-injury-report",
-    "https://www.espn.com/nba/injuries"
-   ]
-  },
-  "NBA|4277813|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Jones has no injury designation and started Monday at Memphis; New Orleans is without Yves Missi and Utah without Nurkic and Jackson, so both frontcourts are thin.",
-   "sources": [
-    "https://www.nba.com/pelicans/news/pelicans-vs-jazz-injury-report-game-preview-11-4-2026",
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|4277813|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Jones has no injury designation and started Monday at Memphis; Trey Murphy III is questionable, nothing on Jones's shooting role.",
-   "sources": [
-    "https://www.nba.com/pelicans/news/pelicans-vs-jazz-injury-report-game-preview-11-4-2026"
-   ]
-  },
-  "NBA|4433137|pts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Williams is not on the Lakers injury report and is listed as the starting small forward; only Thiero is out for Los Angeles.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|5203685|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Maluach is listed as Phoenix's starting center with no injury designation; Rasheer Fleming is out and Jordan Goodwin questionable.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|2595516|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Powell is not on Chicago's injury report and is listed as a starter; Nic Claxton is questionable, which mainly affects the frontcourt.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|4396907|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Garland has no injury designation and starts at point guard; the Clippers remain without Beal and Ingram, which keeps a heavy creation load on him and is a risk to the under.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3908845|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Collins has no injury designation; with Duren out, Detroit's frontcourt is thinner and Collins could see extra rebounding chances, a mild risk to the under.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|4600663|pts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Edey is not on Memphis's injury report; Quinten Post is questionable and Scotty Pippen Jr. out.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|4277905|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Young has no injury designation and starts for Washington against his former team.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3934672|pa": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Brunson is not on the injury report; Josh Hart is out with ankle soreness, which can push more ball-handling to Brunson, a risk to the under.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|5041939|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Flagg has no injury designation; Dallas is without Dereck Lively II and Santi Aldama is questionable, which could add rebounding chances and works against the under.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3064290|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Gordon is not on Denver's injury report; Strawther and Spencer Jones are out, neither affecting his role much.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3059318|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Embiid is not on Philadelphia's injury report and is listed as the starting center; Barlow is out and Hukporti is out for the season.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
   }
  },
  "games": {
-  "CFB-week": {
-   "summary": "Midweek MAC/AAC slate (Ball State-UMass, Toledo-Sacramento State, Central Michigan-Eastern Michigan on Wednesday; UTSA-FAU Thursday). Books had posted very few college player props when this was checked; the only one found was Toledo QB John Alan Richter's passing yards. No injury or starting-QB changes surfaced for the four games in the sources read.",
+  "NBA-MIA-at-GS-1106": {
+   "summary": "Miami comes in on the second night of a back-to-back after playing the Clippers in Inglewood on Nov. 4. Giannis Antetokounmpo was listed probable with a wrist issue for that game, and no other Heat regulars were on the report. For Golden State, no new injury or rotation news turned up beyond what the app already has (Santos, Porzingis, Butler and Moody out). Giannis played 40 minutes on Nov 4 but tweaked the sprained right wrist and it was heavily wrapped afterward; his status for tonight is unresolved.",
    "sources": [
-    "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/",
-    "https://web9.rotowire.com/cfootball/player/john-alan-richter-42149",
-    "https://cfbtrack.com/games/matchup/2026/401862817",
-    "https://www.rotowire.com/betting/college-football/game.php?id=2968303"
+    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t",
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
+   ]
+  },
+  "NBA-ORL-at-PHX-1106": {
+   "summary": "Phoenix plays the second half of a home back-to-back; Jordan Goodwin (calf) and Rasheer Fleming (ankle) are listed out (estimated return Nov 5, so an upgrade is possible), and Mark Williams remains out after shoulder surgery. Orlando is without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, matching what the app already shows; no new starter or rotation changes found.",
+   "sources": [
+    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/",
+    "https://sports.yahoo.com/articles/phoenix-suns-vs-portland-trail-192615853.html",
+    "https://www.cbssports.com/fantasy/basketball/news/suns-rasheer-fleming-out-with-sprained-ankle/",
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
+   ]
+  },
+  "SOCCER-day": {
+   "summary": "Milan without suspended keeper Maignan and several defenders/attackers; Benfica expected to rotate; Brann lose their keeper and a forward; Sunderland miss two suspended centre-backs. Bobby Thomas a calf doubt, Harder fit and scoring.",
+   "sources": [
+    "https://aws-prod-web9.rotowire.com/soccer/player/conrad-harder-44205",
+    "https://starting11.com/fixtures/ac-milan-vs-ferencvarosi-tc",
+    "https://starting11.com/fixtures/benfica-vs-lech-poznan",
+    "https://starting11.com/fixtures/celtic-vs-besiktas",
+    "https://starting11.com/fixtures/everton-vs-coventry",
+    "https://starting11.com/fixtures/levski-sofia-vs-jagiellonia",
+    "https://starting11.com/fixtures/lincoln-red-imps-fc-vs-hnk-hajduk-split",
+    "https://starting11.com/fixtures/sint-truiden-vs-brann"
+   ]
+  },
+  "fix": {
+   "summary": "Availability check on the NBA Top 10 picks (list paused until Nov 15).",
+   "sources": [
+    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns",
+    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
    ]
   },
   "NBA-ATL-at-WSH-1105": {
@@ -1723,39 +801,7 @@
     "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
     "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html"
    ]
-  },
-  "SOCCER-day": {
-   "summary": "Pre-lineup availability for the 4-5 Nov UCL, Championship and Europa slate. Most useful items: Colwill doubtful (ankle), Dortmund expected to rotate, Como without Kean, and Milan short of Maignan and several defenders and midfielders with rotation expected. Most other players had no news found.",
-   "sources": [
-    "https://starting11.com/es/fixtures/fenerbahce-vs-liverpool",
-    "https://www.fanatik.com.tr/en/injury-nightmare-in-liverpool-bad-news-ahead-of-the-fenerbahce-match-2641494",
-    "https://starting11.com/fixtures/aek-athens-fc-vs-real-madrid",
-    "https://starting11.com/fixtures/cardiff-vs-west-ham",
-    "https://starting11.com/fixtures/wrexham-vs-middlesbrough",
-    "https://starting11.com/fixtures/bristol-city-vs-wolves",
-    "https://starting11.com/es/fixtures/lens-vs-como",
-    "https://starting11.com/fixtures/psv-eindhoven-vs-club-brugge"
-   ]
-  },
-  "fix": {
-   "summary": "Late checks on Top 10 picks",
-   "sources": [
-    "https://1390thegambler.iheart.com/content/2026-11-04-cavaliers-vs-thunder-injury-report-nov-4/",
-    "https://sports.yahoo.com/articles/atlanta-hawks-jalen-johnson-announcement-035705709.html",
-    "https://www.denverstiffs.com/preview-the-nuggets-try-to-to-avoid-having-their-faces-eaten-off-by-the-visiting-raptors/",
-    "https://www.espn.com/nba/injuries",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-10-28/raptors-to-start-quickley-walter-rj-barnes",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-03/andrew-nembhard-neck-absent-from-injury-report"
-   ]
   }
  },
- "cfb_lines": {
-  "CFB|5082330|pyd": {
-   "line": 251.5,
-   "book": "FanDuel",
-   "t": "2026-11-05T00:00:00+00:00",
-   "opp": "SAC",
-   "source": "https://statsniper.com/leagues/ncaaf/player/john-alan-richter/props/passing-yards/"
-  }
- }
+ "cfb_lines": {}
 }
