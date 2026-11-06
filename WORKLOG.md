@@ -6,6 +6,9 @@ Mark unfinished work **IN PROGRESS** (with the files it touches) and update the 
 ## 2026-11-06 (2), cmags0511 (Claude): "Card" tab, every suggested bet by kickoff (PR)
 New **Today** button (first shipped as "Card") in the sport bar (`renderToday` in index.html): one list of everything the app suggests now (NFL/NBA/CFB props, anytime TDs, soccer props and team bets, NHL, parlays) from `record.json` pending + `soccer_team.json` + `nhl.json`, sorted by kickoff, with the price to look for, "Bet by" time and the DraftKings button. This device remembers what it has shown (localStorage `pt-card-seen`, try/catch) so a bet the app drops before kickoff shows struck through as "No longer recommended"; entries are purged after kickoff. Nothing is written to My picks. No data files or workflows changed. sw.js `pt-v139`.
 
+## 2026-11-06 (3), cmags0511 (Claude): Today tab, "I bet this" keeps a placed bet on the list (PR)
+Bets the app suggested used to vanish from Today once the app dropped them (and the record drops pending suggestions that leave the board before kickoff, by design). Now each row has "I bet this": it pins the bet as "Placed ✓" on this device (localStorage `pt-card-placed`) until kickoff, even if the app drops it (shows "app dropped it"). The device also snapshots the suggestions at app start (not just when the Today tab is opened), so a bet that drops before you open Today is still remembered. Front-end only; record.json logic unchanged; sw.js `pt-v141`.
+
 ## 2026-11-06, cmags0511 (Claude): parlay record shows what is locked, by day (PR)
 Parlay record screen (`parRecordHtml`): "pending" is now "locked", and one line under the summary says how many are locked per game day and that only the app's suggested parlays count. No data or grading change. `sw.js` is `pt-v138`.
 

@@ -857,7 +857,9 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .tdrow .tr1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.tdrow b{font:800 15px var(--f-body)}.tdrow .tpx{font:800 15px var(--f-mono,monospace);white-space:nowrap}
 .tdrow .tr2{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:12.5px}.tdrow .tby{font-weight:700}
 .tdrow.gone{opacity:.55}.tdrow.gone b{text-decoration:line-through}.tdgone{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--miss,#c0392b);color:#fff;font:800 11px var(--f-body);text-decoration:none}
-.tdrow .dkb{min-height:34px;padding:0 6px}.tdtag{font:800 11px var(--f-body);color:var(--accent);margin-right:6px}
+.tdrow .dkb{min-height:34px;padding:0 6px}.tdacts{display:flex;align-items:center;gap:8px}
+.tdpl{min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:99px;background:none;color:var(--ink);font:800 12.5px var(--f-body);cursor:pointer}.tdpl[aria-pressed=true]{color:var(--muted)}
+.tdrow.placed{background:color-mix(in srgb,var(--hit,#2e9e5b) 9%,transparent)}.tdplaced{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--hit,#2e9e5b);color:#fff;font:800 11px var(--f-body)}.tdnote{margin-left:6px;font:600 11.5px var(--f-body);color:var(--muted)}.tdtag{font:800 11px var(--f-body);color:var(--accent);margin-right:6px}
 .pkcta .dkb{margin-left:auto}.bpl .dkb{min-height:0;padding:0 4px;font-size:12px}
 .seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
 .seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
@@ -3720,7 +3722,7 @@ function socTrack(c){
 let ST=null,stLoading=false;
 function loadSocTeam(){
   if(ST||stLoading)return;stLoading=true;
-  jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[],games:[]};stLoading=false;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord();if(S.view==="today")renderToday()});
+  jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[],games:[]};stLoading=false;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord();if(S.view==="today")renderToday();else tdSync()});
 }
 const SOC_GROUPS={
   prop:{title:"Search result",tag:"",sub:""},
@@ -3881,6 +3883,18 @@ let socQT=null;document.addEventListener("input",e=>{if(e.target.id!=="socq")ret
 const TD_SEEN="pt-card-seen";
 function tdMemLoad(){try{return JSON.parse(localStorage.getItem(TD_SEEN)||"{}")}catch(e){return{}}}
 function tdMemSave(m){try{localStorage.setItem(TD_SEEN,JSON.stringify(m))}catch(e){}}
+const TD_PLACED="pt-card-placed";
+function tdPlacedLoad(){try{return JSON.parse(localStorage.getItem(TD_PLACED)||"{}")}catch(e){return{}}}
+function tdPlacedSave(m){try{localStorage.setItem(TD_PLACED,JSON.stringify(m))}catch(e){}}
+// remembers every suggestion this device has seen (so one dropped before kickoff can still be shown) and returns current + dropped
+function tdSync(){
+  if(!ST||!NHL||!RECORD)return null;
+  const now=Date.now(),cur=tdItems(),mem=tdMemLoad(),pl=tdPlacedLoad(),keys=new Set(cur.map(i=>i.key)),gone=[];
+  for(const k of Object.keys(mem)){if(new Date(mem[k].t).getTime()<=now){delete mem[k];delete pl[k]}else if(!keys.has(k))gone.push(mem[k])}
+  for(const i of cur)mem[i.key]=i;
+  tdMemSave(mem);tdPlacedSave(pl);
+  return{cur,gone,pl};
+}
 function tdItems(){
   const now=Date.now(),out=[],up=t=>new Date(t).getTime()>now,R=RECORD||{};
   const pend=l=>(l||[]).filter(e=>e.status==="pending"&&up(e.t));
@@ -3907,34 +3921,33 @@ function tdItems(){
     out.push({key:c.key,t:c.t,kind:"NHL",title:c.name,bet:lbl,game:`${c.team} ${c.home?"vs":"@"} ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}}
   return out;
 }
-function tdRow(it,gone){
+function tdRow(it,gone,placed){
   const t=new Date(it.t),by=`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
-  return`<div class="tdrow${gone?" gone":""}"><div class="tr1"><b>${esc(it.title)}${gone?`<span class="tdgone">No longer recommended</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
+  return`<div class="tdrow${gone&&!placed?" gone":""}${placed?" placed":""}"><div class="tr1"><b>${esc(it.title)}${placed?`<span class="tdplaced">Placed \u2713</span>${gone?`<span class="tdnote">app dropped it</span>`:""}`:gone?`<span class="tdgone">No longer recommended</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
     <div class="tr2"><span><span class="tdtag">${esc(it.kind)}</span>${esc(it.bet)} · ${esc(it.game)}</span></div>
-    <div class="tr2"><span class="tby">Bet by ${by}</span>${gone||!it.dk?"":dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div></div>`;
+    <div class="tr2"><span class="tby">Bet by ${by}</span><span class="tdacts"><button type="button" class="tdpl" data-tdplace="${esc(it.key)}" aria-pressed="${!!placed}">${placed?"Undo":"I bet this"}</button>${gone||!it.dk?"":dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</span></div></div>`;
 }
 function renderToday(){
   const el=document.getElementById("view-today");
   if(!ST&&!stLoading)loadSocTeam();
   if(!NHL&&!nhlLoading)loadNhl();
-  const now=Date.now(),cur=tdItems(),mem=tdMemLoad(),keys=new Set(cur.map(i=>i.key)),ready=ST&&NHL;
-  const gone=[];
-  if(ready){
-    for(const k of Object.keys(mem)){if(new Date(mem[k].t).getTime()<=now)delete mem[k];else if(!keys.has(k))gone.push(mem[k])}
-    for(const i of cur)mem[i.key]=i;
-    tdMemSave(mem);
-  }
+  const sy=tdSync(),ready=!!sy,cur=sy?sy.cur:tdItems(),gone=sy?sy.gone:[],pl=sy?sy.pl:tdPlacedLoad();
   const all=[...cur.map(i=>[i,false]),...gone.map(i=>[i,true])].sort((a,b)=>new Date(a[0].t)-new Date(b[0].t)||(a[1]-b[1]));
   const days={};all.forEach(([i,g])=>{const d=new Date(i.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push([i,g])});
   const n=cur.length;
   let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Everything the app suggests right now, by kickoff. Prices are what to look for; check DraftKings before you bet.</p></div>`;
-  html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(([i,g])=>tdRow(i,g)).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
-  html+=`<p class="topsub" style="padding-inline:2px">"No longer recommended" means the app suggested it earlier on this device and has since dropped it before kickoff. Prices marked ~ are estimates. Not betting advice.</p>`;
+  html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(([i,g])=>tdRow(i,g,!!pl[i.key])).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
+  html+=`<p class="topsub" style="padding-inline:2px">Tap "I bet this" on what you place and it stays on the list, even if the app drops it later. "No longer recommended" means the app suggested it earlier on this device and has since dropped it before kickoff. Prices marked ~ are estimates. Not betting advice.</p>`;
   el.innerHTML=html;
 }
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-tdplace]");if(!b||S.view!=="today")return;
+  const pl=tdPlacedLoad(),k=b.dataset.tdplace;if(pl[k])delete pl[k];else pl[k]=1;tdPlacedSave(pl);
+  const y=window.scrollY;renderToday();window.scrollTo(0,y);
+});
 // ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
 let NHL=null,nhlLoading=false;
-function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday()})}
+function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday();else tdSync()})}
 const NHL_M={sog:"Shots on goal",goal:"Goals",pts:"Points",ast:"Assists"};
 const nhlLabel=(m,line,side)=>m==="sog"?`${side==="over"?"Over":"Under"} ${fmt(line)} shots`:m==="goal"?"Anytime goal":`${Math.round(line+.5)}+ ${NHL_M[m].toLowerCase()}`;
 const nhlRes=r=>r.res==="win"?r.dec-1:r.res==="loss"?-1:0;
@@ -4410,7 +4423,7 @@ fetch("props_data.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);ret
   });
   document.getElementById("srcnote").textContent="Stats come from the free, open nflverse and sportsdataverse datasets. NFL spreads and totals are closing lines from the nflverse schedule. DraftKings prop lines come from ESPN's public data feed when posted; otherwise the line is an estimate until you enter the sportsbook's number. Lines can move after they're pulled, so check DraftKings before betting. Not betting advice.";
   const startLg=S.league;if(startLg==="CFB")S.league="NFL";
-  setupControls();wire();updMyCount();renderSlip();render();startLive();setInterval(startLive,5*60e3);
+  setupControls();wire();updMyCount();renderSlip();render();loadSocTeam();loadNhl();startLive();setInterval(startLive,5*60e3);
   // a direct link to the hidden Walters page: .../prop-tracker/#walters (the hash stays while it's open, see syncHash)
   const waltersLink=()=>{hashSync=true;if(location.hash.toLowerCase()!=="#walters")return;
     if(S.view!=="walt"){S.view="walt";S.game=null;setupControls();render()}window.scrollTo({top:0})};
