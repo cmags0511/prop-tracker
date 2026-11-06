@@ -853,6 +853,11 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
 .pkcta .trk,.pkcta .live{margin:0 12px 0 0}
 .dkb{display:inline-flex;align-items:center;text-decoration:none;color:var(--accent);font:800 13px var(--f-body);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.tdrow{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-top:1px solid var(--line)}.tdrow:first-child{border-top:0}
+.tdrow .tr1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.tdrow b{font:800 15px var(--f-body)}.tdrow .tpx{font:800 15px var(--f-mono,monospace);white-space:nowrap}
+.tdrow .tr2{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:12.5px}.tdrow .tby{font-weight:700}
+.tdrow.gone{opacity:.55}.tdrow.gone b{text-decoration:line-through}.tdgone{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--miss,#c0392b);color:#fff;font:800 11px var(--f-body);text-decoration:none}
+.tdrow .dkb{min-height:34px;padding:0 6px}.tdtag{font:800 11px var(--f-body);color:var(--accent);margin-right:6px}
 .pkcta .dkb{margin-left:auto}.bpl .dkb{min-height:0;padding:0 4px;font-size:12px}
 .seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
 .seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
@@ -1138,6 +1143,7 @@ body:has(.wtour) .totop{display:none}
         <button id="lg-CFB" aria-pressed="false" title="College football (FBS)">CFB</button>
         <button id="lg-SOC" aria-pressed="false" title="Soccer: every league ESPN carries DraftKings props for">Soccer</button>
         <button id="lg-NHL" aria-pressed="false" title="NHL: shots, points, assists and goal scorers">NHL</button>
+        <button id="lg-TODAY" aria-pressed="false" title="Every bet the app suggests right now, by kickoff">Card</button>
       </div>
       <select id="pos" aria-label="Category"></select>
       <select id="team" aria-label="Team"></select>
@@ -1198,6 +1204,7 @@ body:has(.wtour) .totop{display:none}
     <div id="view-rec" role="tabpanel" aria-labelledby="tab-rec" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-soc" role="tabpanel" aria-labelledby="lg-SOC" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-nhl" role="tabpanel" aria-labelledby="lg-NHL" hidden style="flex-direction:column;gap:14px"></div>
+    <div id="view-today" role="tabpanel" aria-labelledby="lg-TODAY" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-every" role="tabpanel" aria-labelledby="lg-ALL" hidden style="flex-direction:column;gap:14px"></div>
     <div id="view-walt" hidden style="flex-direction:column;gap:14px"></div>
     <p class="note" id="srcnote"></p>
@@ -1351,9 +1358,10 @@ function compute(p,m){
 function setupControls(){
   if(!DATA[S.league])S.league="NFL";
   // Soccer sits in the sport switch but is its own view (soccer.json), not a league in DATA
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.view!=="nhl"&&S.view!=="every"&&S.league===l));
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).setAttribute("aria-pressed",S.view!=="soc"&&S.view!=="nhl"&&S.view!=="today"&&S.view!=="every"&&S.league===l));
   document.getElementById("lg-SOC").setAttribute("aria-pressed",S.view==="soc");
   document.getElementById("lg-NHL").setAttribute("aria-pressed",S.view==="nhl");
+  document.getElementById("lg-TODAY").setAttribute("aria-pressed",S.view==="today");
   document.getElementById("lg-ALL").setAttribute("aria-pressed",S.view==="every");
   const players=DATA[S.league];
   if(S.cat&&!CATS[S.cat])S.cat="";
@@ -1912,11 +1920,12 @@ function render(){
   const vr=document.getElementById("view-rec");vr.hidden=S.view!=="rec";vr.style.display=S.view==="rec"?"flex":"none";
   const vs=document.getElementById("view-soc");vs.hidden=S.view!=="soc";vs.style.display=S.view==="soc"?"flex":"none";
   const vn=document.getElementById("view-nhl");vn.hidden=S.view!=="nhl";vn.style.display=S.view==="nhl"?"flex":"none";
+  const vt=document.getElementById("view-today");vt.hidden=S.view!=="today";vt.style.display=S.view==="today"?"flex":"none";
   const ve=document.getElementById("view-every");ve.hidden=S.view!=="every";ve.style.display=S.view==="every"?"flex":"none";
   const vw=document.getElementById("view-walt");vw.hidden=S.view!=="walt";vw.style.display=S.view==="walt"?"flex":"none";
-  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"||S.view==="nhl"||S.view==="every"?"board":S.view;
+  const tabOn=S.view==="rec"&&S.recType==="app"||S.view==="walt"?"app":S.view==="soc"||S.view==="nhl"||S.view==="today"||S.view==="every"?"board":S.view;
   ["board","up","rec","app"].forEach(v=>document.getElementById("tab-"+v).setAttribute("aria-selected",tabOn===v));
-  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="nhl"||S.view==="walt"||S.view==="every";
+  const noBoard=S.view==="rec"||S.view==="soc"||S.view==="nhl"||S.view==="today"||S.view==="walt"||S.view==="every";
   document.getElementById("market").hidden=noBoard;
   document.querySelector(".toolbar").hidden=S.view==="rec"||S.view==="walt";  // soccer keeps the sport switch
   document.getElementById("srcnote").hidden=noBoard;
@@ -1925,6 +1934,7 @@ function render(){
   applySec();
   if(S.view==="soc"){renderSoccer();return}
   if(S.view==="nhl"){renderNhl();return}
+  if(S.view==="today"){renderToday();return}
   if(S.view==="every"){renderEvery();return}
   if(S.view==="up"){renderUpcoming();return}
   if(S.view==="rec"){renderRecord();return}
@@ -3710,7 +3720,7 @@ function socTrack(c){
 let ST=null,stLoading=false;
 function loadSocTeam(){
   if(ST||stLoading)return;stLoading=true;
-  jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[],games:[]};stLoading=false;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord()});
+  jget("soccer_team.json").then(d=>{ST=d||{picks:[],record:[],games:[]};stLoading=false;if(S.view==="soc")renderSoccer();if(S.view==="rec")renderRecord();if(S.view==="today")renderToday()});
 }
 const SOC_GROUPS={
   prop:{title:"Search result",tag:"",sub:""},
@@ -3867,9 +3877,64 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm],.pick.sk,.pick[data-socpl]")){e.preventDefault();e.target.click()}});
 let socQT=null;document.addEventListener("input",e=>{if(e.target.id!=="socq")return;clearTimeout(socQT);socQT=setTimeout(()=>{S.socQ=e.target.value;renderSoccer();const i=document.getElementById("socq");if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)});
+// ---- Card tab: every bet the app suggests right now, in kickoff order (record.json pending + soccer team bets + NHL)
+const TD_SEEN="pt-card-seen";
+function tdMemLoad(){try{return JSON.parse(localStorage.getItem(TD_SEEN)||"{}")}catch(e){return{}}}
+function tdMemSave(m){try{localStorage.setItem(TD_SEEN,JSON.stringify(m))}catch(e){}}
+function tdItems(){
+  const now=Date.now(),out=[],up=t=>new Date(t).getTime()>now,R=RECORD||{};
+  const pend=l=>(l||[]).filter(e=>e.status==="pending"&&up(e.t));
+  const px=(p,est)=>p==null?"":(est?"~":"")+amFmt(p);
+  for(const e of pend(R.picks)){
+    const lbl=`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
+    out.push({key:e.key+"@"+e.t,t:e.t,kind:e.lg,title:e.name,bet:lbl,game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price,e.price_est),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} ${lbl}`});
+  }
+  for(const e of pend(R.td)){
+    out.push({key:e.key+"@"+e.t,t:e.t,kind:e.lg,title:e.name,bet:"Anytime TD",game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} anytime TD`});
+  }
+  for(const e of pend(R.soccer)){
+    out.push({key:e.key+"@"+e.t,t:e.t,kind:"Soccer",title:e.name,bet:e.label,game:`${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.league||""}`,price:px(e.dk!=null?e.dk:e.price),dk:["SOC",e.team,e.opp,e.t,e.ev_id],txt:`${e.name} ${e.label}`});
+  }
+  for(const p of pend(R.parlays)){
+    const same=p.kind==="same",l0=p.legs[0]||{};
+    out.push({key:"P|"+p.id,t:p.t,kind:"Parlay",title:`${p.n}-leg parlay · ${p.lg}`,bet:p.legs.map(l=>`${(l.name||"").split(" ").slice(-1)[0]} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${SHORT[l.market]||l.label||""}`).join(" + "),game:same?`${l0.team} ${l0.home?"vs":"@"} ${l0.opp}`:"several games",price:px(p.price,true),dk:same?[p.lg,l0.team,l0.opp,p.t,null]:null,txt:p.legs.map(l=>`${l.name} ${l.side} ${fmt(l.line)} ${l.label||""}`).join(", ")});
+  }
+  if(ST)for(const c of (ST.picks||[]).filter(c=>!c.lapsed&&up(c.t))){
+    out.push({key:"T|"+c.key+"@"+c.t,t:c.t,kind:"Soccer",title:c.bet,bet:c.market.replace(/^2 Way /,""),game:`${c.away} @ ${c.home} · ${c.league||""}`,price:amFmt(c.price),dk:["SOC",c.home,c.away,c.t,c.espn],txt:c.bet});
+  }
+  if(NHL){const seen=new Set();for(const c of [...(NHL.top||[]),...(NHL.value||[])]){if(!up(c.t)||seen.has(c.key))continue;seen.add(c.key);
+    const lbl=nhlLabel(c.m,c.line,c.side);
+    out.push({key:c.key,t:c.t,kind:"NHL",title:c.name,bet:lbl,game:`${c.team} ${c.home?"vs":"@"} ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}}
+  return out;
+}
+function tdRow(it,gone){
+  const t=new Date(it.t),by=`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+  return`<div class="tdrow${gone?" gone":""}"><div class="tr1"><b>${esc(it.title)}${gone?`<span class="tdgone">No longer recommended</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
+    <div class="tr2"><span><span class="tdtag">${esc(it.kind)}</span>${esc(it.bet)} · ${esc(it.game)}</span></div>
+    <div class="tr2"><span class="tby">Bet by ${by}</span>${gone||!it.dk?"":dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div></div>`;
+}
+function renderToday(){
+  const el=document.getElementById("view-today");
+  if(!ST&&!stLoading)loadSocTeam();
+  if(!NHL&&!nhlLoading)loadNhl();
+  const now=Date.now(),cur=tdItems(),mem=tdMemLoad(),keys=new Set(cur.map(i=>i.key)),ready=ST&&NHL;
+  const gone=[];
+  if(ready){
+    for(const k of Object.keys(mem)){if(new Date(mem[k].t).getTime()<=now)delete mem[k];else if(!keys.has(k))gone.push(mem[k])}
+    for(const i of cur)mem[i.key]=i;
+    tdMemSave(mem);
+  }
+  const all=[...cur.map(i=>[i,false]),...gone.map(i=>[i,true])].sort((a,b)=>new Date(a[0].t)-new Date(b[0].t)||(a[1]-b[1]));
+  const days={};all.forEach(([i,g])=>{const d=new Date(i.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push([i,g])});
+  const n=cur.length;
+  let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Everything the app suggests right now, by kickoff. Prices are what to look for; check DraftKings before you bet.</p></div>`;
+  html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(([i,g])=>tdRow(i,g)).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
+  html+=`<p class="topsub" style="padding-inline:2px">"No longer recommended" means the app suggested it earlier on this device and has since dropped it before kickoff. Prices marked ~ are estimates. Not betting advice.</p>`;
+  el.innerHTML=html;
+}
 // ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
 let NHL=null,nhlLoading=false;
-function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl()})}
+function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday()})}
 const NHL_M={sog:"Shots on goal",goal:"Goals",pts:"Points",ast:"Assists"};
 const nhlLabel=(m,line,side)=>m==="sog"?`${side==="over"?"Over":"Under"} ${fmt(line)} shots`:m==="goal"?"Anytime goal":`${Math.round(line+.5)}+ ${NHL_M[m].toLowerCase()}`;
 const nhlRes=r=>r.res==="win"?r.dec-1:r.res==="loss"?-1:0;
@@ -4236,7 +4301,8 @@ function wire(){
   document.getElementById("view-every").addEventListener("click",e=>{const b=e.target.closest("[data-evlg]");if(!b)return;const lg=b.dataset.evlg;
     if(lg==="SOC"){document.getElementById("lg-SOC").click();return}
     S.view="board";S.sec="picks";S.market="all";document.getElementById("lg-"+lg).click();setupControls();render();window.scrollTo({top:0})});
-  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc"||S.view==="nhl"||S.view==="every")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  LEAGUES.forEach(l=>document.getElementById("lg-"+l).onclick=()=>{if(S.view==="soc"||S.view==="nhl"||S.view==="today"||S.view==="every")S.view="board";S.league=l;S.game=null;S.team="";reset();if(!switchLeague(l))return;setupControls();save();render()});
+  document.getElementById("lg-TODAY").onclick=()=>{if(S.view==="today")return;scrollMem[tabOf()]=window.scrollY;S.view="today";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("lg-NHL").onclick=()=>{if(S.view==="nhl")return;scrollMem[tabOf()]=window.scrollY;S.view="nhl";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("lg-SOC").onclick=()=>{if(S.view==="soc")return;scrollMem[tabOf()]=window.scrollY;S.view="soc";setupControls();render();window.scrollTo({top:0})};
   document.getElementById("market").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b||b.dataset.m===S.market)return;S.market=b.dataset.m;reset();setupControls();save();render()};
@@ -4270,7 +4336,7 @@ function wire(){
   b.addEventListener("keydown",e=>{const tr=e.target.closest("tr.row");if(tr&&e.target===tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open(tr.dataset.id)}});
   const scrollMem={};
   // "app" is the Record tab: the record view showing the app's own graded picks; "rec" is My picks
-  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"||S.view==="nhl"||S.view==="every"?"board":S.view;  // "walt" is its own view
+  const tabOf=()=>S.view==="rec"&&S.recType==="app"?"app":S.view==="soc"||S.view==="nhl"||S.view==="today"||S.view==="every"?"board":S.view;  // "walt" is its own view
   const setView=v=>{if(v===tabOf()){window.scrollTo({top:0,behavior:reduceMo()});return}scrollMem[tabOf()]=window.scrollY;
     if(v==="app"){S.view="rec";S.recType="app"}else{S.view=v;if(v==="rec"&&S.recType==="app")S.recType="straight"}
     setupControls();render();window.scrollTo({top:scrollMem[v]||0})};
