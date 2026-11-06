@@ -856,8 +856,8 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .tdrow{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-top:1px solid var(--line)}.tdrow:first-child{border-top:0}
 .tdrow .tr1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.tdrow b{font:800 15px var(--f-body)}.tdrow .tpx{font:800 15px var(--f-mono,monospace);white-space:nowrap}
 .tdrow .tr2{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:12.5px}.tdrow .tby{font-weight:700}
-.tdrow.gone{opacity:.55}.tdrow.gone b{text-decoration:line-through}.tdgone{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--miss,#c0392b);color:#fff;font:800 11px var(--f-body);text-decoration:none}
-.tdrow .dkb{min-height:34px;padding:0 6px}.tdtag{font:800 11px var(--f-body);color:var(--accent);margin-right:6px}
+.tdgone{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--miss,#c0392b);color:#fff;font:800 11px var(--f-body);text-decoration:none}
+.tdrow .dkb{min-height:34px;padding:0 6px}.tdnote{font:600 12px var(--f-body);color:var(--muted)}.tdtag{font:800 11px var(--f-body);color:var(--accent);margin-right:6px}
 .pkcta .dkb{margin-left:auto}.bpl .dkb{min-height:0;padding:0 4px;font-size:12px}
 .seewhy,.shcta{flex:1;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 14px;border:0;background:none;color:var(--accent);font:800 13.5px var(--f-body);cursor:pointer;text-align:left}
 .seewhy::after,.shcta::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:2.2px 2.2px 0 0;transform:rotate(45deg);margin-right:4px;flex:none}
@@ -3877,59 +3877,45 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("keydown",e=>{if(S.view==="soc"&&(e.key==="Enter"||e.key===" ")&&e.target.matches("[data-socm],.pick.sk,.pick[data-socpl]")){e.preventDefault();e.target.click()}});
 let socQT=null;document.addEventListener("input",e=>{if(e.target.id!=="socq")return;clearTimeout(socQT);socQT=setTimeout(()=>{S.socQ=e.target.value;renderSoccer();const i=document.getElementById("socq");if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)});
-// ---- Card tab: every bet the app suggests right now, in kickoff order (record.json pending + soccer team bets + NHL)
-const TD_SEEN="pt-card-seen";
-function tdMemLoad(){try{return JSON.parse(localStorage.getItem(TD_SEEN)||"{}")}catch(e){return{}}}
-function tdMemSave(m){try{localStorage.setItem(TD_SEEN,JSON.stringify(m))}catch(e){}}
+// ---- Today tab: every bet the app has suggested for upcoming games. A suggestion counts as a bet from the moment it is
+//      first listed (record.py lock()): it keeps its first line and price, shows how they have moved, and stays even if
+//      the app stops listing it before kickoff.
 function tdItems(){
   const now=Date.now(),out=[],up=t=>new Date(t).getTime()>now,R=RECORD||{};
   const pend=l=>(l||[]).filter(e=>e.status==="pending"&&up(e.t));
   const px=(p,est)=>p==null?"":(est?"~":"")+amFmt(p);
-  for(const e of pend(R.picks)){
-    const lbl=`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
-    out.push({key:e.key+"@"+e.t,t:e.t,kind:e.lg,title:e.name,bet:lbl,game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price,e.price_est),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} ${lbl}`});
-  }
-  for(const e of pend(R.td)){
-    out.push({key:e.key+"@"+e.t,t:e.t,kind:e.lg,title:e.name,bet:"Anytime TD",game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} anytime TD`});
-  }
-  for(const e of pend(R.soccer)){
-    out.push({key:e.key+"@"+e.t,t:e.t,kind:"Soccer",title:e.name,bet:e.label,game:`${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.league||""}`,price:px(e.dk!=null?e.dk:e.price),dk:["SOC",e.team,e.opp,e.t,e.ev_id],txt:`${e.name} ${e.label}`});
-  }
-  for(const p of pend(R.parlays)){
-    const same=p.kind==="same",l0=p.legs[0]||{};
-    out.push({key:"P|"+p.id,t:p.t,kind:"Parlay",title:`${p.n}-leg parlay · ${p.lg}`,bet:p.legs.map(l=>`${(l.name||"").split(" ").slice(-1)[0]} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${SHORT[l.market]||l.label||""}`).join(" + "),game:same?`${l0.team} ${l0.home?"vs":"@"} ${l0.opp}`:"several games",price:px(p.price,true),dk:same?[p.lg,l0.team,l0.opp,p.t,null]:null,txt:p.legs.map(l=>`${l.name} ${l.side} ${fmt(l.line)} ${l.label||""}`).join(", ")});
-  }
-  if(ST)for(const c of (ST.picks||[]).filter(c=>!c.lapsed&&up(c.t))){
-    out.push({key:"T|"+c.key+"@"+c.t,t:c.t,kind:"Soccer",title:c.bet,bet:c.market.replace(/^2 Way /,""),game:`${c.away} @ ${c.home} · ${c.league||""}`,price:amFmt(c.price),dk:["SOC",c.home,c.away,c.t,c.espn],txt:c.bet});
-  }
-  if(NHL){const seen=new Set();for(const c of [...(NHL.top||[]),...(NHL.value||[])]){if(!up(c.t)||seen.has(c.key))continue;seen.add(c.key);
-    const lbl=nhlLabel(c.m,c.line,c.side);
-    out.push({key:c.key,t:c.t,kind:"NHL",title:c.name,bet:lbl,game:`${c.team} ${c.home?"vs":"@"} ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}}
+  const mv=(e,fl,fp)=>{const m=[];if(e.line_now!=null&&e.line_now!==e.line)m.push(`line ${fmt(e.line)} → ${fmt(e.line_now)}`);if(e.side_now&&e.side&&e.side_now!==e.side)m.push(`app now leans ${e.side_now}`);
+    if(e.price_now!=null&&e.price!=null&&e.price_now!==e.price)m.push(`price ${amFmt(e.price)} → ${amFmt(e.price_now)}`);return m.join(" · ")};
+  const it=(e,o)=>out.push(Object.assign({key:e.key||e.id,t:e.t,found:e.t0||e.first_seen||null,dropped:!!e.dropped||!!e.lapsed,move:mv(e)},o));
+  for(const e of pend(R.picks)){const lbl=`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
+    it(e,{kind:e.lg,title:e.name,bet:lbl,game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price,e.price_est),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} ${lbl}`})}
+  for(const e of pend(R.td))it(e,{kind:e.lg,title:e.name,bet:"Anytime TD",game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} anytime TD`});
+  for(const e of pend(R.soccer))it(e,{kind:"Soccer",title:e.name,bet:e.label,game:`${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.league||""}`,price:px(e.dk!=null?e.dk:e.price),dk:["SOC",e.team,e.opp,e.t,e.ev_id],txt:`${e.name} ${e.label}`});
+  for(const p of pend(R.parlays)){const same=p.kind==="same",l0=p.legs[0]||{};
+    it(p,{key:"P|"+p.id,kind:"Parlay",title:`${p.n}-leg parlay · ${p.lg}`,bet:p.legs.map(l=>`${(l.name||"").split(" ").slice(-1)[0]} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${SHORT[l.market]||l.label||""}`).join(" + "),game:same?`${l0.team} ${l0.home?"vs":"@"} ${l0.opp}`:"several games",price:px(p.price,true),dk:same?[p.lg,l0.team,l0.opp,p.t,null]:null,txt:p.legs.map(l=>`${l.name} ${l.side} ${fmt(l.line)} ${l.label||""}`).join(", ")})}
+  if(ST)for(const c of (ST.record_all||[]).filter(c=>c.status==="pending"&&up(c.t)))
+    it(c,{key:"T|"+c.key,kind:"Soccer",title:c.bet,bet:(c.market||"").replace(/^2 Way /,""),game:`${c.away} @ ${c.home} · ${c.league||""}`,price:amFmt(c.price),dk:["SOC",c.home,c.away,c.t,c.espn],txt:c.bet,found:c.first_seen,dropped:!!c.lapsed,move:""});
+  if(NHL)for(const c of ((NHL.record&&NHL.record.picks)||[]).filter(c=>!c.res&&up(c.t))){const lbl=nhlLabel(c.m,c.line,c.side);
+    it(c,{kind:"NHL",title:c.name,bet:lbl,game:`${c.team} @ ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}
   return out;
 }
-function tdRow(it,gone){
-  const t=new Date(it.t),by=`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
-  return`<div class="tdrow${gone?" gone":""}"><div class="tr1"><b>${esc(it.title)}${gone?`<span class="tdgone">No longer recommended</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
+function tdRow(it){
+  const f=t=>{t=new Date(t);return`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`};
+  return`<div class="tdrow"><div class="tr1"><b>${esc(it.title)}${it.dropped?`<span class="tdgone">App dropped it · still counts</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
     <div class="tr2"><span><span class="tdtag">${esc(it.kind)}</span>${esc(it.bet)} · ${esc(it.game)}</span></div>
-    <div class="tr2"><span class="tby">Bet by ${by}</span>${gone||!it.dk?"":dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div></div>`;
+    ${it.move?`<div class="tr2"><span class="tdnote">Since found: ${esc(it.move)}</span></div>`:""}
+    <div class="tr2"><span class="tby">${it.found?`Found ${f(it.found)} · `:""}Bet by ${f(it.t)}</span>${it.dk?dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt):""}</div></div>`;
 }
 function renderToday(){
   const el=document.getElementById("view-today");
   if(!ST&&!stLoading)loadSocTeam();
   if(!NHL&&!nhlLoading)loadNhl();
-  const now=Date.now(),cur=tdItems(),mem=tdMemLoad(),keys=new Set(cur.map(i=>i.key)),ready=ST&&NHL;
-  const gone=[];
-  if(ready){
-    for(const k of Object.keys(mem)){if(new Date(mem[k].t).getTime()<=now)delete mem[k];else if(!keys.has(k))gone.push(mem[k])}
-    for(const i of cur)mem[i.key]=i;
-    tdMemSave(mem);
-  }
-  const all=[...cur.map(i=>[i,false]),...gone.map(i=>[i,true])].sort((a,b)=>new Date(a[0].t)-new Date(b[0].t)||(a[1]-b[1]));
-  const days={};all.forEach(([i,g])=>{const d=new Date(i.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push([i,g])});
-  const n=cur.length;
-  let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Everything the app suggests right now, by kickoff. Prices are what to look for; check DraftKings before you bet.</p></div>`;
-  html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(([i,g])=>tdRow(i,g)).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
-  html+=`<p class="topsub" style="padding-inline:2px">"No longer recommended" means the app suggested it earlier on this device and has since dropped it before kickoff. Prices marked ~ are estimates. Not betting advice.</p>`;
+  const all=tdItems().sort((a,b)=>new Date(a.t)-new Date(b.t)),ready=ST&&NHL,days={};
+  all.forEach(i=>{const d=new Date(i.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(i)});
+  const n=all.length;
+  let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Every bet the app has suggested for upcoming games, by kickoff. Each counts as a bet from the time it was found and is never removed; the price shown is the one when it was found.</p></div>`;
+  html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(tdRow).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
+  html+=`<p class="topsub" style="padding-inline:2px">"App dropped it" means the app stopped listing it before kickoff (price or line moved, news); it still counts in the record at the price it was found at. Prices marked ~ are estimates. Not betting advice.</p>`;
   el.innerHTML=html;
 }
 // ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
