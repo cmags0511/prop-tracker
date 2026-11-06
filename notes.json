@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T12:57:04Z",
+ "updated": "2026-11-06T21:40:39Z",
  "summary": "Injury news dominates Week 9: Seattle starts Drew Lock (or Jalen Milroe) with Darnold out, Philadelphia starts Joe Milton, Cleveland may turn to Shedeur Sanders, and Houston is again without David Montgomery; Garrett Wilson, Cam Skattebo and Christian McCaffrey are all in doubt.",
  "notes": {
   "CFB|5121169|pyd": {
@@ -1572,6 +1572,189 @@
    "sources": [
     "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid"
    ]
+  },
+  "NBA|4395651|pra": {
+   "flag": "neutral",
+   "adj": 1,
+   "conf": "medium",
+   "note": "White is not on Charlotte's injury report for Friday against Boston, while Kon Knueppel (hamstring) is out and Dennis Schroder and Moussa Diabate are questionable, which leaves more of the offense to White.",
+   "sources": [
+    "https://www.espn.com/nba/team/injuries/_/name/cha/striker"
+   ],
+   "detail": {
+    "availability": "Not listed on the injury report.",
+    "role": "Starting PG; Knueppel out, Schroder questionable."
+   }
+  },
+  "NBA|5160992|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sarr missed one game with left knee soreness, then was cleared without restrictions for Wednesday's game against Atlanta; no new injury news for Friday's rematch was found.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/basketball/news/wizards-alex-sarr-upgraded-to-available/"
+   ],
+   "detail": {
+    "availability": "Played Nov. 4 after a one-game absence (knee)."
+   }
+  },
+  "NBA|4278594|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Marshall is not on Dallas's injury report for Friday against Utah; Dereck Lively II (foot) remains out, which keeps more rebounds available to the forwards.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|4278580|3pm": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Mamukelashvili is listed questionable for Friday against Portland with an illness, so his availability and minutes are uncertain.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Questionable (illness)."
+   }
+  },
+  "NBA|4395724|pr": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Quickley was downgraded to questionable for Friday against Milwaukee with a hamstring issue, so he may sit or play limited minutes.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-06/immanuel-quickley-hamstring-questionable-friday",
+    "https://www.tsn.ca/nba/article/raptors-poeltl-shoulder-probable-vs-bucks-quickley-hamstring-questionable-to-play/"
+   ],
+   "detail": {
+    "availability": "Questionable (hamstring)."
+   }
+  },
+  "NBA|3992|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Harden is not on Cleveland's injury report for Friday against Philadelphia; Jaylon Tyson is out and three reserves are questionable.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|4432158|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mobley is not on Cleveland's injury report for Friday against Philadelphia.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3059318|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing for Embiid was found for Friday's game at Cleveland; his availability should be rechecked closer to tip.",
+   "sources": [
+    "https://www.si.com/nba/scoreboard/76ers-vs-cavaliers-11-6-2026-1616"
+   ],
+   "detail": {
+    "availability": "No report found."
+   }
+  },
+  "NBA|4431680|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Okongwu is not on Atlanta's injury report; Jock Landale and Mouhamed Gueye are out, which keeps him in a big frontcourt role against Washington.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|5149077|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Flemings is not on Atlanta's injury report for Friday against Washington.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|4277905|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Young was not on Washington's injury list for Wednesday's game against Atlanta and no new injury news was found for Friday's rematch.",
+   "sources": [
+    "https://www.yardbarker.com/nba/articles/final_injury_report_for_hawks_wizards_will_jalen_johnson_alex_sarr_play/s1_17615_44516701"
+   ],
+   "detail": {
+    "availability": "Not listed as of Nov. 4."
+   }
+  },
+  "NBA|4432582|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Christie is listed probable for Friday against Utah with a hip issue, so he is expected to play.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Probable (hip)."
+   }
+  },
+  "NBA|4701230|pra": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Johnson is questionable for Friday against Washington with a left ankle sprain after missing recent games, so he may sit or be limited.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries",
+    "https://sports.yahoo.com/articles/jalen-johnson-again-hawks-release-002427206.html"
+   ],
+   "detail": {
+    "availability": "Questionable (ankle)."
+   }
+  },
+  "NBA|4397424|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Queta is not on Boston's injury report for Friday at Charlotte; Payton Pritchard is questionable and Devin Carter is out.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3908809|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell is not on Cleveland's injury report for Friday against Philadelphia.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
   }
  },
  "games": {
