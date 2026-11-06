@@ -203,14 +203,23 @@ def main():
         if r is None:
             r = book[c["key"]] = {"key": c["key"], "pid": c["pid"], "name": c["name"], "team": c["team"], "opp": c["opp"], "id": c["id"],
                                   "t": c["t"], "m": c["m"], "line": c["line"], "side": c["side"], "label": c["label"], "open": c["price"],
-                                  "list": "top" if c in tops else "value"}
-        r.update({"price": c["price"], "dec": c["dec"], "prob": c["prob"], "model": c["model"], "book": c["book"], "ev": c["ev"]})
+                                  "list": "top" if c in tops else "value",
+                                  # a pick counts as a bet from the moment it is first listed: these stay as first seen
+                                  "t0": now.isoformat(timespec="minutes"), "price": c["price"], "dec": c["dec"], "prob": c["prob"],
+                                  "model": c["model"], "book": c["book"], "ev": c["ev"]}
+        r.pop("dropped", None)
+        r.update({"price_now": c["price"], "ev_now": c["ev"]})
+        r.setdefault("t0", now.isoformat(timespec="minutes"))    # picks recorded before this change
         if c in tops and c in value:
             r["list"] = "both"
         elif c in value:
             r["list"] = "both" if r["list"] == "top" else "value"
         elif c in tops:
             r["list"] = "both" if r["list"] == "value" else "top"
+    listed = {c["key"] for c in tops + value}
+    for r in book.values():    # off the lists before puck drop: stays recorded, flagged dropped
+        if not r.get("res") and r["key"] not in listed and dt.datetime.fromisoformat(r["t"]) > now and not r.get("dropped"):
+            r["dropped"] = now.isoformat(timespec="minutes")
     teamdays = {(t, r[0], r[1]) for t, rows in H.t.items() for r in rows}
     for r in book.values():
         if r.get("res"):

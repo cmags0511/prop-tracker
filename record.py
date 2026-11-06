@@ -71,6 +71,25 @@ def main():
             p, est = old.get("price"), bool(old.get("price_est"))
         return {"price": p, "price_est": est}
 
+    def lock(new, old, fields, **now_vals):
+        """a suggestion counts as a bet from the moment the app first lists it: the first line, price and odds stay
+        (and its first-listed time t0), and the current ones ride along as *_now to show the movement since"""
+        if old.get("status") == "pending":
+            for f in fields:
+                if f in old:
+                    new[f] = old[f]
+            new["t0"] = old.get("t0") or now.isoformat(timespec="minutes")
+        else:
+            new["t0"] = now.isoformat(timespec="minutes")
+        new.update(now_vals)
+        return new
+
+    def mark_dropped(book, still):
+        """a bet the app stopped listing before kickoff is not deleted: it stays, flagged dropped (with when)"""
+        for k, e in book.items():
+            if e["status"] == "pending" and start(e) > now and k not in still and not e.get("dropped"):
+                e["dropped"] = now.isoformat(timespec="minutes")
+
     # 1. current pre-game Top 10 per league ("Best overall": best play per player across all props),
     #    once over every side and once overs only (the app's default view); each entry notes which lists it was in
     out_ids = set()
@@ -112,16 +131,15 @@ def main():
         for setname, top in tops.items():
             for c in top:
                 cur.setdefault((c["key"], c["t"]), (c, []))[1].append(setname)
-        # drop not-yet-started picks that fell out of both lists
-        for k, e in list(entries.items()):
-            if e["lg"] == lg and e["status"] == "pending" and start(e) > now and k not in cur:
-                del entries[k]
+        # a pick that fell out of both lists before kickoff stays as a bet (flagged dropped), see lock()
+        mark_dropped({k: e for k, e in entries.items() if e["lg"] == lg}, cur)
         for k, (c, sets) in cur.items():
             old = entries.get(k) or {}
             # the line when the app first listed it (resets if it flips sides): compared with the closing line,
             # it shows whether the app gets in before the market moves
             first = old.get("line0") if old.get("side") == c["side"] and old.get("line0") is not None else c["line"]
-            entries[k] = {
+            pf = price_for(c["key"], c["side"], c["line"], old)
+            entries[k] = lock({
                 "key": c["key"], "lg": lg, "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                 "home": c["home"], "t": c["t"], "market": c["market"], "label": c["label"], "side": c["side"],
                 "line": c["line"], **price_for(c["key"], c["side"], c["line"], old),
@@ -130,8 +148,9 @@ def main():
                 # the grade and suggested stake when it locked (picks.py grade_picks), so the Record tab can show how
                 # each grade did and what following the suggested units would have made
                 "grade": c.get("grade"), "units": c.get("units"), "p_cal": c.get("p_cal"), "edge": c.get("edge"),
-                "line0": first, "t0": old.get("t0") if first == old.get("line0") and old.get("t0") else now.isoformat(timespec="minutes"),
-            }
+                "line0": first,
+            }, old, ("side", "line", "price", "price_est", "score", "l10", "factors", "prob", "grade", "units", "p_cal", "edge", "line0"),
+                line_now=c["line"], price_now=pf["price"], side_now=c["side"])
 
     # 1b. the research check's Best bet: keep the current one until its game starts, then it's locked
     best = {(e["key"], e["t"]): e for e in rec.get("best", [])}
@@ -213,17 +232,15 @@ def main():
     pars = {e["id"]: e for e in rec.get("parlays", [])}
     pfile = load("parlays.json", {"parlays": []})
     cur_par = {p["id"]: p for p in pfile.get("parlays", []) if start(p) > now}
-    for k, e in list(pars.items()):
-        if e["status"] == "pending" and start(e) > now and k not in cur_par:
-            del pars[k]
+    mark_dropped(pars, cur_par)
     for k, p in cur_par.items():
         if any(f"{l['lg']}|{l['id']}" in out_players or (l["lg"], espn.get(l["lg"], {}).get(l["id"])) in out_ids for l in p["legs"]):
             pars.pop(k, None)
             continue
         old = pars.get(k) or {}
-        pars[k] = {**{x: p[x] for x in ("id", "lg", "kind", "n", "t", "p", "fair", "dec", "price", "ev", "pairs")},
-                   "legs": [dict(l, status="pending", result=None) for l in p["legs"]], "status": "pending", "result": None,
-                   "t0": old.get("t0") or now.isoformat(timespec="minutes")}
+        pars[k] = lock({**{x: p[x] for x in ("id", "lg", "kind", "n", "t", "p", "fair", "dec", "price", "ev", "pairs")},
+                   "legs": [dict(l, status="pending", result=None) for l in p["legs"]], "status": "pending", "result": None},
+                   old, ("p", "fair", "dec", "price", "ev", "pairs", "legs"), price_now=p["price"], ev_now=p["ev"])
 
     # 2. grade picks whose games have started
     players = {lg: {p["id"]: p for p in data[lg]["players"]} for lg in ("NFL", "NBA", "CFB") if lg in data}
@@ -243,20 +260,19 @@ def main():
     tds = {(e["key"], e["t"]): e for e in rec.get("td", [])}
     # from Oct 27 only TDs priced at or near fair are recorded (picks.py td_bet); the likeliest at -250 are shown, not bet
     cur_td = {(c["key"], c["t"]): c for c in picks.get("tdTop", []) if start(c) > now and c.get("td_bet", True)}
-    for k, e in list(tds.items()):
-        if e["status"] == "pending" and start(e) > now and k not in cur_td:
-            del tds[k]
+    mark_dropped(tds, cur_td)
     for k, c in cur_td.items():
         if f"NFL|{c['id']}" in out_players or ("NFL", espn.get("NFL", {}).get(c["id"])) in out_ids:
             tds.pop(k, None)
             continue
         old = tds.get(k) or {}
         lists = sorted(set(old.get("lists", [])) | {c.get("list", "likely")}) if old else [c.get("list", "likely")]
-        tds[k] = {"key": c["key"], "lg": "NFL", "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
+        px_now = c.get("bp") or c.get("price") if (c.get("bp") or c.get("price")) is not None else old.get("price")
+        tds[k] = lock({"key": c["key"], "lg": "NFL", "id": c["id"], "name": c["name"], "team": c["team"], "opp": c["opp"],
                   "home": c["home"], "t": c["t"], "market": "td", "label": "Anytime TD", "side": "over", "line": .5,
                   "prob": c["prob"], "fd": c.get("fd"), "td_edge": c.get("td_edge"),
                   "price": c.get("bp") or c.get("price") if (c.get("bp") or c.get("price")) is not None else old.get("price"), "kalshi": c.get("kalshi"), "stat": c.get("stat"), "lists": lists,
-                  "status": "pending", "result": None}
+                  "status": "pending", "result": None}, old, ("price", "prob", "fd", "td_edge", "kalshi", "stat"), price_now=px_now)
 
     # 1f. soccer: the Soccer tab's lists (Top picks, Value bets), locked at kickoff with
     #     DraftKings' price, so the record shows real profit at the prices the app showed
@@ -269,17 +285,17 @@ def main():
         for c in sfile.get(lst, []):
             if start(c) > now:
                 cur_s.setdefault((c["key"], c["t"]), (c, set()))[1].add(lst)
-    for k, e in list(soc.items()):
-        if e["status"] == "pending" and start(e) > now and k not in cur_s:
-            del soc[k]
+    mark_dropped(soc, cur_s)
     for k, (c, lists) in cur_s.items():
-        soc[k] = {"key": c["key"], "lg": "SOC", "league": c.get("league"), "comp": c.get("lg"), "ev_id": c["ev_id"],
+        old = soc.get(k) or {}
+        soc[k] = lock({"key": c["key"], "lg": "SOC", "league": c.get("league"), "comp": c.get("lg"), "ev_id": c["ev_id"],
                   "pid": c["pid"], "name": c["name"], "team": c["team"], "opp": c["opp"], "home": c["home"], "t": c["t"],
                   # graded at the better of DraftKings' and FanDuel's price (soccer_data.py fanduel_prices, from Oct 23)
                   "m": c["m"], "k": c["k"], "label": c["label"], "price": c.get("bp") or c["price"],
                   "dec": round(1 + ((c.get("bp") or c["price"]) / 100 if (c.get("bp") or c["price"]) > 0 else 100 / -(c.get("bp") or c["price"])), 3),
                   "book": c.get("bb") or "DraftKings", "dk": c["price"], "fd": c.get("fd"), "prob": c["prob"],
-                  "ev": c["ev"], "lists": sorted(lists), "status": "pending", "result": None}
+                  "ev": c["ev"], "lists": sorted(lists), "status": "pending", "result": None},
+                      old, ("price", "dec", "book", "dk", "fd", "prob", "ev"), price_now=c.get("bp") or c["price"])
     try:
         shist = json.load(gzip.open("soccer_hist.json.gz", "rt"))
     except Exception:
