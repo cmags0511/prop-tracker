@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-06 (2), cmags0511 (Claude): "Card" tab, every suggested bet by kickoff (PR)
+New **Card** button in the sport bar (`renderToday` in index.html): one list of everything the app suggests now (NFL/NBA/CFB props, anytime TDs, soccer props and team bets, NHL, parlays) from `record.json` pending + `soccer_team.json` + `nhl.json`, sorted by kickoff, with the price to look for, "Bet by" time and the DraftKings button. This device remembers what it has shown (localStorage `pt-card-seen`, try/catch) so a bet the app drops before kickoff shows struck through as "No longer recommended"; entries are purged after kickoff. Nothing is written to My picks. No data files or workflows changed. sw.js `pt-v139`.
+
 ## 2026-11-06, cmags0511 (Claude): parlay record shows what is locked, by day (PR)
 Parlay record screen (`parRecordHtml`): "pending" is now "locked", and one line under the summary says how many are locked per game day and that only the app's suggested parlays count. No data or grading change. `sw.js` is `pt-v138`.
 
