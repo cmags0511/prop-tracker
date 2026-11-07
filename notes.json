@@ -1,281 +1,2114 @@
 {
- "updated": "2026-11-06T21:40:39Z",
- "summary": "Injury news dominates Week 9: Seattle starts Drew Lock (or Jalen Milroe) with Darnold out, Philadelphia starts Joe Milton, Cleveland may turn to Shedeur Sanders, and Houston is again without David Montgomery; Garrett Wilson, Cam Skattebo and Christian McCaffrey are all in doubt.",
+ "updated": "2026-11-07T12:46:12Z",
+ "summary": "Seattle starts Drew Lock for the injured Darnold, the Eagles turn to Joe Milton III, San Francisco is without Evans, Kirk and Samuel at receiver, and Detroit lists Amon-Ra St. Brown questionable after a limited week.",
  "notes": {
+  "CFB|5301028|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Colorado RB receiving line of 0.5 means one catch for positive yards clears it; he has done so in 3 of 8 games. Edge score is inflated by the tiny line. No availability news found.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
+  },
+  "CFB|5079519|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Broke his foot in September and was described as out for the foreseeable future; has not played since Sep 12. A line is posted this week but no report I read confirms his return. Oregon is also on backup QB Dylan Raiola (Dante Moore out since late September with a concussion). Do not use unless he is confirmed active.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://clutchpoints.com/ncaa-football/oregon-football-news-jeremiah-mcclellan-foreseeable-future-broken-foot",
+    "https://www.predictem.com/?p=215005"
+   ]
+  },
+  "CFB|5200430|ryd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Season numbers flatter him: 25, 4 rushing yards in his last two games. Jayden Limar returned to practice in late October and Trey Cooley was back from a shoulder sprain, so carries are split three ways.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://roundtable.io/sports/ncaa/washington/news/injured-washington-huskies-running-back-returns-to-practice"
+   ]
+  },
+  "CFB|4685565|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Has topped 47.5 in all six games he played (56-78 yards), including both games with backup QB Dylan Raiola. Oregon's other top WR McClellan has been out with a broken foot. Ohio State's pass defense allows few yards (rank 124 of 139) and OSU is also starting a backup QB (Julian Sayin out with a shoulder injury),\u2026",
+   "sources": [
+    "https://www.fanduel.com/research/college-football-props-saturday-nov-7",
+    "https://www.predictem.com/?p=215005",
+    "https://clutchpoints.com/ncaa-football/oregon-football-news-jeremiah-mcclellan-foreseeable-future-broken-foot"
+   ]
+  },
+  "CFB|4900351|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Utah TE; low 19.5 line he cleared in 4 of 6 games. No availability or depth news found in my searches.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
+  },
+  "CFB|5261613|ryd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Syracuse RB averaging 74.7 but recent games 26, 38, 54; shares work with Ahmad Miller. No availability news found.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
+  },
   "CFB|5121169|pyd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Miami's leading receiver Malachi Toney (9.1 catches, 128 yards a game) is reported unlikely to play at Notre Dame, which removes Mensah's top target; the 223.5 line sits far below his 303-yard average, so the market appears to have priced the absence. Notre Dame's secondary is also short a starting cornerback and a\u2026",
-   "sources": [
-    "https://www.fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7",
-    "https://atozsports.com/?p=510176"
-   ],
-   "detail": {
-    "availability": "Mensah has no reported injury. WR Malachi Toney is described as unlikely to play.",
-    "role": "Toney had 11, 16 and 7 catches in the last three games; his targets go to Barkate, Jacobs and the backs if he sits.",
-    "matchup": "Notre Dame lists CB DJ McKinney and S Brauntae Johnson out, MLB Drayk Bowen ruled out, and two defensive tackles questionable.",
-    "market": "FanDuel line 223.5 versus a 303.1 season average."
-   }
-  },
-  "CFB|5141629|pyd": {
+   "side": "over",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No availability news for Russell in the preview read; the page reported no injuries for either team. In the app's logs WR Ryan Coleman-Williams has not played since Oct. 10, and Russell has thrown for 185, 147 and 311 yards in the three games since.",
+   "note": "Miami's top WR Malachi Toney hurt his ankle in practice Nov 4 and was reported to need surgery for a high ankle sprain; he had 39% of Miami's receiving yards. Notre Dame has the top-ranked defense and allows the third-fewest passing yards in the screen. The line sits about 80 yards below his average for these\u2026",
    "sources": [
-    "https://www.fanduel.com/research/alabama-vs-lsu-prediction-picks-props-and-best-bets-nov-7"
-   ],
-   "detail": {
-    "availability": "No injury reported for Russell.",
-    "role": "Starting QB; Coleman-Williams absent from the app's game logs since Oct. 10.",
-    "market": "FanDuel line 237.5 versus a 257.1 season average."
-   }
+    "https://fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7",
+    "https://www.tsn.ca/ncaa/article/report-star-wr-toney-dealing-with-ankle-issue-status-for-miami-notre-dame-unclear/"
+   ]
   },
-  "NBA|3995|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "With Morant and now Krejci out, Portland's backcourt is thinner, which should keep Holiday's minutes steady or slightly up, but no report specifies a bigger role.",
-   "sources": [
-    "https://www.nbcsports.com/nba/vit-krejci/11109/news"
-   ],
-   "detail": {
-    "availability": "Holiday is not on the injury report.",
-    "role": "Krejci (leg fracture) joins Morant (hamstring, about four weeks) on the sidelines, so Portland has fewer guards and wings in its rotation; reports say Chris Youngblood may be pulled into the rotation."
-   }
-  },
-  "NBA|5105565|3pm": {
+  "CFB|5222689|recyd": {
+   "side": "over",
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No new availability or role news for Clingan; the Krejci injury affects the guard and wing rotation more than the center spot.",
+   "note": "BC WR, 19.5 line; last two games 9 and 6 yards. FSU allows a lot through the air (rank 13). No availability news found.",
    "sources": [
-    "https://www.nbcsports.com/nba/vit-krejci/11109/news"
-   ],
-   "detail": {
-    "availability": "Clingan is not on the injury report.",
-    "role": "Krejci (out, leg fracture) was a wing/guard, so his absence does not obviously change Clingan's minutes."
-   }
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
   },
-  "NBA|4433134|3pm": {
-   "flag": "caution",
+  "CFB|5080703|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Oklahoma's leading WR (73.9/g, 6 of 8 over 49.5) but only 13 yards last week vs South Carolina. No availability news found.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
+  },
+  "CFB|4875127|ryd": {
+   "side": "over",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Questionable with left adductor/groin soreness; played 32 minutes Wednesday, but his status for Friday is uncertain and any minutes limit would cut his three-point attempts.",
+   "note": "Ran for more than 50 yards in 6 of 8 games and had 18 and 13 carries in his last two. No injury noted.",
    "sources": [
-    "https://www.cbssports.com/fantasy/basketball/news/raptors-scottie-barnes-questionable-for-friday-537802/",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-05/scottie-barnes-groin-questionable-vs-milwaukee"
-   ],
-   "detail": {
-    "availability": "Listed questionable Friday at Milwaukee with left adductor/groin soreness; logged 32 minutes in Wednesday's loss to Denver.",
-    "role": "If he sits, Graves, Battle and Murray-Boyles absorb the forward minutes."
-   }
+    "https://www.fanduel.com/research/college-football-props-saturday-nov-7"
+   ]
   },
-  "NBA|4433134|pra": {
-   "flag": "caution",
+  "CFB|5083175|recyd": {
+   "side": "over",
+   "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "Questionable with adductor/groin soreness; availability and minutes uncertain until game time.",
+   "conf": "low",
+   "note": "UCLA RB receiving line of 3.5; cleared it in 4 of his last 5. Small-sample market. No availability news found.",
    "sources": [
-    "https://www.cbssports.com/fantasy/basketball/news/raptors-scottie-barnes-questionable-for-friday-537802/"
-   ],
-   "detail": {
-    "availability": "Questionable Friday with left adductor/groin soreness."
-   }
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
   },
-  "NFL|00-0037744|rec": {
+  "CFB|5219834|pyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Oklahoma State QB has thrown for 300+ in each of his last six games (avg 331.1); Kansas State allows few passing yards (rank 130). No availability news found.",
+   "sources": [
+    "https://www.covers.com/sport/football/ncaaf/player-props"
+   ]
+  },
+  "NBA|3147657|reb": {
    "side": "over",
    "flag": "support",
    "adj": 1,
    "conf": "medium",
-   "note": "With Bourne out and Michael Wilson limited by a rib injury, McBride is Arizona's most reliable target. He had 7 catches on 8 targets with Minshew finishing last week's win.",
+   "note": "Hart, one of the Knicks' top rebounders, is out again and Cleveland is missing center Jarrett Allen, leaving more boards for the wings.",
    "sources": [
-    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/",
-    "https://arizonasports.com/arizona-cardinals-injury-report/cardinals-seahawks-injury-report-michael-wilson-limited-sam-darnold-ruled-out"
+    "https://sports.yahoo.com/articles/knicks-concerning-injury-news-key-010243354.html",
+    "https://mymotherlode.com/sports/basketball-general-news/11288689/cleveland-takes-on-new-york-in-conference-matchup.html"
    ],
    "detail": {
-    "availability": "McBride is not on the injury report.",
-    "role": "He has 7+ catches in all eight games and 86 targets on the season; Bourne is out and Wilson was limited Wednesday and Thursday.",
-    "conditions": "Rain chance with about 14 mph wind and gusts in the 20s at Lumen Field could tilt passing toward short throws.",
-    "market": "The line has come down from 7.5 to 6.5 since opening."
+    "availability": "Bridges is not on the injury report.",
+    "role": "Hart's absence frees rebounds on the wing; Shamet, a light rebounder, took his starting spot Wednesday.",
+    "matchup": "Cleveland is without Allen (knee) and on the second night of a back-to-back.",
+    "market": "Line already dropped from 3.5 at open to 2.5, toward the over."
    }
   },
-  "NFL|00-0037744|recyd": {
+  "NBA|3914044|3pm": {
+   "side": "over",
    "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Shamet started in Hart's place Wednesday (25 minutes) and could start again with Hart out; a starting role lifts his minutes and three-point volume.",
+   "sources": [
+    "https://sports.yahoo.com/articles/knicks-concerning-injury-news-key-010243354.html",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-06/josh-hart-ankle-remains-out-saturday-vs-cle"
+   ],
+   "detail": {
+    "availability": "Healthy; Hart out with right ankle soreness for a second game.",
+    "role": "Started vs Chicago for Hart with 7 points in 25 minutes; coach had not named Saturday's lineup (the app lists McBride as the moved-up starter).",
+    "matchup": "Cleveland is thin on guards with Merrill and Tyson out and is on a back-to-back.",
+    "market": "Kalshi 62% over; line fell from 2.5 open to 1.5."
+   }
+  },
+  "NBA|4709138|3pm": {
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "His target share looks secure with Bourne out and Wilson limited, though wind and rain could cap downfield yardage.",
+   "note": "Not on the injury report; earlier back trouble cost him two games but he has started every game since Oct 27 at 33-37 minutes, and Orlando is without Suggs, its top perimeter defender.",
+   "sources": [
+    "https://www.cbssports.com/nba/players/26778377/brandin-podziemski/",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/",
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/"
+   ],
+   "detail": {
+    "availability": "Not listed for Saturday; missed the Oct 21 opener and Oct 24 with lower-back soreness, no setbacks reported since.",
+    "role": "Back in the starting five next to Curry since Oct 27, playing 33-37 minutes with a larger on-ball role; Payton II (calf) questionable could shift backup-guard minutes to Melton/Williams rather than him.",
+    "matchup": "Orlando is missing Suggs, Banchero, Isaac, Penda and Nelson."
+   }
+  },
+  "NBA|6589|reb": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|pr": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|pra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|pa": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|pts": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|ra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NBA|6589|ast": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with right-elbow inflammation; he has already missed two games this season, so his availability is uncertain until warmups, and Horford/Bassey absorb his frontcourt minutes if he sits.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/"
+   ],
+   "detail": {
+    "availability": "Listed questionable (right elbow inflammation/soreness) on the Nov 6 report; played Thursday vs Miami."
+   }
+  },
+  "NFL|00-0037744|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Healthy and productive (7 catches on 8 targets last week), but his line dropped from 7.5 to 6.5 and the only news found is the switch to Gardner Minshew at QB.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/",
+    "https://www.yardbarker.com/nfl/articles/cardinals_to_start_gardner_minshew_in_week_9/s1_14819_44507660"
+   ],
+   "detail": {
+    "availability": "Not on Arizona's injury report.",
+    "role": "7 of 8 targets for 72 yards and a TD at Dallas, the score from Minshew after Brissett was benched.",
+    "market": "Opened 7.5, now 6.5 (13% lower); the QB change to Minshew is the only news found and doesn't clearly explain it, so treat as unexplained."
+   }
+  },
+  "NFL|00-0037263|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Bam Knight out (concussion) and Jeremiyah Love also hurt in Week 8, Allgeier is Arizona's lead back.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/",
+    "https://www.yardbarker.com/nfl/articles/cardinals_to_start_gardner_minshew_in_week_9/s1_14819_44507660"
+   ],
+   "detail": {
+    "availability": "Healthy.",
+    "role": "Coach LaFleur had planned on Knight and Love as the top two backs before both were injured in Week 8; Knight missed every practice and is ruled out.",
+    "matchup": "Arizona is missing G Jon Gaines and OT Jayden Williams."
+   }
+  },
+  "NFL|00-0037263|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Knight is out and Love was injured in Week 8, leaving Allgeier as the lead back.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/",
+    "https://www.yardbarker.com/nfl/articles/cardinals_to_start_gardner_minshew_in_week_9/s1_14819_44507660"
+   ],
+   "detail": {
+    "role": "Knight ruled out after missing all practices; Allgeier helped set up the winning drive at Dallas."
+   }
+  },
+  "NFL|00-0037263|rry": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Knight is out and Love was injured in Week 8, leaving Allgeier as the lead back.",
    "sources": [
     "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/"
    ],
    "detail": {
-    "role": "He had 72 yards on 7 catches last week."
+    "role": "Knight ruled out after missing all practices."
+   }
+  },
+  "NFL|00-0038559|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Practicing limited with rib injury and rest; he has no game designation but is playing through broken ribs, and Minshew is now the QB.",
+   "sources": [
+    "https://arizonasports.com/?p=3637298",
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/"
+   ],
+   "detail": {
+    "availability": "Limited in practice (ribs), no designation."
    }
   },
   "NFL|00-0038559|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Wilson has been limited in practice with a rib injury, so his availability and snap count are uncertain.",
+   "note": "Limited in practice with a rib injury (no designation) and catching passes from a new starting QB in Minshew.",
    "sources": [
-    "https://arizonasports.com/arizona-cardinals-injury-report/cardinals-seahawks-injury-report-michael-wilson-limited-sam-darnold-ruled-out"
+    "https://arizonasports.com/?p=3637298",
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/"
    ],
    "detail": {
-    "availability": "Limited Wednesday and Thursday (rest/ribs)."
+    "availability": "Limited in practice (ribs), no designation."
    }
   },
   "NFL|00-0038543|rec": {
    "flag": "caution",
    "adj": 0,
-   "conf": "high",
-   "note": "Seattle's QB is uncertain: Darnold is out and Lock is managing an elbow injury on his throwing arm, with Milroe as a possible fallback. That makes Smith-Njigba's volume less certain.",
+   "conf": "medium",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
    "sources": [
-    "https://www.espn.com/nfl/story/_/id/50380713/seahawks-qb-sam-darnold-ruled-quad-injury",
-    "https://arizonasports.com/arizona-cardinals-injury-report/cardinals-seahawks-injury-report-michael-wilson-limited-sam-darnold-ruled-out"
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
    ],
    "detail": {
-    "availability": "Smith-Njigba is healthy.",
-    "role": "Shaheed (knee) and Cross (ankle) missed practice, so Smith-Njigba may draw more targets if a QB can get him the ball."
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
    }
   },
   "NFL|00-0038543|recyd": {
    "flag": "caution",
    "adj": 0,
-   "conf": "high",
-   "note": "A backup QB with an elbow injury, plus rain and wind, makes Smith-Njigba's yardage ceiling uncertain despite his high target share.",
+   "conf": "medium",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
    "sources": [
-    "https://www.espn.com/nfl/story/_/id/50380713/seahawks-qb-sam-darnold-ruled-quad-injury"
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
    ],
    "detail": {
-    "availability": "Darnold is out and Lock is limited (elbow)."
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
+   }
+  },
+  "NFL|00-0033908|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
+   "sources": [
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
+   }
+  },
+  "NFL|00-0033908|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
+   "sources": [
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
+   }
+  },
+  "NFL|00-0039793|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
+   "sources": [
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
    }
   },
   "NFL|00-0039793|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "The Seattle passing game depends on whether Lock's elbow holds up, with Milroe as a fallback.",
+   "note": "Backup Drew Lock starts for Darnold while still recovering from an elbow injury, and Seattle is missing LT Cross and G Nelson; Shaheed's absence does concentrate targets.",
    "sources": [
-    "https://www.espn.com/nfl/story/_/id/50380713/seahawks-qb-sam-darnold-ruled-quad-injury"
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
    ],
    "detail": {
-    "availability": "Barner is healthy; Lock is limited with an elbow injury."
+    "availability": "Not on the injury report.",
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "matchup": "Lock went 19 of 26 for 235 yards and three TDs against Arizona in September."
    }
   },
   "NFL|00-0038543|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Smith-Njigba is the main red-zone target, but Seattle's QB will be Lock with a sore elbow or possibly Milroe, and wind and rain are forecast.",
-   "sources": [
-    "https://www.espn.com/nfl/story/_/id/50380713/seahawks-qb-sam-darnold-ruled-quad-injury"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "Darnold is out; Lock is limited (elbow).",
-    "experts": "No current-week anytime-TD previews were found."
-   }
-  },
-  "NFL|00-0037744|td": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "McBride caught the go-ahead 14-yard TD from Minshew last week, his fifth TD of the season. Bourne's absence keeps him central to Arizona's red-zone passing.",
+   "note": "Lock threw him three TDs in the September meeting with Arizona, but Lock is still recovering from an elbow injury and Seattle's line is missing Cross and Nelson.",
    "sources": [
-    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/"
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298"
    ],
    "buzz": "none",
    "detail": {
-    "role": "He has 5 TDs this season; Bourne is out and Wilson is limited.",
-    "script": "Arizona is an 8.5-point underdog in a game with a 39.5 total."
+    "role": "Sam Darnold (quad) is out; Drew Lock starts while still working back from an elbow injury, and Seattle is also without LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
    }
   },
   "NFL|00-0036900|recyd": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Bengals' pass-catchers are all off the injury report; Erick All's absence (IR since Oct 25) is not new, so nothing this week changes Chase's target share.",
+   "note": "Not on Cincinnati's injury report for Madrid; he caught 11 of 16 targets for 141 yards last week, and the All injury removes a pass-catcher without changing his top role.",
    "sources": [
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report",
-    "https://heavy.com/sports/nfl/cincinnati-bengals/bengals-erick-all-injury-acl/"
+    "https://www.news4jax.com/sports/2026/11/04/stefanski-prepares-falcons-for-bengals-offense-in-madrid-after-struggles-in-the-rain-in-florida/",
+    "https://www.footballnationusa.com/post/erick-all-jr-knee-injury-bengals-te-depth-and-week-8-fantasy-outlook",
+    "https://www.thefantasyfootballers.com/news/644923/jamarr-chase-in-uniform-thursday/"
    ],
    "detail": {
-    "availability": "Not on the injury report; CIN offense fully healthy apart from TE Erick All (IR, reported ACL) and TE Tanner Hudson (IR).",
-    "conditions": "Neutral-site game in Madrid; Bengals left Cincinnati Tuesday Nov 3."
+    "availability": "Not listed on the Bengals' final report (only S Dugger out and DE C. Johnson questionable); an ankle/rest DNP two weeks ago did not cost him a game.",
+    "role": "Drew 16 targets in the Week 8 overtime win over Tennessee; TE Erick All's IR stint (reported ACL) removes a short-area option.",
+    "conditions": "Neutral site in Madrid with an early ET kickoff; both teams traveled.",
+    "market": "Line 77.5, opened 76.5; Kalshi near 50%, no news-driven move found."
    }
   },
   "NFL|00-0035631|rec": {
    "flag": "caution",
    "adj": 0,
    "conf": "low",
-   "note": "Healthy and listed TE2 behind Gesicki with All and Hudson on IR, but rookie Jack Endries also caught a TD last week, so Sample's share of TE work is unclear.",
+   "note": "Line fell from 1.5 to 0.5 and he is flagged as missing the last game, but no injury report or news explains it; his role is mostly blocking with All on IR.",
    "sources": [
-    "https://web9.rotowire.com/football/player/drew-sample-13809",
-    "https://heavy.com/sports/nfl/cincinnati-bengals/bengals-erick-all-injury-acl/",
-    "https://sports.yahoo.com/articles/bengals-best-tight-end-fix-161500873.html"
+    "https://www.footballnationusa.com/post/erick-all-jr-knee-injury-bengals-te-depth-and-week-8-fantasy-outlook",
+    "https://www.espn.co.uk/nfl/player/news/_/id/3127310/drew-sample"
    ],
    "detail": {
-    "availability": "Not on the Bengals injury report this week.",
-    "role": "Rotowire lists him TE2 behind Gesicki, running a route on about 38% of pass plays with 8 targets on the season; rookie Endries and newly signed Cam Grandy are also in the TE room, and the packet shows him missing last week, which could not be confirmed either way."
+    "availability": "Not on Cincinnati's final injury report; the packet shows he missed the last game and no source found explains why.",
+    "role": "With Erick All on IR, Gesicki is the receiving TE; reporting describes Sample's value as blocking plus occasional short scores.",
+    "market": "Opened 1.5, now 0.5, a move the news found does not explain; treat as unclear."
+   }
+  },
+  "NFL|00-0032392|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No news on Hooper this week; he is Atlanta's third tight end behind Pitts, and Branch's absence opens a few targets but mostly to receivers.",
+   "sources": [
+    "https://www.footballnationusa.com/post/bengals-at-falcons-week-9-preview-madrid-matchup-fantasy-outlook-and-fn-prediction"
+   ],
+   "detail": {
+    "availability": "Not on Atlanta's injury report.",
+    "role": "TE3 behind Kyle Pitts; WR Zachariah Branch (hamstring) is out, freeing some targets, but no report ties them to Hooper."
    }
   },
   "NFL|00-0038542|td": {
-   "flag": "neutral",
+   "flag": "support",
    "adj": 0,
    "conf": "medium",
-   "note": "Bijan is healthy; backup Brian Robinson Jr. was limited Wed and Thu with a hamstring, which could leave Bijan more of the short-yardage work if Robinson is held out.",
+   "note": "Brian Robinson Jr. is ruled out with a hamstring, leaving Bijan as the clear lead back with Khalil Herbert behind him; he has five scores in eight games.",
    "sources": [
-    "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid",
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report"
+    "https://www.news4jax.com/sports/2026/11/04/stefanski-prepares-falcons-for-bengals-offense-in-madrid-after-struggles-in-the-rain-in-florida/",
+    "https://www.footballnationusa.com/post/bengals-at-falcons-week-9-preview-madrid-matchup-fantasy-outlook-and-fn-prediction"
    ],
    "buzz": "none",
    "detail": {
-    "availability": "Bijan not on the injury report; Brian Robinson Jr. limited both practices in Madrid.",
-    "matchup": "Cincinnati safeties Kyle Dugger (quad, DNP) and Jordan Battle (hamstring, limited) are banged up.",
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
+    "availability": "Healthy; not on the injury report.",
+    "role": "Brian Robinson Jr. (hamstring) out per the Falcons' official site; Herbert named the contingency back, so short-yardage work should stay with Bijan.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
    }
   },
   "NFL|00-0038597|td": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "No injury news on the Bengals' backfield; Chase Brown and Samaje Perine both off the report, so the existing goal-line split stands.",
+   "conf": "low",
+   "note": "No injury or role news; he remains Cincinnati's lead back in a run game averaging under 4 yards per carry, with Perine mixing in.",
    "sources": [
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report"
+    "https://www.footballnationusa.com/post/bengals-at-falcons-week-9-preview-madrid-matchup-fantasy-outlook-and-fn-prediction"
    ],
    "buzz": "none",
    "detail": {
     "availability": "Not on the injury report.",
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
+    "role": "Lead back with 340 rushing yards and one score; Perine is the change-of-pace back.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
    }
   },
-  "NFL|00-0037746|car": {
+  "NFL|00-0036997|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Healthy and not on the injury report; he took 24 carries in the overtime loss to Arizona, so the workload is secure.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026",
+    "https://www.rotoballer.com/?p=1981483"
+   ],
+   "detail": {
+    "availability": "Not on Dallas's injury report.",
+    "role": "24 carries last week in the 33-30 overtime loss; no backup is cutting into his work in reporting found.",
+    "matchup": "Colts are without LB Akeem Davis-Gaither (knee)."
+   }
+  },
+  "NFL|00-0040128|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Cleared from his groin injury before Week 8 and not on this week's report; no change to his starting TE role.",
+   "sources": [
+    "https://nbcsports.com/fantasy/football/player-news/2026-10-30/tyler-warren-groin-good-to-go-for-week-8",
+    "https://www.dallascowboys.com/news/updates-november-2026"
+   ],
+   "detail": {
+    "availability": "Coach Steichen called him good to go for Week 8 after a groin injury; not listed this week.",
+    "matchup": "Dallas LB DeMarvion Overshown is questionable (hamstring/back) and LB Malachi Lawrence is out, thinning coverage over the middle."
+   }
+  },
+  "NFL|00-0037247|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Questionable after a third straight week of limited practices with shoulder and hamstring/ankle issues; expected to try to play but a limited snap load is possible.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026",
+    "https://www.thefantasyfootballers.com/news/645112/george-pickens-questionable-for-sunday/"
+   ],
+   "detail": {
+    "availability": "Limited on every practice report again this week; listed questionable (shoulder/ankle) on Nov. 6.",
+    "role": "WR2 behind Lamb; Turpin (ribs) is out again, so depth behind him is Flournoy."
+   }
+  },
+  "NFL|00-0037247|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Questionable after a third straight week of limited practices with shoulder and hamstring/ankle issues; expected to try to play but a limited snap load is possible.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026",
+    "https://www.thefantasyfootballers.com/news/645112/george-pickens-questionable-for-sunday/"
+   ],
+   "detail": {
+    "availability": "Limited on every practice report again this week; listed questionable (shoulder/ankle) on Nov. 6.",
+    "role": "WR2 behind Lamb; Turpin (ribs) is out again, so depth behind him is Flournoy."
+   }
+  },
+  "NFL|00-0036997|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Bell-cow role intact (24 carries last week, nine TDs in eight games) with no injury and no goal-line rival named in reporting.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026",
+    "https://www.rotoballer.com/?p=1981483"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "24 carries in the last game; he is the only back with a defined role in reporting.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
+   }
+  },
+  "NFL|00-0036223|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found this week; remains Indianapolis' lead back.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Not on the Colts' injury report (only Walley, Davis-Gaither out; Travis, Haulcy questionable).",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
+   }
+  },
+  "NFL|00-0033881|recyd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Engram is in a three-man tight end rotation, playing under half the snaps in Week 8 behind Adam Trautman, and was held without a catch on three targets.",
+   "sources": [
+    "https://athlonsports.com/nfl/denver-broncos/broncos-snap-counts-jonah-coleman-chiefs-week-8",
+    "https://www.cbssports.com/fantasy/football/news/broncos-evan-engram-no-grabs-in-week-8-win/",
+    "https://sports.yahoo.com/articles/broncos-vs-panthers-practice-participation-230831231.html"
+   ],
+   "detail": {
+    "availability": "Not on the Broncos' injury report.",
+    "role": "Week 8: Trautman 56% of snaps, Engram 48%, Nate Adkins 31%; three catches for 15 yards over his last three games while rookie RB Jonah Coleman led the team in receiving.",
+    "matchup": "Carolina has ruled out LBs Bobby Okereke and Jaelan Phillips and CB Will Lee III."
+   }
+  },
+  "NFL|00-0036158|ryd": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Rookie Jonah Coleman has taken over Denver's backfield, playing 66% of Week 8 snaps to Dobbins' 21%.",
+   "sources": [
+    "https://athlonsports.com/nfl/denver-broncos/broncos-snap-counts-jonah-coleman-chiefs-week-8"
+   ],
+   "detail": {
+    "role": "Week 8 snaps: Coleman 41, Dobbins 13; Dobbins' share has stayed near 13-14 snaps for two weeks."
+   }
+  },
+  "NFL|00-0036158|car": {
+   "side": "under",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Rookie Jonah Coleman has taken over Denver's backfield, playing 66% of Week 8 snaps to Dobbins' 21%.",
+   "sources": [
+    "https://athlonsports.com/nfl/denver-broncos/broncos-snap-counts-jonah-coleman-chiefs-week-8"
+   ],
+   "detail": {
+    "role": "Week 8 snaps: Coleman 41, Dobbins 13; Dobbins' share has stayed near 13-14 snaps for two weeks."
+   }
+  },
+  "NFL|00-0039880|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Healthy WR1 facing a Lions secondary missing CB D.J. Reed and S Kerby Joseph, but his target share has dipped as Caleb Douglas's snaps and Greg Dulcich's targets have grown.",
+   "sources": [
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://statchasers.com/nfl/teams/miami-dolphins/usage/",
+    "https://www.si.com/betting/lions-vs-dolphins-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
+   ],
+   "detail": {
+    "availability": "Not on Miami's injury report; QB Malik Willis (groin) practiced fully all week and carries no designation.",
+    "role": "Still the most-used Miami receiver by snaps, but his share of targets over the last three games slipped while Douglas gained about 21 points of snap share and Dulcich's target share rose; Achane is on IR.",
+    "matchup": "Detroit has ruled out CB D.J. Reed, S Kerby Joseph, LB Jack Campbell and EDGE DJ Wonnum.",
+    "script": "Current consensus has Detroit -7 with a 50.5 total (packet 6.5 / 49.5), pointing to a trailing Miami script.",
+    "market": "Line has moved up from 41.5 open to 43.5."
+   }
+  },
+  "NFL|00-0036963|recyd": {
    "flag": "caution",
    "adj": 0,
    "conf": "high",
-   "note": "Brian Robinson Jr. was limited Wednesday and Thursday with a hamstring; his availability and workload behind Bijan are uncertain.",
+   "note": "Questionable with a rib injury after being limited Wednesday, Thursday and Friday; a full week of limited work keeps his snap count and availability uncertain.",
    "sources": [
-    "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid",
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report",
-    "https://www.nfl.com/injuries/league/2026/reg9"
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/",
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html"
    ],
    "detail": {
-    "availability": "Hamstring, limited Wed and Thu in Madrid; questionable-type trend, no final status yet."
+    "availability": "Limited in all three practices with a rib injury; officially questionable."
    }
   },
-  "NFL|00-0037746|ryd": {
+  "NFL|00-0036963|rec": {
    "flag": "caution",
    "adj": 0,
    "conf": "high",
-   "note": "Brian Robinson Jr. was limited Wednesday and Thursday with a hamstring; his availability and workload behind Bijan are uncertain.",
+   "note": "Questionable with a rib injury after being limited Wednesday, Thursday and Friday; a full week of limited work keeps his snap count and availability uncertain.",
    "sources": [
-    "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid",
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report",
-    "https://www.nfl.com/injuries/league/2026/reg9"
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/",
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html"
    ],
    "detail": {
-    "availability": "Hamstring, limited Wed and Thu in Madrid."
+    "availability": "Limited in all three practices with a rib injury; officially questionable."
+   }
+  },
+  "NFL|00-0033106|pyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "His top target St. Brown is questionable after limited practices all week and starting center Cade Mays is out, which clouds the passing outlook.",
+   "sources": [
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/"
+   ],
+   "detail": {
+    "availability": "Goff himself is not on the report.",
+    "role": "WR1 St. Brown (ribs) limited all week; C Cade Mays (ankle) ruled out."
+   }
+  },
+  "NFL|00-0039364|ryd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Newly added to the report with an ankle injury and did not practice Friday; questionable, with a real chance he is inactive.",
+   "sources": [
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/"
+   ],
+   "detail": {
+    "availability": "DNP Friday (ankle), listed questionable; fellow backup Saylors (neck) limited all week and also questionable, Pacheco on IR."
+   }
+  },
+  "NFL|00-0039364|car": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Newly added to the report with an ankle injury and did not practice Friday; questionable, with a real chance he is inactive.",
+   "sources": [
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/"
+   ],
+   "detail": {
+    "availability": "DNP Friday (ankle), listed questionable; fellow backup Saylors (neck) limited all week and also questionable, Pacheco on IR."
+   }
+  },
+  "NFL|00-0039139|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Detroit's backfield depth is thin (Pacheco on IR, Vaki DNP Friday, Saylors limited), so Gibbs should keep nearly all short-yardage work in a game Detroit is favored by a touchdown.",
+   "sources": [
+    "https://www.si.com/betting/lions-vs-dolphins-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026",
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/"
+   ],
+   "buzz": "some",
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Second in the league in carries with eight rushing TDs; backups Vaki (ankle) and Saylors (neck) are both questionable and Pacheco is on IR, limiting goal-line alternatives.",
+    "matchup": "Detroit is down starting C Cade Mays, a small blocking concern.",
+    "script": "Lions -7 with a 50.5 total gives Detroit one of the higher implied point totals of the week."
+   }
+  },
+  "NFL|00-0036875|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Henderson out ill, Stevenson is the clear lead back; he played 45 snaps (76%) last game with Corey Kiner as the only spell back.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Kiner had 11 snaps and Lan Larison 5 last week behind him.",
+    "matchup": "Packers are without Parsons and LB Zaire Franklin.",
+    "market": "Line rose from 54.5 to 56.5."
+   }
+  },
+  "NFL|00-0036875|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Henderson (illness) is out, leaving Stevenson as the lead back with Kiner in a small change-of-pace role.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers"
+   ],
+   "detail": {
+    "role": "76% snap share last game."
+   }
+  },
+  "NFL|00-0036875|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Stevenson is the lead back with Henderson ruled out, so most short-yardage and red-zone carries should run through him; Kiner is the only spell back.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers"
+   ],
+   "buzz": "none",
+   "detail": {
+    "role": "45 of 59 snaps last game.",
+    "experts": "Limited search found no current-week TD previews for this game."
+   }
+  },
+  "NFL|00-0038621|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brown is out a second straight game, but Henry practiced Friday and Mack Hollins could be activated, which may spread targets among Douglas, Kyle Williams, Chism and Hollins.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers"
+   ],
+   "detail": {
+    "availability": "Douglas is not on the report.",
+    "role": "Hollins led the team in catches and yards over the first four weeks before going on IR; activation deadline is Saturday 4 p.m."
+   }
+  },
+  "NFL|00-0033090|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Henry (foot) is questionable after leaving Week 8 early and missing two practices, then going limited Friday; rookie Eli Raridon would lead the tight ends if he sits.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers",
+    "https://www.thefantasyfootballers.com/news/645765/hunter-henry-status-uncertain-for-week-9/",
+    "https://www.yardbarker.com/nfl/articles/patriots_dont_have_immediate_update_on_hunter_henrys_status/s1_16700_44506231"
+   ],
+   "detail": {
+    "availability": "DNP, DNP, limited; questionable.",
+    "role": "Raridon played a career-high 55 snaps after Henry left Week 8."
+   }
+  },
+  "NFL|00-0033090|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Questionable with a foot injury after a limited Friday practice; a snap cap or absence is possible, with Raridon next up.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers",
+    "https://www.yardbarker.com/nfl/articles/patriots_dont_have_immediate_update_on_hunter_henrys_status/s1_16700_44506231"
+   ],
+   "detail": {
+    "availability": "Limited Friday only."
+   }
+  },
+  "NFL|00-0035700|ryd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Green Bay will start backups at center and guard with Sean Rhyan and Travis Glover both out, which could limit Jacobs' rushing efficiency.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers"
+   ],
+   "detail": {
+    "availability": "Jacobs not on report.",
+    "matchup": "Interior OL depleted."
+   }
+  },
+  "NFL|00-0036355|ptd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Herbert is healthy and gets McConkey and Tre Harris back, but the winless Chargers still miss LT Slater, likely LG Awosika and TE Njoku, and Harbaugh plans more Hampton touches.",
+   "sources": [
+    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku",
+    "https://boltbeat.com/chargers-don-t-get-as-much-relief-as-they-were-hoping-for-in-final-week-9-injury-report-01m6sknnx9dq",
+    "https://sports.yahoo.com/articles/texans-final-injury-report-week-223922490.html",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/harbaugh-indicates-hampton-will-get-more-touches"
+   ],
+   "detail": {
+    "availability": "Not on the Chargers' injury report.",
+    "role": "McConkey and Tre Harris returned last week; WR Brenen Thompson and TE David Njoku are doubtful.",
+    "matchup": "Houston's S Reed Blankenship is out (M.J. Stewart starts); LB Al-Shaair and S Pitre practiced fully and will play.",
+    "script": "Chargers are 0-7 and six-point home underdogs with a 40.5 total; Harbaugh indicated Omarion Hampton will get more touches."
+   }
+  },
+  "NFL|00-0040666|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "Harbaugh said this week that Omarion Hampton will get more touches.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/harbaugh-indicates-hampton-will-get-more-touches"
+   ],
+   "detail": {
+    "role": "Coach comment points to a larger workload; detail beyond the headline was not available."
+   }
+  },
+  "NFL|00-0037256|ryd": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "McNichols (IR) and Croskey-Merritt (IR) are out, but Austin Ekeler is active and shares the work with White, so it is a split backfield; consensus line is about 40.5, not 35.5.",
+   "sources": [
+    "https://jingletree.com/commanders-news-both-starting-dts-hit-ir-as-rams-matthew-stafford-deals-with-arm-soreness-burgundy-roundup-301191.html",
+    "https://www.draftsharks.com/fantasy-football-news/83585/white-grabs-commanders-lead-role-and-delivers-his-second-rb1-week",
+    "https://fantasyfootballcalculator.com/players/jacory-croskey-merritt/news",
+    "https://www.rotowire.com/football/article/nfl-injury-report-friday-updates-garrett-wilson-out-shedeur-starting-145596",
+    "https://www.covers.com/sport/football/nfl/matchup/380041/picks"
+   ],
+   "line_now": 40.5,
+   "line_src": "https://www.covers.com/sport/football/nfl/matchup/380041/picks",
+   "detail": {
+    "availability": "White is not on the injury report.",
+    "role": "McNichols (midfoot) placed on IR Nov 3; Croskey-Merritt on IR since Oct 19 with a groin injury; White led the backfield with a 41% carry share in Week 6.",
+    "script": "Washington is a 4.5-point home underdog and threw 40 times vs 17 runs when trailing in Week 6.",
+    "market": "Line dropped from 41.5 at open to 35.5; no news found explaining the move."
+   }
+  },
+  "NFL|00-0039910|att": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Washington is down WRs Treylon Burks and Dyami Brown, thinning Daniels' receiver group to Diggs, Antonio Williams and depth players.",
+   "sources": [
+    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html",
+    "https://sports.yahoo.com/articles/commanders-rams-final-injury-report-000219511.html",
+    "https://jingletree.com/commanders-news-both-starting-dts-hit-ir-as-rams-matthew-stafford-deals-with-arm-soreness-burgundy-roundup-301191.html"
+   ],
+   "detail": {
+    "availability": "Daniels is not on the report.",
+    "role": "Burks (foot) and Dyami Brown (calf, hurt Thursday) are out.",
+    "matchup": "Rams CBs Trent McDuffie (back) and Kam Curl (foot) missed practice and are questionable; Jaylen Watson is out for the season.",
+    "script": "4.5-point home underdogs, total 47.5."
+   }
+  },
+  "NFL|00-0031588|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Treylon Burks and Dyami Brown both ruled out, Diggs faces less competition for targets from Daniels.",
+   "sources": [
+    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html",
+    "https://sports.yahoo.com/articles/commanders-rams-final-injury-report-000219511.html"
+   ],
+   "detail": {
+    "role": "Two of Washington's other receivers are out; Antonio Williams is the listed WR2.",
+    "matchup": "Rams secondary banged up: McDuffie and Curl questionable after missing practice, Watson out for the year."
+   }
+  },
+  "NFL|00-0026498|att": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Stafford is on the injury report for the first time this season (right elbow soreness); he says he practiced fully but has thrown 33 or fewer passes in three straight games.",
+   "sources": [
+    "https://sports.yahoo.com/articles/rams-matthew-stafford-provides-elbow-172128180.html",
+    "https://www.si.com/nfl/rams/onsi/rams-midweek-report-offensive-concerns-matthew-stafford-arm-soreness-trade-rumors",
+    "https://jingletree.com/commanders-news-both-starting-dts-hit-ir-as-rams-matthew-stafford-deals-with-arm-soreness-burgundy-roundup-301191.html"
+   ],
+   "detail": {
+    "availability": "Elbow reportedly hurt in the Denver game; Rapoport expects him to play; he says he has not missed a rep.",
+    "role": "Average depth of target near the bottom of the league the last four weeks."
+   }
+  },
+  "NFL|00-0026498|pyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Right elbow soreness put Stafford on the injury report this week; he expects to play, but the passing game has shown few explosive plays since Davante Adams got hurt.",
+   "sources": [
+    "https://sports.yahoo.com/articles/rams-matthew-stafford-provides-elbow-172128180.html",
+    "https://www.si.com/nfl/rams/onsi/rams-midweek-report-offensive-concerns-matthew-stafford-arm-soreness-trade-rumors"
+   ],
+   "detail": {
+    "availability": "Listed with right elbow; said he practiced fully.",
+    "matchup": "Washington's front lost Payne and Kinlaw to IR, which may ease pressure."
+   }
+  },
+  "NFL|00-0037840|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Healthy lead back facing a Washington line missing DTs Payne and Kinlaw (IR), but Blake Corum has scored in four straight games and takes real series, so TD chances are shared.",
+   "sources": [
+    "https://jingletree.com/commanders-news-both-starting-dts-hit-ir-as-rams-matthew-stafford-deals-with-arm-soreness-burgundy-roundup-301191.html",
+    "https://www.si.com/nfl/rams/onsi/rams-midweek-report-offensive-concerns-matthew-stafford-arm-soreness-trade-rumors",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-01/corum-scores-another-td-in-week-9-win"
+   ],
+   "buzz": "none",
+   "detail": {
+    "role": "No current reporting found on his red-zone share vs Blake Corum.",
+    "matchup": "Payne and Kinlaw on IR as of Nov 3; Tim Settle and Shy Tuttle remain.",
+    "experts": "Limited search found no current-week TD previews for this game."
+   }
+  },
+  "NFL|00-0040242|td": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 2,
+   "conf": "low",
+   "note": "Croskey-Merritt was placed on IR Oct 19 with a groin injury and no activation was found; he is absent from the team's listed starters and has no Kalshi market.",
+   "sources": [
+    "https://fantasyfootballcalculator.com/players/jacory-croskey-merritt/news",
+    "https://www.draftsharks.com/fantasy-football-news/83585/white-grabs-commanders-lead-role-and-delivers-his-second-rb1-week"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "IR since Oct 19 (groin); no report of a return found.",
+    "role": "White has led the backfield in his absence."
+   }
+  },
+  "NFL|00-0033280|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "high",
+   "note": "Cleared by Shanahan after a mild hamstring strain; he sat Wednesday, was limited Thursday and practiced Friday, and the WR shortage leaves him and Kittle as Purdy's main options.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "detail": {
+    "availability": "Mild hamstring strain from Week 7; DNP Wed, limited Thu, practiced Fri (listed full on the Friday report by one outlet, limited all week by another); no game designation.",
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR.",
+    "script": "49ers are 10-point favorites, which usually means late-game rushing work.",
+    "market": "Line rose from 104.5 to 108.5, consistent with his clearance."
+   }
+  },
+  "NFL|00-0033280|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "high",
+   "note": "Cleared to play, and with three receivers out the red-zone offense runs even more through him and Kittle; he has eight TDs in seven games.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Cleared after a mild hamstring strain; practiced Friday.",
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR.",
+    "script": "10-point home favorite.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
+   }
+  },
+  "NFL|00-0033288|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With Evans, Kirk and Samuel all out, Kittle is the most established pass-catcher left beside McCaffrey; targets should concentrate on him.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR."
+   }
+  },
+  "NFL|00-0033288|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Three 49ers receivers are out, so more of Purdy's targets should flow to Kittle.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "detail": {
+    "availability": "Not on the injury report.",
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR."
+   }
+  },
+  "NFL|00-0031236|rec": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Moves into a starting receiver role with Evans, Kirk and Samuel all ruled out.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "detail": {
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR. Robinson's return may take some of the snaps."
+   }
+  },
+  "NFL|00-0031236|recyd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Moves into a starting receiver role with Evans, Kirk and Samuel all ruled out.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "detail": {
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR. Robinson's return may take some of the snaps."
+   }
+  },
+  "NFL|00-0033288|td": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "medium",
+   "note": "With three wideouts out, the red-zone targets should concentrate on Kittle and McCaffrey.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ],
+   "buzz": "none",
+   "detail": {
+    "role": "Mike Evans, Christian Kirk (new meniscus injury Thursday) and Deebo Samuel are all out, leaving Watkins, Cooks and possibly Demarcus Robinson off IR.",
+    "experts": "Buzz not surveyed within the search budget; value is a default, not a finding."
+   }
+  },
+  "NFL|00-0034351|recyd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "high",
+   "note": "Goedert gets a first-time starter at QB in Joe Milton (five career appearances, 53 career passes); Smith and Wicks are out a third straight game, so his share holds but passing volume is uncertain.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://www.thefantasyfootballers.com/news/645895/joe-milton-iii-set-to-start-sunday/",
+    "https://fieldlevelmedia.com/news/reports-eagles-turn-to-qb-joe-milton-vs-giants/"
+   ],
+   "detail": {
+    "availability": "Full practice all week (knee), no designation.",
+    "role": "Lemon and Cooper start at WR; Smith and Wicks out again.",
+    "market": "Kalshi has the over at 43.5%, likely reflecting the QB change."
+   }
+  },
+  "NFL|00-0039847|rec": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "high",
+   "note": "Johnson missed last game but practiced fully all week with a neck injury and carries no game designation, so he is expected back in his TE2 role.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://bigblueinteractive.com/2026/11/06/preview-new-york-giants-at-philadelphia-eagles-november-8-2026/"
+   ],
+   "detail": {
+    "availability": "Neck; full participation Wednesday through Friday, no status.",
+    "role": "Isaiah Likely remains the lead tight end."
+   }
+  },
+  "NFL|00-0035250|car": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "high",
+   "note": "Tracy is on IR and Skattebo is doubtful after two missed practices, so Singletary is the lead back with rookie Gregory Desrosiers behind him.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://bigblueinteractive.com/2026/11/06/preview-new-york-giants-at-philadelphia-eagles-november-8-2026/"
+   ],
+   "detail": {
+    "availability": "Healthy.",
+    "role": "Skattebo DNP, DNP, limited; doubtful. Tracy on IR since Oct 27."
+   }
+  },
+  "NFL|00-0035250|ryd": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "high",
+   "note": "With Tracy on IR and Skattebo doubtful, Singletary takes over the lead-back carries.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://bigblueinteractive.com/2026/11/06/preview-new-york-giants-at-philadelphia-eagles-november-8-2026/"
+   ],
+   "detail": {
+    "role": "Desrosiers is the only other active option named."
+   }
+  },
+  "NFL|00-0034844|ryd": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Barkley (hamstring/back) missed Wednesday and was limited Thursday and Friday; no designation, but Philly also starts a first-time QB.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://www.thefantasyfootballers.com/news/645895/joe-milton-iii-set-to-start-sunday/"
+   ],
+   "detail": {
+    "availability": "DNP, LP, LP; no game status.",
+    "script": "Milton's first start could lean on the run game."
+   }
+  },
+  "NFL|00-0034844|td": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Barkley practiced on a limited basis late in the week with a hamstring/back issue; no designation, so he should play, but his workload is the open question.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://www.thefantasyfootballers.com/news/645895/joe-milton-iii-set-to-start-sunday/"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "DNP, LP, LP.",
+    "role": "Dameon Pierce is no longer on the team, leaving Barkley the clear lead back."
+   }
+  },
+  "NFL|00-0037258|td": {
+   "side": "under",
+   "flag": "out",
+   "adj": 2,
+   "conf": "medium",
+   "note": "Dameon Pierce was released from injured reserve with an injury settlement, so he is not on the Eagles' roster for this game.",
+   "sources": [
+    "https://www.thefantasyfootballers.com/news/645895/joe-milton-iii-set-to-start-sunday/"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Released from IR with settlement this week."
+   }
+  },
+  "NFL|00-0039923|att": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Philadelphia is missing two cornerbacks (Jonathan Jones, Michael Carter) and LB Jihaad Campbell; Nabers practiced fully Friday after a Thursday DNP with a knee issue.",
+   "sources": [
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://bigblueinteractive.com/2026/11/06/preview-new-york-giants-at-philadelphia-eagles-november-8-2026/"
+   ],
+   "detail": {
+    "availability": "Nabers knee: DNP Thursday, full Friday, no status.",
+    "matchup": "Jones, Carter and Campbell all out after no practice all week."
+   }
+  },
+  "SOC|202332|401874791": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Back problem in late October; rejoined training Oct 31 but a match preview still lists him doubtful, so minutes are not assured.",
+   "sources": [
+    "https://starting11.com/fixtures/cagliari-vs-frosinone",
+    "https://www.fantacalcio.it/news/calcio-italia/31_10_2026/cagliari-pisacane-winks-in-gruppo-maldini-me-lo-aspetto-in-campo-deiola-500057"
+   ]
+  },
+  "SOC|274893|401880165": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No Southampton absences listed and nothing found on Schlotterbeck; Preston miss McCann and Clarke.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOC|317857|401880162": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "West Brom report no injuries or suspensions; nothing found affecting Price.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOC|133259|401882813": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cabrera not on Espanyol's absence list; club missing Kike Garcia long-term plus Hinojo and Lozano on card bans.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOC|207288|401882811": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Budimir not listed injured; Osasuna miss Del Castillo (groin) and Iker Munoz (cards), Oroz due back from a hamstring.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOC|45843|761938": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current playoff availability news on Messi found; checked status reports were of unclear date.",
+   "sources": []
+  },
+  "SOC|275500|761942": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current Austin status news found for Uzuni.",
+   "sources": []
+  },
+  "SOC|255850|401874810": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McTominay not on Napoli's absence list; Napoli miss Lobotka and Marianucci, Lazio miss Rovella, Zaccagni, Tavares and Marusic.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOC|320648|401882814": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cepeda not listed injured; Elche's Boayar due back from a muscle issue, Aguado out.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOC|300912|401882814": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Ezzalzouli not listed injured; Betis without Bernal (red card) and forward Juan Hernandez (calf).",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOC|190806|401876406": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Frankowski not listed; Rennes without striker Lepaul (ankle) and keeper Samba (cards).",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOC|296395|401879239": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Palmer not on Chelsea's absence list; striker Joao Pedro out until late November, which may push more attacking load to Palmer.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOC|276652|401882810": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Camello not listed; Rayo miss keeper Batalla, Valentin and Unai Lopez.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOC|243514|401876409": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Maja not listed; Le Havre's Mambimbi due back from a muscle issue.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOC|271170|401879240": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mbeumo not listed; United without Sesko (calf, into January) with Rashford due back from a groin issue.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOC|308524|401879240": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jackson not listed; Villa miss Onana, Ruggeri and Cash (suspended). United miss Lisandro Martinez and Maguire.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOC|228557|401876404": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Haidara not on Lens's absence list; nothing found on his role.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOC|376473|401875003": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mastantuono not listed; Fiorentina without Kean and Gudmundsson, Juventus missing Yildiz, Locatelli, Bremer (cards) and others.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639183559|FanDuel|HOME_TEAM_-1.5_GOALS|malaga 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Malaga miss forwards Lobete and Joaquin Munoz plus Pablo Martinez; Racing without Andres Martin and Mantilla.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639183559|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Racing lack attacking midfielder Andres Martin (muscle) and defender Mantilla.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639179840|FanDuel|AWAY_TEAM_-1.5_GOALS|frosinone 1 5 goals": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cagliari stretched: Obert suspended, Idrissi, Felici and Fadera out, Nzola and Gagliardini doubtful, Winks uncertain. Frosinone only miss Grillitsch.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a",
+    "https://www.unionesarda.it/en/fadera-will-miss-the-cagliari-frosinone-match-tests-will-be-carried-out-after-the-injury-a7at7ra3",
+    "https://starting11.com/fixtures/cagliari-vs-frosinone"
+   ]
+  },
+  "SOCT|1639647461|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Serie B match.",
+   "sources": []
+  },
+  "SOCT|1639183612|FanDuel|1ST_HALF_OVER/UNDER_0.5_GOALS|1st half under 0 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lecce without Marchwinski, Pierotti, Monteiro and Berisha; Coulibaly and Gaspar return. Torino show no listed absences.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639183612|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lecce without Marchwinski, Pierotti, Monteiro and Berisha; Coulibaly and Gaspar return. Torino show no listed absences.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639183497|FanDuel|WIN-DRAW-WIN|draw": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Leipzig miss Guiu and Ouedraogo, Nkunku doubtful; Augsburg miss Mounie and Banks, several doubtful. No clear tilt.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639183498|DraftKings|WIN-DRAW-WIN|draw": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bayern without Diaz, Musiala, Gnabry, Kim, Pavlovic and Kimmich, Olise and Neuer doubtful. Mainz also miss keeper Zentner and Posch.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639183498|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bayern's attack thinned by many absences, but Mainz lose keeper Zentner and defenders Posch and Mwene; effects offset.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639275316|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Dortmund miss Can, Lerma and Konstantelias; Elversberg miss Zimmerschied, Seifert, Campbell, Darvich and Gyamerah with four more doubtful.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639275316|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Dortmund miss Can, Lerma and Konstantelias; Elversberg miss Zimmerschied, Seifert, Campbell, Darvich and Gyamerah with four more doubtful.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639275316|FanDuel|OVER_UNDER_25|under 2 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Dortmund miss Can, Lerma and Konstantelias; Elversberg miss Zimmerschied, Seifert, Campbell, Darvich and Gyamerah with four more doubtful.",
+   "sources": [
+    "https://starting11.com/injuries/bundesliga"
+   ]
+  },
+  "SOCT|1639261673|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Scottish match.",
+   "sources": []
+  },
+  "SOCT|1639261673|FanDuel|AWAY_TEAM_-1.5_GOALS|dundee 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Scottish match.",
+   "sources": []
+  },
+  "SOCT|1639261673|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Scottish match.",
+   "sources": []
+  },
+  "SOCT|1639668661|FanDuel|HOME_TEAM_-1.5_GOALS|cardiff 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cardiff report no absences; Burnley without defender Humphreys (knee) and forward Bruun Larsen.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOCT|1639668661|FanDuel|WIN-DRAW-WIN|cardiff": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cardiff report no absences; Burnley without defender Humphreys (knee) and forward Bruun Larsen.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOCT|1639653300|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Preston miss McCann and Clarke; Southampton report a full squad.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOCT|1639210956|FanDuel|HOME_TEAM_-1.5_GOALS|fulham 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Newcastle without Ramsey (suspended) and Jaouen, with Miley and Livramento due back; Fulham's Sessegnon and Smith Rowe return.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOCT|1639210953|FanDuel|OVER_UNDER_15|under 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Arsenal without Saka (thigh) and Dowman (red card); Hull miss Crooks, Ansah, Targett and others, keeper Butland due back.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOCT|1639653298|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "West Brom report no absences; Millwall miss forward Baker-Boaitey.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOCT|1639660804|FanDuel|DRAW_NO_BET|swansea": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Swansea without defender Burgess (ankle); Birmingham without Marc Leonard (ankle).",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-championship"
+   ]
+  },
+  "SOCT|1639210924|FanDuel|HOME_TEAM_-1.5_GOALS|espanyol 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Espanyol lack striker Kike Garcia (out to January), Hinojo and Lozano on card bans, Carreras just back from a knock.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639776987|FanDuel|MULTIGOL_-_AWAY|0": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Argentine match.",
+   "sources": []
+  },
+  "SOCT|1639776987|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Argentine match.",
+   "sources": []
+  },
+  "SOCT|1639776987|FanDuel|NUMBER_OF_TEAM_GOALS|independiente rivadavia to score no goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Argentine match.",
+   "sources": []
+  },
+  "SOCT|1639222235|FanDuel|OVER_UNDER_25|under 2 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No Roma or Sassuolo absences showed on the Serie A injury list checked.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639222235|FanDuel|BOTH_TEAMS_TO_SCORE|no": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No Roma or Sassuolo absences showed on the Serie A injury list checked.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639222235|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No Roma or Sassuolo absences showed on the Serie A injury list checked.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639222235|FanDuel|OVER_UNDER_45|over 4 5 goals": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No Roma or Sassuolo absences showed on the Serie A injury list checked.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a"
+   ]
+  },
+  "SOCT|1639227168|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Real Madrid without Vinicius (red-card ban to late November) and Asencio; Rodrygo and Mendy only just due back.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639227168|FanDuel|AWAY_TEAM_OVER/UNDER_1.5|under": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Real Madrid without Vinicius (red-card ban to late November) and Asencio; Rodrygo and Mendy only just due back.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639222234|FanDuel|HOME_TEAM_-1.5_GOALS|estac troyes +1 5 goals": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "medium",
+   "note": "PSG list Dembele, Kvaratskhelia, Marquinhos and Nuno Mendes as out; Troyes report no absences.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOCT|1639222234|FanDuel|MULTIGOL_-_AWAY|1 4": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "PSG list Dembele, Kvaratskhelia, Marquinhos and Nuno Mendes as out; Troyes report no absences.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOCT|1639222234|FanDuel|MULTIGOL_-_AWAY|1 3": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "PSG list Dembele, Kvaratskhelia, Marquinhos and Nuno Mendes as out; Troyes report no absences.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOCT|1639222234|FanDuel|BOTH_TEAMS_TO_SCORE_&_O/U_2.5_GOALS|yes over 2 5": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "PSG list Dembele, Kvaratskhelia, Marquinhos and Nuno Mendes as out; Troyes report no absences.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOCT|1639222234|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|over": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "PSG list Dembele, Kvaratskhelia, Marquinhos and Nuno Mendes as out; Troyes report no absences.",
+   "sources": [
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1"
+   ]
+  },
+  "SOCT|1639776991|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|over": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Argentine match.",
+   "sources": []
+  },
+  "SOCT|1639746958|FanDuel|WIN-DRAW-WIN|draw": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current MLS availability report found for this match.",
+   "sources": []
+  },
+  "SOCT|1639746962|FanDuel|DRAW_NO_BET|la galaxy": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current MLS availability report found for this match.",
+   "sources": []
+  },
+  "SOCT|1639746962|FanDuel|WIN-DRAW-WIN|la galaxy": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current MLS availability report found for this match.",
+   "sources": []
+  },
+  "SOCT|1639746962|FanDuel|HOME_TEAM_OVER/UNDER_1.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current MLS availability report found for this match.",
+   "sources": []
+  },
+  "SOCT|1639787910|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Argentine match.",
+   "sources": []
+  },
+  "SOCT|1639210957|FanDuel|HOME_TEAM_-1.5_GOALS|brighton 1 5 goals": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Brighton miss attackers Mitoma, Ferguson, Tzimas and Azeez; Kadioglu and Struijk only due back. Brentford lack Yarmoliuk (ban) and Henry.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOCT|1639201957|FanDuel|HALF-TIME_RESULT|crystal palace": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Palace without striker Mateta (red-card ban) and Sarr (groin). Liverpool miss Ekitike, Frimpong and Bradley.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/england-premier-league"
+   ]
+  },
+  "SOCT|1639270423|FanDuel|HALF-TIME_RESULT|rayo vallecano": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Rayo miss keeper Batalla, Oscar Valentin, Unai Lopez (cards) and others; Real Sociedad without Zakharyan and Beitia.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639270423|FanDuel|HOME_TEAM_-1.5_GOALS|real sociedad 1 5 goals": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Rayo miss keeper Batalla, Oscar Valentin, Unai Lopez (cards) and others; Real Sociedad without Zakharyan and Beitia.",
+   "sources": [
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "SOCT|1639756364|FanDuel|WIN-DRAW-WIN|guimaraes": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Portuguese match.",
+   "sources": []
+  },
+  "SOCT|1639756364|FanDuel|DRAW_NO_BET|guimaraes": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No team news checked for this Portuguese match.",
+   "sources": []
+  },
+  "NBA|3112335|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Jokic is not on Denver's injury report for Saturday vs Indiana; DeMar DeRozan (back) is listed probable. No rotation change found.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3138196|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Cameron Johnson is not on Denver's injury report for Saturday vs Indiana; only DeRozan (probable), Spencer Jones and Julian Strawther are listed.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3202|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Durant is not on Houston's injury report. Centers Clint Capela (ankle) and Steven Adams (calf) are both out vs Phoenix, which could open a few extra rebounds but Sengun remains.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|4845367|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Castle is not on San Antonio's injury report; Tobias Harris (calf) has been out since late October. ESPN's note lists Saturday's opponent as Minnesota, not Portland, so check the matchup.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed.",
+    "matchup": "ESPN comment says Harris out for Saturday vs Timberwolves; app has POR."
+   }
+  },
+  "NBA|4278039|ra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Alexander-Walker is not listed, but Atlanta sat Jalen Johnson (ankle), Landale, Newell and Gilbert Friday vs Washington; if Johnson sits again on the back-to-back, his ball-handling and rebounding load should rise.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed; Jalen Johnson's Saturday status not posted."
+   }
+  },
+  "NBA|4278073|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Gilgeous-Alexander is not on OKC's injury report. Jalen Williams, Holmgren and Wallace have been out since late October, so his heavy usage is already in recent numbers.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3934672|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brunson is not on the injury report; Josh Hart (ankle) is out again Saturday at Cleveland, with Landry Shamet starting in his place last game.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3934719|pra": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "conf": "low",
+   "note": "Anunoby is healthy; Josh Hart (ankle) is out again and Cleveland is short in the frontcourt, which leaves more rebounds and minutes for Knicks forwards, cutting against the under.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NBA|3908809|pts": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 1,
+   "conf": "low",
+   "note": "Mitchell is not listed, but Cleveland is thin on the second night of a back-to-back: Tyson is out and Allen, Watson and Proctor carried injury tags, so his usage should stay high.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed; no rest designation posted."
+   }
+  },
+  "NBA|4066320|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Bane is not on Orlando's injury report. Banchero, Suggs, Isaac, Penda and Nelson remain out, but those absences date to October and are already in his recent scoring.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NFL|00-0036854|kpts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "McPherson is not on Cincinnati's injury report for the Madrid game vs Atlanta; Chase and Higgins are healthy. No change to his role.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NFL|00-0032726|pat": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fairbairn is not on Houston's injury report. The Texans are without RB David Montgomery (groin) at the Chargers; no kicking change.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NFL|00-0038134|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Walker (now Kansas City's lead back) is not on the Chiefs' injury list for the Jets game; backup Brashard Smith has been on IR since Oct 24.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NFL|00-0036275|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Swift is not on Chicago's injury list; backup Kyle Monangai is questionable (thumb/toe) and Zavier Scott went to IR Nov 5, so Swift could see a bit more short-yardage work.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "NFL|00-0037248|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Cook is not on Buffalo's injury report for Monday vs Minnesota; receivers DJ Moore, Keon Coleman (shoulders) and Joshua Palmer (hamstring) are questionable.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none",
+   "detail": {
+    "availability": "Not listed."
+   }
+  },
+  "CFB|4923295|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current injury news found; Texas Tech's leading target was cleared from an undisclosed injury in September. Latest log found was 1 catch for 8 yards vs Colorado Oct 4.",
+   "sources": [
+    "https://web9.rotowire.com/cfootball/player/kenny-johnson-41470"
+   ],
+   "detail": {
+    "availability": "No injury listed in news found."
+   }
+  },
+  "CFB|4808767|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Purdue lists no injuries for Maryland, so Townsend is expected to play his usual role.",
+   "sources": [
+    "https://www.teamrankings.com/college-football/matchup/terrapins-boilermakers-week-10-2026/injuries"
+   ],
+   "detail": {
+    "availability": "Not on injury report."
+   }
+  },
+  "CFB|5218961|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Purdue lists no injuries for Maryland, so Ijeboi should start as usual.",
+   "sources": [
+    "https://www.teamrankings.com/college-football/matchup/terrapins-boilermakers-week-10-2026/injuries"
+   ],
+   "detail": {
+    "availability": "Not on injury report."
+   }
+  },
+  "CFB|4838536|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Hughes has started every game and comes off a bye; no injury news. He has passed for 52-204 yards per game, with rushing driving recent wins.",
+   "sources": [
+    "https://web9.rotowire.com/cfootball/player/tyler-hughes-51303"
+   ],
+   "detail": {
+    "availability": "No injury news."
+   }
+  },
+  "CFB|5159831|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current injury news found; the latest items cover a preseason undisclosed injury in August.",
+   "sources": [
+    "https://www.rotowire.com/cfootball/player/derek-eusebio-44109"
+   ],
+   "detail": {
+    "availability": "No current news found."
+   }
+  },
+  "CFB|5146712|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news found; he led the nation in rushing at midseason (139 yards per game).",
+   "sources": [
+    "https://idahonews.com/news/local/boise-state-rb-dylan-riley-named-ap-midseason-all-america-second-team"
+   ],
+   "detail": {
+    "availability": "No injury news found."
+   }
+  },
+  "CFB|5081882|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news found; listed active, with 5-32 receiving yards in each of his last five games.",
+   "sources": [
+    "https://africa.espn.com/college-football/player/_/id/5081882/ty-claiborne"
+   ],
+   "detail": {
+    "availability": "Active; no news."
+   }
+  },
+  "CFB|5125715|ryd": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Joseph is reportedly not expected to start vs Rutgers (undisclosed injury, or benched for freshman Ryan Hopkins) after being pulled in the 30-0 loss to Iowa; he had 7 carries for 6 yards.",
+   "sources": [
+    "https://web9.rotowire.com/cfootball/player/colton-joseph-42039"
+   ],
+   "detail": {
+    "availability": "Listed available but not expected to start."
+   }
+  },
+  "CFB|5307005|pyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McKenzie tops Boston College's depth chart with no injury news; WR Reed Swanson is out vs Florida State. He threw for 87 yards in the loss to Duke.",
+   "sources": [
+    "https://www-sss-gov-phwww.rotowire.com/cfootball/team/boston-college-3416"
+   ],
+   "detail": {
+    "availability": "No injury news."
    }
   },
   "NFL|00-0038428|fgm": {
@@ -379,504 +2212,6 @@
    "detail": {
     "availability": "DNP Wednesday, limited Thursday (rest/back).",
     "role": "If Donaldson sits, the backfield is Kamara and Miller."
-   }
-  },
-  "NFL|00-0040128|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Warren came back from a two-game groin absence with a team-high 10 targets and 29 routes, so his volume is intact. His yardage suffers from an offense averaging about 5 yards per pass.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83891/tyler-warren-reclaims-target-lead-amid-quiet-return"
-   ],
-   "detail": {
-    "availability": "Warren missed Weeks 6-7 with a groin injury, returned in Week 8, and is not on this week's injury report.",
-    "role": "He had 10 targets (4 catches, 18 yards) and was second on the team in routes in his return. He has 9+ targets in three of his last four games.",
-    "script": "Daniel Jones has been under 150 passing yards in back-to-back games; the Colts trailed 28-0 at half last week."
-   }
-  },
-  "NFL|00-0036997|ryd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Williams is the clear lead back with 24 carries last week but turned them into 56 yards. His volume is secure; his efficiency is the question.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/645473/george-pickens-only-two-receptions-in-week-8/",
-    "https://www.colts.com/news/colts-rb-jonathan-taylor-focused-on-embarrassing-loss-to-jaguars-not-swirling-trade-rumors"
-   ],
-   "detail": {
-    "availability": "Williams is not on the injury report.",
-    "role": "He had 24 carries and 2 targets in the Week 8 overtime loss to Arizona, his latest 20-plus carry game.",
-    "matchup": "Indianapolis traded DT DeForest Buckner this week, which weakens its interior run defense."
-   }
-  },
-  "NFL|00-0037692|fgm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No kicker news. Dallas has several offensive skill players hurt (Ferguson did not practice Thursday, Pickens limited, Turpin out last week), which could stall more drives.",
-   "sources": [
-    "https://www.dallascowboys.com/news/updates-november-2026"
-   ],
-   "detail": {
-    "availability": "Aubrey is not on the injury report. The game is indoors."
-   }
-  },
-  "NFL|00-0037247|recyd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pickens has been limited in practice all week with a hamstring issue, as he was before last week's two-catch game. His status is worth checking on Friday's report.",
-   "sources": [
-    "https://www.dallascowboys.com/news/updates-november-2026",
-    "https://www.thefantasyfootballers.com/news/645473/george-pickens-only-two-receptions-in-week-8/"
-   ],
-   "detail": {
-    "availability": "Limited on Wednesday and Thursday with a hamstring injury; he also practiced limited before Week 8.",
-    "role": "He had 2 catches on 4 targets in Week 8."
-   }
-  },
-  "NFL|00-0037247|rec": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Pickens has been limited all week with a hamstring issue and had only 4 targets last week, so his role and availability are uncertain.",
-   "sources": [
-    "https://www.dallascowboys.com/news/updates-november-2026"
-   ],
-   "detail": {
-    "availability": "Limited on Wednesday and Thursday (hamstring)."
-   }
-  },
-  "NFL|00-0036223|ryd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Taylor's Week 8 dip came from game script, not a role change: he played 79% of snaps before garbage time. The Colts traded LG Quenton Nelson, though, and he is a trade candidate before Nov. 10.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83889/jonathan-taylors-quiet-week-8-didnt-mark-change-in-role",
-    "https://www.colts.com/news/colts-rb-jonathan-taylor-focused-on-embarrassing-loss-to-jaguars-not-swirling-trade-rumors"
-   ],
-   "detail": {
-    "availability": "Healthy, but trade speculation surrounds him before the Nov. 10 deadline.",
-    "role": "He had 8 carries and 5 targets at a 79% snap share before garbage time; Seth McGowan and DJ Giddens took the late carries.",
-    "matchup": "Losing Quenton Nelson weakens the run blocking.",
-    "script": "Indianapolis is a 5.5-point home underdog."
-   }
-  },
-  "NFL|00-0036223|car": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "His carries depend on game script as a home underdog, and he faces trade speculation before the Nov. 10 deadline. His snap share was still his highest since Week 3.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83889/jonathan-taylors-quiet-week-8-didnt-mark-change-in-role"
-   ],
-   "detail": {
-    "role": "79% of snaps before garbage time in Week 8, but only 8 carries because the Colts trailed 28-0 at half."
-   }
-  },
-  "NFL|00-0036997|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Williams is the workhorse back with 20-plus carries again last week, and the Colts just traded DT DeForest Buckner. No current goal-line change was found.",
-   "sources": [
-    "https://www.thefantasyfootballers.com/news/645473/george-pickens-only-two-receptions-in-week-8/",
-    "https://www.colts.com/news/colts-rb-jonathan-taylor-focused-on-embarrassing-loss-to-jaguars-not-swirling-trade-rumors"
-   ],
-   "buzz": "none",
-   "detail": {
-    "role": "24 carries in Week 8; he leads the backfield clearly.",
-    "matchup": "Indianapolis traded Buckner and allowed 42 points to Jacksonville.",
-    "experts": "No current-week anytime-TD previews were found for this game."
-   }
-  },
-  "NFL|00-0036223|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Taylor still holds the lead-back snap share, but the offense has stalled (7 points last week), Quenton Nelson was traded, and Taylor faces trade speculation before the Nov. 10 deadline.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/83889/jonathan-taylors-quiet-week-8-didnt-mark-change-in-role",
-    "https://www.colts.com/news/colts-rb-jonathan-taylor-focused-on-embarrassing-loss-to-jaguars-not-swirling-trade-rumors"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "Healthy; he is a trade candidate, though nothing has been reported as imminent.",
-    "role": "79% of snaps before garbage time in Week 8.",
-    "script": "Indianapolis is a 5.5-point home underdog with an offense that has been under 150 passing yards twice in a row.",
-    "experts": "No current-week anytime-TD previews were found."
-   }
-  },
-  "NFL|00-0036555|ryd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the injury report; starting left guard Damien Lewis (knee) missed Thursday's practice, a possible hit to the interior run blocking.",
-   "sources": [
-    "https://www.panthers.com/news/week-9-thursday-injury-report-five-players-did-not-participate",
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
-   ],
-   "detail": {
-    "availability": "Not listed on the injury report.",
-    "matchup": "LG Damien Lewis DNP Thursday (knee); guard Corey Bullock, who has filled in, upgraded to full.",
-    "market": "DraftKings now has Denver -3 with a 43.5 total, vs 2.5 / 44.5 in the packet."
-   }
-  },
-  "NFL|00-0036613|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Listed with a chest injury but practiced fully Wednesday and Thursday; Harvey's move to IR shifted receiving-back work to rookie Jonah Coleman, not the wideouts.",
-   "sources": [
-    "https://sports.yahoo.com/articles/broncos-vs-panthers-practice-participation-230831231.html",
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
-   ],
-   "detail": {
-    "availability": "Full participant Wednesday and Thursday (chest).",
-    "role": "With Harvey on IR, Coleman had 5 targets out of the backfield in Week 8."
-   }
-  },
-  "NFL|00-0036158|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Rookie Jonah Coleman led Denver's backfield in Week 8 with more than 66% of snaps and the rushing TD, so Dobbins is now the secondary back.",
-   "sources": [
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026",
-    "https://sports.yahoo.com/articles/broncos-key-receiving-back-placed-130332481.html"
-   ],
-   "buzz": "none",
-   "detail": {
-    "role": "Coleman: more than 66% of snaps, 11 carries, 1 TD, 5 targets in Week 8; Dobbins expected to factor in but behind him.",
-    "market": "Kalshi 1+ TD 24% is well below the app's 30%."
-   }
-  },
-  "NFL|00-0036158|ryd": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Rookie Jonah Coleman played more than 66% of snaps in Week 8 as Denver's lead back, which limits Dobbins' carries.",
-   "sources": [
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
-   ],
-   "detail": {
-    "role": "Coleman 11 carries for 41 yards and a TD plus 4 catches in Week 8."
-   }
-  },
-  "NFL|00-0036158|car": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Rookie Jonah Coleman took over as Denver's lead back in Week 8 with more than 66% of snaps, capping Dobbins' carries.",
-   "sources": [
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
-   ],
-   "detail": {
-    "role": "Coleman 11 carries and over 66% of snaps in Week 8."
-   }
-  },
-  "NFL|00-0036355|ptd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not on the injury report; TE David Njoku's practice window opened and he was limited both days, so he could return as another target, and WR Brenen Thompson is doubtful.",
-   "sources": [
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku"
-   ],
-   "detail": {
-    "availability": "Not listed.",
-    "role": "Njoku limited Wednesday and Thursday on return from IR (fibula); Thompson DNP Thursday (quad/hamstring)."
-   }
-  },
-  "NFL|00-0038618|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "In Week 7, Hutchinson and Nico Collins were Houston's only receivers on the field for more than half the snaps, and he caught a touchdown.",
-   "sources": [
-    "https://sports.yahoo.com/articles/texans-snap-counts-week-7-204832877.html"
-   ],
-   "detail": {
-    "role": "More than half of the offensive snaps in Week 7 (3 catches, 17 yards, 1 TD); Harrison Jr. was on a limited snap count."
-   }
-  },
-  "NFL|00-0040583|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "high",
-   "note": "Montgomery is ruled out for a third straight game; Marks has played more than 83% of snaps and averaged 16-plus carries over the last three games.",
-   "sources": [
-    "https://www.si.com/nfl/texans/onsi/texans-injury-report-who-s-trending-up-down-for-week-9-vs-chargers",
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku"
-   ],
-   "buzz": "some",
-   "detail": {
-    "availability": "Healthy.",
-    "role": "Ryans confirmed Montgomery (groin) out; Marks expected lead back, with Dare Ogunbowale and Emari Demercado as backups."
-   }
-  },
-  "NFL|00-0039405|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "low",
-   "note": "Team coverage names Woody Marks as the lead back (83%+ snaps) and Ogunbowale and Demercado as the backups; Jordan is not mentioned in the plans.",
-   "sources": [
-    "https://www.si.com/nfl/texans/onsi/texans-injury-report-who-s-trending-up-down-for-week-9-vs-chargers"
-   ],
-   "buzz": "none",
-   "detail": {
-    "role": "The SI Texans report lists Marks, Ogunbowale and Demercado for RB work with Montgomery out; Jordan is not mentioned.",
-    "market": "No Kalshi price."
-   }
-  },
-  "NFL|00-0037809|recyd": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "With McLaurin out for the season, Burks missing two practices (foot) and Dyami Brown limited (calf), Washington is short on wideouts, which leaves more targets for Okonkwo.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/treylon-burks-foot-misses-another-practice",
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; fellow TE John Bates (shoulder) limited Wed and Thu.",
-    "role": "WR depth behind Diggs is compromised this week.",
-    "market": "Line rose from 30.5 to 33.5, consistent with the receiver injuries."
-   }
-  },
-  "NFL|00-0037809|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "McLaurin is out for the year and Burks (foot, DNP Wed/Thu) and Dyami Brown (calf, limited) are hurt, so Okonkwo's target share should rise.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/treylon-burks-foot-misses-another-practice"
-   ]
-  },
-  "NFL|00-0037742|recyd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Burks missed Wednesday and Thursday practice with a foot injury; he played through being questionable last week, but his status is uncertain.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/treylon-burks-foot-misses-another-practice",
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ],
-   "detail": {
-    "availability": "Foot: DNP Wed and Thu."
-   }
-  },
-  "NFL|00-0037742|rec": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Burks missed Wednesday and Thursday practice with a foot injury, so his availability is uncertain.",
-   "sources": [
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/treylon-burks-foot-misses-another-practice",
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ]
-  },
-  "NFL|00-0031588|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "high",
-   "note": "Diggs's Wednesday absence was a scheduled rest day and he practiced fully Thursday; with Burks and Dyami Brown hurt, he is Washington's clear top wideout.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://sports.yahoo.com/articles/stefon-diggs-sits-wednesdays-practice-015337601.html"
-   ],
-   "detail": {
-    "availability": "Rest day Wed, full Thu."
-   }
-  },
-  "NFL|00-0031588|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "high",
-   "note": "Diggs's Wednesday absence was a scheduled rest day and he practiced fully Thursday.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html"
-   ]
-  },
-  "NFL|00-0037840|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Kyren remains the lead back, but Corum has scored in four straight games and out-gained him last week; Washington lost DTs Payne and Kinlaw to IR.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-run-defense-corum-williams",
-    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html"
-   ],
-   "buzz": "none",
-   "detail": {
-    "role": "Last game: Williams 16 carries and a TD, Corum 11 carries; Williams has 5 rushing TDs in his last five games.",
-    "matchup": "Washington's interior line is down Daron Payne and Javon Kinlaw (both IR).",
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0039738|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Corum has scored in four straight games and drew a growing share of carries (11 last week); Washington's run defense lost two starting DTs to IR.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-run-defense-corum-williams"
-   ],
-   "buzz": "none",
-   "detail": {
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0033110|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Fellow TE Colby Parkinson (ribs) did not practice and Terrance Ferguson was limited, so Higbee's TE snap share could rise.",
-   "sources": [
-    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html",
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ],
-   "buzz": "none",
-   "detail": {
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0033787|kpts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Limited Wednesday and Thursday with a right ankle injury but expected to play; Philadelphia's offense is led by backup QB Joe Milton and is missing three receivers.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://sports.yahoo.com/articles/eagles-injury-report-saquon-barkley-020528502.html"
-   ],
-   "detail": {
-    "availability": "Limited both days with a right ankle injury; beat coverage expects him to play.",
-    "script": "Hurts is out for the season, so Milton starts, and Smith, Wicks and Covey all missed practice."
-   }
-  },
-  "NFL|00-0039337|recyd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not practicing Thursday with soreness in his surgically repaired knee, though he said he will play; Tracy on IR and Skattebo hurt leave the passing game leaning on him.",
-   "sources": [
-    "https://bigblueinteractive.com/2026/11/05/malik-nabers-and-cam-skattebo-sit-out-of-practice/",
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://sports.yahoo.com/articles/giants-eagles-injury-report-troubling-211939258.html"
-   ],
-   "detail": {
-    "availability": "Off Wednesday's report, then DNP Thursday (knee), described as possible maintenance; said he will play Sunday. Watch the Friday report.",
-    "role": "October NFC Offensive Player of the Month with 36 catches for 509 yards in four games; Tracy on IR, Skattebo hamstring."
-   }
-  },
-  "NFL|00-0035250|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Skattebo missed Wednesday and Thursday with a hamstring injury and Tracy is on IR, leaving Singletary as the likely lead back, including near the goal line.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://www.giants.com/news/week-9-tracker-latest-news-notes-roster-moves-philadelphia-eagles-nfc-east",
-    "https://www.thefantasyfootballers.com/news/644824/devin-singletary-set-for-expanded-role-in-backfield/"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "Healthy.",
-    "role": "Tracy was placed on IR Oct 27; Skattebo DNP both days; the Giants backfield is Singletary, Skattebo and Gregory Desrosiers. Singletary scored the overtime winner in Week 7."
-   }
-  },
-  "NFL|00-0040715|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 2,
-   "conf": "medium",
-   "note": "Missed Wednesday and Thursday with a hamstring strain and is listed as doubtful; reports say he is likely to sit if he misses Friday too.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://www.giants.com/news/week-9-tracker-latest-news-notes-roster-moves-philadelphia-eagles-nfc-east",
-    "https://www.thebiglead.com/giants-dealt-concerning-cam-skattebo-malik-nabers-updates-eagles-game/",
-    "https://www.si.com/nfl/giants/onsi/skattebo-hamstring-nabers-knee-giants-injury-report-01m6q2tbxb02"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "DNP Wednesday and Thursday (hamstring); coach called him day-to-day Nov 2; seen working with trainers on the side Thursday."
-   }
-  },
-  "NFL|00-0034844|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hamstring/back: missed Wednesday, limited Thursday. The Eagles' own injury report lists him as returning and likely to play, so the workload risk is modest.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://sports.yahoo.com/articles/eagles-injury-report-saquon-barkley-020528502.html",
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "DNP Wednesday, limited Thursday (hamstring/back). Beat coverage notes Philadelphia could hold him out ahead of the Week 10 bye.",
-    "script": "Backup QB Joe Milton starts."
-   }
-  },
-  "NFL|00-0034844|ryd": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hamstring/back injury; limited Thursday after missing Wednesday, and with a bye next week Philadelphia could rest or limit him.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://sports.yahoo.com/articles/eagles-injury-report-saquon-barkley-020528502.html"
-   ],
-   "detail": {
-    "availability": "DNP Wednesday, limited Thursday."
-   }
-  },
-  "NFL|00-0034844|car": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hamstring/back injury; limited Thursday after missing Wednesday, so his carry share is uncertain.",
-   "sources": [
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://sports.yahoo.com/articles/eagles-injury-report-saquon-barkley-020528502.html"
-   ],
-   "detail": {
-    "availability": "DNP Wednesday, limited Thursday."
-   }
-  },
-  "NFL|00-0039337|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Did not practice Thursday with knee soreness but says he will play; with both top backs out, he remains the main red-zone target.",
-   "sources": [
-    "https://bigblueinteractive.com/2026/11/05/malik-nabers-and-cam-skattebo-sit-out-of-practice/",
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "DNP Thursday (knee), said he will play."
    }
   },
   "NFL|00-0039890|recyd": {
@@ -1011,760 +2346,158 @@
     "https://www.newyorkjets.com/news/jets-injury-report-week-9-vs-chiefs-thursday-11-05-2026",
     "https://sports.yahoo.com/articles/jets-latest-injury-news-includes-195907100.html"
    ]
-  },
-  "NFL|00-0038134|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "No new role news; Walker is off the Chiefs injury report and Kansas City is a big home favorite. Jets DT Harrison Phillips (ankle) missed Wed and Thu practice.",
-   "sources": [
-    "https://www.newyorkjets.com/news/jets-injury-report-week-9-vs-chiefs-thursday-11-05-2026"
-   ],
-   "buzz": "none",
-   "detail": {
-    "availability": "Not on the injury report.",
-    "matchup": "Jets DT Harrison Phillips DNP Wed/Thu; LB Trevin Wallace DNP Thu.",
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0037740|td": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 1,
-   "conf": "medium",
-   "note": "In the concussion protocol and missed Wednesday and Thursday practice; the coach calls him day-to-day and his status for Sunday is unclear.",
-   "sources": [
-    "https://www.newyorkjets.com/news/jets-injury-report-week-9-vs-chiefs-thursday-11-05-2026",
-    "https://sports.yahoo.com/articles/jets-garrett-wilson-doesnt-bode-190831940.html",
-    "https://bleacherreport.com/articles/25529316-garrett-wilson-injured-latest-updates-jets-wrs-status-vs-chiefs-after-concussion",
-    "https://www.foxsports.com/stories/nfl/garrett-wilson-concussion-protocol-jets-chiefs-injury-report"
-   ],
-   "buzz": "none",
-   "detail": {
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0039890|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "If Wilson (concussion protocol, day-to-day) sits, Mitchell becomes one of the Jets' top two receivers, raising his target share including in the red zone.",
-   "sources": [
-    "https://sports.yahoo.com/articles/jets-garrett-wilson-doesnt-bode-190831940.html",
-    "https://www.newyorkjets.com/news/jets-injury-report-week-9-vs-chiefs-thursday-11-05-2026"
-   ],
-   "buzz": "none",
-   "detail": {
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "NFL|00-0038120|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Hall is back to full practice from his quad but will share with Braelon Allen, who has been the Jets' lead back in his absence.",
-   "sources": [
-    "https://sports.yahoo.com/articles/jets-latest-injury-news-includes-195907100.html",
-    "https://www.newyorkjets.com/news/jets-injury-report-week-9-vs-chiefs-thursday-11-05-2026"
-   ],
-   "buzz": "none",
-   "detail": {
-    "experts": "No game-specific anytime-TD previews or threads for this game turned up in searches."
-   }
-  },
-  "SOC|362794|401876405": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "No injury listed for Harder. Strasbourg forwards Panichelli and Bald\u00e9 are out, which makes a Harder start more likely.",
-   "sources": [
-    "https://starting11.com/es/fixtures/toulouse-vs-strasbourg"
-   ]
-  },
-  "SOC|189605|401880161": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Moore is not on the latest Wrexham injury list (Oct 19). No news found for this match.",
-   "sources": [
-    "https://www.si.com/soccer/wrexham-injury-news-latest-updates-potential-return-dates-seven-players"
-   ]
-  },
-  "SOC|197717|401878758": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "No injury listed. Calvert-Lewin is predicted to start as the lone striker and is listed as Leeds' penalty taker. Okafor is a thigh doubt.",
-   "sources": [
-    "https://www.footballdream.in/blog/leeds-united-vs-tottenham-hotspur-gw10-premier-league-2026-27"
-   ]
-  },
-  "SOC|202332|401874791": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no news found on Winks's availability or role.",
-   "sources": []
-  },
-  "SOC|274893|401880165": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no news found on Schlotterbeck's availability or role.",
-   "sources": []
-  },
-  "SOC|317857|401880162": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no news found on Price's availability or role.",
-   "sources": []
-  },
-  "SOC|133259|401882813": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no news found on Cabrera's availability or role.",
-   "sources": []
-  },
-  "SOC|228296|401888371": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Osimhen had a grade 2 muscle injury in early October, with no return date at the time. No November fitness update found; check the matchday squad.",
-   "sources": [
-    "https://allafrica.com/stories/202610090150.html"
-   ]
-  },
-  "SOC|207288|401882811": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No current injury news found for Budimir before Athletic. Search results only showed older injury reports.",
-   "sources": []
-  },
-  "SOC|45843|761938": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Messi was not on the MLS player status report for round one (Nov 1\u20133). Miami's only listed absence was David Ruiz (hamstring).",
-   "sources": [
-    "https://www.mlssoccer.com/news/mls-player-status-report-round-one-best-of-3-series-game-2"
-   ]
-  },
-  "SOC|275500|761942": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "Uzuni was not on the Nov 1\u20133 MLS status report. Austin strikers Rubio (hamstring) and Vazquez (knee) were out, which points to a bigger attacking role for Uzuni.",
-   "sources": [
-    "https://www.mlssoccer.com/news/mls-player-status-report-round-one-best-of-3-series-game-2"
-   ]
-  },
-  "SOCT|1639639539|FanDuel|WDW_&_O/U_2.5_GOALS|draw and under 2 5": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Boulogne vs Annecy.",
-   "sources": []
-  },
-  "SOCT|1639639539|FanDuel|WDW_&_O/U_3.5_GOALS|draw and under 3 5": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Boulogne vs Annecy.",
-   "sources": []
-  },
-  "SOCT|1639615026|FanDuel|HOME_TEAM_OVER/UNDER_2.5|over": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Nancy vs Sochaux.",
-   "sources": []
-  },
-  "SOCT|1639620690|FanDuel|HOME_TEAM_-1.5_GOALS|montpellier 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Montpellier vs Metz.",
-   "sources": []
-  },
-  "SOCT|1639104528|FanDuel|HOME_TEAM_-1.5_GOALS|venezia 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Venezia vs Udinese.",
-   "sources": []
-  },
-  "SOCT|1639099896|FanDuel|HOME_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Toulouse are without the suspended D\u00f8nnum, and forward Oppong is doubtful (calf). This slightly weakens their attack. Otherwise they have a settled XI.",
-   "sources": [
-    "https://starting11.com/es/fixtures/toulouse-vs-strasbourg"
-   ]
-  },
-  "SOCT|1639099896|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Strasbourg forwards Panichelli and Bald\u00e9 are out, and Nanasi is doubtful. That thins their attack, but Harder should lead the line.",
-   "sources": [
-    "https://starting11.com/es/fixtures/toulouse-vs-strasbourg"
-   ]
-  },
-  "SOCT|1639121172|FanDuel|HOME_TEAM_-1.5_GOALS|sevilla 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Sevilla vs Alaves.",
-   "sources": []
-  },
-  "SOCT|1639121172|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Sevilla vs Alaves.",
-   "sources": []
-  },
-  "SOCT|1639788020|FanDuel|WIN-DRAW-WIN|draw": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for San Lorenzo vs Platense.",
-   "sources": []
-  },
-  "SOCT|1639647407|FanDuel|HOME_TEAM_-1.5_GOALS|atletico san luis 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for San Luis vs Juarez.",
-   "sources": []
-  },
-  "SOCT|1639647407|FanDuel|HOME_TEAM_OVER/UNDER_2.5|over": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for San Luis vs Juarez.",
-   "sources": []
-  },
-  "SOCT|1639647461|FanDuel|AWAY_TEAM_FIRST_HALF_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Pisa vs Sudtirol.",
-   "sources": []
-  },
-  "SOCT|1639183612|FanDuel|1ST_HALF_OVER/UNDER_0.5_GOALS|1st half under 0 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Torino vs Lecce.",
-   "sources": []
-  },
-  "SOCT|1639183612|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Torino vs Lecce.",
-   "sources": []
-  },
-  "SOCT|1639275316|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Dortmund vs Elversberg.",
-   "sources": []
-  },
-  "SOCT|1639275316|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Dortmund vs Elversberg.",
-   "sources": []
-  },
-  "SOCT|1639275316|FanDuel|OVER_UNDER_25|under 2 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Dortmund vs Elversberg.",
-   "sources": []
-  },
-  "SOCT|1639183498|FanDuel|WIN-DRAW-WIN|draw": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bayern are without Musiala, Gnabry, D\u00edaz and Neuer, and Olise is doubtful. Mainz are missing Mwene and Posch (suspended) and Kohr. The absences cut both ways.",
-   "sources": [
-    "https://starting11.com/fixtures/fsv-mainz-05-vs-bayern-munich"
-   ]
-  },
-  "SOCT|1639183498|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bayern are missing several attackers (Musiala, Gnabry, D\u00edaz) but Kane is expected. Mainz are without two suspended defenders. No clear net effect.",
-   "sources": [
-    "https://starting11.com/fixtures/fsv-mainz-05-vs-bayern-munich"
-   ]
-  },
-  "SOCT|1639210956|FanDuel|HOME_TEAM_-1.5_GOALS|fulham 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Newcastle are without Ramsey (suspended) and Livramento, with three forwards or midfielders doubtful. Fulham have Smith Rowe and Affengruber doubtful. Nothing decisive.",
-   "sources": [
-    "https://starting11.com/fixtures/fulham-vs-newcastle-20261107"
-   ]
-  },
-  "SOCT|1639210953|FanDuel|OVER_UNDER_15|under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Arsenal vs Hull.",
-   "sources": []
-  },
-  "SOCT|1639653298|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for West Brom vs Millwall.",
-   "sources": []
-  },
-  "SOCT|1639660804|FanDuel|DRAW_NO_BET|swansea": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Birmingham vs Swansea.",
-   "sources": []
-  },
-  "SOCT|1639668661|FanDuel|WIN-DRAW-WIN|cardiff": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Cardiff vs Burnley.",
-   "sources": []
-  },
-  "SOCT|1639668661|FanDuel|HOME_TEAM_-1.5_GOALS|cardiff 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Cardiff vs Burnley.",
-   "sources": []
-  },
-  "SOCT|1639222235|FanDuel|1ST_HALF_OVER/UNDER_1.5_GOALS|1st half under 1 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Roma vs Sassuolo.",
-   "sources": []
-  },
-  "SOCT|1639222235|FanDuel|OVER_UNDER_45|over 4 5 goals": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Roma vs Sassuolo.",
-   "sources": []
-  },
-  "SOCT|1639227168|FanDuel|AWAY_TEAM_OVER/UNDER_1.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Not checked; no team news found for Valencia vs Real Madrid.",
-   "sources": []
-  },
-  "SOCT|1639222234|FanDuel|MULTIGOL_-_AWAY|1 4": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "PSG are reported without Marquinhos and Nuno Mendes in defense and Demb\u00e9l\u00e9 and Kvaratskhelia in attack, and have been rotating heavily. That gives Troyes a better chance of scoring.",
-   "sources": [
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107"
-   ]
-  },
-  "SOCT|1639222234|FanDuel|MULTIGOL_-_AWAY|1 3": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "PSG are reported without Marquinhos and Nuno Mendes at the back and are rotating heavily. That helps Troyes score at least once.",
-   "sources": [
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107"
-   ]
-  },
-  "SOCT|1639222234|FanDuel|BOTH_TEAMS_TO_SCORE_&_O/U_2.5_GOALS|yes over 2 5": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "A weakened PSG defense helps Troyes score, but missing Demb\u00e9l\u00e9 and Kvaratskhelia trims PSG's attack. Troyes are without suspended defender Diaz.",
-   "sources": [
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107"
-   ]
-  },
-  "SOCT|1639222234|FanDuel|AWAY_TEAM_OVER/UNDER_0.5|over": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "PSG are reported without first-choice defenders Marquinhos and Nuno Mendes and have rotated heavily lately (47% XI continuity). Both help Troyes score.",
-   "sources": [
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107"
-   ]
-  },
-  "SOCT|1639222234|FanDuel|HOME_TEAM_-1.5_GOALS|estac troyes +1 5 goals": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "PSG are missing Demb\u00e9l\u00e9, Kvaratskhelia, Marquinhos and Nuno Mendes, with heavy rotation expected. A narrower margin is more plausible.",
-   "sources": [
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107"
-   ]
-  },
-  "SOCT|1639746962|FanDuel|DRAW_NO_BET|la galaxy": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No team news found for Real Salt Lake vs LA Galaxy.",
-   "sources": []
-  },
-  "SOCT|1639746962|FanDuel|WIN-DRAW-WIN|la galaxy": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No team news found for Real Salt Lake vs LA Galaxy.",
-   "sources": []
-  },
-  "SOCT|1639746962|FanDuel|HOME_TEAM_OVER/UNDER_1.5|under": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No team news found for Real Salt Lake vs LA Galaxy.",
-   "sources": []
-  },
-  "SOCT|1639746958|FanDuel|WIN-DRAW-WIN|draw": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "San Diego had Harangi, Kumado and Verhoeven out in the Nov 1\u20133 MLS status report. No Sporting KC news found.",
-   "sources": [
-    "https://www.mlssoccer.com/news/mls-player-status-report-round-one-best-of-3-series-game-2"
-   ]
-  },
-  "NFL|00-0033280|rry": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Mild left hamstring strain: missed Wednesday, limited Thursday; reports say he may need a full Friday practice to avoid a game designation, so his snap share is uncertain.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-04/christian-mccaffrey-hamstring-dnp-to-begin-week",
-    "https://www.cbssports.com/fantasy/football/news/49ers-christian-mccaffrey-officially-limited-thursday/"
-   ]
-  },
-  "NFL|00-0033280|td": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Mild hamstring strain: missed Wednesday, limited Thursday; his availability and snap share are uncertain until Friday's report.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-04/christian-mccaffrey-hamstring-dnp-to-begin-week",
-    "https://www.cbssports.com/fantasy/football/news/49ers-christian-mccaffrey-officially-limited-thursday/"
-   ]
-  },
-  "NFL|00-0036875|ryd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the injury report. Backfield partner TreVeyon Henderson missed Wednesday and Thursday with an illness; if he sits, Stevenson's carry share would rise.",
-   "sources": [
-    "https://www.patriots.com/news/week-9-injury-report-patriots-vs-packers"
-   ]
-  },
-  "NFL|00-0039851|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Full practice both days with a right shoulder listing. Top targets A.J. Brown (ankle/knee) and Hunter Henry (foot) missed Wednesday and Thursday.",
-   "sources": [
-    "https://www.patriots.com/news/week-9-injury-report-patriots-vs-packers"
-   ]
-  },
-  "NFL|00-0040200|pat": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the injury report; New England's offense is missing A.J. Brown and Hunter Henry from practice, which could slow scoring drives.",
-   "sources": [
-    "https://www.patriots.com/news/week-9-injury-report-patriots-vs-packers"
-   ]
-  },
-  "NFL|00-0039915|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the injury report. WR Brenen Thompson missed Wednesday and Thursday and TE David Njoku was limited as he returns from IR.",
-   "sources": [
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku"
-   ]
-  },
-  "NFL|00-0032726|pat": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on the injury report; lead back David Montgomery is ruled out again, with Woody Marks starting.",
-   "sources": [
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku"
-   ]
-  },
-  "NFL|00-0036854|kpts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No kicker news; Cincinnati's offense has no one on the injury report for the Madrid game.",
-   "sources": [
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report"
-   ]
-  },
-  "NFL|00-0035269|fgm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No kicker news; Washington's receiver group is thin with Burks missing practice and Dyami Brown limited, which could stall drives short of the end zone.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report"
-   ]
-  },
-  "NFL|00-0039139|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on Detroit's injury report; the Lions host Miami, and backup RB Jacob Saylors was limited.",
-   "sources": [
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ],
-   "buzz": "none"
-  },
-  "NFL|00-0036275|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Kyle Monangai (toe/thumb) has not practiced since Week 4 and is unlikely to play, and RB Zavier Scott went on IR Thursday, leaving Swift as the clear lead back.",
-   "sources": [
-    "https://www.shawlocal.com/bears/2026/11/05/chicago-bears-injury-report-theo-benedet-returns-to-practice-kyle-monangai-still-out/"
-   ],
-   "buzz": "none"
-  },
-  "NFL|00-0037248|td": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Evaluated for a head injury late last game but was cleared and finished it; the Bills play Monday night at Minnesota.",
-   "sources": [
-    "https://www.si.com/nfl/bills/onsi/injuries-bills-week-9-outlook-what-we-know-about-dj-moore-james-cook-spencer-brown"
-   ],
-   "buzz": "none"
-  },
-  "NFL|00-0037238|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not on Atlanta's injury report for the Madrid game; rookie WR Zachariah Branch is ruled out, a small loss to the passing game that leaves London's role unchanged.",
-   "sources": [
-    "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid"
-   ]
-  },
-  "NBA|4395651|pra": {
-   "flag": "neutral",
-   "adj": 1,
-   "conf": "medium",
-   "note": "White is not on Charlotte's injury report for Friday against Boston, while Kon Knueppel (hamstring) is out and Dennis Schroder and Moussa Diabate are questionable, which leaves more of the offense to White.",
-   "sources": [
-    "https://www.espn.com/nba/team/injuries/_/name/cha/striker"
-   ],
-   "detail": {
-    "availability": "Not listed on the injury report.",
-    "role": "Starting PG; Knueppel out, Schroder questionable."
-   }
-  },
-  "NBA|5160992|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Sarr missed one game with left knee soreness, then was cleared without restrictions for Wednesday's game against Atlanta; no new injury news for Friday's rematch was found.",
-   "sources": [
-    "https://www.cbssports.com/fantasy/basketball/news/wizards-alex-sarr-upgraded-to-available/"
-   ],
-   "detail": {
-    "availability": "Played Nov. 4 after a one-game absence (knee)."
-   }
-  },
-  "NBA|4278594|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Marshall is not on Dallas's injury report for Friday against Utah; Dereck Lively II (foot) remains out, which keeps more rebounds available to the forwards.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|4278580|3pm": {
-   "flag": "caution",
-   "adj": -1,
-   "conf": "medium",
-   "note": "Mamukelashvili is listed questionable for Friday against Portland with an illness, so his availability and minutes are uncertain.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Questionable (illness)."
-   }
-  },
-  "NBA|4395724|pr": {
-   "flag": "caution",
-   "adj": -1,
-   "conf": "medium",
-   "note": "Quickley was downgraded to questionable for Friday against Milwaukee with a hamstring issue, so he may sit or play limited minutes.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-06/immanuel-quickley-hamstring-questionable-friday",
-    "https://www.tsn.ca/nba/article/raptors-poeltl-shoulder-probable-vs-bucks-quickley-hamstring-questionable-to-play/"
-   ],
-   "detail": {
-    "availability": "Questionable (hamstring)."
-   }
-  },
-  "NBA|3992|pts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Harden is not on Cleveland's injury report for Friday against Philadelphia; Jaylon Tyson is out and three reserves are questionable.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|4432158|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Mobley is not on Cleveland's injury report for Friday against Philadelphia.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|3059318|pts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No injury listing for Embiid was found for Friday's game at Cleveland; his availability should be rechecked closer to tip.",
-   "sources": [
-    "https://www.si.com/nba/scoreboard/76ers-vs-cavaliers-11-6-2026-1616"
-   ],
-   "detail": {
-    "availability": "No report found."
-   }
-  },
-  "NBA|4431680|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Okongwu is not on Atlanta's injury report; Jock Landale and Mouhamed Gueye are out, which keeps him in a big frontcourt role against Washington.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|5149077|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Flemings is not on Atlanta's injury report for Friday against Washington.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|4277905|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Young was not on Washington's injury list for Wednesday's game against Atlanta and no new injury news was found for Friday's rematch.",
-   "sources": [
-    "https://www.yardbarker.com/nba/articles/final_injury_report_for_hawks_wizards_will_jalen_johnson_alex_sarr_play/s1_17615_44516701"
-   ],
-   "detail": {
-    "availability": "Not listed as of Nov. 4."
-   }
-  },
-  "NBA|4432582|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Christie is listed probable for Friday against Utah with a hip issue, so he is expected to play.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Probable (hip)."
-   }
-  },
-  "NBA|4701230|pra": {
-   "flag": "caution",
-   "adj": -1,
-   "conf": "medium",
-   "note": "Johnson is questionable for Friday against Washington with a left ankle sprain after missing recent games, so he may sit or be limited.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries",
-    "https://sports.yahoo.com/articles/jalen-johnson-again-hawks-release-002427206.html"
-   ],
-   "detail": {
-    "availability": "Questionable (ankle)."
-   }
-  },
-  "NBA|4397424|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Queta is not on Boston's injury report for Friday at Charlotte; Payton Pritchard is questionable and Devin Carter is out.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
-  },
-  "NBA|3908809|pa": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Mitchell is not on Cleveland's injury report for Friday against Philadelphia.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ],
-   "detail": {
-    "availability": "Not listed."
-   }
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "Posted college player props were thin as of Friday morning: ESPN's DraftKings feed had no college lines yet and the per-game preview pages (FanDuel research, Covers, SI) mostly carried only spreads, totals and touchdown-scorer prices, so only two exact yardage lines with a named book were found across the eight biggest games (ALA-LSU, ORE-OSU, MIA-ND, UGA-MISS, TEX-MIZ, PSU-WASH, TA&M-SC, BYU-UTAH). The main availability story is Miami: FanDuel reports star WR Malachi Toney is unlikely to face Notre Dame, while Notre Dame's defense is missing several starters including a cornerback, a safety\u2026",
+   "summary": "Both Oregon and Ohio State are on backup quarterbacks (Dylan Raiola for Oregon, freshman Luke Fahey for Ohio State) after injuries to Dante Moore and Julian Sayin. Miami visits Notre Dame without star WR Malachi Toney, who hurt his ankle in practice and was reported headed for surgery. Prop coverage on the line pages this week was thin for most quarterbacks, so the board leans on receiving and rushing yardage.",
    "sources": [
-    "https://www.fanduel.com/research/alabama-vs-lsu-prediction-picks-props-and-best-bets-nov-7",
-    "https://www.fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7",
-    "https://www.fanduel.com/research/georgia-mississippi-ole-miss-prediction-picks-props-best-bets-nov-7",
-    "https://atozsports.com/?p=510176"
+    "https://www.covers.com/sport/football/ncaaf/player-props",
+    "https://www.fanduel.com/research/college-football-props-saturday-nov-7",
+    "https://fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7",
+    "https://www.tsn.ca/ncaa/article/report-star-wr-toney-dealing-with-ankle-issue-status-for-miami-notre-dame-unclear/",
+    "https://www.predictem.com/?p=215005",
+    "https://clutchpoints.com/ncaa-football/oregon-football-news-jeremiah-mcclellan-foreseeable-future-broken-foot",
+    "https://roundtable.io/sports/ncaa/washington/news/injured-washington-huskies-running-back-returns-to-practice",
+    "https://www.fanduel.com/research/georgia-mississippi-ole-miss-prediction-picks-props-best-bets-nov-7"
+   ]
+  },
+  "NBA-NY-at-CLE-1108": {
+   "summary": "Josh Hart (right ankle soreness) misses a second straight game; Landry Shamet started in his spot Wednesday. Cleveland is on the second night of a back-to-back and is without Jarrett Allen, Sam Merrill, Jaylon Tyson and Nae'Qwan Tomlin. Knicks are 4.5-point road favorites, total 224.5.",
+   "sources": [
+    "https://sports.yahoo.com/articles/knicks-concerning-injury-news-key-010243354.html",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-06/josh-hart-ankle-remains-out-saturday-vs-cle",
+    "https://mymotherlode.com/sports/basketball-general-news/11288689/cleveland-takes-on-new-york-in-conference-matchup.html"
+   ]
+  },
+  "NBA-ORL-at-GS-1108": {
+   "summary": "Warriors (6-3, six straight wins) list Draymond Green (elbow), Gary Payton II (calf) and Gui Santos (knee tendinitis, practiced Friday) as questionable; Porzingis has stepped away from the team. Orlando is short-handed with Banchero, Suggs, Isaac, Penda and Nelson all out.",
+   "sources": [
+    "https://heavy.com/sports/nba/golden-state-warriors/warriors-injury-report-draymond-green-payton-santos/",
+    "https://clutchpoints.com/nba/golden-state-warriors/warriors-news-draymond-green-injury-update-magic-game",
+    "https://969thegame.iheart.com/content/2026-11-07-magic-vs-warriors-injury-report-nov-7/",
+    "https://www.cbssports.com/nba/players/26778377/brandin-podziemski/"
+   ]
+  },
+  "NFL-ARI-at-SEA-1108": {
+   "summary": "Both teams are on backup-level QBs: Seattle starts Drew Lock (elbow still recovering) for Sam Darnold (quad, week-to-week), and Arizona has benched and traded Jacoby Brissett, making Gardner Minshew the starter. Seattle is also missing LT Charles Cross, G Quenton Nelson and WR Rashid Shaheed; Arizona is without RB Bam Knight (concussion) and two starting linemen, leaving Tyler Allgeier as the lead back.",
+   "sources": [
+    "https://komonews.com/newsletter-daily/seattle-seahawks-qb-sam-darnold-out-sunday-cardinals-quad-injury-drew-lock-nfl-football-nfc-mike-macdonald",
+    "https://arizonasports.com/?p=3637298",
+    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/",
+    "https://www.yardbarker.com/nfl/articles/cardinals_to_start_gardner_minshew_in_week_9/s1_14819_44507660"
+   ]
+  },
+  "NFL-CIN-at-ATL-1108": {
+   "summary": "Neutral-site game in Madrid with an early 9:30 AM ET kickoff. Cincinnati's offense is healthy at the skill spots (Chase and Higgins both topped 140 yards in last week's overtime win) but TE Erick All is on IR with a reported torn ACL, leaving Gesicki and Sample. Atlanta is without RB Brian Robinson Jr. and WR Zachariah Branch (both hamstring), concentrating backfield work on Bijan Robinson with Khalil Herbert as the next back.",
+   "sources": [
+    "https://www.news4jax.com/sports/2026/11/04/stefanski-prepares-falcons-for-bengals-offense-in-madrid-after-struggles-in-the-rain-in-florida/",
+    "https://www.footballnationusa.com/post/bengals-at-falcons-week-9-preview-madrid-matchup-fantasy-outlook-and-fn-prediction",
+    "https://www.footballnationusa.com/post/erick-all-jr-knee-injury-bengals-te-depth-and-week-8-fantasy-outlook",
+    "https://www.thefantasyfootballers.com/news/644923/jamarr-chase-in-uniform-thursday/",
+    "https://www.espn.co.uk/nfl/player/news/_/id/3127310/drew-sample"
+   ]
+  },
+  "NFL-DAL-at-IND-1108": {
+   "summary": "Dallas has several pass-catchers in doubt: WR George Pickens (questionable after limited practices all week) and both TEs Jake Ferguson (ankle) and Luke Schoonmaker (groin), with KaVontae Turpin out. Javonte Williams is carrying a heavy load (24 carries last game). Indianapolis is missing CB Justin Walley and LB Akeem Davis-Gaither, and TE Tyler Warren is past his groin issue.",
+   "sources": [
+    "https://www.dallascowboys.com/news/updates-november-2026",
+    "https://www.thefantasyfootballers.com/news/645112/george-pickens-questionable-for-sunday/",
+    "https://www.rotoballer.com/?p=1981483",
+    "https://nbcsports.com/fantasy/football/player-news/2026-10-30/tyler-warren-groin-good-to-go-for-week-8",
+    "https://www.rotoballer.com/?p=1982346"
+   ]
+  },
+  "NFL-DEN-at-CAR-1108": {
+   "summary": "Denver's receivers practiced fully (Waddle and Bryant through a chest issue, Sutton upgraded Thursday) while safeties Brandon Jones is out and Hufanga questionable. Carolina's defense is without Okereke, Phillips and CB Will Lee III; Denver's TE snaps are split three ways and Jonah Coleman leads the backfield.",
+   "sources": [
+    "https://sports.yahoo.com/articles/broncos-vs-panthers-practice-participation-230831231.html",
+    "https://clutchpoints.com/nfl/denver-broncos/broncos-news-both-denver-starting-safeties-danger-missing-panthers-game",
+    "https://athlonsports.com/nfl/denver-broncos/broncos-snap-counts-jonah-coleman-chiefs-week-8",
+    "https://www.cbssports.com/fantasy/football/news/broncos-evan-engram-no-grabs-in-week-8-win/"
+   ]
+  },
+  "NFL-DET-at-MIA-1108": {
+   "summary": "Amon-Ra St. Brown (ribs) is questionable after three limited practices and Detroit has ruled out C Cade Mays plus defenders Campbell, Reed, Joseph and Wonnum. Backup RBs Vaki (DNP Friday) and Saylors are questionable, while Miami's Willis practiced fully and Achane is on IR; consensus now Lions -7, total 50.5.",
+   "sources": [
+    "https://sports.yahoo.com/articles/lions-dolphins-friday-injury-224644061.html",
+    "https://www.detroitlionspodcast.com/dlp-beat-bot/2026/11/05/lions-injury-report-week-9-thursday/",
+    "https://sports.yahoo.com/articles/lions-vs-dolphins-injury-report-130000934.html",
+    "https://www.miamidolphins.com/news/injury-report-week-9-dolphins-vs-lions",
+    "https://statchasers.com/nfl/teams/miami-dolphins/usage/",
+    "https://www.si.com/betting/lions-vs-dolphins-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026"
+   ]
+  },
+  "NFL-GB-at-NE-1108": {
+   "summary": "New England is without A.J. Brown (knee) and TreVeyon Henderson (illness); Hunter Henry (foot) is questionable after a limited Friday practice and Mack Hollins may come off IR. Rhamondre Stevenson is the lead back (76% of snaps last game). Green Bay is missing Micah Parsons plus interior linemen Sean Rhyan and Travis Glover.",
+   "sources": [
+    "https://www.patriots.com/news/injury-report-analysis-patriots-rule-out-wr-a-j-brown-rb-treveyon-henderson-te-hunter-henry-questionable-for-sunday-vs-packers",
+    "https://www.thefantasyfootballers.com/news/645765/hunter-henry-status-uncertain-for-week-9/",
+    "https://www.yardbarker.com/nfl/articles/patriots_dont_have_immediate_update_on_hunter_henrys_status/s1_16700_44506231"
+   ]
+  },
+  "NFL-HOU-at-LAC-1108": {
+   "summary": "The 0-7 Chargers have Herbert healthy and McConkey and Tre Harris back, but LG Awosika, TE Njoku and WR Thompson are doubtful and LT Slater remains on IR; Harbaugh says Hampton gets more touches. Houston is without RB David Montgomery (Woody Marks stays lead back) and S Reed Blankenship.",
+   "sources": [
+    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku",
+    "https://boltbeat.com/chargers-don-t-get-as-much-relief-as-they-were-hoping-for-in-final-week-9-injury-report-01m6sknnx9dq",
+    "https://sports.yahoo.com/articles/texans-final-injury-report-week-223922490.html",
+    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/harbaugh-indicates-hampton-will-get-more-touches"
+   ]
+  },
+  "NFL-LA-at-WAS-1108": {
+   "summary": "Washington lost RB Jeremy McNichols and starting DTs Daron Payne and Javon Kinlaw to IR this week and has ruled out WRs Treylon Burks and Dyami Brown. Stafford is on the report with right elbow soreness but says he has practiced fully; he has not topped 33 attempts in three games. Rams CBs McDuffie and Curl missed practice and are questionable.",
+   "sources": [
+    "https://jingletree.com/commanders-news-both-starting-dts-hit-ir-as-rams-matthew-stafford-deals-with-arm-soreness-burgundy-roundup-301191.html",
+    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html",
+    "https://sports.yahoo.com/articles/commanders-rams-final-injury-report-000219511.html",
+    "https://sports.yahoo.com/articles/rams-matthew-stafford-provides-elbow-172128180.html",
+    "https://www.si.com/nfl/rams/onsi/rams-midweek-report-offensive-concerns-matthew-stafford-arm-soreness-trade-rumors",
+    "https://www.draftsharks.com/fantasy-football-news/83585/white-grabs-commanders-lead-role-and-delivers-his-second-rb1-week",
+    "https://fantasyfootballcalculator.com/players/jacory-croskey-merritt/news"
+   ]
+  },
+  "NFL-LV-at-SF-1108": {
+   "summary": "San Francisco is down three receivers (Evans, Kirk, Samuel ruled out), with Jordan Watkins and Brandin Cooks moving up and Demarcus Robinson likely activated from IR. McCaffrey was cleared after a mild hamstring strain (DNP Wednesday, limited Thursday, practiced Friday), and Nick Bosa returns for the defense. Raiders are missing DT Thomas Booker; CB Darien Porter practiced fully Friday.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/",
+    "https://www.nbcsportsbayarea.com/nfl/san-francisco-49ers/injury-report-mccaffrey-bosa-evans/1977580/"
+   ]
+  },
+  "NFL-NYG-at-PHI-1108": {
+   "summary": "Philadelphia benched Tanner McKee for Joe Milton III, who makes his first career start, and is again without WRs DeVonta Smith and Dontayvion Wicks plus CBs Jonathan Jones and Michael Carter. Saquon Barkley was limited Thursday and Friday but carries no designation. For the Giants, Tyrone Tracy is on IR and Cam Skattebo is doubtful, leaving Devin Singletary as the lead back.",
+   "sources": [
+    "https://fieldlevelmedia.com/news/reports-eagles-turn-to-qb-joe-milton-vs-giants/",
+    "https://www.thefantasyfootballers.com/news/645895/joe-milton-iii-set-to-start-sunday/",
+    "https://www.thefantasyfootballers.com/news/645913/dontayvion-wicks-not-seen-at-practice/",
+    "https://www.giants.com/news/giants-vs-eagles-week-9-injury-report-cam-skattebo-abdul-carter",
+    "https://bigblueinteractive.com/2026/11/06/preview-new-york-giants-at-philadelphia-eagles-november-8-2026/"
+   ]
+  },
+  "SOCCER-day": {
+   "summary": "Winks (Cagliari) is a back-injury doubt; Bayern, PSG and Palace carry heavy absences (Palace without Mateta and Sarr, PSG without Dembele and Kvaratskhelia), and Vinicius is suspended for Real Madrid. No current MLS news found.",
+   "sources": [
+    "https://starting11.com/fixtures/cagliari-vs-frosinone",
+    "https://starting11.com/injuries/bundesliga",
+    "https://www.fantacalcio.it/news/calcio-italia/31_10_2026/cagliari-pisacane-winks-in-gruppo-maldini-me-lo-aspetto-in-campo-deiola-500057",
+    "https://www.sportsgambler.com/football/injuries-suspensions/france-ligue-1",
+    "https://www.sportsgambler.com/injuries/football/england-championship",
+    "https://www.sportsgambler.com/injuries/football/england-premier-league",
+    "https://www.sportsgambler.com/injuries/football/italy-serie-a",
+    "https://www.sportsgambler.com/injuries/football/spain-la-liga"
+   ]
+  },
+  "fix": {
+   "summary": "Quick availability check on flagged Top-list picks. No listed player is ruled out. Wisconsin QB Colton Joseph is not expected to start vs Rutgers. Knicks without Josh Hart, Cleveland thin on a back-to-back, Hawks sat Jalen Johnson Friday.",
+   "sources": [
+    "https://africa.espn.com/college-football/player/_/id/5081882/ty-claiborne",
+    "https://idahonews.com/news/local/boise-state-rb-dylan-riley-named-ap-midseason-all-america-second-team",
+    "https://web9.rotowire.com/cfootball/player/colton-joseph-42039",
+    "https://web9.rotowire.com/cfootball/player/kenny-johnson-41470",
+    "https://web9.rotowire.com/cfootball/player/tyler-hughes-51303",
+    "https://www-sss-gov-phwww.rotowire.com/cfootball/team/boston-college-3416",
+    "https://www.espn.com/nba/injuries",
+    "https://www.espn.com/nfl/injuries"
    ]
   },
   "NBA-POR-at-LAL-1107": {
@@ -1780,83 +2513,12 @@
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-05/scottie-barnes-groin-questionable-vs-milwaukee"
    ]
   },
-  "NFL-ARI-at-SEA-1108": {
-   "summary": "Sam Darnold (quad) is ruled out. Drew Lock is expected to start but is managing a throwing-elbow injury that kept him inactive the past two games, and third-stringer Jalen Milroe is splitting reps as a fallback. Arizona turns to Gardner Minshew after Jacoby Brissett was reportedly traded, with Kendrick Bourne out and Michael Wilson limited (ribs), so Trey McBride's share of targets should stay high. Rain and gusty wind are forecast.",
-   "sources": [
-    "https://www.espn.com/nfl/story/_/id/50380713/seahawks-qb-sam-darnold-ruled-quad-injury",
-    "https://arizonasports.com/arizona-cardinals-injury-report/cardinals-seahawks-injury-report-michael-wilson-limited-sam-darnold-ruled-out",
-    "https://www.thefantasyfootballers.com/news/645460/trey-mcbride-another-productive-performance/"
-   ]
-  },
-  "NFL-CIN-at-ATL-1108": {
-   "summary": "Game is in Madrid; both teams flew over early in the week and practiced there. Cincinnati's offense has no one on the injury report (Erick All on IR since Oct 25, likely ACL), while Atlanta has WR Zachariah Branch ruled out and backup RB Brian Robinson Jr. limited all week with a hamstring.",
-   "sources": [
-    "https://www.bengals.com/news/bengals-falcons-week-9-2026-injury-report",
-    "https://www.atlantafalcons.com/news/falcons-injury-report-brian-robinson-jr-divine-deablo-limited-in-first-full-practice-in-madrid",
-    "https://www.nfl.com/injuries/league/2026/reg9",
-    "https://heavy.com/sports/nfl/cincinnati-bengals/bengals-erick-all-injury-acl/",
-    "https://sports.yahoo.com/articles/bengals-best-tight-end-fix-161500873.html",
-    "https://web9.rotowire.com/football/player/drew-sample-13809",
-    "https://www.si.com/nfl/falcons/onsi/falcons-lose-two-key-contributors-ahead-of-game-in-spain"
-   ]
-  },
   "NFL-CLE-at-NO-1108": {
    "summary": "Deshaun Watson entered the concussion protocol Tuesday and missed practice through Thursday, so Shedeur Sanders took first-team reps and is expected to make his first start of the season; the line moved from Browns +2.5 to +3. Cleveland pass catchers Harold Fannin Jr. (groin) and Denzel Boston (calf) have been limited, and Alvin Kamara (back) returned to practice Thursday after missing Wednesday.",
    "sources": [
     "https://www.brownszone.com/2026/11/04/deshaun-watson-placed-in-concussion-protocol-shedeur-sanders-will-prepare-to-start-vs-saints",
     "https://www.si.com/betting/deshaun-watson-injury-update-points-to-shedeur-sanders-starting-odds-vs-saints-shift",
     "https://www.thefantasyfootballers.com/news/644204/cj-donaldson-exits-with-shoulder-injury/"
-   ]
-  },
-  "NFL-DAL-at-IND-1108": {
-   "summary": "Indianapolis has been in sell mode: it traded G Quenton Nelson and DT DeForest Buckner this week, there is speculation about Jonathan Taylor before the Nov. 10 deadline, and the Colts lost 42-7 to Jacksonville with Taylor held to 8 carries. Dallas TE Jake Ferguson (ankle) missed Thursday practice, George Pickens (hamstring) has been limited all week, and the Dallas secondary has several players in or just leaving the concussion protocol.",
-   "sources": [
-    "https://www.dallascowboys.com/news/updates-november-2026",
-    "https://www.colts.com/news/colts-rb-jonathan-taylor-focused-on-embarrassing-loss-to-jaguars-not-swirling-trade-rumors",
-    "https://www.draftsharks.com/fantasy-football-news/83889/jonathan-taylors-quiet-week-8-didnt-mark-change-in-role",
-    "https://www.draftsharks.com/fantasy-football-news/83891/tyler-warren-reclaims-target-lead-amid-quiet-return",
-    "https://www.thefantasyfootballers.com/news/645473/george-pickens-only-two-receptions-in-week-8/"
-   ]
-  },
-  "NFL-DEN-at-CAR-1108": {
-   "summary": "With RJ Harvey on IR, rookie Jonah Coleman took over Denver's backfield in Week 8: more than 66% of the snaps, 11 carries and 5 targets. That leaves J.K. Dobbins as the secondary back. Waddle and Sutton practiced fully. Carolina left guard Damien Lewis (knee) and defenders Okereke, Phillips and Lee all missed Thursday. Current DraftKings line is Denver -3, total 43.5 (packet: 2.5 / 44.5).",
-   "sources": [
-    "https://sports.yahoo.com/articles/broncos-vs-panthers-practice-participation-230831231.html",
-    "https://www.panthers.com/news/week-9-thursday-injury-report-five-players-did-not-participate",
-    "https://www.si.com/betting/broncos-vs-panthers-prediction-odds-spread-injuries-trends-for-nfl-week-9-2026",
-    "https://sports.yahoo.com/articles/broncos-key-receiving-back-placed-130332481.html"
-   ]
-  },
-  "NFL-HOU-at-LAC-1108": {
-   "summary": "DeMeco Ryans confirmed David Montgomery (groin) will miss a third straight game, so Woody Marks stays the lead back after playing more than 83% of snaps over the last three games. In Week 7, Xavier Hutchinson and Nico Collins were Houston's only receivers on the field for more than half the snaps. For the Chargers, TE David Njoku was limited Wednesday and Thursday as his return-from-IR window opened, and WR Brenen Thompson missed Thursday.",
-   "sources": [
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku",
-    "https://www.si.com/nfl/texans/onsi/texans-injury-report-who-s-trending-up-down-for-week-9-vs-chargers",
-    "https://sports.yahoo.com/articles/texans-snap-counts-week-7-204832877.html"
-   ]
-  },
-  "NFL-LA-at-WAS-1108": {
-   "summary": "Washington's receiver room is thin: Terry McLaurin is out for the season, Treylon Burks (foot) missed Wednesday and Thursday, and Dyami Brown (calf) was added as limited Thursday; Stefon Diggs only had a rest day. Washington's run defense lost DTs Daron Payne and Kinlaw to IR, while the Rams have both CB Trent McDuffie and S Kam Curl missing two straight practices and TE Colby Parkinson out of practice.",
-   "sources": [
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-week-9-injury-report",
-    "https://sports.yahoo.com/articles/commanders-vs-rams-thursday-injury-233826579.html",
-    "https://sports.yahoo.com/articles/stefon-diggs-sits-wednesdays-practice-015337601.html",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-05/treylon-burks-foot-misses-another-practice",
-    "https://www.si.com/nfl/commanders/onsi/commanders-rams-run-defense-corum-williams",
-    "https://sports.yahoo.com/articles/rams-commanders-injury-report-mcduffie-001357465.html",
-    "https://www.nfl.com/injuries/league/2026/reg9"
-   ]
-  },
-  "NFL-NYG-at-PHI-1108": {
-   "summary": "Philadelphia starts Joe Milton with Jalen Hurts on injured reserve (blood clot in his calf, out indefinitely), and DeVonta Smith, Dontayvion Wicks and Britain Covey all missed Wednesday and Thursday practice, leaving Makai Lemon, Goedert and depth receivers. Saquon Barkley (hamstring/back) was limited Thursday after missing Wednesday, and the Eagles have a bye next week. For the Giants, Skattebo (hamstring) missed both practices with Tracy on IR, so Singletary looks like the lead back. Nabers sat Thursday with knee soreness but says he will play.",
-   "sources": [
-    "https://sports.yahoo.com/articles/giants-eagles-injury-report-troubling-211939258.html",
-    "https://sports.yahoo.com/articles/eagles-injury-report-saquon-barkley-020528502.html",
-    "https://bigblueinteractive.com/2026/11/05/malik-nabers-and-cam-skattebo-sit-out-of-practice/",
-    "https://www.philadelphiaeagles.com/news/giants-vs-eagles-injury-report-saquon-barkley-devonta-smith-cam-skattebo-2026-nfl-week-9",
-    "https://www.giants.com/news/week-9-tracker-latest-news-notes-roster-moves-philadelphia-eagles-nfc-east",
-    "https://www.thefantasyfootballers.com/news/644824/devin-singletary-set-for-expanded-role-in-backfield/",
-    "https://www.thebiglead.com/giants-dealt-concerning-cam-skattebo-malik-nabers-updates-eagles-game/"
    ]
   },
   "NFL-NYJ-at-KC-1108": {
@@ -1868,70 +2530,372 @@
     "https://sports.yahoo.com/articles/jets-latest-injury-news-includes-195907100.html",
     "https://www.nfl.com/injuries/league/2026/reg9"
    ]
-  },
-  "SOCCER-day": {
-   "summary": "No player in the packet is confirmed out. Strasbourg and Austin are missing other forwards, which helps Harder and Uzuni. PSG are missing several first-choice attackers and defenders, which mildly helps the Troyes scoring bets. Osimhen had a muscle injury in October, and no update after that was found.",
-   "sources": [
-    "https://starting11.com/es/fixtures/toulouse-vs-strasbourg",
-    "https://starting11.com/fixtures/paris-saint-germain-vs-estac-troyes-20261107",
-    "https://starting11.com/fixtures/fsv-mainz-05-vs-bayern-munich",
-    "https://starting11.com/fixtures/fulham-vs-newcastle-20261107",
-    "https://www.footballdream.in/blog/leeds-united-vs-tottenham-hotspur-gw10-premier-league-2026-27",
-    "https://allafrica.com/stories/202610090150.html",
-    "https://www.mlssoccer.com/news/mls-player-status-report-round-one-best-of-3-series-game-2",
-    "https://www.si.com/soccer/wrexham-injury-news-latest-updates-potential-return-dates-seven-players"
-   ]
-  },
-  "fix": {
-   "summary": "Quick availability checks for Top 10 picks outside the researched games.",
-   "sources": [
-    "https://www.nfl.com/injuries/league/2026/reg9",
-    "https://www.patriots.com/news/week-9-injury-report-patriots-vs-packers",
-    "https://www.chargers.com/news/texans-injury-report-week-9-david-njoku",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-04/christian-mccaffrey-hamstring-dnp-to-begin-week",
-    "https://www.cbssports.com/fantasy/football/news/49ers-christian-mccaffrey-officially-limited-thursday/"
-   ]
-  },
-  "NBA-MIA-at-GS-1106": {
-   "summary": "Miami comes in on the second night of a back-to-back after playing the Clippers in Inglewood on Nov. 4. Giannis Antetokounmpo was listed probable with a wrist issue for that game, and no other Heat regulars were on the report. For Golden State, no new injury or rotation news turned up beyond what the app already has (Santos, Porzingis, Butler and Moody out). Giannis played 40 minutes on Nov 4 but tweaked the sprained right wrist and it was heavily wrapped afterward; his status for tonight is unresolved.",
-   "sources": [
-    "https://si.com/nba/heat/onsi/giannis-status-for-heat-los-angeles-clippers-injuries-odds-how-to-watch-starters-01m6mk2yn45t",
-    "https://basketnews.com/news-258863-latest-update-on-giannis-antetokounmpo-wrist-injury-after-clippers-win.html"
-   ]
-  },
-  "NBA-ORL-at-PHX-1106": {
-   "summary": "Phoenix plays the second half of a home back-to-back; Jordan Goodwin (calf) and Rasheer Fleming (ankle) are listed out (estimated return Nov 5, so an upgrade is possible), and Mark Williams remains out after shoulder surgery. Orlando is without Banchero, Suggs, Isaac, Penda and Izaiyah Nelson, matching what the app already shows; no new starter or rotation changes found.",
-   "sources": [
-    "https://957wdae.iheart.com/content/2026-11-05-magic-vs-suns-injury-report-nov-5/",
-    "https://sports.yahoo.com/articles/phoenix-suns-vs-portland-trail-192615853.html",
-    "https://www.cbssports.com/fantasy/basketball/news/suns-rasheer-fleming-out-with-sprained-ankle/",
-    "https://www.espn.com/nba/game/_/gameId/401909936/magic-suns"
-   ]
-  },
-  "NFL-JAX-at-BAL-1106": {
-   "summary": "Baltimore starts undrafted rookie Joe Fagnano, who is playing on a taped ankle, with Lamar Jackson headed to IR and Tyler Huntley hurt; Jacksonville is a 10-point road favorite. Jaguars RB Bhayshul Tuten (foot/ankle) has missed both practices, backup Chris Rodriguez Jr. (hand) and WR Jakobi Meyers (hamstring/ankle) are limited, and Baltimore will use Jake Moody at kicker with Tyler Loop headed to IR. No candidate is on an app TD list (on_app_td_list null for all).",
-   "sources": [
-    "https://www.baltimoreravens.com/news/joe-fagnano-ravens-quarterbacks-practice-report-tyler-huntley",
-    "https://vsin.com/the-vsin-daily/ravens-turn-to-rookie-qb-bettors-disagree-on-jaguars-10/",
-    "https://athlonsports.com/nfl/trending/jaguars-facing-rb-decision-after-bhayshul-tuten-injury-news-ravens-game",
-    "https://sports.yahoo.com/articles/jaguars-bhayshul-tuten-misses-second-015540475.html"
-   ]
   }
  },
  "cfb_lines": {
-  "CFB|5141629|pyd": {
-   "line": 237.5,
-   "book": "FanDuel",
+  "CFB|5151353|recyd": {
+   "line": 34.5,
+   "book": "consensus",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "TTU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5159831|recyd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "COLO",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5224178|recyd": {
+   "line": 29.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "UGA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5082584|recyd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "TTU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5086393|recyd": {
+   "line": 19.5,
+   "book": "consensus",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "WVU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5141742|ryd": {
+   "line": 39.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:00:00+00:00",
+   "opp": "TA&M",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5125715|ryd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-07T21:15:00+00:00",
+   "opp": "RUTG",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5146747|recyd": {
+   "line": 36.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "FSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5114311|recyd": {
+   "line": 69.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:30:00+00:00",
+   "opp": "ALA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5258016|ryd": {
+   "line": 119.5,
+   "book": "consensus",
+   "t": "2026-11-07T18:00:00+00:00",
+   "opp": "KSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5261613|ryd": {
+   "line": 39.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "CLEM",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5222689|recyd": {
+   "line": 19.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "FSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5081882|recyd": {
+   "line": 24.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "BAY",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5078278|ryd": {
+   "line": 39.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "GT",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5079298|ryd": {
+   "line": 29.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:45:00+00:00",
+   "opp": "FLA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5222752|recyd": {
+   "line": 29.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "IOWA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5132629|recyd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-07T23:15:00+00:00",
+   "opp": "UK",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4831976|recyd": {
+   "line": 47.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "UCLA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5079345|recyd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:00:00+00:00",
+   "opp": "SC",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4869603|recyd": {
+   "line": 44.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:45:00+00:00",
+   "opp": "UCF",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5146712|ryd": {
+   "line": 152.5,
+   "book": "consensus",
+   "t": "2026-11-07T23:00:00+00:00",
+   "opp": "CSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5218961|ryd": {
+   "line": 89.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:30:00+00:00",
+   "opp": "MD",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4808767|recyd": {
+   "line": 43.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:30:00+00:00",
+   "opp": "MD",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5008017|ryd": {
+   "line": 29.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "CONN",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5136838|recyd": {
+   "line": 39.5,
+   "book": "consensus",
+   "t": "2026-11-07T23:15:00+00:00",
+   "opp": "TENN",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4691315|recyd": {
+   "line": 79.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "CLEM",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4900351|recyd": {
+   "line": 19.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "BYU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4870850|recyd": {
+   "line": 39.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "COLO",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5161835|ryd": {
+   "line": 24.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "CONN",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4923295|recyd": {
+   "line": 69.5,
+   "book": "consensus",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "WVU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4877714|recyd": {
+   "line": 36.5,
+   "book": "consensus",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "HAW",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5301028|recyd": {
+   "line": 0.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "ASU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4838536|pyd": {
+   "line": 149.5,
+   "book": "consensus",
+   "t": "2026-11-08T03:30:00+00:00",
+   "opp": "UNLV",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5307005|pyd": {
+   "line": 174.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "FSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5079519|recyd": {
+   "line": 30.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:30:00+00:00",
+   "opp": "OSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4870906|ryd": {
+   "line": 13.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "MIZ",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5219834|pyd": {
+   "line": 294.5,
+   "book": "consensus",
+   "t": "2026-11-07T18:00:00+00:00",
+   "opp": "KSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5084967|recyd": {
+   "line": 24.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:30:00+00:00",
+   "opp": "DUKE",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5215629|recyd": {
+   "line": 34.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "LOU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5083175|recyd": {
+   "line": 3.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:00:00+00:00",
+   "opp": "MINN",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5141671|recyd": {
+   "line": 32.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "MISS",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4880272|ryd": {
+   "line": 59.5,
+   "book": "consensus",
+   "t": "2026-11-07T17:45:00+00:00",
+   "opp": "ARK",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5223131|ryd": {
+   "line": 33.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "ARMY",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4870768|recyd": {
+   "line": 40.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:30:00+00:00",
+   "opp": "MIA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5078005|ryd": {
+   "line": 52.5,
+   "book": "consensus",
+   "t": "2026-11-07T21:15:00+00:00",
+   "opp": "RUTG",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5200430|ryd": {
+   "line": 19.5,
+   "book": "consensus",
+   "t": "2026-11-07T20:30:00+00:00",
+   "opp": "PSU",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5080703|recyd": {
+   "line": 49.5,
+   "book": "consensus",
+   "t": "2026-11-08T00:45:00+00:00",
+   "opp": "FLA",
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|5327659|ryd": {
+   "line": 24.5,
+   "book": "consensus",
    "t": "2026-11-07T20:30:00+00:00",
    "opp": "LSU",
-   "source": "https://www.fanduel.com/research/alabama-vs-lsu-prediction-picks-props-and-best-bets-nov-7"
+   "source": "https://www.covers.com/sport/football/ncaaf/player-props"
+  },
+  "CFB|4875127|ryd": {
+   "line": 50.5,
+   "book": "FanDuel",
+   "t": "2026-11-07T20:00:00+00:00",
+   "opp": "TA&M",
+   "source": "https://www.fanduel.com/research/college-football-props-saturday-nov-7"
+  },
+  "CFB|4685565|recyd": {
+   "line": 47.5,
+   "book": "FanDuel",
+   "t": "2026-11-07T20:30:00+00:00",
+   "opp": "OSU",
+   "source": "https://www.fanduel.com/research/college-football-props-saturday-nov-7"
+  },
+  "CFB|5086393|ryd": {
+   "line": 95.5,
+   "book": "FanDuel",
+   "t": "2026-11-08T02:30:00+00:00",
+   "opp": "WVU",
+   "source": "https://www.fanduel.com/research/college-football-props-saturday-nov-7"
   },
   "CFB|5121169|pyd": {
    "line": 223.5,
    "book": "FanDuel",
    "t": "2026-11-08T00:30:00+00:00",
    "opp": "ND",
-   "source": "https://www.fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7"
+   "source": "https://fanduel.com/research/miami-notre-dame-prediction-picks-props-best-bets-nov-7"
   }
  }
 }
