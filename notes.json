@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T19:47:13Z",
+ "updated": "2026-11-08T21:36:22Z",
  "summary": "Joe Milton III makes his first start for Philadelphia with Jalen Hurts out for the season; New England is without TreVeyon Henderson and A.J. Brown, the 49ers are down to Kittle and McCaffrey as main targets with Evans, Samuel and Kirk out, and Garrett Wilson (concussion) sits for the Jets.",
  "notes": {
   "NBA|3908845|3pm": {
@@ -1000,20 +1000,21 @@
    }
   },
   "NFL|00-0036275|td": {
-   "flag": "caution",
-   "adj": 0,
+   "flag": "support",
+   "adj": 1,
    "conf": "medium",
-   "note": "Monangai is questionable after his first practice since Week 4; if active he could take some short-yardage work from Swift.",
+   "note": "Monangai will not play Sunday night, so Swift keeps the full lead and goal-line role he has held during the four-game absence.",
    "sources": [
-    "https://www.chicagobears.com/news/kyle-monangai-back-at-practice-questionable-for-buccaneers-game-injury-update"
+    "https://www.nbcchicago.com/news/local/will-kyle-monangai-play-for-bears-vs-buccaneers-nfl-insider-has-new-report/4013744/"
    ],
    "buzz": "none",
    "detail": {
-    "availability": "Swift not on the injury report.",
-    "role": "Monangai limited Friday, coach said he is getting better.",
+    "availability": "Swift not on the injury report; Monangai ruled out.",
+    "role": "Remains the lead and goal-line back.",
     "conditions": "Gusts near 27 mph forecast.",
     "experts": "No game-specific anytime-TD previews for this game turned up in one search; buzz not measured."
-   }
+   },
+   "side": "over"
   },
   "NFL|00-0036275|car": {
    "flag": "caution",
@@ -1028,30 +1029,30 @@
    }
   },
   "NFL|00-0040236|td": {
-   "flag": "caution",
+   "flag": "out",
    "adj": 0,
    "conf": "high",
-   "note": "Questionable with toe and thumb injuries after one limited practice, his first since Week 4; status and workload uncertain.",
+   "note": "Ruled out for Sunday night per an NFL Network report; expected back after the bye.",
    "sources": [
-    "https://www.chicagobears.com/news/kyle-monangai-back-at-practice-questionable-for-buccaneers-game-injury-update"
+    "https://www.nbcchicago.com/news/local/will-kyle-monangai-play-for-bears-vs-buccaneers-nfl-insider-has-new-report/4013744/"
    ],
    "buzz": "none",
    "detail": {
-    "availability": "Limited Friday, questionable; coach called toe injuries fickle.",
+    "availability": "Ruled out Sunday night; expected back after the bye.",
     "experts": "No game-specific anytime-TD previews for this game turned up in one search; buzz not measured."
    }
   },
   "NFL|00-0039021|td": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "His backup role shrinks if Monangai returns from a four-game absence.",
+   "note": "With Monangai out again, he stays the No. 2 back behind Swift.",
    "sources": [
-    "https://www.chicagobears.com/news/kyle-monangai-back-at-practice-questionable-for-buccaneers-game-injury-update"
+    "https://www.nbcchicago.com/news/local/will-kyle-monangai-play-for-bears-vs-buccaneers-nfl-insider-has-new-report/4013744/"
    ],
    "buzz": "none",
    "detail": {
-    "role": "Monangai questionable after a limited Friday practice.",
+    "role": "Monangai ruled out, so he stays the No. 2 back.",
     "experts": "No game-specific anytime-TD previews for this game turned up in one search; buzz not measured."
    }
   },
@@ -2094,6 +2095,109 @@
    "sources": [
     "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-bulls-will-joel-embiid-nic-claxton-play"
    ]
+  },
+  "NFL|00-0040735|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Burden carries no injury designation for Sunday night; no role change reported.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-buccaneers-bears-updates-egbuka-monangai-more/"
+   ]
+  },
+  "NFL|00-0038129|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Otton is not on Tampa Bay's final injury report after missing the last game; check that he is active when inactives post.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-buccaneers-bears-updates-egbuka-monangai-more/"
+   ]
+  },
+  "NFL|00-0039361|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Irving practiced fully and carries no designation; Tampa Bay's backfield roles look unchanged.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-buccaneers-bears-updates-egbuka-monangai-more/"
+   ]
+  },
+  "NFL|00-0035647|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sweat is not on Chicago's final injury report; no change in his role reported.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-injury-reports-buccaneers-bears-updates-egbuka-monangai-more/"
+   ]
+  },
+  "NFL|00-0036275|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Monangai will not play Sunday night, so Swift keeps the lead-back workload; the line already dropped from 93.5 despite that.",
+   "sources": [
+    "https://www.nbcchicago.com/news/local/will-kyle-monangai-play-for-bears-vs-buccaneers-nfl-insider-has-new-report/4013744/"
+   ]
+  },
+  "NBA|3134907|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current injury or rotation news found for Kuzma; the drop from 1.5 to 0.5 threes is unexplained, so treat the over with care.",
+   "sources": []
+  },
+  "NBA|4278562|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Reed starts with Duren out (hamstring) and Isaiah Joe also out; no injury news on Reed himself.",
+   "sources": []
+  },
+  "NBA|4432816|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or rotation news found for Ball ahead of Utah.",
+   "sources": []
+  },
+  "NBA|3078576|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on White; Boston's Mitchell Robinson is questionable with an illness.",
+   "sources": [
+    "https://www.hoopshype.com/story/sports/nba/rumors/2026/11/08/the-celtics-have-added-mitchell-robinson-to-the-injury/92679006007/"
+   ]
+  },
+  "NBA|4396907|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news on Garland; Brandon Ingram is out for the Clippers, which could add some usage.",
+   "sources": []
+  },
+  "NBA|4397002|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or rotation news found for Dosunmu ahead of Utah.",
+   "sources": []
+  },
+  "NBA|4432194|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sharpe starts with Mikel Brown Jr. resting and Egor Demin out; no injury news on Sharpe.",
+   "sources": []
+  },
+  "NBA|4431671|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or rotation news found for McDaniels ahead of Utah.",
+   "sources": []
   }
  },
  "games": {
