@@ -511,3 +511,4 @@ option and rows are gone. `sw.js` -> pt-v118.
   red-zone looks in the TD model, NBA pace. Tested and not used: NFL pace/PROE, opponent missing defenders,
   backup QB, rest.
 - 2026-11-08 **cmags0511 (scheduled inactives check, 1 PM games)**: added availability notes for 7 unresearched Top 10 / Top TD picks (Goff, Javonte Williams, B. Stephens, Sutton, J. Taylor, Nacua, I. Likely); none ruled out. Pickens/Ferguson still questionable, inactives not yet posted at check time.
+- 2026-11-08 **cmags0511 (scheduled inactives check, late games)**: notes for 7 unresearched Top 10 / Top TD picks (McCaffrey rry, Q. Walker, Crosby, Schultz, Buzelis, Jacobs TD, Smith-Njigba TD); none ruled out. JSN TD flagged caution (Darnold out, Lock questionable). Stevenson rush-yds note set to adj 0 (Henderson news already in the line).

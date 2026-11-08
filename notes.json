@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T16:36:11Z",
+ "updated": "2026-11-08T19:47:13Z",
  "summary": "Joe Milton III makes his first start for Philadelphia with Jalen Hurts out for the season; New England is without TreVeyon Henderson and A.J. Brown, the 49ers are down to Kittle and McCaffrey as main targets with Evans, Samuel and Kirk out, and Garrett Wilson (concussion) sits for the Jets.",
  "notes": {
   "NBA|3908845|3pm": {
@@ -437,9 +437,9 @@
   "NFL|00-0036875|ryd": {
    "side": "over",
    "flag": "support",
-   "adj": 1,
+   "adj": 0,
    "conf": "medium",
-   "note": "Henderson is out again (illness; has not practiced since last week), and Stevenson is set for an expanded lead-back workload with only Corey Kiner behind him.",
+   "note": "Henderson is out again (illness; has not practiced since last week), and Stevenson is set for an expanded lead-back workload with only Corey Kiner behind him. Henderson's absence was known midweek and the line has already moved up two yards, so no extra edge beyond the market.",
    "sources": [
     "https://www.thefantasyfootballers.com/news/645223/treveyon-henderson-not-available-for-week-8/"
    ],
@@ -2030,6 +2030,69 @@
    "sources": [
     "https://www.espn.com/nfl/injuries",
     "https://www.nfl.com/injuries/"
+   ]
+  },
+  "NFL|00-0033280|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Practiced fully Friday on a mild hamstring strain and has no game designation; with Evans, Samuel and Aiyuk out his touch share should be high, which the line already reflects.",
+   "sources": [
+    "https://www.49erswebzone.com/articles/204841-49ers-raiders-injury-report-receivers/"
+   ]
+  },
+  "NFL|00-0037074|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the Raiders' final injury report; no change to his starting role found.",
+   "sources": [
+    "https://www.raiders.com/news/raiders-49ers-week-9-injury-report"
+   ]
+  },
+  "NFL|00-0034973|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the Raiders' final injury report; expected to play his usual edge role.",
+   "sources": [
+    "https://www.raiders.com/news/raiders-49ers-week-9-injury-report"
+   ]
+  },
+  "NFL|00-0034383|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Houston's final injury report; still the starting tight end. Houston is without RB Montgomery and S Blankenship.",
+   "sources": [
+    "https://www.si.com/nfl/texans/onsi/news/houston-texans-rule-out-three-more-players-chargers-game"
+   ]
+  },
+  "NFL|00-0038543|td": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury for Smith-Njigba, but Darnold is out (quad, rib) and backup Lock is questionable with an elbow issue, leaving rookie Milroe as the third option; the passing offense could be limited.",
+   "sources": [
+    "https://www.forbes.com/sites/berniepleskoff/2026/11/07/2-seattle-seahawks-qb-injuries-could-impact-smith-njigba/"
+   ]
+  },
+  "NFL|00-0035700|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Green Bay's final injury report and remains the lead back; backup MarShawn Lloyd is questionable (knee).",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NBA|4711294|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Not on the Bulls' injury report; Claxton is questionable (hamstring) and Embiid is probable for Philadelphia.",
+   "sources": [
+    "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-bulls-will-joel-embiid-nic-claxton-play"
    ]
   }
  },
