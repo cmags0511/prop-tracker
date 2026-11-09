@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T21:36:11Z",
+ "updated": "2026-11-09T23:46:19Z",
  "summary": "Kyler Murray is out and Carson Wentz starts for Minnesota against Buffalo on Monday night, with Jauan Jennings also out and two Bills starting linemen questionable; in the NBA, Luka Doncic is out for the Lakers at Atlanta and Anthony Davis is questionable again.",
  "notes": {
   "NBA|4576087|ast": {
@@ -279,11 +279,10 @@
    }
   },
   "NBA|3135045|pr": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
+   "flag": "neutral",
+   "adj": 0,
    "conf": "low",
-   "note": "Grayson Allen and Sion James move into the starting lineup because Knueppel and Miller are out, which raises their minutes.",
+   "note": "Allen starts with Knueppel and Miller out, but the line already rose from 18.5 to 20.5 on that news, so the promotion is priced in; no new injury news.",
    "sources": [
     "https://atthehive.com/charlotte-hornets-vs-cleveland-cavaliers-game-11-preview-and-discussion/",
     "https://cavaliersnation.com/2026/11/08/cavs-list-6-players-on-injury-report-ahead-of-monday-matchup-vs-hornets/"
@@ -2145,6 +2144,82 @@
    "note": "Cunningham starts with no designation; Duren is out and Isaiah Joe questionable, while Washington's Anthony Davis is questionable.",
    "sources": [
     "https://fantasydata.com/nba/starting-lineups"
+   ]
+  },
+  "NFL|00-0037525|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Mason is healthy and splits the backfield with Aaron Jones, who takes the passing downs, so Mason adds almost nothing as a receiver; Claiborne is out and Wentz starts for the injured Murray.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-bills-vs-vikings-injury-report-for-mnf-latest-on-kyler-murray-joshua-palmer-dion-dawkins-more/",
+    "https://www.4for4.com/news/vikings-open-window-rb-jordan-mason"
+   ]
+  },
+  "NFL|00-0036348|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Metellus is not on the injury report; fellow safety Theo Jackson is out and Jay Ward is questionable, so Metellus should play every snap. The ESPN line is over a day old.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-bills-vs-vikings-injury-report-for-mnf-latest-on-kyler-murray-joshua-palmer-dion-dawkins-more/"
+   ]
+  },
+  "NBA|4845367|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Castle is not on the Spurs' injury report; Devin Vassell is questionable, Tobias Harris and Jayden Quaintance are out.",
+   "sources": [
+    "https://www.si.com/nba/suns/onsi/preview-phoenix-suns-face-tall-task-tonight-san-antonio-spurs"
+   ]
+  },
+  "NBA|5037871|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Harper is not on the Spurs' injury report; Devin Vassell is questionable, which could add ball-handling minutes.",
+   "sources": [
+    "https://www.si.com/nba/suns/onsi/preview-phoenix-suns-face-tall-task-tonight-san-antonio-spurs"
+   ]
+  },
+  "NBA|5149077|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing found for Flemings tonight; role unchanged from recent games.",
+   "sources": []
+  },
+  "NBA|4701230|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing found for Johnson tonight; he remains Atlanta's primary forward handler.",
+   "sources": []
+  },
+  "NBA|6442|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing found for Irving tonight.",
+   "sources": []
+  },
+  "NBA|4431767|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Braun is probable with a left calf contusion and an illness and is expected to play.",
+   "sources": [
+    "https://heavy.com/sports/nba/denver-nuggets/nikola-jokic-nuggets-rockets-injury-report"
+   ]
+  },
+  "NBA|3112335|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Jokic was upgraded from questionable to probable with a right elbow sprain and is expected to play through it.",
+   "sources": [
+    "https://heavy.com/sports/nba/denver-nuggets/nikola-jokic-nuggets-rockets-injury-report"
    ]
   }
  },
