@@ -322,8 +322,14 @@ def main():
     rec = {g["id"]: g for g in old.get("games", [])}
     # ESPN's scoreboard takes one date at a time: the last 4 days (to grade) and the next 8 (to price)
     events, seen = [], set()
-    for k in range(-4, 9):
-        day = (now + dt.timedelta(days=k)).astimezone(ET)
+    days = [(now + dt.timedelta(days=k)).astimezone(ET) for k in range(-4, 9)]
+    # a game still pending from before that window (the hourly job didn't run for days) is looked up on its own date,
+    # so a long gap in runs can't leave it ungraded
+    late = {f"{dt.datetime.fromisoformat(e['t']).astimezone(ET):%Y%m%d}" for e in rec.values()
+            if e.get("status") == "pending" and dt.datetime.fromisoformat(e["t"]) < now}
+    late -= {f"{d:%Y%m%d}" for d in days}
+    days += [dt.datetime.strptime(d, "%Y%m%d") for d in sorted(late)[:10]]
+    for day in days:
         try:
             for ev in json.loads(get(f"{ESPN}?dates={day:%Y%m%d}")).get("events", []):
                 if ev["id"] not in seen:
@@ -411,6 +417,10 @@ def main():
                       "wnotes": X.notes(ug, fc, not out_door, qbs, prate, tm) if ug.get("id") else [],
                       "inj_h": [[n, g, sh] for n, g, sh in lh], "inj_a": [[n, g, sh] for n, g, sh in la],
                       "injp_h": round(ih, 1), "injp_a": round(ia, 1)})
+            # when this game's line and prices were last refreshed: at kickoff that's the age of the locked line
+            # (the hourly job can skip runs, so the kickoff lock can be hours old; lock_h is saved when it grades)
+            if line is not None and not stale:
+                e["upd"] = now.isoformat(timespec="minutes")
             e.update({"t": t.isoformat(), "line": line, "lstale": stale,
                       "open": e.get("open") if stale else num(((ps.get("home") or {}).get("open") or {}).get("line")),
                       "price_h": e.get("price_h") if stale else num(((ps.get("home") or {}).get("close") or {}).get("odds")),
@@ -467,6 +477,8 @@ def main():
                 price = e.get("tprice_u") or -110
                 e["tstatus"] = "win" if r > 0 else "loss" if r < 0 else "push"
                 e["tunits_won"] = round(payout(price), 2) if r > 0 else -1 if r < 0 else 0
+            if e.get("upd"):
+                e["lock_h"] = round((t - dt.datetime.fromisoformat(e["upd"])).total_seconds() / 3600, 1)
             e["graded"] = now.isoformat(timespec="minutes")
     # games ESPN no longer lists in the window (graded long ago) stay as they are
     gl = sorted(rec.values(), key=lambda e: e["t"])
