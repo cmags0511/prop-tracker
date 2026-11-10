@@ -3,6 +3,18 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-10, cmags0511 (Claude, weekly results review)
+No code change this week: nothing tested cleared the bar. Numbers (units at the saved price, -110 when none; "season" = since prices started Oct 17):
+- Top 10: last 7 days 129-100, +12.5u (NBA 82-67 +3.7u, NFL 38-32 +1.7u, college 9-1 +7.2u; all but 3 were unders). Season 254-238, -17.1u (NBA 143-140 -16.5u, NFL 80-73 -2.2u, college 31-25 +1.6u). Real-price picks season 96-96 -17.0u (this week 67-56 +0.5u). NBA pts+ast / PRA / threes in the Top 10 are 29-49 season, but on every graded prop those unders are fine (+6% at real prices), so it's selection noise; tune.py already ranks them lower.
+- Since the Nov 6 "locked when found" change: picks the app later dropped went 58-60 -9.8u, picks still listed at kickoff 71-40 +22.3u. Tested "lock only after a pick holds its Top 10 spot for 1-6 hours" on a replay of 791 hourly picks.json versions (graded from calib.json): +22 to +36u better over the season, but it would have cost 6-11u in the latest week, and the replay over-counts picks vs the real record (273 vs 201 since Nov 6). Not proposed; retest next week.
+- Calibration (16,751 graded props): NFL 60%+ chances hit 71% this week (n102) but about 55% season (n837, app said ~65%). NFL props with the highest ranking scores (top 300) hit 51% vs 63% claimed: in NFL the score stops sorting winners above ~.12. App minus book no-vig chance: the app's side beats the book's fair chance by 2-4 points on average, about break-even after the margin; BOOK_GAP penalty neutral season-long (5+ pts above the book: NFL -0.1% ROI n617, NBA +0.9% n1934). No change.
+- Soccer player Top picks: this week 44-41 -17.4u, season 119-93 -32.6u (the app's own expected profit on them averages -26%). Value list has never had a pick. Replay of 53,709 graded DraftKings soccer props since Oct 18: every slice loses 12-55%, and re-ranking the Top picks by expected profit, a chance floor or a price cap still loses 12-21%. No model change fixes this; owner's call whether these stay counted as bets.
+- Research: week 13-16 (props 10-13, TD 3-3); season 111-141 -41.7u (medium 102-124, low 4-12). Leans still only nudge the TD model (small).
+- TD bets: season 28-30 -6.0u (likely 17-13, long 8-13); one graded this week (loss).
+- Parlays (first week): 52-213 -17.6u. NFL 3-leg 16-96 -29.5u, almost all Nov 8; NBA 3-leg 15-64 +13.5u. Too early: one NFL Sunday, legs shared across many parlays.
+- Hidden pages: lab market-anchored week 32-31 +5.8u, season 101-130 -20.7u; stats-only week 31-27 +7.8u, season 112-139 -6.7u. Neither earns a place in the main picks. fwarnk still removed (no file).
+- tune.py since Nov 3: form weight .67 -> .61, Kalshi 1.12 -> 1.19, game script 1.08 -> 1.26, NBA PRA/pts+ast trusted less, NFL receptions unders ranked up (x1.25).
+
 ## 2026-11-06 (2), cmags0511 (Claude): "Card" tab, every suggested bet by kickoff (PR)
 New **Today** button (first shipped as "Card") in the sport bar (`renderToday` in index.html): one list of everything the app suggests now (NFL/NBA/CFB props, anytime TDs, soccer props and team bets, NHL, parlays) from `record.json` pending + `soccer_team.json` + `nhl.json`, sorted by kickoff, with the price to look for, "Bet by" time and the DraftKings button. This device remembers what it has shown (localStorage `pt-card-seen`, try/catch) so a bet the app drops before kickoff shows struck through as "No longer recommended"; entries are purged after kickoff. Nothing is written to My picks. No data files or workflows changed. sw.js `pt-v139`.
 
