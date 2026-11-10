@@ -3,6 +3,22 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-10 (2), rmolnar10 (Claude): Walters data check, stale-lock tracking (PR)
+Audit of the Walters page: replayed all 511 walters.json versions (Oct 17 - Nov 10). All 70 NFL games present, no
+duplicates, nothing vanished, no graded row or early lock ever changed, every score and grade matches nflverse's finals,
+and a fresh run reproduces the ratings and backtests exactly. All 170 players listed out actually didn't play (snap
+counts); kickoff wind forecasts land within ~3 mph of the archive. QBs: nflverse's listed starter was right in 11 of 13
+QB changes; the 2 misses (TB Oct 25, PHI Oct 27) weren't on any report, so no change.
+**Owner, please read:** since ~Nov 6 GitHub has been dropping most scheduled runs (`lines.yml` 3-8 a day instead of
+~24, `update.yml` 2-4 instead of 8; every run that starts succeeds). Every hourly lock in the app is affected. On Nov 8
+the 1pm NFL games locked lines 3.3 hours old. README "When GitHub skips the scheduled runs" has the fix: an outside
+scheduler calling `workflow_dispatch` with a repo-only fine-grained token (needs the owner's account).
+Changes: `walters.py` saves `upd` (last fresh line) and, at grading, `lock_h` (hours between that and kickoff). A game
+still pending from before ESPN's 4-day window is looked up on its own date, so a long outage can't leave it
+ungraded. Walters graded picks show "line Xh old at kickoff" when it's 1.5h+. `walters_lockage.py` is a one-off
+that backfills `lock_h` for past games from git history (run once after merge, full clone). No grades changed: the 3
+Nov 8 plays whose locked line differed from the close grade the same either way. sw.js pt-v142.
+
 ## 2026-11-10, cmags0511 (Claude, weekly results review)
 No code change this week: nothing tested cleared the bar. Numbers (units at the saved price, -110 when none; "season" = since prices started Oct 17):
 - Top 10: last 7 days 129-100, +12.5u (NBA 82-67 +3.7u, NFL 38-32 +1.7u, college 9-1 +7.2u; all but 3 were unders). Season 254-238, -17.1u (NBA 143-140 -16.5u, NFL 80-73 -2.2u, college 31-25 +1.6u). Real-price picks season 96-96 -17.0u (this week 67-56 +0.5u). NBA pts+ast / PRA / threes in the Top 10 are 29-49 season, but on every graded prop those unders are fine (+6% at real prices), so it's selection noise; tune.py already ranks them lower.

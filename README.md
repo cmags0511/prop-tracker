@@ -80,6 +80,28 @@ DraftKings' line and marked ≈. The record
 counts from `priced_from`, the first run with real prices, so units never mix real prices with an assumed -110. My picks and
 parlays live on the device, update live from ESPN box scores during games, and grade themselves at the final.
 
+## When GitHub skips the scheduled runs
+
+GitHub starts scheduled workflows on a best-effort basis and drops runs when it's busy. From about Nov 6, 2026,
+`lines.yml` (meant to run hourly, every 20 minutes on NFL Sundays) ran only 3-8 times a day, and `update.yml` 2-4 times.
+Every run that started worked, but each lock is only as fresh as the last run before kickoff. On Nov 8 the 1pm NFL games
+locked lines from 3.3 hours earlier. Both workflows also accept `workflow_dispatch`, so an outside scheduler can start
+them on time. The cron lines stay as a backup, and the shared `data-commit` concurrency group keeps two runs from
+overlapping.
+
+Setup (repo owner, once):
+1. GitHub > Settings > Developer settings > Fine-grained tokens: a token for **this repository only** with
+   **Actions: Read and write** (nothing else), expiring in a year.
+2. In a free scheduler (for example cron-job.org), add a job for each schedule that sends
+   `POST https://api.github.com/repos/cmags0511/prop-tracker/actions/workflows/lines.yml/dispatches` with headers
+   `Authorization: Bearer <token>`, `Accept: application/vnd.github+json` and body `{"ref":"main"}`:
+   every hour at :47, and Sundays every 20 minutes from 14:05 to 21:45 UTC. Add a second job for `update.yml`
+   every 3 hours at :17.
+3. The token is stored only in the scheduler, never in this repo.
+
+Watch for it: `git log --format='%cd %s' --date=short | grep 'Refresh lines' | cut -d' ' -f1 | uniq -c` should show
+about 24 a day. The Walters page shows how old each kickoff line was (`lock_h` in walters.json) when it's 1.5 hours or more.
+
 ## NHL (nhl_data.py, nhl_model.py, nhl_picks.py)
 `nhl_data.py` crawls ESPN's NHL box scores into `nhl_hist.json.gz`. `nhl_model.py` turns that into a chance for shots on goal, goals, points and assists (recent games weighted, shrunk toward the position average, scaled by what the opponent allows); `python nhl_backtest.py` checks the chances are calibrated (no historical prices exist, so it cannot show an edge). `nhl_picks.py` reads FanDuel's public NHL player markets, removes the book's margin, blends 65% market with 35% model, and writes `nhl.json`: Top picks, Value bets, every priced bet per game, and a record (locked at puck drop, graded from the box scores). Prices are FanDuel's; DraftKings' NHL player prices aren't available. Goalie saves are not listed (no saves market in FanDuel's feed). Raise the model's share only after the record shows it earns it.
 
