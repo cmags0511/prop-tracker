@@ -195,7 +195,35 @@ def main():
     # 1. prop type + side
     groups = {}
     for e in picks:
+        if e["lg"] == "NBA":
+            continue      # NBA: from every graded slate prop below, not from the Top 10
         groups.setdefault(f"{e['lg']}|{e['market']}|{e['side']}", []).append(e["status"] == "win")
+    # NBA (Nov 11): the Top 10 gives a few picks per prop type (n>=8 was enough to move a multiplier) and the multiplier
+    # itself decides what reaches the Top 10, so it cut the very groups that win. calib.json has thousands of graded
+    # props with the book's no-vig chance: a group's edge is how far its hit rate sits above that chance, shrunk toward
+    # zero by size. On 8.5k props (Oct 20 - Nov 11) PRA / PA / PR unders beat the market every week, overs lost every week.
+    NBA_PRIOR, NBA_MIN = 300, 150
+    try:
+        cal_rows = [e for e in json.load(open("calib.json")).get("props", [])
+                    if e.get("lg") == "NBA" and e.get("status") in ("win", "loss") and e.get("po") and e.get("pu") and not e.get("pe")]
+    except Exception:
+        cal_rows = []
+    dec = lambda a: a / 100 + 1 if a > 0 else 100 / -a + 1
+    ng = {}
+    for e in cal_rows:
+        io, iu = 1 / dec(e["po"]), 1 / dec(e["pu"])
+        pm = (iu if e["side"] == "under" else io) / (io + iu)
+        ng.setdefault(f"NBA|{e['market']}|{e['side']}", []).append((1.0 if e["status"] == "win" else 0.0) - pm)
+    for k, d in sorted(ng.items()):
+        n = len(d)
+        if n < NBA_MIN:
+            continue
+        edge = sum(d) / n * n / (n + NBA_PRIOR)
+        mult = round(max(.6, min(1.25, 1 + edge * 3)), 3)
+        if abs(mult - 1) >= .03:
+            out["market"][k] = mult
+            _, m, side = k.split("|")
+            out["notes"].append(f"NBA {LABEL.get(m, m)} {side}s beat the market by {sum(d) / n:+.1%} over {n} props: ranked {'higher' if mult > 1 else 'lower'} (x{mult})")
     for k, res in sorted(groups.items()):
         w, n = sum(res), len(res)
         if n < 8:
