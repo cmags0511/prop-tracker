@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-11T12:46:02Z",
+ "updated": "2026-11-11T21:36:59Z",
  "summary": "Giants: Skattebo practiced fully and is expected back for Thursday night, pushing Singletary back to a backup role; Washington stays without Croskey-Merritt (IR) and McLaurin. Toronto is without Barnes and Leonard tonight, with Quickley questionable.",
  "notes": {
   "CFB|5075392|pyd": {
@@ -876,6 +876,123 @@
    "sources": [
     "https://sports.yahoo.com/articles/toronto-raptors-announce-injury-report-060816652.html",
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-10/scottie-barnes-adductor-out-wednesday-vs-celtics"
+   ]
+  },
+  "NBA|5037871|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the Spurs' injury report; Harris is out and Vassell questionable (adductor), which could add wing minutes for Harper.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|5105565|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Portland's injury report; Morant, Krejci and Sharpe remain out, so his starting center role is unchanged.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|3133626|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; with Jalen Williams, Cason Wallace and Holmgren all out long term he has been starting for OKC. No news found explaining the line sitting below his recent average.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|3064290|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Denver's injury report; Memphis is without Quinten Post (concussion) and Isaiah Stewart is questionable (knee), thinning their frontcourt.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|5279130|reb": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "low",
+   "note": "Questionable Wednesday against New Orleans with a calf injury after recent 21-30 minute games; if he plays, his minutes could be trimmed.",
+   "sources": [
+    "https://www.rotowire.com/basketball/headlines/nolan-traore-injury-could-revert-back-to-reserve-role-531025"
+   ]
+  },
+  "NBA|2991230|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Houston's injury report; Capela and Adams are both out (ankle) until about Nov 15, so the Rockets are short on bigs.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4278073|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; OKC is missing Jalen Williams, Cason Wallace, Holmgren and Jaylin Williams, so his usage role is unchanged or larger.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|3992|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Cleveland's injury report; Sam Merrill is out (elbow) and Jaylon Tyson is questionable (ankle).",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|3908809|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Cleveland's injury report; Merrill is out and Tyson questionable, so no change to his starting role.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4065648|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Boston had no players on the injury report found for Wednesday; Toronto is without Barnes, Leonard and Bittle, with Quickley and Murray-Boyles questionable.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4431736|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Portland's injury report; Morant, Sharpe and Krejci remain out, so his starting forward role is steady.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4576087|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Cleveland's injury report; Merrill is out and Tyson questionable, which leaves his rotation role intact.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4709138|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on Golden State's injury report; Payton II and Brandon Williams are out and Will Richard is questionable (thumb), so backcourt depth is thin.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
    ]
   }
  },
