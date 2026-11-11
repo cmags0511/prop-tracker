@@ -119,6 +119,14 @@ backup QB starting, and rest / short weeks did not improve them and carry no wei
 slightly and is used; back-to-backs, blowout risk and usage-rate trends did not. tune.py re-weights the usage
 factor from real graded results like every other factor.
 
+NBA role-aware absorption (`backtest_nba_absorb.py`, Nov 11): when a regular (16+ min) teammate sits, does a
+player's output rise more if the absentee plays his position group, and is the target a starter or a bench player?
+On 12.4k player-games (fit before Feb 1, scored after) neither the uniform "vacated share" boost nor a role-aware
+version beat the player's own last-10 average (RMSE pts 6.81 base / 6.81 uniform / 6.81 role-aware; rebounds,
+assists, threes the same). Bench players at the absentee's position group show the largest bumps (points +0.4 to
++0.6 per unit of share) but the effect is too small and noisy to move predictions, and new vs long-term absences
+made no difference. So no weight; the live `vacated` boost stays as it is. Re-test with a full season of real lines.
+
 Next Gen Stats (`backtest_ngs.py`, Oct 27): nflverse's weekly NGS (receiver separation, cushion, air-yard share,
 YAC over expected; rush yards over expected, 8+ in the box, time to line; QB time to throw, CPOE, aggressiveness),
 each player's last 4 games and what each defense allowed. On the 2023-26 backtest rows a few looked useful (a hot
