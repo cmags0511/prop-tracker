@@ -11,9 +11,11 @@ Each run:
 
 Usage: python record.py [record.json]
 """
-import gzip, json, math, sys, datetime as dt
+import collections, gzip, json, math, sys, datetime as dt
 from zoneinfo import ZoneInfo
 from picks import stat, OUT_STATUS, research_dir
+
+PARLAY_DAY_CAP = 10   # parlays that count per day (see 1g)
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
@@ -233,7 +235,23 @@ def main():
     pfile = load("parlays.json", {"parlays": []})
     cur_par = {p["id"]: p for p in pfile.get("parlays", []) if start(p) > now}
     mark_dropped(pars, cur_par)
-    for k, p in cur_par.items():
+    # at most PARLAY_DAY_CAP parlays count per day (ET date of kickoff): the list regenerates hourly with new leg
+    # combinations, and once a found parlay counts as a bet it is never removed, so without a cap the record fills up.
+    # Over the cap, the lowest-EV parlays the app has already dropped go first (never one still on the board);
+    # new parlays take open slots best-EV first, and the rest stay on the Parlays page but are not tracked.
+    def pday(e):
+        return start(e).astimezone(ET).date()
+    upcoming = lambda: [e for e in pars.values() if e["status"] == "pending" and start(e) > now]
+    used = collections.Counter(pday(e) for e in upcoming())
+    for e in sorted((e for e in upcoming() if e.get("dropped")), key=lambda e: e["ev"]):
+        if used[pday(e)] > PARLAY_DAY_CAP:
+            used[pday(e)] -= 1
+            del pars[e["id"]]
+    for k, p in sorted(cur_par.items(), key=lambda kv: -kv[1]["ev"]):
+        if k not in pars:
+            if used[pday(p)] >= PARLAY_DAY_CAP:
+                continue
+            used[pday(p)] += 1
         if any(f"{l['lg']}|{l['id']}" in out_players or (l["lg"], espn.get(l["lg"], {}).get(l["id"])) in out_ids for l in p["legs"]):
             pars.pop(k, None)
             continue
