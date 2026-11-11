@@ -13,7 +13,8 @@ itself is still a bad price inside a parlay. The one real edge is correlation: t
   * every leg's chance is pulled 5% toward 50% first (the app's chances run a little high), so each extra leg
     doesn't compound the error
 
-Only combos with a clear edge are kept; the best few per sport go to the app, one leg per player.
+Only combos with a clear edge are kept. Rules (owner, 2026-11-11): parlays are built on game days only (a sport's
+games played today, ET); at most ONE same-game parlay per game (the best); a handful of cross-game parlays per sport.
 
 Usage: python parlays.py [parlays.json]
 """
@@ -38,7 +39,8 @@ PARTNER_LINK = 1.03   # a partner must lift the parlay's chance by this much thr
 BOOK_GIVES = .5    # share of a same-game correlation edge the book prices in
 MIN_EV = {2: .03, 3: .04}
 MIN_P = {2: .30, 3: .18}
-KEEP = {"same": 4, "cross": 5}   # per sport and kind
+KEEP = {"same": 99, "cross": 5}   # per sport and kind; same-game is limited to ONE per game (SGP_PER_GAME)
+SGP_PER_GAME = 1
 REUSE = 2          # a leg may appear in at most this many of the listed parlays
 PRIOR_W = 25       # the prior counts as this many shared games
 MIN_SHARED = 8
@@ -160,8 +162,12 @@ def main():
         pass
 
     result = []
+    today = now.astimezone(ET).date()
     for lg in ("NFL", "NBA"):
+        # game days only: a sport's parlays are built on the day its games are played (ET), not days ahead, so the
+        # list doesn't reshuffle for days and the legs' prices are the ones that day's bettor sees
         legs = [c for c in legs_all if c["lg"] == lg and dt.datetime.fromisoformat(c["t"]) > now
+                and dt.datetime.fromisoformat(c["t"]).astimezone(ET).date() == today
                 and f"{lg}|{c['id']}" not in out_players and c.get("status") not in OUT_STATUS
                 and c.get("p_cal") is not None]
         anchors = sorted((c for c in legs if not c.get("partner") and (c.get("edge") or 0) >= .01), key=lambda c: -c["edge"])[:POOL]
@@ -227,6 +233,7 @@ def main():
                               "p": round(p, 3), "fair": amer(1 / p), "dec": round(dec, 3), "price": amer(dec),
                               "ev": round(ev, 3), "pairs": notes_}
         used = {}
+        sgp_games = {}
         for kind in ("same", "cross"):
             kept = 0
             for pa in sorted((x for x in found.values() if x["kind"] == kind), key=lambda x: -x["ev"]):
@@ -234,6 +241,11 @@ def main():
                     break
                 if any(used.get(l["key"], 0) >= REUSE for l in pa["legs"]):
                     continue
+                if kind == "same":    # one same-game parlay per game: the best one
+                    g = game(pa["legs"][0])
+                    if sgp_games.get(g, 0) >= SGP_PER_GAME:
+                        continue
+                    sgp_games[g] = sgp_games.get(g, 0) + 1
                 for l in pa["legs"]:
                     used[l["key"]] = used.get(l["key"], 0) + 1
                 result.append(pa)

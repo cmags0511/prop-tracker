@@ -15,11 +15,12 @@ import collections, gzip, json, math, sys, datetime as dt
 from zoneinfo import ZoneInfo
 from picks import stat, OUT_STATUS, research_dir
 
-PARLAY_DAY_CAP = 10   # parlays that count per day (see 1g)
+PARLAY_DAY_CAP = 20   # parlays that count per sport per day (see 1g); parlays.py already builds one same-game parlay per game plus a few cross-game ones on game days only
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "record.json"
 ET = ZoneInfo("America/New_York")
 TOP = 10
+PER_GAME_CAP = {"NBA": 2}   # most picks from one game in the Top 10 (same rule as the page, pgFull in index.html)
 CALIB = "calib.json"
 CLOSE = "closing.json"
 
@@ -117,12 +118,16 @@ def main():
             for c in list(picks.get(lk, [])) + [c for k, v in picks.get(bk, {}).items() if k.startswith(lg + "|") for c in v]:
                 if c["lg"] == lg and (setname == "all" or c["side"] == "over"):
                     pool[c["key"]] = c
-            top, seen, per_m = [], set(), {}
+            top, seen, per_m, per_g = [], set(), {}, {}
             for c in sorted(pool.values(), key=lambda c: -c["score"]):
                 if start(c) <= now or f"{lg}|{c['id']}" in out_players or (lg, espn[lg].get(c["id"])) in out_ids or c["id"] in seen:
                     continue
                 if per_m.get(c["market"], 0) >= 3:  # same rule as the page: at most 3 of one prop type
                     continue
+                gk = (c["t"], *sorted((c["team"], c["opp"])))
+                if lg in PER_GAME_CAP and per_g.get(gk, 0) >= PER_GAME_CAP[lg]:  # NBA: at most 2 picks per game
+                    continue
+                per_g[gk] = per_g.get(gk, 0) + 1
                 seen.add(c["id"])
                 per_m[c["market"]] = per_m.get(c["market"], 0) + 1
                 top.append(c)
@@ -235,12 +240,12 @@ def main():
     pfile = load("parlays.json", {"parlays": []})
     cur_par = {p["id"]: p for p in pfile.get("parlays", []) if start(p) > now}
     mark_dropped(pars, cur_par)
-    # at most PARLAY_DAY_CAP parlays count per day (ET date of kickoff): the list regenerates hourly with new leg
+    # at most PARLAY_DAY_CAP parlays count per sport per day (ET date of kickoff): the list regenerates hourly with new leg
     # combinations, and once a found parlay counts as a bet it is never removed, so without a cap the record fills up.
     # Over the cap, the lowest-EV parlays the app has already dropped go first (never one still on the board);
     # new parlays take open slots best-EV first, and the rest stay on the Parlays page but are not tracked.
     def pday(e):
-        return start(e).astimezone(ET).date()
+        return (e["lg"], start(e).astimezone(ET).date())
     upcoming = lambda: [e for e in pars.values() if e["status"] == "pending" and start(e) > now]
     used = collections.Counter(pday(e) for e in upcoming())
     for e in sorted((e for e in upcoming() if e.get("dropped")), key=lambda e: e["ev"]):

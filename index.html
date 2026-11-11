@@ -1567,7 +1567,7 @@ function renderCfbTop(){
   const pool=new Map();
   for(const c of [...(PICKS&&PICKS.picks||[]),...(PICKS&&PICKS.games||[]),...Object.entries(PICKS&&PICKS.byMarket||{}).filter(([k])=>k.startsWith("CFB|")).flatMap(([,v])=>v)])
     if(c.lg==="CFB"&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote("CFB",c.id)&&gameOf(c))pool.set(c.key,c);
-  const out=[],seen=new Set(),perM={};
+  const out=[],seen=new Set(),perM={},perG={};
   for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){
     if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;
     out.push({app:true,x:gameOf(c),key:c.id+"|"+c.market,name:c.name,side:c.side,line:c.line,mk:SHORT[c.market]||c.label,why:(c.why||"").split(/(?<=\.)\s/)[0],prob:c.prob});
@@ -1762,8 +1762,8 @@ function renderTop(){
     for(const c of [...(PL||[]),...Object.entries(BM||{}).filter(([k])=>k.startsWith(S.league+"|")).flatMap(([,v])=>v)])if(c.lg===S.league)pool.set(c.key,c);
     const seen=new Set();src=[];
     // at most 3 of any one prop type, so the list isn't all kickers or all passing yards
-    const perM={};
-    for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||!inCat(c.market)||seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;src.push(c)}
+    const perM={},perG={};
+    for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(!live(c)||!inCat(c.market)||seen.has(c.id)||(perM[c.market]||0)>=3||pgFull(c,perG))continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;pgAdd(c,perG);src.push(c)}
   }else src=(BM||{})[S.league+"|"+S.market]||[];
   const list=src.filter(c=>live(c)&&inCat(c.market)).slice(0,10);
   const head=`<div class="tophead"><h2>${list.length?`Top <span>${list.length}</span> · `:"Top picks · "}${OVERS()?"Overs":isAll()?(FB(S.league)&&S.cat?"Best "+S.cat.toLowerCase():"Best overall"):esc(m.label)}${[OVERS()&&!isAll()?esc(m.label):OVERS()&&FB(S.league)&&S.cat?esc(S.cat):"",S.team].filter(Boolean).map(x=>` <small class="h2sub">${x}</small>`).join("")}</h2>${sideSwitch()}</div>${howToReadHtml(isAll())}`;
@@ -1835,13 +1835,14 @@ function lineMoveChip(c){
 // ---- "Since your last visit": what changed in the Top 10s, your picks and the research ----
 const SEEN_GAP=20*60e3;  // opening the app again within 20 minutes counts as the same visit
 function wcLine(lg,pid,mid){const p=DATA[lg]&&DATA[lg].find(x=>x.id===pid);const d=p&&LINES&&LINES[lg]&&LINES[lg][p.espn]&&LINES[lg][p.espn][mid];return d&&d.line!=null?d.line:null}
+const PG_CAP={NBA:2},gkey=c=>c.t+"|"+[c.team,c.opp].sort().join("|"),pgFull=(c,perG)=>PG_CAP[c.lg]&&(perG[gkey(c)]||0)>=PG_CAP[c.lg],pgAdd=(c,perG)=>{if(PG_CAP[c.lg])perG[gkey(c)]=(perG[gkey(c)]||0)+1};  // NBA: at most 2 picks per game in the Top list (same rule in record.py)
 function wcTop(lg){
   if(!PICKS||!DATA||!DATA[lg])return[];
   const now=Date.now(),PL=OVERS()&&PICKS.picksOver?PICKS.picksOver:PICKS.picks,BM=OVERS()&&PICKS.byMarketOver?PICKS.byMarketOver:PICKS.byMarket,pool=new Map();
   for(const c of [...(PL||[]),...Object.entries(BM||{}).filter(([k])=>k.startsWith(lg+"|")).flatMap(([,v])=>v)])
     if(c.lg===lg&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote(lg,c.id))pool.set(c.key,c);
-  const out=[],seen=new Set(),perM={};
-  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;out.push(c);if(out.length===10)break}
+  const out=[],seen=new Set(),perM={},perG={};
+  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3||pgFull(c,perG))continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;pgAdd(c,perG);out.push(c);if(out.length===10)break}
   return out;
 }
 function wcSnap(){
@@ -2346,8 +2347,8 @@ function everyTop(lg){
   const now=Date.now(),PL=OVERS()&&PICKS.picksOver?PICKS.picksOver:PICKS.picks,BM=OVERS()&&PICKS.byMarketOver?PICKS.byMarketOver:PICKS.byMarket,pool=new Map();
   for(const c of [...(PL||[]),...Object.entries(BM||{}).filter(([k])=>k.startsWith(lg+"|")).flatMap(([,v])=>v)])
     if(c.lg===lg&&new Date(c.t).getTime()>now&&(!OVERS()||c.side==="over")&&!outNote(lg,c.id))pool.set(c.key,c);
-  const out=[],seen=new Set(),perM={};  // same rules as each sport's Top 10: one per player, at most 3 of a prop type
-  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3)continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;out.push(c);if(out.length===10)break}
+  const out=[],seen=new Set(),perM={},perG={};  // same rules as each sport's Top 10: one per player, at most 3 of a prop type
+  for(const c of [...pool.values()].sort((a,b)=>b.score-a.score)){if(seen.has(c.id)||(perM[c.market]||0)>=3||pgFull(c,perG))continue;seen.add(c.id);perM[c.market]=(perM[c.market]||0)+1;pgAdd(c,perG);out.push(c);if(out.length===10)break}
   return out;
 }
 function renderEvery(){
