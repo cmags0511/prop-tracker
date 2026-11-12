@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T12:42:33Z",
+ "updated": "2026-11-12T21:36:40Z",
  "summary": "Giants expect Cam Skattebo back for TNF after full practice, pushing Singletary back to a backup role; Embiid is questionable vs Toronto and Minnesota plays Dallas without Edwards and DiVincenzo.",
  "notes": {
   "CFB|5102556|recyd": {
@@ -625,6 +625,196 @@
    "note": "Not on the injury report; Charlotte lists Diabate, Schroder, Grant Williams and Brandon Miller day-to-day and Knueppel out.",
    "sources": [
     "https://1049foxsports.iheart.com/content/2026-11-12-hornets-vs-suns-injury-report-nov-12/"
+   ]
+  },
+  "NFL|00-0031588|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Diggs carries no injury designation; Washington's only players ruled out are a backup center and a backup tight end, so his role is unchanged.",
+   "sources": [
+    "https://www.giants.com/news/week-10-tracker-latest-news-notes-roster-moves-washington-commanders"
+   ]
+  },
+  "NFL|00-0037809|recyd": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Okonkwo has no injury designation; backup tight end Yankoff is ruled out, which leaves Okonkwo's share intact or slightly larger.",
+   "sources": [
+    "https://www.giants.com/news/week-10-tracker-latest-news-notes-roster-moves-washington-commanders"
+   ]
+  },
+  "NBA|4397002|ast": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Anthony Edwards (and DiVincenzo) are listed out for Minnesota, which could push more creation to Dosunmu; the absence was already known this morning, so treat this as uncertainty rather than a lean.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315870-dallas-mavericks-at-minnesota-timberwolves-2026-11-12/"
+   ]
+  },
+  "NBA|4432816|ast": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Anthony Edwards (and DiVincenzo) are listed out for Minnesota, which could push more creation to Ball; the absence was already known this morning, so treat this as uncertainty rather than a lean.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315870-dallas-mavericks-at-minnesota-timberwolves-2026-11-12/"
+   ]
+  },
+  "NBA|3138160|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Martin is not on Dallas's injury list; the Mavericks are without Lively and two reserves, none of whom changes his role much. Minnesota is without Edwards and DiVincenzo.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315870-dallas-mavericks-at-minnesota-timberwolves-2026-11-12/"
+   ]
+  },
+  "NBA|4396971|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Charlotte is without Brandon Miller, Kon Knueppel and Dennis Schroder, so Reid could see a bigger share of the shots; Knueppel's injury is recent and not fully reflected in his last 10.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
+   ]
+  },
+  "NBA|3135045|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Allen is not on Phoenix's injury report; the Suns' only listed absence is Mark Williams, so no change to his role.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
+   ]
+  },
+  "NBA|4437244|pts": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Green is not on Phoenix's injury report and his role is unchanged; Charlotte is short three rotation players, which could mean more Phoenix possessions in a lopsided game.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
+   ]
+  },
+  "NBA|4278585|3pm": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Gillespie is not on Phoenix's injury report and keeps his usual backup point guard minutes.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
+   ]
+  },
+  "NBA|4432166|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Cunningham is not on the injury report. Detroit is a double-digit favorite, so blowout minutes are a real possibility; Duren and Isaiah Joe remain out.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315869-detroit-pistons-at-washington-wizards-2026-11-12/"
+   ]
+  },
+  "NBA|4684272|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 1,
+   "conf": "medium",
+   "note": "Scottie Barnes is out and Trayce Jackson-Davis is listed with an illness, thinning Toronto's frontcourt, so more rebounds are available to the wings like Walter.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|4432241|3pm": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Shead is not on the injury report; with Barnes and Kawhi Leonard out, Toronto's guard minutes and shot share should hold or grow.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|5124612|pa": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "LeBron James is out and Joel Embiid is questionable for Philadelphia; if Embiid also sits, Edgecombe likely carries a bigger scoring load, which works against this under.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|4431678|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "LeBron James is out and Joel Embiid is questionable for Philadelphia; if Embiid also sits, Maxey likely carries a bigger scoring load, which works against this under.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|5124612|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Edgecombe is not on the injury report. LeBron James is out and Joel Embiid is questionable; if Embiid also sits, Edgecombe likely takes on more shots, which works against this under.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|3917376|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brown is not on the injury report. LeBron James is out and Joel Embiid is questionable; if Embiid also sits, Brown likely takes on more shots, which works against this under.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|4432816|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Ball is not on the injury report. Minnesota is without Anthony Edwards and DiVincenzo, so Ball may carry a larger scoring load, which works against this under.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315870-dallas-mavericks-at-minnesota-timberwolves-2026-11-12/"
+   ]
+  },
+  "NBA|3032976|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Gobert is not on the injury report and his role as starting center is unchanged; Edwards' absence shifts shots mainly to the guards.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315870-dallas-mavericks-at-minnesota-timberwolves-2026-11-12/"
+   ]
+  },
+  "NBA|3912848|reb": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Wade is expected to start with LeBron James out, and Philadelphia is also missing Bona, Barlow and Hukporti with Embiid questionable, so his minutes and rebound chances could run higher than his recent average.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
    ]
   }
  },
