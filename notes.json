@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T21:36:40Z",
+ "updated": "2026-11-12T23:46:16Z",
  "summary": "Giants expect Cam Skattebo back for TNF after full practice, pushing Singletary back to a backup role; Embiid is questionable vs Toronto and Minnesota plays Dallas without Edwards and DiVincenzo.",
  "notes": {
   "CFB|5102556|recyd": {
@@ -815,6 +815,107 @@
    "note": "Wade is expected to start with LeBron James out, and Philadelphia is also missing Bona, Barlow and Hukporti with Embiid questionable, so his minutes and rebound chances could run higher than his recent average.",
    "sources": [
     "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|4432166|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cunningham is not on the injury report; Detroit is without Jalen Duren (hamstring) and Isaiah Joe, and Washington is missing several rotation players, so no clear change to his outlook.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3908845|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Collins is not on the injury report; Duren has been out since Nov 7, so the extra frontcourt minutes are already in his recent numbers.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|5093267|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Murray-Boyles is available, but Scottie Barnes and Nate Bittle are out for Toronto (and Kawhi Leonard too), which should push his minutes and rebounds up; the line has risen a point. The absences were already listed before today, so this is treated as uncertainty rather than a lean.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315868-toronto-raptors-at-philadelphia-76ers-2026-11-12/"
+   ]
+  },
+  "NBA|4396971|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Reid is not on the injury report, but Charlotte is without Brandon Miller, Kon Knueppel and Dennis Schroder, leaving more shots for him; the line has risen a point. The absences were already listed before today, so this is treated as uncertainty rather than a lean.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/",
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3135045|pts": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Allen is not on tonight's injury report; Phoenix is missing only Mark Williams.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
+   ]
+  },
+  "NBA|4278049|reb": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Dallas has Dereck Lively ruled out (foot), so Gafford stays the main center with no minutes competition on the glass. The absences were already listed before today, so this is treated as uncertainty rather than a lean.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3136196|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lyles is not on the injury report; Minnesota is without Anthony Edwards and DiVincenzo, and Dallas is missing Lively in the frontcourt.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|4431671|ast": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McDaniels is not on the injury report; with Edwards and DiVincenzo out, Minnesota needs more ball-handling from its wings, which fits the over.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|4278049|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gafford is not on the injury report; with Dereck Lively out he remains Dallas's main center, so his minutes are steady but not newly expanded.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3155526|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Brooks is not on tonight's injury report; Phoenix is missing only Mark Williams, so his role is unchanged.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315871-charlotte-hornets-at-phoenix-suns-2026-11-12/"
    ]
   }
  },
