@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T12:54:23Z",
+ "updated": "2026-11-14T21:36:33Z",
  "summary": "Sunday's injury news drives the slate: Jacobs, Nacua, Adams, Tate and Harrison Jr. are out, Cousins makes his first Vikings start at Green Bay, and Amon-Ra St. Brown and A.J. Brown are questionable for Munich.",
  "notes": {
   "CFB|4870858|recyd": {
@@ -207,11 +207,12 @@
    }
   },
   "NFL|00-0040583|td": {
-   "flag": "caution",
-   "adj": 0,
+   "flag": "support",
+   "adj": 1,
    "conf": "medium",
-   "note": "Marks is healthy, but Montgomery practiced Friday for the first time in about a month and is questionable, which could split the backfield work if he is active.",
+   "note": "David Montgomery is now listed out, so Marks should handle the lead-back and goal-line work against Cleveland.",
    "sources": [
+    "https://www.espn.com/nfl/injuries",
     "https://www.thefantasyfootballers.com/news/647143/david-montgomery-still-sidelined-at-practice/"
    ],
    "buzz": "none",
@@ -1391,10 +1392,11 @@
   "NFL|00-0040128|recyd": {
    "side": "over",
    "flag": "support",
-   "adj": 1,
+   "adj": 2,
    "conf": "medium",
-   "note": "Warren is not on Indianapolis' final injury report, while backup tight end Mo Alie-Cox is out and Will Mallory is questionable, which should lift Warren's snap share after a two-game dip.",
+   "note": "Warren is not on Indianapolis' final injury report, and with backup tight ends Mo Alie-Cox and Will Mallory both out, his snap share should rise after a two-game dip.",
    "sources": [
+    "https://www.rotowire.com/football/headlines/will-mallory-injury-wont-play-against-miami-647699",
     "https://www.colts.com/team/injury-report/index"
    ]
   },
@@ -1456,15 +1458,17 @@
    "buzz": "none"
   },
   "NFL|00-0038134|td": {
-   "flag": "caution",
+   "flag": "out",
    "adj": 0,
    "conf": "high",
-   "note": "Walker (groin) sat out Friday practice and is questionable; rookie Emmett Johnson would lead the backfield if he cannot go.",
+   "note": "Walker (groin) was downgraded to out on Saturday after missing Friday practice; rookie Emmett Johnson is expected to lead the Chiefs backfield against Atlanta.",
    "sources": [
+    "https://yournews.com/2026/11/14/7266816/chiefs-rb-kenneth-walker-iii-downgraded-to-out-vs-falcons/",
     "https://www.chiefs.com/news/week-10-injury-report-chiefs-vs-falcons-2026",
     "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/kenneth-walker-did-not-practice-friday-with-groin-tightness"
    ],
-   "buzz": "some"
+   "buzz": "some",
+   "side": "under"
   },
   "NFL|00-0040878|td": {
    "flag": "caution",
@@ -1594,6 +1598,248 @@
     "https://www.thebanner.com/sports/ravens-nfl/ravens-chargers-jacoby-brissett-lamar-jackson-monday-night-football-72I62YXN35HEVPWR6SKUXVXMIQ/",
     "https://www.bettingpros.com/nfl/props/jacoby-brissett/passing-yards/"
    ]
+  },
+  "NBA|4431671|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "McDaniels has no injury listing; Minnesota is without Anthony Edwards after a knee procedure, while Chicago is missing Tobe Awaka and may be without Nic Claxton (questionable).",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|3032976|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gobert has no injury listing; with Anthony Edwards out after a knee procedure, Minnesota's scoring load shifts, and Chicago may be thin up front with Claxton questionable and Awaka out.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|4432194|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sharpe has no injury listing; Brooklyn's only listed players (Mikel Brown Jr., Nolan Traore) are probable, and Memphis has Edey and Post day-to-day.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|5175643|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Demin has no injury listing; guards Mikel Brown Jr. and Nolan Traore are probable, so Brooklyn's backcourt rotation looks intact.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|3064514|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Randle has no injury listing; Brooklyn's guards Brown and Traore are probable and Memphis lists Edey and Post as day-to-day.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|3064290|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gordon has no injury listing; Denver lost Julian Strawther to a knee sprain, and New Orleans is without Trey Murphy III and Trendon Watford.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|3936299|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Murray has no injury listing; New Orleans is short-handed with Trey Murphy III, Trendon Watford and Bryce McGowens ruled out.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|4397136|ra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bey has no injury listing; with Trey Murphy III and Trendon Watford ruled out, he should see a larger forward role, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|3032977|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Antetokounmpo (wrist) is listed as probable against Detroit; Pelle Larsson is doubtful and Klay Thompson probable.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|4278078|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No current injury listing found for Washington in a quick check before tip-off against Cleveland.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "CFB|5385726|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Quick availability check found no injury news for him before kickoff.",
+   "sources": [
+    "https://www.si.com/college/arizonastate/sun-devils-player-availability-report-remains-same-ahead-ucf-matchup-"
+   ],
+   "buzz": "none"
+  },
+  "CFB|5159831|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Quick availability check found no injury news for him before kickoff.",
+   "sources": [
+    "https://www.si.com/college/arizonastate/sun-devils-player-availability-report-remains-same-ahead-ucf-matchup-"
+   ],
+   "buzz": "none"
+  },
+  "CFB|4717430|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Quick availability check found no injury news for him before kickoff.",
+   "sources": [
+    "https://arkansas.rivals.com/news/scouting-report-arkansas-at-south-carolina"
+   ],
+   "buzz": "none"
+  },
+  "CFB|5222564|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Quick availability check found no injury news for him before kickoff.",
+   "sources": [
+    "https://arkansas.rivals.com/news/scouting-report-arkansas-at-south-carolina"
+   ],
+   "buzz": "none"
+  },
+  "CFB|5143191|ryd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Quick availability check found no injury news for him before kickoff.",
+   "sources": [
+    "https://www.espn.com/college-football/"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0033906|rec": {
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "Kamara has no injury designation; fellow back CJ Donaldson is out, leaving Kamara with fewer teammates sharing backfield passing-down work.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none",
+   "side": "over"
+  },
+  "NFL|00-0034381|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Sweat has no injury designation; the Rams lose LG Steve Avila and could be thin in pass protection.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0034973|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation found for Crosby ahead of the Seahawks game.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0033131|sck": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Collins has no injury designation; Houston has several offensive linemen listed questionable, including Wyatt Teller, Braden Smith and Trent Brown.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0032951|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Treadwell has no injury designation; Indianapolis is down two tight ends (Alie-Cox, Mallory), which may shift some targets to receivers.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0036554|rec": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Collins has no injury designation, and with Marvin Harrison Jr. ruled out he should see a heavier target share, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NBA|4431767|reb": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Braun has no injury listing; Denver lost Julian Strawther to a knee sprain, and New Orleans is without forwards Trey Murphy III and Trendon Watford.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none",
+   "side": "over"
+  },
+  "NBA|3908809|pa": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell carries a day-to-day tag in the injury feed; check final availability before tip-off against Dallas.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ],
+   "buzz": "none"
+  },
+  "NFL|00-0039137|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Young has no injury designation; Arizona is without OL Hjalte Froholdt and Jon Gaines II and starts a rookie quarterback.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ],
+   "buzz": "none"
   }
  },
  "games": {
