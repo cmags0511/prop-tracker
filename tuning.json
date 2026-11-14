@@ -1,7 +1,7 @@
 {
- "built": "2026-11-14T15:50+00:00",
- "graded_picks": 755,
- "graded_research": 277,
+ "built": "2026-11-14T22:25+00:00",
+ "graded_picks": 765,
+ "graded_research": 278,
  "market": {
   "NBA|3pm|under": 1.03,
   "NBA|ast|under": 1.08,
@@ -14,9 +14,9 @@
   "NBA|ra|under": 1.051,
   "NBA|reb|under": 1.063,
   "CFB|pyd|over": 1.121,
-  "CFB|pyd|under": 1.077,
-  "CFB|recyd|under": 1.25,
-  "CFB|ryd|under": 0.714,
+  "CFB|pyd|under": 1.217,
+  "CFB|recyd|under": 1.237,
+  "CFB|ryd|under": 0.794,
   "NFL|car|under": 0.839,
   "NFL|recyd|under": 1.193,
   "NFL|rec|over": 1.121,
@@ -26,9 +26,9 @@
   "NFL|sck|under": 1.25
  },
  "factors": {
-  "form": 0.577,
-  "matchup": 1.105,
-  "game": 1.272,
+  "form": 0.581,
+  "matchup": 1.111,
+  "game": 1.309,
   "minutes": 1.084,
   "news": 0.875,
   "usage": 0.925,
@@ -50,9 +50,9 @@
   "NBA reb + ast unders beat the market by +2.2% over 950 props: ranked higher (x1.051)",
   "NBA rebounds unders beat the market by +2.7% over 1136 props: ranked higher (x1.063)",
   "CFB passing yards overs are 5-3: ranked higher (x1.121)",
-  "CFB passing yards unders are 8-6: ranked higher (x1.077)",
-  "CFB receiving yards unders are 11-5: ranked higher (x1.25)",
-  "CFB rushing yards unders are 4-8: ranked lower (x0.714)",
+  "CFB passing yards unders are 11-6: ranked higher (x1.217)",
+  "CFB receiving yards unders are 13-7: ranked higher (x1.237)",
+  "CFB rushing yards unders are 6-9: ranked lower (x0.794)",
   "NFL rush attempts unders are 5-7: ranked lower (x0.839)",
   "NFL receiving yards unders are 19-12: ranked higher (x1.193)",
   "NFL receptions overs are 5-3: ranked higher (x1.121)",
@@ -60,16 +60,16 @@
   "NFL rush + rec yards unders are 5-3: ranked higher (x1.121)",
   "NFL rushing yards unders are 8-14: ranked lower (x0.689)",
   "NFL sacks unders are 18-9: ranked higher (x1.25)",
-  "When recent form backed a pick it went 316-294, vs 23-17 when it didn't: weighted x0.91",
-  "When matchup backed a pick it went 96-87, vs 56-64 when it didn't: weighted x1.105",
-  "When game script backed a pick it went 40-22, vs 27-29 when it didn't: weighted x1.272",
+  "When recent form backed a pick it went 322-295, vs 24-18 when it didn't: weighted x0.922",
+  "When matchup backed a pick it went 100-88, vs 57-64 when it didn't: weighted x1.111",
+  "When game script backed a pick it went 44-22, vs 29-31 when it didn't: weighted x1.309",
   "When minutes trend backed a pick it went 50-37, vs 39-35 when it didn't: weighted x1.084",
   "When injury news backed a pick it went 15-20, vs 20-19 when it didn't: weighted x0.875",
   "When usage (snaps, targets, carries) backed a pick it went 15-14, vs 21-16 when it didn't: weighted x0.925",
   "Medium-confidence research calls are 116-135: their weight goes from 1.0 to 0.823",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 20197 graded props the app's chances averaged 55% but 54% hit: its percentages are now pulled toward 50% (confidence x0.35)",
-  "Overs it backed hit 50%, unders 55%: every prop now gets a firm nudge toward the under before a side is picked",
+  "Across 20228 graded props the app's chances averaged 55% but 54% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Overs it backed hit 50%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NBA pts + reb: trusted less (x0.70): its edges have played out smaller than predicted",
   "NBA threes: an extra nudge toward the over, trusted more (x1.24)",
@@ -85,19 +85,27 @@
   "NFL field goals: an extra nudge toward the over",
   "NBA rebounds: an extra nudge toward the over",
   "NFL extra points: an extra nudge toward the under",
-  "Recent form has been over-weighted across 19541 graded props: weighted x0.577",
-  "Kalshi market has been under-weighted across 19541 graded props: weighted x1.222"
+  "Recent form has been over-weighted across 19572 graded props: weighted x0.581",
+  "Kalshi market has been under-weighted across 19572 graded props: weighted x1.222"
  ],
  "calibration": {
-  "n": 20197,
+  "n": 20228,
   "days": 32,
   "trust": 0.94,
-  "c": -0.132,
+  "c": -0.131,
   "b": 0.35,
   "per": {
    "CFB|rec": [
     -0.042,
     1.022
+   ],
+   "CFB|recyd": [
+    0.039,
+    0.997
+   ],
+   "CFB|ryd": [
+    0.044,
+    0.96
    ],
    "NBA|3pm": [
     0.056,
@@ -124,7 +132,7 @@
     0.891
    ],
    "NBA|reb": [
-    0.055,
+    0.054,
     1.039
    ],
    "NFL|att": [
@@ -132,7 +140,7 @@
     0.937
    ],
    "NFL|car": [
-    -0.119,
+    -0.12,
     0.856
    ],
    "NFL|cmp": [
@@ -140,15 +148,15 @@
     0.906
    ],
    "NFL|fgm": [
-    0.055,
+    0.054,
     1.051
    ],
    "NFL|pat": [
-    -0.083,
+    -0.084,
     1.005
    ],
    "NFL|ptd": [
-    -0.032,
+    -0.033,
     1.047
    ],
    "NFL|pyd": [
@@ -160,7 +168,7 @@
     1.087
    ],
    "NFL|recyd": [
-    -0.103,
+    -0.104,
     0.945
    ],
    "NFL|rry": [
@@ -182,29 +190,29 @@
   }
  },
  "calib": {
-  "n": 20197,
+  "n": 20228,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    12795,
+    12818,
     0.525,
     0.532
    ],
    [
     0.55,
     0.6,
-    6095,
+    6102,
     0.568,
     0.539
    ],
    [
     0.6,
     0.65,
-    939,
+    940,
     0.617,
-    0.577
+    0.578
    ],
    [
     0.65,
@@ -262,23 +270,23 @@
    [
     0.5,
     0.55,
-    142,
+    145,
     0.539,
-    0.563
+    0.559
    ],
    [
     0.55,
     0.6,
-    457,
+    463,
     0.569,
-    0.51
+    0.514
    ],
    [
     0.6,
     0.65,
-    95,
+    96,
     0.619,
-    0.526
+    0.531
    ],
    [
     0.65,
