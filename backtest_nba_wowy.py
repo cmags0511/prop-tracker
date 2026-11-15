@@ -103,5 +103,70 @@ def main():
             print(f"   big drop (adj<=-): n={len(neg)}  mean actual - last10 {sum(r['y'] - r['b10'] for r in neg) / len(neg):+.2f}, mean adj {sum(r['adj'] for r in neg) / len(neg):+.2f}")
 
 
+
+
+def run_all():
+    """on/off adjustment for every (player id, date, stat), including the newest games"""
+    pl, teams = ab.build()
+    out = {}
+    for t, days in teams.items():
+        dates = sorted(days)
+        hist = collections.defaultdict(list)
+        for i, dte in enumerate(dates):
+            prev = dates[max(0, i - 10):i]
+            if len(prev) >= 10:
+                reg = {}
+                for pid, rows in hist.items():
+                    rr = [g for d, g in rows if d in prev]
+                    if len(rr) >= ab.REG_GP and sum(g["min"] for g in rr) / len(prev) >= ab.REG_MIN:
+                        reg[pid] = True
+                absent = [a for a in reg if a not in days[dte]]
+                for pid in days[dte]:
+                    h = hist[pid]
+                    if len(h) < 20:
+                        continue
+                    for s in ("pts", "reb", "ast"):
+                        adj = 0.0
+                        for a in absent:
+                            on = [r[s] for d, r in h if a_in(hist, a, d)]
+                            off = [r[s] for d, r in h if not a_in(hist, a, d) and a_known(hist, a, d)]
+                            if len(off) >= MIN_OFF and len(on) >= MIN_OFF:
+                                adj += (sum(off) / len(off) - sum(on) / len(on)) * len(off) / (len(off) + K)
+                        out[(pid, dte, s)] = adj
+            for pid, g in days[dte].items():
+                hist[pid].append((dte, g))
+    return out
+
+
+def market_test(lam=0.35):
+    """Does the on/off adjustment beat the BOOK? Over rate vs the book's no-vig over chance, by size of the adjustment
+    (sum of the stat parts in the prop; lam scales the raw adjustment: big raw adjustments were ~3x too large)."""
+    import json
+    res = run_all()
+    cal = json.load(open("calib.json"))["props"]
+    dec = lambda a: a / 100 + 1 if a > 0 else 100 / -a + 1
+    parts = {"pts": ("pts",), "reb": ("reb",), "ast": ("ast",), "pa": ("pts", "ast"), "pr": ("pts", "reb"),
+             "ra": ("reb", "ast"), "pra": ("pts", "reb", "ast")}
+    rows = []
+    for e in cal:
+        if e["lg"] != "NBA" or e["status"] not in ("win", "loss") or not e.get("po") or e.get("pe") or e["market"] not in parts:
+            continue
+        vals = [res.get((e["id"], e["t"][:10], s)) for s in parts[e["market"]]]
+        if any(v is None for v in vals):
+            continue
+        io, iu = 1 / dec(e["po"]), 1 / dec(e["pu"])
+        over_hit = 1 if ((e["status"] == "win") == (e["side"] == "over")) else 0
+        rows.append((sum(vals) * lam, io / (io + iu), over_hit))
+    print(f"\nvs the book: {len(rows)} priced NBA props with an adjustment (lam {lam})")
+    for lo, hi in ((-99, -2), (-2, -1), (-1, -.3), (-.3, .3), (.3, 1), (1, 2), (2, 99)):
+        sel = [r for r in rows if lo <= r[0] < hi]
+        if len(sel) >= 40:
+            print(f"   adj {lo:+}..{hi:+}: n={len(sel)}  over hit {sum(r[2] for r in sel) / len(sel):.1%}  "
+                  f"book over chance {sum(r[1] for r in sel) / len(sel):.1%}  edge {sum(r[2] - r[1] for r in sel) / len(sel):+.1%}")
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 2 and sys.argv[2] == "market":
+        market_test()
+    else:
+        main()
