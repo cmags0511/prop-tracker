@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T16:36:55Z",
+ "updated": "2026-11-15T19:46:20Z",
  "summary": "Montgomery out for Houston (Woody Marks leads the backfield); Minnesota without Hockenson and Jennings with Cousins starting; Rams without Nacua and Adams; Fernando Mendoza and Carson Beck make first starts; Lock limited all week for Seattle; Brissett starts for Baltimore Monday.",
  "notes": {
   "CFB|5080703|recyd": {
@@ -1604,6 +1604,166 @@
    "conf": "low",
    "note": "Shough starts, but the Saints play without C Erik McCoy and RT Taliese Fuaga; a rushing or receiving TD for a QB is a long shot.",
    "sources": []
+  },
+  "NFL|00-0037841|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation on the final report. The Rams are 9.5-point favorites against a rookie QB making his first start; safety Kam Curl (toe) is questionable but expected to play.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0037587|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation on the final report; the Rams are heavy favorites against a rookie QB making his first start.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0037263|rec": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Allgeier; Arizona starts a rookie QB and is a 9.5-point underdog, a script that can bring checkdowns to backs.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0038922|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation; Seattle is without QB Sam Darnold and starting OL Charles Cross and Quenton Nelson, which could keep the defense on the field longer.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0039734|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation. Myles Garrett (knee) is questionable but expected to play; Arizona is missing C Hjalte Froholdt and G Jon Gaines II, which helps the Rams pass rush.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0039137|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation. Arizona is missing C Hjalte Froholdt and G Jon Gaines II, and RT Jayden Williams is questionable, which helps the Rams pass rush against the under.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0033280|rry": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news for McCaffrey; with WRs Mike Evans and Brandon Aiyuk out he stays the focal point of the offense.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0035144|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Wilson; safety Andrew Wingard (groin) is questionable for Arizona.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0034173|pat": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Pineiro; the 49ers are without WRs Mike Evans and Brandon Aiyuk.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0039530|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation. Jake Ferguson is out for multiple weeks, so Spann-Ford should see a bigger TE role, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0037263|car": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Allgeier; Arizona is a 9.5-point underdog with a rookie QB, a script that can cut into carries late.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NFL|00-0036358|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Lamb. Dallas is without TE Jake Ferguson and WR Jonathan Mingo, which concentrates targets on Lamb, a factor against the under.",
+   "sources": [
+    "https://www.espn.com/nfl/injuries"
+   ]
+  },
+  "NBA|4066648|3pm": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Hachimura; Charlotte is without guards Kon Knueppel and Dennis Schroder.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4066259|ast": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Fox (hip) is listed as questionable for Sunday at Utah; if he plays, his minutes could be limited.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4433287|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Miller. Charlotte is without Kon Knueppel and Dennis Schroder, which pushes more usage his way, a factor against the under.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NBA|4845367|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation for Castle; De'Aaron Fox (hip) is questionable, and if Fox sits Castle would handle more of the playmaking, which works against the under.",
+   "sources": [
+    "https://www.espn.com/nba/injuries"
+   ]
   }
  },
  "games": {
