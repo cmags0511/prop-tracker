@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T21:36:19Z",
+ "updated": "2026-11-15T23:46:13Z",
  "summary": "Montgomery out for Houston (Woody Marks leads the backfield); Minnesota without Hockenson and Jennings with Cousins starting; Rams without Nacua and Adams; Fernando Mendoza and Carson Beck make first starts; Lock limited all week for Seattle; Brissett starts for Baltimore Monday.",
  "notes": {
   "CFB|5080703|recyd": {
@@ -72,13 +72,12 @@
    ]
   },
   "NBA|5160992|3pm": {
-   "flag": "caution",
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Sarr (illness) was still questionable on the 1:15 PM ET report Sunday; check his status before tipoff.",
+   "note": "Sarr (illness) was upgraded to available and starts at center, with Ayton off the bench.",
    "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf",
-    "https://www-sss-gov-phwww.rotowire.com/basketball/headlines/alex-sarr-injury-downgraded-to-questionable-518821"
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/alex-sarr-illness-upgraded-to-available-sunday"
    ],
    "detail": {
     "availability": "Questionable (illness) as of Nov 15, 1:15 PM ET.",
@@ -1926,6 +1925,96 @@
    "note": "Johnson has no designation; Atlanta is without guard Kingston Flemings and reserves Gilbert, Newell and Gueye, and Milwaukee's listed absences are reserves.",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NFL|00-0038597|rec": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brown is not on Cincinnati's final injury report and stays the lead back; WR Iosivas is out, which may spread a few more short targets around.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NBA|4701230|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Johnson is not on Atlanta's injury report; the Hawks are without Flemings, Gilbert, Newell and Gueye, so his usage should hold or rise.",
+   "sources": [
+    "https://sports.yahoo.com/articles/bucks-vs-hawks-injury-report-164515198.html"
+   ]
+  },
+  "NBA|4278039|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Alexander-Walker is not on Atlanta's injury report and has been starting; Flemings and Gilbert are out for the Hawks.",
+   "sources": [
+    "https://sports.yahoo.com/articles/bucks-vs-hawks-injury-report-164515198.html"
+   ]
+  },
+  "NBA|5082206|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury news for Burries. Sacramento is without Raynaud, and Murray (illness) and Achiuwa (ankle) are questionable, which could open more rebounds.",
+   "sources": [
+    "https://athlonsports.com/nba/oklahoma-city-thunder/final-injury-report-for-thunder-kings-will-ajay-mitchell-keegan-murray-play"
+   ]
+  },
+  "NBA|4222252|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Hartenstein is not on Oklahoma City's injury report; Holmgren and Jaylin Williams are out, so his frontcourt role stays large.",
+   "sources": [
+    "https://athlonsports.com/nba/oklahoma-city-thunder/final-injury-report-for-thunder-kings-will-ajay-mitchell-keegan-murray-play"
+   ]
+  },
+  "NBA|3202|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury news for Durant. Houston is without VanVleet, Capela and the suspended Smart, so his on-ball load may rise.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/alex-sarr-illness-upgraded-to-available-sunday"
+   ]
+  },
+  "NBA|4900671|ra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell (left ankle sprain) is questionable and may miss a third straight game; minutes are uncertain if he plays.",
+   "sources": [
+    "https://athlonsports.com/nba/oklahoma-city-thunder/final-injury-report-for-thunder-kings-will-ajay-mitchell-keegan-murray-play"
+   ]
+  },
+  "NBA|3155942|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Sabonis is not on Sacramento's injury report; C Raynaud is out, and Murray (illness) is questionable.",
+   "sources": [
+    "https://athlonsports.com/nba/oklahoma-city-thunder/final-injury-report-for-thunder-kings-will-ajay-mitchell-keegan-murray-play"
+   ]
+  },
+  "NBA|5174563|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "George has no injury designation and has been starting; Sarr is available, Anthony Davis is out for Washington.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/alex-sarr-illness-upgraded-to-available-sunday"
    ]
   }
  },
