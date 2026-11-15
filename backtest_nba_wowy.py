@@ -132,7 +132,10 @@ def run_all():
                             off = [r[s] for d, r in h if not a_in(hist, a, d) and a_known(hist, a, d)]
                             if len(off) >= MIN_OFF and len(on) >= MIN_OFF:
                                 adj += (sum(off) / len(off) - sum(on) / len(on)) * len(off) / (len(off) + K)
-                        out[(pid, dte, s)] = adj
+                        last = [r[s] for _, r in h[-10:]]
+                        mu = sum(last) / len(last)
+                        sd = math.sqrt(sum((x - mu) ** 2 for x in last) / (len(last) - 1))
+                        out[(pid, dte, s)] = (adj, sd)
             for pid, g in days[dte].items():
                 hist[pid].append((dte, g))
     return out
@@ -156,13 +159,31 @@ def market_test(lam=0.35):
             continue
         io, iu = 1 / dec(e["po"]), 1 / dec(e["pu"])
         over_hit = 1 if ((e["status"] == "win") == (e["side"] == "over")) else 0
-        rows.append((sum(vals) * lam, io / (io + iu), over_hit))
+        raw = sum(v[0] for v in vals)
+        sd = math.sqrt(sum(v[1] ** 2 for v in vals)) or 1.0
+        rows.append((raw * lam, io / (io + iu), over_hit, raw / sd))
     print(f"\nvs the book: {len(rows)} priced NBA props with an adjustment (lam {lam})")
     for lo, hi in ((-99, -2), (-2, -1), (-1, -.3), (-.3, .3), (.3, 1), (1, 2), (2, 99)):
         sel = [r for r in rows if lo <= r[0] < hi]
         if len(sel) >= 40:
             print(f"   adj {lo:+}..{hi:+}: n={len(sel)}  over hit {sum(r[2] for r in sel) / len(sel):.1%}  "
                   f"book over chance {sum(r[1] for r in sel) / len(sel):.1%}  edge {sum(r[2] - r[1] for r in sel) / len(sel):+.1%}")
+    # one-parameter logistic fit: over ~ sigmoid(logit(book over chance) + c * z), z = raw adjustment / its spread
+    lg = lambda p: math.log(p / (1 - p))
+    c = 0.0
+    for _ in range(25):
+        g = h = 0.0
+        for _, pb, y, z in rows:
+            p = 1 / (1 + math.exp(-(lg(pb) + c * z)))
+            g += (y - p) * z
+            h += p * (1 - p) * z * z
+        c += g / h
+    se = 1 / math.sqrt(h)
+    ll0 = sum(math.log(pb if y else 1 - pb) for _, pb, y, _ in rows)
+    ll1 = sum(math.log((lambda p: p if y else 1 - p)(1 / (1 + math.exp(-(lg(pb) + c * z))))) for _, pb, y, z in rows)
+    print(f"   fit: c = {c:.3f} +/- {se:.3f} (log-odds per sd of adjustment); log-likelihood gain {ll1 - ll0:.1f} on {len(rows)} props")
+    for t in (1, 2, 3):
+        print(f"   z=+{t}: over chance moves {1 / (1 + math.exp(-c * t)) - .5:+.1%} from a 50% line")
 
 
 if __name__ == "__main__":

@@ -119,6 +119,15 @@ backup QB starting, and rest / short weeks did not improve them and carry no wei
 slightly and is used; back-to-backs, blowout risk and usage-rate trends did not. tune.py re-weights the usage
 factor from real graded results like every other factor.
 
+NBA teammates out (`backtest_nba_absorb.py`, `backtest_nba_wowy.py`, Nov 11-15): when a regular (16+ min) teammate
+sits, players do gain (on/off splits: where the splits predict +3 points, the player scores about +1 over his
+last-10 average and plays about +2 minutes, so the raw splits overshoot ~3x). But (1) a generic "share of vacated
+production" boost, role-aware or not, and (2) player-by-player on/off adjustments (walk-forward, no look-ahead) both
+fail to beat the player's own last-10/25 average on error, and measured against the BOOK's over chance on 2,697 priced
+props the on/off factor fits c = 0.08 +/- 0.10 log-odds per sd (log-likelihood gain 0.3): the lines already price
+who is out, so there is no edge in it. Only the timing of the news (a late scratch before the line moves) can pay,
+which is what the game-day inactives check is for. No weight given; the live `vacated` boost is unchanged.
+
 Next Gen Stats (`backtest_ngs.py`, Oct 27): nflverse's weekly NGS (receiver separation, cushion, air-yard share,
 YAC over expected; rush yards over expected, 8+ in the box, time to line; QB time to throw, CPOE, aggressiveness),
 each player's last 4 games and what each defense allowed. On the 2023-26 backtest rows a few looked useful (a hot
