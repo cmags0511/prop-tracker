@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T19:46:20Z",
+ "updated": "2026-11-15T21:36:19Z",
  "summary": "Montgomery out for Houston (Woody Marks leads the backfield); Minnesota without Hockenson and Jennings with Cousins starting; Rams without Nacua and Adams; Fernando Mendoza and Carson Beck make first starts; Lock limited all week for Seattle; Brissett starts for Baltimore Monday.",
  "notes": {
   "CFB|5080703|recyd": {
@@ -75,12 +75,13 @@
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Sarr was downgraded to questionable with an illness two days after playing 44 minutes; check his status before tipoff.",
+   "note": "Sarr (illness) was still questionable on the 1:15 PM ET report Sunday; check his status before tipoff.",
    "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf",
     "https://www-sss-gov-phwww.rotowire.com/basketball/headlines/alex-sarr-injury-downgraded-to-questionable-518821"
    ],
    "detail": {
-    "availability": "Questionable (illness) as of Nov 14.",
+    "availability": "Questionable (illness) as of Nov 15, 1:15 PM ET.",
     "role": "He made 4 of 6 threes against Detroit on Nov 13 but 1 of 9 against OKC and 0 of 2 against Atlanta, so his attempts are steady and the makes swing."
    }
   },
@@ -1763,6 +1764,168 @@
    "note": "No injury designation for Castle; De'Aaron Fox (hip) is questionable, and if Fox sits Castle would handle more of the playmaking, which works against the under.",
    "sources": [
     "https://www.espn.com/nba/injuries"
+   ]
+  },
+  "NFL|00-0035683|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Lawrence is not on Cincinnati's final injury report, and Pittsburgh lists no offensive linemen out.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0038133|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Mafe is not on Cincinnati's final injury report, and Pittsburgh lists no offensive linemen out.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0033886|sck": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Watt is not on Pittsburgh's final injury report; Cincinnati is without G Brian Parker II (knee).",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0036854|kpts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news for McPherson; the Bengals' only offensive absences are WR Iosivas and G Parker II.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0036442|ptd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Burrow has no designation; WR Iosivas (thumb) and G Parker II (knee) are out, and Pittsburgh has no defensive starters ruled out.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0031136|pat": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news for Boswell; Pittsburgh has no one ruled out, TE Freiermuth (illness) is questionable, and Cincinnati is without S Dugger.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0036900|recyd": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Chase is off the final injury report and WR Iosivas is out, which concentrates targets on him and works against the under.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0038597|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brown is not on Cincinnati's injury report and keeps the lead-back role; no change in the backfield.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NFL|00-0038597|td": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Brown is not on Cincinnati's injury report and keeps the lead-back role; with Iosivas out, the red-zone targets lean toward Chase and Higgins.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-steelers-bengals-injury-reports-latest-updates-freiermuth-duggar-iosivas-more/"
+   ]
+  },
+  "NBA|4278073|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gilgeous-Alexander has no designation. OKC is again without Holmgren, Jalen Williams, Jaylin Williams and Cason Wallace (Ajay Mitchell questionable); these absences are not new.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|4278073|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Gilgeous-Alexander has no designation. OKC is again without Holmgren, Jalen Williams, Jaylin Williams and Cason Wallace (Ajay Mitchell questionable); these absences are not new.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|3934719|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "The Knicks list no injuries; Toronto is without Leonard and Bittle, with Barnes (groin) questionable.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|4684740|pts": {
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Houston is without VanVleet (knee), Capela (ankle) and Smart (suspension), so Thompson starts and should see more shots, which works against the under.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|3078576|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "White has no designation; Dallas has Irving questionable, Christie doubtful and Lively out.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|5037871|pr": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox (hip) is questionable for San Antonio; if he sits, Harper would take on more of the ball. Check status at tipoff.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|3134907|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kuzma has no designation and Milwaukee's listed absences are reserves; nothing found that explains the higher line.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|4395630|pts": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox (hip) is questionable for San Antonio; if he sits, Vassell would likely see more shots. Check status at tipoff.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
+   ]
+  },
+  "NBA|4701230|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Johnson has no designation; Atlanta is without guard Kingston Flemings and reserves Gilbert, Newell and Gueye, and Milwaukee's listed absences are reserves.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_01_15PM.pdf"
    ]
   }
  },
