@@ -2209,6 +2209,7 @@ const ODDS_B=[["fav","Favorites (minus odds)",a=>a<0],["dog","Underdogs (plus od
 const PROB_B=[["lt30","Under 30%",p=>p<.3],["30","30\u201350%",p=>p>=.3&&p<.5],["50","50\u201360%",p=>p>=.5&&p<.6],["60","60% or more",p=>p>=.6]];
 const RF_KEYS=["odds","prob","edge","side","prop","days"],SOC_RF=["slist","sleague","sres","sbook"];
 S.rf={};try{S.rf=JSON.parse(localStorage.getItem("ptRecF")||"{}")||{}}catch(e){S.rf={}}
+S.pf={};try{S.pf=JSON.parse(localStorage.getItem("ptParF")||"{}")||{}}catch(e){S.pf={}}
 function rfPass(e){
   const f=S.rf||{},a=recPrice(e),p=e.prob;
   if(e.lg==="SOC"){  // soccer-only filters: list, league, result, book
@@ -2271,18 +2272,35 @@ document.addEventListener("click",e=>{const r=e.target.closest(".dayk[data-dayk]
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".dayk[data-dayk]")){e.preventDefault();e.target.click()}});
 // the app's Best parlays, locked at the first kickoff and graded in their own record (record.json "parlays"): 1u a parlay at
 // the estimated price shown on the page; a parlay wins only if every leg wins, and pushed or void legs drop out
+// Parlay record filters: sport, same-game vs different games, number of legs, kept at tipoff vs dropped (each pick-one; tap again to clear)
+function parPass(e,f){f=f||S.pf||{};return!(f.lg&&e.lg!==f.lg)&&!(f.kind&&(e.kind==="same"?"same":"diff")!==f.kind)&&!(f.n&&String(e.n)!==String(f.n))&&!(f.kd&&(e.dropped?"dropped":"kept")!==f.kd)}
+function parFilterBar(R0){
+  const f=S.pf||{},open=S.pqOpen||"",profit=e=>e.status==="win"?(e.paid||e.dec)-1:-1;
+  const tally=(k,test)=>{const g=Object.assign({},f);delete g[k];const a=R0.filter(e=>parPass(e,g)&&test(e)&&(e.status==="win"||e.status==="loss")),w=a.filter(e=>e.status==="win").length,u=a.reduce((x,e)=>x+profit(e),0);return{n:a.length,w,l:a.length-w,pct:a.length?w/a.length:null,units:u}};
+  const stat=t=>t.n?`<span class="rqs ${t.n<4?"":t.units>0?"hot":t.units<0?"cold":""}">${t.w}-${t.l} \u00b7 ${pct(t.pct)} \u00b7 ${unitsTxt(t.units)}</span>`:`<span class="rqs">none graded</span>`;
+  const row=(k,v,label,t)=>`<button class="rqrow${String(f[k]||"")===String(v)?" on":""}" data-pq="set" data-k="${k}" data-v="${v}" role="radio" aria-checked="${String(f[k]||"")===String(v)}"><i class="rqbox r" aria-hidden="true">${String(f[k]||"")===String(v)?"\u2713":""}</i><b>${label}</b>${stat(t)}</button>`;
+  const lgs=[...new Set(R0.map(e=>e.lg))].sort(),ns=[...new Set(R0.map(e=>e.n))].sort((a,b)=>a-b);
+  const opts={lg:lgs.map(l=>[l,l,e=>e.lg===l]),kind:[["same","Same game",e=>e.kind==="same"],["diff","Different games",e=>e.kind!=="same"]],n:ns.map(n=>[n,`${n} legs`,e=>e.n===n]),kd:[["kept","Kept at tipoff",e=>!e.dropped],["dropped","Dropped before",e=>!!e.dropped]]};
+  const titles={lg:"Sport",kind:"Type",n:"Legs",kd:"Listed"};
+  const shortL={same:"Same",diff:"Different",kept:"Kept",dropped:"Dropped"};
+  const sum=k=>{const o=(opts[k]||[]).find(x=>String(x[0])===String(f[k]||""));return o?(shortL[o[0]]||o[1]):"All"};
+  const btn=k=>`<button class="rqbtn${open===k?" open":""}${f[k]?" on":""}" data-pq="open" data-k="${k}" aria-expanded="${open===k}"><small>${titles[k]}</small><b>${esc(sum(k))}</b><i aria-hidden="true">\u25BE</i></button>`;
+  const panel=open&&opts[open]?opts[open].map(([v,l,t])=>row(open,v,l,tally(open,t))).join(""):"";
+  const any=Object.values(f).some(Boolean);
+  return`<div class="rq"><div class="rqbar" style="flex-wrap:wrap">${["lg","kind","n","kd"].map(btn).join("")}</div>${panel?`<div class="rqpanel" role="group">${panel}</div>`:""}${any?`<button class="rqclear" data-pq="clear">Clear filters</button>`:""}</div>`;
+}
 function parRecordHtml(){
-  const R=(RECORD&&RECORD.parlays)||[],done=R.filter(e=>e.status==="win"||e.status==="loss"),pend=R.filter(e=>e.status==="pending"),voids=R.filter(e=>e.status==="void");
+  const R0=(RECORD&&RECORD.parlays)||[],R=R0.filter(e=>parPass(e)),done0=R0.filter(e=>e.status==="win"||e.status==="loss"),done=R.filter(e=>e.status==="win"||e.status==="loss"),pend=R.filter(e=>e.status==="pending"),voids=R.filter(e=>e.status==="void");
   const prof=e=>e.status==="win"?(e.paid||e.dec)-1:-1;
   const sum=a=>a.reduce((x,e)=>x+prof(e),0),w=a=>a.filter(e=>e.status==="win").length;
   const head=`<div class="tophead"><h2>Parlay <span>record</span></h2><p>Separate from the Top 10 record: the app's Best parlays, locked when the first game kicks off</p></div>`;
-  if(!R.length)return head+`<p class="topnote">No parlays recorded yet. The Best parlays on the Props page lock in as their first game kicks off, and are graded here after the games.</p>`;
+  if(!R0.length)return head+`<p class="topnote">No parlays recorded yet. The Best parlays on the Props page lock in as their first game kicks off, and are graded here after the games.</p>`;
   const hit=done.length?w(done)/done.length:null,exp=done.length?done.reduce((x,e)=>x+e.p,0)/done.length:null;
   const row=(lab,a)=>{const d=a.filter(e=>e.status==="win"||e.status==="loss");return d.length?`<tr><td>${lab}</td><td class="num mono">${w(d)}-${d.length-w(d)}</td><td class="num"><span class="heat">${pct(w(d)/d.length)}</span><small class="pteam" style="display:block">exp ${pct(d.reduce((x,e)=>x+e.p,0)/d.length)}</small></td><td class="num mono">${unitsTxt(sum(d))}</td></tr>`:""};
-  const rows=[["NFL same game",e=>e.lg==="NFL"&&e.kind==="same"],["NFL different games",e=>e.lg==="NFL"&&e.kind!=="same"],["NBA same game",e=>e.lg==="NBA"&&e.kind==="same"],["NBA different games",e=>e.lg==="NBA"&&e.kind!=="same"],["2 legs",e=>e.n===2],["3 legs",e=>e.n===3]].map(([k,f])=>row(k,done.filter(f))).join("");
+  const rows=[["NFL same game",e=>e.lg==="NFL"&&e.kind==="same"],["NFL different games",e=>e.lg==="NFL"&&e.kind!=="same"],["NBA same game",e=>e.lg==="NBA"&&e.kind==="same"],["NBA different games",e=>e.lg==="NBA"&&e.kind!=="same"],["2 legs",e=>e.n===2],["3 legs",e=>e.n===3]].map(([k,f])=>row(k,done0.filter(f))).join("");
   // still on the board when the first game started vs dropped off before then (every dropped parlay still counts as placed)
   const kd=[];for(const lg of["NBA","NFL"])for(const[kl,kf]of[["same",e=>e.kind==="same"],["diff games",e=>e.kind!=="same"]])for(const[dl,df]of[["kept",e=>!e.dropped],["dropped",e=>!!e.dropped]])kd.push([`${lg} ${kl} \u00b7 ${dl}`,e=>e.lg===lg&&kf(e)&&df(e)]);
-  const kdRows=kd.map(([k,f])=>row(k,done.filter(f))).join("");
+  const kdRows=kd.map(([k,f])=>row(k,done0.filter(f))).join("");
   const mark={win:"W",loss:"L",void:"V",pending:""};
   // "locked" = still on the board when its first game started or will start, waiting on the games: shown by day
   const byDay={};pend.forEach(e=>{const dt_=new Date(e.t),d=dt_.toLocaleDateString("en-US",{weekday:"short"})+" "+dt_.toLocaleDateString("en-US",{month:"numeric",day:"numeric"});byDay[d]=(byDay[d]||0)+1});
@@ -2292,13 +2310,15 @@ function parRecordHtml(){
   const dayOf=e=>new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});let lastD="";
   const recent=(allOn?srt:srt.slice(0,25)).map(e=>(allOn&&dayOf(e)!==lastD?(lastD=dayOf(e),(()=>{const a=srt.filter(x=>dayOf(x)===lastD),d=a.filter(x=>x.status==="win"||x.status==="loss");return`<div class="lrow" style="background:var(--bg);font-weight:800"><span>${lastD}</span><span class="lv">${a.length} parlay${a.length>1?"s":""}${d.length?` \u00b7 ${w(d)}-${d.length-w(d)} \u00b7 ${unitsTxt(sum(d))}`:""}</span></div>`})()):"")+`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${mark[e.status]||""}</i><div class="lmid"><b>${e.n}-leg ${e.kind==="same"?"same game":"different games"} \u00b7 ${e.lg}</b><span>${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 est. ${amFmt(e.price)} \u00b7 app chance ${Math.round(e.p*100)}%</span>${e.legs.map(legSt).join("")}</div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(prof(e))}</b></div>`).join("");
   const seeAll=R.length>25?`<button class="shcta lcta" data-parall="1" style="width:100%">${allOn?"Show fewer":`See all ${R.length} parlays`}</button>`:"";
-  return head+`<div class="hero"><div class="hero1"><span>Best parlays</span></div>
+  const fOn=Object.values(S.pf||{}).some(Boolean),bar=parFilterBar(R0);
+  if(!R.length)return head+bar+`<p class="topnote">No parlays match these filters.</p>`;
+  return head+bar+`<div class="hero"><div class="hero1"><span>${fOn?"Filtered parlays":"Best parlays"}</span></div>
     <div class="hero2"><div><b class="hbig">${w(done)}\u2013${done.length-w(done)}</b><span>${hit==null?"none graded yet":`${pct(hit)} hit \u00b7 app expected ${pct(exp)}`}</span></div>
       <div class="hr"><b style="color:${done.length?sum(done)>=0?"var(--hit)":"var(--miss)":"var(--ink)"}">${done.length?unitsTxt(sum(done)):"\u2013"}</b><span>${pend.length} locked</span></div></div>
     <p class="hfoot">${done.length} graded${voids.length?` \u00b7 ${voids.length} void`:""} \u00b7 1u per parlay at the estimated price (the legs' prices multiplied, so DraftKings' real parlay price will differ). Early results swing a lot: a few parlays prove nothing.</p></div>
     ${lockedLine}
-    ${rows?`<h3 class="lh">By type</h3><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${rows}</tbody></table></div>`:""}
-    ${kdRows?`<h3 class="lh">Kept vs dropped</h3><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${kdRows}</tbody></table></div><p class="hfoot" style="margin-top:-6px">"Kept" parlays were still listed when the first game started; "dropped" ones left the list before then but still count as bets you could have placed. Units use the estimated price, so they are the most optimistic version: a sportsbook usually pays less on parlays.</p>`:""}
+    ${rows?`<h3 class="lh">By type <small class="pteam">(all parlays)</small></h3><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${rows}</tbody></table></div>`:""}
+    ${kdRows?`<h3 class="lh">Kept vs dropped <small class="pteam">(all parlays)</small></h3><div class="log"><table class="books"><thead><tr><th></th><th class="num">W-L</th><th class="num">Hit %</th><th class="num">Units</th></tr></thead><tbody>${kdRows}</tbody></table></div><p class="hfoot" style="margin-top:-6px">"Kept" parlays were still listed when the first game started; "dropped" ones left the list before then but still count as bets you could have placed. Units use the estimated price, so they are the most optimistic version: a sportsbook usually pays less on parlays.</p>`:""}
     <h3 class="lh">${allOn?`All ${R.length} parlays`:"Recent"}</h3><div class="lcard">${recent}${seeAll}</div>`;
 }
 // "What's winning": each prop type and side in this sport with 15+ graded picks, best units first; "both halves" = up in the first AND the
@@ -4419,7 +4439,13 @@ function wire(){
   document.getElementById("view-rec").addEventListener("change",e=>{const pc=e.target.closest("[data-pcchk]");if(pc){if(!PCHK.sel)PCHK.sel=new Set();pc.checked?PCHK.sel.add(pc.dataset.pcchk):PCHK.sel.delete(pc.dataset.pcchk);renderRecord();return}});
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
-  document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-parall]")){S.parAll=!S.parAll;const y=window.scrollY;renderRecord();if(!S.parAll)window.scrollTo(0,y);return}const by=e.target.closest("[data-socby]");if(by){S.socBy=by.dataset.socby;renderRecord();return}
+  document.getElementById("view-rec").addEventListener("click",e=>{const pq=e.target.closest("[data-pq]");if(pq){const y=window.scrollY,k=pq.dataset.k,v=pq.dataset.v;
+    if(pq.dataset.pq==="open")S.pqOpen=S.pqOpen===k?"":k;
+    else if(pq.dataset.pq==="clear"){S.pf={};S.pqOpen=""}
+    else{S.pf=Object.assign({},S.pf);if(String(S.pf[k]||"")===String(v))delete S.pf[k];else S.pf[k]=v;S.pqOpen=""}
+    try{localStorage.setItem("ptParF",JSON.stringify(S.pf||{}))}catch(_){}
+    renderRecord();window.scrollTo(0,y);return}
+  if(e.target.closest("[data-parall]")){S.parAll=!S.parAll;const y=window.scrollY;renderRecord();if(!S.parAll)window.scrollTo(0,y);return}const by=e.target.closest("[data-socby]");if(by){S.socBy=by.dataset.socby;renderRecord();return}
     const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});if(!dr.hasAttribute("data-rq"))S.rfOpen=true;saveRf();return}});
   document.getElementById("view-rec").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".rfdrill")){e.preventDefault();e.target.click()}});
   document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
