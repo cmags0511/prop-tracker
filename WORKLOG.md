@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-16, cmags0511 (Claude): Parlay record "See all" (front-end only)
+Parlay record screen showed only the latest 25 parlays with no way to see the rest. Added a "See all N parlays" button under Recent (`S.parAll`, handler in the view-rec click listener): the full list grouped by day, each day headed by its count, W-L and units, and "Show fewer" to go back. No data or grading changes. `sw.js` is `pt-v146`.
+
 ## 2026-11-16, cmags0511 (Claude): Record tab "What's winning" and "Kept vs dropped" on every sport (PR, front-end only)
 `winningHtml` + `keptDroppedHtml` in index.html, shown on the main Record page (not inside "All splits") for All, NFL, NBA, CFB and Soccer: (1) What's winning = every prop type/side (soccer: bet type) with 15+ graded picks that is up in units, flagged "up both halves" when it won in both halves of the days graded, the count of sections that are up out of all checked, and for a single sport the day's best 3 by edge next to every pick; (2) Kept vs dropped = picks still listed at kickoff vs picks that dropped off the list first (the `dropped` flag from record.py; older picks have no flag so they count as kept). Parlay screen: hit % now shows the app's expected hit, plus a Kept vs dropped table for NBA/NFL same-game and different-game. Soccer team bets keep their existing "two ways to count" card. No data, grading or workflow changes. `sw.js` is `pt-v145`.
 
