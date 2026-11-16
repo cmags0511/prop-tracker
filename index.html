@@ -755,6 +755,15 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .subnav button{flex:none;border:0;background:var(--panel);color:var(--ink2);font:600 13.5px var(--f-body);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer}
 .subnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 /* record filters: a scrolling row of pill-shaped selects */
+.rq{display:flex;flex-direction:column;gap:8px;margin:2px 0 4px}.rqbar{display:flex;gap:8px}
+.rqbtn{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:12px;background:var(--card,transparent);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.rqbtn small{grid-column:1/3;font:800 10.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.rqbtn b{font:800 13px var(--f-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rqbtn i{font-style:normal;color:var(--muted)}
+.rqbtn.on{border-color:var(--ink)}.rqbtn.open{background:var(--ink);color:var(--bg,#fff)}.rqbtn.open small,.rqbtn.open i{color:inherit;opacity:.8}
+.rqpanel{border:1px solid var(--line);border-radius:12px;background:var(--card,transparent);max-height:min(56vh,420px);overflow-y:auto;overscroll-behavior:contain}
+.rqrow{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}.rqrow:first-child{border-top:0}
+.rqrow b{font:700 14px var(--f-body);min-width:0;overflow-wrap:anywhere}.rqs{font:600 12px var(--f-mono,monospace);color:var(--muted);white-space:nowrap}.rqs.hot{color:var(--hit)}.rqs.cold{color:var(--miss)}
+.rqbox{width:20px;height:20px;border:1.5px solid var(--muted);border-radius:6px;display:grid;place-items:center;font:800 13px var(--f-body);font-style:normal;color:var(--bg,#fff)}.rqbox.r{border-radius:50%}.rqrow.on .rqbox{background:var(--ink);border-color:var(--ink)}
+.rqclear{align-self:flex-start;border:0;background:none;color:var(--accent);font:800 12.5px var(--f-body);padding:2px 0;cursor:pointer}
 .rfbar{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
 .rfbar::-webkit-scrollbar{display:none}
 .rf{flex:none;position:relative}.rf .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -2213,8 +2222,28 @@ function rfPass(e){
   if(f.edge){const i=recImp(e);if(i==null||p==null||(f.edge==="pos")!==(p>i))return false}
   if(f.side&&e.lg!=="SOC"&&e.side!==f.side)return false;
   if(f.prop&&(e.lg==="SOC"?e.label:SHORT[e.market]||e.label)!==f.prop)return false;
+  if(f.propL&&f.propL.length&&!f.propL.includes(e.lg==="SOC"?e.label:SHORT[e.market]||e.label))return false;
   if(f.days&&Date.now()-new Date(e.t)>f.days*864e5)return false;
   return true;
+}
+// compact quick filters under the sport chips: three buttons (side, period, prop type); tap one to open a checklist with how
+// each choice has hit (under the other filters that are on). Same S.rf filters as the dropdown bar, so the whole tab follows.
+function recQuickBar(list,soc){
+  const f=S.rf||{},keep=S.rf,open=S.rqOpen||"";
+  const lab=e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label;
+  const tally=(ks,test)=>{S.rf=Object.assign({},keep);ks.forEach(k=>delete S.rf[k]);const a=list.filter(rfPass).filter(test);S.rf=keep;return appTally(a.filter(e=>["win","loss","push"].includes(e.status)))};
+  const stat=t=>t.n?`<span class="rqs ${t.n<4?"":t.pct>=.55?"hot":t.pct<.47?"cold":""}">${t.w}-${t.l} \u00b7 ${pct(t.pct)}${Math.abs(t.units)>=.05?` \u00b7 ${unitsTxt(t.units)}`:""}</span>`:`<span class="rqs">none graded</span>`;
+  const row=(kind,val,label,t,on,box)=>`<button class="rqrow${on?" on":""}" data-rq2="${kind}" data-v="${encodeURIComponent(val)}" role="${box?"checkbox":"radio"}" aria-checked="${on}"><i class="rqbox${box?"":" r"}" aria-hidden="true">${on?"\u2713":""}</i><b>${label}</b>${stat(t)}</button>`;
+  const props=[...new Set(list.map(lab))].filter(Boolean).map(p=>[p,tally(["prop","propL"],e=>lab(e)===p)]).sort((x,y)=>y[1].n-x[1].n);
+  const pl=f.propL||[],sideSel=f.side||"",dayN=+f.days||0;
+  const sums={side:sideSel?(sideSel==="over"?"Overs":"Unders"):"All",days:dayN?`Last ${dayN} days`:"All time",prop:pl.length?(pl.length===1?pl[0]:`${pl.length} types`):"All"};
+  const btn=(k,t)=>`<button class="rqbtn${open===k?" open":""}${(k==="side"&&sideSel)||(k==="days"&&dayN)||(k==="prop"&&pl.length)?" on":""}" data-rq2="open" data-v="${k}" aria-expanded="${open===k}"><small>${t}</small><b>${esc(sums[k])}</b><i aria-hidden="true">\u25BE</i></button>`;
+  let panel="";
+  if(open==="side"&&!soc)panel=row("side","over","Overs",tally(["side"],e=>e.side==="over"),sideSel==="over",true)+row("side","under","Unders",tally(["side"],e=>e.side==="under"),sideSel==="under",true);
+  if(open==="days")panel=[[0,"All time"],[7,"Last 7 days"],[14,"Last 14 days"],[30,"Last 30 days"]].map(([d,l])=>row("days",d,l,tally(["days"],e=>!d||Date.now()-new Date(e.t)<=d*864e5),dayN===d,false)).join("");
+  if(open==="prop")panel=props.map(([p,t])=>row("prop",p,esc(p),t,pl.includes(p),true)).join("");
+  const any=Object.entries(f).some(([k,v])=>Array.isArray(v)?v.length:v);
+  return`<div class="rq"><div class="rqbar">${soc?"":btn("side","Side")}${btn("days","Period")}${btn("prop","Prop type")}</div>${panel?`<div class="rqpanel" role="group">${panel}</div>`:""}${any?`<button class="rqclear" data-rfclear>Clear filters</button>`:""}</div>`;
 }
 function recFilterBar(list,soc){
   const f=S.rf||{},sel=(k,label,opts)=>`<label class="rf${f[k]?" on":""}"><span class="sr">${label}</span><select data-rf="${k}" aria-label="${label}"><option value="">${label}</option>${opts.map(([v,t])=>`<option value="${v}"${String(f[k]||"")===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
@@ -2280,7 +2309,9 @@ function renderAppRecord(){
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const rfOn=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>(S.rf||{})[k]);
   let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
-  if(P0.length&&(S.rfOpen||rfOn))html+=recFilterBar(P0,SOCR);
+  if(P0.length)html+=recQuickBar(P0,SOCR);
+  const rfAdv=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>!["side","days","prop"].includes(k)&&(S.rf||{})[k]);  // the quick chips cover side/period/prop
+  if(P0.length&&(S.rfOpen||rfAdv))html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
   if(!P.length){el.innerHTML=html+`<p class="topnote">${SOCR?"No soccer picks recorded yet. The Soccer Top 10s lock in as each match kicks off."
     :lgf==="all"?"No picks recorded yet. The Top 10 is locked in as each game kicks off."
@@ -3919,6 +3950,16 @@ function renderToday(){
   html+=`<p class="topsub" style="padding-inline:2px">"App dropped it" means the app stopped listing it before kickoff (price or line moved, news); it still counts in the record at the price it was found at. Prices marked ~ are estimates. Not betting advice.</p>`;
   el.innerHTML=html;
 }
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-rq2]");if(!b||S.view!=="rec")return;
+  const k=b.dataset.rq2,v=decodeURIComponent(b.dataset.v||""),f=Object.assign({},S.rf||{});
+  if(k==="open"){S.rqOpen=S.rqOpen===v?"":v;renderRecord();return}
+  if(k==="side")f.side=f.side===v?"":v;                      // two choices: ticking the other one means "both" = no filter
+  if(k==="days")f.days=+v?+v:"";
+  if(k==="prop"){const l=new Set(f.propL||[]);l.has(v)?l.delete(v):l.add(v);f.propL=[...l];if(!f.propL.length)delete f.propL}
+  S.rf=f;try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}
+  const y=window.scrollY;renderRecord();window.scrollTo(0,y);
+});
 // ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
 let NHL=null,nhlLoading=false;
 function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday()})}
@@ -4343,11 +4384,11 @@ function wire(){
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
   document.getElementById("view-rec").addEventListener("click",e=>{const by=e.target.closest("[data-socby]");if(by){S.socBy=by.dataset.socby;renderRecord();return}
-    const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});S.rfOpen=true;saveRf();return}});
+    const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});if(!dr.hasAttribute("data-rq"))S.rfOpen=true;saveRf();return}});
   document.getElementById("view-rec").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".rfdrill")){e.preventDefault();e.target.click()}});
   document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
     if(e.target.closest("[data-rftoggle]")){S.rfOpen=!(S.rfOpen||Object.values(S.rf||{}).some(Boolean));if(!S.rfOpen)S.rf={};saveRf()}});
-  document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){if((S.recLg==="SOC")!==(b.dataset.rlg==="SOC")){const r=Object.assign({},S.rf);[...SOC_RF,"prop"].forEach(k=>delete r[k]);S.rf=r;try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}}S.recLg=b.dataset.rlg;renderRecord();return}
+  document.getElementById("view-rec").addEventListener("click",e=>{const go=e.target.closest("[data-goto]");if(go){setView(go.dataset.goto);return}const b=e.target.closest("[data-rlg]");if(b){S.rqOpen="";if(S.rf&&S.rf.propL){delete S.rf.propL;try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}}if((S.recLg==="SOC")!==(b.dataset.rlg==="SOC")){const r=Object.assign({},S.rf);[...SOC_RF,"prop"].forEach(k=>delete r[k]);S.rf=r;try{localStorage.setItem("ptRecF",JSON.stringify(S.rf))}catch(_){}}S.recLg=b.dataset.rlg;renderRecord();return}
     const ap=e.target.closest("[data-addpast]");if(ap){openAddPast();return}
     const rt=e.target.closest("[data-rtype]");if(rt){S.recType=rt.dataset.rtype;renderRecord();return}
     const wk=e.target.closest("[data-wk]");if(wk&&!wk.disabled){S.wk=Math.max(0,+wk.dataset.wk);S.wkOpen=true;renderRecord();return}
