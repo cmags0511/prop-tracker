@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T12:51:43Z",
+ "updated": "2026-11-16T21:36:16Z",
  "summary": "Lamar Jackson is out (IR, thumb), so Jacoby Brissett starts on MNF vs the Chargers, who are without Ladd McConkey (Tre Harris moves up). In the NBA, Curry is out about a month, Embiid and VanVleet are unconfirmed for the second night of back-to-backs, and Memphis is without Ty Jerome.",
  "notes": {
   "NBA|4711294|3pm": {
@@ -760,10 +760,11 @@
    "flag": "caution",
    "adj": 0,
    "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
+   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game. Stewart (illness) and Post (concussion) are both out Monday, so Edey would face little competition at center if he is cleared; he was still questionable as of Monday afternoon.",
    "sources": [
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
+    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/isaiah-stewart-illness-out-monday-vs-wizards"
    ],
    "detail": {
     "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
@@ -1075,14 +1076,14 @@
    }
   },
   "NFL|00-0040727|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "With McConkey out and Brenen Thompson doubtful, Harris (off the injury report) is the next wideout in line for McConkey's targets.",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "With McConkey out and Brenen Thompson doubtful, Harris (off the injury report) is the next wideout in line for McConkey's targets. Njoku was activated from IR for Monday and adds another short-area target.",
    "sources": [
     "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline"
+    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
+    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
    ],
    "detail": {
     "availability": "Tre Harris was removed from the Chargers injury report this week.",
@@ -1104,14 +1105,14 @@
    }
   },
   "NFL|00-0038544|rec": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Johnston is the top healthy Chargers wideout with McConkey out and Thompson doubtful.",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Johnston is the top healthy Chargers wideout with McConkey out and Thompson doubtful. Njoku was activated from IR for Monday and adds another target.",
    "sources": [
     "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline"
+    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
+    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
    ],
    "detail": {
     "role": "McConkey (back) out after missing practice all week; Johnston caught a 58-yard TD in Week 9 when McConkey was active but did not play."
@@ -1455,6 +1456,144 @@
     "https://www.espn.com/nfl/injuries"
    ],
    "buzz": "none"
+  },
+  "NFL|00-0034874|tkl": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Roquan Smith is not on the Ravens injury report; Baltimore's only listed absence is safety Jaylinn Hawkins.",
+   "sources": [
+    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
+   ]
+  },
+  "NFL|00-0036355|car": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Herbert plays Monday behind a line missing guard Branson Taylor (placed on IR), with guard Awosika questionable.",
+   "sources": [
+    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html",
+    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
+   ]
+  },
+  "NFL|00-0039064|recyd": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Flowers is healthy and the top Ravens wideout for Brissett's first start; nothing new on his role.",
+   "sources": [
+    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
+   ]
+  },
+  "NFL|00-0040184|rec": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lambert-Smith moves into a starting wideout spot with McConkey out and Thompson doubtful; Njoku's return from IR adds competition for targets.",
+   "sources": [
+    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html",
+    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
+   ]
+  },
+  "NFL|00-0032764|rry": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Henry is healthy and remains the lead and goal-line back; no new injury or usage news.",
+   "sources": [
+    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
+   ]
+  },
+  "NBA|4066436|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Melton is off the injury report and started the last game with Curry out; Monday's starters not yet confirmed.",
+   "sources": [
+    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
+   ]
+  },
+  "NBA|5175737|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Lendeborg is off the injury report and started the last game; Golden State is without Curry, Butler, Moody, Porzingis and Williams.",
+   "sources": [
+    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
+   ]
+  },
+  "NBA|4709138|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Podziemski is off the injury report and started the last game; Golden State is without Curry, Butler, Moody, Porzingis and Williams.",
+   "sources": [
+    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
+   ]
+  },
+  "NBA|5124612|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Edgecombe is not on the injury report; LeBron James is out and Embiid is questionable (foot), which could add usage if Embiid sits.",
+   "sources": [
+    "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-nets-will-lebron-james-joel-embiid-play"
+   ]
+  },
+  "NBA|5175643|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Demin is available; Brooklyn's injury report is clear and Porter Jr. returns from a personal absence.",
+   "sources": [
+    "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-nets-will-lebron-james-joel-embiid-play"
+   ]
+  },
+  "NBA|4683021|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Avdija is not on the Portland injury report; the Blazers are without Morant, Sharpe, Krejci and Youngblood.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3136193|ra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Booker is not on the injury report; Phoenix's only listed absence is Mark Williams.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3908809|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Mitchell is not on the injury report; Cleveland is without Mobley and Merrill.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|3138196|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Cameron Johnson is not on the injury report; Denver's only listed absence is Strawther.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries"
+   ]
+  },
+  "NBA|5174563|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Kyshawn George is not on the injury report; Memphis is without Stewart and Post at center, and Edey is questionable.",
+   "sources": [
+    "https://www.covers.com/sport/basketball/nba/injuries",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/isaiah-stewart-illness-out-monday-vs-wizards"
+   ]
   }
  },
  "games": {
