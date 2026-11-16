@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-16, cmags0511 (Claude): Parlay record filters (front-end only)
+Parlay record screen: four compact buttons (Sport, Type = same game / different games, Legs, Listed = kept at tipoff / dropped) that expand into a checklist showing each choice's W-L, hit % and units under the other filters. Pick-one each, tap again to clear, "Clear filters" link, saved in localStorage `ptParF` (`S.pf`, `parPass`, `parFilterBar`, handler `[data-pq]`). The hero, locked line and the Recent / See all list follow the filters; the By type and Kept vs dropped tables stay on all parlays. No data or grading changes. `sw.js` is `pt-v147`.
+
 ## 2026-11-16, cmags0511 (Claude): Parlay record "See all" (front-end only)
 Parlay record screen showed only the latest 25 parlays with no way to see the rest. Added a "See all N parlays" button under Recent (`S.parAll`, handler in the view-rec click listener): the full list grouped by day, each day headed by its count, W-L and units, and "Show fewer" to go back. No data or grading changes. `sw.js` is `pt-v146`.
 
