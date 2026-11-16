@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T21:36:16Z",
+ "updated": "2026-11-16T23:51:38Z",
  "summary": "Lamar Jackson is out (IR, thumb), so Jacoby Brissett starts on MNF vs the Chargers, who are without Ladd McConkey (Tre Harris moves up). In the NBA, Curry is out about a month, Embiid and VanVleet are unconfirmed for the second night of back-to-backs, and Memphis is without Ty Jerome.",
  "notes": {
   "NBA|4711294|3pm": {
@@ -1593,6 +1593,158 @@
    "sources": [
     "https://www.covers.com/sport/basketball/nba/injuries",
     "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/isaiah-stewart-illness-out-monday-vs-wizards"
+   ]
+  },
+  "NFL|00-0033935|sck": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury news for Hendrickson before MNF; official inactives were not posted at check time.",
+   "sources": [
+    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-best-bets-tonight-nov-16-2026",
+    "https://sports.yahoo.com/articles/monday-night-football-live-updates-210033700.html"
+   ]
+  },
+  "NFL|00-0032764|ryd": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Henry has no injury news and is projected for a heavy workload with Brissett making his first Ravens start for the injured Jackson, which works against the under.",
+   "sources": [
+    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-best-bets-tonight-nov-16-2026",
+    "https://sports.yahoo.com/articles/monday-night-football-live-updates-210033700.html"
+   ]
+  },
+  "NBA|4897262|3pm": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "Richard is not on the injury report and starts again with Golden State missing Curry, Butler, Moody and Porzingis.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4431671|ast": {
+   "side": "over",
+   "flag": "support",
+   "adj": 1,
+   "conf": "low",
+   "note": "McDaniels is not on the injury report and Minnesota is again without Edwards and DiVincenzo, leaving more ball-handling to him.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3064514|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Randle is not on the injury report; Philadelphia lists Embiid as questionable and LeBron James out.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3078576|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "White is not on the injury report; Queta sits out for rest, which thins Boston's frontcourt rebounding.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4432165|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Suggs is not on the injury report, but Orlando is without Banchero and Isaac, which should push more scoring to him.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3202|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Durant is not on the injury report; Houston is without Capela, Adams and the suspended Smart, and Amen Thompson is questionable, so his load may rise.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3155526|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Brooks is not on the injury report; Phoenix lists Ryan Dunn questionable and Mark Williams out.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4351852|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Robinson is not on the injury report and Queta is resting tonight, so Robinson should start at center with extra minutes.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4437244|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Green is not on the injury report; Denver is missing only Strawther among rotation players.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4066328|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Allen is not on the injury report, but Cleveland is without Mobley and Tyson, which should raise his frontcourt load.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3202|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Durant is not on the injury report; Houston is without Capela, Adams and the suspended Smart, and Amen Thompson is questionable, so his load may rise.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|3112335|ra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Jokic is not on the injury report; Denver is missing only Strawther among rotation players.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
+   ]
+  },
+  "NBA|4066383|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bridges is not on the injury report; Phoenix lists Ryan Dunn questionable and Mark Williams out.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
    ]
   }
  },
