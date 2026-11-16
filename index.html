@@ -755,6 +755,10 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .subnav button{flex:none;border:0;background:var(--panel);color:var(--ink2);font:600 13.5px var(--f-body);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer}
 .subnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 /* record filters: a scrolling row of pill-shaped selects */
+.rq{display:flex;flex-direction:column;gap:10px;margin:2px 0 4px}.rqg h5{margin:0 0 5px;font:800 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rqr{display:flex;flex-wrap:wrap;gap:6px}.rqb{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;background:var(--card,transparent);color:var(--ink);font:inherit;cursor:pointer;text-align:left}
+.rqb b{font:800 13px var(--f-body)}.rqb span{font:600 11.5px var(--f-mono,monospace);color:var(--muted)}.rqb.hot{border-color:var(--hit)}.rqb.hot span{color:var(--hit)}.rqb.cold span{color:var(--miss)}
+.rqb.on{background:var(--ink);color:var(--bg,#fff)}.rqb.on span{color:inherit;opacity:.85}.rqclear{align-self:flex-start;border:0;background:none;color:var(--accent);font:800 12.5px var(--f-body);padding:2px 0;cursor:pointer}
 .rfbar{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
 .rfbar::-webkit-scrollbar{display:none}
 .rf{flex:none;position:relative}.rf .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -2216,6 +2220,21 @@ function rfPass(e){
   if(f.days&&Date.now()-new Date(e.t)>f.days*864e5)return false;
   return true;
 }
+// always-visible quick filters under the sport chips: side, time window and prop type, each chip showing how that group has hit
+// (under the other filters that are on), so "what is hitting" is one tap, no dropdowns
+function recQuickBar(list,soc){
+  const f=S.rf||{},keep=S.rf;
+  const tally=(k,test)=>{S.rf=Object.assign({},keep,{[k]:""});const a=list.filter(rfPass).filter(test);S.rf=keep;return appTally(a.filter(e=>["win","loss","push"].includes(e.status)))};
+  const chip=(k,v,label,t)=>{const on=String(f[k]||"")===String(v),pc=t.pct,cls=t.n<4?"":pc>=.55?" hot":pc<.47?" cold":"";
+    return`<button class="rqb${on?" on":""}${cls}" data-rq data-rfset="${k}" data-rfval="${v}" aria-pressed="${on}"><b>${label}</b>${t.n?`<span>${t.w}-${t.l} \u00b7 ${pct(pc)}${Math.abs(t.units)>=.05?` \u00b7 ${unitsTxt(t.units)}`:""}</span>`:`<span>no graded yet</span>`}</button>`};
+  const props=[...new Set(list.map(e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label))].filter(Boolean)
+    .map(p=>[p,tally("prop",e=>(e.lg==="SOC"?e.label:SHORT[e.market]||e.label)===p)]).sort((a,b)=>b[1].n-a[1].n);
+  const group=(title,chips)=>`<div class="rqg"><h5>${title}</h5><div class="rqr">${chips}</div></div>`;
+  const win=[[7,"Last 7 days"],[14,"Last 14 days"],[30,"Last 30 days"]].map(([d,l])=>chip("days",d,l,tally("days",e=>Date.now()-new Date(e.t)<=d*864e5))).join("");
+  const side=soc?"":group("Side",chip("side","over","Overs",tally("side",e=>e.side==="over"))+chip("side","under","Unders",tally("side",e=>e.side==="under")));
+  const any=Object.values(f).some(Boolean);
+  return`<div class="rq">${side}${group("Period",win)}${group("Prop type",props.map(([p,t])=>chip("prop",p.replace(/"/g,"&quot;"),esc(p),t)).join(""))}${any?`<button class="rqclear" data-rfclear>Clear filters</button>`:""}</div>`;
+}
 function recFilterBar(list,soc){
   const f=S.rf||{},sel=(k,label,opts)=>`<label class="rf${f[k]?" on":""}"><span class="sr">${label}</span><select data-rf="${k}" aria-label="${label}"><option value="">${label}</option>${opts.map(([v,t])=>`<option value="${v}"${String(f[k]||"")===String(v)?" selected":""}>${t}</option>`).join("")}</select></label>`;
   const props=[...new Set(list.map(e=>e.lg==="SOC"?e.label:SHORT[e.market]||e.label))].sort();
@@ -2280,7 +2299,9 @@ function renderAppRecord(){
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const rfOn=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>(S.rf||{})[k]);
   let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
-  if(P0.length&&(S.rfOpen||rfOn))html+=recFilterBar(P0,SOCR);
+  if(P0.length)html+=recQuickBar(P0,SOCR);
+  const rfAdv=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>!["side","days","prop"].includes(k)&&(S.rf||{})[k]);  // the quick chips cover side/period/prop
+  if(P0.length&&(S.rfOpen||rfAdv))html+=recFilterBar(P0,SOCR);
   if(P0.length&&!P.length){el.innerHTML=html+`<p class="topnote">No picks match these filters.</p></section>`;return}
   if(!P.length){el.innerHTML=html+`<p class="topnote">${SOCR?"No soccer picks recorded yet. The Soccer Top 10s lock in as each match kicks off."
     :lgf==="all"?"No picks recorded yet. The Top 10 is locked in as each game kicks off."
@@ -4343,7 +4364,7 @@ function wire(){
   document.getElementById("view-rec").addEventListener("change",e=>{const f=e.target.closest("[data-rf]");if(!f)return;
     S.rf=Object.assign({},S.rf,{[f.dataset.rf]:f.dataset.rf==="days"?+f.value||"":f.value});saveRf()});
   document.getElementById("view-rec").addEventListener("click",e=>{const by=e.target.closest("[data-socby]");if(by){S.socBy=by.dataset.socby;renderRecord();return}
-    const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});S.rfOpen=true;saveRf();return}});
+    const dr=e.target.closest("[data-rfset]");if(dr){const k=dr.dataset.rfset,v=dr.dataset.rfval;S.rf=Object.assign({},S.rf,{[k]:(S.rf||{})[k]===v?"":v});if(!dr.hasAttribute("data-rq"))S.rfOpen=true;saveRf();return}});
   document.getElementById("view-rec").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".rfdrill")){e.preventDefault();e.target.click()}});
   document.getElementById("view-rec").addEventListener("click",e=>{if(e.target.closest("[data-rfclear]")){S.rf={};saveRf();return}
     if(e.target.closest("[data-rftoggle]")){S.rfOpen=!(S.rfOpen||Object.values(S.rf||{}).some(Boolean));if(!S.rfOpen)S.rf={};saveRf()}});
