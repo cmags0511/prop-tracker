@@ -354,6 +354,12 @@ MIN_PRICE = -130  # Top lists skip anything shorter (Oct 27)
 # score of at least MIN_TOP_SCORE = .23 (the old floor was .12) and plus-money picks rank at PLUS_PEN of their score. The cutoff was
 # chosen on the same sample it was measured on: re-check after another month of graded picks.
 MIN_TOP_SCORE, PLUS_PEN = .23, .8
+# Nov 17 weekly review: NBA picks graded D (edge -2% to +1%, "pass") no longer go in the Top lists. Since grades began (Oct 28)
+# NBA D picks in the Top 10 went 60-63 (-9.9u) vs C 150-114 (+10.6u); on every graded NBA prop from Nov 3 on (grades fit only on
+# earlier props, closing prices) D returned -4.6% (n 3,142) vs C or better +1.3% (n 2,734); a replay of 460 picks.json versions
+# with NBA D picks held out: NBA Top 10 +26.8u better (Oct 28 - Nov 9 +25.6u, Nov 10-17 +2.8u; 9 days better, 4 worse).
+# NFL is left as is: its D grades did fine on the full slate (+2.8%, n 455) and the replay was mixed.
+NO_D_TOP = {"NBA"}
 NBA_TOP_FROM = dt.datetime(2026, 11, 2, tzinfo=dt.timezone.utc)  # NBA Top 10 was paused Oct 27 - Nov 2; the owner turned it back on Nov 2
 GRADE_LAM = 60.0  # pulls the learned adjustments toward zero (= trust the book) until there's lots of data
 
@@ -1004,11 +1010,12 @@ def main():
         # until players have about 10 games this season (46%, -12.7u through Oct 27). Every prop stays on the board.
         full = cands
         cands = [c for c in cands if c.get("grade") != "F" and not (c.get("price") is not None and c["price"] < MIN_PRICE)
+                 and not (c["lg"] in NO_D_TOP and c.get("grade") == "D")
                  and not (c["lg"] == "NBA" and now < NBA_TOP_FROM)]
         for c in cands:  # plus-money prices rank lower (2-11 in the Oct 17-28 record)
             if c.get("price") is not None and c["price"] > 0:
                 c["score"] = round(c["score"] * PLUS_PEN, 3)
-        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, nothing shorter than {MIN_PRICE})")
+        print(f"Top lists: {len(cands)} of {len(full)} candidates listable (no F grades, no NBA D grades, nothing shorter than {MIN_PRICE})")
         top_pool = [c for c in cands if c["score"] >= MIN_TOP_SCORE]
         out["picks"] = slate(top_pool, 14) if top_pool else []  # 10 shown + spares for ruled-out players
         out["byMarket"] = {}
