@@ -72,7 +72,9 @@ BOOK_CAL = {"g": (-.22, 1.128), "sh": (-.877, .911), "sot": (-.697, .978), "a": 
             "card": (-.45, .911), "sv": (-.368, .868)}
 TOP_N = 20               # the Top picks: lots of matches, so more than 10
 TOP_M = {"g", "sh", "sot"}  # goals, shots and shots on target only (saves, cards, fouls and assists went 0-14 at first)
-TOP_MIN_PRICE = -250     # shorter than this pays too little to be worth listing
+TOP_MIN_PRICE = -200     # shorter than this pays too little to be worth listing. Owner, 2026-11-17: the Top list lost -26.5u on
+                         # picks priced -200 or shorter (57% hit against a 69% break-even), so they are off the list
+LEG_MIN_PRICE, LEG_MAX_PRICE, LEG_N = -300, 400, 60   # the pool soccer_parlays.py builds parlays from
 K_START, K_SUB = 4, 3    # shrinkage (pseudo-appearances) toward the position average
 
 
@@ -660,16 +662,21 @@ def main():
     sane = lambda c: c["model"] <= (1.35 if c["m"] == "sv" else 1.6) * c["fair_book"] and c["model"] - c["fair_book"] <= .12 \
         and not c.get("stale")
     starts = lambda c: c.get("lineup") != "bench" and (c.get("lineup") == "start" or (c.get("start_rate") or 0) >= .7)
+    # ranked by value (the model's edge over the price), not by likelihood: ranking by chance filled the list with short-priced
+    # favourites whose price already asked for more than they hit
     tops = top([c for c in cands if c["m"] in TOP_M and c["price"] >= TOP_MIN_PRICE and c["hits"][1] >= 5 and starts(c)
-                and sane(c)], lambda c: -c["prob"], n=TOP_N)
+                and sane(c)], lambda c: -c["ev"], n=TOP_N)
+    # leg pool for soccer_parlays.py: starters in goals/shots/shots-on-target props at a fair range of prices, best value first
+    legs = top([c for c in cands if c["m"] in TOP_M and LEG_MIN_PRICE <= c["price"] <= LEG_MAX_PRICE and c["hits"][1] >= 5
+                and starts(c) and sane(c)], lambda c: -c["ev"], n=LEG_N, per_match=6)
     value = top([c for c in cands if c["ev"] >= .03 and c["prob"] >= .15 and c["price"] <= 500 and c["m"] not in ("sv", "card")
                  and c["hits"][1] >= 5 and starts(c) and sane(c)], lambda c: -c["ev"])
-    fanduel_prices(tops + value, matches)
+    fanduel_prices(tops + value + legs, matches)
     matches.sort(key=lambda m: m["t"])
     cut = (now - dt.timedelta(days=10)).isoformat(timespec="minutes")
     json.dump({k: v for k, v in closing.items() if v[1] >= cut}, open(CLOSE, "w"), separators=(",", ":"))
     json.dump({"built": now.isoformat(timespec="minutes"), "leagues": LEAGUES, "skipped": skip, "matches": matches,
-               "top": tops, "value": value},
+               "top": tops, "value": value, "legs": legs},
               open(OUT, "w"), separators=(",", ":"))
     print("players skipped:", skip)
     evs = sorted(c["ev"] for c in cands)

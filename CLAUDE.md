@@ -28,7 +28,7 @@ before changing anything, and add to `WORKLOG.md` when you finish.
 - Generated data (don't hand-edit; re-run the script): `props_data.json` + `box_recent.json` (build_data.py),
   `cfb_data.json` (build_cfb.py), `usage.json` (build_usage.py), `context.json` (fetch_context.py),
   `lines.json` (fetch_lines.py), `markets.json` (fetch_markets.py), `odds.json` (fetch_prices.py / fetch_odds.py),
-  `picks.json` + `slate.json` (picks.py), `record.json` + `calib.json` + `closing.json` (record.py),
+  `picks.json` + `slate.json` (picks.py), `soccer_parlays.json` (soccer_parlays.py), `record.json` + `calib.json` + `closing.json` (record.py),
   `tuning.json` (tune.py), `soccer*.json` (soccer_data.py).
 - `notes.json` is written by the research runs (RESEARCH.md, merge_notes.py, scheduled tasks on the owner's
   account: daily research 7:34 AM ET, evening news check, game-day inactives checks).

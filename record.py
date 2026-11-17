@@ -238,7 +238,9 @@ def main():
     #     parlay wins only if every leg wins (pushed and void legs drop out), at the estimated price shown on the page
     pars = {e["id"]: e for e in rec.get("parlays", [])}
     pfile = load("parlays.json", {"parlays": []})
-    cur_par = {p["id"]: p for p in pfile.get("parlays", []) if start(p) > now}
+    # soccer parlays (soccer_parlays.py) are recorded and graded the same way, leg by leg from the soccer match history
+    spfile = load("soccer_parlays.json", {"parlays": []})
+    cur_par = {p["id"]: p for p in pfile.get("parlays", []) + spfile.get("parlays", []) if start(p) > now}
     mark_dropped(pars, cur_par)
     # at most PARLAY_DAY_CAP parlays count per sport per day (ET date of kickoff): the list regenerates hourly with new leg
     # combinations, and once a found parlay counts as a bet it is never removed, so without a cap the record fills up.
@@ -341,6 +343,18 @@ def main():
         e["status"] = "win" if v >= e["k"] else "loss"
         e["graded"] = now.isoformat(timespec="minutes")
 
+    def grade_soc(l):
+        """a soccer parlay leg, graded like a soccer prop (1f): his appearance in the match history, 'k or more'; no
+        appearance once the match is in the history (or after 4 days) means he didn't play and the leg is void"""
+        row = next((r for r in (shist["players"].get(l["id"]) or {}).get("g", []) if r[2] == l["ev_id"]), None)
+        if row is None:
+            if l["ev_id"] in shist.get("events", {}) or now - start(l) > dt.timedelta(days=4):
+                l["status"] = "void"
+            return
+        v = row[SIDX[l["m"]]] or 0
+        l["result"] = v
+        l["status"] = "win" if v >= l["k"] else "loss"
+
     try:  # every NFL player's recent stat line, including fringe players the app's list leaves out (build_data.py)
         BOX = json.load(open("box_recent.json"))
     except Exception:
@@ -392,7 +406,10 @@ def main():
             continue
         for l in pa["legs"]:
             if l["status"] == "pending" and start(l) <= now:
-                grade(l)
+                if l["lg"] == "SOC":
+                    grade_soc(l)
+                else:
+                    grade(l)
         sts = [l["status"] for l in pa["legs"]]
         if "loss" in sts:
             pa["status"] = "loss"

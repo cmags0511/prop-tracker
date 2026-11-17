@@ -2297,15 +2297,15 @@ function parRecordHtml(){
   if(!R0.length)return head+`<p class="topnote">No parlays recorded yet. The Best parlays on the Props page lock in as their first game kicks off, and are graded here after the games.</p>`;
   const hit=done.length?w(done)/done.length:null,exp=done.length?done.reduce((x,e)=>x+e.p,0)/done.length:null;
   const row=(lab,a)=>{const d=a.filter(e=>e.status==="win"||e.status==="loss");return d.length?`<tr><td>${lab}</td><td class="num mono">${w(d)}-${d.length-w(d)}</td><td class="num"><span class="heat">${pct(w(d)/d.length)}</span><small class="pteam" style="display:block">exp ${pct(d.reduce((x,e)=>x+e.p,0)/d.length)}</small></td><td class="num mono">${unitsTxt(sum(d))}</td></tr>`:""};
-  const rows=[["NFL same game",e=>e.lg==="NFL"&&e.kind==="same"],["NFL different games",e=>e.lg==="NFL"&&e.kind!=="same"],["NBA same game",e=>e.lg==="NBA"&&e.kind==="same"],["NBA different games",e=>e.lg==="NBA"&&e.kind!=="same"],["2 legs",e=>e.n===2],["3 legs",e=>e.n===3]].map(([k,f])=>row(k,done0.filter(f))).join("");
+  const rows=[["NFL same game",e=>e.lg==="NFL"&&e.kind==="same"],["NFL different games",e=>e.lg==="NFL"&&e.kind!=="same"],["NBA same game",e=>e.lg==="NBA"&&e.kind==="same"],["NBA different games",e=>e.lg==="NBA"&&e.kind!=="same"],["Soccer same game",e=>e.lg==="SOC"&&e.kind==="same"],["Soccer different games",e=>e.lg==="SOC"&&e.kind!=="same"],["2 legs",e=>e.n===2],["3 legs",e=>e.n===3]].map(([k,f])=>row(k,done0.filter(f))).join("");
   // still on the board when the first game started vs dropped off before then (every dropped parlay still counts as placed)
-  const kd=[];for(const lg of["NBA","NFL"])for(const[kl,kf]of[["same",e=>e.kind==="same"],["diff games",e=>e.kind!=="same"]])for(const[dl,df]of[["kept",e=>!e.dropped],["dropped",e=>!!e.dropped]])kd.push([`${lg} ${kl} \u00b7 ${dl}`,e=>e.lg===lg&&kf(e)&&df(e)]);
+  const kd=[];for(const lg of["NBA","NFL","SOC"])for(const[kl,kf]of[["same",e=>e.kind==="same"],["diff games",e=>e.kind!=="same"]])for(const[dl,df]of[["kept",e=>!e.dropped],["dropped",e=>!!e.dropped]])kd.push([`${lg} ${kl} \u00b7 ${dl}`,e=>e.lg===lg&&kf(e)&&df(e)]);
   const kdRows=kd.map(([k,f])=>row(k,done0.filter(f))).join("");
   const mark={win:"W",loss:"L",void:"V",pending:""};
   // "locked" = still on the board when its first game started or will start, waiting on the games: shown by day
   const byDay={};pend.forEach(e=>{const dt_=new Date(e.t),d=dt_.toLocaleDateString("en-US",{weekday:"short"})+" "+dt_.toLocaleDateString("en-US",{month:"numeric",day:"numeric"});byDay[d]=(byDay[d]||0)+1});
   const lockedLine=pend.length?`<p class="hfoot" style="margin-top:-6px">${pend.length} locked, not graded yet: ${Object.entries(byDay).map(([d,n])=>`${d} (${n})`).join(", ")}. Only the app's suggested parlays are counted.</p>`:"";
-  const legSt=l=>`<small class="pteam" style="color:${l.status==="win"?"var(--hit)":l.status==="loss"?"var(--miss)":"var(--muted)"}">${l.status==="win"?"\u2713 ":l.status==="loss"?"\u2717 ":l.status==="push"?"push ":l.status==="void"?"void ":""}${esc(l.name)} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}${l.result!=null?` (${fmt(l.result)})`:""}</small>`;
+  const legSt=l=>`<small class="pteam" style="color:${l.status==="win"?"var(--hit)":l.status==="loss"?"var(--miss)":"var(--muted)"}">${l.status==="win"?"\u2713 ":l.status==="loss"?"\u2717 ":l.status==="push"?"push ":l.status==="void"?"void ":""}${esc(l.name)} ${l.lg==="SOC"?esc(l.label):`${l.side==="over"?"o":"u"}${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}`}${l.result!=null?` (${fmt(l.result)})`:""}</small>`;
   const allOn=!!S.parAll,srt=[...R].sort((a,b)=>new Date(b.t)-new Date(a.t));
   const dayOf=e=>new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});let lastD="";
   const recent=(allOn?srt:srt.slice(0,25)).map(e=>(allOn&&dayOf(e)!==lastD?(lastD=dayOf(e),(()=>{const a=srt.filter(x=>dayOf(x)===lastD),d=a.filter(x=>x.status==="win"||x.status==="loss");return`<div class="lrow" style="background:var(--bg);font-weight:800"><span>${lastD}</span><span class="lv">${a.length} parlay${a.length>1?"s":""}${d.length?` \u00b7 ${w(d)}-${d.length-w(d)} \u00b7 ${unitsTxt(sum(d))}`:""}</span></div>`})()):"")+`<div class="lrow rec"><i class="rc ${e.status}" aria-label="${e.status}">${mark[e.status]||""}</i><div class="lmid"><b>${e.n}-leg ${e.kind==="same"?"same game":"different games"} \u00b7 ${e.lg}</b><span>${new Date(e.t).toLocaleDateString("en-US",{month:"short",day:"numeric"})} \u00b7 est. ${amFmt(e.price)} \u00b7 app chance ${Math.round(e.p*100)}%</span>${e.legs.map(legSt).join("")}</div><b style="color:${e.status==="win"?"var(--hit)":e.status==="loss"?"var(--miss)":"var(--muted)"}">${e.status==="pending"?"Locked":e.status==="void"?"Void":unitsTxt(prof(e))}</b></div>`).join("");
@@ -3895,20 +3895,41 @@ function socHowHtml(){
     <p class="shp"><b>Player props (information only).</b> DraftKings' and FanDuel's soccer player props are "yes only" bets with a big built-in margin: across 22,000 props in October, a 1+ shots bet priced like a 73% chance happened 55% of the time. So the app takes that margin out, and most likely picks still cost money on average at the book's price. Each shows both books' prices and the fair price; shop for that price or better. If he doesn't play, the book voids the bet.</p>
     <p class="shp"><b>Be realistic.</b> Team-bet edges are small (2–6%), so even if they're real it takes a few hundred bets for the record to show it; a 20-bet stretch can easily be down. Not betting advice.</p>`,"rowcta");
 }
+// Soccer parlays (soccer_parlays.py -> soccer_parlays.json): same-game and different-game combos of the Soccer tab's best-value legs
+let SPAR=null,sparLoading=false;
+function loadSocPar(){
+  if(SPAR||sparLoading)return;sparLoading=true;
+  jget("soccer_parlays.json").then(d=>{SPAR=d||{parlays:[]};sparLoading=false;if(S.view==="soc")renderSoccer()});
+}
+function socParlaysHtml(lf){
+  if(!SPAR)return`<p class="pteam">Loading soccer parlays…</p>`;
+  const now=Date.now(),L=(SPAR.parlays||[]).filter(p=>new Date(p.t).getTime()>now&&(lf==="all"||p.legs.every(l=>l.comp===lf)));
+  const head=`<div class="tophead"><h2>Soccer <span>parlays</span></h2></div>
+    <p class="topsub">Combos of the Soccer tab's best-value player props, one match day at a time. Two players in the same match hit together only a little more often than chance (about 3\u20134% for shots, from the app's match history), so a same-game parlay is priced close to different games. Most soccer props are priced above the app's chance, so these are the closest to fair, not a proven edge: bet one only if your book pays at least the fair price shown. The estimated price is just the legs' prices multiplied, so check DraftKings' own number.</p>`;
+  if(!L.length)return head+`<p class="topnote">No soccer parlay is close enough to fair right now. They appear when several good-priced props line up on the same day.</p>`;
+  const card=p=>{
+    const when=new Date(p.t).toLocaleDateString("en-US",{weekday:"short"})+" "+new Date(p.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+    const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${esc(l.team)} ${l.home?"vs":"@"} ${esc(l.opp)}</small><small>${esc(l.label)}</small></span><span class="px">${amFmt(l.price)}</span></div>`).join("");
+    return`<div class="bpar"><div class="bph"><b>${p.n}-leg parlay</b><small>${p.kind==="same"?"same game":"different games"} \u00b7 ${when}</small></div>${legs}
+      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied; DraftKings' own parlay price will differ">Est. ${amFmt(p.price)}</span></div>
+      ${(p.pairs||[]).map(t=>`<p class="bpwhy">${esc(t)}</p>`).join("")}</div>`};
+  const same=L.filter(p=>p.kind==="same"),cross=L.filter(p=>p.kind!=="same");
+  return head+(same.length?`<h3 class="bpsub">Same game</h3>${same.map(card).join("")}`:"")+(cross.length?`<h3 class="bpsub">Different games</h3>${cross.map(card).join("")}`:"");
+}
 function renderSoccer(){
   const el=document.getElementById("view-soc");
   if(!SOC){el.innerHTML=`<section class="sg"><p class="pteam">Loading soccer…</p></section>`;loadSoccer();return}
-  loadSocTeam();
+  loadSocTeam();loadSocPar();
   const ms=socAll();
   const lgs=new Map();ms.forEach(m=>lgs.set(m.lg,m.league));((ST&&ST.picks)||[]).forEach(c=>{if(new Date(c.t).getTime()>Date.now())lgs.set(c.lg,c.league)});
   const lgList=[...lgs.entries()].sort((a,b)=>a[1].localeCompare(b[1]));
   const lf=lgs.has(S.socLg)?S.socLg:"all",inLg=c=>lf==="all"||c.lg===lf;
-  const sec=S.socSec==="matches"?"matches":"picks";
+  const sec=S.socSec==="matches"?"matches":S.socSec==="parlays"?"parlays":"picks";
   const items=socItems(inLg);
   const types=[["all","All picks"],["team","Team bets"],...Object.keys(SOC_M).filter(k=>items.some(it=>it.m===k)).map(k=>[k,SOC_M[k]])];
   const ty=types.some(([k])=>k===S.socType)?S.socType:"all";
   const opt=(cur,list)=>list.map(([k,l])=>`<option value="${esc(k)}"${k===cur?" selected":""}>${esc(l)}</option>`).join("");
-  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="socSec">${opt(sec,[["picks","Top picks"],["matches","Matches"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="socType">${opt(ty,types)}</select></label>`:""}<label class="dd"><span class="sr">League</span><select id="socLg">${opt(lf,[["all","All leagues"],...lgList])}</select></label></div>
+  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="socSec">${opt(sec,[["picks","Top picks"],["parlays","Parlays"],["matches","Matches"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="socType">${opt(ty,types)}</select></label>`:""}<label class="dd"><span class="sr">League</span><select id="socLg">${opt(lf,[["all","All leagues"],...lgList])}</select></label></div>
     <input type="search" id="socq" class="socq" placeholder="Search a player or team" value="${esc(S.socQ||"")}" aria-label="Search soccer players or teams">
     ${S.socQ?socSearchHtml(ms):""}`;
   if(sec==="picks"){
@@ -3924,6 +3945,8 @@ function renderSoccer(){
     }
     if(!shown&&ty!=="all"&&ty!=="team")html+=`<p class="topnote">No ${esc(SOC_M[ty]||"")} picks${lf!=="all"?" in this league":""} right now.</p>`;
     html+=`<p class="topsub" style="padding-inline:2px">Prices: DraftKings via ESPN, FanDuel and Pinnacle, updated ${new Date(SOC.built).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.</p>${socHowHtml()}</div>`;
+  }else if(sec==="parlays"){
+    html+=`<div id="socpar">${socParlaysHtml(lf)}</div>`;
   }else{
     const list=socMatches(inLg),days={};
     list.forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
