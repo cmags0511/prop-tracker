@@ -1,1439 +1,373 @@
 {
- "updated": "2026-11-16T23:51:38Z",
- "summary": "Lamar Jackson is out (IR, thumb), so Jacoby Brissett starts on MNF vs the Chargers, who are without Ladd McConkey (Tre Harris moves up). In the NBA, Curry is out about a month, Embiid and VanVleet are unconfirmed for the second night of back-to-backs, and Memphis is without Ty Jerome.",
+ "updated": "2026-11-17T12:41:04Z",
+ "summary": "Detroit visits San Antonio short on wings (Robinson and Duren out, Joe doubtful) while Fox returns from a hip issue for the Spurs; Scottie Barnes is back for Toronto in the Knicks rematch.",
  "notes": {
-  "NBA|4711294|3pm": {
+  "NBA|4432166|reb": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Buzelis is not on Chicago's injury report and his role is unchanged; Chicago gets a rest day after Saturday's back-to-back finish in Minnesota.",
+   "note": "Cunningham is not on the injury report; Duren (out ten straight games) and now Holland being out leave fewer Detroit rebounders, but Duren's absence is already in his recent sample.",
    "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report",
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://www.sportbusy.com/games/nba/14315887-chicago-bulls-at-cleveland-cavaliers-2026-11-16/"
+    "https://sports.yahoo.com/articles/pistons-face-blockbuster-spurs-without-015823671.html",
+    "https://fantasyteamadvice.com/nba/rotations?team=DET",
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
    ],
    "detail": {
-    "availability": "Not listed on the Bulls' Monday report (only Wilson, Awaka out; Jalen Smith questionable).",
-    "role": "Nic Claxton is back from a hamstring issue on a roughly 16-20 minute limit, which affects the center spot rather than Buzelis's forward minutes.",
-    "matchup": "Cleveland is without Evan Mobley (toe) for a third straight game, removing its best frontcourt defender.",
-    "script": "Cleveland is about -8.5 (opened -9.5) with a high total of 241.5.",
-    "conditions": "Chicago played a back-to-back Friday/Saturday and has Sunday off before this game."
+    "availability": "Not listed on either report for Tuesday; he played 36 minutes on Nov 14.",
+    "role": "Holland (left knee bone bruise) joins Duren (hamstring) and Prince (knee) on the sidelines, thinning the forward rotation that competes for boards.",
+    "script": "Spurs are roughly 9-point favorites, so a lopsided game could cut his fourth-quarter minutes."
    }
   },
-  "NBA|2595516|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Powell is healthy and the Bulls' lead scorer; no injury or role change found that moves his assist volume.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://www.sportbusy.com/games/nba/14315887-chicago-bulls-at-cleveland-cavaliers-2026-11-16/"
-   ],
-   "detail": {
-    "availability": "Not on the Bulls' injury report; he scored 33 vs Atlanta and 24 at Minnesota in the last two games.",
-    "matchup": "Cleveland lacks Mobley and Merrill, but Mitchell, Harden and Allen return after resting Saturday.",
-    "script": "Cleveland about -8.5 with a 241.5 total, the highest-paced setup in this batch.",
-    "market": "Kalshi at 63% over sits above the 52.4% break-even; line 1.5 unchanged from open."
-   }
-  },
-  "NBA|4397189|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4397189|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Smith is questionable with a sprained finger after sitting Saturday, and Nic Claxton is now available to take center minutes if he sits or is limited.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chicago-bulls-announce-injury-report-062600365.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jalen-smith-finger-questionable-vs-cleveland",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/nic-claxton-hamstring-absent-from-injury-report"
-   ],
-   "detail": {
-    "availability": "Questionable (left finger sprain); missed Saturday at Minnesota as a precaution.",
-    "role": "Claxton is off the injury report on a 16-20 minute limit and could start if Smith sits; Zach Collins started Saturday."
-   }
-  },
-  "NBA|4576087|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4576087|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Watson is questionable with abdominal soreness after missing Saturday with a hamstring issue; his start is not assured.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right abdominal soreness); sat Saturday vs Dallas managing a hamstring."
-   }
-  },
-  "NBA|4683747|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|4683747|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tyson is questionable with a right ankle issue; if he and Watson sit, rookie Meleek Thomas and Tyrese Proctor are in line for extra minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/cleveland-cavaliers/cavaliers-hit-with-brutal-injury-news-ahead-of-bulls-game/",
-    "https://wncoam.iheart.com/content/2026-11-16-bulls-vs-cavaliers-injury-report-nov-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle injury management)."
-   }
-  },
-  "NBA|6589|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Green starts at center with Curry out, but in the first full game without Curry he played under 16 minutes in a blowout; the market's lean under is not explained by any injury news.",
-   "sources": [
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/",
-    "https://www.basketball-reference.com/boxscores/202611130SAS.html",
-    "https://sports.yahoo.com/articles/learned-steph-curry-less-warriors-211521578.html",
-    "https://www.sportbusy.com/games/nba/14315892-golden-state-warriors-at-new-orleans-pelicans-2026-11-16/"
-   ],
-   "detail": {
-    "availability": "Not on the Warriors' injury report.",
-    "role": "Started Friday at San Antonio but logged 15:44 with 3 assists as the 38-point loss pushed two-way players into big minutes; LJ Cryer led the team with 6 assists off the bench.",
-    "matchup": "New Orleans is without Murray, Murphy, Mathurin, Watford and McGowens, thinning its guard defense.",
-    "script": "Golden State is about -3 (opened -2.5) with a total near 225.5.",
-    "conditions": "Second game of a five-game road trip; two days off since Friday.",
-    "market": "Kalshi at 40% over sits well below break-even for the over and no availability news explains it."
-   }
-  },
-  "NBA|4066436|reb": {
+  "NBA|4066372|3pm": {
    "side": "over",
    "flag": "support",
-   "adj": 0,
+   "adj": 1,
    "conf": "medium",
-   "note": "Curry is out about a month (oblique); Melton started Friday in his place, though Monday's starting lineup was not yet announced.",
+   "note": "With shooters Duncan Robinson out and Isaiah Joe doubtful plus Holland and Prince out, Huerter is Detroit's main bench wing; he played nearly 38 minutes off the bench on Nov 14.",
    "sources": [
-    "https://sports.yahoo.com/articles/learned-steph-curry-less-warriors-211521578.html",
-    "https://www.basketball-reference.com/boxscores/202611130SAS.html",
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/",
-    "https://www.cbssports.com/nba/news/stephen-curry-injury-warriors-abdominal/"
+    "https://fantasyteamadvice.com/nba/rotations?team=DET",
+    "https://sports.yahoo.com/articles/pistons-face-blockbuster-spurs-without-015823671.html",
+    "https://khey1380.iheart.com/content/2026-11-17-pistons-vs-spurs-injury-report-nov-17/"
    ],
    "detail": {
     "availability": "Not on the injury report.",
-    "role": "Started Friday at San Antonio in Curry's place (18 minutes, 4 rebounds in a 38-point loss); Curry could be out up to a month and Brandon Williams is also out.",
-    "script": "Golden State about -3 with a total near 225.5, a closer game than Friday's blowout.",
-    "conditions": "Two days of rest since Friday; second stop on a five-game trip."
+    "role": "Led Detroit in minutes (37:50) off the bench at Miami on Nov 14; Robinson (quad), Holland (knee), Prince (knee) are out and Joe (hip) is doubtful after missing nine games, so the wing minutes stay with him.",
+    "script": "Spurs about 9-point favorites; a blowout would mean more garbage-time run for bench wings rather than less.",
+    "market": "Kalshi and the book both near 62% over, consistent with the expanded role."
    }
   },
-  "NBA|4997536|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Santos is questionable with new right ankle inflammation; if he sits, Will Richard, Gary Payton II and Georges Niang absorb his minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle inflammation), a new injury after earlier knee tendinitis."
-   }
-  },
-  "NBA|4997536|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Santos is questionable with new right ankle inflammation; if he sits, Will Richard, Gary Payton II and Georges Niang absorb his minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle inflammation), a new injury after earlier knee tendinitis."
-   }
-  },
-  "NBA|4997536|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Santos is questionable with new right ankle inflammation; if he sits, Will Richard, Gary Payton II and Georges Niang absorb his minutes.",
-   "sources": [
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/"
-   ],
-   "detail": {
-    "availability": "Questionable (right ankle inflammation), a new injury after earlier knee tendinitis."
-   }
-  },
-  "NBA|4601025|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4432639|3pm": {
+  "NBA|4592479|3pm": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "VanVleet is expected back after resting Sunday, so the guard absence the app counts may not apply; Houston is on the second night of a back-to-back.",
+   "note": "Champagnie started Sunday while Fox sat with a hip issue, but Fox is off the injury report for Tuesday, so Champagnie is expected back in his bench role.",
    "sources": [
-    "https://sports.yahoo.com/articles/rockets-11-3-rout-wizards-041431911.html",
-    "https://www.sportbusy.com/games/nba/14315890-houston-rockets-at-miami-heat-2026-11-16/"
-   ],
-   "detail": {
-    "role": "VanVleet expected to return to the starting five; Adams returned Sunday and started in a double-big look, which VanVleet's return should end.",
-    "script": "Houston about -1.5 (opened -2.5), total 230 (opened 228.5).",
-    "conditions": "Back-to-back with travel to Miami."
-   }
-  },
-  "NBA|4684740|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "VanVleet sat Sunday with right knee management (not rest); reports expect him back Monday but Houston's report was not filed, so Amen's role is unconfirmed.",
-   "sources": [
-    "https://sports.yahoo.com/articles/rockets-11-3-rout-wizards-041431911.html",
-    "https://sports.yahoo.com/articles/miami-faces-houston-aims-5th-070406960.html"
-   ],
-   "detail": {
-    "role": "VanVleet rested Sunday at Washington and is expected to start Monday in place of Steven Adams; Smart was serving a three-game suspension as of Sunday.",
-    "conditions": "Houston is on the second night of a back-to-back with travel from Washington to Miami."
-   }
-  },
-  "NBA|4684740|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "VanVleet sat Sunday with right knee management (not rest); reports expect him back Monday but Houston's report was not filed, so Amen's role is unconfirmed.",
-   "sources": [
-    "https://sports.yahoo.com/articles/rockets-11-3-rout-wizards-041431911.html",
-    "https://sports.yahoo.com/articles/miami-faces-houston-aims-5th-070406960.html"
-   ],
-   "detail": {
-    "role": "VanVleet rested Sunday at Washington and is expected to start Monday in place of Steven Adams; Smart was serving a three-game suspension as of Sunday.",
-    "conditions": "Houston is on the second night of a back-to-back with travel from Washington to Miami."
-   }
-  },
-  "NBA|4684740|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "VanVleet sat Sunday with right knee management (not rest); reports expect him back Monday but Houston's report was not filed, so Amen's role is unconfirmed.",
-   "sources": [
-    "https://sports.yahoo.com/articles/rockets-11-3-rout-wizards-041431911.html",
-    "https://sports.yahoo.com/articles/miami-faces-houston-aims-5th-070406960.html"
-   ],
-   "detail": {
-    "role": "VanVleet rested Sunday at Washington and is expected to start Monday in place of Steven Adams; Smart was serving a three-game suspension as of Sunday.",
-    "conditions": "Houston is on the second night of a back-to-back with travel from Washington to Miami."
-   }
-  },
-  "NBA|4711272|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "VanVleet's expected return after a rest day should trim Houston's guard minutes, which can squeeze Sheppard's bench role.",
-   "sources": [
-    "https://sports.yahoo.com/articles/rockets-11-3-rout-wizards-041431911.html"
-   ],
-   "detail": {
-    "role": "VanVleet sat Sunday for maintenance and is expected to start Monday."
-   }
-  },
-  "NBA|4601025|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|4601025|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with an illness after missing the last two games; if he sits, Myron Gardner is expected to start again and Wiggins stays on the bench.",
-   "sources": [
-    "https://sports.yahoo.com/articles/miami-heat-release-injury-report-072554975.html",
-    "https://hothothoops.com/2026/11/15/miami-heat-could-get-key-wing-back-monday-rockets-larsson/"
-   ],
-   "detail": {
-    "availability": "Upgraded to questionable after two missed games with a sudden illness; to be re-evaluated before tip.",
-    "role": "Gardner started both games he missed; Larsson had moved into the starting five ahead of Andrew Wiggins."
-   }
-  },
-  "NBA|5041935|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Frontcourt is in flux: Edey (ankle), Isaiah Stewart (illness) and Quinten Post (concussion) are all questionable, so Boozer could log center minutes, while Jerami Grant returns to compete for bench frontcourt shots.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jerami-grant-head-removed-from-injury-report",
-    "https://www.sportbusy.com/games/nba/14315888-memphis-grizzlies-at-washington-wizards-2026-11-16/"
-   ],
-   "detail": {
-    "availability": "Not on the Memphis injury report.",
-    "role": "Edey (ankle), Isaiah Stewart (illness) and Quinten Post (concussion) are all questionable; Boozer has been the backup center with Post out, and Jerami Grant (head) is cleared after scoring 22 in 26 minutes Nov 13.",
-    "script": "Memphis about -4, total 230.",
-    "conditions": "Washington is on the second night of a back-to-back after losing big to Houston Sunday."
-   }
-  },
-  "NBA|4433083|3pm": {
-   "side": "over",
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Ty Jerome (right hip) is ruled out Monday; Spencer started Saturday in his place and is the likely starter, not yet announced.",
-   "sources": [
-    "https://www.fantasypros.com/nba/news/620458/ty-jerome-hip-ruled-out-monday.php",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "No injury designation.",
-    "role": "Jerome ruled out Monday with right hip soreness and Pippen Jr. (back) out, so Spencer keeps the starting PG role he held in Saturday's win over Brooklyn.",
-    "conditions": "Washington plays its second game in two nights."
-   }
-  },
-  "NBA|5142718|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Washington is on a back-to-back; Tre Johnson (back) sat Sunday and his Monday status is unconfirmed, while Bub Carrington is back from a chest issue to handle bench guard work.",
-   "sources": [
-    "https://www.nbcsports.com/nba/washington-wizards",
-    "https://www.fantasypros.com/nba/news/tre-johnson.php"
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/deaaron-fox-hip-removed-from-injury-report"
    ],
    "detail": {
     "availability": "Not on the injury report.",
-    "role": "Tre Johnson was downgraded to out Sunday with back soreness; no Monday update found. Carrington was upgraded to available Sunday.",
-    "conditions": "Second night of a back-to-back after Sunday's home loss to Houston."
+    "role": "Started Nov 15 against Utah in Fox's place; with Fox cleared he is expected to return to the bench, his usual role for most of his recent sample.",
+    "market": "Kalshi 62% and book 61% over; line unchanged from open at 1.5."
    }
   },
-  "NBA|5160992|3pm": {
+  "NBA|4066259|pra": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox was removed from the injury report after a hip issue that cost him Sunday's game, but he played only 17 minutes Friday, so his workload is the open question.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/deaaron-fox-hip-removed-from-injury-report"
+   ],
+   "detail": {
+    "availability": "Questionable for Friday and Sunday with a hip problem; played 17 minutes Friday, sat Sunday, off the Nov 16 report for Tuesday.",
+    "role": "His return is expected to trim Harper's and Castle's usage slightly and send Champagnie back to the bench."
+   }
+  },
+  "NBA|4066259|ast": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox is cleared after a hip issue that sidelined him Sunday, but his only recent outing lasted 17 minutes, so his minutes may be managed.",
+   "sources": [
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/deaaron-fox-hip-removed-from-injury-report"
+   ],
+   "detail": {
+    "availability": "Off the Nov 16 injury report after missing Nov 15 with a hip issue; played 17 minutes on Nov 13."
+   }
+  },
+  "NBA|4433134|ast": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Sarr played through an illness designation Sunday (27 minutes) and is on the second night of a back-to-back; Memphis bigs are questionable.",
+   "note": "Barnes came back Nov 15 from a left groin strain (missed four games) and had a normal workload with 4 assists; there's no sign of a minutes limit for the rematch.",
    "sources": [
-    "https://www.nbcsports.com/nba/washington-wizards",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jerami-grant-head-removed-from-injury-report",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
+    "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/",
+    "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status"
    ],
    "detail": {
-    "availability": "Upgraded from questionable (illness) to available Sunday and played 27 minutes in a blowout loss.",
-    "matchup": "Memphis centers Edey (ankle), Isaiah Stewart (illness) and Quinten Post (concussion) are all questionable.",
-    "conditions": "Back-to-back for Washington.",
-    "market": "Line now 0.5 after opening at 1.5, a move toward the over side, not against it."
+    "availability": "He missed four games with a left groin strain, practiced partially Nov 14, then played Nov 15 vs NY and scored 30 points with 9 rebounds and 4 assists. No restriction was reported.",
+    "role": "He's back in his usual starting role. Leonard (knee) and Bittle (foot) are still out, so Barnes keeps a heavy creation load.",
+    "script": "Toronto is about a 3-point home underdog with a total near 217."
    }
   },
-  "NBA|5041935|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Edey (ankle), Isaiah Stewart (illness) and Quinten Post (concussion) are all questionable; if they sit, Boozer has been the fill-in center, which would raise his rebounding chances.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "role": "Boozer has filled the backup center role with Post out; Edey has missed two straight games."
-   }
-  },
-  "NBA|5041935|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Edey (ankle), Isaiah Stewart (illness) and Quinten Post (concussion) are all questionable; Boozer's frontcourt minutes depend on who plays, while Jerami Grant returns from a head injury.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/jerami-grant-head-removed-from-injury-report"
-   ],
-   "detail": {
-    "role": "Grant cleared off the injury report Monday; three Memphis centers questionable."
-   }
-  },
-  "NBA|4600663|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|4600663|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|4600663|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|4600663|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game. Stewart (illness) and Post (concussion) are both out Monday, so Edey would face little competition at center if he is cleared; he was still questionable as of Monday afternoon.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/isaiah-stewart-illness-out-monday-vs-wizards"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|4600663|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|4600663|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "high",
-   "note": "Questionable with left ankle after missing the last two games; Stewart started in his place, and his last outing before the absence was a 19-minute game.",
-   "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-15/zach-edey-ankle-questionable-monday-vs-wizards",
-    "https://sports.yahoo.com/articles/grizzlies-list-zach-edey-quinten-221551360.html"
-   ],
-   "detail": {
-    "availability": "Listed questionable Monday after sitting Nov 13 and Nov 14 for ankle injury management.",
-    "role": "Stewart started at center in his absence and is himself questionable with an illness; Post (concussion) is also questionable."
-   }
-  },
-  "NBA|5104155|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Coulibaly was expected to absorb minutes with Tre Johnson (back) out Sunday; Johnson's status for Monday is not confirmed.",
-   "sources": [
-    "https://www.nbcsports.com/nba/washington-wizards",
-    "https://www.fantasypros.com/nba/news/tre-johnson.php"
-   ],
-   "detail": {
-    "availability": "Johnson's Monday status unconfirmed as of research time.",
-    "role": "Coulibaly and Will Riley were tabbed for more minutes with Johnson out.",
-    "conditions": "Washington back-to-back."
-   }
-  },
-  "NBA|5104155|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Coulibaly was expected to absorb minutes with Tre Johnson (back) out Sunday; Johnson's status for Monday is not confirmed.",
-   "sources": [
-    "https://www.nbcsports.com/nba/washington-wizards",
-    "https://www.fantasypros.com/nba/news/tre-johnson.php"
-   ],
-   "detail": {
-    "availability": "Johnson's Monday status unconfirmed as of research time.",
-    "role": "Coulibaly and Will Riley were tabbed for more minutes with Johnson out.",
-    "conditions": "Washington back-to-back."
-   }
-  },
-  "NBA|5104155|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Coulibaly was expected to absorb minutes with Tre Johnson (back) out Sunday; Johnson's status for Monday is not confirmed.",
-   "sources": [
-    "https://www.nbcsports.com/nba/washington-wizards",
-    "https://www.fantasypros.com/nba/news/tre-johnson.php"
-   ],
-   "detail": {
-    "availability": "Johnson's Monday status unconfirmed as of research time.",
-    "role": "Coulibaly and Will Riley were tabbed for more minutes with Johnson out.",
-    "conditions": "Washington back-to-back."
-   }
-  },
-  "NBA|4065648|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "high",
-   "note": "Tatum is healthy and Boston has no one on the injury report, so his role is unchanged; only the 8.5-9.5 point spread hints at possible reduced late minutes.",
-   "sources": [
-    "https://abcnews.com/Sports/wireStory/boston-faces-orlando-aims-7th-straight-victory-138170506",
-    "https://969thegame.iheart.com/content/2026-11-16-magic-vs-celtics-injury-report-nov-16/",
-    "https://www.sportbusy.com/games/nba/14315886-orlando-magic-at-boston-celtics-2026-11-16/"
-   ],
-   "detail": {
-    "availability": "Not on the injury report; Boston lists no injuries for Monday per the league-sourced report and the AP preview.",
-    "matchup": "Orlando is missing Banchero, Isaac (knee) and Penda, removing two of its bigger forward defenders from the rotation.",
-    "script": "Boston opened -10.5 and is now about -8.5 to -9.5 with a total near 211.5-212.5, a low-total game where a blowout could cap fourth-quarter minutes.",
-    "market": "Posted line 40.5 is unchanged from open."
-   }
-  },
-  "NBA|3059318|pra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint",
-    "https://sports.yahoo.com/articles/pacers-nets-back-back-could-172636431.html",
-    "https://sports.yahoo.com/articles/observations-brown-maxey-duo-scores-153348791.html"
-   ],
-   "detail": {
-    "availability": "Ruled out Sunday vs Indiana for right foot plantar fascia management; his two earlier missed games were also on one leg of back-to-backs; no Monday injury report found at check time.",
-    "role": "Philadelphia's frontcourt is thin: Bona (cervical strain, about a week), Barlow (back stress reaction) and Hukporti (Achilles) are out, and Jabari Walker started at center Sunday, so Embiid would face little competition for center minutes if he plays.",
-    "script": "Second night of a back-to-back for Philadelphia; LeBron James played Sunday (15 pts, 11 ast) and has not played both legs of a back-to-back this season, which would push more usage to Embiid if James sits.",
-    "conditions": "Philadelphia played at home Sunday and travels to Brooklyn on no rest.",
-    "market": "Line rose from 33.5 open to 34.5, consistent with the market expecting him to play."
-   }
-  },
-  "NBA|3059318|pr": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|reb": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|pa": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|pts": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|ra": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|ast": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3059318|3pm": {
-   "flag": "caution",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Embiid (right foot plantar fascia management) sat Sunday's first leg of the back-to-back; playing Monday fits his pattern but no Monday status was found, so his availability is unconfirmed.",
-   "sources": [
-    "https://www.phillyvoice.com/sixers-news-analysis-76ers-vs-pacers-injury-report-lebron-james-status-joel-embiid-update-dominick-barlow-timeline/",
-    "https://www.blogdebasket.com/en/2026/11/15/joel-embiid-injured-against-indiana-leaving-the-sixers-shorthanded-in-the-paint"
-   ],
-   "detail": {
-    "availability": "Sat Sunday's first leg of the back-to-back (foot management); Monday status not confirmed at check time."
-   }
-  },
-  "NBA|3112335|pra": {
+  "NBA|4433134|3pm": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "No injury news for Jokic; the main risk is a 10.5-point spread that raises the chance of reduced late minutes in a lopsided game.",
+   "note": "Barnes is healthy again after a four-game groin absence and played a full game Nov 15, so his normal shot volume should be back.",
    "sources": [
-    "https://www.foxsports.com/articles/nba/phoenix-visits-denver-aims-to-stop-road-skid",
-    "https://www.sportbusy.com/games/nba/14315893-phoenix-suns-at-denver-nuggets-2026-11-16/",
-    "https://www.denverstiffs.com/recap-denver-nuggets-finish-road-trip-with-116-108-victory-over-new-orleans-pelicans/"
+    "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/"
    ],
    "detail": {
-    "availability": "Not on the injury report; Denver lists only Strawther out.",
-    "script": "Denver -10.5, total 228.5, unchanged from the opening numbers.",
-    "conditions": "One day of rest after Saturday's win in New Orleans; first game of a homestand."
+    "availability": "He returned Nov 15 from a left groin strain with no reported minutes limit and scored 30 against this same Knicks team."
    }
   },
-  "NBA|3936299|3pm": {
+  "NBA|4432241|3pm": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Murray is healthy with no rotation changes; Denver's large spread is the main minutes risk.",
+   "note": "Barnes's return isn't a clear minutes threat: in his comeback game Nov 15 against these Knicks, Shead still scored 19 points as the backup point guard.",
    "sources": [
-    "https://www.foxsports.com/articles/nba/phoenix-visits-denver-aims-to-stop-road-skid",
-    "https://www.sportbusy.com/games/nba/14315893-phoenix-suns-at-denver-nuggets-2026-11-16/",
-    "https://www.denverstiffs.com/recap-denver-nuggets-finish-road-trip-with-116-108-victory-over-new-orleans-pelicans/"
+    "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/"
    ],
    "detail": {
-    "availability": "Not on the injury report.",
-    "script": "Denver -10.5, total 228.5.",
-    "conditions": "Home after a road trip that ended Saturday."
+    "availability": "Nothing indicates Shead is on the injury report.",
+    "role": "Barnes returned Nov 15 from a four-game groin absence, yet Shead posted 19 points off the bench that night, so his backup guard role looks intact; no Raptors guard injuries change it."
    }
   },
-  "NBA|4397002|ast": {
+  "NBA|3062679|pr": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Dosunmu is starting and averaging about 35 minutes, but LaMelo Ball is the primary handler; losing Clark (20 mpg, off-ball defender) adds little playmaking to Dosunmu's plate.",
+   "note": "The Knicks have no injury designations, so Hart starts in his usual role; there's no rotation news that changes his volume.",
    "sources": [
-    "https://www.audacy.com/wccoradio/local-sports/timberwolves/dosunmu-timberwolves-while-edwards-recovers",
-    "https://heavy.com/sports/nba/minnesota-timberwolves/jaylen-clark-injury-update-timberwolves-backcourt-depth",
-    "https://sportsmole.co.uk/basketball/portland-trail-blazers/preview/trail-blazers-vs-timberwolves-player-props-injury-report-and-prediction--nba_609140.html",
-    "https://www.sportbusy.com/games/nba/14315891-portland-trail-blazers-at-minnesota-timberwolves-2026-11-16/"
+    "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status",
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/"
    ],
    "detail": {
-    "availability": "Healthy; not on the injury report.",
-    "role": "Moved into the starting lineup after Edwards' knee procedure and is averaging about 35 minutes as a scorer next to Ball; Clark's absence for two-plus weeks opens backcourt minutes likely split among Shannon Jr. and Hyland.",
-    "script": "Total 228.5 and Minnesota about -2, opened -2.5; Finch has emphasized pace with Ball.",
-    "market": "Book price 52.8% on the over versus the app's 46.5%; line unchanged at 3.5."
+    "availability": "New York listed no players on its injury report for the Nov 15 meeting, and nothing new has been reported since.",
+    "script": "Knicks are about 3-point road favorites with a total near 217."
    }
   },
-  "NBA|5081727|reb": {
+  "NBA|3147657|3pm": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Cissoko has started since Nov. 11 in place of Scoot Henderson and is playing about 30 minutes, though his rebounding has not risen with the bigger role.",
+   "note": "The Knicks are fully healthy and Bridges keeps his normal starting role; no news affects his volume.",
    "sources": [
-    "https://www.cbssports.com/nba/players/29098284/sidy-cissoko/",
-    "https://sportsmole.co.uk/basketball/portland-trail-blazers/preview/trail-blazers-vs-timberwolves-player-props-injury-report-and-prediction--nba_609140.html"
+    "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status"
    ],
-   "line_now": 3.5,
-   "line_src": "https://www.covers.com/sport/basketball/nba/players/266202/sidy-cissoko",
    "detail": {
-    "availability": "Healthy; projected starter.",
-    "role": "Replaced Henderson in the starting lineup on Nov. 11 and logged 33 and 29 minutes in back-to-back Thunder games with 3 and 2 rebounds, after 4 boards in 21 bench minutes Nov. 5; Sharpe and Morant are out, keeping the wing minutes open.",
-    "market": "Line dropped from 3.5 open to 2.5, toward the over side."
+    "availability": "No Knicks are on the injury report."
    }
   },
-  "NFL|00-0032764|car": {
+  "NBA|3934719|reb": {
    "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Henry is healthy and the featured back for Brissett's debut; Ravens are home favorites against a Chargers run defense that has given up 4.7 yards per carry over its last three games.",
+   "note": "Anunoby is healthy and starting. Toronto is still missing the frontcourt bodies Bittle and Leonard, but no availability fact changes his rebounding role.",
    "sources": [
-    "https://www.baltimoreravens.com/news/injury-report-ravens-chargers-jaylinn-hawkins-2026",
-    "https://www.thefantasyfootballers.com/news/646196/derrick-henry-another-tough-night-in-loss/",
-    "https://www.tsn.ca/nfl/article/brissett-brings-hope-but-realistic-expectations-for-spiraling-ravens-n1-50401403/",
-    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-odds-early-leans-week-10-2026"
+    "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status"
    ],
    "detail": {
-    "availability": "Not on the Ravens injury report; Hawkins (S) is the only Raven ruled out.",
-    "role": "Henry had 17 carries in the Week 9 loss to Jacksonville and has been held under 60 rushing yards four straight games; rookie RB Adam Randall (questionable) could be activated for the first time but has no regular-season snaps.",
-    "matchup": "Chargers run defense ranks 26th in EPA allowed per handoff since Week 6 and allowed 4.7 yards per carry in the last three games; LAC safety Kendall Williamson and CB Isas Waxter are out.",
-    "script": "Baltimore is a home favorite with a new QB who has not run the offense yet, which points to a run-first plan if the Ravens lead; Week 9's blowout loss cut into his carries.",
-    "market": "Line unchanged from open at 19.5; early previews had Baltimore -5.5, now -4.5."
+    "availability": "No Knicks are on the injury report.",
+    "matchup": "Toronto remains without C Nate Bittle (foot) and F Kawhi Leonard (knee).",
+    "market": "The line moved from 5.5 at open to 4.5, which favors the over and doesn't signal a role concern."
    }
   },
-  "NFL|00-0036355|ptd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Herbert plays (left-hand X-rays negative) but loses McConkey, has Thompson doubtful and a patched line after eight sacks last week; Njoku could return from IR as a red-zone target.",
-   "sources": [
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
-    "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.baltimoreravens.com/news/injury-report-ravens-chargers-jaylinn-hawkins-2026"
-   ],
-   "detail": {
-    "availability": "Harbaugh said X-rays on Herbert's non-throwing hand were negative and he should be fine; he left Week 9 late only by coach's choice.",
-    "role": "McConkey (back) did not practice all week and is out; Brenen Thompson (hamstring) is doubtful; Tre Harris was cleared from the report; TE David Njoku practiced fully Friday and could be activated from IR.",
-    "matchup": "Baltimore is missing safety Jaylinn Hawkins for a fourth game.",
-    "script": "Chargers are road underdogs in a 38.5 total; LAC has RG Branson Taylor out and Awosika/Pipkins questionable off IR, and Herbert was sacked a career-high eight times in Week 9.",
-    "market": "Kalshi 67.5% and the book 67.7% agree, well above the 52.4% break-even; line unchanged at 0.5."
-   }
-  },
-  "NFL|00-0040727|rec": {
+  "SOC|302434|401931477": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "With McConkey out and Brenen Thompson doubtful, Harris (off the injury report) is the next wideout in line for McConkey's targets. Njoku was activated from IR for Monday and adds another short-area target.",
+   "note": "No injury news; scored in Friday's loss to Saudi Arabia. Coach's lineup plans unclear, with a report he may test younger players against Qatar.",
    "sources": [
-    "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
-    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
-   ],
-   "detail": {
-    "availability": "Tre Harris was removed from the Chargers injury report this week.",
-    "role": "McConkey (back) did not practice all week and is out; Thompson (hamstring) is doubtful, leaving Johnston and Harris as the main wideouts; Njoku's possible IR return could take some short targets."
-   }
-  },
-  "NFL|00-0040727|recyd": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "McConkey out and Thompson doubtful leave Harris as a near every-down receiver behind Johnston, raising his target share.",
-   "sources": [
-    "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline"
-   ],
-   "detail": {
-    "role": "McConkey did not practice all week (back) and Thompson is doubtful; Harris was cleared from the report."
-   }
-  },
-  "NFL|00-0038544|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Johnston is the top healthy Chargers wideout with McConkey out and Thompson doubtful. Njoku was activated from IR for Monday and adds another target.",
-   "sources": [
-    "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
-    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
-   ],
-   "detail": {
-    "role": "McConkey (back) out after missing practice all week; Johnston caught a 58-yard TD in Week 9 when McConkey was active but did not play."
-   }
-  },
-  "NFL|00-0038544|recyd": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "McConkey out and Thompson doubtful concentrate Chargers wide receiver targets on Johnston and Harris.",
-   "sources": [
-    "https://boltbeat.com/chargers-could-get-reinforcements-back-from-ir-in-final-week-10-injury-report",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline"
-   ],
-   "detail": {
-    "role": "McConkey (back) did not practice all week; Johnston scored on a 58-yard catch in Week 9 without him."
-   }
-  },
-  "NFL|00-0032764|td": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "medium",
-   "note": "Henry stays the featured and goal-line back for Brissett's debut, with nine TDs in nine games, against a Chargers run defense that has slipped since Week 6; BAL implied around 21-22 points.",
-   "sources": [
-    "https://www.baltimoreravens.com/news/injury-report-ravens-chargers-jaylinn-hawkins-2026",
-    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-odds-early-leans-week-10-2026",
-    "https://www.tsn.ca/nfl/article/brissett-brings-hope-but-realistic-expectations-for-spiraling-ravens-n1-50401403/",
-    "https://www.thefantasyfootballers.com/news/646196/derrick-henry-another-tough-night-in-loss/"
-   ],
-   "buzz": "some",
-   "detail": {
-    "availability": "Healthy; not on the injury report.",
-    "role": "No change to his lead and short-yardage role; rookie Adam Randall may be activated but has never played a regular-season snap; Justice Hill remains the change-of-pace back.",
-    "matchup": "Chargers rank 26th in EPA per handoff since Week 6 and allowed 4.7 YPC in the last three games; they gave up 44 points to Houston in Week 9.",
-    "script": "Ravens -4.5 at home with a 38.5 total, but Baltimore has not topped 14 points in four straight games without Jackson.",
-    "experts": "Previews single out Henry as the focus of Baltimore's plan."
-   }
-  },
-  "NFL|00-0040666|td": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 1,
-   "conf": "low",
-   "note": "Hampton is in a three-way backfield with Vidal and Keaton Mitchell, has no TD in four straight games, and the Chargers offense is struggling to reach the red zone.",
-   "sources": [
-    "https://www.draftsharks.com/fantasy-football-news/84121/omarion-hampton-takes-back-control-but-does-it-matter",
-    "https://www.thefantasyfootballers.com/news/646746/omarion-hampton-leading-rusher-as-chargers-remain-winless/",
-    "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline"
-   ],
-   "buzz": "none",
-   "detail": {
-    "role": "In Week 9 Hampton got 43% of RB carries (13 for 60) with Vidal and Mitchell at 26% each; he had two carries inside the 10 and did not score, and zero targets.",
-    "script": "Road underdogs; LAC went six straight drives without points after early field goals in Week 9."
-   }
-  },
-  "SOC|326075|401861182": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Fit, scored a hat-trick in Friday's 5-0 win at Bulgaria, and predicted to start up front with Oskarsson. Thordarson and Ingason are out injured, Magnusson suspended.",
-   "sources": [
-    "https://www.sportsmole.co.uk/football/iceland/uefa-nations-league/preview/iceland-vs-luxembourg-prediction-team-news-lineups_609129.html"
-   ]
-  },
-  "SOC|346619|401861185": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Not injured. Two previews have him in the attacking-midfield trio behind Havertz, with Musiala and Gnabry out with muscle injuries, so he gets more of the attacking load.",
-   "sources": [
-    "https://www.aljazeera.com/sports/2026/11/15/germany-vs-netherlands-nations-league-preview-team-news-predictions",
-    "https://www.rotowire.com/soccer/article/germany-vs-netherlands-prediction-predicted-lineups-team-news-146661"
-   ]
-  },
-  "SOC|202429|401861186": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No November injury report found. He was a regular in central midfield in September. The squad lacks McKenna and McLean, and McTominay is back.",
-   "sources": [
-    "https://azat.tv/en/scott-mctominay-returns-scotland-nations-league-squad/",
-    "https://www.bluewin.ch/en/sport/football/major-upheaval-but-an-old-problem-that-s-what-awaits-the-swiss-national-team-in-scotland-li.3617318"
-   ]
-  },
-  "SOC|249524|401861185": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "No fitness issue reported and predicted to start in the attacking line. Van Dijk and Frenkie de Jong are out. Netherlands beat Greece 7-0 on Friday.",
-   "sources": [
-    "https://www.aljazeera.com/sports/2026/11/15/germany-vs-netherlands-nations-league-preview-team-news-predictions",
-    "https://www.rotowire.com/soccer/article/germany-vs-netherlands-prediction-predicted-lineups-team-news-146661"
-   ]
-  },
-  "SOC|214794|401861186": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Back in the November squad after pulling out of an earlier camp injured (he missed September). Whether he starts was not reported.",
-   "sources": [
-    "https://azat.tv/en/scott-mctominay-returns-scotland-nations-league-squad/",
-    "https://www.bluewin.ch/en/sport/football/major-upheaval-but-an-old-problem-that-s-what-awaits-the-swiss-national-team-in-scotland-li.3617318"
-   ]
-  },
-  "SOC|322158|401861187": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "low",
-   "note": "Predicted as Slovenia's lone striker in a side similar to the one that drew 0-0 with Switzerland. No Slovenian injuries were mentioned.",
-   "sources": [
-    "https://www.byteseu.com/2521629/"
-   ]
-  },
-  "SOC|220819|401861188": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Called up for both November games, with no fitness concern reported. Greece lost 7-0 in the Netherlands on Friday.",
-   "sources": [
-    "https://www.slbenfica.pt/en-us/agora/noticias/2026/11/06/futebol-benfica-pavlidis-convocado-grecia-liga-nacoes-paises-baixos-e-servia",
-    "https://www.aljazeera.com/sports/2026/11/15/germany-vs-netherlands-nations-league-preview-team-news-predictions"
+    "https://www.koreajoongangdaily.com/sports/taeguk-warriors-look-to-close-out-tumultuous-year-with-win-against-host-qatar/12973830"
    ]
   },
   "SOC|279790|401861192": {
    "flag": "support",
    "adj": 0,
-   "conf": "low",
-   "note": "Ireland's squad was reported fully fit. He scored twice against Austria in October, one from the penalty spot, and is in a predicted XI.",
-   "sources": [
-    "https://www.irishnews.com/sport/soccer/republic-of-ireland-squad-fully-fit-as-they-chase-double-to-top-nations-league-group-VKJBST2BIFCLVIS7WNRDQMGMQ4/",
-    "https://starting11.com/fixtures/republic-of-ireland-vs-kosovo"
-   ]
-  },
-  "SOC|391034|401861196": {
-   "flag": "neutral",
-   "adj": 0,
    "conf": "medium",
-   "note": "No injury concern. Predicted to start on the right of midfield. Striker Tabakovic is a doubt with a knee injury, which could push more of the attack out wide.",
+   "note": "Squad reported fit; predicted to start as main striker and has 10 goals in his last eight competitive Ireland games. Kosovo missing Zhegrova, Krasniqi, Dellova and suspended Hodza.",
    "sources": [
-    "https://www.sportsmole.co.uk/football/bosnia-herzegovina/uefa-nations-league/preview/bosnia-hvina-vs-romania-prediction-team-news-lineups_609182.html"
-   ]
-  },
-  "SOC|124091|401861189": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries or suspensions for Portugal.",
-   "sources": [
-    "https://starting11.com/fixtures/wales-vs-portugal"
-   ]
-  },
-  "SOC|218998|401861194": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries or suspensions for Norway.",
-   "sources": [
-    "https://starting11.com/fixtures/denmark-vs-norway"
-   ]
-  },
-  "SOC|257206|401861191": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries or suspensions for Hungary.",
-   "sources": [
-    "https://starting11.com/fixtures/hungary-vs-northern-ireland"
-   ]
-  },
-  "SOC|319368|401861194": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries or suspensions for Norway.",
-   "sources": [
-    "https://starting11.com/fixtures/denmark-vs-norway"
+    "https://www.sportsmole.co.uk/football/republic-of-ireland/uefa-nations-league/preview/rep-ireland-vs-kosovo-prediction-team-news-lineups_609146.html"
    ]
   },
   "SOC|288958|401861192": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "Ireland's squad was reported fully fit, but a crowd-predicted XI leaves him out, with Vata up front. No confirmed lineup yet.",
+   "conf": "medium",
+   "note": "No injury; predicted to start up front alongside Parrott in a front pairing supported by Moylan. Only Nathan Collins (knee) out for Ireland.",
    "sources": [
-    "https://www.irishnews.com/sport/soccer/republic-of-ireland-squad-fully-fit-as-they-chase-double-to-top-nations-league-group-VKJBST2BIFCLVIS7WNRDQMGMQ4/",
-    "https://starting11.com/fixtures/republic-of-ireland-vs-kosovo"
+    "https://www.sportsmole.co.uk/football/republic-of-ireland/uefa-nations-league/preview/rep-ireland-vs-kosovo-prediction-team-news-lineups_609146.html"
    ]
   },
-  "SOC|317857|401861191": {
+  "SOC|391034|401861196": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries and calls Northern Ireland's XI settled.",
+   "note": "No availability news found; Bosnia lineups expected about an hour before kickoff. Final Nations League game for both sides, so some rotation possible.",
    "sources": [
-    "https://starting11.com/fixtures/hungary-vs-northern-ireland"
+    "https://starting11.com/fixtures/bosnia-herzegovina-vs-romania"
    ]
   },
   "SOC|325410|401861196": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "medium",
-   "note": "No injury concern. Predicted to start on the left of midfield. Tabakovic is a doubt, which could mean more attacking work out wide.",
+   "conf": "low",
+   "note": "No availability news found; final Nations League match of the campaign for both teams, so fringe minutes and rotation are possible.",
    "sources": [
-    "https://www.sportsmole.co.uk/football/bosnia-herzegovina/uefa-nations-league/preview/bosnia-hvina-vs-romania-prediction-team-news-lineups_609182.html"
+    "https://starting11.com/fixtures/bosnia-herzegovina-vs-romania"
+   ]
+  },
+  "SOC|124091|401861189": {
+   "flag": "support",
+   "adj": 0,
+   "conf": "low",
+   "note": "Fit and in predicted XI. Bernardo Silva injured and Palhinha suspended, leaving Bruno as Portugal's main creative midfielder.",
+   "sources": [
+    "https://khelnow.com/football/wales-vs-portugal-preview-uefa-nations-league-202611"
    ]
   },
   "SOC|337011|401861189": {
    "flag": "neutral",
    "adj": 0,
-   "conf": "low",
-   "note": "No November team news found. The fixture preview lists no injuries or suspensions for Portugal.",
+   "conf": "medium",
+   "note": "No injury; in predicted back four. Ruben Dias is suspended, which should keep Veiga in the defense. Wales without suspended Ampadu.",
    "sources": [
-    "https://starting11.com/fixtures/wales-vs-portugal"
+    "https://khelnow.com/football/wales-vs-portugal-preview-uefa-nations-league-202611"
+   ]
+  },
+  "SOC|218998|401861194": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury or suspension reported; listed in Norway's predicted midfield.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/denmark/preview/denmark-vs-norway-prediction-team-news-lineups_609154.html"
+   ]
+  },
+  "SOC|319368|401861194": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury reported; predicted to start in the attacking line behind Haaland after scoring in Saturday's 3-1 win over Wales.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/denmark/preview/denmark-vs-norway-prediction-team-news-lineups_609154.html"
+   ]
+  },
+  "SOC|257206|401861191": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Predicted to start, possibly in a more advanced role with Vitalis suspended; reported to be playing through a minor knock picked up before the Georgia game.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/hungary/nations-league-predictions/preview/hungary-vs-n-ireland-prediction-team-news-lineups_609115.html"
+   ]
+  },
+  "SOC|317857|401861191": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "No injury; predicted to start as a wide forward. Attacker Jamie Donley misses the match through a yellow-card suspension.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/hungary/nations-league-predictions/preview/hungary-vs-n-ireland-prediction-team-news-lineups_609115.html"
    ]
   },
   "SOC|277206|401930895": {
-   "flag": "support",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Argentina are reported fully fit. He scored their only goal in the loss to Uruguay, led the team in shots, and is predicted to start up front.",
-   "sources": [
-    "https://khelnow.com/football/argentina-vs-costa-rica-preview-international-friendly-202611"
-   ]
-  },
-  "SOC|337970|401930895": {
-   "flag": "neutral",
+   "flag": "caution",
    "adj": 0,
    "conf": "low",
-   "note": "Fit and predicted to start in the front three. Whether he played against Uruguay was not reported.",
+   "note": "Scored against Uruguay on Friday, no injury reported, but Scaloni said he will make changes and give young players minutes, so a rest or partial outing is possible.",
    "sources": [
-    "https://khelnow.com/football/argentina-vs-costa-rica-preview-international-friendly-202611"
+    "https://442.perfil.com/noticias/seleccion-argentina/la-seleccion-argentina-piensa-en-costa-rica-como-sigue-la-agenda-en-ezeiza-y-cordoba.phtml"
    ]
   },
-  "NFL|00-0036355|cmp": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Herbert is off the final injury report after a non-fracture left middle finger injury; McConkey is out and Brenen Thompson doubtful, so the depth behind Tre Harris and Quentin Johnston is thinner.",
-   "sources": [
-    "https://www.chargers.com/news/chargers-vs-ravens-injury-report-ladd-mcconkey-daiyan-henley-2026",
-    "https://www.sharpfootballanalysis.com/fantasy/chargers-ravens-week-10-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/"
-   ]
-  },
-  "NFL|00-0040666|ryd": {
+  "SOC|239566|401841314": {
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Hampton is healthy but split work last week: he and Kimani Vidal each played about 40 percent of snaps and Keaton Mitchell about 25 percent, which caps his carry volume.",
+   "note": "With Colombia, playing in Santiago on Nov 17, the night before this match. The club said players with heavy minutes may miss it and light-minute ones may only be benched.",
    "sources": [
-    "https://www.sharpfootballanalysis.com/fantasy/chargers-ravens-week-10-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/"
+    "https://abcdoabc.com.br/palmeiras-pode-ter-ate-6-baixas-contra/"
    ]
   },
-  "NFL|00-0039111|sck": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Tuipulotu is not on the Chargers' final injury report and is one of three edge rushers with multiple sacks on a team that has 13; Baltimore starts Jacoby Brissett at quarterback.",
-   "sources": [
-    "https://www.chargers.com/news/chargers-vs-ravens-injury-report-ladd-mcconkey-daiyan-henley-2026",
-    "https://www.baltimoreravens.com/news/chargers-ravens-opponent-preview-five-things-to-know-week-10"
-   ]
-  },
-  "NFL|00-0037224|kpts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Dicker is not on the injury report; the winless Chargers average about 15 points per game and the market implies a low total, near 38.5, in Baltimore.",
-   "sources": [
-    "https://www.chargers.com/news/chargers-vs-ravens-injury-report-ladd-mcconkey-daiyan-henley-2026",
-    "https://www.baltimoreravens.com/news/chargers-ravens-opponent-preview-five-things-to-know-week-10"
-   ]
-  },
-  "NBA|3064290|ast": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Gordon is not on Denver's injury report for the Suns game; only Julian Strawther and G League assignees are listed.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf"
-   ]
-  },
-  "NBA|3064514|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Randle plays for Brooklyn, is not on the Nets' injury report and is listed as a probable starter at home against Philadelphia; Embiid's status for Philadelphia was still unreported.",
-   "sources": [
-    "https://sports.yahoo.com/articles/nets-vs-76ers-game-preview-123108194.html",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf"
-   ]
-  },
-  "NBA|4871145|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "medium",
-   "note": "Giddey is not on the Bulls' injury report for the game at Cleveland; Jalen Smith is questionable and Caleb Wilson is out.",
-   "sources": [
-    "https://heavy.com/sports/nba/chicago-bulls/injury-report-vs-cavaliers-november-16/"
-   ]
-  },
-  "NBA|3202|pa": {
+  "SOC|188368|401841313": {
    "flag": "neutral",
    "adj": 0,
    "conf": "low",
-   "note": "Durant is with Houston and has no injury listing; the Rockets' Monday report had not been filed. VanVleet sat Sunday for knee management and his Monday return is not confirmed.",
+   "note": "On Uruguay duty this window (friendly Nov 17); an early-release deal with Flamengo was reported, but his status for this match is unconfirmed.",
    "sources": [
-    "https://www.hoopsrumors.com/2026/11/rockets-notes-vanvleet-thompson-durant-sengun-offense.html",
-    "https://www.espn.com/nba/injuries"
+    "https://revistaoeste.com/esporte/noticias-do-flamengo-hoje-12-11-2026/"
    ]
   },
-  "NBA|4066436|pra": {
-   "side": "over",
-   "flag": "support",
+  "SOC|303030|401841312": {
+   "flag": "neutral",
    "adj": 0,
    "conf": "medium",
-   "note": "Curry is out about a month (oblique); Melton started Friday in his place, though Monday's starting lineup was not yet announced.",
+   "note": "Played for Peru on Nov 13 and was expected back in time for Bahia. Midfielder Villasanti is suspended, which may open the midfield for him.",
    "sources": [
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-13/warriors-start-podz-richard-melton-yaxel-green",
-    "https://heavy.com/sports/nba/golden-state-warriors/injury-report-vs-pelicans-november-16/"
+    "https://revistaoeste.com/esporte/noticias-do-gremio-hoje-13-11-2026/"
+   ]
+  },
+  "SOC|306764|401841316": {
+   "flag": "out",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Right adductor injury since Oct 24; he was cut from Brazil's squad and was still in treatment with no return date as of Nov 12.",
+   "sources": [
+    "https://boca.com.br/esportes/botafogo-pendencias-dm-antes-corinthians",
+    "https://www.flashscore.com.br/noticias/ancelotti-corta-danilo-de-convocacao-para-amistosos-da-selecao/KAtOiuv0/"
+   ]
+  },
+  "NBA|3062679|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Knicks list nobody on the injury report for tonight at Toronto, so Hart starts in his usual role; Toronto is still without Leonard and Bittle, no change to his volume.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|3147657|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Bridges is healthy and the Knicks have no injury designations for tonight; no rotation news changes his scoring or rebounding volume.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|4845367|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox is off the injury report and returns after missing Sunday with a hip issue, which slightly trims Castle's ball-handling load; Tobias Harris (calf) remains out.",
+   "sources": [
+    "https://khey1380.iheart.com/content/2026-11-17-pistons-vs-spurs-injury-report-nov-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|4395630|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox returns for tonight after sitting Sunday and Harris (calf) is still out, so Vassell's starting role holds with a small usage dip from Fox's return.",
+   "sources": [
+    "https://khey1380.iheart.com/content/2026-11-17-pistons-vs-spurs-injury-report-nov-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|4433287|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Miller is not on the injury report; Knueppel and Schroder have been out since Nov 8, so his heavier usage is already in his recent games. Lakers favored by 7.5.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315897-charlotte-hornets-at-los-angeles-lakers-2026-11-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|4433249|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Diabate is not on the injury report; Charlotte's absences (Knueppel, Schroder) date to Nov 8 and are in his sample. Lakers are 7.5-point favorites; Reaves is day-to-day.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315897-charlotte-hornets-at-los-angeles-lakers-2026-11-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
+   ]
+  },
+  "NBA|4396971|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Minnesota hosts Portland tonight; Edwards (knee, out since late October), DiVincenzo and Jaylen Clark are out, Gobert and Reid are not listed, so Reid's enlarged role is already in his sample.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/",
+    "https://www.espn.com/nba/injuries?mm-view=app"
    ]
   },
   "NFL|00-0040128|recyd": {
@@ -1456,304 +390,56 @@
     "https://www.espn.com/nfl/injuries"
    ],
    "buzz": "none"
-  },
-  "NFL|00-0034874|tkl": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Roquan Smith is not on the Ravens injury report; Baltimore's only listed absence is safety Jaylinn Hawkins.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
-   ]
-  },
-  "NFL|00-0036355|car": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Herbert plays Monday behind a line missing guard Branson Taylor (placed on IR), with guard Awosika questionable.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html",
-    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
-   ]
-  },
-  "NFL|00-0039064|recyd": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Flowers is healthy and the top Ravens wideout for Brissett's first start; nothing new on his role.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
-   ]
-  },
-  "NFL|00-0040184|rec": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Lambert-Smith moves into a starting wideout spot with McConkey out and Thompson doubtful; Njoku's return from IR adds competition for targets.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html",
-    "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/chargers-activate-te-david-njoku-lb-denzel-perryman-for-monday-night-vs-ravens"
-   ]
-  },
-  "NFL|00-0032764|rry": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Henry is healthy and remains the lead and goal-line back; no new injury or usage news.",
-   "sources": [
-    "https://sports.yahoo.com/articles/chargers-vs-ravens-week-10-175706811.html"
-   ]
-  },
-  "NBA|4066436|3pm": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Melton is off the injury report and started the last game with Curry out; Monday's starters not yet confirmed.",
-   "sources": [
-    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
-   ]
-  },
-  "NBA|5175737|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Lendeborg is off the injury report and started the last game; Golden State is without Curry, Butler, Moody, Porzingis and Williams.",
-   "sources": [
-    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
-   ]
-  },
-  "NBA|4709138|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Podziemski is off the injury report and started the last game; Golden State is without Curry, Butler, Moody, Porzingis and Williams.",
-   "sources": [
-    "https://www.nba.com/pelicans/news/pelicans-vs-warriors-injury-report-game-preview-11-16-2026"
-   ]
-  },
-  "NBA|5124612|pra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Edgecombe is not on the injury report; LeBron James is out and Embiid is questionable (foot), which could add usage if Embiid sits.",
-   "sources": [
-    "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-nets-will-lebron-james-joel-embiid-play"
-   ]
-  },
-  "NBA|5175643|pr": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Demin is available; Brooklyn's injury report is clear and Porter Jr. returns from a personal absence.",
-   "sources": [
-    "https://athlonsports.com/nba/philadelphia-76ers/final-injury-report-for-76ers-nets-will-lebron-james-joel-embiid-play"
-   ]
-  },
-  "NBA|4683021|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Avdija is not on the Portland injury report; the Blazers are without Morant, Sharpe, Krejci and Youngblood.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3136193|ra": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Booker is not on the injury report; Phoenix's only listed absence is Mark Williams.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3908809|pts": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Mitchell is not on the injury report; Cleveland is without Mobley and Merrill.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|3138196|pa": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Cameron Johnson is not on the injury report; Denver's only listed absence is Strawther.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries"
-   ]
-  },
-  "NBA|5174563|reb": {
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Kyshawn George is not on the injury report; Memphis is without Stewart and Post at center, and Edey is questionable.",
-   "sources": [
-    "https://www.covers.com/sport/basketball/nba/injuries",
-    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/isaiah-stewart-illness-out-monday-vs-wizards"
-   ]
-  },
-  "NFL|00-0033935|sck": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "No injury news for Hendrickson before MNF; official inactives were not posted at check time.",
-   "sources": [
-    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-best-bets-tonight-nov-16-2026",
-    "https://sports.yahoo.com/articles/monday-night-football-live-updates-210033700.html"
-   ]
-  },
-  "NFL|00-0032764|ryd": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Henry has no injury news and is projected for a heavy workload with Brissett making his first Ravens start for the injured Jackson, which works against the under.",
-   "sources": [
-    "https://www.covers.com/nfl/chargers-vs-ravens-prediction-picks-best-bets-tonight-nov-16-2026",
-    "https://sports.yahoo.com/articles/monday-night-football-live-updates-210033700.html"
-   ]
-  },
-  "NBA|4897262|3pm": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "low",
-   "note": "Richard is not on the injury report and starts again with Golden State missing Curry, Butler, Moody and Porzingis.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4431671|ast": {
-   "side": "over",
-   "flag": "support",
-   "adj": 1,
-   "conf": "low",
-   "note": "McDaniels is not on the injury report and Minnesota is again without Edwards and DiVincenzo, leaving more ball-handling to him.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3064514|pra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Randle is not on the injury report; Philadelphia lists Embiid as questionable and LeBron James out.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3078576|reb": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "White is not on the injury report; Queta sits out for rest, which thins Boston's frontcourt rebounding.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4432165|pr": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Suggs is not on the injury report, but Orlando is without Banchero and Isaac, which should push more scoring to him.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3202|pra": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Durant is not on the injury report; Houston is without Capela, Adams and the suspended Smart, and Amen Thompson is questionable, so his load may rise.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3155526|pa": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Brooks is not on the injury report; Phoenix lists Ryan Dunn questionable and Mark Williams out.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4351852|pts": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Robinson is not on the injury report and Queta is resting tonight, so Robinson should start at center with extra minutes.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4437244|pr": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Green is not on the injury report; Denver is missing only Strawther among rotation players.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4066328|pra": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Allen is not on the injury report, but Cleveland is without Mobley and Tyson, which should raise his frontcourt load.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3202|pr": {
-   "side": "under",
-   "flag": "caution",
-   "adj": 0,
-   "conf": "low",
-   "note": "Durant is not on the injury report; Houston is without Capela, Adams and the suspended Smart, and Amen Thompson is questionable, so his load may rise.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|3112335|ra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Jokic is not on the injury report; Denver is missing only Strawther among rotation players.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
-  },
-  "NBA|4066383|pra": {
-   "side": "under",
-   "flag": "neutral",
-   "adj": 0,
-   "conf": "low",
-   "note": "Bridges is not on the injury report; Phoenix lists Ryan Dunn questionable and Mark Williams out.",
-   "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_05_45PM.pdf"
-   ]
   }
  },
  "games": {
   "CFB-week": {
-   "summary": "No posted player prop lines were found for this week's MAC midweek games (EMU at WMU, BALL at OHIO, M-OH at KENT) as of Monday Nov 16; the odds and preview pages found carried only spreads, totals and moneylines or covered past seasons. Game lines from the packet: WMU -14.5 (46.5), OHIO -10.5 (49.5), M-OH -8.5 at KENT (45.5).",
+   "summary": "Five MAC midweek games (EMU at WMU and Ball State at Ohio on Tuesday; Miami (OH) at Kent State, Akron at UMass and Central Michigan at Buffalo on Wednesday). No current player-prop lines for any of them turned up after 10 searches: the prop and best-bet pages found were for the 2025 season or earlier weeks. No current injury or QB-change news was found either. The Nov 17 EMU-WMU matchup page lists Noah Kim and Broc Lowry as the returning passers but does not confirm either as the starter.",
    "sources": [
-    "https://fanduel.com/research/buffalo-vs-ball-state-college-football-odds-picks-best-bets-for-11-11-2026",
-    "https://www.sportsgrid.com/ncaaf/article/college-football-week-12-picks-mac-tion-tuesday-night-best-bets"
+    "https://cfbtrack.com/games/matchup/2026/401866465",
+    "https://www.fantasyalarm.com/articles/cfb/best-bets/cfb-maction-best-bets-week-13-expert-picks-predictions/182945"
+   ]
+  },
+  "NBA-DET-at-SA-1118": {
+   "summary": "Detroit arrives thin on the wing: Duren, Holland, Prince and Robinson are out and Isaiah Joe is doubtful, so Huerter has been soaking up big bench minutes (nearly 38 on Nov 14). San Antonio gets De'Aaron Fox back from a hip issue (off the Nov 16 report after missing Sunday), which sends Champagnie back to the bench. Spurs are about 9-point favorites (opened 8.5), total about 223 (opened 220.5), so blowout risk trims Detroit starters' late minutes.",
+   "sources": [
+    "https://sports.yahoo.com/articles/pistons-face-blockbuster-spurs-without-015823671.html",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/deaaron-fox-hip-removed-from-injury-report",
+    "https://khey1380.iheart.com/content/2026-11-17-pistons-vs-spurs-injury-report-nov-17/",
+    "https://fantasyteamadvice.com/nba/rotations?team=DET",
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
+   ]
+  },
+  "NBA-NY-at-TOR-1118": {
+   "summary": "This is a quick rematch in Toronto two days after the Nov 15 meeting. Scottie Barnes returned in that game from a left groin strain that cost him four games and posted a full stat line, so he looks fully back. New York lists nobody on its injury report; Toronto is still without Kawhi Leonard (knee) and Nate Bittle (foot). Knicks favored by about 3, total around 217.",
+   "sources": [
+    "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/",
+    "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status",
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://www.nbcsports.com/nba/brandon-ingram/10467/news"
+   ]
+  },
+  "SOCCER-day": {
+   "summary": "International window: most listed players are predicted starters with no injury news; Danilo Santos (Botafogo) is still sidelined with an adductor injury, and Jhon Arias faces a tight turnaround from Colombia duty. Scaloni plans changes for Argentina vs Costa Rica.",
+   "sources": [
+    "https://www.sportsmole.co.uk/football/republic-of-ireland/uefa-nations-league/preview/rep-ireland-vs-kosovo-prediction-team-news-lineups_609146.html",
+    "https://khelnow.com/football/wales-vs-portugal-preview-uefa-nations-league-202611",
+    "https://www.sportsmole.co.uk/football/denmark/preview/denmark-vs-norway-prediction-team-news-lineups_609154.html",
+    "https://www.sportsmole.co.uk/football/hungary/nations-league-predictions/preview/hungary-vs-n-ireland-prediction-team-news-lineups_609115.html",
+    "https://starting11.com/fixtures/bosnia-herzegovina-vs-romania",
+    "https://www.koreajoongangdaily.com/sports/taeguk-warriors-look-to-close-out-tumultuous-year-with-win-against-host-qatar/12973830",
+    "https://442.perfil.com/noticias/seleccion-argentina/la-seleccion-argentina-piensa-en-costa-rica-como-sigue-la-agenda-en-ezeiza-y-cordoba.phtml",
+    "https://abcdoabc.com.br/palmeiras-pode-ter-ate-6-baixas-contra/"
+   ]
+  },
+  "fix": {
+   "summary": "Quality-gate checks",
+   "sources": [
+    "https://www.espn.com/nba/injuries?mm-view=app",
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://khey1380.iheart.com/content/2026-11-17-pistons-vs-spurs-injury-report-nov-17/",
+    "https://www.sportbusy.com/games/nba/14315897-charlotte-hornets-at-los-angeles-lakers-2026-11-17/",
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
    ]
   },
   "NBA-CHI-at-CLE-1117": {
@@ -1847,48 +533,6 @@
     "https://www.chargers.com/news/justin-herbert-ladd-mcconkey-update-jim-harbaugh-trade-deadline",
     "https://www.thefantasyfootballers.com/news/646812/ladd-mcconkey-pregame-back-spasms-lead-to-week-9-absence/",
     "https://www.draftsharks.com/fantasy-football-news/84121/omarion-hampton-takes-back-control-but-does-it-matter"
-   ]
-  },
-  "SOCCER-day": {
-   "summary": "No listed player was reported injured, suspended or dropped from his squad. Germany are missing Musiala and Gnabry, the Netherlands are without van Dijk and De Jong, and Bosnia's Tabakovic is a doubt. For Portugal, Norway, Hungary and Northern Ireland we found no November team news, so those notes stay neutral.",
-   "sources": [
-    "https://www.aljazeera.com/sports/2026/11/15/germany-vs-netherlands-nations-league-preview-team-news-predictions",
-    "https://www.rotowire.com/soccer/article/germany-vs-netherlands-prediction-predicted-lineups-team-news-146661",
-    "https://www.sportsmole.co.uk/football/iceland/uefa-nations-league/preview/iceland-vs-luxembourg-prediction-team-news-lineups_609129.html",
-    "https://www.byteseu.com/2521629/",
-    "https://www.sportsmole.co.uk/football/bosnia-herzegovina/uefa-nations-league/preview/bosnia-hvina-vs-romania-prediction-team-news-lineups_609182.html",
-    "https://www.slbenfica.pt/en-us/agora/noticias/2026/11/06/futebol-benfica-pavlidis-convocado-grecia-liga-nacoes-paises-baixos-e-servia",
-    "https://azat.tv/en/scott-mctominay-returns-scotland-nations-league-squad/",
-    "https://www.irishnews.com/sport/soccer/republic-of-ireland-squad-fully-fit-as-they-chase-double-to-top-nations-league-group-VKJBST2BIFCLVIS7WNRDQMGMQ4/"
-   ]
-  },
-  "fix": {
-   "summary": "Quality-gate checks",
-   "sources": [
-    "https://www.chargers.com/news/chargers-vs-ravens-injury-report-ladd-mcconkey-daiyan-henley-2026",
-    "https://baltimoreravens.com/news/injury-report-ravens-chargers-jaylinn-hawkins-2026",
-    "https://www.si.com/betting/chargers-vs-ravens-best-nfl-prop-bets-for-monday-night-football-in-week-10-bet-on-derrick-henry",
-    "https://www.sharpfootballanalysis.com/fantasy/chargers-ravens-week-10-fantasy-football-preview-nfl-worksheet-rich-hribar-2026/",
-    "https://www.baltimoreravens.com/news/chargers-ravens-opponent-preview-five-things-to-know-week-10",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf",
-    "https://www.espn.com/nba/injuries",
-    "https://www.nbcsports.com/nba/fred-vanvleet/00000188-9cf0-da6b-abd8-fcfdc91d0173/news"
-   ]
-  },
-  "NBA-HOU-at-WSH-1116": {
-   "summary": "Alex Sarr is questionable with an illness after a 44-minute, 30-point double-overtime game against Detroit on Nov 13. Houston is without Fred VanVleet (knee management), Clint Capela (ankle) and the suspended Marcus Smart, and Washington has Tre Johnson (back) and Bub Carrington (chest) questionable.",
-   "sources": [
-    "https://www-sss-gov-phwww.rotowire.com/basketball/headlines/alex-sarr-injury-downgraded-to-questionable-518821"
-   ]
-  },
-  "NFL-PIT-at-CIN-1116": {
-   "summary": "Sunday night AFC North game with Cincinnati a 3.5-point home favorite; Pittsburgh's WR group stays thin (Michael Pittman Jr. and Roman Wilson remain on IR) and TE Pat Freiermuth was added Saturday as questionable with an illness. Cincinnati is without S Kyle Dugger, WR Andrei Iosivas is doubtful, and the forecast calls for rain in the low 40s.",
-   "sources": [
-    "https://www.steelers.com/news/week-10-injury-report-bengals-x6285",
-    "https://www.nbcsports.com/fantasy/football/player-news/2026-11-14/pat-freiermuth-illness-questionable-vs-bengals",
-    "https://www.fantasylabs.com/articles/steelers-vs-bengals-player-props-best-nfl-prop-bets-today-best-nfl-player-props-anytime-td-scorer-snf-best-bets/",
-    "https://sports.betmgm.com/en/blog/nfl/steelers-bengals-first-anytime-td-odds-picks-week-10-gaa/",
-    "https://www.yardbarker.com/nfl/articles/steelers_gameday_cheat_sheet_week_10_at_the_cincinnati_bengals/s1_17193_44560069"
    ]
   }
  },
