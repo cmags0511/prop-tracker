@@ -3,6 +3,16 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-17, cmags0511 (Claude, weekly results review): NBA D grades out of the Top lists (PR)
+Numbers (units at the saved price, -110 when none; season = since Oct 17):
+- Top 10: last 7 days 212-169 +13.6u (NBA 141-101 +18.8u, NFL 44-52 -13.3u, college 27-16 +8.1u). Season 478-425 -11.1u (NBA -5.3u, NFL 124-125 -15.6u, college +9.8u). Almost all unders (overs 27-24 season).
+- By grade since Oct 28: C 186-140 +16.0u, D 96-102 -17.0u (NBA D 60-63 -9.9u, NFL D 28-33 -8.4u), B 7-4 +2.1u. **Change (picks.py `NO_D_TOP`)**: NBA picks graded D no longer enter the Top lists. Tests: full NBA slate from Nov 3 with grades fit only on earlier props: D -4.6% (n3142) vs C+ +1.3% (n2734); replay of 460 picks.json versions: NBA Top 10 +26.8u better (both halves better, 9 days up / 4 down), list length about the same. NFL left alone (its D grades +2.8% on the slate, replay mixed).
+- NFL Top 10: highest-scored (.3+) 84-93 -19.0u season; most NFL picks have no book price when listed (322 of 373 in the replay), so the book-gap guard rarely applies. No tested fix yet.
+- Calibration: NFL 60%+ chances hit ~55% season; NBA fine. Gap to book: hit rate falls as the app gets further above the book's no-vig chance (5+ pts ~51%).
+- Soccer Top: week 34-32 -4.2u, season 153-125 -36.8u; value list still empty. TD: week 2-7, season 19-27 -8.6u. Research: week 10-16 -6.9u, season 91-117 -35.9u (NFL "support" 28-48 -22.8u); tune.py already cut medium to x0.79.
+- Hidden pages: lab market-anchored week 23-28 -4.6u, season 129-162 -23.4u; stats-only week 12-30 -18.0u, season 127-172 -25.0u. Neither earns a spot. fwarnk.json still absent.
+- Note: rmolnar10's Record-tab entry is still marked IN PROGRESS (index.html, record.py), so this change stays in picks.py.
+
 ## 2026-11-16, cmags0511 (Claude): Parlay record filters (front-end only)
 Parlay record screen: four compact buttons (Sport, Type = same game / different games, Legs, Listed = kept at tipoff / dropped) that expand into a checklist showing each choice's W-L, hit % and units under the other filters. Pick-one each, tap again to clear, "Clear filters" link, saved in localStorage `ptParF` (`S.pf`, `parPass`, `parFilterBar`, handler `[data-pq]`). The hero, locked line and the Recent / See all list follow the filters; the By type and Kept vs dropped tables stay on all parlays. No data or grading changes. `sw.js` is `pt-v147`.
 
