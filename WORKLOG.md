@@ -3,6 +3,13 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-17, cmags0511 (Claude): Soccer Top list by value + price cap, and soccer parlays (PR; touches record.py and both workflows)
+1. `soccer_data.py`: the Top list is ranked by value (EV), not by chance, and `TOP_MIN_PRICE` is -200 (was -250, ranked by chance). Reason: the player-prop Top list was 153-126, -37.9u; picks priced -200 or shorter were 57% against a 69% break-even and lost -26.5u. Lineup timing was a smaller leak (14 bench appearances 3-11, -8.3u; 8 voids; picks found under 2h before kickoff still lost), so the owner chose NOT to hold bets until lineups are out. soccer.json also gets a `legs` pool (60 starters, g/sh/sot props, -300..+400) for the parlays.
+2. New `soccer_parlays.py` -> `soccer_parlays.json` (new workflow step `soccer_parlays` after `parlays` in update.yml and lines.yml): same-game (one per match) and different-game parlays, built per ET match day (today and tomorrow), legs from the pool, estimated price = legs multiplied. Same-game legs use backtested correlation factors from soccer_hist (teammates 1.029 shots / 1.044 SOT / 1.010 goals, opposing players .975 / .952 / .883): the correlation edge is small. Keeps parlays with est. EV of -12% or better (soccer legs seldom beat DraftKings' price), so these are closest-to-fair, not proven value, and the page says so.
+3. `record.py` merges soccer_parlays.json into the parlay record (same lock-on-find, `dropped`, 20-per-day cap per sport) and grades soccer legs from soccer_hist (win if k or more, void if he didn't play), same rule as the soccer props. Checked on a scratch copy: a winning and a losing soccer parlay graded correctly.
+4. App: Soccer tab > new "Parlays" section; Record > Parlays gets Soccer rows (By type, Kept vs dropped, Sport filter). `sw.js` is `pt-v148`.
+Nothing in this PR changes NFL/NBA/CFB. The committed `soccer_parlays.json` is an empty placeholder until the next workflow run.
+
 ## 2026-11-16, cmags0511 (Claude): Parlay record filters (front-end only)
 Parlay record screen: four compact buttons (Sport, Type = same game / different games, Legs, Listed = kept at tipoff / dropped) that expand into a checklist showing each choice's W-L, hit % and units under the other filters. Pick-one each, tap again to clear, "Clear filters" link, saved in localStorage `ptParF` (`S.pf`, `parPass`, `parFilterBar`, handler `[data-pq]`). The hero, locked line and the Recent / See all list follow the filters; the By type and Kept vs dropped tables stay on all parlays. No data or grading changes. `sw.js` is `pt-v147`.
 
