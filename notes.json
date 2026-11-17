@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T12:41:04Z",
+ "updated": "2026-11-17T21:36:07Z",
  "summary": "Detroit visits San Antonio short on wings (Robinson and Duren out, Joe doubtful) while Fox returns from a hip issue for the Spurs; Scottie Barnes is back for Toronto in the Knicks rematch.",
  "notes": {
   "NBA|4432166|reb": {
@@ -76,11 +76,13 @@
    }
   },
   "NBA|4433134|ast": {
-   "flag": "neutral",
-   "adj": 0,
+   "flag": "caution",
+   "adj": -1,
    "conf": "medium",
-   "note": "Barnes came back Nov 15 from a left groin strain (missed four games) and had a normal workload with 4 assists; there's no sign of a minutes limit for the rematch.",
+   "note": "Barnes came back Nov 15 from a left groin strain (missed four games) and had a normal workload with 4 assists; there's no sign of a minutes limit for the rematch. He was then added late to the report as questionable with an illness.",
    "sources": [
+    "https://bvmsports.com/2026/11/17/raptors-scottie-barnes-questionable-vs-knicks-with-illness/",
+    "https://www.fantasypros.com/nba/news/620787/scottie-barnes-illness-now-questionable-tuesday.php",
     "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/",
     "https://clutchpoints.com/nba/nba-stories/raptors-knicks-injury-report-scottie-barnes-status"
    ],
@@ -91,11 +93,13 @@
    }
   },
   "NBA|4433134|3pm": {
-   "flag": "neutral",
-   "adj": 0,
+   "flag": "caution",
+   "adj": -1,
    "conf": "medium",
-   "note": "Barnes is healthy again after a four-game groin absence and played a full game Nov 15, so his normal shot volume should be back.",
+   "note": "Barnes was a late addition to the injury report and is questionable Tuesday with an illness, so availability and minutes are uncertain.",
    "sources": [
+    "https://bvmsports.com/2026/11/17/raptors-scottie-barnes-questionable-vs-knicks-with-illness/",
+    "https://www.fantasypros.com/nba/news/620787/scottie-barnes-illness-now-questionable-tuesday.php",
     "https://www.tsn.ca/nba/article/barnes-available-for-raptors-vs-knicks-after-missing-last-four-games/"
    ],
    "detail": {
@@ -390,6 +394,173 @@
     "https://www.espn.com/nfl/injuries"
    ],
    "buzz": "none"
+  },
+  "NBA|3062679|pa": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Hart is not on the Knicks injury report; New York lists nobody. Barnes (illness) is questionable for Toronto, which could change the matchup if he sits.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://bvmsports.com/2026/11/17/raptors-scottie-barnes-questionable-vs-knicks-with-illness/",
+    "https://www.fantasypros.com/nba/news/620787/scottie-barnes-illness-now-questionable-tuesday.php"
+   ]
+  },
+  "NBA|4433287|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Miller is not on the injury report; Knueppel and Schroder have been out since Nov 8, so his bigger role is already in his recent games.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315897-charlotte-hornets-at-los-angeles-lakers-2026-11-17/"
+   ]
+  },
+  "NBA|4396971|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Reid is not on the injury report; Charlotte is without Knueppel and Schroder, an absence already reflected in recent games.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315897-charlotte-hornets-at-los-angeles-lakers-2026-11-17/"
+   ]
+  },
+  "NBA|3908845|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Collins is not on the injury report; San Antonio is without Tobias Harris and Quaintance, while Detroit is missing Duren, Holland, Prince, Robinson and Joe.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
+   ]
+  },
+  "NBA|4066259|pa": {
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Fox is off the injury report after the hip issue that cost him Sunday's game, but his last outing lasted 17 minutes, so his workload is the open question.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/",
+    "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-16/deaaron-fox-hip-removed-from-injury-report"
+   ]
+  },
+  "NBA|4845367|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Castle is not on the injury report; Fox's return may trim his usage slightly, and Detroit is thin up front without Duren, Holland and Prince.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
+   ]
+  },
+  "NBA|4845367|reb": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Castle is not on the injury report; Detroit is missing Duren, Holland and Prince, though Duren has been out long enough to be in the sample.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
+   ]
+  },
+  "NBA|4433627|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "George is not on the injury report; Utah is without Markkanen, Jackson Jr., Hayes and Nurkic, absences that are mostly already in his recent games.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315898-utah-jazz-at-los-angeles-clippers-2026-11-17/"
+   ]
+  },
+  "NBA|4433627|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "George is not on the injury report and remains the lead guard with Markkanen and Jackson Jr. out.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315898-utah-jazz-at-los-angeles-clippers-2026-11-17/"
+   ]
+  },
+  "NBA|4396907|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Garland is not on the Clippers injury report; Ingram (Achilles) and Niederhauser remain out, as in recent games.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315898-utah-jazz-at-los-angeles-clippers-2026-11-17/"
+   ]
+  },
+  "NBA|4431736|3pm": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Camara is not on the injury report; Portland lists Sharpe, Morant, Krejci and Youngblood out.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
+   ]
+  },
+  "NBA|4431671|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "McDaniels is not on the injury report; Minnesota is without Edwards, DiVincenzo and Clark, and Kuminga (shoulder) is now listed out too.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
+   ]
+  },
+  "NBA|4397002|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Dosunmu is not on the injury report; with Edwards, DiVincenzo, Clark and now Kuminga out, his role in the backcourt stays large.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
+   ]
+  },
+  "NBA|3062679|pra": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Hart is not on the Knicks injury report; New York lists nobody. Barnes (illness) is questionable for Toronto, which could change the matchup if he sits.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315894-new-york-knicks-at-toronto-raptors-2026-11-17/",
+    "https://bvmsports.com/2026/11/17/raptors-scottie-barnes-questionable-vs-knicks-with-illness/",
+    "https://www.fantasypros.com/nba/news/620787/scottie-barnes-illness-now-questionable-tuesday.php"
+   ]
+  },
+  "NBA|3908845|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Collins is not on the injury report; San Antonio is without Tobias Harris and Quaintance, while Detroit is missing Duren, Holland, Prince, Robinson and Joe.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315896-detroit-pistons-at-san-antonio-spurs-2026-11-17/"
+   ]
+  },
+  "NBA|4396907|pts": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Garland is not on the Clippers injury report; Ingram (Achilles) and Niederhauser remain out, as in recent games.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315898-utah-jazz-at-los-angeles-clippers-2026-11-17/"
+   ]
+  },
+  "NBA|4431736|ast": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Camara is not on the injury report; Portland lists Sharpe, Morant, Krejci and Youngblood out.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
+   ]
+  },
+  "NBA|4432816|pr": {
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Ball is not on the injury report; Portland is without Sharpe, Morant, Krejci and Youngblood, and Minnesota is missing Edwards, DiVincenzo, Clark and Kuminga.",
+   "sources": [
+    "https://www.sportbusy.com/games/nba/14315895-portland-trail-blazers-at-minnesota-timberwolves-2026-11-17/"
+   ]
   }
  },
  "games": {
