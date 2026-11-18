@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-18 · cmags0511's Claude · DK price check + Best 3 right now
+- Parlay cards (Props page) have a "DraftKings pays" box: type the parlay price DK shows and it says Worth it (with the edge) or Pass vs the fair price. Stored on the device only (`ptDkp`).
+- Props Top list: "Best 3 right now" card (top 3 live picks by edge) with the tracked record of that approach per sport next to it (small sample, shown plainly). Front-end only; `sw.js` pt-v152.
+
 ## 2026-11-18 · cmags0511's Claude · Clickable splits on the Record tab
 - Every split row now filters the whole record to it (tap again to clear): Favorites/Underdogs, By odds, By the app's chance, By edge, By pick strength, Over vs under, By prop (switches sport on the All tab), What's winning, Kept vs dropped, and the parlay By type / Kept vs dropped rows. Works inside the All splits sheet too.
 - New record filters `score` (pick strength) and `kd` (kept/dropped) in `rfPass`/`RF_KEYS`/filter bar. Each split table is computed with its own filter left off so its other rows stay visible. Front-end only; `sw.js` VERSION pt-v151.

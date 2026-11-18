@@ -960,6 +960,9 @@ tr.rfdrill{cursor:pointer}tr.rfdrill:hover td{background:var(--accent-soft)}tr.r
 .bpl .px{font:600 12.5px var(--f-mono)}
 .bpm{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px;align-items:center}
 .bpm .trk{margin-left:auto}
+.bpdk{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--f-body);color:var(--muted)}.bpdk input{width:74px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:700 13px var(--f-mono,inherit)}
+.best3{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:10px 14px;margin:10px 0}.best3 h3{margin:0 0 6px;font:800 14px var(--f-body)}
+.b3r{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-top:1px solid var(--line);font:600 13px var(--f-body)}.b3r span{flex:1;color:var(--muted);font-size:12px}.b3r em{font-style:normal;font-weight:800;color:var(--hit)}
 .bpwhy{color:var(--muted);font-size:12px;margin:4px 0 0}
 .bpsub{font:700 12px var(--f-body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 0}
 .howto summary{cursor:pointer;list-style:none;color:var(--ink)}.howto summary::-webkit-details-marker{display:none}.howto summary b{font:700 13px var(--f-body)}.howto summary::after{content:" \25be";color:var(--muted)}.howto[open] summary::after{content:" \25b4"}.howto .hlist{margin:8px 0 10px;padding-left:18px;font:500 12px/1.45 var(--f-body);color:var(--muted)}.howto .hlist li{margin:0 0 5px}.howto .hlist b{color:var(--ink)}
@@ -1736,6 +1739,17 @@ function addParlayToSlip(id){
   saveSlip();renderSlip();renderBestParlays();
   toast(added?`Added ${added} leg${added>1?"s":""} to your parlay slip. Open the slip to save it`:"Those legs are already in your parlay slip");
 }
+// DK price check: type the parlay price DraftKings shows and see whether it clears the fair price (kept on this device only)
+let DKP={};try{DKP=JSON.parse(localStorage.getItem("ptDkp")||"{}")||{}}catch(_){DKP={}}
+function dkVerdict(p,raw){
+  const a=parseInt(String(raw||"").replace(/[^\d+\-]/g,"").replace(/^\+/,""),10);if(!raw||isNaN(a)||Math.abs(a)<100)return"";
+  const ev=p.p*amToDec(a)-1;
+  return ev>=0?`<span class="fx good">Worth it: about ${(ev*100).toFixed(0)}% edge at ${amFmt(a)}</span>`:`<span class="fx bad">Pass: ${amFmt(a)} is below the fair ${amFmt(p.fair)}</span>`;
+}
+document.addEventListener("input",e=>{const i=e.target.closest&&e.target.closest("input[data-dkp]");if(!i)return;
+  const id=i.dataset.dkp,p=((PARB&&PARB.parlays)||[]).find(x=>x.id===id);if(!p)return;
+  DKP[id]=i.value;try{localStorage.setItem("ptDkp",JSON.stringify(DKP))}catch(_){}
+  const v=document.querySelector(`[data-dkv="${CSS.escape(id)}"]`);if(v)v.innerHTML=dkVerdict(p,i.value)});
 function renderBestParlays(){
   const el=document.getElementById("bestpar");if(!el)return;
   const lg=S.league;
@@ -1750,11 +1764,22 @@ function renderBestParlays(){
     const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${l.team} ${l.home?"vs":"@"} ${l.opp}</small><small>${l.side==="over"?"Over":"Under"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label)}</small></span>${gradeChip(l.grade,l.edge)}<span class="px">${amFmt(l.price)}</span>${dkBtn(l.lg,l.team,l.opp,l.t,null,`${l.name} ${l.side} ${fmt(l.line)} ${l.label||SHORT[l.market]||""}`)}</div>`).join("");
     const on=parlayInSlip(p);
     return`<div class="bpar"><div class="bph"><b>${p.n}-leg parlay</b><small>${p.kind==="same"?"same game":"different games"} · ${when}</small></div>${legs}
-      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits, with same-game players' stats moving together counted">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ">est. ${amFmt(p.price)}</span><button class="trk sm ${on?"on":""}" data-parslip="${esc(p.id)}">${on?"✓ In parlay slip":"+ Add to parlay"}</button></div>
+      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits, with same-game players' stats moving together counted">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ">est. ${amFmt(p.price)}</span><label class="bpdk">DraftKings pays <input inputmode="numeric" autocomplete="off" placeholder="+450" data-dkp="${esc(p.id)}" value="${esc(DKP[p.id]||"")}" aria-label="DraftKings price for this parlay"></label><span class="bpdkv" data-dkv="${esc(p.id)}">${dkVerdict(p,DKP[p.id])}</span><button class="trk sm ${on?"on":""}" data-parslip="${esc(p.id)}">${on?"✓ In parlay slip":"+ Add to parlay"}</button></div>
       ${p.pairs.map(t=>`<p class="bpwhy">${esc(t)}</p>`).join("")}</div>`};
   const same=L.filter(p=>p.kind==="same"),cross=L.filter(p=>p.kind!=="same");
   el.hidden=false;
   el.innerHTML=head+(same.length?`<h3 class="bpsub">Same game</h3>${same.map(card).join("")}`:"")+(cross.length?`<h3 class="bpsub">Different games</h3>${cross.map(card).join("")}`:"");
+}
+// "Best 3 today": the three live picks with the biggest edge (the app's chance vs the price), plus how that approach has actually done
+function best3Html(lg,live){
+  const pool=[...new Map([...((PICKS&&PICKS.picks)||[]),...Object.values((PICKS&&PICKS.byMarket)||{}).flat()].filter(c=>c.lg===lg&&c.edge!=null&&live(c)).map(c=>[c.key,c])).values()];
+  const seen=new Set(),top=[];for(const c of pool.sort((a,b)=>b.edge-a.edge)){if(seen.has(c.id))continue;seen.add(c.id);top.push(c);if(top.length===3)break}
+  if(top.length<2)return"";
+  const D=((RECORD&&RECORD.picks)||[]).filter(e=>e.lg===lg&&(e.status==="win"||e.status==="loss")&&e.t),by={};D.forEach(e=>{(by[e.t.slice(0,10)]=by[e.t.slice(0,10)]||[]).push(e)});
+  const b3=[].concat(...Object.values(by).map(a=>[...a].sort((x,y)=>(y.edge==null?-9:y.edge)-(x.edge==null?-9:x.edge)).slice(0,3)));
+  const t=b3.length>=20?appTally(b3):null;
+  const rec=t?`Tracked since the record began: ${t.w}-${t.l} (${pct(t.pct)}), ${unitsTxt(t.units)} at 1u a pick. A small sample, so treat it as a lead, not proof.`:"Not enough graded days yet to show how this has done.";
+  return`<div class="best3"><h3>Best 3 right now <small class="pteam">by edge</small></h3>${top.map(c=>`<div class="b3r"><b>${esc(c.name)}</b><span>${c.side==="over"?"Over":"Under"} ${fmt(c.line)} ${esc(SHORT[c.market]||c.label)} \u00b7 ${amFmt(c.price)}</span><em>${c.edge>=0?"+":""}${Math.round(c.edge*100)}%</em></div>`).join("")}<p class="pteam" style="margin:6px 0 0">The biggest gaps between the app's chance and the price. ${rec}</p></div>`;
 }
 function renderTop(){
   renderBestParlays();renderTdTop();renderTdValue();renderLiveTD();ltdStart();renderCfbTop();
@@ -1789,6 +1814,7 @@ function renderTop(){
   const when=t=>`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
   el.innerHTML=`<div class="tophead mh"><h2>${ttl}${S.team?` <small class="h2sub">${esc(S.team)}</small>`:""}</h2>${sideSwitch()}</div><p class="topsub">${range}</p>
   ${howToReadHtml(isAll())}
+  ${best3Html(S.league,live)}
   ${notesOk&&NOTES.summary?`<div class="shw slatew"><button class="slatebtn" data-sheet="Today's news"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><span class="slate"><b>Today's news:</b> ${esc(NOTES.summary)}</span><em>Read</em></button><div class="shc">${shSec("",`<p class="shp">${esc(NOTES.summary)}</p>`)}</div></div>`:""}
   <div class="picks ${S.allPicks?"":"short"}">${list.map((c,i)=>{const t=new Date(c.t),n=noteFor(c.key);
     const rd=researchDir(n),agrees=rd.side===c.side,against=rd.side&&rd.side!==c.side;
