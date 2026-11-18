@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T12:57:24Z",
+ "updated": "2026-11-18T21:36:01Z",
  "summary": "Thursday night IND@HOU: Houston back Woody Marks (concussion) is unlikely and Jawhar Jordan is ineligible, while David Montgomery practiced fully after five weeks out with a groin injury; Marvin Harrison Jr. (hamstring) has not practiced. In the NBA, Amen Thompson and Andrew Nembhard are questionable, Jaylen Brown is out for Philadelphia, and Atlanta is without McCollum and Flemings.",
  "notes": {
   "CFB|5387612|recyd": {
@@ -907,7 +907,7 @@
    "flag": "caution",
    "adj": 0,
    "conf": "medium",
-   "note": "Santos away without keeper Brazao, defender Ver\u00edssimo, Barreal and call-ups Bontempo, Miguelito and Caballero; Cuca planning changes. Weakened side for a two-goal away win.",
+   "note": "Santos away without keeper Brazao, defender Veríssimo, Barreal and call-ups Bontempo, Miguelito and Caballero; Cuca planning changes. Weakened side for a two-goal away win.",
    "sources": [
     "https://revistaoeste.com/esporte/noticias-do-santos-hoje-13-11-2026/",
     "https://tribunadejundiai.com.br/mais/esportes/santos-tera-desfalque-de-bontempo-na-35a-rodada-por-convocacao/"
@@ -917,7 +917,7 @@
    "flag": "support",
    "adj": 0,
    "conf": "low",
-   "note": "Athletico lose top scorer Viveros to suspension and Arthur Dias to Brazil duty, four games winless. Flamengo miss Paquet\u00e1 and defender Danilo but chase the title at home.",
+   "note": "Athletico lose top scorer Viveros to suspension and Arthur Dias to Brazil duty, four games winless. Flamengo miss Paquetá and defender Danilo but chase the title at home.",
    "sources": [
     "https://trivela.com.br/onde-assistir/palpite-escalacoes-flamengo-x-athletico-18-11-2026/"
    ]
@@ -1068,6 +1068,132 @@
    "note": "George is not on the injury report and remains the lead guard with Markkanen and Jackson Jr. out.",
    "sources": [
     "https://www.sportbusy.com/games/nba/14315898-utah-jazz-at-los-angeles-clippers-2026-11-17/"
+   ]
+  },
+  "NBA|4432166|reb": {
+   "side": "over",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "Questionable with right knee soreness on the second night of a back-to-back and may sit; Detroit is also without Robinson, Duren, Holland and Prince, so his rebounding share would be high if he plays.",
+   "sources": [
+    "https://athlonsports.com/nba/detroit-pistons/final-injury-report-for-pistons-pelicans-will-cade-cunningham-duncan-robinson-play"
+   ]
+  },
+  "NBA|6589|pa": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Questionable with right elbow inflammation on a back-to-back, and Golden State may rest him; Curry, Butler and Moody are out, so if he plays he has more creation duties than usual.",
+   "sources": [
+    "https://clutchpoints.com/nba/nba-stories/warriors-mavericks-injury-report-draymond-green-al-horford-status"
+   ]
+  },
+  "NBA|3213|ra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Questionable with a lower back issue on a back-to-back and a rest candidate; with Curry, Butler, Moody and Porzingis unavailable, his minutes could rise if he plays.",
+   "sources": [
+    "https://clutchpoints.com/nba/nba-stories/warriors-mavericks-injury-report-draymond-green-al-horford-status"
+   ]
+  },
+  "NBA|3202|pts": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Not on Houston's injury report; Amen Thompson (left knee) is questionable and Capela is out again, so Durant's scoring load stays heavy, which works against the under.",
+   "sources": [
+    "https://heavy.com/sports/nba/houston-rockets/injury-report-vs-pacers-november-18/"
+   ]
+  },
+  "NBA|6589|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Questionable with right elbow inflammation on a back-to-back, and Golden State may rest him; Curry, Butler and Moody are out, so if he plays he has more creation duties than usual.",
+   "sources": [
+    "https://clutchpoints.com/nba/nba-stories/warriors-mavericks-injury-report-draymond-green-al-horford-status"
+   ]
+  },
+  "NBA|5082206|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|4601025|ast": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|4433627|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|3064514|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|3155942|pa": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|3112335|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "NBA|5174563|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found in an evening check; not listed on tonight's reports seen.",
+   "sources": []
+  },
+  "CFB|5222591|cmp": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Buffalo's starting quarterback; no injury or depth-chart news found before tonight's game with Central Michigan.",
+   "sources": [
+    "https://espn.com/college-football/player/_/id/5222591/jason-wright"
+   ]
+  },
+  "NBA|4277813|pra": {
+   "side": "under",
+   "flag": "caution",
+   "adj": -1,
+   "conf": "medium",
+   "note": "Not on New Orleans' injury report, while Murphy, Murray, Mathurin and Watford are all out, so his minutes and usage should be high, which works against the under.",
+   "sources": [
+    "https://athlonsports.com/nba/detroit-pistons/final-injury-report-for-pistons-pelicans-will-cade-cunningham-duncan-robinson-play"
    ]
   }
  },
