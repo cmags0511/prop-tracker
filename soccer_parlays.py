@@ -10,7 +10,7 @@ Soccer tab's leg pool (soccer.json "legs": starters in goals / shots / shots on 
     chance: 0.975, 0.952 and 0.883), so same-game legs get those small factors, not a big correlation edge
   * the price is the legs' prices multiplied (an estimate: the book's own parlay price will differ). For same-game
     legs it assumes the book gives back half of a correlation edge
-  * parlays are built per ET match day for today and tomorrow (all legs of a parlay on the same day); at most ONE same-game parlay per match; a handful of
+  * parlays are built per ET match day for today and the next three days (all legs of a parlay on the same day); at most ONE same-game parlay per match; a handful of
     different-game parlays; a leg appears in at most REUSE of the listed parlays
 
 Usage: python soccer_parlays.py [soccer_parlays.json]
@@ -28,7 +28,7 @@ SHRINK = .95
 BOOK_GIVES = .5
 MIN_EV = -.12      # soccer legs rarely beat their price (the model sees little value at DraftKings' prices), so the bar is "closest to
                    # fair", not a real edge: the page says so and the record shows how they do
-MIN_P = {2: .25, 3: .12}
+MIN_P = {2: .08, 3: .03}   # soccer legs are often long shots (anytime goal), so the chance floor is low; the payout is what they are for
 KEEP = {"same": 6, "cross": 6}
 SGP_PER_GAME = 1
 REUSE = 2
@@ -59,7 +59,8 @@ def why(a, b, f):
     return f"{last(a)} and {last(b)} are on opposite sides: they hit together about {abs(1 - f) * 100:.0f}% less often than chance"
 
 
-def combos(legs):
+def combos(legs, min_ev=None):
+    min_ev = MIN_EV if min_ev is None else min_ev
     found = {}
     for n in (2, 3):
         for combo in itertools.combinations(legs, n):
@@ -82,7 +83,7 @@ def combos(legs):
                 if factor > 1:
                     dec /= 1 + BOOK_GIVES * (factor - 1)
             ev = p * dec - 1
-            if ev < MIN_EV or p < MIN_P[n] or p > .9:
+            if ev < min_ev or p < MIN_P[n] or p > .9:
                 continue
             first = min(combo, key=lambda c: c["t"])
             pid = "|".join(sorted(c["key"] for c in combo)) + "@" + first["t"]
@@ -126,8 +127,8 @@ def main():
     except Exception:
         s = {}
     pool = s.get("legs") or (s.get("top", []) + s.get("value", []))
-    result, nlegs = [], 0
-    for day in [now.astimezone(ET).date() + dt.timedelta(days=i) for i in (0, 1)]:
+    result, nlegs, loose = [], 0, {}
+    for day in [now.astimezone(ET).date() + dt.timedelta(days=i) for i in range(4)]:
         legs, seen = [], set()
         for c in sorted(pool, key=lambda c: -c["ev"]):
             t = dt.datetime.fromisoformat(c["t"])
@@ -140,9 +141,21 @@ def main():
                 break
         nlegs += len(legs)
         result += pick(combos(legs))
+        loose.update(combos(legs, min_ev=-1))
     result.sort(key=lambda x: (x["t"], -x["ev"]))
-    json.dump({"built": now.isoformat(timespec="minutes"), "parlays": result}, open(OUT, "w"), separators=(",", ":"))
-    print(f"soccer parlays: {nlegs} legs, wrote {OUT}: {len(result)} parlays")
+    # when nothing is close enough to fair, the page still shows the few closest combos (not recorded) so the
+    # shortfall is visible: the est. EV on each is how far below fair it is
+    listed, near, games = {p["id"] for p in result}, [], set()
+    for pa in sorted((x for x in loose.values() if x["id"] not in listed), key=lambda x: -x["ev"]):
+        if len(near) >= 4:
+            break
+        if pa["kind"] == "same" and pa["legs"][0]["ev_id"] in games:
+            continue
+        if pa["kind"] == "same":
+            games.add(pa["legs"][0]["ev_id"])
+        near.append(pa)
+    json.dump({"built": now.isoformat(timespec="minutes"), "parlays": result, "closest": near}, open(OUT, "w"), separators=(",", ":"))
+    print(f"soccer parlays: {nlegs} legs, wrote {OUT}: {len(result)} parlays, {len(near)} closest")
 
 
 if __name__ == "__main__":
