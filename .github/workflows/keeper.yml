@@ -1,0 +1,54 @@
+name: Keep schedule
+
+# GitHub's own cron drops most runs when it's busy (from about Nov 6, 2026 lines.yml started only 3-8 times a day),
+# which left kickoff locks hours old. This job starts lines.yml and update.yml on time instead: it stays up for about
+# 5h40m, dispatching each run on its schedule (the same times as their cron lines), then dispatches itself again.
+# A workflow_dispatch sent with the built-in GITHUB_TOKEN does start a run, so no personal token or outside service
+# is needed. Its own cron lines are only a restart in case the chain ever breaks; the "keeper" concurrency group
+# keeps a single copy going. The repo is public, so the runner time is free.
+on:
+  schedule:
+    - cron: "3 */2 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  actions: write
+
+concurrency:
+  group: keeper
+  cancel-in-progress: false
+
+jobs:
+  keep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    steps:
+      - name: Dispatch lines.yml and update.yml on schedule
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          end=$(( $(date +%s) + 340 * 60 ))
+          last=""
+          run() { gh workflow run "$1" --ref main -R "$REPO" && echo "$(date -u +%H:%M) started $1" || echo "$(date -u +%H:%M) could not start $1"; }
+          while [ "$(date +%s)" -lt "$end" ]; do
+            H=$((10#$(date -u +%H))); M=$(date -u +%M); D=$(date -u +%u)   # D: 1 = Monday ... 7 = Sunday
+            if [ "$H:$M" != "$last" ]; then
+              last="$H:$M"
+              lines=0
+              [ "$M" = 47 ] && lines=1                                        # hourly
+              case "$M" in 05|25|45)                                          # NFL game windows, as in lines.yml
+                { [ "$D" = 7 ] && [ "$H" -ge 14 ] && [ "$H" -le 21 ]; } && lines=1
+                { { [ "$D" = 1 ] || [ "$D" = 4 ]; } && [ "$H" -ge 22 ]; } && lines=1
+                { { [ "$D" = 2 ] || [ "$D" = 5 ]; } && [ "$H" -le 1 ]; } && lines=1
+              esac
+              [ "$lines" = 1 ] && run lines.yml
+              [ "$M" = 17 ] && [ $((H % 3)) = 0 ] && run update.yml          # every 3 hours, as in update.yml
+            fi
+            sleep 20
+          done
+      - name: Hand over to the next copy
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run keeper.yml --ref main -R "${{ github.repository }}"

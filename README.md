@@ -89,7 +89,12 @@ locked lines from 3.3 hours earlier. Both workflows also accept `workflow_dispat
 them on time. The cron lines stay as a backup, and the shared `data-commit` concurrency group keeps two runs from
 overlapping.
 
-Setup (repo owner, once):
+`keeper.yml` (Nov 18) does this from inside the repo: one job stays up about 5h40m, dispatches `lines.yml` and
+`update.yml` at their scheduled minutes with the built-in `GITHUB_TOKEN` (no personal token), then dispatches the next
+copy of itself. Its own cron (every 2 hours) only restarts the chain if it breaks. Free because the repo is public.
+If it ever stops working, the outside-scheduler setup below does the same job.
+
+Outside scheduler (repo owner, once, only if keeper.yml isn't enough):
 1. GitHub > Settings > Developer settings > Fine-grained tokens: a token for **this repository only** with
    **Actions: Read and write** (nothing else), expiring in a year.
 2. In a free scheduler (for example cron-job.org), add a job for each schedule that sends
