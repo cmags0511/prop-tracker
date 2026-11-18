@@ -3906,13 +3906,16 @@ function socParlaysHtml(lf){
   const now=Date.now(),L=(SPAR.parlays||[]).filter(p=>new Date(p.t).getTime()>now&&(lf==="all"||p.legs.every(l=>l.comp===lf)));
   const head=`<div class="tophead"><h2>Soccer <span>parlays</span></h2></div>
     <p class="topsub">Combos of the Soccer tab's best-value player props, one match day at a time. Two players in the same match hit together only a little more often than chance (about 3\u20134% for shots, from the app's match history), so a same-game parlay is priced close to different games. Most soccer props are priced above the app's chance, so these are the closest to fair, not a proven edge: bet one only if your book pays at least the fair price shown. The estimated price is just the legs' prices multiplied, so check DraftKings' own number.</p>`;
-  if(!L.length)return head+`<p class="topnote">No soccer parlay is close enough to fair right now. They appear when several good-priced props line up on the same day.</p>`;
   const card=p=>{
     const when=new Date(p.t).toLocaleDateString("en-US",{weekday:"short"})+" "+new Date(p.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
     const legs=p.legs.map(l=>`<div class="bpl"><span class="nm"><b>${esc(l.name)}</b> <small class="pteam">${esc(l.team)} ${l.home?"vs":"@"} ${esc(l.opp)}</small><small>${esc(l.label)}</small></span><span class="px">${amFmt(l.price)}</span></div>`).join("");
     return`<div class="bpar"><div class="bph"><b>${p.n}-leg parlay</b><small>${p.kind==="same"?"same game":"different games"} \u00b7 ${when}</small></div>${legs}
-      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied; DraftKings' own parlay price will differ">Est. ${amFmt(p.price)}</span></div>
+      <div class="bpm"><span class="fx nt" title="The app's chance every leg hits">${Math.round(p.p*100)}% to hit</span><span class="fx good" title="Bet it only if your sportsbook pays at least this">Worth it at ${amFmt(p.fair)} or better</span><span class="fx nt" title="The legs' prices multiplied; DraftKings' own parlay price will differ">Est. ${amFmt(p.price)}</span><span class="fx ${p.ev<-.1?"bad":"nt"}" title="Expected profit per $1 at the estimated price, by the app's chances">${p.ev>0?"+":"\u2212"}${Math.round(Math.abs(p.ev)*100)}% vs fair</span></div>
       ${(p.pairs||[]).map(t=>`<p class="bpwhy">${esc(t)}</p>`).join("")}</div>`};
+  if(!L.length){
+    const C=(SPAR.closest||[]).filter(p=>new Date(p.t).getTime()>now&&(lf==="all"||p.legs.every(l=>l.comp===lf)));
+    return head+`<p class="topnote">No soccer parlay is close enough to fair right now (within 12%). They appear when several good-priced props line up on the same day.</p>`+(C.length?`<h3 class="bpsub">Closest right now <small class="pteam">(not recorded)</small></h3>${C.map(card).join("")}`:"");
+  }
   const same=L.filter(p=>p.kind==="same"),cross=L.filter(p=>p.kind!=="same");
   return head+(same.length?`<h3 class="bpsub">Same game</h3>${same.map(card).join("")}`:"")+(cross.length?`<h3 class="bpsub">Different games</h3>${cross.map(card).join("")}`:"");
 }
