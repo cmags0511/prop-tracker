@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-18 · cmags0511's Claude · Clickable splits on the Record tab
+- Every split row now filters the whole record to it (tap again to clear): Favorites/Underdogs, By odds, By the app's chance, By edge, By pick strength, Over vs under, By prop (switches sport on the All tab), What's winning, Kept vs dropped, and the parlay By type / Kept vs dropped rows. Works inside the All splits sheet too.
+- New record filters `score` (pick strength) and `kd` (kept/dropped) in `rfPass`/`RF_KEYS`/filter bar. Each split table is computed with its own filter left off so its other rows stay visible. Front-end only; `sw.js` VERSION pt-v151.
+
 ## 2026-11-17 (late), cmags0511 (Claude): NHL record moved to the Record tab (front-end only)
 Record tab has an NHL chip (All, NFL, NBA, CFB, Soccer, NHL, Parlays) that shows the same NHL record as before (`nhlRecordHtml`, from nhl.json, graded in nhl_picks.py). The NHL tab no longer has a Record section; its "NHL record, Full record" line now jumps to Record > NHL. No data or grading changes. NHL picks are still not in record.json or the All tab totals. `sw.js` is `pt-v150`.
 
