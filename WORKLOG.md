@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-17 (late), cmags0511 (Claude): NHL record moved to the Record tab (front-end only)
+Record tab has an NHL chip (All, NFL, NBA, CFB, Soccer, NHL, Parlays) that shows the same NHL record as before (`nhlRecordHtml`, from nhl.json, graded in nhl_picks.py). The NHL tab no longer has a Record section; its "NHL record, Full record" line now jumps to Record > NHL. No data or grading changes. NHL picks are still not in record.json or the All tab totals. `sw.js` is `pt-v150`.
+
 ## 2026-11-17 (later), cmags0511 (Claude): soccer parlays were empty, fixed (PR; soccer_parlays.py + front end)
 Why the section was empty: it only built for today and tomorrow, whose best combos were 40% below fair, while the only good-priced day (Fri 11/20, 24 legs) was outside the window; and the 25% minimum hit chance removed the long-shot combos (anytime goal) that are closest to fair. Now: four match days ahead, minimum chance 8% (2 legs) / 3% (3 legs). On the live 11/17 leg pool that gives 2 parlays (about -5% to -7% vs fair). `soccer_parlays.json` also gets a `closest` list (4 combos, not recorded, not graded) that the page shows under "Closest right now" when nothing passes, so the gap to fair is visible. Every card now shows its est. EV ("-7% vs fair"). `sw.js` is `pt-v149`. Record logic unchanged (reads `parlays` only).
 

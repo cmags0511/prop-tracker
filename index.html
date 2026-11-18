@@ -2353,7 +2353,8 @@ function renderAppRecord(){
   const el=document.getElementById("view-rec");
   // every sport always has a chip; Soccer shows the Soccer tab's Top 10 lists (record.json "soccer"), graded at DraftKings' price
   const lgf=S.recLg||"all",SOCR=lgf==="SOC";
-  if(lgf==="PAR"){el.innerHTML=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</nav>${parRecordHtml()}</section>`;return}
+  if(lgf==="PAR"){el.innerHTML=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["NHL","NHL"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</nav>${parRecordHtml()}</section>`;return}
+  if(lgf==="NHL"){loadNhl();el.innerHTML=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["NHL","NHL"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}</nav>${NHL?nhlRecordHtml():`<p class="pteam" style="padding:12px 2px">Loading NHL record…</p>`}</section>`;return}
   if(SOCR||lgf==="all")loadSocTeam();  // the team bets record lives in soccer_team.json
   const all=SOCR?socRecRows():((RECORD&&RECORD.picks)||[]).filter(inSet);
   const used=SOCR?["SOC"]:LEAGUES.filter(l=>all.some(e=>e.lg===l));
@@ -2363,7 +2364,7 @@ function renderAppRecord(){
   const T=appTally(done),wl=t=>`${t.w}-${t.l}${t.p?`-${t.p}`:""}`;
   const since=RECORD&&RECORD.started?new Date(RECORD.started+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"";
   const rfOn=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>(S.rf||{})[k]);
-  let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
+  let html=`<section class="recw"><nav class="utabs" aria-label="Sport">${[["all","All"],...LEAGUES.map(l=>[l,l]),["SOC","Soccer"],["NHL","NHL"],["PAR","Parlays"]].map(([k,l])=>`<button data-rlg="${k}" aria-pressed="${k===lgf}">${l}</button>`).join("")}${P0.length?`<button class="utool${rfOn?" on":""}" data-rftoggle aria-expanded="${!!(S.rfOpen||rfOn)}" aria-label="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>`:""}</nav>`;
   if(P0.length)html+=recQuickBar(P0,SOCR);
   const rfAdv=(SOCR?[...SOC_RF,...RF_KEYS]:RF_KEYS).some(k=>!["side","days","prop"].includes(k)&&(S.rf||{})[k]);  // the quick chips cover side/period/prop
   if(P0.length&&(S.rfOpen||rfAdv))html+=recFilterBar(P0,SOCR);
@@ -4044,7 +4045,7 @@ document.addEventListener("click",e=>{
 });
 // ---- NHL tab: nhl.json (nhl_picks.py). FanDuel's prices blended with a stats model; its own record, graded from box scores
 let NHL=null,nhlLoading=false;
-function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday()})}
+function loadNhl(){if(NHL||nhlLoading)return;nhlLoading=true;jget("nhl.json").then(d=>{NHL=d||{matches:[],top:[],value:[],record:{picks:[]}};nhlLoading=false;if(S.view==="nhl")renderNhl();if(S.view==="today")renderToday();if(S.view==="rec"&&S.recLg==="NHL")renderRecord()})}
 const NHL_M={sog:"Shots on goal",goal:"Goals",pts:"Points",ast:"Assists"};
 const nhlLabel=(m,line,side)=>m==="sog"?`${side==="over"?"Over":"Under"} ${fmt(line)} shots`:m==="goal"?"Anytime goal":`${Math.round(line+.5)}+ ${NHL_M[m].toLowerCase()}`;
 const nhlRes=r=>r.res==="win"?r.dec-1:r.res==="loss"?-1:0;
@@ -4089,10 +4090,10 @@ function nhlGameCard(m){
 function renderNhl(){
   const el=document.getElementById("view-nhl");
   if(!NHL){el.innerHTML=`<section class="sg"><p class="pteam">Loading NHL…</p></section>`;loadNhl();return}
-  const sec=["picks","games","record"].includes(S.nhlSec)?S.nhlSec:"picks";
+  const sec=["picks","games"].includes(S.nhlSec)?S.nhlSec:"picks";
   const now=Date.now(),opt=(cur,list)=>list.map(([k,l])=>`<option value="${esc(k)}"${k===cur?" selected":""}>${esc(l)}</option>`).join("");
   const up=l=>(l||[]).filter(c=>new Date(c.t).getTime()>now);
-  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="nhlSec">${opt(sec,[["picks","Top picks"],["games","Games"],["record","Record"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="nhlType">${opt(S.nhlType||"all",[["all","All bets"],...Object.entries(NHL_M)])}</select></label>`:""}</div>`;
+  let html=`<div class="ddrow"><label class="dd"><span class="sr">Section</span><select id="nhlSec">${opt(sec,[["picks","Top picks"],["games","Games"]])}</select></label>${sec==="picks"?`<label class="dd"><span class="sr">Bet type</span><select id="nhlType">${opt(S.nhlType||"all",[["all","All bets"],...Object.entries(NHL_M)])}</select></label>`:""}</div>`;
   if(sec==="picks"){
     const ty=NHL_M[S.nhlType]?S.nhlType:"all",f=l=>up(l).filter(c=>ty==="all"||c.m===ty);
     const R=(NHL.record&&NHL.record.picks)||[],t=nhlTally(R);
@@ -4107,13 +4108,13 @@ function renderNhl(){
     ms.forEach(m=>{const d=new Date(m.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(m)});
     html+=`<div class="uphead"><h2>NHL · ${ms.length} game${ms.length===1?"":"s"}</h2><p>Every priced player bet · tap a game</p></div>`;
     html+=ms.length?Object.entries(days).map(([d,ml])=>`<section class="day"><h3>${d}</h3><div class="games">${ml.map(nhlGameCard).join("")}</div></section>`).join(""):`<div class="upempty">No priced NHL games right now. FanDuel posts player props the day of the game.</div>`;
-  }else html+=nhlRecordHtml();
+  }
   el.innerHTML=html;
 }
 document.addEventListener("click",e=>{
   if(S.view!=="nhl")return;const t=e.target;
   const mk=t.closest("[data-nhlmk]");if(mk){S.nhlMk=mk.dataset.nhlmk;renderNhl();return}
-  if(t.closest("[data-nhlrec]")){S.nhlSec="record";renderNhl();window.scrollTo({top:0});return}
+  if(t.closest("[data-nhlrec]")){S.recType="app";S.recLg="NHL";S.view="rec";S.game=null;setupControls();render();window.scrollTo({top:0});return}
   const g=t.closest("[data-nhlg]");if(g){const card=g.closest(".gcard"),top=card.getBoundingClientRect().top;S.nhlOpen=S.nhlOpen===g.dataset.nhlg?null:g.dataset.nhlg;renderNhl();
     const c2=document.querySelector(`#view-nhl [data-nhlg="${CSS.escape(g.dataset.nhlg)}"]`);if(c2)window.scrollBy(0,c2.closest(".gcard").getBoundingClientRect().top-top);return}
   const sk=t.closest(".pick.sk");if(sk&&!t.closest("button")){sk.querySelector(".seewhy")?.click()}
