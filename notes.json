@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T12:44:04Z",
+ "updated": "2026-11-19T21:35:28Z",
  "summary": "Texans host the Colts tonight without Marvin Harrison Jr. and Woody Marks, with David Montgomery back from a groin injury to lead the backfield; the Colts are missing both starting tackles. Minnesota plays without Anthony Edwards, with Kuminga questionable, and San Antonio is without Dylan Harper.",
  "notes": {
   "CFB|4879192|recyd": {
@@ -2811,13 +2811,14 @@
   },
   "NFL|00-0039163|ptd": {
    "flag": "support",
-   "adj": 0,
+   "adj": 1,
    "conf": "medium",
-   "note": "Stroud threw 3 TDs last week, and Indy's secondary is short Ward (out), with Gardner questionable after missing practice; the Texans' implied total is about 28 as the spread grew to 12.5.",
+   "note": "Stroud threw 3 TDs last week, and Indy's secondary is short Ward (out), with Gardner questionable after missing practice; the Texans' implied total is about 28 as the spread grew to 12.5. Late update: Sauce Gardner (calf) is not expected to play, leaving Indy without both starting corners.",
    "sources": [
     "https://www.si.com/betting/colts-vs-texans-prediction-odds-spread-injuries-trends-for-nfl-week-11-2026",
     "https://walterfootball.com/nflteamhub2026-week11-colts-at-texans.php",
-    "https://clutchpoints.com/fantasy-sports/colts-texans-fantasy-football-week-11-start-em-sit-em"
+    "https://clutchpoints.com/fantasy-sports/colts-texans-fantasy-football-week-11-start-em-sit-em",
+    "https://sports.yahoo.com/articles/report-sauce-gardner-not-expected-170945848.html"
    ],
    "detail": {
     "availability": "No injury designation.",
@@ -3233,6 +3234,77 @@
    "note": "No injury listed; his extra slot snaps came while Tyler Brown was out, and Brown's status for Duke is not known.",
    "sources": [
     "https://www.rotowire.com/cfootball/player/juju-preston-49598"
+   ]
+  },
+  "NFL|00-0040128|recyd": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation found; Indy is without both starting tackles and implied for about 16-17 points, but no report shows his target share changing.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-texans-vs-colts-injury-reports-for-tnf-updates-on-sauce-gardner-danielle-hunter-woody-marks-more/"
+   ]
+  },
+  "NFL|00-0041043|tkl": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury or role news found for Haulcy before Thursday's game.",
+   "sources": [
+    "https://www.sportsbettingdime.com/news/nfl/final-texans-vs-colts-injury-reports-for-tnf-updates-on-sauce-gardner-danielle-hunter-woody-marks-more/"
+   ]
+  },
+  "NBA|4845367|reb": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Not on the injury report; Harper is out, which adds ballhandling for Castle more than rebounding.",
+   "sources": [
+    "https://athlonsports.com/nba/san-antonio-spurs/final-injury-report-for-clippers-spurs-will-dylan-harper-brandon-ingram-play",
+    "https://sports.yahoo.com/articles/spurs-rule-dylan-harper-thursdays-000432041.html"
+   ]
+  },
+  "NBA|2991139|reb": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing or rotation change found for Dunn before the Spurs game.",
+   "sources": [
+    "https://athlonsports.com/nba/san-antonio-spurs/final-injury-report-for-clippers-spurs-will-dylan-harper-brandon-ingram-play"
+   ]
+  },
+  "NBA|3934719|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No confirmed absence for Anunoby found at check time; final Knicks status not seen.",
+   "sources": [
+    "https://sports.yahoo.com/articles/final-injury-report-knicks-timberwolves-210000899.html"
+   ]
+  },
+  "NBA|4397002|ast": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "medium",
+   "note": "With Edwards and DiVincenzo out for Minnesota, Dosunmu likely handles the ball more, a risk for this under.",
+   "sources": [
+    "https://athlonsports.com/nba/minnesota-timberwolves/final-injury-report-for-knicks-timberwolves-will-jonathan-kuminga-play"
+   ]
+  },
+  "NBA|5164559|pr": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury listing or role change found for Ament before the Portland game.",
+   "sources": [
+    "https://roundtable.io/sports/nba/bucks/news/bucks-remain-without-star-on-injury-report-vs-trail-blazers"
    ]
   }
  },
