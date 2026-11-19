@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T21:35:28Z",
+ "updated": "2026-11-19T23:45:52Z",
  "summary": "Texans host the Colts tonight without Marvin Harrison Jr. and Woody Marks, with David Montgomery back from a groin injury to lead the backfield; the Colts are missing both starting tackles. Minnesota plays without Anthony Edwards, with Kuminga questionable, and San Antonio is without Dylan Harper.",
  "notes": {
   "CFB|4879192|recyd": {
@@ -3305,6 +3305,58 @@
    "note": "No injury listing or role change found for Ament before the Portland game.",
    "sources": [
     "https://roundtable.io/sports/nba/bucks/news/bucks-remain-without-star-on-injury-report-vs-trail-blazers"
+   ]
+  },
+  "NFL|00-0039838|tkl": {
+   "side": "over",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Bullock is listed as a starting safety with no injury designation; Houston is a 12.5-point favorite, so the Colts may run often late, and his line was cut from 4.5 to 3.5.",
+   "sources": [
+    "https://www.si.com/nfl/texans/onsi/texans-secondary-expected-to-see-one-key-change-vs-colts",
+    "https://www.espn.com/nfl/story/_/id/50524890/texans-rule-hunter-marks-colts-rule-ward-starting-ots"
+   ]
+  },
+  "NBA|4395723|pa": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Johnson is listed questionable for Thursday; if he plays, his minutes could be limited, and an inactive would void the prop.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/basketball/news/spurs-keldon-johnson-questionable-for-thursday"
+   ]
+  },
+  "NBA|3213|pra": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "Horford sat Wednesday for rest and is confirmed available on the second night of the back-to-back; Golden State has a long injury list.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/basketball/news/warriors-al-horford-confirmed-available/",
+    "https://sports.yahoo.com/articles/warriors-vs-grizzlies-injury-report-193903602.html"
+   ]
+  },
+  "NBA|4433083|3pm": {
+   "side": "under",
+   "flag": "neutral",
+   "adj": 0,
+   "conf": "low",
+   "note": "No injury designation found for Spencer; Memphis's frontcourt has Stewart questionable with an illness, which doesn't clearly change his shooting volume.",
+   "sources": [
+    "https://sports.yahoo.com/articles/warriors-vs-grizzlies-injury-report-193903602.html"
+   ]
+  },
+  "NBA|4432810|pr": {
+   "side": "under",
+   "flag": "caution",
+   "adj": 0,
+   "conf": "low",
+   "note": "Stewart is questionable with an illness; if he plays, his minutes could be reduced, and an inactive would void the prop.",
+   "sources": [
+    "https://www.cbssports.com/fantasy/basketball/news/grizzlies-isaiah-stewart-questionable-with-illness/"
    ]
   }
  },
