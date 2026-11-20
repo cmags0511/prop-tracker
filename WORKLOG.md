@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-20 · cmags0511's Claude · Today tab bets open a detail sheet
+- Tapping any bet on the Today tab opens a sheet with everything on it: tracking (found time, price/line when found vs now, dropped), the app's chance/edge and numbers, and per type: the full reasoning sheet for props still on the live list (chart, market, factors, research), TD price sources, soccer hit rate/lineup, parlay legs and why they go together, team-bet and NHL model numbers, plus the DraftKings button. Props the app has dropped fall back to the saved numbers.
+- Front-end only (`tdDetail` in index.html); `sw.js` pt-v153.
+
 ## 2026-11-18 · cmags0511's Claude · DK price check + Best 3 right now
 - Parlay cards (Props page) have a "DraftKings pays" box: type the parlay price DK shows and it says Worth it (with the edge) or Pass vs the fair price. Stored on the device only (`ptDkp`).
 - Props Top list: "Best 3 right now" card (top 3 live picks by edge) with the tracked record of that approach per sport next to it (small sample, shown plainly). Front-end only; `sw.js` pt-v152.

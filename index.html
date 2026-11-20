@@ -862,6 +862,7 @@ body:not(.sec-table) .toolbar > :not(.seg){display:none!important}
 .pkcta{grid-column:1/-1;display:flex;align-items:center;margin:8px -14px 0;border-top:1px solid var(--line)}
 .pkcta .trk,.pkcta .live{margin:0 12px 0 0}
 .dkb{display:inline-flex;align-items:center;text-decoration:none;color:var(--accent);font:800 13px var(--f-body);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.tdrow[data-tdk]{cursor:pointer}.tdrow[data-tdk]:active{background:var(--accent-soft)}.tdchev{font-style:normal;color:var(--muted);margin-left:2px}
 .tdrow{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-top:1px solid var(--line)}.tdrow:first-child{border-top:0}
 .tdrow .tr1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.tdrow b{font:800 15px var(--f-body)}.tdrow .tpx{font:800 15px var(--f-mono,monospace);white-space:nowrap}
 .tdrow .tr2{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:12.5px}.tdrow .tby{font-weight:700}
@@ -4044,24 +4045,71 @@ function tdItems(){
     if(e.price_now!=null&&e.price!=null&&e.price_now!==e.price)m.push(`price ${amFmt(e.price)} → ${amFmt(e.price_now)}`);return m.join(" · ")};
   const it=(e,o)=>out.push(Object.assign({key:e.key||e.id,t:e.t,found:e.t0||e.first_seen||null,dropped:!!e.dropped||!!e.lapsed,move:mv(e)},o));
   for(const e of pend(R.picks)){const lbl=`${e.side==="over"?"Over":"Under"} ${fmt(e.line)} ${SHORT[e.market]||e.label}`;
-    it(e,{kind:e.lg,title:e.name,bet:lbl,game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price,e.price_est),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} ${lbl}`})}
-  for(const e of pend(R.td))it(e,{kind:e.lg,title:e.name,bet:"Anytime TD",game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} anytime TD`});
-  for(const e of pend(R.soccer))it(e,{kind:"Soccer",title:e.name,bet:e.label,game:`${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.league||""}`,price:px(e.dk!=null?e.dk:e.price),dk:["SOC",e.team,e.opp,e.t,e.ev_id],txt:`${e.name} ${e.label}`});
+    it(e,{raw:e,type:"prop",kind:e.lg,title:e.name,bet:lbl,game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price,e.price_est),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} ${lbl}`})}
+  for(const e of pend(R.td))it(e,{raw:e,type:"td",kind:e.lg,title:e.name,bet:"Anytime TD",game:`${e.team} ${e.home?"vs":"@"} ${e.opp}`,price:px(e.price),dk:[e.lg,e.team,e.opp,e.t,null],txt:`${e.name} anytime TD`});
+  for(const e of pend(R.soccer))it(e,{raw:e,type:"soc",kind:"Soccer",title:e.name,bet:e.label,game:`${e.team} ${e.home?"vs":"@"} ${e.opp} · ${e.league||""}`,price:px(e.dk!=null?e.dk:e.price),dk:["SOC",e.team,e.opp,e.t,e.ev_id],txt:`${e.name} ${e.label}`});
   for(const p of pend(R.parlays)){const same=p.kind==="same",l0=p.legs[0]||{};
-    it(p,{key:"P|"+p.id,kind:"Parlay",title:`${p.n}-leg parlay · ${p.lg}`,bet:p.legs.map(l=>`${(l.name||"").split(" ").slice(-1)[0]} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${SHORT[l.market]||l.label||""}`).join(" + "),game:same?`${l0.team} ${l0.home?"vs":"@"} ${l0.opp}`:"several games",price:px(p.price,true),dk:same?[p.lg,l0.team,l0.opp,p.t,null]:null,txt:p.legs.map(l=>`${l.name} ${l.side} ${fmt(l.line)} ${l.label||""}`).join(", ")})}
+    it(p,{raw:p,type:"par",key:"P|"+p.id,kind:"Parlay",title:`${p.n}-leg parlay · ${p.lg}`,bet:p.legs.map(l=>`${(l.name||"").split(" ").slice(-1)[0]} ${l.side==="over"?"o":"u"}${fmt(l.line)} ${SHORT[l.market]||l.label||""}`).join(" + "),game:same?`${l0.team} ${l0.home?"vs":"@"} ${l0.opp}`:"several games",price:px(p.price,true),dk:same?[p.lg,l0.team,l0.opp,p.t,null]:null,txt:p.legs.map(l=>`${l.name} ${l.side} ${fmt(l.line)} ${l.label||""}`).join(", ")})}
   if(ST)for(const c of (ST.record_all||[]).filter(c=>c.status==="pending"&&up(c.t)))
-    it(c,{key:"T|"+c.key,kind:"Soccer",title:c.bet,bet:(c.market||"").replace(/^2 Way /,""),game:`${c.away} @ ${c.home} · ${c.league||""}`,price:amFmt(c.price),dk:["SOC",c.home,c.away,c.t,c.espn],txt:c.bet,found:c.first_seen,dropped:!!c.lapsed,move:""});
+    it(c,{raw:c,type:"team",key:"T|"+c.key,kind:"Soccer",title:c.bet,bet:(c.market||"").replace(/^2 Way /,""),game:`${c.away} @ ${c.home} · ${c.league||""}`,price:amFmt(c.price),dk:["SOC",c.home,c.away,c.t,c.espn],txt:c.bet,found:c.first_seen,dropped:!!c.lapsed,move:""});
   if(NHL)for(const c of ((NHL.record&&NHL.record.picks)||[]).filter(c=>!c.res&&up(c.t))){const lbl=nhlLabel(c.m,c.line,c.side);
-    it(c,{kind:"NHL",title:c.name,bet:lbl,game:`${c.team} @ ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}
+    it(c,{raw:c,type:"nhl",kind:"NHL",title:c.name,bet:lbl,game:`${c.team} @ ${c.opp}`,price:amFmt(c.price),dk:["NHL",c.team,c.opp,c.t,null],txt:`${c.name} ${lbl}`})}
   return out;
 }
 function tdRow(it){
   const f=t=>{t=new Date(t);return`${t.toLocaleDateString("en-US",{weekday:"short"})} ${t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`};
-  return`<div class="tdrow"><div class="tr1"><b>${esc(it.title)}${it.dropped?`<span class="tdgone">App dropped it · still counts</span>`:""}</b><span class="tpx">${esc(it.price||"")}</span></div>
+  return`<div class="tdrow" data-tdk="${esc(it.key)}" role="button" tabindex="0" aria-label="${esc(it.title)}: show everything about this bet"><div class="tr1"><b>${esc(it.title)}${it.dropped?`<span class="tdgone">App dropped it · still counts</span>`:""}</b><span class="tpx">${esc(it.price||"")} <i class="tdchev" aria-hidden="true">\u203a</i></span></div>
     <div class="tr2"><span><span class="tdtag">${esc(it.kind)}</span>${esc(it.bet)} · ${esc(it.game)}</span></div>
     ${it.move?`<div class="tr2"><span class="tdnote">Since found: ${esc(it.move)}</span></div>`:""}
     <div class="tr2"><span class="tby">${it.found?`Found ${f(it.found)} · `:""}Bet by ${f(it.t)}</span>${it.dk?dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt):""}</div></div>`;
 }
+// tap a bet on the Today tab: a sheet with everything the app has on it
+function tdDetail(it){
+  const e=it.raw||{},tm=t=>{t=new Date(t);return t.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+" "+t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
+  const pc=v=>v==null||isNaN(v)?null:Math.round(v*100)+"%",sg=v=>v==null||isNaN(v)?null:(v>=0?"+":"\u2212")+Math.abs(v*100).toFixed(1)+"%";
+  const grid=c=>{c=c.filter(x=>x[1]!=null&&x[1]!=="");return c.length?shSec("Numbers",shGrid(c)):""};
+  const found=e.t0||e.first_seen,pr=e.price!=null?e.price:e.dk;
+  const track=shSec("Tracking",[shRow("Game",esc(it.game)),shRow("Bet by",tm(e.t)),found?shRow("Found",tm(found)):"",
+    pr!=null?shRow("Price when found",`${e.price_est?"~":""}${amFmt(pr)}${e.price_est?" <small>estimate</small>":""}`):"",
+    e.price_now!=null&&pr!=null&&e.price_now!==pr?shRow("Price now",amFmt(e.price_now)):"",
+    e.line_now!=null&&e.line!=null&&e.line_now!==e.line?shRow("Line now",`${fmt(e.line)} \u2192 ${fmt(e.line_now)}`):"",
+    e.side_now&&e.side&&e.side_now!==e.side?shRow("App now leans",e.side_now):"",
+    e.ev_now!=null?shRow("Expected value now",sg(e.ev_now)):""].join("")
+    +(it.dropped?shNote(`The app stopped listing this${typeof(e.dropped||e.lapsed)==="string"?" on "+tm(e.dropped||e.lapsed):""} (price or line moved, or news). It still counts in the record at the price it was found at.`):""));
+  const note=(()=>{const n=NOTES&&NOTES.notes&&NOTES.notes[e.key];return n&&n.note?shSec("Research note",`<p class="shp">${esc(n.note)}</p>`+(n.updated||NOTES.updated?`<small class="pteam">Researched ${new Date(n.updated||NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small>`:"")):""})();
+  const dk=it.dk?shSec("",`<div style="display:flex;justify-content:center">${dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div>`):"";
+  let body="";
+  if(it.type==="prop"){
+    const pool=PICKS?[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat()]:[];
+    const c=pool.find(x=>x.key===e.key&&x.side===e.side&&x.line===e.line);
+    if(c){let r="";try{r=reasonHtml(c,null,"","")}catch(_){r=""}
+      body=track+r}
+    else{
+      const fx=e.factors?Object.entries(e.factors).filter(([k])=>k!=="market"&&Math.abs(e.factors[k])>=.03).map(([k,v])=>shRow(FXNAME[k]||k,v>0?"\u25b2 For":"\u25bc Against",v>0?"up":"dn")).join(""):"";
+      body=track+grid([["Last 10",e.l10?`${e.l10[0]} of ${e.l10[1]}`:null],["App's chance",pc(e.prob)],["Grade",e.grade],["Edge",sg(e.edge)],["Pick score",e.score!=null?(+e.score).toFixed(2):null]])+(fx?shSec("Model factors",fx):"")+note
+        +shNote("This pick isn't on the app's live Top list any more, so the full reasoning isn't available. The numbers above are the ones saved when it was found.")}
+  }else if(it.type==="td"){
+    body=track+grid([["App's chance",pc(e.prob)],["Edge",sg(e.td_edge)],["FanDuel price",e.fd!=null?amFmt(e.fd):null],["Kalshi chance",pc(e.kalshi)],["Stat model",pc(e.stat)]])+note;
+  }else if(it.type==="soc"){
+    let c=null;try{c=socFind(e.key,e.ev_id)}catch(_){}
+    const L=c||e;
+    body=track+grid([["App's chance",pc(e.prob)],["Per $10 at DK",e.ev!=null?(e.ev>=0?"+$":"\u2212$")+Math.abs(e.ev*10).toFixed(2):null],["DraftKings",e.dk!=null?amFmt(e.dk):null],["FanDuel",e.fd!=null?amFmt(e.fd):null],
+      ["Hit recently",L.hits?`${L.hits[0]} of ${L.hits[1]}`:null],["Lineup",L.lineup==="start"?"Starting":L.lineup==="bench"?"Bench":null],["Position",L.pos||null]])+shNote(`${esc(e.league||"")} \u00b7 $ per 10 is the expected profit on a $10 bet at DraftKings' price; it's usually negative because of the book's margin.`)+note;
+  }else if(it.type==="par"){
+    body=track+grid([["Chance all hit",pc(e.p)],["Fair price",amFmt(e.fair)],["Est. price",amFmt(e.price)],["Expected value",sg(e.ev)]])
+      +shSec("Legs",(e.legs||[]).map(l=>shRow(`<b>${esc(l.name||"")}</b> <small class="pteam">${esc(l.team||"")} ${l.home?"vs":"@"} ${esc(l.opp||"")}</small><br><small>${l.side==="under"?"Under":"Over"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label||"")} \u00b7 app ${pc(l.p!=null?l.p:l.prob)||"\u2013"}</small>`,l.price!=null?amFmt(l.price):"")).join(""))
+      +((e.pairs||[]).length?shSec("Why these go together",e.pairs.map(t=>shNote(esc(t))).join("")):"")
+      +shNote("The est. price is the legs' prices combined (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ: bet it only if DraftKings pays at least the fair price.");
+  }else if(it.type==="team"){
+    body=track+grid([["App's chance",pc(e.prob)],["Fair price",e.fair!=null?amFmt(e.fair):null],["Edge",sg(e.ev)],["Book",e.book],["Market",(e.market||"").replace(/^2 Way /,"")]]);
+  }else if(it.type==="nhl"){
+    body=track+grid([["App's chance",pc(e.prob)],["Stats model",pc(e.model)],["Book's chance",pc(e.book)],["Edge",sg(e.ev)],["Opening price",e.open!=null?amFmt(e.open):null],["List",e.list]]);
+  }
+  openSheet(it.title,body+dk,null,it.kind+" \u00b7 "+it.bet,it.game);
+}
+document.addEventListener("click",e=>{const r=e.target.closest("#view-today .tdrow[data-tdk]");if(!r||e.target.closest("a,button"))return;
+  const it=tdItems().find(x=>x.key===r.dataset.tdk);if(it)tdDetail(it)});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("#view-today .tdrow[data-tdk]")){e.preventDefault();e.target.click()}});
 function renderToday(){
   const el=document.getElementById("view-today");
   if(!ST&&!stLoading)loadSocTeam();
@@ -4069,7 +4117,7 @@ function renderToday(){
   const all=tdItems().sort((a,b)=>new Date(a.t)-new Date(b.t)),ready=ST&&NHL,days={};
   all.forEach(i=>{const d=new Date(i.t).toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});(days[d]=days[d]||[]).push(i)});
   const n=all.length;
-  let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Every bet the app has suggested for upcoming games, by kickoff. Each counts as a bet from the time it was found and is never removed; the price shown is the one when it was found.</p></div>`;
+  let html=`<div class="uphead"><h2>Today's card · ${n} bet${n===1?"":"s"}</h2><p>Every bet the app has suggested for upcoming games, by kickoff. Each counts as a bet from the time it was found and is never removed; the price shown is the one when it was found. Tap any bet for everything about it.</p></div>`;
   html+=all.length?Object.entries(days).map(([d,l])=>`<section class="day"><h3>${d}</h3><div class="lcard shw">${l.map(tdRow).join("")}</div></section>`).join(""):`<div class="upempty">${ready?"Nothing suggested right now.":"Loading…"}</div>`;
   html+=`<p class="topsub" style="padding-inline:2px">"App dropped it" means the app stopped listing it before kickoff (price or line moved, news); it still counts in the record at the price it was found at. Prices marked ~ are estimates. Not betting advice.</p>`;
   el.innerHTML=html;
