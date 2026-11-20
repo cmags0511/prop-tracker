@@ -1,16 +1,17 @@
 {
- "built": "2026-11-20T12:20+00:00",
- "graded_picks": 1151,
- "graded_research": 306,
+ "built": "2026-11-20T15:23+00:00",
+ "graded_picks": 1211,
+ "graded_research": 307,
  "market": {
-  "NBA|ast|under": 1.062,
-  "NBA|pa|under": 1.077,
-  "NBA|pra|under": 1.125,
-  "NBA|pr|under": 1.079,
-  "NBA|pts|over": 0.945,
-  "NBA|pts|under": 1.061,
-  "NBA|ra|under": 1.045,
-  "NBA|reb|under": 1.052,
+  "NBA|ast|over": 1.033,
+  "NBA|ast|under": 1.059,
+  "NBA|pa|under": 1.078,
+  "NBA|pra|under": 1.121,
+  "NBA|pr|under": 1.08,
+  "NBA|pts|over": 0.942,
+  "NBA|pts|under": 1.054,
+  "NBA|ra|under": 1.046,
+  "NBA|reb|under": 1.055,
   "CFB|pyd|over": 1.121,
   "CFB|pyd|under": 1.25,
   "CFB|recyd|under": 1.25,
@@ -25,27 +26,28 @@
   "NFL|tkl|under": 0.914
  },
  "factors": {
-  "matchup": 1.167,
+  "matchup": 1.162,
   "game": 1.244,
-  "minutes": 1.053,
+  "minutes": 1.117,
   "usage": 1.109,
-  "form": 0.504,
-  "market": 1.273
+  "form": 0.5,
+  "market": 1.279
  },
  "research_conf": {
   "high": 1.307,
-  "medium": 0.787,
+  "medium": 0.792,
   "low": 0.318
  },
  "notes": [
-  "NBA assists unders beat the market by +2.5% over 1352 props: ranked higher (x1.062)",
-  "NBA pts + ast unders beat the market by +3.2% over 1129 props: ranked higher (x1.077)",
-  "NBA PRA unders beat the market by +5.3% over 1118 props: ranked higher (x1.125)",
-  "NBA pts + reb unders beat the market by +3.2% over 1312 props: ranked higher (x1.079)",
-  "NBA points overs beat the market by -3.9% over 271 props: ranked lower (x0.945)",
-  "NBA points unders beat the market by +2.4% over 1605 props: ranked higher (x1.061)",
-  "NBA reb + ast unders beat the market by +1.8% over 1264 props: ranked higher (x1.045)",
-  "NBA rebounds unders beat the market by +2.1% over 1423 props: ranked higher (x1.052)",
+  "NBA assists overs beat the market by +2.2% over 300 props: ranked higher (x1.033)",
+  "NBA assists unders beat the market by +2.4% over 1383 props: ranked higher (x1.059)",
+  "NBA pts + ast unders beat the market by +3.3% over 1164 props: ranked higher (x1.078)",
+  "NBA PRA unders beat the market by +5.1% over 1146 props: ranked higher (x1.121)",
+  "NBA pts + reb unders beat the market by +3.2% over 1351 props: ranked higher (x1.08)",
+  "NBA points overs beat the market by -4.0% over 276 props: ranked lower (x0.942)",
+  "NBA points unders beat the market by +2.1% over 1634 props: ranked higher (x1.054)",
+  "NBA reb + ast unders beat the market by +1.9% over 1297 props: ranked higher (x1.046)",
+  "NBA rebounds unders beat the market by +2.2% over 1447 props: ranked higher (x1.055)",
   "CFB passing yards overs are 5-3: ranked higher (x1.121)",
   "CFB passing yards unders are 17-8: ranked higher (x1.25)",
   "CFB receiving yards unders are 23-12: ranked higher (x1.25)",
@@ -58,43 +60,43 @@
   "NFL rushing yards unders are 12-17: ranked lower (x0.767)",
   "NFL sacks unders are 27-14: ranked higher (x1.25)",
   "NFL tackles unders are 16-17: ranked lower (x0.914)",
-  "When matchup backed a pick it went 160-137, vs 81-99 when it didn't: weighted x1.167",
+  "When matchup backed a pick it went 167-139, vs 86-101 when it didn't: weighted x1.162",
   "When game script backed a pick it went 81-52, vs 47-52 when it didn't: weighted x1.244",
-  "When minutes trend backed a pick it went 97-74, vs 62-53 when it didn't: weighted x1.053",
+  "When minutes trend backed a pick it went 117-80, vs 66-58 when it didn't: weighted x1.117",
   "When usage (snaps, targets, carries) backed a pick it went 29-19, vs 30-26 when it didn't: weighted x1.109",
   "High-confidence research calls are 7-5: their weight goes from 1.2 to 1.307",
-  "Medium-confidence research calls are 125-153: their weight goes from 1.0 to 0.787",
+  "Medium-confidence research calls are 126-153: their weight goes from 1.0 to 0.792",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 24711 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 25109 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 50%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL rush attempts: an extra nudge toward the under, trusted less (x0.81): its edges have played out smaller than predicted",
   "NBA pts + reb: trusted less (x0.69): its edges have played out smaller than predicted",
-  "NBA threes: an extra nudge toward the over, trusted more (x1.27)",
+  "NBA threes: an extra nudge toward the over, trusted more (x1.26)",
   "NBA points: trusted less (x0.77): its edges have played out smaller than predicted",
   "NFL rushing yards: an extra nudge toward the under",
   "NFL passing yards: an extra nudge toward the over",
   "NBA PRA: trusted less (x0.80): its edges have played out smaller than predicted",
   "NFL receiving yards: an extra nudge toward the under",
+  "NBA assists: trusted more (x1.15)",
   "CFB rushing yards: an extra nudge toward the over",
-  "NBA assists: trusted more (x1.14)",
   "NBA pts + ast: trusted less (x0.85): its edges have played out smaller than predicted",
   "NFL completions: trusted less (x0.88): its edges have played out smaller than predicted",
   "CFB passing yards: an extra nudge toward the under",
   "NFL receptions: an extra nudge toward the under",
   "CFB receiving yards: an extra nudge toward the under",
-  "Recent form has been over-weighted across 24055 graded props: weighted x0.504",
-  "Kalshi market has been under-weighted across 24055 graded props: weighted x1.273"
+  "Recent form has been over-weighted across 24453 graded props: weighted x0.5",
+  "Kalshi market has been under-weighted across 24453 graded props: weighted x1.279"
  ],
  "calibration": {
-  "n": 24711,
-  "days": 37,
+  "n": 25109,
+  "days": 38,
   "trust": 0.95,
-  "c": -0.121,
+  "c": -0.12,
   "b": 0.35,
   "per": {
    "CFB|pyd": [
-    -0.069,
+    -0.07,
     1.032
    ],
    "CFB|rec": [
@@ -106,47 +108,47 @@
     0.989
    ],
    "CFB|ryd": [
-    0.133,
-    0.956
+    0.124,
+    0.954
    ],
    "NBA|3pm": [
     0.062,
-    1.269
+    1.262
    ],
    "NBA|ast": [
-    0.017,
-    1.141
+    0.023,
+    1.149
    ],
    "NBA|pa": [
-    -0.005,
-    0.853
+    -0.004,
+    0.85
    ],
    "NBA|pr": [
-    -0.021,
-    0.689
+    -0.02,
+    0.688
    ],
    "NBA|pra": [
-    -0.018,
-    0.802
+    -0.017,
+    0.8
    ],
    "NBA|pts": [
-    0.032,
-    0.767
+    0.036,
+    0.768
    ],
    "NBA|ra": [
-    0.023,
+    0.017,
     0.926
    ],
    "NBA|reb": [
-    0.047,
-    1.054
+    0.041,
+    1.057
    ],
    "NFL|att": [
-    -0.009,
+    -0.01,
     0.921
    ],
    "NFL|car": [
-    -0.151,
+    -0.152,
     0.807
    ],
    "NFL|cmp": [
@@ -154,65 +156,65 @@
     0.883
    ],
    "NFL|fgm": [
-    0.045,
+    0.044,
     1.045
    ],
    "NFL|pat": [
-    -0.048,
-    1.001
+    -0.049,
+    1.0
    ],
    "NFL|pyd": [
-    0.154,
+    0.153,
     0.902
    ],
    "NFL|rec": [
-    -0.091,
+    -0.092,
     1.002
    ],
    "NFL|recyd": [
-    -0.129,
+    -0.131,
     0.938
    ],
    "NFL|rry": [
-    -0.005,
+    -0.006,
     0.909
    ],
    "NFL|ryd": [
-    -0.158,
+    -0.159,
     0.905
    ],
    "NFL|sck": [
-    -0.333,
+    -0.334,
     0.985
    ],
    "NFL|tkl": [
-    -0.024,
+    -0.025,
     0.919
    ]
   }
  },
  "calib": {
-  "n": 24711,
+  "n": 25109,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    16028,
+    16335,
     0.525,
     0.528
    ],
    [
     0.55,
     0.6,
-    7226,
+    7308,
     0.567,
     0.542
    ],
    [
     0.6,
     0.65,
-    1085,
+    1094,
     0.617,
     0.575
    ],
@@ -235,30 +237,30 @@
    [
     0.5,
     0.55,
-    5637,
+    5736,
     0.522,
     0.53
    ],
    [
     0.55,
     0.6,
-    2912,
+    2966,
     0.571,
-    0.577
+    0.578
    ],
    [
     0.6,
     0.65,
-    992,
+    1009,
     0.618,
-    0.627
+    0.624
    ],
    [
     0.65,
     0.7,
-    187,
+    192,
     0.666,
-    0.658
+    0.656
    ],
    [
     0.7,
@@ -272,23 +274,23 @@
    [
     0.5,
     0.55,
-    227,
+    257,
     0.539,
-    0.581
+    0.58
    ],
    [
     0.55,
     0.6,
-    733,
-    0.568,
-    0.517
+    761,
+    0.567,
+    0.519
    ],
    [
     0.6,
     0.65,
-    129,
+    131,
     0.619,
-    0.566
+    0.573
    ],
    [
     0.65,
@@ -566,6 +568,12 @@
     "NBA points unders beat the market by +2.5% over 1500 props: ranked higher (x1.063)",
     "NBA rebounds unders beat the market by +1.6% over 1330 props: ranked higher (x1.039)",
     "NFL receptions unders are 22-13: ranked higher (x1.234)"
+   ]
+  },
+  {
+   "d": "2026-11-20",
+   "notes": [
+    "NBA assists overs beat the market by +2.2% over 300 props: ranked higher (x1.033)"
    ]
   }
  ]
