@@ -4063,6 +4063,27 @@ function tdRow(it){
     ${it.move?`<div class="tr2"><span class="tdnote">Since found: ${esc(it.move)}</span></div>`:""}
     <div class="tr2"><span class="tby">${it.found?`Found ${f(it.found)} · `:""}Bet by ${f(it.t)}</span>${it.dk?dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt):""}</div></div>`;
 }
+// the app's pick as the reasoning sheet wants it; a pick the app no longer lists is rebuilt from the saved bet plus his current form
+function tdPropC(e){
+  const pool=PICKS?[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat()]:[];
+  const same=pool.find(x=>x.key===e.key&&x.side===e.side&&x.line===e.line);if(same)return same;
+  const any=pool.find(x=>x.key===e.key)||{},p=DATA[e.lg]&&DATA[e.lg].find(x=>x.id===e.id),mk=p&&MK[e.lg]&&MK[e.lg].find(x=>x.id===e.market);
+  const vals=p&&mk?p.games.slice(-10).map(mk.f).filter(v=>v!=null&&!isNaN(v)):[],hit=v=>e.side==="over"?v>e.line:v<e.line;
+  const c=Object.assign({},any,e,{side:e.side,line:e.line});
+  c.l10=vals.length?[vals.filter(hit).length,vals.length]:(e.l10||[0,0]);
+  c.avg10=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:e.line;
+  c.why="The app no longer lists this pick (its line, price or news changed). It still counts in the record as found. His current form against the line is below.";
+  return c;
+}
+// a parlay leg's recent form: last 10 games against the line (props) or his recent hit rate (soccer)
+function tdLegForm(l){
+  try{
+    if(l.lg==="SOC"){const c=socFind(l.key,l.ev_id);return c&&c.hits?` \u00b7 hit ${c.hits[0]} of ${c.hits[1]} recently`:""}
+    const p=DATA[l.lg]&&DATA[l.lg].find(x=>x.id===l.id),mk=p&&MK[l.lg]&&MK[l.lg].find(x=>x.id===l.market);if(!p||!mk)return"";
+    const v=p.games.slice(-10).map(mk.f).filter(x=>x!=null&&!isNaN(x));if(!v.length)return"";
+    const h=v.filter(x=>l.side==="over"?x>l.line:x<l.line).length;return` \u00b7 last ${v.length}: ${h} ${l.side==="over"?"over":"under"}, avg ${(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)}`;
+  }catch(_){return""}
+}
 // tap a bet on the Today tab: a sheet with everything the app has on it
 function tdDetail(it){
   const e=it.raw||{},tm=t=>{t=new Date(t);return t.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+" "+t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
@@ -4078,37 +4099,43 @@ function tdDetail(it){
     +(it.dropped?shNote(`The app stopped listing this${typeof(e.dropped||e.lapsed)==="string"?" on "+tm(e.dropped||e.lapsed):""} (price or line moved, or news). It still counts in the record at the price it was found at.`):""));
   const note=(()=>{const n=NOTES&&NOTES.notes&&NOTES.notes[e.key];return n&&n.note?shSec("Research note",`<p class="shp">${esc(n.note)}</p>`+(n.updated||NOTES.updated?`<small class="pteam">Researched ${new Date(n.updated||NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small>`:"")):""})();
   const dk=it.dk?shSec("",`<div style="display:flex;justify-content:center">${dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div>`):"";
+  const full=(it.type==="prop"||it.type==="td")&&e.id?shSec("",`<button class="btn ghost" data-tdfull="${esc(it.key)}" style="width:100%">Open his full player page</button>`):"";
   let body="";
   if(it.type==="prop"){
-    const pool=PICKS?[...(PICKS.picks||[]),...(PICKS.picksOver||[]),...Object.values(PICKS.byMarket||{}).flat(),...Object.values(PICKS.byMarketOver||{}).flat()]:[];
-    const c=pool.find(x=>x.key===e.key&&x.side===e.side&&x.line===e.line);
-    if(c){let r="";try{r=reasonHtml(c,null,"","")}catch(_){r=""}
-      body=track+r}
-    else{
-      const fx=e.factors?Object.entries(e.factors).filter(([k])=>k!=="market"&&Math.abs(e.factors[k])>=.03).map(([k,v])=>shRow(FXNAME[k]||k,v>0?"\u25b2 For":"\u25bc Against",v>0?"up":"dn")).join(""):"";
-      body=track+grid([["Last 10",e.l10?`${e.l10[0]} of ${e.l10[1]}`:null],["App's chance",pc(e.prob)],["Grade",e.grade],["Edge",sg(e.edge)],["Pick score",e.score!=null?(+e.score).toFixed(2):null]])+(fx?shSec("Model factors",fx):"")+note
-        +shNote("This pick isn't on the app's live Top list any more, so the full reasoning isn't available. The numbers above are the ones saved when it was found.")}
+    const c=tdPropC(e);let r="";try{r=reasonHtml(c,null,"","")}catch(_){r=""}
+    body=track+(r||grid([["Last 10",e.l10?`${e.l10[0]} of ${e.l10[1]}`:null],["App's chance",pc(e.prob)],["Grade",e.grade],["Edge",sg(e.edge)]])+note)+full;
   }else if(it.type==="td"){
-    body=track+grid([["App's chance",pc(e.prob)],["Edge",sg(e.td_edge)],["FanDuel price",e.fd!=null?amFmt(e.fd):null],["Kalshi chance",pc(e.kalshi)],["Stat model",pc(e.stat)]])+note;
+    body=track+grid([["App's chance",pc(e.prob)],["Edge",sg(e.td_edge)],["FanDuel price",e.fd!=null?amFmt(e.fd):null],["Kalshi chance",pc(e.kalshi)],["Stat model",pc(e.stat)]])+note+(()=>{try{const pl=DATA[e.lg]&&DATA[e.lg].find(x=>x.id===e.id),mk=pl&&MK[e.lg]&&MK[e.lg].find(x=>x.id==="td");return pl&&mk?deepHtml(Object.assign({},e,{side:"over",line:.5,market:"td",avg10:0,l10:[0,0]}),pl,mk):""}catch(_){return""}})()+full;
   }else if(it.type==="soc"){
     let c=null;try{c=socFind(e.key,e.ev_id)}catch(_){}
     const L=c||e;
     body=track+grid([["App's chance",pc(e.prob)],["Per $10 at DK",e.ev!=null?(e.ev>=0?"+$":"\u2212$")+Math.abs(e.ev*10).toFixed(2):null],["DraftKings",e.dk!=null?amFmt(e.dk):null],["FanDuel",e.fd!=null?amFmt(e.fd):null],
-      ["Hit recently",L.hits?`${L.hits[0]} of ${L.hits[1]}`:null],["Lineup",L.lineup==="start"?"Starting":L.lineup==="bench"?"Bench":null],["Position",L.pos||null]])+shNote(`${esc(e.league||"")} \u00b7 $ per 10 is the expected profit on a $10 bet at DraftKings' price; it's usually negative because of the book's margin.`)+note;
+      ["Hit recently",L.hits?`${L.hits[0]} of ${L.hits[1]}`:null],["Lineup",L.lineup==="start"?"Starting":L.lineup==="bench"?"Bench":null],["Position",L.pos||null]])+shNote(`${esc(e.league||"")} \u00b7 $ per 10 is the expected profit on a $10 bet at DraftKings' price; it's usually negative because of the book's margin.`)+note
+      +(()=>{const mt=socAll().find(m=>m.ev===e.ev_id);const h=mt?socPlayerHtml(e.pid,mt):"";return h?shSec("Last 10 matches and every bet on him in this match",h):""})();
   }else if(it.type==="par"){
     body=track+grid([["Chance all hit",pc(e.p)],["Fair price",amFmt(e.fair)],["Est. price",amFmt(e.price)],["Expected value",sg(e.ev)]])
-      +shSec("Legs",(e.legs||[]).map(l=>shRow(`<b>${esc(l.name||"")}</b> <small class="pteam">${esc(l.team||"")} ${l.home?"vs":"@"} ${esc(l.opp||"")}</small><br><small>${l.side==="under"?"Under":"Over"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label||"")} \u00b7 app ${pc(l.p!=null?l.p:l.prob)||"\u2013"}</small>`,l.price!=null?amFmt(l.price):"")).join(""))
+      +shSec("Legs",(e.legs||[]).map(l=>shRow(`<b>${esc(l.name||"")}</b> <small class="pteam">${esc(l.team||"")} ${l.home?"vs":"@"} ${esc(l.opp||"")}</small><br><small>${l.side==="under"?"Under":"Over"} ${fmt(l.line)} ${esc(SHORT[l.market]||l.label||"")} \u00b7 app ${pc(l.p!=null?l.p:l.prob)||"\u2013"}${tdLegForm(l)}</small>`,l.price!=null?amFmt(l.price):"")).join(""))
       +((e.pairs||[]).length?shSec("Why these go together",e.pairs.map(t=>shNote(esc(t))).join("")):"")
       +shNote("The est. price is the legs' prices combined (for same-game legs, less half the correlation boost). DraftKings' own parlay price will differ: bet it only if DraftKings pays at least the fair price.");
   }else if(it.type==="team"){
     body=track+grid([["App's chance",pc(e.prob)],["Fair price",e.fair!=null?amFmt(e.fair):null],["Edge",sg(e.ev)],["Book",e.book],["Market",(e.market||"").replace(/^2 Way /,"")]]);
   }else if(it.type==="nhl"){
-    body=track+grid([["App's chance",pc(e.prob)],["Stats model",pc(e.model)],["Book's chance",pc(e.book)],["Edge",sg(e.ev)],["Opening price",e.open!=null?amFmt(e.open):null],["List",e.list]]);
+    body=track+grid([["App's chance",pc(e.prob)],["Stats model",pc(e.model)],["Book's chance",pc(e.book)],["Edge",sg(e.ev)],["Opening price",e.open!=null?amFmt(e.open):null],["List",e.list]])+(()=>{const c=[...((NHL&&NHL.top)||[]),...((NHL&&NHL.value)||[])].find(x=>x.key===e.key);
+      const hits=c&&c.hits?` ${e.side==="over"?"Hit":"Stayed under"} ${c.hits[0]} of his last ${c.hits[1]} games.`:"";
+      return shSec("Why",`<p class="shp">App's chance ${pc(e.prob)} (fair price ${decToAm(1/Math.max(.01,e.prob))}). It blends the odds' own chance (${pc(e.book)}, margin taken out) 65% with a stats model built from every NHL box score this season and last (${pc(e.model)}) 35%.${hits}</p><p class="shp" style="color:var(--muted)">These are FanDuel's prices. <b>Check DraftKings</b> before betting. The model doesn't see tonight's lineup, injuries or line changes. If he doesn't play, the book voids the bet.</p>`)})();
   }
   openSheet(it.title,body+dk,null,it.kind+" \u00b7 "+it.bet,it.game);
 }
 document.addEventListener("click",e=>{const r=e.target.closest("#view-today .tdrow[data-tdk]");if(!r||e.target.closest("a,button"))return;
-  const it=tdItems().find(x=>x.key===r.dataset.tdk);if(it)tdDetail(it)});
+  const it=tdItems().find(x=>x.key===r.dataset.tdk);if(!it)return;
+  if(it.raw.lg==="CFB"&&!DATA.CFB){toast("Loading college football\u2026");ensureLeague("CFB").then(()=>tdDetail(it));return}
+  if((it.type==="soc"||(it.type==="par"&&it.raw.lg==="SOC"))&&!SOC){loadSoccer().then(()=>tdDetail(it));return}
+  tdDetail(it)});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-tdfull]");if(!b)return;
+  const it=tdItems().find(x=>x.key===b.dataset.tdfull);if(!it)return;const e0=it.raw;
+  document.getElementById("sheet")?.remove();
+  const go=()=>{S.view="board";S.league=e0.lg;S.market=it.type==="td"?"td":e0.market;S.team="";S.q="";document.getElementById("search").value="";if(FB(S.league))S.active=true;S.sel=null;shown=PAGE;setupControls();save();render();open(e0.id+"|"+(it.type==="td"?"td":e0.market),true)};
+  if(e0.lg==="CFB"&&!DATA.CFB)ensureLeague("CFB").then(go);else go()});
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("#view-today .tdrow[data-tdk]")){e.preventDefault();e.target.click()}});
 function renderToday(){
   const el=document.getElementById("view-today");
