@@ -1,5 +1,5 @@
 {
- "built": "2026-11-20T11:39+00:00",
+ "built": "2026-11-20T12:20+00:00",
  "graded_picks": 1151,
  "graded_research": 306,
  "market": {
@@ -65,7 +65,7 @@
   "High-confidence research calls are 7-5: their weight goes from 1.2 to 1.307",
   "Medium-confidence research calls are 125-153: their weight goes from 1.0 to 0.787",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 24710 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 24711 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 50%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL rush attempts: an extra nudge toward the under, trusted less (x0.81): its edges have played out smaller than predicted",
@@ -83,11 +83,11 @@
   "CFB passing yards: an extra nudge toward the under",
   "NFL receptions: an extra nudge toward the under",
   "CFB receiving yards: an extra nudge toward the under",
-  "Recent form has been over-weighted across 24054 graded props: weighted x0.504",
-  "Kalshi market has been under-weighted across 24054 graded props: weighted x1.273"
+  "Recent form has been over-weighted across 24055 graded props: weighted x0.504",
+  "Kalshi market has been under-weighted across 24055 graded props: weighted x1.273"
  ],
  "calibration": {
-  "n": 24710,
+  "n": 24711,
   "days": 37,
   "trust": 0.95,
   "c": -0.121,
@@ -134,7 +134,7 @@
     0.767
    ],
    "NBA|ra": [
-    0.022,
+    0.023,
     0.926
    ],
    "NBA|reb": [
@@ -182,8 +182,8 @@
     0.905
    ],
    "NFL|sck": [
-    -0.329,
-    0.983
+    -0.333,
+    0.985
    ],
    "NFL|tkl": [
     -0.024,
@@ -192,7 +192,7 @@
   }
  },
  "calib": {
-  "n": 24710,
+  "n": 24711,
   "since": "2026-10-08",
   "app": [
    [
@@ -212,7 +212,7 @@
    [
     0.6,
     0.65,
-    1084,
+    1085,
     0.617,
     0.575
    ],
