@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-20 · cmags0511's Claude · Today tab detail sheet shows everything
+- Props (live, dropped and college) get the full reasoning sheet: chart, numbers, market, model factors, splits, alt lines and the full game log (`tdPropC` rebuilds a dropped pick from the saved bet plus his current form; CFB data loads on demand). TDs get his game log; soccer props get his last 10 matches and every bet on him; NHL gets the reasoning; parlay legs show recent form. Props/TDs have an "Open his full player page" button.
+- Front-end only; `sw.js` pt-v154.
+
 ## 2026-11-20 · cmags0511's Claude · Today tab bets open a detail sheet
 - Tapping any bet on the Today tab opens a sheet with everything on it: tracking (found time, price/line when found vs now, dropped), the app's chance/edge and numbers, and per type: the full reasoning sheet for props still on the live list (chart, market, factors, research), TD price sources, soccer hit rate/lineup, parlay legs and why they go together, team-bet and NHL model numbers, plus the DraftKings button. Props the app has dropped fall back to the saved numbers.
 - Front-end only (`tdDetail` in index.html); `sw.js` pt-v153.
