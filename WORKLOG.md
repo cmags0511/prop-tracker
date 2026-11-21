@@ -3,6 +3,10 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-21 · cmags0511's Claude · theScore Bet button opens the game/bet (PR)
+- `fetch_thescore.py` now asks The Odds API for theScore's own links (`includeLinks=true`, no extra credits per the docs; only https links on thescore.bet / espnbet.com are kept) and stores them per prop (`links`: over/under bet slip, market, event). `picks.py` puts the best one on each college candidate as `tsb_link`; the button uses it, else falls back to the app's home screen (still `sportsbook.thescore.bet`). Today tab looks the link up from the live pick.
+- Unknown until a live run: whether theScore returns links through the API ("N with app links" is in the `thescore.json` log). Front-end `sw.js` pt-v158.
+
 ## 2026-11-21 · cmags0511's Claude · theScore Bet link opens the app
 - The theScore Bet button linked to thescore.bet, which redirects to sportsbook.thescore.bet, so phones opened the browser. The apps are registered (iOS app-site-association, Android assetlinks) for sportsbook.thescore.bet, so the button now links there directly. Front-end only; `sw.js` pt-v157.
 
