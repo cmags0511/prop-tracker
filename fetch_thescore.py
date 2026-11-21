@@ -14,7 +14,9 @@ It spends credits carefully (the free plan is 500 a month, shared with fetch_odd
 
 Needs the ODDS_API_KEY environment variable (a GitHub Actions secret). Without it, it does nothing.
 Output: thescore.json {"fetched", "remaining", "spent": [[iso, credits], ...], "tried": {game: [iso, ...]}, "log": [...],
-"props": {"<app key>": {"line", "over", "under", "book": "theScore Bet", "t", "game_t"}}}. picks.py grades a college prop at
+"props": {"<app key>": {"line", "over", "under", "book": "theScore Bet", "t", "game_t", "links": {"over", "under", "market", "event"}}}}.
+links are theScore Bet's own deep links (includeLinks=true: no extra credits, "if available"); the card button opens the bet slip,
+else the market, else the game, else the app's home screen. picks.py grades a college prop at
 this price when it has one.
 
 Usage: python fetch_thescore.py [thescore.json]
@@ -43,6 +45,15 @@ def get(path, **q):
         if rem is not None:
             remaining = float(rem)
         return json.loads(r.read())
+
+
+def good_link(u):
+    """only https links on theScore Bet's own domains (the ones the app is registered to open)"""
+    try:
+        h = urllib.parse.urlparse(u).netloc.lower()
+    except Exception:
+        return None
+    return u if isinstance(u, str) and u.startswith("https://") and (h.endswith("thescore.bet") or h.endswith("espnbet.com")) else None
 
 
 def main_line(over_under):
@@ -130,12 +141,12 @@ def main():
             continue
         try:
             d = get(f"/sports/{SPORT}/events/{ev['id']}/odds", bookmakers=BOOK, oddsFormat="american",
-                    markets=",".join(MARKET[m] for m in mk))
+                    markets=",".join(MARKET[m] for m in mk), includeLinks="true")
         except Exception as e:
             log.append(f"CFB {a}/{b} odds failed: {e}")
             continue
         tried.setdefault(tk, []).append(now.isoformat(timespec="minutes"))
-        filled, used = 0, set()
+        filled, used, nlinks = 0, set(), 0
         for bk in d.get("bookmakers", []):
             if bk.get("key") != BOOK:
                 continue
@@ -145,21 +156,25 @@ def main():
                     continue
                 used.add(m)
                 for c in cs:
-                    ladder = {}
+                    ladder, olink = {}, {}
                     for x in mm.get("outcomes", []):
                         if norm(x.get("description", "")) == norm(c["name"]) and x.get("point") is not None:
                             ladder.setdefault(x["point"], {})[x.get("name")] = x.get("price")
+                            olink[(x["point"], x.get("name"))] = good_link(x.get("link"))
                     ml = main_line(ladder)
                     if ml:
+                        links = {k: v for k, v in {"over": olink.get((ml[0], "Over")), "under": olink.get((ml[0], "Under")),
+                                                   "market": good_link(mm.get("link")), "event": good_link(bk.get("link"))}.items() if v}
                         props[c["key"]] = {"line": ml[0], "over": ml[1], "under": ml[2], "book": BOOK_NAME,
-                                           "t": now.isoformat(timespec="minutes"), "game_t": t}
+                                           "t": now.isoformat(timespec="minutes"), "game_t": t, "links": links}
+                        nlinks += bool(links)
                         filled += 1
         credits = len(used)  # empty responses and markets theScore doesn't carry aren't charged
         spent += credits
         if credits:
             spent_log.append([now.isoformat(timespec="minutes"), credits])
         n = sum(len(cs) for cs in mk.values())
-        log.append(f"CFB {a}/{b}: {filled}/{n} priced at theScore Bet, {credits} credits")
+        log.append(f"CFB {a}/{b}: {filled}/{n} priced at theScore Bet, {nlinks} with app links, {credits} credits")
     json.dump({"fetched": now.isoformat(timespec="minutes"), "remaining": remaining, "source": "The Odds API (theScore Bet)",
                "spent": spent_log, "tried": tried, "log": log[-40:], "props": props}, open(OUT, "w"), separators=(",", ":"))
     if remaining is not None:  # let fetch_odds.py see the credits this run used
