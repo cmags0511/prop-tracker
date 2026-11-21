@@ -27,7 +27,7 @@ before changing anything, and add to `WORKLOG.md` when you finish.
   shows "⚠ Data issue" when a key step failed. Give any new step an `id:` so it's recorded.
 - Generated data (don't hand-edit; re-run the script): `props_data.json` + `box_recent.json` (build_data.py),
   `cfb_data.json` (build_cfb.py), `usage.json` (build_usage.py), `context.json` (fetch_context.py),
-  `lines.json` (fetch_lines.py), `markets.json` (fetch_markets.py), `odds.json` (fetch_prices.py / fetch_odds.py),
+  `lines.json` (fetch_lines.py), `markets.json` (fetch_markets.py), `odds.json` (fetch_prices.py / fetch_odds.py), `thescore.json` (fetch_thescore.py),
   `picks.json` + `slate.json` (picks.py), `soccer_parlays.json` (soccer_parlays.py), `record.json` + `calib.json` + `closing.json` (record.py),
   `tuning.json` (tune.py), `soccer*.json` (soccer_data.py).
 - `notes.json` is written by the research runs (RESEARCH.md, merge_notes.py, scheduled tasks on the owner's
@@ -40,4 +40,5 @@ before changing anything, and add to `WORKLOG.md` when you finish.
 - No real-money betting features. Don't scrape DraftKings or BetMGM directly (ESPN's feed carries DK lines).
 - Research notes are in our own words: facts only, no quotes, usernames or copied picks.
 - Keep API keys out of the code: secrets go in GitHub Actions secrets (e.g. `ODDS_API_KEY`).
+- College player-prop unders are graded at theScore Bet's price (the only book that offers them; `fetch_thescore.py`, The Odds API key `espnbet`, capped at 12 credits a run / 40 a week). Everything else is still DraftKings.
 - Be honest about results: the record, CLV and probability check show losses as plainly as wins.
