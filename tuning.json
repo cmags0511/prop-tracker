@@ -1,6 +1,6 @@
 {
- "built": "2026-11-21T02:16+00:00",
- "graded_picks": 1211,
+ "built": "2026-11-21T03:23+00:00",
+ "graded_picks": 1214,
  "graded_research": 307,
  "market": {
   "NBA|ast|over": 1.033,
@@ -26,8 +26,8 @@
   "NFL|tkl|under": 0.914
  },
  "factors": {
-  "matchup": 1.162,
-  "game": 1.244,
+  "matchup": 1.156,
+  "game": 1.246,
   "minutes": 1.117,
   "usage": 1.109,
   "form": 0.5,
@@ -49,8 +49,8 @@
   "NBA reb + ast unders beat the market by +1.9% over 1297 props: ranked higher (x1.046)",
   "NBA rebounds unders beat the market by +2.2% over 1447 props: ranked higher (x1.055)",
   "CFB passing yards overs are 5-3: ranked higher (x1.121)",
-  "CFB passing yards unders are 17-8: ranked higher (x1.25)",
-  "CFB receiving yards unders are 23-12: ranked higher (x1.25)",
+  "CFB passing yards unders are 18-8: ranked higher (x1.25)",
+  "CFB receiving yards unders are 24-13: ranked higher (x1.25)",
   "CFB rushing yards unders are 10-15: ranked lower (x0.749)",
   "NFL pass attempts unders are 6-5: ranked higher (x1.031)",
   "NFL extra points unders are 2-7: ranked lower (x0.612)",
@@ -60,14 +60,14 @@
   "NFL rushing yards unders are 12-17: ranked lower (x0.767)",
   "NFL sacks unders are 27-14: ranked higher (x1.25)",
   "NFL tackles unders are 16-17: ranked lower (x0.914)",
-  "When matchup backed a pick it went 167-139, vs 86-101 when it didn't: weighted x1.162",
-  "When game script backed a pick it went 81-52, vs 47-52 when it didn't: weighted x1.244",
+  "When matchup backed a pick it went 167-139, vs 88-102 when it didn't: weighted x1.156",
+  "When game script backed a pick it went 83-53, vs 47-52 when it didn't: weighted x1.246",
   "When minutes trend backed a pick it went 117-80, vs 66-58 when it didn't: weighted x1.117",
   "When usage (snaps, targets, carries) backed a pick it went 29-19, vs 30-26 when it didn't: weighted x1.109",
   "High-confidence research calls are 7-5: their weight goes from 1.2 to 1.307",
   "Medium-confidence research calls are 126-153: their weight goes from 1.0 to 0.792",
   "Low-confidence research calls are 4-12: their weight goes from 0.6 to 0.318",
-  "Across 25109 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
+  "Across 25117 graded props the app's chances averaged 54% but 53% hit: its percentages are now pulled toward 50% (confidence x0.35)",
   "Overs it backed hit 50%, unders 54%: every prop now gets a firm nudge toward the under before a side is picked",
   "NFL sacks: an extra nudge toward the under",
   "NFL rush attempts: an extra nudge toward the under, trusted less (x0.81): its edges have played out smaller than predicted",
@@ -78,38 +78,38 @@
   "NFL passing yards: an extra nudge toward the over",
   "NBA PRA: trusted less (x0.80): its edges have played out smaller than predicted",
   "NFL receiving yards: an extra nudge toward the under",
-  "NBA assists: trusted more (x1.15)",
   "CFB rushing yards: an extra nudge toward the over",
+  "NBA assists: trusted more (x1.15)",
   "NBA pts + ast: trusted less (x0.85): its edges have played out smaller than predicted",
   "NFL completions: trusted less (x0.88): its edges have played out smaller than predicted",
   "CFB passing yards: an extra nudge toward the under",
   "NFL receptions: an extra nudge toward the under",
   "CFB receiving yards: an extra nudge toward the under",
-  "Recent form has been over-weighted across 24453 graded props: weighted x0.5",
-  "Kalshi market has been under-weighted across 24453 graded props: weighted x1.279"
+  "Recent form has been over-weighted across 24461 graded props: weighted x0.5",
+  "Kalshi market has been under-weighted across 24461 graded props: weighted x1.279"
  ],
  "calibration": {
-  "n": 25109,
+  "n": 25117,
   "days": 38,
   "trust": 0.95,
   "c": -0.12,
   "b": 0.35,
   "per": {
    "CFB|pyd": [
-    -0.07,
-    1.032
+    -0.079,
+    1.031
    ],
    "CFB|rec": [
     -0.041,
     1.029
    ],
    "CFB|recyd": [
-    -0.064,
-    0.989
+    -0.062,
+    0.987
    ],
    "CFB|ryd": [
-    0.124,
-    0.954
+    0.131,
+    0.953
    ],
    "NBA|3pm": [
     0.062,
@@ -194,20 +194,20 @@
   }
  },
  "calib": {
-  "n": 25109,
+  "n": 25117,
   "since": "2026-10-08",
   "app": [
    [
     0.5,
     0.55,
-    16335,
+    16341,
     0.525,
     0.528
    ],
    [
     0.55,
     0.6,
-    7308,
+    7310,
     0.567,
     0.542
    ],
@@ -274,9 +274,9 @@
    [
     0.5,
     0.55,
-    257,
+    260,
     0.539,
-    0.58
+    0.581
    ],
    [
     0.55,
