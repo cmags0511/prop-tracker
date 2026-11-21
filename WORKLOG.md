@@ -3,6 +3,9 @@
 Newest first. One entry per change: date, who, what, and anything the other person should know.
 Mark unfinished work **IN PROGRESS** (with the files it touches) and update the entry when it's done.
 
+## 2026-11-21 · cmags0511's Claude · theScore Bet link opens the app
+- The theScore Bet button linked to thescore.bet, which redirects to sportsbook.thescore.bet, so phones opened the browser. The apps are registered (iOS app-site-association, Android assetlinks) for sportsbook.thescore.bet, so the button now links there directly. Front-end only; `sw.js` pt-v157.
+
 ## 2026-11-21 · cmags0511's Claude · theScore Bet prices for college picks (PR, review please)
 - theScore Bet is the only book that offers college player-prop unders (and unders are ~80% of CFB picks), so college picks are now graded at theScore's price when we have it. New `fetch_thescore.py` (The Odds API, bookmaker `espnbet`, same `ODDS_API_KEY`) writes `thescore.json`; `picks.py` uses it ahead of Pinnacle for CFB (book "theScore Bet"). New workflow step `fetch_thescore` in lines.yml and update.yml, before `fetch_odds`.
 - Credits: only games with an under lean (score >= .12) inside 30h, one request per game asking only for the prop types we have, two looks per game (entering the window, and within 3.5h of kickoff), max 12 credits a run, 40 per rolling 7 days, stops at 2 credits per remaining day of the month; empty responses cost nothing; writes the lowest remaining count to oddsapi.json so `fetch_odds.py` sees it. Free plan had 90 credits left on Nov 21, so `fetch_odds.py` will get squeezed.

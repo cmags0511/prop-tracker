@@ -1605,7 +1605,9 @@ function renderCfbTop(){
 // DraftKings is the book this app's owner bets at: show its own price when the grade was worked out at another book's
 const decAm=a=>a>0?1+a/100:1+100/-a;
 const TSB="theScore Bet";  // the only book that offers college player-prop unders: its price is the one a college pick is graded at
-const tsbBtn=(txt)=>`<a class="dkb" href="https://thescore.bet" target="_blank" rel="noopener" data-dktxt="${esc(txt)}" aria-label="Open theScore Bet: ${esc(txt)}">theScore Bet \u2197</a>`;
+// sportsbook.thescore.bet is the domain the theScore Bet apps (iOS bet.thescore.ios, Android bet.thescore.android) are registered for, so the link opens the app;
+// thescore.bet itself only redirects there, and a redirect opens the browser instead
+const tsbBtn=(txt)=>`<a class="dkb" href="https://sportsbook.thescore.bet/" target="_blank" rel="noopener" data-dktxt="${esc(txt)}" aria-label="Open theScore Bet: ${esc(txt)}">theScore Bet \u2197</a>`;
 function dkQuoteTag(c){
   if(c.book===TSB&&c.price!=null)return`<span class="dkq" title="theScore Bet is the only book that offers college player-prop unders; the grade uses its price">theScore ${amFmt(c.price)}</span>`;
   if(c.lg==="CFB"&&c.price!=null)return`<span class="dkq none" title="No theScore Bet price yet: the grade uses ${esc(c.book||"another book")}'s. Check theScore Bet before betting">theScore: check</span>`;
