@@ -1604,12 +1604,18 @@ function renderCfbTop(){
 // "See my reasoning": the pick, the why, the numbers with the last 10 games against the line, the market and the
 // DraftKings is the book this app's owner bets at: show its own price when the grade was worked out at another book's
 const decAm=a=>a>0?1+a/100:1+100/-a;
+const TSB="theScore Bet";  // the only book that offers college player-prop unders: its price is the one a college pick is graded at
+const tsbBtn=(txt)=>`<a class="dkb" href="https://thescore.bet" target="_blank" rel="noopener" data-dktxt="${esc(txt)}" aria-label="Open theScore Bet: ${esc(txt)}">theScore Bet \u2197</a>`;
 function dkQuoteTag(c){
+  if(c.book===TSB&&c.price!=null)return`<span class="dkq" title="theScore Bet is the only book that offers college player-prop unders; the grade uses its price">theScore ${amFmt(c.price)}</span>`;
+  if(c.lg==="CFB"&&c.price!=null)return`<span class="dkq none" title="No theScore Bet price yet: the grade uses ${esc(c.book||"another book")}'s. Check theScore Bet before betting">theScore: check</span>`;
   if(!c.book||c.book==="DraftKings"||c.price==null)return"";
   if(c.dk_price==null)return`<span class="dkq none" title="DraftKings' price for this side isn't in the feed yet">DK no price</span>`;
   return`<span class="dkq${decAm(c.dk_price)<decAm(c.price)?" worse":""}" title="DraftKings' own price for this side (the grade uses ${esc(c.book)}'s)">DK ${amFmt(c.dk_price)}${c.dk_line!=null&&c.dk_line!==c.line?` @ ${fmt(c.dk_line)}`:""}</span>`;
 }
 function dkQuoteNote(c){
+  if(c.book===TSB&&c.price!=null)return`<p class="shp">The grade uses theScore Bet's price (${amFmt(c.price)}). It's the only book that offers college player-prop unders, so that's where this bet is placed; DraftKings doesn't offer this side.</p>`;
+  if(c.lg==="CFB"&&c.price!=null)return`<p class="shp">The grade uses ${esc(c.book||"another book")}'s price (${amFmt(c.price)}); theScore Bet's own price isn't in yet. Check it in theScore Bet before betting: it's the only book that offers college unders, so college bets are placed there.</p>`;
   if(!c.book||c.book==="DraftKings"||c.price==null)return"";
   if(c.dk_price==null)return`<p class="shp">The grade uses ${esc(c.book)}'s price. DraftKings' price for this side isn't in the feed, so check it in the DraftKings app before betting.</p>`;
   const diffLine=c.dk_line!=null&&c.dk_line!==c.line;
@@ -4061,7 +4067,7 @@ function tdRow(it){
   return`<div class="tdrow" data-tdk="${esc(it.key)}" role="button" tabindex="0" aria-label="${esc(it.title)}: show everything about this bet"><div class="tr1"><b>${esc(it.title)}${it.dropped?`<span class="tdgone">App dropped it · still counts</span>`:""}</b><span class="tpx">${esc(it.price||"")} <i class="tdchev" aria-hidden="true">\u203a</i></span></div>
     <div class="tr2"><span><span class="tdtag">${esc(it.kind)}</span>${esc(it.bet)} · ${esc(it.game)}</span></div>
     ${it.move?`<div class="tr2"><span class="tdnote">Since found: ${esc(it.move)}</span></div>`:""}
-    <div class="tr2"><span class="tby">${it.found?`Found ${f(it.found)} · `:""}Bet by ${f(it.t)}</span>${it.dk?dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt):""}</div></div>`;
+    <div class="tr2"><span class="tby">${it.found?`Found ${f(it.found)} · `:""}Bet by ${f(it.t)}</span>${it.dk?tdBookBtn(it):""}</div></div>`;
 }
 // the app's pick as the reasoning sheet wants it; a pick the app no longer lists is rebuilt from the saved bet plus his current form
 function tdPropC(e){
@@ -4084,6 +4090,8 @@ function tdLegForm(l){
     const h=v.filter(x=>l.side==="over"?x>l.line:x<l.line).length;return` \u00b7 last ${v.length}: ${h} ${l.side==="over"?"over":"under"}, avg ${(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)}`;
   }catch(_){return""}
 }
+// college bets go to theScore Bet (dkBtn sends them there; it is the only book that offers college unders), everything else to DraftKings
+const tdBookBtn=it=>dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt);
 // tap a bet on the Today tab: a sheet with everything the app has on it
 function tdDetail(it){
   const e=it.raw||{},tm=t=>{t=new Date(t);return t.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+" "+t.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
@@ -4098,7 +4106,7 @@ function tdDetail(it){
     e.ev_now!=null?shRow("Expected value now",sg(e.ev_now)):""].join("")
     +(it.dropped?shNote(`The app stopped listing this${typeof(e.dropped||e.lapsed)==="string"?" on "+tm(e.dropped||e.lapsed):""} (price or line moved, or news). It still counts in the record at the price it was found at.`):""));
   const note=(()=>{const n=NOTES&&NOTES.notes&&NOTES.notes[e.key];return n&&n.note?shSec("Research note",`<p class="shp">${esc(n.note)}</p>`+(n.updated||NOTES.updated?`<small class="pteam">Researched ${new Date(n.updated||NOTES.updated).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small>`:"")):""})();
-  const dk=it.dk?shSec("",`<div style="display:flex;justify-content:center">${dkBtn(it.dk[0],it.dk[1],it.dk[2],it.dk[3],it.dk[4],it.txt)}</div>`):"";
+  const dk=it.dk?shSec("",`<div style="display:flex;justify-content:center">${tdBookBtn(it)}</div>`):"";
   const full=(it.type==="prop"||it.type==="td")&&e.id?shSec("",`<button class="btn ghost" data-tdfull="${esc(it.key)}" style="width:100%">Open his full player page</button>`):"";
   let body="";
   if(it.type==="prop"){
@@ -4699,9 +4707,10 @@ function dkGame(lg,team,opp,t,ev){
   return DKL.find(g=>g.lg===lg&&[g.away,g.home].sort().join("|")===set&&Math.abs(new Date(g.t).getTime()-ts)<36*36e5)||null}
 const dkUrl=q=>{const g=dkGame(...q);return g?`https://sportsbook.draftkings.com/event/${g.dk}`:"https://sportsbook.draftkings.com/"};
 // the game is looked up when tapped (dklinks.json may still be loading when the card is drawn)
-const dkBtn=(lg,team,opp,t,ev,text,cls="dkb")=>`<a class="${cls}" href="https://sportsbook.draftkings.com/" target="_blank" rel="noopener" data-dk="${esc(JSON.stringify([lg,team,opp,t,ev||null]))}" data-dktxt="${esc(text)}" aria-label="Open in DraftKings: ${esc(text)}">DraftKings \u2197</a>`;
+const dkBtn=(lg,team,opp,t,ev,text,cls="dkb")=>lg==="CFB"?tsbBtn(text):`<a class="${cls}" href="https://sportsbook.draftkings.com/" target="_blank" rel="noopener" data-dk="${esc(JSON.stringify([lg,team,opp,t,ev||null]))}" data-dktxt="${esc(text)}" aria-label="Open in DraftKings: ${esc(text)}">DraftKings \u2197</a>`;
 // a real link, so phones open it like any link (and hand it to the DraftKings app when it's installed): the tap only sets
 // the game's address and copies the bet text, and keeps the card underneath from also opening its own sheet
+document.addEventListener("click",e=>{const t=e.target.closest("a.dkb:not([data-dk])[data-dktxt]");if(t){e.stopImmediatePropagation();try{navigator.clipboard.writeText(t.dataset.dktxt||"").then(()=>toast("Copied: "+t.dataset.dktxt),()=>{})}catch(_){}}},true);
 document.addEventListener("click",e=>{const b=e.target.closest("[data-dk]");if(!b)return;e.stopImmediatePropagation();
   try{b.href=dkUrl(JSON.parse(b.dataset.dk))}catch(_){}
   try{navigator.clipboard.writeText(b.dataset.dktxt||"").then(()=>toast("Copied: "+b.dataset.dktxt),()=>{})}catch(_){}},true);

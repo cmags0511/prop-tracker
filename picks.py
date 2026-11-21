@@ -503,6 +503,11 @@ def main():
         FDB = {c["key"]: c for c in fdb.get("props", []) if now - dt.datetime.fromisoformat(fdb["built"]) < dt.timedelta(hours=6)}
     except Exception:
         FDB = {}
+    try:  # theScore Bet's college prices (fetch_thescore.py): the only book that offers college unders, so it is the price a college pick is graded at
+        THESC = {k: v for k, v in (json.load(open("thescore.json")).get("props") or {}).items()
+                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=14)}
+    except Exception:
+        THESC = {}
     try:  # The Odds API free plan (fetch_odds.py): last-resort DraftKings / FanDuel / BetMGM quotes, only for props nothing else prices
         OAPI = {k: v for k, v in (json.load(open("oddsapi.json")).get("props") or {}).items()
                 if now - dt.datetime.fromisoformat(v["t"]) < dt.timedelta(hours=24)}
@@ -637,7 +642,13 @@ def main():
                     continue
                 dk0 = dk  # ESPN's own DraftKings line and prices, before another book's quote replaces them (shown on the card)
                 od = ODDS.get(f"{lg}|{p['id']}|{mid}")
-                if od and od.get("line") is not None:
+                ts = THESC.get(f"{lg}|{p['id']}|{mid}") if lg == "CFB" else None
+                if ts and ts.get("line") is not None and ts.get("over") is not None and ts.get("under") is not None:
+                    # theScore Bet's own quote beats Pinnacle's for college: it's the book that offers the unders (use its line and prices)
+                    dk = dict(dk, line=ts["line"], u=ts["t"], price_over=ts["over"], price_under=ts["under"],
+                              books={"theScore Bet": {"line": ts["line"], "over": ts["over"], "under": ts["under"]}}, book="theScore Bet",
+                              est_over=False, est_under=False)
+                elif od and od.get("line") is not None:
                     # a sportsbook quote straight from the book beats ESPN's copy: use its line and prices (est_over / est_under:
                     # a price fetch_prices.py worked out for this line rather than one the book quoted at it)
                     dk = dict(dk, line=od["line"], u=od["t"], price_over=od.get("over"), price_under=od.get("under"),
